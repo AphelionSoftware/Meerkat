@@ -1,0 +1,2 @@
+﻿CREATE USER [PWLAB\mneSPFInstall] FOR LOGIN [PWLAB\mneSPFInstall];
+
