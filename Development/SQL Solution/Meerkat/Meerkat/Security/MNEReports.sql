@@ -1,0 +1,2 @@
+﻿CREATE USER [MNEReports] FOR LOGIN [MNEReports];
+
