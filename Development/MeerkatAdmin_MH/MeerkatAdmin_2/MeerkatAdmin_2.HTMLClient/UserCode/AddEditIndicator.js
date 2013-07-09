@@ -3,7 +3,7 @@
 myapp.AddEditIndicator.created = function (screen) {
     // Write code here.
     var Indicator = screen.Indicator;
-
+   
     // Can only safely do this if the Indicator is not modified.
     if (Indicator.details.entityState !== msls.EntityState.unchanged) {
         return msls.showMessageBox(

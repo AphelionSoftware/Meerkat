@@ -37,6 +37,310 @@ namespace LightSwitchApplication.Implementation
         }
     
     #region Queries
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Activity> ActivitiesSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Activity> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Activity>("Activities"),
+                    (a) => ((ShortName == null) || (a.ShortName.CompareTo(ShortName) == 0))),
+                (a) => a.ShortName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.ActiveType> ActiveTypesSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.ActiveType> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.ActiveType>("ActiveTypes"),
+                    (a) => ((Name == null) || (a.Name.CompareTo(Name) == 0))),
+                (a) => a.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorLocation> IndicatorLocationsSorted(string Area)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorLocation> query;
+            query = global::System.Linq.Queryable.Where(
+                this.GetQuery<global::LightSwitchApplication.Implementation.IndicatorLocation>("IndicatorLocations"),
+                (i) => ((Area == null) || (i.Location.Area.CompareTo(Area) == 0)));
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Indicator> IndicatorsSorted(string Code)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Indicator> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Indicator>("Indicators"),
+                    (i) => ((Code == null) || (i.Code.CompareTo(Code) == 0))),
+                (i) => i.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataSource> DatasourcesSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataSource> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.DataSource>("DataSources"),
+                    (d) => ((Name == null) || (d.Name.CompareTo(Name) == 0))),
+                (d) => d.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataVersionLevel> DataVersionLevelsSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataVersionLevel> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.DataVersionLevel>("DataVersionLevels"),
+                    (d) => ((Name == null) || (d.Name.CompareTo(Name) == 0))),
+                (d) => d.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataVersion> DataVersionsSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DataVersion> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.DataVersion>("DataVersions"),
+                    (d) => ((Name == null) || (d.Name.CompareTo(Name) == 0))),
+                (d) => d.DataVersion_ID);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorType> IndicatorTypesSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorType> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.IndicatorType>("IndicatorTypes"),
+                    (i) => ((Name == null) || (i.Name.CompareTo(Name) == 0))),
+                (i) => i.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorValue> IndicatorValuesSorted(string Title)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.IndicatorValue> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.IndicatorValue>("IndicatorValues"),
+                    (i) => ((Title == null) || (i.Title.CompareTo(Title) == 0))),
+                (i) => i.Title);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Location> LocationsSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Location> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Location>("Locations"),
+                    (l) => ((Name == null) || (l.Code.CompareTo(Name) == 0))),
+                (l) => l.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.LocationType> LocationTypesSorted(string Description)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.LocationType> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.LocationType>("LocationTypes"),
+                    (l) => ((Description == null) || (l.Description.CompareTo(Description) == 0))),
+                (l) => l.Description);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneLocation> MilestoneLocationsSorted(string LongName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneLocation> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.MilestoneLocation>("MilestoneLocations"),
+                    (m) => ((LongName == null) || (m.Milestone.Code.CompareTo(LongName) == 0))),
+                (m) => m.Milestone.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Milestone> MilestonesSorted(string LongName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Milestone> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Milestone>("Milestones"),
+                    (m) => ((LongName == null) || (m.LongName.CompareTo(LongName) == 0))),
+                (m) => m.LongName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneType> MilestoneTypesSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneType> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.MilestoneType>("MilestoneTypes"),
+                    (m) => ((Name == null) || (m.Name.CompareTo(Name) == 0))),
+                (m) => m.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneValue> MileStoneValuesSorted(string ActualLabel)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.MilestoneValue> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.MilestoneValue>("MilestoneValues"),
+                    (m) => ((ActualLabel == null) || (m.ActualLabel.CompareTo(ActualLabel) == 0))),
+                (m) => m.ActualLabel);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Organization> OrganizationsSorted(string Code)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Organization> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Organization>("Organizations"),
+                    (o) => ((Code == null) || (o.Code.CompareTo(Code) == 0))),
+                (o) => o.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OrganizationType> OrganizationTypesSorted(string Description)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OrganizationType> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.OrganizationType>("OrganizationTypes"),
+                    (o) => ((Description == null) || (o.Description.CompareTo(Description) == 0))),
+                (o) => o.Description);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutcomeOrganization> OutcomeOrganizationsSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutcomeOrganization> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.OutcomeOrganization>("OutcomeOrganizations"),
+                    (o) => ((ShortName == null) || (o.Outcome.ShortName.CompareTo(ShortName) == 0))),
+                (o) => o.Outcome.ShortName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutcomePersonRole> OutcomePersonRolesSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutcomePersonRole> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.OutcomePersonRole>("OutcomePersonRoles"),
+                    (o) => ((ShortName == null) || (o.Outcome.ShortName.CompareTo(ShortName) == 0))),
+                (o) => o.Outcome.ShortName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Outcome> OutcomesSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Outcome> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Outcome>("Outcomes"),
+                    (o) => ((ShortName == null) || (o.ShortName.CompareTo(ShortName) == 0))),
+                (o) => o.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutputPersonRole> OutputPersonRolesSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.OutputPersonRole> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.OutputPersonRole>("OutputPersonRoles"),
+                    (o) => ((ShortName == null) || (o.Output.ShortName.CompareTo(ShortName) == 0))),
+                (o) => o.Output.ShortName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Output> OutputsSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Output> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Output>("Outputs"),
+                    (o) => ((ShortName == null) || (o.ShortName.CompareTo(ShortName) == 0))),
+                (o) => o.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Person> PeopleSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Person> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Person>("People"),
+                    (p) => ((Name == null) || (p.Name.CompareTo(Name) == 0))),
+                (p) => p.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DimDate> DimDateSorted()
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.DimDate> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                this.GetQuery<global::LightSwitchApplication.Implementation.DimDate>("DimDates"),
+                (d) => d.DateID);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Project> ProjectsSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Project> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Project>("Projects"),
+                    (p) => ((ShortName == null) || (p.ShortName.CompareTo(ShortName) == 0))),
+                (p) => p.Code);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.ReportingPeriod> ReportingPeriodsSorted(string YearName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.ReportingPeriod> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.ReportingPeriod>("ReportingPeriods"),
+                    (r) => ((YearName == null) || (r.YearName.CompareTo(YearName) == 0))),
+                (r) => r.YearName);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Role> RolesSorted(string Name)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.Role> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.Role>("Roles"),
+                    (r) => ((Name == null) || (r.Name.CompareTo(Name) == 0))),
+                (r) => r.Name);
+            return query;
+        }
+    
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.SubOutput> SubOutputsSorted(string ShortName)
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.SubOutput> query;
+            query = global::System.Linq.Queryable.OrderBy(
+                global::System.Linq.Queryable.Where(
+                    this.GetQuery<global::LightSwitchApplication.Implementation.SubOutput>("SubOutputs"),
+                    (s) => ((ShortName == null) || (s.ShortName.CompareTo(ShortName) == 0))),
+                (s) => s.Code);
+            return query;
+        }
+    
     #endregion
 
     #region Protected Methods

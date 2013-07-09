@@ -56,6 +56,16 @@ myapp.AddEditMilestone.Milestone_Delete_execute = function (screen) {
     // Write code here.
     var Milestone = screen.Milestone;
 
+    Milestone.deleteEntity();
+
+    return myapp.commitChanges().then(null, function fail(e) {
+
+        myapp.cancelChanges();
+
+        throw e;
+
+    });
+
     // Can only safely do this if the Milestone is not modified.
     if (Milestone.details.entityState !== msls.EntityState.unchanged) {
         return msls.showMessageBox(
@@ -79,4 +89,14 @@ myapp.AddEditMilestone.Milestone_Delete_execute = function (screen) {
             throw e;
         }
     );
+};
+myapp.AddEditMilestone.Milestone_Delete_postRender = function (element, contentItem) {
+    // Write code here.
+    msls.showMessageBox(error+'test', {
+        title: "Delete failed"
+    });
+};
+myapp.AddEditMilestone.IsKeyIndicator_postRender = function (element, contentItem) {
+    // Write code here.
+
 };

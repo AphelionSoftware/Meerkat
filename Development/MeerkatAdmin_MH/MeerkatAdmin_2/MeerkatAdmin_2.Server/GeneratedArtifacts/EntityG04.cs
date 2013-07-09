@@ -1153,6 +1153,42 @@ namespace LightSwitchApplication
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "11.3.0.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string Property1
+        {
+            get
+            {
+                return global::LightSwitchApplication.Outcome.DetailsClass.GetValue(this, global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties.Property1);
+            }
+        }
+        
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Property1_Compute(ref string result);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Property1_Validate(global::Microsoft.LightSwitch.EntityValidationResultsBuilder results);
+
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "11.3.0.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string Property2
+        {
+            get
+            {
+                return global::LightSwitchApplication.Outcome.DetailsClass.GetValue(this, global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties.Property2);
+            }
+        }
+        
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Property2_Compute(ref string result);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Property2_Validate(global::Microsoft.LightSwitch.EntityValidationResultsBuilder results);
+
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "11.3.0.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Microsoft.LightSwitch.Framework.EntityCollection<global::LightSwitchApplication.DataVersion> DataVersions
         {
             get
@@ -1500,6 +1536,22 @@ namespace LightSwitchApplication
                     get
                     {
                         return base.GetItem(global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties.OutcomeSiteName) as global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string> Property1
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties.Property1) as global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string> Property2
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties.Property2) as global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>;
                     }
                 }
                 
@@ -2005,6 +2057,50 @@ namespace LightSwitchApplication
                 }
     
                 [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Entry
+                    Property1 = new global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Entry(
+                        "Property1",
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property1_Stub,
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property1_Validate,
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property1_ComputeValue);
+                private static void _Property1_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.Outcome.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Data> c, global::LightSwitchApplication.Outcome.DetailsClass d, object sf)
+                {
+                    c(d, ref d._Property1, sf);
+                }
+                private static void _Property1_Validate(global::LightSwitchApplication.Outcome e, global::Microsoft.LightSwitch.EntityValidationResultsBuilder r)
+                {
+                    e.Property1_Validate(r);
+                }
+                private static string _Property1_ComputeValue(global::LightSwitchApplication.Outcome e)
+                {
+                    string value = default(string);
+                    e.Property1_Compute(ref value);
+                    return value;
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Entry
+                    Property2 = new global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Entry(
+                        "Property2",
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property2_Stub,
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property2_Validate,
+                        global::LightSwitchApplication.Outcome.DetailsClass.PropertySetProperties._Property2_ComputeValue);
+                private static void _Property2_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.Outcome.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Data> c, global::LightSwitchApplication.Outcome.DetailsClass d, object sf)
+                {
+                    c(d, ref d._Property2, sf);
+                }
+                private static void _Property2_Validate(global::LightSwitchApplication.Outcome e, global::Microsoft.LightSwitch.EntityValidationResultsBuilder r)
+                {
+                    e.Property2_Validate(r);
+                }
+                private static string _Property2_ComputeValue(global::LightSwitchApplication.Outcome e)
+                {
+                    string value = default(string);
+                    e.Property2_Compute(ref value);
+                    return value;
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
                 public static readonly global::Microsoft.LightSwitch.Details.Framework.EntityCollectionProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, global::LightSwitchApplication.DataVersion>.Entry
                     DataVersions = new global::Microsoft.LightSwitch.Details.Framework.EntityCollectionProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, global::LightSwitchApplication.DataVersion>.Entry(
                         "DataVersions",
@@ -2225,6 +2321,12 @@ namespace LightSwitchApplication
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Data _OutcomeSiteName;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Data _Property1;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, string>.Data _Property2;
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityCollectionProperty<global::LightSwitchApplication.Outcome, global::LightSwitchApplication.Outcome.DetailsClass, global::LightSwitchApplication.DataVersion>.Data _DataVersions;

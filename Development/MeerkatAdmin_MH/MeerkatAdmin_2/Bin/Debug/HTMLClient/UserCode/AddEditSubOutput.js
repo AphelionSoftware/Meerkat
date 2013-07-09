@@ -77,7 +77,15 @@ myapp.AddEditSubOutput.Project_Delete_execute = function (screen) {
 myapp.AddEditSubOutput.SubOutput_Delete_execute = function (screen) {
     // Write code here.
     var SubOutput = screen.SubOutput;
+    SubOutput.deleteEntity();
 
+    return myapp.commitChanges().then(null, function fail(e) {
+
+        myapp.cancelChanges();
+
+        throw e;
+
+    });
     // Can only safely do this if the SubOutput is not modified.
     if (SubOutput.details.entityState !== msls.EntityState.unchanged) {
         return msls.showMessageBox(
@@ -99,4 +107,8 @@ myapp.AddEditSubOutput.SubOutput_Delete_execute = function (screen) {
             title: "Delete failed"
         });
     });
+};
+myapp.AddEditSubOutput.SubOutput_Delete_postRender = function (element, contentItem) {
+    // Write code here.
+
 };

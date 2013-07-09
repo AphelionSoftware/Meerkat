@@ -1309,6 +1309,347 @@ namespace LightSwitchApplication
             return this.Details.Methods.Status_SingleOrDefault.CreateInvocation(StatusID).Execute();
         }
         
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Code">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.ActiveType> ActivetypesSorted(string Code)
+        {
+            return this.Details.Methods.ActivetypesSorted.CreateInvocation(Code).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Activity> ActivitiesSorted(string ShortName)
+        {
+            return this.Details.Methods.ActivitiesSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.DataSource> DataSourcesSorted(string Name)
+        {
+            return this.Details.Methods.DataSourcesSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.DataVersionLevel> DataVersionLevelsSorted(string Name)
+        {
+            return this.Details.Methods.DataVersionLevelsSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.IndicatorLocation> IndicatorLocationsSorted(string Name)
+        {
+            return this.Details.Methods.IndicatorLocationsSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Indicator> IndicatorSorted(string ShortName)
+        {
+            return this.Details.Methods.IndicatorSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.IndicatorType> IndicatorTypesSorted(string Name)
+        {
+            return this.Details.Methods.IndicatorTypesSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ActualLabel">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.IndicatorValue> IndicatorValuesSorted(string ActualLabel)
+        {
+            return this.Details.Methods.IndicatorValuesSorted.CreateInvocation(ActualLabel).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Area">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Location> LocationsSorted(string Area)
+        {
+            return this.Details.Methods.LocationsSorted.CreateInvocation(Area).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Description">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.LocationType> LocationTypesSorted(string Description)
+        {
+            return this.Details.Methods.LocationTypesSorted.CreateInvocation(Description).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.MilestoneLocation> MilestonesLocation(string Name)
+        {
+            return this.Details.Methods.MilestonesLocation.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Milestone> MilestonesSorted(string ShortName)
+        {
+            return this.Details.Methods.MilestonesSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.MilestoneType> MilestoneTypesSorted(string Name)
+        {
+            return this.Details.Methods.MilestoneTypesSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ActualLabel">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.MilestoneValue> MilestoneValuesSorted(string ActualLabel)
+        {
+            return this.Details.Methods.MilestoneValuesSorted.CreateInvocation(ActualLabel).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OrganizationPersonRole> OrganizationPersonPoles(string Name)
+        {
+            return this.Details.Methods.OrganizationPersonPoles.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Code">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Organization> OrganizationsSorted(string Code)
+        {
+            return this.Details.Methods.OrganizationsSorted.CreateInvocation(Code).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Description">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OrganizationType> OrganizationTypesSorted(string Description)
+        {
+            return this.Details.Methods.OrganizationTypesSorted.CreateInvocation(Description).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OutcomeOrganization> Query1OutcomeOrganizationsSorted(string ShortName)
+        {
+            return this.Details.Methods.Query1OutcomeOrganizationsSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OutcomePersonRole> OutcomePersonRolesSorted(string ShortName)
+        {
+            return this.Details.Methods.OutcomePersonRolesSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Outcome> OutcomesSorted(string ShortName)
+        {
+            return this.Details.Methods.OutcomesSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OutputOutputLink> OutputOutputLinksSorted(string ShortName)
+        {
+            return this.Details.Methods.OutputOutputLinksSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.OutputPersonRole> OutputPersonRolesSorted(string Name)
+        {
+            return this.Details.Methods.OutputPersonRolesSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Output> OutputsSorted(string ShortName)
+        {
+            return this.Details.Methods.OutputsSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Person> PeopleSorted(string Name)
+        {
+            return this.Details.Methods.PeopleSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Project> ProjectsSorted(string ShortName)
+        {
+            return this.Details.Methods.ProjectsSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="YearName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.ReportingPeriod> ReportingPeriodsSorted(string YearName)
+        {
+            return this.Details.Methods.ReportingPeriodsSorted.CreateInvocation(YearName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="Name">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Role> RolesSorted(string Name)
+        {
+            return this.Details.Methods.RolesSorted.CreateInvocation(Name).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="LongName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.Status> StatusSorted(string LongName)
+        {
+            return this.Details.Methods.StatusSorted.CreateInvocation(LongName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.SubOutputPersonRole> SubOutputPersonRolesSorted(string ShortName)
+        {
+            return this.Details.Methods.SubOutputPersonRolesSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.SubOutput> SubOutputsSorted(string ShortName)
+        {
+            return this.Details.Methods.SubOutputsSorted.CreateInvocation(ShortName).Execute();
+        }
+        
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        /// <param name="ShortName">
+        /// No Modeled Description Available
+        /// </param>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.SubOutputSubOutputLink> SubOutputSubOutputLinksSorted(string ShortName)
+        {
+            return this.Details.Methods.SubOutputSubOutputLinksSorted.CreateInvocation(ShortName).Execute();
+        }
+        
         #endregion
     
         #region Details Class
@@ -1890,6 +2231,254 @@ namespace LightSwitchApplication
                     get
                     {
                         return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.Status_SingleOrDefault) as global::Microsoft.LightSwitch.Details.Framework.CreateScalarQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType> ActivetypesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.ActivetypesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity> ActivitiesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.ActivitiesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource> DataSourcesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.DataSourcesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel> DataVersionLevelsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.DataVersionLevelsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation> IndicatorLocationsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.IndicatorLocationsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator> IndicatorSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.IndicatorSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType> IndicatorTypesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.IndicatorTypesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue> IndicatorValuesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.IndicatorValuesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location> LocationsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.LocationsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType> LocationTypesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.LocationTypesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation> MilestonesLocation
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.MilestonesLocation) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone> MilestonesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.MilestonesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType> MilestoneTypesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.MilestoneTypesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue> MilestoneValuesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.MilestoneValuesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole> OrganizationPersonPoles
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OrganizationPersonPoles) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization> OrganizationsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OrganizationsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType> OrganizationTypesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OrganizationTypesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization> Query1OutcomeOrganizationsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.Query1OutcomeOrganizationsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole> OutcomePersonRolesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OutcomePersonRolesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome> OutcomesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OutcomesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink> OutputOutputLinksSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OutputOutputLinksSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole> OutputPersonRolesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OutputPersonRolesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output> OutputsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.OutputsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person> PeopleSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.PeopleSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project> ProjectsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.ProjectsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod> ReportingPeriodsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.ReportingPeriodsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role> RolesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.RolesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status> StatusSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.StatusSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole> SubOutputPersonRolesSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.SubOutputPersonRolesSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput> SubOutputsSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.SubOutputsSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink> SubOutputSubOutputLinksSorted
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties.SubOutputSubOutputLinksSorted) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink>;
                     }
                 }
                 
@@ -2848,6 +3437,316 @@ namespace LightSwitchApplication
                     c(d, ref d._Status_SingleOrDefault, sf);
                 }
     
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType>.Entry
+                    ActivetypesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType>.Entry(
+                        "ActivetypesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._ActivetypesSorted_Stub);
+                private static void _ActivetypesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._ActivetypesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity>.Entry
+                    ActivitiesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity>.Entry(
+                        "ActivitiesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._ActivitiesSorted_Stub);
+                private static void _ActivitiesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._ActivitiesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource>.Entry
+                    DataSourcesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource>.Entry(
+                        "DataSourcesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._DataSourcesSorted_Stub);
+                private static void _DataSourcesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._DataSourcesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel>.Entry
+                    DataVersionLevelsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel>.Entry(
+                        "DataVersionLevelsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._DataVersionLevelsSorted_Stub);
+                private static void _DataVersionLevelsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._DataVersionLevelsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation>.Entry
+                    IndicatorLocationsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation>.Entry(
+                        "IndicatorLocationsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._IndicatorLocationsSorted_Stub);
+                private static void _IndicatorLocationsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._IndicatorLocationsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator>.Entry
+                    IndicatorSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator>.Entry(
+                        "IndicatorSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._IndicatorSorted_Stub);
+                private static void _IndicatorSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._IndicatorSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType>.Entry
+                    IndicatorTypesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType>.Entry(
+                        "IndicatorTypesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._IndicatorTypesSorted_Stub);
+                private static void _IndicatorTypesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._IndicatorTypesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue>.Entry
+                    IndicatorValuesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue>.Entry(
+                        "IndicatorValuesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._IndicatorValuesSorted_Stub);
+                private static void _IndicatorValuesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._IndicatorValuesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location>.Entry
+                    LocationsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location>.Entry(
+                        "LocationsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._LocationsSorted_Stub);
+                private static void _LocationsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._LocationsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType>.Entry
+                    LocationTypesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType>.Entry(
+                        "LocationTypesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._LocationTypesSorted_Stub);
+                private static void _LocationTypesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._LocationTypesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation>.Entry
+                    MilestonesLocation = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation>.Entry(
+                        "MilestonesLocation",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._MilestonesLocation_Stub);
+                private static void _MilestonesLocation_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._MilestonesLocation, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone>.Entry
+                    MilestonesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone>.Entry(
+                        "MilestonesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._MilestonesSorted_Stub);
+                private static void _MilestonesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._MilestonesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType>.Entry
+                    MilestoneTypesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType>.Entry(
+                        "MilestoneTypesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._MilestoneTypesSorted_Stub);
+                private static void _MilestoneTypesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._MilestoneTypesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue>.Entry
+                    MilestoneValuesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue>.Entry(
+                        "MilestoneValuesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._MilestoneValuesSorted_Stub);
+                private static void _MilestoneValuesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._MilestoneValuesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole>.Entry
+                    OrganizationPersonPoles = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole>.Entry(
+                        "OrganizationPersonPoles",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OrganizationPersonPoles_Stub);
+                private static void _OrganizationPersonPoles_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OrganizationPersonPoles, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization>.Entry
+                    OrganizationsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization>.Entry(
+                        "OrganizationsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OrganizationsSorted_Stub);
+                private static void _OrganizationsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OrganizationsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType>.Entry
+                    OrganizationTypesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType>.Entry(
+                        "OrganizationTypesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OrganizationTypesSorted_Stub);
+                private static void _OrganizationTypesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OrganizationTypesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization>.Entry
+                    Query1OutcomeOrganizationsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization>.Entry(
+                        "Query1OutcomeOrganizationsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._Query1OutcomeOrganizationsSorted_Stub);
+                private static void _Query1OutcomeOrganizationsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._Query1OutcomeOrganizationsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole>.Entry
+                    OutcomePersonRolesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole>.Entry(
+                        "OutcomePersonRolesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OutcomePersonRolesSorted_Stub);
+                private static void _OutcomePersonRolesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OutcomePersonRolesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome>.Entry
+                    OutcomesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome>.Entry(
+                        "OutcomesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OutcomesSorted_Stub);
+                private static void _OutcomesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OutcomesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink>.Entry
+                    OutputOutputLinksSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink>.Entry(
+                        "OutputOutputLinksSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OutputOutputLinksSorted_Stub);
+                private static void _OutputOutputLinksSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OutputOutputLinksSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole>.Entry
+                    OutputPersonRolesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole>.Entry(
+                        "OutputPersonRolesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OutputPersonRolesSorted_Stub);
+                private static void _OutputPersonRolesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OutputPersonRolesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output>.Entry
+                    OutputsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output>.Entry(
+                        "OutputsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._OutputsSorted_Stub);
+                private static void _OutputsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._OutputsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person>.Entry
+                    PeopleSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person>.Entry(
+                        "PeopleSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._PeopleSorted_Stub);
+                private static void _PeopleSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._PeopleSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project>.Entry
+                    ProjectsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project>.Entry(
+                        "ProjectsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._ProjectsSorted_Stub);
+                private static void _ProjectsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._ProjectsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod>.Entry
+                    ReportingPeriodsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod>.Entry(
+                        "ReportingPeriodsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._ReportingPeriodsSorted_Stub);
+                private static void _ReportingPeriodsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._ReportingPeriodsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role>.Entry
+                    RolesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role>.Entry(
+                        "RolesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._RolesSorted_Stub);
+                private static void _RolesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._RolesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>.Entry
+                    StatusSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>.Entry(
+                        "StatusSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._StatusSorted_Stub);
+                private static void _StatusSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._StatusSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole>.Entry
+                    SubOutputPersonRolesSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole>.Entry(
+                        "SubOutputPersonRolesSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._SubOutputPersonRolesSorted_Stub);
+                private static void _SubOutputPersonRolesSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._SubOutputPersonRolesSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput>.Entry
+                    SubOutputsSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput>.Entry(
+                        "SubOutputsSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._SubOutputsSorted_Stub);
+                private static void _SubOutputsSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._SubOutputsSorted, sf);
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink>.Entry
+                    SubOutputSubOutputLinksSorted = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink>.Entry(
+                        "SubOutputSubOutputLinksSorted",
+                        global::LightSwitchApplication.MeerkatData.DetailsClass.MethodSetProperties._SubOutputSubOutputLinksSorted_Stub);
+                private static void _SubOutputSubOutputLinksSorted_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.MeerkatData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink>.Data> c, global::LightSwitchApplication.MeerkatData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._SubOutputSubOutputLinksSorted, sf);
+                }
+    
             }
     
             [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -3487,6 +4386,99 @@ namespace LightSwitchApplication
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.CreateScalarQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>.Data _Status_SingleOrDefault;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ActiveType>.Data _ActivetypesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Activity>.Data _ActivitiesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataSource>.Data _DataSourcesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.DataVersionLevel>.Data _DataVersionLevelsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorLocation>.Data _IndicatorLocationsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Indicator>.Data _IndicatorSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorType>.Data _IndicatorTypesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.IndicatorValue>.Data _IndicatorValuesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Location>.Data _LocationsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.LocationType>.Data _LocationTypesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneLocation>.Data _MilestonesLocation;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Milestone>.Data _MilestonesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneType>.Data _MilestoneTypesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.MilestoneValue>.Data _MilestoneValuesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationPersonRole>.Data _OrganizationPersonPoles;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Organization>.Data _OrganizationsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OrganizationType>.Data _OrganizationTypesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomeOrganization>.Data _Query1OutcomeOrganizationsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutcomePersonRole>.Data _OutcomePersonRolesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Outcome>.Data _OutcomesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputOutputLink>.Data _OutputOutputLinksSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.OutputPersonRole>.Data _OutputPersonRolesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Output>.Data _OutputsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Person>.Data _PeopleSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Project>.Data _ProjectsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.ReportingPeriod>.Data _ReportingPeriodsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Role>.Data _RolesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.Status>.Data _StatusSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputPersonRole>.Data _SubOutputPersonRolesSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutput>.Data _SubOutputsSorted;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.MeerkatData, global::LightSwitchApplication.MeerkatData.DetailsClass, global::LightSwitchApplication.SubOutputSubOutputLink>.Data _SubOutputSubOutputLinksSorted;
             
         }
     

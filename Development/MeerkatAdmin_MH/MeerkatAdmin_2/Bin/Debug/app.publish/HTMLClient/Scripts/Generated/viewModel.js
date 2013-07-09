@@ -40,6 +40,15 @@
         /// <field name="Activities" type="msls.VisualCollection" elementType="msls.application.Activity">
         /// Gets the activities for this screen.
         /// </field>
+        /// <field name="ActivitiesSorted" type="msls.VisualCollection" elementType="msls.application.Activity">
+        /// Gets the activitiesSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
+        /// <field name="ActivityShortName" type="String">
+        /// Gets or sets the activityShortName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseActivities.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -61,6 +70,12 @@
         /// </param>
         /// <field name="SubOutputs" type="msls.VisualCollection" elementType="msls.application.SubOutput">
         /// Gets the subOutputs for this screen.
+        /// </field>
+        /// <field name="SubOutputsSorted" type="msls.VisualCollection" elementType="msls.application.SubOutput">
+        /// Gets the subOutputsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseSubOutputs.Details">
         /// Gets the details for this screen.
@@ -84,6 +99,12 @@
         /// <field name="ReportingPeriods" type="msls.VisualCollection" elementType="msls.application.ReportingPeriod">
         /// Gets the reportingPeriods for this screen.
         /// </field>
+        /// <field name="ReportingPeriodsSorted" type="msls.VisualCollection" elementType="msls.application.ReportingPeriod">
+        /// Gets the reportingPeriodsSorted for this screen.
+        /// </field>
+        /// <field name="YearName" type="String">
+        /// Gets or sets the yearName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseReportingPeriods.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -106,6 +127,12 @@
         /// <field name="Projects" type="msls.VisualCollection" elementType="msls.application.Project">
         /// Gets the projects for this screen.
         /// </field>
+        /// <field name="ProjectsSorted" type="msls.VisualCollection" elementType="msls.application.Project">
+        /// Gets the projectsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseProjects.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -125,11 +152,14 @@
         /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
         /// An existing data workspace for this screen to use. By default, a new data workspace is created.
         /// </param>
-        /// <field name="Outputs" type="msls.VisualCollection" elementType="msls.application.Output">
-        /// Gets the outputs for this screen.
-        /// </field>
         /// <field name="pOutcomeID" type="Number">
         /// Gets or sets the pOutcomeID for this screen.
+        /// </field>
+        /// <field name="OutputsSorted" type="msls.VisualCollection" elementType="msls.application.Output">
+        /// Gets the outputsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseOutputs.Details">
         /// Gets the details for this screen.
@@ -150,8 +180,14 @@
         /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
         /// An existing data workspace for this screen to use. By default, a new data workspace is created.
         /// </param>
-        /// <field name="Outcomes" type="msls.VisualCollection" elementType="msls.application.Outcome">
-        /// Gets the outcomes for this screen.
+        /// <field name="OutcomesSorted" type="msls.VisualCollection" elementType="msls.application.Outcome">
+        /// Gets the outcomesSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
+        /// <field name="OutcomeShortName" type="String">
+        /// Gets or sets the outcomeShortName for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseOutcomes.Details">
         /// Gets the details for this screen.
@@ -175,6 +211,12 @@
         /// <field name="Milestones" type="msls.VisualCollection" elementType="msls.application.Milestone">
         /// Gets the milestones for this screen.
         /// </field>
+        /// <field name="MilestonesSorted" type="msls.VisualCollection" elementType="msls.application.Milestone">
+        /// Gets the milestonesSorted for this screen.
+        /// </field>
+        /// <field name="LongName" type="String">
+        /// Gets or sets the longName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseMilestones.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -196,6 +238,12 @@
         /// </param>
         /// <field name="MilestoneTypes" type="msls.VisualCollection" elementType="msls.application.MilestoneType">
         /// Gets the milestoneTypes for this screen.
+        /// </field>
+        /// <field name="MilestoneTypesSorted" type="msls.VisualCollection" elementType="msls.application.MilestoneType">
+        /// Gets the milestoneTypesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseMilestoneTypes.Details">
         /// Gets the details for this screen.
@@ -219,6 +267,12 @@
         /// <field name="IndicatorTypes" type="msls.VisualCollection" elementType="msls.application.IndicatorType">
         /// Gets the indicatorTypes for this screen.
         /// </field>
+        /// <field name="IndicatorTypesSorted" type="msls.VisualCollection" elementType="msls.application.IndicatorType">
+        /// Gets the indicatorTypesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseIndicatorTypes.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -240,6 +294,9 @@
         /// </param>
         /// <field name="Indicators" type="msls.VisualCollection" elementType="msls.application.Indicator">
         /// Gets the indicators for this screen.
+        /// </field>
+        /// <field name="IndicatorsSorted" type="msls.VisualCollection" elementType="msls.application.Indicator">
+        /// Gets the indicatorsSorted for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseIndicators.Details">
         /// Gets the details for this screen.
@@ -263,6 +320,12 @@
         /// <field name="DataVersions" type="msls.VisualCollection" elementType="msls.application.DataVersion">
         /// Gets the dataVersions for this screen.
         /// </field>
+        /// <field name="DataVersionsSorted" type="msls.VisualCollection" elementType="msls.application.DataVersion">
+        /// Gets the dataVersionsSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseDataVersions.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -285,6 +348,12 @@
         /// <field name="DataVersionLevels" type="msls.VisualCollection" elementType="msls.application.DataVersionLevel">
         /// Gets the dataVersionLevels for this screen.
         /// </field>
+        /// <field name="DataVersionLevelsSorted" type="msls.VisualCollection" elementType="msls.application.DataVersionLevel">
+        /// Gets the dataVersionLevelsSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.BrowseDataVersionLevels.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -306,6 +375,12 @@
         /// </param>
         /// <field name="DataSources" type="msls.VisualCollection" elementType="msls.application.DataSource">
         /// Gets the dataSources for this screen.
+        /// </field>
+        /// <field name="DatasourcesSorted" type="msls.VisualCollection" elementType="msls.application.DataSource">
+        /// Gets the datasourcesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
         /// </field>
         /// <field name="details" type="msls.application.BrowseDataSources.Details">
         /// Gets the details for this screen.
@@ -332,6 +407,12 @@
         /// <field name="Milestones" type="msls.VisualCollection" elementType="msls.application.Milestone">
         /// Gets the milestones for this screen.
         /// </field>
+        /// <field name="MilestonesSorted" type="msls.VisualCollection" elementType="msls.application.Milestone">
+        /// Gets the milestonesSorted for this screen.
+        /// </field>
+        /// <field name="LongName" type="String">
+        /// Gets or sets the longName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.AddEditActivity.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -356,6 +437,12 @@
         /// </field>
         /// <field name="IndicatorLocations" type="msls.VisualCollection" elementType="msls.application.IndicatorLocation">
         /// Gets the indicatorLocations for this screen.
+        /// </field>
+        /// <field name="IndicatorLocationsSorted" type="msls.VisualCollection" elementType="msls.application.IndicatorLocation">
+        /// Gets the indicatorLocationsSorted for this screen.
+        /// </field>
+        /// <field name="Area" type="String">
+        /// Gets or sets the area for this screen.
         /// </field>
         /// <field name="details" type="msls.application.AddEditIndicator.Details">
         /// Gets the details for this screen.
@@ -407,6 +494,18 @@
         /// <field name="Projects" type="msls.VisualCollection" elementType="msls.application.Project">
         /// Gets the projects for this screen.
         /// </field>
+        /// <field name="OutputsSorted" type="msls.VisualCollection" elementType="msls.application.Output">
+        /// Gets the outputsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
+        /// <field name="ProjectsSorted" type="msls.VisualCollection" elementType="msls.application.Project">
+        /// Gets the projectsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName1" type="String">
+        /// Gets or sets the shortName1 for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.AddEditOutcome.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -431,6 +530,12 @@
         /// </field>
         /// <field name="SubOutputs" type="msls.VisualCollection" elementType="msls.application.SubOutput">
         /// Gets the subOutputs for this screen.
+        /// </field>
+        /// <field name="SubOutputsSorted" type="msls.VisualCollection" elementType="msls.application.SubOutput">
+        /// Gets the subOutputsSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
         /// </field>
         /// <field name="details" type="msls.application.AddEditOutput.Details">
         /// Gets the details for this screen.
@@ -457,6 +562,18 @@
         /// <field name="Activities" type="msls.VisualCollection" elementType="msls.application.Activity">
         /// Gets the activities for this screen.
         /// </field>
+        /// <field name="ActiveTypesSorted" type="msls.VisualCollection" elementType="msls.application.ActiveType">
+        /// Gets the activeTypesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
+        /// <field name="ActivitiesSorted" type="msls.VisualCollection" elementType="msls.application.Activity">
+        /// Gets the activitiesSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.AddEditProject.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -481,6 +598,9 @@
         /// </field>
         /// <field name="Indicators" type="msls.VisualCollection" elementType="msls.application.Indicator">
         /// Gets the indicators for this screen.
+        /// </field>
+        /// <field name="IndicatorsSorted" type="msls.VisualCollection" elementType="msls.application.Indicator">
+        /// Gets the indicatorsSorted for this screen.
         /// </field>
         /// <field name="details" type="msls.application.AddEditSubOutput.Details">
         /// Gets the details for this screen.
@@ -526,6 +646,12 @@
         /// <field name="DataSource" type="msls.application.DataSource">
         /// Gets or sets the dataSource for this screen.
         /// </field>
+        /// <field name="ActiveTypesSorted" type="msls.VisualCollection" elementType="msls.application.ActiveType">
+        /// Gets the activeTypesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.AddEditDataSource.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -548,6 +674,12 @@
         /// <field name="DataVersionLevel" type="msls.application.DataVersionLevel">
         /// Gets or sets the dataVersionLevel for this screen.
         /// </field>
+        /// <field name="ActiveTypesSorted" type="msls.VisualCollection" elementType="msls.application.ActiveType">
+        /// Gets the activeTypesSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
         /// <field name="details" type="msls.application.AddEditDataVersionLevel.Details">
         /// Gets the details for this screen.
         /// </field>
@@ -569,6 +701,30 @@
         /// </param>
         /// <field name="DataVersion" type="msls.application.DataVersion">
         /// Gets or sets the dataVersion for this screen.
+        /// </field>
+        /// <field name="DataVersionsSorted" type="msls.VisualCollection" elementType="msls.application.DataVersion">
+        /// Gets the dataVersionsSorted for this screen.
+        /// </field>
+        /// <field name="Name" type="String">
+        /// Gets or sets the name for this screen.
+        /// </field>
+        /// <field name="DataVersionLevelsSorted" type="msls.VisualCollection" elementType="msls.application.DataVersionLevel">
+        /// Gets the dataVersionLevelsSorted for this screen.
+        /// </field>
+        /// <field name="Name1" type="String">
+        /// Gets or sets the name1 for this screen.
+        /// </field>
+        /// <field name="OutcomesSorted" type="msls.VisualCollection" elementType="msls.application.Outcome">
+        /// Gets the outcomesSorted for this screen.
+        /// </field>
+        /// <field name="ShortName" type="String">
+        /// Gets or sets the shortName for this screen.
+        /// </field>
+        /// <field name="ActivitiesSorted" type="msls.VisualCollection" elementType="msls.application.Activity">
+        /// Gets the activitiesSorted for this screen.
+        /// </field>
+        /// <field name="ShortName1" type="String">
+        /// Gets or sets the shortName1 for this screen.
         /// </field>
         /// <field name="details" type="msls.application.AddEditDataVersion.Details">
         /// Gets the details for this screen.
@@ -601,6 +757,50 @@
         $Screen.call(this, dataWorkspace, "AddEditIndicatorType", parameters);
     }
 
+    function AddEditMilestoneType(parameters, dataWorkspace) {
+        /// <summary>
+        /// Represents the AddEditMilestoneType screen.
+        /// </summary>
+        /// <param name="parameters" type="Array">
+        /// An array of screen parameter values.
+        /// </param>
+        /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
+        /// An existing data workspace for this screen to use. By default, a new data workspace is created.
+        /// </param>
+        /// <field name="MilestoneType" type="msls.application.MilestoneType">
+        /// Gets or sets the milestoneType for this screen.
+        /// </field>
+        /// <field name="details" type="msls.application.AddEditMilestoneType.Details">
+        /// Gets the details for this screen.
+        /// </field>
+        if (!dataWorkspace) {
+            dataWorkspace = new lightSwitchApplication.DataWorkspace();
+        }
+        $Screen.call(this, dataWorkspace, "AddEditMilestoneType", parameters);
+    }
+
+    function AddEditReportingPeriod(parameters, dataWorkspace) {
+        /// <summary>
+        /// Represents the AddEditReportingPeriod screen.
+        /// </summary>
+        /// <param name="parameters" type="Array">
+        /// An array of screen parameter values.
+        /// </param>
+        /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
+        /// An existing data workspace for this screen to use. By default, a new data workspace is created.
+        /// </param>
+        /// <field name="ReportingPeriod" type="msls.application.ReportingPeriod">
+        /// Gets or sets the reportingPeriod for this screen.
+        /// </field>
+        /// <field name="details" type="msls.application.AddEditReportingPeriod.Details">
+        /// Gets the details for this screen.
+        /// </field>
+        if (!dataWorkspace) {
+            dataWorkspace = new lightSwitchApplication.DataWorkspace();
+        }
+        $Screen.call(this, dataWorkspace, "AddEditReportingPeriod", parameters);
+    }
+
     msls._addToNamespace("msls.application", {
 
         AdministrationHome: $defineScreen(AdministrationHome, [
@@ -610,10 +810,18 @@
         BrowseActivities: $defineScreen(BrowseActivities, [
             {
                 name: "Activities", kind: "collection", elementType: lightSwitchApplication.Activity,
-                createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.Activities.filter("ActiveType/ID ge 0").expand("Project").expand("ActiveType");
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName);
                 }
-            }
+            },
+            {
+                name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("Project").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String },
+            { name: "ActivityShortName", kind: "local", type: String }
         ], [
         ]),
 
@@ -621,9 +829,16 @@
             {
                 name: "SubOutputs", kind: "collection", elementType: lightSwitchApplication.SubOutput,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.SubOutputs.filter("ActiveType/ID ge 0").expand("Output").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.SubOutputs.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "SubOutputsSorted", kind: "collection", elementType: lightSwitchApplication.SubOutput,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.SubOutputsSorted(ShortName).expand("Output").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String }
         ], [
         ]),
 
@@ -631,9 +846,16 @@
             {
                 name: "ReportingPeriods", kind: "collection", elementType: lightSwitchApplication.ReportingPeriod,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.ReportingPeriods.filter("ActiveType/ID ge 0").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.ReportingPeriods.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "ReportingPeriodsSorted", kind: "collection", elementType: lightSwitchApplication.ReportingPeriod,
+                createQuery: function (YearName) {
+                    return this.dataWorkspace.MeerkatData.ReportingPeriodsSorted(YearName);
+                }
+            },
+            { name: "YearName", kind: "local", type: String }
         ], [
         ]),
 
@@ -641,30 +863,40 @@
             {
                 name: "Projects", kind: "collection", elementType: lightSwitchApplication.Project,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.Projects.filter("ActiveType/ID ge 0").expand("Outcome").expand("Project1").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.Projects.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "ProjectsSorted", kind: "collection", elementType: lightSwitchApplication.Project,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ProjectsSorted(ShortName).expand("Outcome").expand("Project1").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String }
         ], [
         ]),
 
         BrowseOutputs: $defineScreen(BrowseOutputs, [
+            { name: "pOutcomeID", kind: "local", type: Number },
             {
-                name: "Outputs", kind: "collection", elementType: lightSwitchApplication.Output,
-                createQuery: function (OutcomeID) {
-                    return this.dataWorkspace.MeerkatData.Outputs.filter("(ActiveType/ID ge 0) and " + ((OutcomeID === undefined || OutcomeID === null) ? "true" : "(Outcome/OutcomeID eq " + $toODataString(OutcomeID, "Int32?") + ")") + "").expand("Outcome").expand("ActiveType");
+                name: "OutputsSorted", kind: "collection", elementType: lightSwitchApplication.Output,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.OutputsSorted(ShortName).expand("Outcome").expand("ActiveType");
                 }
             },
-            { name: "pOutcomeID", kind: "local", type: Number }
+            { name: "ShortName", kind: "local", type: String }
         ], [
         ]),
 
         BrowseOutcomes: $defineScreen(BrowseOutcomes, [
             {
-                name: "Outcomes", kind: "collection", elementType: lightSwitchApplication.Outcome,
-                createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.Outcomes.filter("ActiveType/ID ge 0").expand("ActiveType");
+                name: "OutcomesSorted", kind: "collection", elementType: lightSwitchApplication.Outcome,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.OutcomesSorted(ShortName).expand("ActiveType");
                 }
-            }
+            },
+            { name: "ShortName", kind: "local", type: String },
+            { name: "OutcomeShortName", kind: "local", type: String }
         ], [
             { name: "BrowseRelatedOutputs" }
         ]),
@@ -673,9 +905,16 @@
             {
                 name: "Milestones", kind: "collection", elementType: lightSwitchApplication.Milestone,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.Milestones.filter("ActiveType/ID ge 0").expand("Activity").expand("MilestoneType").expand("Outcome").expand("Project").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.Milestones.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "MilestonesSorted", kind: "collection", elementType: lightSwitchApplication.Milestone,
+                createQuery: function (LongName) {
+                    return this.dataWorkspace.MeerkatData.MilestonesSorted(LongName).expand("Activity").expand("MilestoneType").expand("Outcome").expand("Project").expand("ActiveType");
+                }
+            },
+            { name: "LongName", kind: "local", type: String }
         ], [
         ]),
 
@@ -683,9 +922,16 @@
             {
                 name: "MilestoneTypes", kind: "collection", elementType: lightSwitchApplication.MilestoneType,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.MilestoneTypes.filter("ActiveType/ID ge 0").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.MilestoneTypes.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "MilestoneTypesSorted", kind: "collection", elementType: lightSwitchApplication.MilestoneType,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.MilestoneTypesSorted(Name).expand("ActiveType");
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
         ]),
 
@@ -693,9 +939,16 @@
             {
                 name: "IndicatorTypes", kind: "collection", elementType: lightSwitchApplication.IndicatorType,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.IndicatorTypes.filter("ActiveType/ID ge 0").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.IndicatorTypes.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "IndicatorTypesSorted", kind: "collection", elementType: lightSwitchApplication.IndicatorType,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.IndicatorTypesSorted(Name).expand("ActiveType");
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
         ]),
 
@@ -703,7 +956,13 @@
             {
                 name: "Indicators", kind: "collection", elementType: lightSwitchApplication.Indicator,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.Indicators.filter("ActiveType/ID ge 0").expand("Activity").expand("IndicatorType").expand("Outcome").expand("Output").expand("SubOutput").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.Indicators.filter("ActiveType/ID ge 0");
+                }
+            },
+            {
+                name: "IndicatorsSorted", kind: "collection", elementType: lightSwitchApplication.Indicator,
+                createQuery: function (Code) {
+                    return this.dataWorkspace.MeerkatData.IndicatorsSorted(Code);
                 }
             }
         ], [
@@ -713,9 +972,16 @@
             {
                 name: "DataVersions", kind: "collection", elementType: lightSwitchApplication.DataVersion,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.DataVersions.filter("ActiveType/ID ge 0").expand("DataVersion1").expand("DataVersionLevel").expand("Outcome").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.DataVersions.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "DataVersionsSorted", kind: "collection", elementType: lightSwitchApplication.DataVersion,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.DataVersionsSorted(Name).expand("DataVersion1").expand("DataVersionLevel").expand("Outcome").expand("ActiveType");
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
         ]),
 
@@ -723,9 +989,16 @@
             {
                 name: "DataVersionLevels", kind: "collection", elementType: lightSwitchApplication.DataVersionLevel,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.DataVersionLevels.filter("ActiveType/ID ge 0").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.DataVersionLevels.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "DataVersionLevelsSorted", kind: "collection", elementType: lightSwitchApplication.DataVersionLevel,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.DataVersionLevelsSorted(Name).expand("ActiveType");
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
         ]),
 
@@ -733,9 +1006,16 @@
             {
                 name: "DataSources", kind: "collection", elementType: lightSwitchApplication.DataSource,
                 createQuery: function () {
-                    return this.dataWorkspace.MeerkatData.DataSources.filter("ActiveType/ID ge 0").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.DataSources.filter("ActiveType/ID ge 0");
                 }
-            }
+            },
+            {
+                name: "DatasourcesSorted", kind: "collection", elementType: lightSwitchApplication.DataSource,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.DatasourcesSorted(Name);
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
         ]),
 
@@ -750,9 +1030,16 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("MilestoneType").expand("Outcome").expand("Project").expand("ActiveType");
+                    return this;
                 }
-            }
+            },
+            {
+                name: "MilestonesSorted", kind: "collection", elementType: lightSwitchApplication.Milestone,
+                createQuery: function (LongName) {
+                    return this.dataWorkspace.MeerkatData.MilestonesSorted(LongName);
+                }
+            },
+            { name: "LongName", kind: "local", type: String }
         ], [
             { name: "Activity_Delete" }
         ]),
@@ -768,9 +1055,16 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("Location").expand("ActiveType");
+                    return this;
                 }
-            }
+            },
+            {
+                name: "IndicatorLocationsSorted", kind: "collection", elementType: lightSwitchApplication.IndicatorLocation,
+                createQuery: function (Area) {
+                    return this.dataWorkspace.MeerkatData.IndicatorLocationsSorted(Area).expand("Indicator").expand("Location").expand("ActiveType");
+                }
+            },
+            { name: "Area", kind: "local", type: String }
         ], [
             { name: "Indicator_Delete" }
         ]),
@@ -792,7 +1086,7 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("ActiveType");
+                    return this;
                 }
             },
             {
@@ -804,9 +1098,23 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("Project1").expand("ActiveType");
+                    return this;
                 }
-            }
+            },
+            {
+                name: "OutputsSorted", kind: "collection", elementType: lightSwitchApplication.Output,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.OutputsSorted(ShortName).expand("Outcome").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String },
+            {
+                name: "ProjectsSorted", kind: "collection", elementType: lightSwitchApplication.Project,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ProjectsSorted(ShortName).expand("Outcome").expand("Project1").expand("ActiveType");
+                }
+            },
+            { name: "ShortName1", kind: "local", type: String }
         ], [
             { name: "Outcome_Delete" }
         ]),
@@ -822,9 +1130,16 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("ActiveType");
+                    return this;
                 }
-            }
+            },
+            {
+                name: "SubOutputsSorted", kind: "collection", elementType: lightSwitchApplication.SubOutput,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.SubOutputsSorted(ShortName).expand("Output").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String }
         ], [
             { name: "Output_Delete" }
         ]),
@@ -840,9 +1155,23 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("ActiveType");
+                    return this;
                 }
-            }
+            },
+            {
+                name: "ActiveTypesSorted", kind: "collection", elementType: lightSwitchApplication.ActiveType,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.ActiveTypesSorted(Name);
+                }
+            },
+            { name: "Name", kind: "local", type: String },
+            {
+                name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("Project").expand("ActiveType");
+                }
+            },
+            { name: "ShortName", kind: "local", type: String }
         ], [
             { name: "Project_Delete" }
         ]),
@@ -858,7 +1187,13 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("Activity").expand("IndicatorType").expand("Outcome").expand("Output").expand("SubOutput").expand("ActiveType");
+                    return this;
+                }
+            },
+            {
+                name: "IndicatorsSorted", kind: "collection", elementType: lightSwitchApplication.Indicator,
+                createQuery: function (Code) {
+                    return this.dataWorkspace.MeerkatData.IndicatorsSorted(Code).expand("Activity").expand("IndicatorType").expand("Outcome").expand("Output").expand("SubOutput").expand("ActiveType");
                 }
             }
         ], [
@@ -873,19 +1208,61 @@
         ]),
 
         AddEditDataSource: $defineScreen(AddEditDataSource, [
-            { name: "DataSource", kind: "local", type: lightSwitchApplication.DataSource }
+            { name: "DataSource", kind: "local", type: lightSwitchApplication.DataSource },
+            {
+                name: "ActiveTypesSorted", kind: "collection", elementType: lightSwitchApplication.ActiveType,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.ActiveTypesSorted(Name);
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
             { name: "DataSource_Delete" }
         ]),
 
         AddEditDataVersionLevel: $defineScreen(AddEditDataVersionLevel, [
-            { name: "DataVersionLevel", kind: "local", type: lightSwitchApplication.DataVersionLevel }
+            { name: "DataVersionLevel", kind: "local", type: lightSwitchApplication.DataVersionLevel },
+            {
+                name: "ActiveTypesSorted", kind: "collection", elementType: lightSwitchApplication.ActiveType,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.ActiveTypesSorted(Name);
+                }
+            },
+            { name: "Name", kind: "local", type: String }
         ], [
             { name: "DataVersionLevel_delete" }
         ]),
 
         AddEditDataVersion: $defineScreen(AddEditDataVersion, [
-            { name: "DataVersion", kind: "local", type: lightSwitchApplication.DataVersion }
+            { name: "DataVersion", kind: "local", type: lightSwitchApplication.DataVersion },
+            {
+                name: "DataVersionsSorted", kind: "collection", elementType: lightSwitchApplication.DataVersion,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.DataVersionsSorted(Name);
+                }
+            },
+            { name: "Name", kind: "local", type: String },
+            {
+                name: "DataVersionLevelsSorted", kind: "collection", elementType: lightSwitchApplication.DataVersionLevel,
+                createQuery: function (Name) {
+                    return this.dataWorkspace.MeerkatData.DataVersionLevelsSorted(Name);
+                }
+            },
+            { name: "Name1", kind: "local", type: String },
+            {
+                name: "OutcomesSorted", kind: "collection", elementType: lightSwitchApplication.Outcome,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.OutcomesSorted(ShortName);
+                }
+            },
+            { name: "ShortName", kind: "local", type: String },
+            {
+                name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
+                createQuery: function (ShortName) {
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName);
+                }
+            },
+            { name: "ShortName1", kind: "local", type: String }
         ], [
             { name: "DataVersion_delete" }
         ]),
@@ -894,6 +1271,16 @@
             { name: "IndicatorType", kind: "local", type: lightSwitchApplication.IndicatorType }
         ], [
             { name: "IndicatorType_delete" }
+        ]),
+
+        AddEditMilestoneType: $defineScreen(AddEditMilestoneType, [
+            { name: "MilestoneType", kind: "local", type: lightSwitchApplication.MilestoneType }
+        ], [
+        ]),
+
+        AddEditReportingPeriod: $defineScreen(AddEditReportingPeriod, [
+            { name: "ReportingPeriod", kind: "local", type: lightSwitchApplication.ReportingPeriod }
+        ], [
         ]),
 
         showAdministrationHome: $defineShowScreen(function showAdministrationHome(options) {
@@ -1206,6 +1593,30 @@
             /// <returns type="WinJS.Promise" />
             var parameters = Array.prototype.slice.call(arguments, 0, 1);
             return lightSwitchApplication.showScreen("AddEditIndicatorType", parameters, options);
+        }),
+
+        showAddEditMilestoneType: $defineShowScreen(function showAddEditMilestoneType(MilestoneType, options) {
+            /// <summary>
+            /// Asynchronously navigates forward to the AddEditMilestoneType screen.
+            /// </summary>
+            /// <param name="options" optional="true">
+            /// An object that provides one or more of the following options:<br/>- beforeShown: a function that is called after boundary behavior has been applied but before the screen is shown.<br/>+ Signature: beforeShown(screen)<br/>- afterClosed: a function that is called after boundary behavior has been applied and the screen has been closed.<br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
+            /// </param>
+            /// <returns type="WinJS.Promise" />
+            var parameters = Array.prototype.slice.call(arguments, 0, 1);
+            return lightSwitchApplication.showScreen("AddEditMilestoneType", parameters, options);
+        }),
+
+        showAddEditReportingPeriod: $defineShowScreen(function showAddEditReportingPeriod(ReportingPeriod, options) {
+            /// <summary>
+            /// Asynchronously navigates forward to the AddEditReportingPeriod screen.
+            /// </summary>
+            /// <param name="options" optional="true">
+            /// An object that provides one or more of the following options:<br/>- beforeShown: a function that is called after boundary behavior has been applied but before the screen is shown.<br/>+ Signature: beforeShown(screen)<br/>- afterClosed: a function that is called after boundary behavior has been applied and the screen has been closed.<br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
+            /// </param>
+            /// <returns type="WinJS.Promise" />
+            var parameters = Array.prototype.slice.call(arguments, 0, 1);
+            return lightSwitchApplication.showScreen("AddEditReportingPeriod", parameters, options);
         })
 
     });

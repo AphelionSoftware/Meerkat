@@ -55,6 +55,7 @@ myapp.AddEditOutput.created = function (screen) {
 myapp.AddEditOutput.Output_Delete_execute = function (screen) {
     // Write code here.
     var Output = screen.Output;
+  
 
     // Can only safely do this if the Output is not modified.
     if (Output.details.entityState !== msls.EntityState.unchanged) {

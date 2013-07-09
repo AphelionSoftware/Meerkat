@@ -41,15 +41,15 @@
         /// </field>
         OutcomeList_postRender: $parameters,
         /// <field>
-        /// Called after the Outcome content item has been rendered.
+        /// Called after the OutcomesSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Outcome_postRender: $parameters,
+        OutcomesSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the OutcomesSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        OutcomesSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseOutputs, {
@@ -69,15 +69,15 @@
         /// </field>
         OutputList_postRender: $parameters,
         /// <field>
-        /// Called after the Output content item has been rendered.
+        /// Called after the OutputsSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Output_postRender: $parameters,
+        OutputsSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the OutputsSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        OutputsSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseSubOutputs, {
@@ -97,15 +97,15 @@
         /// </field>
         SubOutputList_postRender: $parameters,
         /// <field>
-        /// Called after the SubOutput content item has been rendered.
+        /// Called after the SubOutputsSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        SubOutput_postRender: $parameters,
+        SubOutputsSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the SubOutputsSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        SubOutputsSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseIndicators, {
@@ -125,15 +125,15 @@
         /// </field>
         IndicatorList_postRender: $parameters,
         /// <field>
-        /// Called after the Indicator content item has been rendered.
+        /// Called after the IndicatorSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Indicator_postRender: $parameters,
+        IndicatorSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the IndicatorSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        IndicatorSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseProjects, {
@@ -153,15 +153,15 @@
         /// </field>
         ProjectList_postRender: $parameters,
         /// <field>
-        /// Called after the Project content item has been rendered.
+        /// Called after the ProjectsSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Project_postRender: $parameters,
+        ProjectsSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the ProjectsSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        ProjectsSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseActivities, {
@@ -181,15 +181,15 @@
         /// </field>
         ActivityList_postRender: $parameters,
         /// <field>
-        /// Called after the Activity content item has been rendered.
+        /// Called after the ActivitiesSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Activity_postRender: $parameters,
+        ActivitiesSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the ActivitiesSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        ActivitiesSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseMilestones, {
@@ -209,15 +209,15 @@
         /// </field>
         MilestoneList_postRender: $parameters,
         /// <field>
-        /// Called after the Milestone content item has been rendered.
+        /// Called after the MilestonesSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Milestone_postRender: $parameters,
+        MilestonesSorted_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the MilestonesSortedTemplate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        MilestonesSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseMilestoneValues, {
@@ -237,15 +237,20 @@
         /// </field>
         MilestoneValueList_postRender: $parameters,
         /// <field>
-        /// Called after the MilestoneValue content item has been rendered.
+        /// Called after the ActualLabel1 content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        MilestoneValue_postRender: $parameters,
+        ActualLabel1_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the MilestoneValuesSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        MilestoneValuesSorted_postRender: $parameters,
+        /// <field>
+        /// Called after the MilestoneValuesSortedTemplate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        MilestoneValuesSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.BrowseIndicatorValues, {
@@ -265,15 +270,20 @@
         /// </field>
         IndicatorValueList_postRender: $parameters,
         /// <field>
-        /// Called after the IndicatorValue content item has been rendered.
+        /// Called after the ActualLabel1 content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        IndicatorValue_postRender: $parameters,
+        ActualLabel1_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate content item has been rendered.
+        /// Called after the IndicatorValuesSorted content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate_postRender: $parameters
+        IndicatorValuesSorted_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorValuesSortedTemplate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorValuesSortedTemplate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.AddEditMilestoneValue, {
@@ -308,10 +318,10 @@
         /// </field>
         Milestone_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate3 content item has been rendered.
+        /// Called after the Milestone1 content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate3_postRender: $parameters,
+        Milestone1_postRender: $parameters,
         /// <field>
         /// Called after the ReportingPeriod content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
@@ -323,25 +333,15 @@
         /// </field>
         RowTemplate4_postRender: $parameters,
         /// <field>
-        /// Called after the Location content item has been rendered.
+        /// Called after the YearName content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Location_postRender: $parameters,
+        YearName_postRender: $parameters,
         /// <field>
-        /// Called after the RowTemplate2 content item has been rendered.
+        /// Called after the ReportingPeriod1 content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        RowTemplate2_postRender: $parameters,
-        /// <field>
-        /// Called after the DataVersion content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        DataVersion_postRender: $parameters,
-        /// <field>
-        /// Called after the RowTemplate1 content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        RowTemplate1_postRender: $parameters,
+        ReportingPeriod1_postRender: $parameters,
         /// <field>
         /// Called after the Organization content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
@@ -352,6 +352,26 @@
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
         Organization1_postRender: $parameters,
+        /// <field>
+        /// Called after the Location content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Location_postRender: $parameters,
+        /// <field>
+        /// Called after the Location1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Location1_postRender: $parameters,
+        /// <field>
+        /// Called after the DataVersion content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        DataVersion_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate1_postRender: $parameters,
         /// <field>
         /// Called after the BusinessKey content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
@@ -381,32 +401,7 @@
         /// Called after the ActualDate content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        ActualDate_postRender: $parameters,
-        /// <field>
-        /// Called after the MilestoneAdditionalInfo content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        MilestoneAdditionalInfo_postRender: $parameters,
-        /// <field>
-        /// Called after the Notes content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        Notes_postRender: $parameters,
-        /// <field>
-        /// Called after the MilestoneStatusPercent content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        MilestoneStatusPercent_postRender: $parameters,
-        /// <field>
-        /// Called after the ActiveType content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        ActiveType_postRender: $parameters,
-        /// <field>
-        /// Called after the RowTemplate content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        RowTemplate_postRender: $parameters
+        ActualDate_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.AddEditIndicatorValue, {
@@ -455,6 +450,16 @@
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
         RowTemplate5_postRender: $parameters,
+        /// <field>
+        /// Called after the YearName content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        YearName_postRender: $parameters,
+        /// <field>
+        /// Called after the ReportingPeriod1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ReportingPeriod1_postRender: $parameters,
         /// <field>
         /// Called after the Organization content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
@@ -555,6 +560,317 @@
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
         PreviousValues_postRender: $parameters
+    });
+
+    msls._addEntryPoints(lightSwitchApplication.AddEditActivity, {
+        /// <field>
+        /// Called when a new AddEditActivity screen is created.
+        /// <br/>created(msls.application.AddEditActivity screen)
+        /// </field>
+        created: [lightSwitchApplication.AddEditActivity],
+        /// <field>
+        /// Called before changes on an active AddEditActivity screen are applied.
+        /// <br/>beforeApplyChanges(msls.application.AddEditActivity screen)
+        /// </field>
+        beforeApplyChanges: [lightSwitchApplication.AddEditActivity],
+        /// <field>
+        /// Called after the Details content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Details_postRender: $parameters,
+        /// <field>
+        /// Called after the columns content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        columns_postRender: $parameters,
+        /// <field>
+        /// Called after the left content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        left_postRender: $parameters,
+        /// <field>
+        /// Called after the ShortName content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ShortName_postRender: $parameters,
+        /// <field>
+        /// Called after the LongName content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        LongName_postRender: $parameters,
+        /// <field>
+        /// Called after the TextDescription content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        TextDescription_postRender: $parameters,
+        /// <field>
+        /// Called after the sys_CreatedBy content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        sys_CreatedBy_postRender: $parameters,
+        /// <field>
+        /// Called after the right content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        right_postRender: $parameters,
+        /// <field>
+        /// Called after the sys_ModifiedOn content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        sys_ModifiedOn_postRender: $parameters,
+        /// <field>
+        /// Called after the Code content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Code_postRender: $parameters,
+        /// <field>
+        /// Called after the ActiveType content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ActiveType_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate_postRender: $parameters,
+        /// <field>
+        /// Called after the Project content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Project_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate1_postRender: $parameters,
+        /// <field>
+        /// Called after the SubOutput_ID content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        SubOutput_ID_postRender: $parameters,
+        /// <field>
+        /// Called after the ActivityType_ID content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ActivityType_ID_postRender: $parameters
+    });
+
+    msls._addEntryPoints(lightSwitchApplication.AddEditIndicator, {
+        /// <field>
+        /// Called when a new AddEditIndicator screen is created.
+        /// <br/>created(msls.application.AddEditIndicator screen)
+        /// </field>
+        created: [lightSwitchApplication.AddEditIndicator],
+        /// <field>
+        /// Called before changes on an active AddEditIndicator screen are applied.
+        /// <br/>beforeApplyChanges(msls.application.AddEditIndicator screen)
+        /// </field>
+        beforeApplyChanges: [lightSwitchApplication.AddEditIndicator],
+        /// <field>
+        /// Called after the Details content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Details_postRender: $parameters,
+        /// <field>
+        /// Called after the columns content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        columns_postRender: $parameters,
+        /// <field>
+        /// Called after the left content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        left_postRender: $parameters,
+        /// <field>
+        /// Called after the LongName content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        LongName_postRender: $parameters,
+        /// <field>
+        /// Called after the TextDescription content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        TextDescription_postRender: $parameters,
+        /// <field>
+        /// Called after the Baseline content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Baseline_postRender: $parameters,
+        /// <field>
+        /// Called after the BaselineString content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        BaselineString_postRender: $parameters,
+        /// <field>
+        /// Called after the BaselineDate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        BaselineDate_postRender: $parameters,
+        /// <field>
+        /// Called after the Target content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Target_postRender: $parameters,
+        /// <field>
+        /// Called after the TargetString content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        TargetString_postRender: $parameters,
+        /// <field>
+        /// Called after the TargetDate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        TargetDate_postRender: $parameters,
+        /// <field>
+        /// Called after the ReleaseDate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ReleaseDate_postRender: $parameters,
+        /// <field>
+        /// Called after the ReportingDate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ReportingDate_postRender: $parameters,
+        /// <field>
+        /// Called after the BusinessKey content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        BusinessKey_postRender: $parameters,
+        /// <field>
+        /// Called after the Notes content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Notes_postRender: $parameters,
+        /// <field>
+        /// Called after the Code content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Code_postRender: $parameters,
+        /// <field>
+        /// Called after the Sharepoint_ID content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Sharepoint_ID_postRender: $parameters,
+        /// <field>
+        /// Called after the ShortName content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ShortName_postRender: $parameters,
+        /// <field>
+        /// Called after the right content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        right_postRender: $parameters,
+        /// <field>
+        /// Called after the TargetDate_ID content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        TargetDate_ID_postRender: $parameters,
+        /// <field>
+        /// Called after the updated content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        updated_postRender: $parameters,
+        /// <field>
+        /// Called after the IsKeyIndicator content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IsKeyIndicator_postRender: $parameters,
+        /// <field>
+        /// Called after the UnitOfMeasure content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        UnitOfMeasure_postRender: $parameters,
+        /// <field>
+        /// Called after the ActiveType content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        ActiveType_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate_postRender: $parameters,
+        /// <field>
+        /// Called after the Activity content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Activity_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate1_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorType content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorType_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate2 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate2_postRender: $parameters,
+        /// <field>
+        /// Called after the Outcome content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Outcome_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate3 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate3_postRender: $parameters,
+        /// <field>
+        /// Called after the Output content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        Output_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate4 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate4_postRender: $parameters,
+        /// <field>
+        /// Called after the SubOutput content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        SubOutput_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate5 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate5_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorLocations content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorLocations_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorLocations1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorLocations1_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate6 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate6_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorValues content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorValues_postRender: $parameters,
+        /// <field>
+        /// Called after the IndicatorValues1 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        IndicatorValues1_postRender: $parameters,
+        /// <field>
+        /// Called after the RowTemplate9 content item has been rendered.
+        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
+        /// </field>
+        RowTemplate9_postRender: $parameters
     });
 
 }(msls.application));

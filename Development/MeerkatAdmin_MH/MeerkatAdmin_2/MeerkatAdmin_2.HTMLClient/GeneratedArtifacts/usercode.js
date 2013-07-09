@@ -13,6 +13,7 @@ document.writeln("<script type=\"text/javascript\" src=\"UserCode/AddEditOutput.
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/AddEditProject.js\"></script>");
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/AddEditSubOutput.js\"></script>");
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/BrowseOutcomes.js\"></script>");
+document.writeln("<script type=\"text/javascript\" src=\"UserCode/BrowseOutputs.js\"></script>");
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/DataSource.js\"></script>");
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/DataVersion.js\"></script>");
 document.writeln("<script type=\"text/javascript\" src=\"UserCode/DataVersionLevel.js\"></script>");

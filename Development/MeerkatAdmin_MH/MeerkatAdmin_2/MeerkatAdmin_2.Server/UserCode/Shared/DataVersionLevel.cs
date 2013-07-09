@@ -11,6 +11,7 @@ namespace LightSwitchApplication
         {
             this.ActiveType = DataWorkspace.MeerkatData.ActiveTypes_SingleOrDefault(1);
 
+
         }
     }
 }

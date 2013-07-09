@@ -1275,6 +1275,471 @@ namespace LightSwitchApplication
         partial void DataVersions_Filtered_ExecuteFailed(global::System.Exception exception);
     
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ActivetypesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivetypesSorted_Executing(string Code);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ActivetypesSorted_PreprocessQuery(string Code, ref global::System.Linq.IQueryable<global::LightSwitchApplication.ActiveType> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivetypesSorted_Executed(string Code, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.ActiveType> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivetypesSorted_ExecuteFailed(string Code, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ActivitiesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivitiesSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ActivitiesSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Activity> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivitiesSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Activity> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ActivitiesSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void DataSourcesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataSourcesSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void DataSourcesSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.DataSource> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataSourcesSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.DataSource> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataSourcesSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void DataVersionLevelsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataVersionLevelsSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void DataVersionLevelsSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.DataVersionLevel> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataVersionLevelsSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.DataVersionLevel> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void DataVersionLevelsSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorLocationsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorLocationsSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorLocationsSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorLocation> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorLocationsSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorLocation> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorLocationsSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Indicator> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Indicator> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorTypesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorTypesSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorTypesSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorType> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorTypesSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorType> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorTypesSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorValuesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorValuesSorted_Executing(string ActualLabel);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void IndicatorValuesSorted_PreprocessQuery(string ActualLabel, ref global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorValue> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorValuesSorted_Executed(string ActualLabel, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorValue> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void IndicatorValuesSorted_ExecuteFailed(string ActualLabel, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void LocationsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationsSorted_Executing(string Area);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void LocationsSorted_PreprocessQuery(string Area, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Location> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationsSorted_Executed(string Area, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Location> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationsSorted_ExecuteFailed(string Area, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void LocationTypesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationTypesSorted_Executing(string Description);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void LocationTypesSorted_PreprocessQuery(string Description, ref global::System.Linq.IQueryable<global::LightSwitchApplication.LocationType> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationTypesSorted_Executed(string Description, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.LocationType> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void LocationTypesSorted_ExecuteFailed(string Description, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestonesLocation_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesLocation_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestonesLocation_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneLocation> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesLocation_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneLocation> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesLocation_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestonesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestonesSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Milestone> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Milestone> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestonesSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestoneTypesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneTypesSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestoneTypesSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneType> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneTypesSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneType> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneTypesSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestoneValuesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneValuesSorted_Executing(string ActualLabel);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void MilestoneValuesSorted_PreprocessQuery(string ActualLabel, ref global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneValue> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneValuesSorted_Executed(string ActualLabel, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneValue> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void MilestoneValuesSorted_ExecuteFailed(string ActualLabel, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationPersonPoles_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationPersonPoles_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationPersonPoles_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationPersonRole> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationPersonPoles_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OrganizationPersonRole> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationPersonPoles_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationsSorted_Executing(string Code);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationsSorted_PreprocessQuery(string Code, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Organization> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationsSorted_Executed(string Code, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Organization> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationsSorted_ExecuteFailed(string Code, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationTypesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationTypesSorted_Executing(string Description);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OrganizationTypesSorted_PreprocessQuery(string Description, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationType> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationTypesSorted_Executed(string Description, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OrganizationType> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OrganizationTypesSorted_ExecuteFailed(string Description, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Query1OutcomeOrganizationsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void Query1OutcomeOrganizationsSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Query1OutcomeOrganizationsSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomeOrganization> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void Query1OutcomeOrganizationsSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutcomeOrganization> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void Query1OutcomeOrganizationsSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutcomePersonRolesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomePersonRolesSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutcomePersonRolesSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomePersonRole> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomePersonRolesSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutcomePersonRole> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomePersonRolesSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutcomesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomesSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutcomesSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Outcome> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomesSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Outcome> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutcomesSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputOutputLinksSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputOutputLinksSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputOutputLinksSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OutputOutputLink> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputOutputLinksSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutputOutputLink> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputOutputLinksSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputPersonRolesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputPersonRolesSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputPersonRolesSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.OutputPersonRole> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputPersonRolesSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutputPersonRole> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputPersonRolesSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputsSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void OutputsSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Output> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputsSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Output> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void OutputsSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void PeopleSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void PeopleSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void PeopleSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Person> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void PeopleSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Person> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void PeopleSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ProjectsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ProjectsSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ProjectsSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Project> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ProjectsSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Project> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ProjectsSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ReportingPeriodsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ReportingPeriodsSorted_Executing(string YearName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ReportingPeriodsSorted_PreprocessQuery(string YearName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.ReportingPeriod> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ReportingPeriodsSorted_Executed(string YearName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.ReportingPeriod> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void ReportingPeriodsSorted_ExecuteFailed(string YearName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void RolesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void RolesSorted_Executing(string Name);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void RolesSorted_PreprocessQuery(string Name, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Role> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void RolesSorted_Executed(string Name, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Role> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void RolesSorted_ExecuteFailed(string Name, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void StatusSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void StatusSorted_Executing(string LongName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void StatusSorted_PreprocessQuery(string LongName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.Status> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void StatusSorted_Executed(string LongName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Status> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void StatusSorted_ExecuteFailed(string LongName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputPersonRolesSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputPersonRolesSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputPersonRolesSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputPersonRole> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputPersonRolesSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutputPersonRole> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputPersonRolesSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputsSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputsSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputsSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutput> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputsSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutput> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputsSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputSubOutputLinksSorted_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputSubOutputLinksSorted_Executing(string ShortName);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void SubOutputSubOutputLinksSorted_PreprocessQuery(string ShortName, ref global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputSubOutputLink> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputSubOutputLinksSorted_Executed(string ShortName, global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutputSubOutputLink> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void SubOutputSubOutputLinksSorted_ExecuteFailed(string ShortName, global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         partial void Query_Executing(global::Microsoft.LightSwitch.QueryExecutingDescriptor queryDescriptor);
     
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -3828,6 +4293,1029 @@ namespace LightSwitchApplication
             {
                 global::System.Linq.IQueryable<global::LightSwitchApplication.DataVersion> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.DataVersion>)args[0];
                 d.DataVersions_Filtered_PreprocessQuery(ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.ActiveType>
+                __ActivetypesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.ActiveType>(
+                    "ActivetypesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivetypesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivetypesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivetypesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivetypesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivetypesSorted_PreprocessQuery);
+            private static bool __ActivetypesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.ActivetypesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __ActivetypesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ActivetypesSorted_Executing((string)args[0]);
+            }
+            private static void __ActivetypesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ActivetypesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.ActiveType>)args[1]);
+            }
+            private static void __ActivetypesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.ActivetypesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __ActivetypesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.ActiveType> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.ActiveType>)args[1];
+                d.ActivetypesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Activity>
+                __ActivitiesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Activity>(
+                    "ActivitiesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivitiesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivitiesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivitiesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivitiesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ActivitiesSorted_PreprocessQuery);
+            private static bool __ActivitiesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.ActivitiesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __ActivitiesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ActivitiesSorted_Executing((string)args[0]);
+            }
+            private static void __ActivitiesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ActivitiesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Activity>)args[1]);
+            }
+            private static void __ActivitiesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.ActivitiesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __ActivitiesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Activity> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Activity>)args[1];
+                d.ActivitiesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.DataSource>
+                __DataSourcesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.DataSource>(
+                    "DataSourcesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataSourcesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataSourcesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataSourcesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataSourcesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataSourcesSorted_PreprocessQuery);
+            private static bool __DataSourcesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.DataSourcesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __DataSourcesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.DataSourcesSorted_Executing((string)args[0]);
+            }
+            private static void __DataSourcesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.DataSourcesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.DataSource>)args[1]);
+            }
+            private static void __DataSourcesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.DataSourcesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __DataSourcesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.DataSource> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.DataSource>)args[1];
+                d.DataSourcesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.DataVersionLevel>
+                __DataVersionLevelsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.DataVersionLevel>(
+                    "DataVersionLevelsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataVersionLevelsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataVersionLevelsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataVersionLevelsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataVersionLevelsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__DataVersionLevelsSorted_PreprocessQuery);
+            private static bool __DataVersionLevelsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.DataVersionLevelsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __DataVersionLevelsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.DataVersionLevelsSorted_Executing((string)args[0]);
+            }
+            private static void __DataVersionLevelsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.DataVersionLevelsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.DataVersionLevel>)args[1]);
+            }
+            private static void __DataVersionLevelsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.DataVersionLevelsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __DataVersionLevelsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.DataVersionLevel> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.DataVersionLevel>)args[1];
+                d.DataVersionLevelsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorLocation>
+                __IndicatorLocationsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorLocation>(
+                    "IndicatorLocationsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorLocationsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorLocationsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorLocationsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorLocationsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorLocationsSorted_PreprocessQuery);
+            private static bool __IndicatorLocationsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.IndicatorLocationsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __IndicatorLocationsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorLocationsSorted_Executing((string)args[0]);
+            }
+            private static void __IndicatorLocationsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorLocationsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorLocation>)args[1]);
+            }
+            private static void __IndicatorLocationsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.IndicatorLocationsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __IndicatorLocationsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorLocation> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorLocation>)args[1];
+                d.IndicatorLocationsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Indicator>
+                __IndicatorSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Indicator>(
+                    "IndicatorSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorSorted_PreprocessQuery);
+            private static bool __IndicatorSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.IndicatorSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __IndicatorSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorSorted_Executing((string)args[0]);
+            }
+            private static void __IndicatorSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Indicator>)args[1]);
+            }
+            private static void __IndicatorSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.IndicatorSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __IndicatorSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Indicator> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Indicator>)args[1];
+                d.IndicatorSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorType>
+                __IndicatorTypesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorType>(
+                    "IndicatorTypesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorTypesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorTypesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorTypesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorTypesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorTypesSorted_PreprocessQuery);
+            private static bool __IndicatorTypesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.IndicatorTypesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __IndicatorTypesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorTypesSorted_Executing((string)args[0]);
+            }
+            private static void __IndicatorTypesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorTypesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorType>)args[1]);
+            }
+            private static void __IndicatorTypesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.IndicatorTypesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __IndicatorTypesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorType> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorType>)args[1];
+                d.IndicatorTypesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorValue>
+                __IndicatorValuesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.IndicatorValue>(
+                    "IndicatorValuesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorValuesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorValuesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorValuesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorValuesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__IndicatorValuesSorted_PreprocessQuery);
+            private static bool __IndicatorValuesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.IndicatorValuesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __IndicatorValuesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorValuesSorted_Executing((string)args[0]);
+            }
+            private static void __IndicatorValuesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.IndicatorValuesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.IndicatorValue>)args[1]);
+            }
+            private static void __IndicatorValuesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.IndicatorValuesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __IndicatorValuesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorValue> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.IndicatorValue>)args[1];
+                d.IndicatorValuesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Location>
+                __LocationsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Location>(
+                    "LocationsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationsSorted_PreprocessQuery);
+            private static bool __LocationsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.LocationsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __LocationsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.LocationsSorted_Executing((string)args[0]);
+            }
+            private static void __LocationsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.LocationsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Location>)args[1]);
+            }
+            private static void __LocationsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.LocationsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __LocationsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Location> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Location>)args[1];
+                d.LocationsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.LocationType>
+                __LocationTypesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.LocationType>(
+                    "LocationTypesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationTypesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationTypesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationTypesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationTypesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__LocationTypesSorted_PreprocessQuery);
+            private static bool __LocationTypesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.LocationTypesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __LocationTypesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.LocationTypesSorted_Executing((string)args[0]);
+            }
+            private static void __LocationTypesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.LocationTypesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.LocationType>)args[1]);
+            }
+            private static void __LocationTypesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.LocationTypesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __LocationTypesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.LocationType> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.LocationType>)args[1];
+                d.LocationTypesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneLocation>
+                __MilestonesLocationEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneLocation>(
+                    "MilestonesLocation",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesLocation_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesLocation_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesLocation_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesLocation_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesLocation_PreprocessQuery);
+            private static bool __MilestonesLocation_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.MilestonesLocation_CanExecute(ref r);
+                return r;
+            }
+            private static void __MilestonesLocation_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestonesLocation_Executing((string)args[0]);
+            }
+            private static void __MilestonesLocation_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestonesLocation_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneLocation>)args[1]);
+            }
+            private static void __MilestonesLocation_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.MilestonesLocation_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __MilestonesLocation_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneLocation> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneLocation>)args[1];
+                d.MilestonesLocation_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Milestone>
+                __MilestonesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Milestone>(
+                    "MilestonesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestonesSorted_PreprocessQuery);
+            private static bool __MilestonesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.MilestonesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __MilestonesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestonesSorted_Executing((string)args[0]);
+            }
+            private static void __MilestonesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestonesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Milestone>)args[1]);
+            }
+            private static void __MilestonesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.MilestonesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __MilestonesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Milestone> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Milestone>)args[1];
+                d.MilestonesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneType>
+                __MilestoneTypesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneType>(
+                    "MilestoneTypesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneTypesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneTypesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneTypesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneTypesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneTypesSorted_PreprocessQuery);
+            private static bool __MilestoneTypesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.MilestoneTypesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __MilestoneTypesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestoneTypesSorted_Executing((string)args[0]);
+            }
+            private static void __MilestoneTypesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestoneTypesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneType>)args[1]);
+            }
+            private static void __MilestoneTypesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.MilestoneTypesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __MilestoneTypesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneType> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneType>)args[1];
+                d.MilestoneTypesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneValue>
+                __MilestoneValuesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.MilestoneValue>(
+                    "MilestoneValuesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneValuesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneValuesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneValuesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneValuesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__MilestoneValuesSorted_PreprocessQuery);
+            private static bool __MilestoneValuesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.MilestoneValuesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __MilestoneValuesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestoneValuesSorted_Executing((string)args[0]);
+            }
+            private static void __MilestoneValuesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.MilestoneValuesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.MilestoneValue>)args[1]);
+            }
+            private static void __MilestoneValuesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.MilestoneValuesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __MilestoneValuesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneValue> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.MilestoneValue>)args[1];
+                d.MilestoneValuesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OrganizationPersonRole>
+                __OrganizationPersonPolesEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OrganizationPersonRole>(
+                    "OrganizationPersonPoles",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationPersonPoles_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationPersonPoles_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationPersonPoles_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationPersonPoles_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationPersonPoles_PreprocessQuery);
+            private static bool __OrganizationPersonPoles_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OrganizationPersonPoles_CanExecute(ref r);
+                return r;
+            }
+            private static void __OrganizationPersonPoles_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationPersonPoles_Executing((string)args[0]);
+            }
+            private static void __OrganizationPersonPoles_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationPersonPoles_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OrganizationPersonRole>)args[1]);
+            }
+            private static void __OrganizationPersonPoles_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OrganizationPersonPoles_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OrganizationPersonPoles_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationPersonRole> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationPersonRole>)args[1];
+                d.OrganizationPersonPoles_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Organization>
+                __OrganizationsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Organization>(
+                    "OrganizationsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationsSorted_PreprocessQuery);
+            private static bool __OrganizationsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OrganizationsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OrganizationsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationsSorted_Executing((string)args[0]);
+            }
+            private static void __OrganizationsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Organization>)args[1]);
+            }
+            private static void __OrganizationsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OrganizationsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OrganizationsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Organization> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Organization>)args[1];
+                d.OrganizationsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OrganizationType>
+                __OrganizationTypesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OrganizationType>(
+                    "OrganizationTypesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationTypesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationTypesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationTypesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationTypesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OrganizationTypesSorted_PreprocessQuery);
+            private static bool __OrganizationTypesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OrganizationTypesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OrganizationTypesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationTypesSorted_Executing((string)args[0]);
+            }
+            private static void __OrganizationTypesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OrganizationTypesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OrganizationType>)args[1]);
+            }
+            private static void __OrganizationTypesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OrganizationTypesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OrganizationTypesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationType> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OrganizationType>)args[1];
+                d.OrganizationTypesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutcomeOrganization>
+                __Query1OutcomeOrganizationsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutcomeOrganization>(
+                    "Query1OutcomeOrganizationsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__Query1OutcomeOrganizationsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__Query1OutcomeOrganizationsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__Query1OutcomeOrganizationsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__Query1OutcomeOrganizationsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__Query1OutcomeOrganizationsSorted_PreprocessQuery);
+            private static bool __Query1OutcomeOrganizationsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.Query1OutcomeOrganizationsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __Query1OutcomeOrganizationsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.Query1OutcomeOrganizationsSorted_Executing((string)args[0]);
+            }
+            private static void __Query1OutcomeOrganizationsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.Query1OutcomeOrganizationsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutcomeOrganization>)args[1]);
+            }
+            private static void __Query1OutcomeOrganizationsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.Query1OutcomeOrganizationsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __Query1OutcomeOrganizationsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomeOrganization> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomeOrganization>)args[1];
+                d.Query1OutcomeOrganizationsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutcomePersonRole>
+                __OutcomePersonRolesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutcomePersonRole>(
+                    "OutcomePersonRolesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomePersonRolesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomePersonRolesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomePersonRolesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomePersonRolesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomePersonRolesSorted_PreprocessQuery);
+            private static bool __OutcomePersonRolesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OutcomePersonRolesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OutcomePersonRolesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutcomePersonRolesSorted_Executing((string)args[0]);
+            }
+            private static void __OutcomePersonRolesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutcomePersonRolesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutcomePersonRole>)args[1]);
+            }
+            private static void __OutcomePersonRolesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OutcomePersonRolesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OutcomePersonRolesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomePersonRole> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OutcomePersonRole>)args[1];
+                d.OutcomePersonRolesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Outcome>
+                __OutcomesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Outcome>(
+                    "OutcomesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutcomesSorted_PreprocessQuery);
+            private static bool __OutcomesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OutcomesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OutcomesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutcomesSorted_Executing((string)args[0]);
+            }
+            private static void __OutcomesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutcomesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Outcome>)args[1]);
+            }
+            private static void __OutcomesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OutcomesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OutcomesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Outcome> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Outcome>)args[1];
+                d.OutcomesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutputOutputLink>
+                __OutputOutputLinksSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutputOutputLink>(
+                    "OutputOutputLinksSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputOutputLinksSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputOutputLinksSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputOutputLinksSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputOutputLinksSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputOutputLinksSorted_PreprocessQuery);
+            private static bool __OutputOutputLinksSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OutputOutputLinksSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OutputOutputLinksSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputOutputLinksSorted_Executing((string)args[0]);
+            }
+            private static void __OutputOutputLinksSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputOutputLinksSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutputOutputLink>)args[1]);
+            }
+            private static void __OutputOutputLinksSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OutputOutputLinksSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OutputOutputLinksSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OutputOutputLink> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OutputOutputLink>)args[1];
+                d.OutputOutputLinksSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutputPersonRole>
+                __OutputPersonRolesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.OutputPersonRole>(
+                    "OutputPersonRolesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputPersonRolesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputPersonRolesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputPersonRolesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputPersonRolesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputPersonRolesSorted_PreprocessQuery);
+            private static bool __OutputPersonRolesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OutputPersonRolesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OutputPersonRolesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputPersonRolesSorted_Executing((string)args[0]);
+            }
+            private static void __OutputPersonRolesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputPersonRolesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.OutputPersonRole>)args[1]);
+            }
+            private static void __OutputPersonRolesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OutputPersonRolesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OutputPersonRolesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.OutputPersonRole> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.OutputPersonRole>)args[1];
+                d.OutputPersonRolesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Output>
+                __OutputsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Output>(
+                    "OutputsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__OutputsSorted_PreprocessQuery);
+            private static bool __OutputsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.OutputsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __OutputsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputsSorted_Executing((string)args[0]);
+            }
+            private static void __OutputsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.OutputsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Output>)args[1]);
+            }
+            private static void __OutputsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.OutputsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __OutputsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Output> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Output>)args[1];
+                d.OutputsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Person>
+                __PeopleSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Person>(
+                    "PeopleSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__PeopleSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__PeopleSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__PeopleSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__PeopleSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__PeopleSorted_PreprocessQuery);
+            private static bool __PeopleSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.PeopleSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __PeopleSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.PeopleSorted_Executing((string)args[0]);
+            }
+            private static void __PeopleSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.PeopleSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Person>)args[1]);
+            }
+            private static void __PeopleSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.PeopleSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __PeopleSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Person> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Person>)args[1];
+                d.PeopleSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Project>
+                __ProjectsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Project>(
+                    "ProjectsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ProjectsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ProjectsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ProjectsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ProjectsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ProjectsSorted_PreprocessQuery);
+            private static bool __ProjectsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.ProjectsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __ProjectsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ProjectsSorted_Executing((string)args[0]);
+            }
+            private static void __ProjectsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ProjectsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Project>)args[1]);
+            }
+            private static void __ProjectsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.ProjectsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __ProjectsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Project> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Project>)args[1];
+                d.ProjectsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.ReportingPeriod>
+                __ReportingPeriodsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.ReportingPeriod>(
+                    "ReportingPeriodsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ReportingPeriodsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ReportingPeriodsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ReportingPeriodsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ReportingPeriodsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__ReportingPeriodsSorted_PreprocessQuery);
+            private static bool __ReportingPeriodsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.ReportingPeriodsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __ReportingPeriodsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ReportingPeriodsSorted_Executing((string)args[0]);
+            }
+            private static void __ReportingPeriodsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.ReportingPeriodsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.ReportingPeriod>)args[1]);
+            }
+            private static void __ReportingPeriodsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.ReportingPeriodsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __ReportingPeriodsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.ReportingPeriod> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.ReportingPeriod>)args[1];
+                d.ReportingPeriodsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Role>
+                __RolesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Role>(
+                    "RolesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__RolesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__RolesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__RolesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__RolesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__RolesSorted_PreprocessQuery);
+            private static bool __RolesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.RolesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __RolesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.RolesSorted_Executing((string)args[0]);
+            }
+            private static void __RolesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.RolesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Role>)args[1]);
+            }
+            private static void __RolesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.RolesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __RolesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Role> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Role>)args[1];
+                d.RolesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Status>
+                __StatusSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.Status>(
+                    "StatusSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__StatusSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__StatusSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__StatusSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__StatusSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__StatusSorted_PreprocessQuery);
+            private static bool __StatusSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.StatusSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __StatusSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.StatusSorted_Executing((string)args[0]);
+            }
+            private static void __StatusSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.StatusSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.Status>)args[1]);
+            }
+            private static void __StatusSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.StatusSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __StatusSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.Status> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.Status>)args[1];
+                d.StatusSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutputPersonRole>
+                __SubOutputPersonRolesSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutputPersonRole>(
+                    "SubOutputPersonRolesSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputPersonRolesSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputPersonRolesSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputPersonRolesSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputPersonRolesSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputPersonRolesSorted_PreprocessQuery);
+            private static bool __SubOutputPersonRolesSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.SubOutputPersonRolesSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __SubOutputPersonRolesSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputPersonRolesSorted_Executing((string)args[0]);
+            }
+            private static void __SubOutputPersonRolesSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputPersonRolesSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutputPersonRole>)args[1]);
+            }
+            private static void __SubOutputPersonRolesSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.SubOutputPersonRolesSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __SubOutputPersonRolesSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputPersonRole> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputPersonRole>)args[1];
+                d.SubOutputPersonRolesSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutput>
+                __SubOutputsSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutput>(
+                    "SubOutputsSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputsSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputsSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputsSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputsSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputsSorted_PreprocessQuery);
+            private static bool __SubOutputsSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.SubOutputsSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __SubOutputsSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputsSorted_Executing((string)args[0]);
+            }
+            private static void __SubOutputsSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputsSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutput>)args[1]);
+            }
+            private static void __SubOutputsSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.SubOutputsSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __SubOutputsSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutput> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutput>)args[1];
+                d.SubOutputsSorted_PreprocessQuery((string)args[0], ref query);
+                return query;
+            }
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutputSubOutputLink>
+                __SubOutputSubOutputLinksSortedEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.MeerkatDataService, global::LightSwitchApplication.SubOutputSubOutputLink>(
+                    "SubOutputSubOutputLinksSorted",
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputSubOutputLinksSorted_CanExecute,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputSubOutputLinksSorted_Executing,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputSubOutputLinksSorted_Executed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputSubOutputLinksSorted_Failed,
+                    global::LightSwitchApplication.MeerkatDataService.DetailsClass.__SubOutputSubOutputLinksSorted_PreprocessQuery);
+            private static bool __SubOutputSubOutputLinksSorted_CanExecute(global::LightSwitchApplication.MeerkatDataService d, bool r)
+            {
+                d.SubOutputSubOutputLinksSorted_CanExecute(ref r);
+                return r;
+            }
+            private static void __SubOutputSubOutputLinksSorted_Executing(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputSubOutputLinksSorted_Executing((string)args[0]);
+            }
+            private static void __SubOutputSubOutputLinksSorted_Executed(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                d.SubOutputSubOutputLinksSorted_Executed((string)args[0], (global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.SubOutputSubOutputLink>)args[1]);
+            }
+            private static void __SubOutputSubOutputLinksSorted_Failed(global::LightSwitchApplication.MeerkatDataService d, object[] args, global::System.Exception ex)
+            {
+                d.SubOutputSubOutputLinksSorted_ExecuteFailed((string)args[0], ex);
+            }
+            private static global::System.Linq.IQueryable __SubOutputSubOutputLinksSorted_PreprocessQuery(global::LightSwitchApplication.MeerkatDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputSubOutputLink> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.SubOutputSubOutputLink>)args[1];
+                d.SubOutputSubOutputLinksSorted_PreprocessQuery((string)args[0], ref query);
                 return query;
             }
     

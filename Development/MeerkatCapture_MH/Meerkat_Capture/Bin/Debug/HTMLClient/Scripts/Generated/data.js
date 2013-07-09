@@ -2980,6 +2980,285 @@ window.myapp = msls.application;
                         lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/Status(" + "StatusID=" + $toODataString(StatusID, "Int32?") + ")"
                     );
                 }
+            },
+            {
+                name: "ActivetypesSorted", value: function (Code) {
+                    return new $DataServiceQuery({ _entitySet: this.ActiveTypes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/ActivetypesSorted()",
+                        {
+                            Code: $toODataString(Code, "String?")
+                        });
+                }
+            },
+            {
+                name: "ActivitiesSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Activities },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/ActivitiesSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "DataSourcesSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.DataSources },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/DataSourcesSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "DataVersionLevelsSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.DataVersionLevels },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/DataVersionLevelsSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "IndicatorLocationsSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.IndicatorLocations },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/IndicatorLocationsSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "IndicatorSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Indicators },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/IndicatorSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "IndicatorTypesSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.IndicatorTypes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/IndicatorTypesSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "IndicatorValuesSorted", value: function (ActualLabel) {
+                    return new $DataServiceQuery({ _entitySet: this.IndicatorValues },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/IndicatorValuesSorted()",
+                        {
+                            ActualLabel: $toODataString(ActualLabel, "String?")
+                        });
+                }
+            },
+            {
+                name: "LocationsSorted", value: function (Area) {
+                    return new $DataServiceQuery({ _entitySet: this.Locations },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/LocationsSorted()",
+                        {
+                            Area: $toODataString(Area, "String?")
+                        });
+                }
+            },
+            {
+                name: "LocationTypesSorted", value: function (Description) {
+                    return new $DataServiceQuery({ _entitySet: this.LocationTypes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/LocationTypesSorted()",
+                        {
+                            Description: $toODataString(Description, "String?")
+                        });
+                }
+            },
+            {
+                name: "MilestonesLocation", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.MilestoneLocations },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/MilestonesLocation()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "MilestonesSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Milestones },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/MilestonesSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "MilestoneTypesSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.MilestoneTypes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/MilestoneTypesSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "MilestoneValuesSorted", value: function (ActualLabel) {
+                    return new $DataServiceQuery({ _entitySet: this.MilestoneValues },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/MilestoneValuesSorted()",
+                        {
+                            ActualLabel: $toODataString(ActualLabel, "String?")
+                        });
+                }
+            },
+            {
+                name: "OrganizationPersonPoles", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.OrganizationPersonRoles },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OrganizationPersonPoles()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "OrganizationsSorted", value: function (Code) {
+                    return new $DataServiceQuery({ _entitySet: this.Organizations },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OrganizationsSorted()",
+                        {
+                            Code: $toODataString(Code, "String?")
+                        });
+                }
+            },
+            {
+                name: "OrganizationTypesSorted", value: function (Description) {
+                    return new $DataServiceQuery({ _entitySet: this.OrganizationTypes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OrganizationTypesSorted()",
+                        {
+                            Description: $toODataString(Description, "String?")
+                        });
+                }
+            },
+            {
+                name: "Query1OutcomeOrganizationsSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.OutcomeOrganizations },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/Query1OutcomeOrganizationsSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "OutcomePersonRolesSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.OutcomePersonRoles },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OutcomePersonRolesSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "OutcomesSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Outcomes },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OutcomesSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "OutputOutputLinksSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.OutputOutputLinks },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OutputOutputLinksSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "OutputPersonRolesSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.OutputPersonRoles },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OutputPersonRolesSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "OutputsSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Outputs },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/OutputsSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "PeopleSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.People },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/PeopleSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "ProjectsSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.Projects },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/ProjectsSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "ReportingPeriodsSorted", value: function (YearName) {
+                    return new $DataServiceQuery({ _entitySet: this.ReportingPeriods },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/ReportingPeriodsSorted()",
+                        {
+                            YearName: $toODataString(YearName, "String?")
+                        });
+                }
+            },
+            {
+                name: "RolesSorted", value: function (Name) {
+                    return new $DataServiceQuery({ _entitySet: this.Roles },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/RolesSorted()",
+                        {
+                            Name: $toODataString(Name, "String?")
+                        });
+                }
+            },
+            {
+                name: "StatusSorted", value: function (LongName) {
+                    return new $DataServiceQuery({ _entitySet: this.Status },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/StatusSorted()",
+                        {
+                            LongName: $toODataString(LongName, "String?")
+                        });
+                }
+            },
+            {
+                name: "SubOutputPersonRolesSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.SubOutputPersonRoles },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/SubOutputPersonRolesSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "SubOutputsSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.SubOutputs },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/SubOutputsSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
+            },
+            {
+                name: "SubOutputSubOutputLinksSorted", value: function (ShortName) {
+                    return new $DataServiceQuery({ _entitySet: this.SubOutputSubOutputLinks },
+                        lightSwitchApplication.rootUri + "/MeerkatData.svc" + "/SubOutputSubOutputLinksSorted()",
+                        {
+                            ShortName: $toODataString(ShortName, "String?")
+                        });
+                }
             }
         ]),
 

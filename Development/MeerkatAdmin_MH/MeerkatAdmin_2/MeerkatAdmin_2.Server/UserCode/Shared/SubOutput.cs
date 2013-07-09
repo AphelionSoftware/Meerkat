@@ -10,6 +10,9 @@ namespace LightSwitchApplication
         partial void SubOutput_Created()
         {
             this.ActiveType = DataWorkspace.MeerkatData.ActiveTypes_SingleOrDefault(1);
+            //HttpContext.Current.Server.UrlEncode("Some String");
+            this.ShortName = System.Web.HttpUtility.UrlEncode(this.ShortName);
         }
     }
+
 }

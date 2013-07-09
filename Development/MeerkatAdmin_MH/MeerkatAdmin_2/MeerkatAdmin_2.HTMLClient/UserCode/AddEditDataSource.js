@@ -3,6 +3,15 @@
 myapp.AddEditDataSource.DataSource_Delete_execute = function (screen) {
     // Write code here.
     var DataSource = screen.DataSource;
+    DataSource.deleteEntity();
+
+    return myapp.commitChanges().then(null, function fail(e) {
+
+        myapp.cancelChanges();
+
+        throw e;
+
+    });
 
     // Can only safely do this if the DataSource is not modified.
     if (DataSource.details.entityState !== msls.EntityState.unchanged) {
