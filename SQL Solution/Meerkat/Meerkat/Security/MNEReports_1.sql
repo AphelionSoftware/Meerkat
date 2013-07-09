@@ -1,3 +1,0 @@
-﻿CREATE LOGIN [MNEReports]
-    WITH PASSWORD = N'ryovzjVtcaitwdsh<mdsktz|msFT7_&#$!~<{?g#tq{jVttx', SID = 0xEBDD476C4274D544A2F11CA45377E630, DEFAULT_DATABASE = [Meerkat], DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
-
