@@ -1,4 +1,4 @@
-Meerat
+Meerkat
 ======
 
-Meerat
+Meerkat
