@@ -95,7 +95,8 @@ FROM app.Outcome OM
 	INNER JOIN app.Activity ACT
 		ON PR.projectID = ACT.projectID
 	 INNER JOIN app.Indicator SOI 
-	ON ACT.SubOutput_ID = SOI.SubOutput_ID 
+	 /* MGS Fixed */
+	ON ACT.ActivityID = SOI.Activity_ID 
 	 AND SOI.IndicatorType_ID = 6
 
 	 

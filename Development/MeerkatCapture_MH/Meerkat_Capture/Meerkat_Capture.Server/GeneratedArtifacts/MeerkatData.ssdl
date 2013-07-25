@@ -34,14 +34,6 @@
     <EntitySet Name="IndicatorValues" EntityType="MeerkatDataStore.IndicatorValue" store:Type="Tables" Schema="RBM" Table="IndicatorValues" />
     <EntitySet Name="MilestoneValues" EntityType="MeerkatDataStore.MilestoneValue" store:Type="Tables" Schema="RBM" Table="MilestoneValues" />
     <EntitySet Name="Status" EntityType="MeerkatDataStore.Status" store:Type="Tables" Schema="app" Table="Status" />
-    <AssociationSet Name="FK_Activity_ActiveType" Association="MeerkatDataStore.FK_Activity_ActiveType">
-      <End Role="ActiveType" EntitySet="ActiveTypes" />
-      <End Role="Activity" EntitySet="Activities" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Activity_Project" Association="MeerkatDataStore.FK_Activity_Project">
-      <End Role="Project" EntitySet="Projects" />
-      <End Role="Activity" EntitySet="Activities" />
-    </AssociationSet>
     <AssociationSet Name="FK_DataSource_ActiveType" Association="MeerkatDataStore.FK_DataSource_ActiveType">
       <End Role="ActiveType" EntitySet="ActiveTypes" />
       <End Role="DataSource" EntitySet="DataSources" />
@@ -378,6 +370,10 @@
       <End Role="SubOutput" EntitySet="SubOutputs" />
       <End Role="Status" EntitySet="Status" />
     </AssociationSet>
+    <AssociationSet Name="FK_Activity_ActiveType" Association="MeerkatDataStore.FK_Activity_ActiveType">
+      <End Role="ActiveType" EntitySet="ActiveTypes" />
+      <End Role="Activity" EntitySet="Activities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Activity">
     <Key>
@@ -385,17 +381,15 @@
     </Key>
     <Property Name="ActivityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ShortName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="LongName" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="LongName" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="TextDescription" Type="varchar(max)" Nullable="false" />
     <Property Name="sys_CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="sys_ModifiedBy" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="sys_CreatedOn" Type="datetime" Nullable="false" />
     <Property Name="sys_ModifiedOn" Type="datetime" Nullable="false" />
-    <Property Name="Code" Type="varchar" MaxLength="50" />
-    <Property Name="SubOutput_ID" Type="int" />
-    <Property Name="ActivityType_ID" Type="int" />
-    <Property Name="Active" Type="int" Nullable="false" />
+    <Property Name="Code" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="Active" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -968,30 +962,6 @@
     <Property Name="Output_ID" Type="int" />
     <Property Name="SubOutput_ID" Type="int" />
   </EntityType>
-  <Association Name="FK_Activity_ActiveType">
-    <End Role="ActiveType" Type="MeerkatDataStore.ActiveType" Multiplicity="1" />
-    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ActiveType">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Activity">
-        <PropertyRef Name="Active" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Activity_Project">
-    <End Role="Project" Type="MeerkatDataStore.Project" Multiplicity="1" />
-    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="Activity">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_DataSource_ActiveType">
     <End Role="ActiveType" Type="MeerkatDataStore.ActiveType" Multiplicity="1" />
     <End Role="DataSource" Type="MeerkatDataStore.DataSource" Multiplicity="*" />
@@ -1997,6 +1967,18 @@
       </Principal>
       <Dependent Role="Status">
         <PropertyRef Name="SubOutput_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Activity_ActiveType">
+    <End Role="ActiveType" Type="MeerkatDataStore.ActiveType" Multiplicity="1" />
+    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActiveType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="Active" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

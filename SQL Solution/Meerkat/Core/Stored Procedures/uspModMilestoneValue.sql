@@ -36,6 +36,7 @@ CREATE PROCEDURE [Core].[uspModMilestoneValue]
 	@Username as [varchar](255) 
 
 AS
+/*
 BEGIN
 	
 	SET NOCOUNT ON;
@@ -121,14 +122,14 @@ IF @CRUD in ('C','U')
 	
 	Set 
 	t.[Milestone_ID]=s.[Milestone_ID],
-t.[BaselineLabel]=s.[BaselineLabel],
+/*t.[BaselineLabel]=s.[BaselineLabel],
 t.[BaselineValue]=s.[BaselineValue],
 t.[BaselineString]=s.[BaselineString],
 t.[BaselineDate]=s.[BaselineDate],
 t.[TargetLabel]=s.[TargetLabel],
 t.[TargetValue]=s.[TargetValue],
 t.[TargetValueString]=s.[TargetValueString],
-t.[TargetDate]=s.[TargetDate],
+t.[TargetDate]=s.[TargetDate],*/
 t.[ActualLabel]=s.[ActualLabel],
 t.[ActualValue]=s.[ActualValue],
 t.[ActualValueString]=s.[ActualValueString],
@@ -241,5 +242,7 @@ End
 
 
 END
+*/
+SELECT 'Not implemented' as X
 
 

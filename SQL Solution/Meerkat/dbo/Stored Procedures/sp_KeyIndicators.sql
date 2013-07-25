@@ -8,7 +8,7 @@ CREATE PROC [sp_KeyIndicators]
 , @IncludeExtrapolatedTargetDates int = 0
 as
 
-
+/*
 SELECT  
 
 --rcdate,rcedate,
@@ -193,3 +193,7 @@ AND (iv.IndicatorValues_ID IS NOT NULL OR @IncludeExtrapolatedTargetDates =1)
 --where Code = 'STP8.1.4D1'
 ORDER BY Code, ReportCycleDate_ID
 
+*/
+SELECT 'Not implemented' as X
+
+GO

@@ -1,6 +1,7 @@
 ﻿
 CREATE VIEW [mm].[oldOutcome3MenuLink]
 AS
+/*
 SELECT     Title = 'Indicator Details', 
                       Link = '/Outcome3/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' + '[Sub Output].[Sub Output].%26[' + CAST(dso.SubOutput_ID
                        AS varchar(8)) + ']', ID = 100 * dso.suboutput_id, Parent =
@@ -31,8 +32,8 @@ app.DimActivity da INNER JOIN
 app.DimSubOutput dso ON da.SubOutput_ID = dso.SubOutput_ID INNER JOIN
 app.DimOutput do ON dso.Output_ID = do.Output_ID
 WHERE do.outcomeId=10
-
-
+*/
+SELECT 'Not implemented' as X
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_DiagramPane1', @value = N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]

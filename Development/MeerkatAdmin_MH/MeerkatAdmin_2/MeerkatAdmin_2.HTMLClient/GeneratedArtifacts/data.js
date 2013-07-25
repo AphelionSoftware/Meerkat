@@ -59,11 +59,11 @@ window.myapp = msls.application;
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this activity.
         /// </field>
-        /// <field name="SubOutput_ID" type="Number">
-        /// Gets or sets the subOutput_ID for this activity.
-        /// </field>
         /// <field name="ActivityType_ID" type="Number">
         /// Gets or sets the activityType_ID for this activity.
+        /// </field>
+        /// <field name="SubOutput" type="msls.application.SubOutput">
+        /// Gets or sets the subOutput for this activity.
         /// </field>
         /// <field name="details" type="msls.application.Activity.Details">
         /// Gets the details for this activity.
@@ -797,6 +797,9 @@ window.myapp = msls.application;
         /// </field>
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this subOutput.
+        /// </field>
+        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
+        /// Gets the activities for this subOutput.
         /// </field>
         /// <field name="details" type="msls.application.SubOutput.Details">
         /// Gets the details for this subOutput.
@@ -1801,8 +1804,8 @@ window.myapp = msls.application;
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Milestones", kind: "collection", elementType: Milestone },
             { name: "ActiveType", kind: "reference", type: ActiveType },
-            { name: "SubOutput_ID", type: Number },
-            { name: "ActivityType_ID", type: Number }
+            { name: "ActivityType_ID", type: Number },
+            { name: "SubOutput", kind: "reference", type: SubOutput }
         ]),
 
         Indicator: $defineEntity(Indicator, [
@@ -2029,7 +2032,8 @@ window.myapp = msls.application;
             { name: "sys_ModifiedBy", type: String },
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Output", kind: "reference", type: Output },
-            { name: "ActiveType", kind: "reference", type: ActiveType }
+            { name: "ActiveType", kind: "reference", type: ActiveType },
+            { name: "Activities", kind: "collection", elementType: Activity }
         ]),
 
         DataSource: $defineEntity(DataSource, [

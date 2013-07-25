@@ -622,37 +622,7 @@
         /// Called after the Code content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
-        Code_postRender: $parameters,
-        /// <field>
-        /// Called after the ActiveType content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        ActiveType_postRender: $parameters,
-        /// <field>
-        /// Called after the RowTemplate content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        RowTemplate_postRender: $parameters,
-        /// <field>
-        /// Called after the Project content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        Project_postRender: $parameters,
-        /// <field>
-        /// Called after the RowTemplate1 content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        RowTemplate1_postRender: $parameters,
-        /// <field>
-        /// Called after the SubOutput_ID content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        SubOutput_ID_postRender: $parameters,
-        /// <field>
-        /// Called after the ActivityType_ID content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        ActivityType_ID_postRender: $parameters
+        Code_postRender: $parameters
     });
 
     msls._addEntryPoints(lightSwitchApplication.AddEditIndicator, {

@@ -8,6 +8,7 @@ Create PROC [Core].[sp_MilestoneCaptureProgress]
 , @Location_ID int =1
 , @MilestoneCode varchar(255) = '0'
 AS
+/*
 
 
 
@@ -54,6 +55,8 @@ order by (OC.Code + ' : ' + OC.LongName)
       ,RC.YearNumber
       ,rc.ReportingPeriod
       
+	  */
+	  SELECT 'Not implemented' as X
 
 
 

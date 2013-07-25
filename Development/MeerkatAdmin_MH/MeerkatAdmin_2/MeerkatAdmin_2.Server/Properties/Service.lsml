@@ -146,19 +146,17 @@
         FromEnd="Activity"
         ToEnd="ActiveType" />
       <EntityProperty
-        Name="SubOutput_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="ActivityType_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="SubOutput"
+        Association="FK_Activity_SubOutput"
+        FromEnd="Activity"
+        ToEnd="SubOutput" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -1887,6 +1885,11 @@
         Association="FK_SubOutput_ActiveType"
         FromEnd="SubOutput"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Activities"
+        Association="FK_Activity_SubOutput"
+        FromEnd="SubOutput"
+        ToEnd="Activity" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -8437,6 +8440,16 @@
         </SortCriterion>
       </QueryOperation.SortCriteria>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Activity_SubOutput"
+      Association="FK_Activity_SubOutput">
+      <AssociationSetEnd
+        Name="SubOutput"
+        EntitySet="SubOutputs" />
+      <AssociationSetEnd
+        Name="Activity"
+        EntitySet="Activities" />
+    </AssociationSet>
   </EntityContainer>
   <GlobalAttributeGroup
     Name="LightSwitchServiceApplicationGroup">
@@ -9082,6 +9095,20 @@
       Multiplicity="Many"
       EntityType="MilestoneValue" />
   </Association>
+  <Association
+    Name="FK_Activity_SubOutput">
+    <AssociationEnd
+      Name="SubOutput"
+      EntityType="SubOutput">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Activity"
+      Multiplicity="Many"
+      EntityType="Activity" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService"
     DataProvider="EntityFrameworkDataProvider"
@@ -9098,7 +9125,7 @@
         Value="System.Data.SqlClient" />
       <ConnectionProperty
         Name="ConnectionStringGuid"
-        Value="ee3d1f54-9d6c-4d49-aa19-f38357880c9b" />
+        Value="5b74160a-0298-4aee-9f76-d99e46511ede" />
       <ConnectionProperty
         Name="ProviderManifestToken"
         Value="2008" />
@@ -9139,11 +9166,6 @@
           Type="varchar"
           Property="Activity/Properties[Code]" />
         <SsdlProperty
-          Name="SubOutput_ID"
-          Nullable="True"
-          Type="int"
-          Property="Activity/Properties[SubOutput_ID]" />
-        <SsdlProperty
           Name="ActivityType_ID"
           Nullable="True"
           Type="int"
@@ -9177,9 +9199,14 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="ProjectID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="ProjectID" />
+        <SsdlForeignKeyProperty
+          Name="SubOutput_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubOutput_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <EntitySetMapping
@@ -11347,6 +11374,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Activity_SubOutput">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Activity_SubOutput" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Activity_SubOutput]/Members[SubOutput]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="SubOutput_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Activity_SubOutput]/Members[Activity]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="SubOutput_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

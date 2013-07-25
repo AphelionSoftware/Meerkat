@@ -13,14 +13,15 @@
     <Property Name="sys_CreatedOn" Type="Edm.DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
     <Property Name="sys_ModifiedOn" Type="Edm.DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
     <Property Name="Code" Type="Edm.String" MaxLength="50" Unicode="false" ConcurrencyMode="Fixed" />
-    <Property Name="SubOutput_ID" Type="Edm.Int32" ConcurrencyMode="Fixed" />
     <Property Name="ActivityType_ID" Type="Edm.Int32" ConcurrencyMode="Fixed" />
-    <Property Name="ProjectID" Type="Edm.Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="ProjectID" Type="Edm.Int32" ConcurrencyMode="Fixed" />
     <Property Name="Active" Type="Edm.Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="SubOutput_ID" Type="Edm.Int32" ConcurrencyMode="Fixed" />
     <NavigationProperty Name="Project" Relationship="LightSwitchApplication.FK_Activity_Project" ToRole="Project" FromRole="Activity" />
     <NavigationProperty Name="Indicators" Relationship="LightSwitchApplication.FK_Indicator_Activity" ToRole="Indicator" FromRole="Activity" />
     <NavigationProperty Name="Milestones" Relationship="LightSwitchApplication.FK_Milestone_Activity" ToRole="Milestone" FromRole="Activity" />
     <NavigationProperty Name="ActiveType" Relationship="LightSwitchApplication.FK_Activity_ActiveType" ToRole="ActiveType" FromRole="Activity" />
+    <NavigationProperty Name="SubOutput" Relationship="LightSwitchApplication.FK_Activity_SubOutput" ToRole="SubOutput" FromRole="Activity" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -310,6 +311,7 @@
     <NavigationProperty Name="Indicators" Relationship="LightSwitchApplication.FK_Indicator_SubOutput" ToRole="Indicator" FromRole="SubOutput" />
     <NavigationProperty Name="Output" Relationship="LightSwitchApplication.FK_SubOutput_Output" ToRole="Output" FromRole="SubOutput" />
     <NavigationProperty Name="ActiveType" Relationship="LightSwitchApplication.FK_SubOutput_ActiveType" ToRole="ActiveType" FromRole="SubOutput" />
+    <NavigationProperty Name="Activities" Relationship="LightSwitchApplication.FK_Activity_SubOutput" ToRole="Activity" FromRole="SubOutput" />
   </EntityType>
   <EntityType Name="DataSource">
     <Key>
@@ -1444,6 +1446,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Activity_SubOutput">
+    <End Role="SubOutput" Type="LightSwitchApplication.SubOutput" Multiplicity="0..1" />
+    <End Role="Activity" Type="LightSwitchApplication.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubOutput">
+        <PropertyRef Name="SubOutput_ID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="SubOutput_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="MeerkatData" m:IsDefaultEntityContainer="true">
     <EntitySet Name="Activities" EntityType="LightSwitchApplication.Activity" />
     <EntitySet Name="Indicators" EntityType="LightSwitchApplication.Indicator" />
@@ -1740,6 +1754,10 @@
     <AssociationSet Name="FK_MilestoneValues_Organization" Association="LightSwitchApplication.FK_MilestoneValues_Organization">
       <End Role="Organization" EntitySet="Organizations" />
       <End Role="MilestoneValues" EntitySet="MilestoneValues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Activity_SubOutput" Association="LightSwitchApplication.FK_Activity_SubOutput">
+      <End Role="SubOutput" EntitySet="SubOutputs" />
+      <End Role="Activity" EntitySet="Activities" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -5,11 +5,11 @@ SELECT  [ActivityID] as Activity_ID
       ,Left(LongName, 255) as LongName
       ,left(Code + ' : ' + LongName,255) as FullName
       ,Left(TextDescription,255) as TextDescription
-      ,[SubOutput_ID]
+      --,[SubOutput_ID]
       --,[BusinessKey]
       --,[Target]
       ,[Code]
-      ,[ActivityType_ID]
+      --,[ActivityType_ID]
       --,[Sharepoint_ID]
 
   FROM [app].[Activity]

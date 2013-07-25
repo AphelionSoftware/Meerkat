@@ -297,6 +297,10 @@
       <End Role="Organization" EntitySet="Organizations" />
       <End Role="MilestoneValues" EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet Name="FK_Activity_SubOutput" Association="MeerkatDataStore.FK_Activity_SubOutput">
+      <End Role="SubOutput" EntitySet="SubOutputs" />
+      <End Role="Activity" EntitySet="Activities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Activity">
     <Key>
@@ -311,10 +315,10 @@
     <Property Name="sys_CreatedOn" Type="datetime" Nullable="false" />
     <Property Name="sys_ModifiedOn" Type="datetime" Nullable="false" />
     <Property Name="Code" Type="varchar" MaxLength="50" />
-    <Property Name="SubOutput_ID" Type="int" />
     <Property Name="ActivityType_ID" Type="int" />
-    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
     <Property Name="Active" Type="int" Nullable="false" />
+    <Property Name="SubOutput_ID" Type="int" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -1605,6 +1609,18 @@
       </Principal>
       <Dependent Role="MilestoneValues">
         <PropertyRef Name="Organization_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Activity_SubOutput">
+    <End Role="SubOutput" Type="MeerkatDataStore.SubOutput" Multiplicity="0..1" />
+    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubOutput">
+        <PropertyRef Name="SubOutput_ID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="SubOutput_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

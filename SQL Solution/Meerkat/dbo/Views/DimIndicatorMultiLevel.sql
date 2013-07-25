@@ -2,7 +2,7 @@
 
 CREATE VIEW  [DimIndicatorMultiLevel]
 as 
-SELECT top 1000000 *
+/*SELECT top 1000000 *
 
 
 ,TermsetDeepGrainID = COALESCE(TermSetID7, TermsetID6, TermsetId5, TermsetID4, TermsetID3, TermsetID2, TermsetID1)
@@ -263,3 +263,6 @@ SELECT top 1000000 *
   TermSetID6,
   TermSetID7
 
+  */
+  SELECT 'Not implemented' as X
+GO
