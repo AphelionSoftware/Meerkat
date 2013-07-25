@@ -78,7 +78,8 @@
               ":@MaxLength":
               {
                 "value": 500
-              }
+              },
+              ":@AnsiConstraint": { }
             },
             {
               "id": "Activity/Properties[TextDescription]",
@@ -141,21 +142,13 @@
             {
               "id": "Activity/Properties[Code]",
               "name": "Code",
-              "propertyType": { "__id": ":String?" },
+              "propertyType": { "__id": ":String" },
               ":@MaxLength":
               {
                 "value": 50
               },
-              ":@AnsiConstraint": { }
-            },
-            {
-              "id": "Activity/Properties[Project]",
-              "name": "Project",
-              "association": { "__id": "FK_Activity_Project" },
-              "elementType": { "__id": "Project" },
-              "fromEnd": { "__id": "FK_Activity_Project/Ends[Activity]" },
-              "propertyType": { "__id": "Project" },
-              "toEnd": { "__id": "FK_Activity_Project/Ends[Project]" }
+              ":@AnsiConstraint": { },
+              ":@Required": { }
             },
             {
               "id": "Activity/Properties[Indicators]",
@@ -185,15 +178,10 @@
               "toEnd": { "__id": "FK_Activity_ActiveType/Ends[ActiveType]" }
             },
             {
-              "id": "Activity/Properties[SubOutput_ID]",
-              "name": "SubOutput_ID",
-              "propertyType": { "__id": ":Int32?" },
-              ":@NotSearchable": { }
-            },
-            {
-              "id": "Activity/Properties[ActivityType_ID]",
-              "name": "ActivityType_ID",
-              "propertyType": { "__id": ":Int32?" },
+              "id": "Activity/Properties[ProjectID]",
+              "name": "ProjectID",
+              "propertyType": { "__id": ":Int32" },
+              ":@Required": { },
               ":@NotSearchable": { }
             }
           ]
@@ -2191,15 +2179,6 @@
               },
               ":@NotSearchable": { },
               ":@Required": { }
-            },
-            {
-              "id": "Project/Properties[Activities]",
-              "name": "Activities",
-              "association": { "__id": "FK_Activity_Project" },
-              "elementType": { "__id": "Activity" },
-              "fromEnd": { "__id": "FK_Activity_Project/Ends[Project]" },
-              "propertyType": { "__id": "Activity*" },
-              "toEnd": { "__id": "FK_Activity_Project/Ends[Activity]" }
             },
             {
               "id": "Project/Properties[Milestones]",
@@ -4694,26 +4673,6 @@
           ]
         },
         {
-          "id": "FK_Activity_Project",
-          "name": "FK_Activity_Project",
-          "ends":
-          [
-            {
-              "id": "FK_Activity_Project/Ends[Project]",
-              "name": "Project",
-              "multiplicity": "One",
-              "entityType": { "__id": "Project" },
-              ":@DeleteRule": { "action": "Unset" }
-            },
-            {
-              "id": "FK_Activity_Project/Ends[Activity]",
-              "name": "Activity",
-              "multiplicity": "Many",
-              "entityType": { "__id": "Activity" }
-            }
-          ]
-        },
-        {
           "id": "FK_DataVersion_DataVersion",
           "name": "FK_DataVersion_DataVersion",
           "ends":
@@ -5478,26 +5437,6 @@
           "name": "MeerkatData",
           "associationSets":
           [
-            {
-              "id": "MeerkatData/Members[FK_Activity_Project]",
-              "name": "FK_Activity_Project",
-              "association": { "__id": "FK_Activity_Project" },
-              "ends":
-              [
-                {
-                  "properties": [ "ProjectID" ],
-                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Project]",
-                  "name": "Project",
-                  "entitySet": { "__id": "MeerkatData/Members[Projects]" }
-                },
-                {
-                  "properties": [ "ProjectID" ],
-                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Activity]",
-                  "name": "Activity",
-                  "entitySet": { "__id": "MeerkatData/Members[Activities]" }
-                }
-              ]
-            },
             {
               "id": "MeerkatData/Members[FK_DataVersion_DataVersion]",
               "name": "FK_DataVersion_DataVersion",
@@ -13590,31 +13529,6 @@
                             "childContentItems":
                             [
                               {
-                                "displayName": "Project",
-                                "name": "Project",
-                                "kind": "Details",
-                                "view": { "__id": ":DetailsModalPicker" },
-                                "dataSource":
-                                {
-                                  "member": { "__id": "Activity/Properties[Project]" }
-                                },
-                                "childContentItems":
-                                [
-                                  {
-                                    "displayName": "Project",
-                                    "name": "RowTemplate",
-                                    "kind": "Details",
-                                    "view": { "__id": ":Summary" },
-                                    "dataSource":
-                                    {
-                                      "links":
-                                      [
-                                      ]
-                                    }
-                                  }
-                                ]
-                              },
-                              {
                                 "displayName": "Code",
                                 "name": "Code",
                                 "kind": "Value",
@@ -16256,18 +16170,6 @@
                         "propertySources":
                         [
                           {
-                            "property": { "__id": ":RootControl/Properties[Tap]" },
-                            "source":
-                            {
-                              "target": { "__id": "!module/Methods[showAddEditActivity]" },
-                              ":@AssociatedCollection": { "collection": { "__id": "AddEditProject/Properties[Activities]" } },
-                              ":@CreateNewEntity":
-                              {
-                                "targetParameter": { "__id": "!module/Methods[showAddEditActivity]/Parameters[Activity]" }
-                              }
-                            }
-                          },
-                          {
                             "property": { "__id": ":RootCommand/Properties[Icon]" },
                             "value": "msls-add"
                           }
@@ -16280,32 +16182,6 @@
                         "view": { "__id": ":CommandBarButton" },
                         "propertySources":
                         [
-                          {
-                            "property": { "__id": ":RootControl/Properties[Tap]" },
-                            "source":
-                            {
-                              "target": { "__id": "!module/Methods[showAddEditActivity]" },
-                              ":@AssociatedCollection": { "collection": { "__id": "AddEditProject/Properties[Activities]" } },
-                              "arguments":
-                              [
-                                {
-                                  "parameter": { "__id": "!module/Methods[showAddEditActivity]/Parameters[Activity]" },
-                                  "value":
-                                  {
-                                    "links":
-                                    [
-                                      {
-                                        "member": { "__id": "AddEditProject/Properties[Activities]" }
-                                      },
-                                      {
-                                        "member": { "__id": "CollectionView$Activity/Properties[selectedItem]" }
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            }
-                          },
                           {
                             "property": { "__id": ":RootCommand/Properties[Icon]" },
                             "value": "msls-edit"
@@ -16374,36 +16250,6 @@
               "elementType": { "__id": "Project" },
               "propertyType": { "__id": "Project" },
               ":@IsParameter": { }
-            },
-            {
-              "id": "AddEditProject/Properties[Activities]",
-              "name": "Activities",
-              "pageSize": 15,
-              "elementType": { "__id": "Activity" },
-              "propertyType": { "__id": "CollectionView$Activity" },
-              "query":
-              {
-                "id": "AddEditProject/Properties[Activities]/Query",
-                "name": "ActivitiesQuery",
-                "elementType": { "__id": "Activity" },
-                "returnType": { "__id": "Activity*" },
-                "source":
-                {
-                  "links":
-                  [
-                    {
-                      "member": { "__id": "AddEditProject/Properties[Project]" }
-                    },
-                    {
-                      "member": { "__id": "Project/Properties[Activities]" }
-                    }
-                  ]
-                }
-              },
-              "source":
-              {
-                "target": { "__id": "AddEditProject/Properties[Activities]/Query" }
-              }
             },
             {
               "id": "AddEditProject/Properties[ActiveTypesSorted]",

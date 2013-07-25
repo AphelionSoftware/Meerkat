@@ -19,7 +19,6 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("LightSwitchApplication", "FK_Activity_Project", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LightSwitchApplication.Implementation.Project), "Activity", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LightSwitchApplication.Implementation.Activity), true)]
 [assembly: EdmRelationshipAttribute("LightSwitchApplication", "FK_DataVersion_DataVersion", "DataVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(LightSwitchApplication.Implementation.DataVersion), "DataVersion1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LightSwitchApplication.Implementation.DataVersion), true)]
 [assembly: EdmRelationshipAttribute("LightSwitchApplication", "FK_DataVersion_DataVersionLevel", "DataVersionLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LightSwitchApplication.Implementation.DataVersionLevel), "DataVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LightSwitchApplication.Implementation.DataVersion), true)]
 [assembly: EdmRelationshipAttribute("LightSwitchApplication", "FK_DataVersion_Outcome", "Outcome", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(LightSwitchApplication.Implementation.Outcome), "DataVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LightSwitchApplication.Implementation.DataVersion), true)]
@@ -1650,9 +1649,10 @@ namespace LightSwitchApplication.Implementation
         /// <param name="sys_ModifiedBy">Initial value of the sys_ModifiedBy property.</param>
         /// <param name="sys_CreatedOn">Initial value of the sys_CreatedOn property.</param>
         /// <param name="sys_ModifiedOn">Initial value of the sys_ModifiedOn property.</param>
+        /// <param name="code">Initial value of the Code property.</param>
         /// <param name="projectID">Initial value of the ProjectID property.</param>
         /// <param name="active">Initial value of the Active property.</param>
-        public static Activity CreateActivity(global::System.Int32 activityID, global::System.String shortName, global::System.String longName, global::System.String textDescription, global::System.String sys_CreatedBy, global::System.String sys_ModifiedBy, global::System.DateTime sys_CreatedOn, global::System.DateTime sys_ModifiedOn, global::System.Int32 projectID, global::System.Int32 active)
+        public static Activity CreateActivity(global::System.Int32 activityID, global::System.String shortName, global::System.String longName, global::System.String textDescription, global::System.String sys_CreatedBy, global::System.String sys_ModifiedBy, global::System.DateTime sys_CreatedOn, global::System.DateTime sys_ModifiedOn, global::System.String code, global::System.Int32 projectID, global::System.Int32 active)
         {
             Activity activity = new Activity();
             activity.ActivityID = activityID;
@@ -1663,6 +1663,7 @@ namespace LightSwitchApplication.Implementation
             activity.sys_ModifiedBy = sys_ModifiedBy;
             activity.sys_CreatedOn = sys_CreatedOn;
             activity.sys_ModifiedOn = sys_ModifiedOn;
+            activity.Code = code;
             activity.ProjectID = projectID;
             activity.Active = active;
             return activity;
@@ -1870,7 +1871,7 @@ namespace LightSwitchApplication.Implementation
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Code
         {
@@ -1890,54 +1891,6 @@ namespace LightSwitchApplication.Implementation
         private global::System.String _Code;
         partial void OnCodeChanging(global::System.String value);
         partial void OnCodeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> SubOutput_ID
-        {
-            get
-            {
-                return _SubOutput_ID;
-            }
-            set
-            {
-                OnSubOutput_IDChanging(value);
-                ReportPropertyChanging("SubOutput_ID");
-                _SubOutput_ID = value;
-                ReportPropertyChanged("SubOutput_ID");
-                OnSubOutput_IDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _SubOutput_ID;
-        partial void OnSubOutput_IDChanging(Nullable<global::System.Int32> value);
-        partial void OnSubOutput_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> ActivityType_ID
-        {
-            get
-            {
-                return _ActivityType_ID;
-            }
-            set
-            {
-                OnActivityType_IDChanging(value);
-                ReportPropertyChanging("ActivityType_ID");
-                _ActivityType_ID = value;
-                ReportPropertyChanged("ActivityType_ID");
-                OnActivityType_IDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _ActivityType_ID;
-        partial void OnActivityType_IDChanging(Nullable<global::System.Int32> value);
-        partial void OnActivityType_IDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1991,44 +1944,6 @@ namespace LightSwitchApplication.Implementation
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("LightSwitchApplication", "FK_Activity_Project", "Project")]
-        public Project Project
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("LightSwitchApplication.FK_Activity_Project", "Project").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("LightSwitchApplication.FK_Activity_Project", "Project").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Project> ProjectReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("LightSwitchApplication.FK_Activity_Project", "Project");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Project>("LightSwitchApplication.FK_Activity_Project", "Project", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13698,28 +13613,6 @@ namespace LightSwitchApplication.Implementation
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("LightSwitchApplication", "FK_Activity_Project", "Activity")]
-        public EntityCollection<Activity> Activities
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Activity>("LightSwitchApplication.FK_Activity_Project", "Activity");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Activity>("LightSwitchApplication.FK_Activity_Project", "Activity", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.

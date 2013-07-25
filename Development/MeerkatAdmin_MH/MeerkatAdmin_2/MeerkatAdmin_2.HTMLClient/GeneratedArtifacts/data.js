@@ -47,9 +47,6 @@ window.myapp = msls.application;
         /// <field name="Code" type="String">
         /// Gets or sets the code for this activity.
         /// </field>
-        /// <field name="Project" type="msls.application.Project">
-        /// Gets or sets the project for this activity.
-        /// </field>
         /// <field name="Indicators" type="msls.EntityCollection" elementType="msls.application.Indicator">
         /// Gets the indicators for this activity.
         /// </field>
@@ -59,11 +56,8 @@ window.myapp = msls.application;
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this activity.
         /// </field>
-        /// <field name="ActivityType_ID" type="Number">
-        /// Gets or sets the activityType_ID for this activity.
-        /// </field>
-        /// <field name="SubOutput" type="msls.application.SubOutput">
-        /// Gets or sets the subOutput for this activity.
+        /// <field name="ProjectID" type="Number">
+        /// Gets or sets the projectID for this activity.
         /// </field>
         /// <field name="details" type="msls.application.Activity.Details">
         /// Gets the details for this activity.
@@ -728,9 +722,6 @@ window.myapp = msls.application;
         /// <field name="sys_ModifiedOn" type="Date">
         /// Gets or sets the sys_ModifiedOn for this project.
         /// </field>
-        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
-        /// Gets the activities for this project.
-        /// </field>
         /// <field name="Milestones" type="msls.EntityCollection" elementType="msls.application.Milestone">
         /// Gets the milestones for this project.
         /// </field>
@@ -797,9 +788,6 @@ window.myapp = msls.application;
         /// </field>
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this subOutput.
-        /// </field>
-        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
-        /// Gets the activities for this subOutput.
         /// </field>
         /// <field name="details" type="msls.application.SubOutput.Details">
         /// Gets the details for this subOutput.
@@ -1800,12 +1788,10 @@ window.myapp = msls.application;
             { name: "sys_CreatedOn", type: Date },
             { name: "sys_ModifiedOn", type: Date },
             { name: "Code", type: String },
-            { name: "Project", kind: "reference", type: Project },
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Milestones", kind: "collection", elementType: Milestone },
             { name: "ActiveType", kind: "reference", type: ActiveType },
-            { name: "ActivityType_ID", type: Number },
-            { name: "SubOutput", kind: "reference", type: SubOutput }
+            { name: "ProjectID", type: Number }
         ]),
 
         Indicator: $defineEntity(Indicator, [
@@ -2011,7 +1997,6 @@ window.myapp = msls.application;
             { name: "sys_ModifiedBy", type: String },
             { name: "sys_CreatedOn", type: Date },
             { name: "sys_ModifiedOn", type: Date },
-            { name: "Activities", kind: "collection", elementType: Activity },
             { name: "Milestones", kind: "collection", elementType: Milestone },
             { name: "Outcome", kind: "reference", type: Outcome },
             { name: "Projects", kind: "collection", elementType: Project },
@@ -2032,8 +2017,7 @@ window.myapp = msls.application;
             { name: "sys_ModifiedBy", type: String },
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Output", kind: "reference", type: Output },
-            { name: "ActiveType", kind: "reference", type: ActiveType },
-            { name: "Activities", kind: "collection", elementType: Activity }
+            { name: "ActiveType", kind: "reference", type: ActiveType }
         ]),
 
         DataSource: $defineEntity(DataSource, [

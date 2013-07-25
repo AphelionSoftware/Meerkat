@@ -559,9 +559,6 @@
         /// <field name="Project" type="msls.application.Project">
         /// Gets or sets the project for this screen.
         /// </field>
-        /// <field name="Activities" type="msls.VisualCollection" elementType="msls.application.Activity">
-        /// Gets the activities for this screen.
-        /// </field>
         /// <field name="ActiveTypesSorted" type="msls.VisualCollection" elementType="msls.application.ActiveType">
         /// Gets the activeTypesSorted for this screen.
         /// </field>
@@ -817,7 +814,7 @@
             {
                 name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
                 createQuery: function (ShortName) {
-                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("Project").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("ActiveType");
                 }
             },
             { name: "ShortName", kind: "local", type: String },
@@ -1147,18 +1144,6 @@
         AddEditProject: $defineScreen(AddEditProject, [
             { name: "Project", kind: "local", type: lightSwitchApplication.Project },
             {
-                name: "Activities", kind: "collection", elementType: lightSwitchApplication.Activity,
-                getNavigationProperty: function () {
-                    if (this.owner.Project) {
-                        return this.owner.Project.details.properties.Activities;
-                    }
-                    return null;
-                },
-                appendQuery: function () {
-                    return this;
-                }
-            },
-            {
                 name: "ActiveTypesSorted", kind: "collection", elementType: lightSwitchApplication.ActiveType,
                 createQuery: function (Name) {
                     return this.dataWorkspace.MeerkatData.ActiveTypesSorted(Name);
@@ -1168,7 +1153,7 @@
             {
                 name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
                 createQuery: function (ShortName) {
-                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("Project").expand("ActiveType");
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("ActiveType");
                 }
             },
             { name: "ShortName", kind: "local", type: String }

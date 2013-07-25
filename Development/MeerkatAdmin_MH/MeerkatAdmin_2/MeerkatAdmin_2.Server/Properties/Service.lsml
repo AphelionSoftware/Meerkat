@@ -63,6 +63,7 @@
           <Required />
           <MaxLength
             Value="500" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -118,18 +119,14 @@
       </EntityProperty>
       <EntityProperty
         Name="Code"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="Project"
-        Association="FK_Activity_Project"
-        FromEnd="Activity"
-        ToEnd="Project" />
       <NavigationProperty
         Name="Indicators"
         Association="FK_Indicator_Activity"
@@ -146,17 +143,13 @@
         FromEnd="Activity"
         ToEnd="ActiveType" />
       <EntityProperty
-        Name="ActivityType_ID"
-        PropertyType=":Int32?">
+        Name="ProjectID"
+        PropertyType=":Int32">
         <EntityProperty.Attributes>
+          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="SubOutput"
-        Association="FK_Activity_SubOutput"
-        FromEnd="Activity"
-        ToEnd="SubOutput" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -1730,11 +1723,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Activities"
-        Association="FK_Activity_Project"
-        FromEnd="Project"
-        ToEnd="Activity" />
-      <NavigationProperty
         Name="Milestones"
         Association="FK_Milestone_Project"
         FromEnd="Project"
@@ -1885,11 +1873,6 @@
         Association="FK_SubOutput_ActiveType"
         FromEnd="SubOutput"
         ToEnd="ActiveType" />
-      <NavigationProperty
-        Name="Activities"
-        Association="FK_Activity_SubOutput"
-        FromEnd="SubOutput"
-        ToEnd="Activity" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -3711,21 +3694,6 @@
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Activity_Project">
-    <AssociationEnd
-      Name="Project"
-      Multiplicity="One"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Activity"
-      Multiplicity="Many"
-      EntityType="Activity" />
-  </Association>
-  <Association
     Name="FK_DataVersion_DataVersion">
     <AssociationEnd
       Name="DataVersion"
@@ -4438,16 +4406,6 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="MilestoneValue" />
-    <AssociationSet
-      Name="FK_Activity_Project"
-      Association="FK_Activity_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Activity"
-        EntitySet="Activities" />
-    </AssociationSet>
     <AssociationSet
       Name="FK_DataVersion_DataVersion"
       Association="FK_DataVersion_DataVersion">
@@ -8440,16 +8398,6 @@
         </SortCriterion>
       </QueryOperation.SortCriteria>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_Activity_SubOutput"
-      Association="FK_Activity_SubOutput">
-      <AssociationSetEnd
-        Name="SubOutput"
-        EntitySet="SubOutputs" />
-      <AssociationSetEnd
-        Name="Activity"
-        EntitySet="Activities" />
-    </AssociationSet>
   </EntityContainer>
   <GlobalAttributeGroup
     Name="LightSwitchServiceApplicationGroup">
@@ -9095,20 +9043,6 @@
       Multiplicity="Many"
       EntityType="MilestoneValue" />
   </Association>
-  <Association
-    Name="FK_Activity_SubOutput">
-    <AssociationEnd
-      Name="SubOutput"
-      EntityType="SubOutput">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Activity"
-      Multiplicity="Many"
-      EntityType="Activity" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService"
     DataProvider="EntityFrameworkDataProvider"
@@ -9152,7 +9086,7 @@
           MaxLength="500"
           Name="LongName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Activity/Properties[LongName]" />
         <SsdlProperty
           Name="TextDescription"
@@ -9160,16 +9094,16 @@
           Type="varchar(max)"
           Property="Activity/Properties[TextDescription]" />
         <SsdlProperty
+          Name="ProjectID"
+          Nullable="False"
+          Type="int"
+          Property="Activity/Properties[ProjectID]" />
+        <SsdlProperty
           MaxLength="50"
           Name="Code"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Activity/Properties[Code]" />
-        <SsdlProperty
-          Name="ActivityType_ID"
-          Nullable="True"
-          Type="int"
-          Property="Activity/Properties[ActivityType_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -9197,16 +9131,6 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="ProjectID"
-          Nullable="True"
-          Type="int"
-          PropertyName="ProjectID" />
-        <SsdlForeignKeyProperty
-          Name="SubOutput_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="SubOutput_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <EntitySetMapping
@@ -11353,48 +11277,6 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Activity_Project">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Activity_Project" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Activity_Project]/Members[Project]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Activity_Project]/Members[Activity]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Activity_SubOutput">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Activity_SubOutput" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Activity_SubOutput]/Members[SubOutput]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="SubOutput_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Activity_SubOutput]/Members[Activity]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="SubOutput_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

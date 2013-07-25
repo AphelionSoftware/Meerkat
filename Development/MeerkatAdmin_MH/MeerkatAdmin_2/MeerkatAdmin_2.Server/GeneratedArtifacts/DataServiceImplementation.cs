@@ -752,22 +752,6 @@ namespace LightSwitchApplication.Implementation
         global::LightSwitchApplication.Activity.DetailsClass.IImplementation
     {
     
-        global::Microsoft.LightSwitch.Internal.IEntityImplementation global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Project
-        {
-            get
-            {
-                return this.Project;
-            }
-            set
-            {
-                this.Project = (global::LightSwitchApplication.Implementation.Project)value;
-                if (this.__host != null)
-                {
-                    this.__host.RaisePropertyChanged("Project");
-                }
-            }
-        }
-        
         global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Indicators
         {
             get
@@ -800,43 +784,11 @@ namespace LightSwitchApplication.Implementation
             }
         }
         
-        global::Microsoft.LightSwitch.Internal.IEntityImplementation global::LightSwitchApplication.Activity.DetailsClass.IImplementation.SubOutput
-        {
-            get
-            {
-                return this.SubOutput;
-            }
-            set
-            {
-                this.SubOutput = (global::LightSwitchApplication.Implementation.SubOutput)value;
-                if (this.__host != null)
-                {
-                    this.__host.RaisePropertyChanged("SubOutput");
-                }
-            }
-        }
-        
-        partial void OnProjectIDChanged()
-        {
-            if (this.__host != null)
-            {
-                this.__host.RaisePropertyChanged("Project");
-            }
-        }
-        
         partial void OnActiveChanged()
         {
             if (this.__host != null)
             {
                 this.__host.RaisePropertyChanged("ActiveType");
-            }
-        }
-        
-        partial void OnSubOutput_IDChanged()
-        {
-            if (this.__host != null)
-            {
-                this.__host.RaisePropertyChanged("SubOutput");
             }
         }
         
@@ -2108,14 +2060,6 @@ namespace LightSwitchApplication.Implementation
         global::LightSwitchApplication.Project.DetailsClass.IImplementation
     {
     
-        global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Activities
-        {
-            get
-            {
-                return this.Activities;
-            }
-        }
-        
         global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Milestones
         {
             get
@@ -2274,14 +2218,6 @@ namespace LightSwitchApplication.Implementation
                 {
                     this.__host.RaisePropertyChanged("ActiveType");
                 }
-            }
-        }
-        
-        global::System.Collections.IEnumerable global::LightSwitchApplication.SubOutput.DetailsClass.IImplementation.Activities
-        {
-            get
-            {
-                return this.Activities;
             }
         }
         

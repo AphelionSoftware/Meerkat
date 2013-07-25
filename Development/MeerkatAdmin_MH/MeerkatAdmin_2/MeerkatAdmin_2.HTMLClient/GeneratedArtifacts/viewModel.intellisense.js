@@ -533,16 +533,6 @@
         /// </field>
         left_postRender: $parameters,
         /// <field>
-        /// Called after the Project content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        Project_postRender: $parameters,
-        /// <field>
-        /// Called after the RowTemplate content item has been rendered.
-        /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
-        /// </field>
-        RowTemplate_postRender: $parameters,
-        /// <field>
         /// Called after the Code content item has been rendered.
         /// <br/>postRender(HTMLElement element, msls.ContentItem contentItem)
         /// </field>
