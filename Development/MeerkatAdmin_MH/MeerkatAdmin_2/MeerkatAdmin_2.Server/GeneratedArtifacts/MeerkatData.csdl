@@ -13,11 +13,12 @@
     <Property Name="sys_CreatedOn" Type="Edm.DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
     <Property Name="sys_ModifiedOn" Type="Edm.DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
     <Property Name="Code" Type="Edm.String" Nullable="false" MaxLength="50" Unicode="false" ConcurrencyMode="Fixed" />
-    <Property Name="ProjectID" Type="Edm.Int32" Nullable="false" ConcurrencyMode="Fixed" />
     <Property Name="Active" Type="Edm.Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="ProjectID" Type="Edm.Int32" Nullable="false" ConcurrencyMode="Fixed" />
     <NavigationProperty Name="Indicators" Relationship="LightSwitchApplication.FK_Indicator_Activity" ToRole="Indicator" FromRole="Activity" />
     <NavigationProperty Name="Milestones" Relationship="LightSwitchApplication.FK_Milestone_Activity" ToRole="Milestone" FromRole="Activity" />
     <NavigationProperty Name="ActiveType" Relationship="LightSwitchApplication.FK_Activity_ActiveType" ToRole="ActiveType" FromRole="Activity" />
+    <NavigationProperty Name="Project" Relationship="LightSwitchApplication.FK_Activity_Project" ToRole="Project" FromRole="Activity" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -286,6 +287,7 @@
     <NavigationProperty Name="Projects" Relationship="LightSwitchApplication.FK_Project_Project" ToRole="Project1" FromRole="Project" />
     <NavigationProperty Name="Project1" Relationship="LightSwitchApplication.FK_Project_Project" ToRole="Project" FromRole="Project1" />
     <NavigationProperty Name="ActiveType" Relationship="LightSwitchApplication.FK_Project_ActiveType" ToRole="ActiveType" FromRole="Project" />
+    <NavigationProperty Name="Activities" Relationship="LightSwitchApplication.FK_Activity_Project" ToRole="Activity" FromRole="Project" />
   </EntityType>
   <EntityType Name="SubOutput">
     <Key>
@@ -1428,6 +1430,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Activity_Project">
+    <End Role="Project" Type="LightSwitchApplication.Project" Multiplicity="1" />
+    <End Role="Activity" Type="LightSwitchApplication.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="MeerkatData" m:IsDefaultEntityContainer="true">
     <EntitySet Name="Activities" EntityType="LightSwitchApplication.Activity" />
     <EntitySet Name="Indicators" EntityType="LightSwitchApplication.Indicator" />
@@ -1720,6 +1734,10 @@
     <AssociationSet Name="FK_MilestoneValues_Organization" Association="LightSwitchApplication.FK_MilestoneValues_Organization">
       <End Role="Organization" EntitySet="Organizations" />
       <End Role="MilestoneValues" EntitySet="MilestoneValues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Activity_Project" Association="LightSwitchApplication.FK_Activity_Project">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="Activity" EntitySet="Activities" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -182,13 +182,6 @@
               "toEnd": { "__id": "FK_Status_Activity/Ends[Status]" }
             },
             {
-              "id": "Activity/Properties[ProjectID]",
-              "name": "ProjectID",
-              "propertyType": { "__id": ":Int32" },
-              ":@Required": { },
-              ":@NotSearchable": { }
-            },
-            {
               "id": "Activity/Properties[ActiveType]",
               "name": "ActiveType",
               "association": { "__id": "FK_Activity_ActiveType" },
@@ -196,6 +189,15 @@
               "fromEnd": { "__id": "FK_Activity_ActiveType/Ends[Activity]" },
               "propertyType": { "__id": "ActiveType" },
               "toEnd": { "__id": "FK_Activity_ActiveType/Ends[ActiveType]" }
+            },
+            {
+              "id": "Activity/Properties[Project]",
+              "name": "Project",
+              "association": { "__id": "FK_Activity_Project" },
+              "elementType": { "__id": "Project" },
+              "fromEnd": { "__id": "FK_Activity_Project/Ends[Activity]" },
+              "propertyType": { "__id": "Project" },
+              "toEnd": { "__id": "FK_Activity_Project/Ends[Project]" }
             }
           ]
         },
@@ -2382,6 +2384,15 @@
               "fromEnd": { "__id": "FK_Project_Project/Ends[Project1]" },
               "propertyType": { "__id": "Project" },
               "toEnd": { "__id": "FK_Project_Project/Ends[Project]" }
+            },
+            {
+              "id": "Project/Properties[Activities]",
+              "name": "Activities",
+              "association": { "__id": "FK_Activity_Project" },
+              "elementType": { "__id": "Activity" },
+              "fromEnd": { "__id": "FK_Activity_Project/Ends[Project]" },
+              "propertyType": { "__id": "Activity*" },
+              "toEnd": { "__id": "FK_Activity_Project/Ends[Activity]" }
             }
           ]
         },
@@ -8935,6 +8946,26 @@
                 {
                   "properties": [ "Active" ],
                   "id": "MeerkatData/Members[FK_Activity_ActiveType]/Members[Activity]",
+                  "name": "Activity",
+                  "entitySet": { "__id": "MeerkatData/Members[Activities]" }
+                }
+              ]
+            },
+            {
+              "id": "MeerkatData/Members[FK_Activity_Project]",
+              "name": "FK_Activity_Project",
+              "association": { "__id": "FK_Activity_Project" },
+              "ends":
+              [
+                {
+                  "properties": [ "ProjectID" ],
+                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Project]",
+                  "name": "Project",
+                  "entitySet": { "__id": "MeerkatData/Members[Projects]" }
+                },
+                {
+                  "properties": [ "ProjectID" ],
+                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Activity]",
                   "name": "Activity",
                   "entitySet": { "__id": "MeerkatData/Members[Activities]" }
                 }
@@ -15822,6 +15853,26 @@
             },
             {
               "id": "FK_Activity_ActiveType/Ends[Activity]",
+              "name": "Activity",
+              "multiplicity": "Many",
+              "entityType": { "__id": "Activity" }
+            }
+          ]
+        },
+        {
+          "id": "FK_Activity_Project",
+          "name": "FK_Activity_Project",
+          "ends":
+          [
+            {
+              "id": "FK_Activity_Project/Ends[Project]",
+              "name": "Project",
+              "multiplicity": "One",
+              "entityType": { "__id": "Project" },
+              ":@DeleteRule": { "action": "Unset" }
+            },
+            {
+              "id": "FK_Activity_Project/Ends[Activity]",
               "name": "Activity",
               "multiplicity": "Many",
               "entityType": { "__id": "Activity" }

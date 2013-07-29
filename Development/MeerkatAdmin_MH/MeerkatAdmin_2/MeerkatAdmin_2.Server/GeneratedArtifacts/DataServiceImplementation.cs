@@ -784,11 +784,35 @@ namespace LightSwitchApplication.Implementation
             }
         }
         
+        global::Microsoft.LightSwitch.Internal.IEntityImplementation global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Project
+        {
+            get
+            {
+                return this.Project;
+            }
+            set
+            {
+                this.Project = (global::LightSwitchApplication.Implementation.Project)value;
+                if (this.__host != null)
+                {
+                    this.__host.RaisePropertyChanged("Project");
+                }
+            }
+        }
+        
         partial void OnActiveChanged()
         {
             if (this.__host != null)
             {
                 this.__host.RaisePropertyChanged("ActiveType");
+            }
+        }
+        
+        partial void OnProjectIDChanged()
+        {
+            if (this.__host != null)
+            {
+                this.__host.RaisePropertyChanged("Project");
             }
         }
         
@@ -2121,6 +2145,14 @@ namespace LightSwitchApplication.Implementation
                 {
                     this.__host.RaisePropertyChanged("ActiveType");
                 }
+            }
+        }
+        
+        global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Activities
+        {
+            get
+            {
+                return this.Activities;
             }
         }
         

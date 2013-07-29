@@ -56,8 +56,8 @@ window.myapp = msls.application;
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this activity.
         /// </field>
-        /// <field name="ProjectID" type="Number">
-        /// Gets or sets the projectID for this activity.
+        /// <field name="Project" type="msls.application.Project">
+        /// Gets or sets the project for this activity.
         /// </field>
         /// <field name="details" type="msls.application.Activity.Details">
         /// Gets the details for this activity.
@@ -736,6 +736,9 @@ window.myapp = msls.application;
         /// </field>
         /// <field name="ActiveType" type="msls.application.ActiveType">
         /// Gets or sets the activeType for this project.
+        /// </field>
+        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
+        /// Gets the activities for this project.
         /// </field>
         /// <field name="details" type="msls.application.Project.Details">
         /// Gets the details for this project.
@@ -1791,7 +1794,7 @@ window.myapp = msls.application;
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Milestones", kind: "collection", elementType: Milestone },
             { name: "ActiveType", kind: "reference", type: ActiveType },
-            { name: "ProjectID", type: Number }
+            { name: "Project", kind: "reference", type: Project }
         ]),
 
         Indicator: $defineEntity(Indicator, [
@@ -2001,7 +2004,8 @@ window.myapp = msls.application;
             { name: "Outcome", kind: "reference", type: Outcome },
             { name: "Projects", kind: "collection", elementType: Project },
             { name: "Project1", kind: "reference", type: Project },
-            { name: "ActiveType", kind: "reference", type: ActiveType }
+            { name: "ActiveType", kind: "reference", type: ActiveType },
+            { name: "Activities", kind: "collection", elementType: Activity }
         ]),
 
         SubOutput: $defineEntity(SubOutput, [

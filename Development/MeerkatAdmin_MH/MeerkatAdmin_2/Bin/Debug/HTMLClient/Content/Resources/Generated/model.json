@@ -178,11 +178,13 @@
               "toEnd": { "__id": "FK_Activity_ActiveType/Ends[ActiveType]" }
             },
             {
-              "id": "Activity/Properties[ProjectID]",
-              "name": "ProjectID",
-              "propertyType": { "__id": ":Int32" },
-              ":@Required": { },
-              ":@NotSearchable": { }
+              "id": "Activity/Properties[Project]",
+              "name": "Project",
+              "association": { "__id": "FK_Activity_Project" },
+              "elementType": { "__id": "Project" },
+              "fromEnd": { "__id": "FK_Activity_Project/Ends[Activity]" },
+              "propertyType": { "__id": "Project" },
+              "toEnd": { "__id": "FK_Activity_Project/Ends[Project]" }
             }
           ]
         },
@@ -2224,6 +2226,15 @@
               "fromEnd": { "__id": "FK_Project_ActiveType/Ends[Project]" },
               "propertyType": { "__id": "ActiveType" },
               "toEnd": { "__id": "FK_Project_ActiveType/Ends[ActiveType]" }
+            },
+            {
+              "id": "Project/Properties[Activities]",
+              "name": "Activities",
+              "association": { "__id": "FK_Activity_Project" },
+              "elementType": { "__id": "Activity" },
+              "fromEnd": { "__id": "FK_Activity_Project/Ends[Project]" },
+              "propertyType": { "__id": "Activity*" },
+              "toEnd": { "__id": "FK_Activity_Project/Ends[Activity]" }
             }
           ]
         },
@@ -6754,6 +6765,26 @@
                   "id": "MeerkatData/Members[FK_MilestoneValues_Organization]/Members[MilestoneValues]",
                   "name": "MilestoneValues",
                   "entitySet": { "__id": "MeerkatData/Members[MilestoneValues]" }
+                }
+              ]
+            },
+            {
+              "id": "MeerkatData/Members[FK_Activity_Project]",
+              "name": "FK_Activity_Project",
+              "association": { "__id": "FK_Activity_Project" },
+              "ends":
+              [
+                {
+                  "properties": [ "ProjectID" ],
+                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Project]",
+                  "name": "Project",
+                  "entitySet": { "__id": "MeerkatData/Members[Projects]" }
+                },
+                {
+                  "properties": [ "ProjectID" ],
+                  "id": "MeerkatData/Members[FK_Activity_Project]/Members[Activity]",
+                  "name": "Activity",
+                  "entitySet": { "__id": "MeerkatData/Members[Activities]" }
                 }
               ]
             }
@@ -18665,6 +18696,26 @@
               "elementType": { "__id": "ReportingPeriod" },
               "propertyType": { "__id": "ReportingPeriod" },
               ":@IsParameter": { }
+            }
+          ]
+        },
+        {
+          "id": "FK_Activity_Project",
+          "name": "FK_Activity_Project",
+          "ends":
+          [
+            {
+              "id": "FK_Activity_Project/Ends[Project]",
+              "name": "Project",
+              "multiplicity": "One",
+              "entityType": { "__id": "Project" },
+              ":@DeleteRule": { "action": "Unset" }
+            },
+            {
+              "id": "FK_Activity_Project/Ends[Activity]",
+              "name": "Activity",
+              "multiplicity": "Many",
+              "entityType": { "__id": "Activity" }
             }
           ]
         },
