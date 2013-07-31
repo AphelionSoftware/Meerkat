@@ -248,7 +248,7 @@ INSERT [app].[Outcome]
 , [OutcomeSiteName])
 
 
- SELECT 1, N'Women in Conflict management', N'Women in Conflict management', N'Outcome 1', N'Women in Conflict management', N'Women in Conflict management', N'Outcome1'
+ SELECT 1, N'Outcome 1', N'Women in Conflict management', N'Outcome 1', N'Conflict management', N'Women in Conflict management', N'Outcome1'
  WHERE NOT EXISTS
  (SELECT 1 FROM app.Outcome WHERE OutcomeID = 1) 
  
@@ -261,7 +261,7 @@ INSERT [app].[Outcome]
 , [TextDescription]
 , [OutcomeSiteName])
 
- SELECT 2, N'Natural Resources Governance', N'Natural Resources Governance', N'Natural Resources Governance', N'Natural Resources Governance', N'Natural Resources Governance', N'Outcome2'
+ SELECT 2, N'Outcome 2', N'Natural Resources Governance', N'Natural Resources Governance', N'Resource Governance', N'Natural Resources Governance', N'Outcome2'
  WHERE NOT EXISTS
  (SELECT 1 FROM app.Outcome WHERE OutcomeID = 2) 
 
