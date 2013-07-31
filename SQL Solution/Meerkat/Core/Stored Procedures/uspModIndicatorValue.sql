@@ -6,6 +6,7 @@
 -- Description:	Procedure to insert or update Indicator Value table
 -- =============================================
 CREATE PROCEDURE [Core].[uspModIndicatorValue]
+
 	-- Add the parameters for the stored procedure here
 	@CRUD nvarchar(5),   -- C=Create,R=Read,U=Update,D=Delete
 	@IndicatorValues_ID int ,
@@ -36,7 +37,7 @@ CREATE PROCEDURE [Core].[uspModIndicatorValue]
 	@Username as [varchar](255) 
 
 AS
-BEGIN
+/*BEGIN
 	
 	SET NOCOUNT ON;
 	--Generate Memory Table for Merge
@@ -121,22 +122,22 @@ IF @CRUD in ('C','U')
 	
 	Set 
 	t.[Indicator_ID]=s.[Indicator_ID],
-t.[BaselineLabel]=s.[BaselineLabel],
+/*t.[BaselineLabel]=s.[BaselineLabel],
 t.[BaselineValue]=s.[BaselineValue],
 t.[BaselineString]=s.[BaselineString],
 t.[BaselineDate]=s.[BaselineDate],
 t.[TargetLabel]=s.[TargetLabel],
 t.[TargetValue]=s.[TargetValue],
 t.[TargetValueString]=s.[TargetValueString],
-t.[TargetDate]=s.[TargetDate],
+t.[TargetDate]=s.[TargetDate],*/
 t.[ActualLabel]=s.[ActualLabel],
 t.[ActualValue]=s.[ActualValue],
 t.[ActualValueString]=s.[ActualValueString],
 t.[ActualDate]=s.[ActualDate],
 t.[BusinessKey]=s.[BusinessKey],
 t.[Notes]=s.[Notes],
-t.[VerifiedActualValue]=s.[VerifiedActualValue],
-t.[VerifiedActualNotes]=s.[VerifiedActualNotes],
+/*t.[VerifiedActualValue]=s.[VerifiedActualValue],
+t.[VerifiedActualNotes]=s.[VerifiedActualNotes],*/
 t.[DataVersion_ID]=s.[DataVersion_ID],
 t.[Location_ID]=s.[Location_ID],
 t.[IndicatorStatusPercent]=s.[IndicatorStatusPercent],
@@ -155,22 +156,22 @@ t.[sys_ModifiedBy]=s.[sys_ModifiedBy]
 
 	(
 	[Indicator_ID]
-,[BaselineLabel]
+/*,[BaselineLabel]
 ,[BaselineValue]
 ,[BaselineString]
 ,[BaselineDate]
 ,[TargetLabel]
 ,[TargetValue]
 ,[TargetValueString]
-,[TargetDate]
+,[TargetDate]*/
 ,[ActualLabel]
 ,[ActualValue]
 ,[ActualValueString]
 ,[ActualDate]
 ,[BusinessKey]
 ,[Notes]
-,[VerifiedActualValue]
-,[VerifiedActualNotes]
+/*,[VerifiedActualValue]
+,[VerifiedActualNotes]*/
 ,[DataVersion_ID]
 ,[Location_ID]
 ,[IndicatorStatusPercent]
@@ -243,3 +244,5 @@ End
 END
 
 
+*/
+SELECT 'Not implemented' as X

@@ -9,7 +9,7 @@ CREATE PROC [Core].[sp_IndicatorCaptureProgress]
 , @MilestoneCode varchar(255) = '0'
 AS
 
-
+/*
 
 Select 
 		(OC.Code + ' : ' + OC.LongName) as Outcome
@@ -67,3 +67,5 @@ order by (OC.Code + ' : ' + OC.LongName)
 
 
 
+	  */
+	  SELECT 'Not implemented' as X
