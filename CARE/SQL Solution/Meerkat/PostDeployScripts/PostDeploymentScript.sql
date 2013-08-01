@@ -360,3 +360,102 @@ where not exists(select 1 from  app.IndicatorType where IndicatorType_ID = 6)
 GO
 SET IDENTITY_INSERT [app].[IndicatorType] OFF
 GO
+
+
+/*Status Indicators*/
+
+INSERT INTO [app].[Indicator]
+           ([LongName]
+           ,[TextDescription]
+           ,[Baseline]
+           ,[BaselineString]
+           ,[BaselineDate]
+           ,[Target]
+           ,[TargetString]
+           ,[TargetDate]
+           ,[ReleaseDate]
+           ,[Output_ID]
+           ,[OutcomeID]
+           ,[BusinessKey]
+           ,[Notes]
+           ,[Code]
+           ,[IndicatorType_ID]
+           ,[Activity_ID]
+           ,[SubOutput_ID]
+           ,[ShortName]
+		   ,IsKeyIndicator
+		   ,UnitOfMeasure
+           )
+     
+SELECT OM.ShortName + ' Status', 
+	OM.ShortName + ' Status', 
+	0,
+	0,
+	'2012/01/01' As BaselineDate,
+	0,
+	0,
+	'2012/01/01' As TargetDate,
+	'2012/01/01' As ReleaseDate,
+	NULL AS OutputID,
+	OM.OutcomeID as OutcomeID,
+	OM.ShortName + ' Status' as BusinessKey,
+	'' AS NOTES,
+	CAST(OM.OutcomeID as varchar(10)) + ' Status' As Code,
+	 6 as IndicatorType_ID,
+	 NULL AS Activity_ID,
+	 NULL AS Suboutput_ID,
+	 LEFT('Status of ' + OM.ShortName,50),
+	 0
+	 ,'Percentage'
+FROM app.Outcome OM
+
+UNION ALL 
+
+SELECT OP.ShortName + ' Status', 
+	OP.ShortName + ' Status', 
+	0,
+	0,
+	'2012/01/01' As BaselineDate,
+	0,
+	0,
+	'2012/01/01' As TargetDate,
+	'2012/01/01' As ReleaseDate,
+	OP.Output_ID AS Output_ID,
+	NULL as OutcomeID,
+	OP.ShortName + ' Status' as BusinessKey,
+	'' AS NOTES,
+	CAST(OP.Output_ID as varchar(10)) + ' Status' As Code,
+	 6 as IndicatorType_ID,
+	 NULL AS Activity_ID,
+	 NULL AS Suboutput_ID,
+	 LEFT('Status of ' + OP.ShortName,50),
+	 0 
+	 ,'Percentage'
+
+FROM app.Output OP
+
+UNION ALL 
+
+
+SELECT SO.ShortName + ' Status', 
+	SO.ShortName + ' Status', 
+	0,
+	0,
+	'2012/01/01' As BaselineDate,
+	0,
+	0,
+	'2012/01/01' As TargetDate,
+	'2012/01/01' As ReleaseDate,
+	NULL AS Output_ID,
+	NULL as OutcomeID,
+	SO.ShortName + ' Status' as BusinessKey,
+	'' AS NOTES,
+	CAST(SO.SubOutput_ID as varchar(10)) + ' Status' As Code,
+	 6 as IndicatorType_ID,
+	 NULL AS Activity_ID,
+	 SO.SubOutput_ID AS SubSubOutput_ID,
+	 LEFT('Status of ' + SO.ShortName,50),
+	 0
+	 ,'Percentage'
+FROM app.SubOutput SO
+
