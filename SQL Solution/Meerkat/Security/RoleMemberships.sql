@@ -1,12 +1,12 @@
-﻿ALTER ROLE [db_owner] ADD MEMBER [PWLAB\mneMeerkatAdmin];
+﻿
 
 
 GO
-ALTER ROLE [db_owner] ADD MEMBER [PWLAB\mneSPFInstall];
+
 
 
 GO
-ALTER ROLE [db_owner] ADD MEMBER [PWLAB\mneAdmin];
+
 
 
 GO

@@ -5,6 +5,8 @@
 
 
 
+
+
 CREATE VIEW [mm].[ALL_OutcomeMenuGroup]
 AS
 SELECT     TOP (10000)  Title, Link, Parent, ID, OutcomeID
@@ -12,7 +14,7 @@ FROM         (
                                          SELECT  
                                                 dso.Code AS orderBy1
                                                 ,1 AS orderby2
-                                                ,dso.ShortName AS Title
+                                                ,dso.ShortName   AS Title
                                                 ,'/'+oc.[OutcomeSiteName]+'/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' + '[Sub Output].[Sub Output].%26[' + CAST(dso.SubOutput_ID AS varchar(8)) + ']' AS Link
                                                 ,(SELECT ID FROM mm.All_OutcomeMenuCategory where (Title = do.ShortName)
 												AND All_OutcomeMenuCategory.OutcomeID = do.OutcomeID
@@ -30,7 +32,7 @@ FROM         (
                         SELECT  
                                                 do.ShortName AS orderBy1
                                                 ,1 AS orderby2
-                                                ,do.ShortName + ' Indicators' AS Title
+                                                ,'Indicators: ' + do.ShortName + ' ' AS Title
                                                 ,'/'+[OutcomeSiteName]+'/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' + '[Output].[Output].%26[' + CAST(do.Output_ID AS varchar(8)) + ']' AS Link
                                                 ,(SELECT ID FROM mm.All_OutcomeMenuCategory WHERE (Title = do.ShortName)
 												AND All_OutcomeMenuCategory.OutcomeID = do.OutcomeID

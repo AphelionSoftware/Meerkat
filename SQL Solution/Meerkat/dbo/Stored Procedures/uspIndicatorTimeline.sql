@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE PROC [dbo].[uspIndicatorTimeline]
 
 	@DataVersion_ID int --varchar(255)
@@ -31,12 +32,12 @@ ELSE NULL END
 
  BaselineStartString,
 
-CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Target2014,0)
+CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
 ELSE NULL END TargetEnd, 
- Target2014,
+ FinalTarget,
  
  
-CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(Target2014 as varchar(255)), TargetValueString)
+CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
 ELSE NULL END TargetEndString, 
 dbo.fn_StripMDXKey(@DataVersion_ID) DataVersionParm,
 
@@ -63,18 +64,27 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
 
 --MAX(RowX) over (partition by indicator_id),
 --ROW_NUMBER() over (partition by indicator_id order by ReportCycleDate_ID desc) ,
-,OriginalBaseline + ( (( Target2014 - OriginalBaseline)/  (CAST(MAX(RowX) over (partition by indicator_id)  as float) -1))
-
- )
- * CAST((ROW_NUMBER() over (partition by indicator_id order by ReportCycleDate_ID)) -1  as float)
- 
+, --CASE WHEN RowX > 1 THEN 
+ /*OriginalBaseline + ( (( FinalTarget - OriginalBaseline)/  (CAST(MAX(RowX) over (partition by indicator_id)  as float) -1))
+  * CAST((ROW_NUMBER() over (partition by indicator_id order by ReportCycleDate_ID)) -1  as float) )*/
+  OriginalBaseline + (
+    (
+		( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID ) 
+		)
+	* (CurrentReportPeriodID-BaselinePeriodID)
+	)
+ --ELSE 
+ --Baseline END
  AS ExtrapolatedTarget
 
 
- FROM (
+ FROM 
+
+ (
 SELECT  
 i.UnitOfMeasure,
-null financialYear,
+rc.YearNumber financialYear,
 ROW_NUMBER() over (partition by i.indicatorid order by rc.StartDateID) as RowX,
 ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
       ,i.[IndicatorID] [Indicator_ID]
@@ -108,8 +118,8 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,ISNULL(iv.Location_ID,1) Location_ID
       ,iv.IndicatorStatusPercent      
          
-      ,rc.ReportingPeriod ReportCycleDate_ID
-         
+      ,rc.EndDateID  ReportCycleDate_ID
+      ,rc.StartDateID ReportCycleStartDateID
                      ,i.BaselineDate
       ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
       ,i.TargetDate
@@ -120,19 +130,37 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,RolledUpToActivity_ID = i.activity_ID
       --  ,TermSetID = DIML.TermsetDeepGrainID
 	,i.Baseline OriginalBaseline
-	,i.Target Target2014
-	,rc.StartDateID ReportingPeriodStartDate_ID
-	,rc.EndDateID 	
+	,i.Target FinalTarget
+	--,rc.StartDateID ReportingPeriodStartDate_ID
+	--,rc.EndDateID 	
 	,null NextReportingPeriodReleaseDate_ID
 	,l.Name LocationName
-	
+	,FinalTargetPeriod.ID FinalTargetPeriodID
+	,rc.ID CurrentReportPeriodID
+	,BaselinePeriod.ID BaselinePeriodID
   FROM app.Indicator i 
-   join RBM.[IndicatorValues] iv
-  on i.IndicatorID = iv.Indicator_ID
-    
+
+   
   INNER JOIN Core.ReportingPeriod rc
-  on 
-  iv.ReportPeriodID = rc.ID  
+  on rc.EndDateID >=   i.BaselineDate_ID 
+  and rc.StartDateID <= i.TargetDate_ID
+  
+
+  LEFT join RBM.[IndicatorValues] iv
+  on i.IndicatorID = iv.Indicator_ID
+    and iv.ReportPeriodID  = rc.id 
+ 
+
+  INNER JOIN Core.ReportingPeriod FinalTargetPeriod
+  ON i.TargetDate_ID BETWEEN
+   FinalTargetPeriod.StartDateID  AND
+   FinalTargetPeriod.EndDateID 
+    
+	INNER JOIN Core.ReportingPeriod BaselinePeriod
+  ON i.BaselineDate_ID BETWEEN
+  BaselinePeriod.StartDateID 
+  AND
+  BaselinePeriod.EndDateID 
   
     inner join 
   
@@ -177,7 +205,10 @@ on (iv.Location_ID = l.Location_ID OR @Location_ID = l.Location_ID)
 /*
 */
 ) FIV
+
+
 where (Indicator_ID = dbo.fn_StripMDXKey(@indicator_id) OR (dbo.fn_StripMDXKey(@indicator_id)  = 0 AND NOT @TermSetIndicator_ID ='0') )
+
 --AND (
 
 --CAST([TermSetID] as varchar(255)) = dbo.fn_StripMDXKey(@TermSetIndicator_ID )
