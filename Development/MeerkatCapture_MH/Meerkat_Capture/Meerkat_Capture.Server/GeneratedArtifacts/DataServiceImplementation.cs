@@ -860,6 +860,30 @@ namespace LightSwitchApplication.Implementation
         global::LightSwitchApplication.Activity.DetailsClass.IImplementation
     {
     
+        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Indicators
+        {
+            get
+            {
+                return this.Indicators;
+            }
+        }
+        
+        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Milestones
+        {
+            get
+            {
+                return this.Milestones;
+            }
+        }
+        
+        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Status
+        {
+            get
+            {
+                return this.Status;
+            }
+        }
+        
         global::Microsoft.LightSwitch.Internal.IEntityImplementation global::LightSwitchApplication.Activity.DetailsClass.IImplementation.ActiveType
         {
             get
@@ -889,30 +913,6 @@ namespace LightSwitchApplication.Implementation
                 {
                     this.__host.RaisePropertyChanged("Project");
                 }
-            }
-        }
-        
-        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Indicators
-        {
-            get
-            {
-                return this.Indicators;
-            }
-        }
-        
-        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Milestones
-        {
-            get
-            {
-                return this.Milestones;
-            }
-        }
-        
-        global::System.Collections.IEnumerable global::LightSwitchApplication.Activity.DetailsClass.IImplementation.Status
-        {
-            get
-            {
-                return this.Status;
             }
         }
         
@@ -2337,14 +2337,6 @@ namespace LightSwitchApplication.Implementation
         global::LightSwitchApplication.Project.DetailsClass.IImplementation
     {
     
-        global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Activities
-        {
-            get
-            {
-                return this.Activities;
-            }
-        }
-        
         global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Milestones
         {
             get
@@ -2406,6 +2398,14 @@ namespace LightSwitchApplication.Implementation
                 {
                     this.__host.RaisePropertyChanged("Project1");
                 }
+            }
+        }
+        
+        global::System.Collections.IEnumerable global::LightSwitchApplication.Project.DetailsClass.IImplementation.Activities
+        {
+            get
+            {
+                return this.Activities;
             }
         }
         
@@ -2821,14 +2821,6 @@ namespace LightSwitchApplication.Implementation
         global::LightSwitchApplication.ActiveType.DetailsClass.IImplementation
     {
     
-        global::System.Collections.IEnumerable global::LightSwitchApplication.ActiveType.DetailsClass.IImplementation.Activities
-        {
-            get
-            {
-                return this.Activities;
-            }
-        }
-        
         global::System.Collections.IEnumerable global::LightSwitchApplication.ActiveType.DetailsClass.IImplementation.DataSources
         {
             get
@@ -3074,6 +3066,14 @@ namespace LightSwitchApplication.Implementation
             get
             {
                 return this.Status;
+            }
+        }
+        
+        global::System.Collections.IEnumerable global::LightSwitchApplication.ActiveType.DetailsClass.IImplementation.Activities
+        {
+            get
+            {
+                return this.Activities;
             }
         }
         

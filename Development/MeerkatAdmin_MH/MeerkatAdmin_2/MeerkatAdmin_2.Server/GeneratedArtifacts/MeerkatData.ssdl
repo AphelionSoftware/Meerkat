@@ -29,10 +29,6 @@
     <EntitySet Name="IndicatorValues" EntityType="MeerkatDataStore.IndicatorValue" store:Type="Tables" Schema="RBM" Table="IndicatorValues" />
     <EntitySet Name="MilestoneValues" EntityType="MeerkatDataStore.MilestoneValue" store:Type="Tables" Schema="RBM" Table="MilestoneValues" />
     <EntitySet Name="ActiveTypes" EntityType="MeerkatDataStore.ActiveType" store:Type="Tables" Schema="Core" Table="ActiveType" />
-    <AssociationSet Name="FK_Activity_Project" Association="MeerkatDataStore.FK_Activity_Project">
-      <End Role="Project" EntitySet="Projects" />
-      <End Role="Activity" EntitySet="Activities" />
-    </AssociationSet>
     <AssociationSet Name="FK_DataVersion_DataVersion" Association="MeerkatDataStore.FK_DataVersion_DataVersion">
       <End Role="DataVersion" EntitySet="DataVersions" />
       <End Role="DataVersion1" EntitySet="DataVersions" />
@@ -297,6 +293,10 @@
       <End Role="Organization" EntitySet="Organizations" />
       <End Role="MilestoneValues" EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet Name="FK_Activity_Project" Association="MeerkatDataStore.FK_Activity_Project">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="Activity" EntitySet="Activities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Activity">
     <Key>
@@ -304,17 +304,15 @@
     </Key>
     <Property Name="ActivityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ShortName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="LongName" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="LongName" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="TextDescription" Type="varchar(max)" Nullable="false" />
     <Property Name="sys_CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="sys_ModifiedBy" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="sys_CreatedOn" Type="datetime" Nullable="false" />
     <Property Name="sys_ModifiedOn" Type="datetime" Nullable="false" />
-    <Property Name="Code" Type="varchar" MaxLength="50" />
-    <Property Name="SubOutput_ID" Type="int" />
-    <Property Name="ActivityType_ID" Type="int" />
-    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="Active" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -804,18 +802,6 @@
     <Property Name="sys_ModifiedBy" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="sys_ModifiedOn" Type="datetime" Nullable="false" />
   </EntityType>
-  <Association Name="FK_Activity_Project">
-    <End Role="Project" Type="MeerkatDataStore.Project" Multiplicity="1" />
-    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="Activity">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_DataVersion_DataVersion">
     <End Role="DataVersion" Type="MeerkatDataStore.DataVersion" Multiplicity="0..1" />
     <End Role="DataVersion1" Type="MeerkatDataStore.DataVersion" Multiplicity="*" />
@@ -1605,6 +1591,18 @@
       </Principal>
       <Dependent Role="MilestoneValues">
         <PropertyRef Name="Organization_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Activity_Project">
+    <End Role="Project" Type="MeerkatDataStore.Project" Multiplicity="1" />
+    <End Role="Activity" Type="MeerkatDataStore.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

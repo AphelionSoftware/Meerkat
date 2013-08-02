@@ -1,6 +1,7 @@
 ﻿
 CREATE VIEW [mm].[oldOutcome7MenuLink]
 AS
+/*
 SELECT     Title = 'Indicator Details', 
                       Link = '/Outcome7/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' + '[Sub Output].[Sub Output].%26[' + CAST(dso.SubOutput_ID
                        AS varchar(8)) + ']', ID = 100 * dso.suboutput_id, Parent =
@@ -32,6 +33,8 @@ app.DimSubOutput dso ON da.SubOutput_ID = dso.SubOutput_ID INNER JOIN
 app.DimOutput do ON dso.Output_ID = do.Output_ID
 WHERE do.outcomeId=14
 
+*/
+SELECT 'Not implemented' as X
 
 
 GO

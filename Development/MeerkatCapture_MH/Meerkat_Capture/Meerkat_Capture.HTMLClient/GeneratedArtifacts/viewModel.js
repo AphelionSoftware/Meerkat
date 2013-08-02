@@ -473,7 +473,7 @@
             {
                 name: "ActivitiesSorted", kind: "collection", elementType: lightSwitchApplication.Activity,
                 createQuery: function (ShortName) {
-                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName).expand("ActiveType").expand("Project");
+                    return this.dataWorkspace.MeerkatData.ActivitiesSorted(ShortName);
                 }
             },
             { name: "ShortName", kind: "local", type: String }

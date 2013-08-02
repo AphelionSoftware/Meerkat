@@ -47,26 +47,20 @@ window.myapp = msls.application;
         /// <field name="Code" type="String">
         /// Gets or sets the code for this activity.
         /// </field>
-        /// <field name="ActiveType" type="msls.application.ActiveType">
-        /// Gets or sets the activeType for this activity.
-        /// </field>
-        /// <field name="Project" type="msls.application.Project">
-        /// Gets or sets the project for this activity.
-        /// </field>
         /// <field name="Indicators" type="msls.EntityCollection" elementType="msls.application.Indicator">
         /// Gets the indicators for this activity.
         /// </field>
         /// <field name="Milestones" type="msls.EntityCollection" elementType="msls.application.Milestone">
         /// Gets the milestones for this activity.
         /// </field>
-        /// <field name="SubOutput_ID" type="Number">
-        /// Gets or sets the subOutput_ID for this activity.
-        /// </field>
-        /// <field name="ActivityType_ID" type="Number">
-        /// Gets or sets the activityType_ID for this activity.
-        /// </field>
         /// <field name="Status" type="msls.EntityCollection" elementType="msls.application.Status">
         /// Gets the status for this activity.
+        /// </field>
+        /// <field name="ActiveType" type="msls.application.ActiveType">
+        /// Gets or sets the activeType for this activity.
+        /// </field>
+        /// <field name="Project" type="msls.application.Project">
+        /// Gets or sets the project for this activity.
         /// </field>
         /// <field name="details" type="msls.application.Activity.Details">
         /// Gets the details for this activity.
@@ -780,9 +774,6 @@ window.myapp = msls.application;
         /// <field name="sys_ModifiedOn" type="Date">
         /// Gets or sets the sys_ModifiedOn for this project.
         /// </field>
-        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
-        /// Gets the activities for this project.
-        /// </field>
         /// <field name="Milestones" type="msls.EntityCollection" elementType="msls.application.Milestone">
         /// Gets the milestones for this project.
         /// </field>
@@ -797,6 +788,9 @@ window.myapp = msls.application;
         /// </field>
         /// <field name="Project1" type="msls.application.Project">
         /// Gets or sets the project1 for this project.
+        /// </field>
+        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
+        /// Gets the activities for this project.
         /// </field>
         /// <field name="details" type="msls.application.Project.Details">
         /// Gets the details for this project.
@@ -961,9 +955,6 @@ window.myapp = msls.application;
         /// <field name="Name" type="String">
         /// Gets or sets the name for this activeType.
         /// </field>
-        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
-        /// Gets the activities for this activeType.
-        /// </field>
         /// <field name="DataSources" type="msls.EntityCollection" elementType="msls.application.DataSource">
         /// Gets the dataSources for this activeType.
         /// </field>
@@ -1068,6 +1059,9 @@ window.myapp = msls.application;
         /// </field>
         /// <field name="Status" type="msls.EntityCollection" elementType="msls.application.Status">
         /// Gets the status for this activeType.
+        /// </field>
+        /// <field name="Activities" type="msls.EntityCollection" elementType="msls.application.Activity">
+        /// Gets the activities for this activeType.
         /// </field>
         /// <field name="details" type="msls.application.ActiveType.Details">
         /// Gets the details for this activeType.
@@ -2108,13 +2102,11 @@ window.myapp = msls.application;
             { name: "sys_CreatedOn", type: Date },
             { name: "sys_ModifiedOn", type: Date },
             { name: "Code", type: String },
-            { name: "ActiveType", kind: "reference", type: ActiveType },
-            { name: "Project", kind: "reference", type: Project },
             { name: "Indicators", kind: "collection", elementType: Indicator },
             { name: "Milestones", kind: "collection", elementType: Milestone },
-            { name: "SubOutput_ID", type: Number },
-            { name: "ActivityType_ID", type: Number },
-            { name: "Status", kind: "collection", elementType: Status }
+            { name: "Status", kind: "collection", elementType: Status },
+            { name: "ActiveType", kind: "reference", type: ActiveType },
+            { name: "Project", kind: "reference", type: Project }
         ]),
 
         Indicator: $defineEntity(Indicator, [
@@ -2335,12 +2327,12 @@ window.myapp = msls.application;
             { name: "sys_ModifiedBy", type: String },
             { name: "sys_CreatedOn", type: Date },
             { name: "sys_ModifiedOn", type: Date },
-            { name: "Activities", kind: "collection", elementType: Activity },
             { name: "Milestones", kind: "collection", elementType: Milestone },
             { name: "ActiveType", kind: "reference", type: ActiveType },
             { name: "Outcome", kind: "reference", type: Outcome },
             { name: "Projects", kind: "collection", elementType: Project },
-            { name: "Project1", kind: "reference", type: Project }
+            { name: "Project1", kind: "reference", type: Project },
+            { name: "Activities", kind: "collection", elementType: Activity }
         ]),
 
         SubOutput: $defineEntity(SubOutput, [
@@ -2390,7 +2382,6 @@ window.myapp = msls.application;
             { name: "ID", type: Number },
             { name: "Code", type: String },
             { name: "Name", type: String },
-            { name: "Activities", kind: "collection", elementType: Activity },
             { name: "DataSources", kind: "collection", elementType: DataSource },
             { name: "DataVersions", kind: "collection", elementType: DataVersion },
             { name: "DataVersionLevels", kind: "collection", elementType: DataVersionLevel },
@@ -2425,7 +2416,8 @@ window.myapp = msls.application;
             { name: "sys_CreatedOn", type: Date },
             { name: "sys_ModifiedBy", type: String },
             { name: "sys_ModifiedOn", type: Date },
-            { name: "Status", kind: "collection", elementType: Status }
+            { name: "Status", kind: "collection", elementType: Status },
+            { name: "Activities", kind: "collection", elementType: Activity }
         ]),
 
         DataSource: $defineEntity(DataSource, [
