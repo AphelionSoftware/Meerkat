@@ -244,8 +244,3 @@ End
 END
 */
 SELECT 'Not implemented' as X
-<<<<<<< HEAD
-=======
-
-
->>>>>>> remotes/origin/Code-for-Review

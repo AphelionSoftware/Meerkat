@@ -34,9 +34,4 @@ app.DimOutput do ON dso.Output_ID = do.Output_ID
 WHERE do.outcomeId=7
 */
 SELECT 'Not implemented' as X
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> remotes/origin/Code-for-Review
