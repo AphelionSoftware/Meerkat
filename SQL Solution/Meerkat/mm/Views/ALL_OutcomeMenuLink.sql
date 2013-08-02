@@ -1,11 +1,4 @@
-﻿
-
-
-
-
-
-
-CREATE VIEW [mm].[ALL_OutcomeMenuLink]
+﻿CREATE VIEW [mm].[ALL_OutcomeMenuLink]
 AS
 SELECT     Title = 'Indicator Details', 
                       Link = '/'+[OutcomeSiteName]+'/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' + '[Sub Output].[Sub Output].%26[' + CAST(dso.SubOutput_ID
