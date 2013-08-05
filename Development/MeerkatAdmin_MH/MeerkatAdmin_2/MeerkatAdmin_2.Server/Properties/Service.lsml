@@ -437,6 +437,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Project"
+        Association="Indicator_Project"
+        FromEnd="Indicator"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -1749,6 +1754,11 @@
         Association="FK_Activity_Project"
         FromEnd="Project"
         ToEnd="Activity" />
+      <NavigationProperty
+        Name="Indicators"
+        Association="Indicator_Project"
+        FromEnd="Project"
+        ToEnd="Indicator" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -8410,6 +8420,16 @@
         Name="Activity"
         EntitySet="Activities" />
     </AssociationSet>
+    <AssociationSet
+      Name="Indicator_Projects"
+      Association="Indicator_Project">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
   </EntityContainer>
   <GlobalAttributeGroup
     Name="LightSwitchServiceApplicationGroup">
@@ -12694,5 +12714,43 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="Indicator_Projects">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="Indicator_Projects" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[Indicator_Projects]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="projectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[Indicator_Projects]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="Indicator_Project">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ModelFragment>

@@ -79,8 +79,7 @@ myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
     });
 };
 myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem) {
-    // Write code here.
-
+    
     contentItem.dataBind("value", function (newValue) {
 
         var indicatorGroup = contentItem.screen.findContentItem("SubIndicators");
@@ -116,10 +115,12 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
                 }
             case "Milestone":
                 {
+                    target = contentItem.screen.findContentItem("Project");
                     break;
                 }
             case "OS":
                 {
+                    // there is no sub status for this that is entered in by the user.
                     break;
                 }
             default:

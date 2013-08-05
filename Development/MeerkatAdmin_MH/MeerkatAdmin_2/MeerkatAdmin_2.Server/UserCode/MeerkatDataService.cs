@@ -1,488 +1,305 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.LightSwitch;
-using Microsoft.LightSwitch.Security.Server;
-using System.Linq.Expressions;
-
+﻿
 namespace LightSwitchApplication
 {
+    using Microsoft.LightSwitch;
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     public partial class MeerkatDataService
     {
+        private void SetTrackingInfo<T>(T entity)
+        {
+            var type = entity.GetType();
+            var properties = type.GetProperties(System.Reflection.BindingFlags.Public);
+            var createdBy = properties.SingleOrDefault(_ => _.Name == "sys_CreatedBy");
+            var createdOn = properties.SingleOrDefault(_ => _.Name == "sys_CreatedOn");
+            var modifiedBy = properties.SingleOrDefault(_ => _.Name == "sys_ModifiedBy");
+            var modifiedOn = properties.SingleOrDefault(_ => _.Name == "sys_ModifiedOn");
+
+            if ((string)createdBy.GetValue(entity, null) == default(string))
+            {
+                createdBy.SetValue(entity, Environment.UserName == "" ? "Authentication problem" : Environment.UserName, null);
+            }
+
+            if ((DateTime)createdOn.GetValue(entity, null) == default(DateTime))
+            {
+                createdOn.SetValue(entity, System.DateTime.Now, null);
+            }
+
+            modifiedBy.SetValue(entity, Environment.UserName == "" ? "Authentication problem" : Environment.UserName, null);
+            modifiedOn.SetValue(entity, System.DateTime.Now, null);
+        }
+
         partial void Activities_Inserting(Activity entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Outcomes_Inserting(Outcome entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == null ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == null ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void DataSources_Inserting(DataSource entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void DataVersionLevels_Inserting(DataVersionLevel entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void DataVersions_Inserting(DataVersion entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorLocations_Inserting(IndicatorLocation entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Indicators_Inserting(Indicator entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorTypes_Inserting(IndicatorType entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorValues_Inserting(IndicatorValue entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Locations_Inserting(Location entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void LocationTypes_Inserting(LocationType entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneLocations_Inserting(MilestoneLocation entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Milestones_Inserting(Milestone entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneTypes_Inserting(MilestoneType entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneValues_Inserting(MilestoneValue entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Organizations_Inserting(Organization entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void OrganizationTypes_Inserting(OrganizationType entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void OutcomeOrganizations_Inserting(OutcomeOrganization entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void OutcomePersonRoles_Inserting(OutcomePersonRole entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-           
+            SetTrackingInfo(entity);
         }
 
         partial void OutputPersonRoles_Inserting(OutputPersonRole entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
-
+            SetTrackingInfo(entity);
         }
 
         partial void Outputs_Inserting(Output entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void People_Inserting(Person entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Projects_Inserting(Project entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void ReportingPeriods_Inserting(ReportingPeriod entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Roles_Inserting(Role entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void SubOutputs_Inserting(SubOutput entity)
         {
-            entity.sys_CreatedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
-
+            SetTrackingInfo(entity);
         }
 
         partial void Activities_Updating(Activity entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void DataSources_Updating(DataSource entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void DataVersionLevels_Updating(DataVersionLevel entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void DataVersions_Updating(DataVersion entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void DimDates_Updating(DimDate entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorLocations_Updating(IndicatorLocation entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void Indicators_Updating(Indicator entity)
         {
-            entity.sys_ModifiedBy =  (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorTypes_Updating(IndicatorType entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void IndicatorValues_Updating(IndicatorValue entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void Locations_Updating(Location entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void LocationTypes_Updating(LocationType entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneLocations_Updating(MilestoneLocation entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Milestones_Updating(Milestone entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneTypes_Updating(MilestoneType entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void MilestoneValues_Updating(MilestoneValue entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void OrganizationTypes_Updating(OrganizationType entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void Organizations_Updating(Organization entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
-
 
         partial void OutcomeOrganizations_Updating(OutcomeOrganization entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void OutcomePersonRoles_Updating(OutcomePersonRole entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Outcomes_Updating(Outcome entity)
         {
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void OutputPersonRoles_Updating(OutputPersonRole entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void Outputs_Updating(Output entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void People_Updating(Person entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Projects_Updating(Project entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void ReportingPeriods_Updating(ReportingPeriod entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
-
+            SetTrackingInfo(entity);
         }
 
         partial void Roles_Updating(Role entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
         partial void SubOutputs_Updating(SubOutput entity)
         {
-            entity.sys_CreatedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_CreatedOn = System.DateTime.Now;
-            entity.sys_ModifiedBy = (Environment.UserName == "" ? "Authentication problem" : Environment.UserName);
-            entity.sys_ModifiedOn = System.DateTime.Now;
+            SetTrackingInfo(entity);
         }
 
-        partial void Query_Executed(QueryExecutedDescriptor queryDescriptor)
-        {
-            
-        }
 
         partial void SaveChanges_CanExecute(ref bool result)
         {
-            result =  true;
+            result = true;
         }
 
         partial void Outcomes_Filter(ref Expression<Func<Outcome, bool>> filter)
@@ -493,7 +310,7 @@ namespace LightSwitchApplication
 
         partial void Outputs_Filter(ref Expression<Func<Output, bool>> filter)
         {
-            filter = e => ( e.ActiveType.ID == 1 );
+            filter = e => (e.ActiveType.ID == 1);
 
         }
 
@@ -639,7 +456,13 @@ namespace LightSwitchApplication
 
         }
 
-     
+        partial void Indicators_Validate(Indicator entity, EntitySetValidationResultsBuilder results)
+        {
+            if (entity.BaselineDate > entity.TargetDate)
+            {
+                results.AddPropertyError("The baseline date/time must be set to period BEFORE the target date/time.", entity.Details.Properties.BaselineDate);
+            }
+        }
 
     }
 }
