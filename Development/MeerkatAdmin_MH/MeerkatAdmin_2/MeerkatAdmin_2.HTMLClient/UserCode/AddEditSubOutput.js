@@ -108,7 +108,17 @@ myapp.AddEditSubOutput.SubOutput_Delete_execute = function (screen) {
         });
     });
 };
-myapp.AddEditSubOutput.SubOutput_Delete_postRender = function (element, contentItem) {
-    // Write code here.
 
+
+myapp.AddEditSubOutput.beforeApplyChanges = function (screen) {
+    "use strict";
+
+    var activeType = screen.findContentItem("ActiveType");
+    if (activeType.value === undefined) {
+        activeType.validationResults = [
+            new msls.ValidationResult(screen.SubOutput.details.properties.ActiveType, "Active type is required")
+        ];
+
+        return false;
+    }
 };

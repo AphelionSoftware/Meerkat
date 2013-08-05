@@ -464,5 +464,13 @@ namespace LightSwitchApplication
             }
         }
 
+        partial void SubOutputs_Validate(SubOutput entity, EntitySetValidationResultsBuilder results)
+        {
+            if (entity.ActiveType == null)
+            {
+                results.AddPropertyError("Active Type is required", entity.Details.Properties.ActiveType);
+            }
+        }
+
     }
 }
