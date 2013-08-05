@@ -11,7 +11,7 @@ namespace LightSwitchApplication
         private void SetTrackingInfo<T>(T entity)
         {
             var type = entity.GetType();
-            var properties = type.GetProperties(System.Reflection.BindingFlags.Public);
+            var properties = type.GetProperties();
             var createdBy = properties.SingleOrDefault(_ => _.Name == "sys_CreatedBy");
             var createdOn = properties.SingleOrDefault(_ => _.Name == "sys_CreatedOn");
             var modifiedBy = properties.SingleOrDefault(_ => _.Name == "sys_ModifiedBy");
