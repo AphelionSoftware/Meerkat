@@ -1,21 +1,10 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+/// <reference path="LightSwitchTools.js" />
 
 myapp.AddEditIndicatorLocation.IndicatorLocation_delete_execute = function (screen) {
-    if (screen.IndicatorLocation.details.entityState !== msls.EntityState.unchanged) {
-        return msls.showMessageBox(
-            "Cannot delete the Indicator Location because it was changed.",
-            {
-                title: "Cannot delete"
-            });
-    }
+    msls.application.lightswitchTools.deleteEntity(screen.IndicatorLocation, "Indicator Location");  
+};
 
-    screen.IndicatorLocation.deleteEntity();
-
-    myapp.commitChanges().then(null, function fail(e) {
-        // If error occurs, show the error.
-        msls.showMessageBox(e.message, { title: e.title }).then(function () {
-            // Discard Changes
-            screen.details.dataWorkspace.ApplicationData.details.discardChanges();
-        });
-    });
+myapp.AddEditIndicatorLocation.IndicatorLocation_delete_canExecute = function (screen) {
+    return msls.application.lightswitchTools.canDelete(screen.IndicatorLocation);
 };
