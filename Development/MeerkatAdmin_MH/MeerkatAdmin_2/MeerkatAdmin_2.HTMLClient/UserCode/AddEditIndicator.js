@@ -78,6 +78,7 @@ myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
         });
     });
 };
+
 myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem) {
     
     contentItem.dataBind("value", function (newValue) {
