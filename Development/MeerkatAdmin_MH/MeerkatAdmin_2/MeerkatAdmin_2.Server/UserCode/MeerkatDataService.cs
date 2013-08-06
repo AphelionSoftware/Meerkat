@@ -8,6 +8,8 @@ namespace LightSwitchApplication
 
     public partial class MeerkatDataService
     {
+        private static DateTime MinDate = new DateTime(2000, 1, 1);
+
         private void SetTrackingInfo<T>(T entity)
         {
             var type = entity.GetType();
@@ -22,7 +24,7 @@ namespace LightSwitchApplication
                 createdBy.SetValue(entity, Environment.UserName == "" ? "Authentication problem" : Environment.UserName, null);
             }
 
-            if ((DateTime)createdOn.GetValue(entity, null) == default(DateTime))
+            if ((DateTime)createdOn.GetValue(entity, null) < MinDate)
             {
                 createdOn.SetValue(entity, System.DateTime.Now, null);
             }
@@ -471,6 +473,5 @@ namespace LightSwitchApplication
                 results.AddPropertyError("Active Type is required", entity.Details.Properties.ActiveType);
             }
         }
-
     }
 }
