@@ -1,13 +1,11 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+/// <reference path="LightSwitchTools.js" />
 
-myapp.Home.showOutcomeIndicators_execute = function (screen) {
-    // Write code here.
-    screen.getOutcomesSorted().then(function (_) {
-        if (_.selectedItem === null) {
-            alert("You must select an outcome first.");
-            return;
-        }
+myapp.Home.VersionNumber_render = function (element, contentItem) {
+    msls.application.lightswitchTools.getVersionInfo(function (version) {
+        var smallElement = document.createElement("small");
+        smallElement.innerText = version;
+        element.appendChild(smallElement);
+    })
 
-        myapp.showBrowseIndicators(_.selectedItem.OutcomeID);
-    });
 };

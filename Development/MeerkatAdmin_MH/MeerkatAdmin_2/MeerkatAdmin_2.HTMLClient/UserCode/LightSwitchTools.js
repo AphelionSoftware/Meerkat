@@ -30,5 +30,12 @@
             });
         });
     }
+
+    lightswitchTools.getVersionInfo = function (callback) {
+        $.getJSON("/api/LightswitchHelpers", function (data) {
+            callback("version: " + data.Version + " (built " + data.Deployed + ")");
+        });
+    }
+    
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 
