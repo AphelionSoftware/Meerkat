@@ -9,7 +9,6 @@
     [SubOutput_ID]    INT              NULL,
     [ProjectID]       INT              NULL,
     [PeriodID]        INT              NULL,
-    [Sharepoint_ID]   UNIQUEIDENTIFIER NULL,
     [Percentage]      DECIMAL (20, 5)  NULL,
     [RobotIndicator]  INT              NULL,
     [BusinessKey]     NVARCHAR (MAX)   NULL,

@@ -104,7 +104,6 @@ ISNULL(iv.[IndicatorValues_ID],0) [IndicatorValues_ID]
       ,i.[Activity_ID]
       ,i.[SubOutput_ID]
       ,ISNULL(iv.[DataVersion_ID],0) DataVersion_ID
-      ,i.[Sharepoint_ID]
       ,iv.Location_ID
       ,iv.IndicatorStatusPercent      
          

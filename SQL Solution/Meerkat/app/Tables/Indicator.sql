@@ -18,7 +18,6 @@
     [IndicatorType_ID] INT              NOT NULL,
     [Activity_ID]      INT              NULL,
     [SubOutput_ID]     INT              NULL,
-    [Sharepoint_ID]    UNIQUEIDENTIFIER NULL,
     [ShortName]        VARCHAR (50)     NOT NULL,
     [BaselineDate_ID]  AS               ((datepart(year,[BaselineDate])*(10000)+datepart(month,[baselineDate])*(100))+datepart(day,[BaselineDate])),
     [TargetDate_ID]    AS               ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),

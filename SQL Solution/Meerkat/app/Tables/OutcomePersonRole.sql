@@ -3,7 +3,6 @@
     [OutcomeID]            INT              NULL,
     [Person_ID]            INT              NULL,
     [Role_ID]              INT              NULL,
-    [Sharepoint_ID]        UNIQUEIDENTIFIER NULL,
     [Active]               INT              DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]        VARCHAR (255)    CONSTRAINT [DF_OutcomePersonRole_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]        DATETIME         CONSTRAINT [DF_OutcomePersonRole_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

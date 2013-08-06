@@ -7,7 +7,6 @@
     [CollectionMethod] VARCHAR (MAX)    NULL,
     [MetadataStatus]   VARCHAR (MAX)    NULL,
     [BusinessKey]      VARCHAR (MAX)    NULL,
-    [Sharepoint_ID]    UNIQUEIDENTIFIER NULL,
     [Active]           INT              DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]    VARCHAR (255)    CONSTRAINT [DF_DataSource_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]    DATETIME         CONSTRAINT [DF_DataSource_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

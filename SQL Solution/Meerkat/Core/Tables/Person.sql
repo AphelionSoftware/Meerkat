@@ -6,7 +6,6 @@
     [Category]       VARCHAR (MAX)    NULL,
     [BusinessKey]    VARCHAR (MAX)    NULL,
     [UserDetails]    VARCHAR (50)     NULL,
-    [Sharepoint_ID]  UNIQUEIDENTIFIER NULL,
     [Active]         INT              DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)    CONSTRAINT [DF_Person_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]  DATETIME         CONSTRAINT [DF_Person_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
