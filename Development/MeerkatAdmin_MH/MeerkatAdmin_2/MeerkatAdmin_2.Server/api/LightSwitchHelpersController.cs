@@ -13,7 +13,7 @@ namespace LightSwitchApplication.api
             var executingAssembly = Assembly.GetExecutingAssembly();
 
             result.Version = executingAssembly.GetName().Version.ToString();
-            result.Deployed = File.GetCreationTime(Assembly.GetExecutingAssembly().Location).ToString("dd MMM yyyy hh:mm");
+            result.Deployed = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("dd MMM yyyy hh:mm");
 
             return result;
         }
