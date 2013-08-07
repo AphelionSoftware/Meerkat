@@ -4,7 +4,7 @@
     [LongName]        NVARCHAR (500) NOT NULL,
     [BusinessKey]     NVARCHAR (MAX) NULL,
     [OutcomeID]       INT            NULL,
-    [ShortName]       VARCHAR (50)   NOT NULL,
+    [ShortName]       VARCHAR (50)   UNIQUE NOT NULL,
     [TextDescription] VARCHAR (MAX)  NULL,
     [Active]          INT            DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Output_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
