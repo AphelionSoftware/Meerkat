@@ -1,42 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
-
-myapp.AddEditSubOutput.SubOutput_Delete_execute = function (screen) {
-    // Write code here.
-    var SubOutput = screen.SubOutput;
-    SubOutput.deleteEntity();
-
-    return myapp.commitChanges().then(null, function fail(e) {
-
-        myapp.cancelChanges();
-
-        throw e;
-
-    });
-    // Can only safely do this if the SubOutput is not modified.
-    if (SubOutput.details.entityState !== msls.EntityState.unchanged) {
-        return msls.showMessageBox(
-            "Cannot delete the SubOutput because it was changed.",
-            {
-                title: "Cannot delete"
-            });
-    }
-
-    myapp.activeDataWorkspace.MeerkatData.ActiveTypes_SingleOrDefault(-1).execute().then(function (ActiveTypesQuery) {
-        SubOutput.ActiveType = ActiveTypesQuery.results[0];
-        return myapp.commitChanges().then(null, function fail(e) {
-            myapp.cancelChanges();
-            throw e;
-        });
-
-    }, function (error) {
-        msls.showMessageBox(error, {
-            title: "Delete failed"
-        });
-    });
-};
-
-
 myapp.AddEditSubOutput.beforeApplyChanges = function (screen) {
     "use strict";
 
@@ -48,4 +11,12 @@ myapp.AddEditSubOutput.beforeApplyChanges = function (screen) {
 
         return false;
     }
+};
+
+myapp.AddEditSubOutput.Project_Delete_execute = function (screen) {
+    msls.application.lightswitchTools.deleteEntity(screen.SubOutput, "Activity");
+};
+
+myapp.AddEditSubOutput.SubOutput_Delete_canExecute = function (screen) {
+    return msls.application.lightswitchTools.canDelete(screen.SubOutput);
 };

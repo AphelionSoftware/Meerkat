@@ -26,9 +26,6 @@
           <ShowScreenMethod
             TargetScreen="BrowseSubOutputs" />
         </ApplicationMethod.Attributes>
-        <ApplicationMethodParameter
-          Name="pOutput_ID"
-          ParameterType=":Int32?" />
       </ApplicationMethod>
       <ApplicationMethod
         Name="showBrowseIndicators">
@@ -46,9 +43,6 @@
           <ShowScreenMethod
             TargetScreen="BrowseProjects" />
         </ApplicationMethod.Attributes>
-        <ApplicationMethodParameter
-          Name="OutcomeID"
-          ParameterType=":Int32" />
       </ApplicationMethod>
       <ApplicationMethod
         Name="showBrowseActivities">
@@ -1137,19 +1131,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showBrowseProjects]">
-                          <ArgumentExpression
-                            Parameter="OutcomeID">
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="Home/Properties[OutcomesSorted]" />
-                              <MemberExpression
-                                Member="selectedItem" />
-                              <MemberExpression
-                                Member="OutcomeID" />
-                            </ChainExpression>
-                          </ArgumentExpression>
-                        </CallExpression>
+                          Target="!module/Methods[showBrowseProjects]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -1458,6 +1440,31 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
+                Name="Home"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showHome]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
                 Name="ShowBrowseIndicators"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -1476,31 +1483,6 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-list"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
-                Name="Home"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showHome]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-text"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -1566,68 +1548,6 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="SubOutputs"
-        PageSize="45"
-        PropertyType="CollectionView$SubOutput">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="SubOutputsQuery"
-            ReturnType="SubOutput*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="Equal">
-                  <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="SubOutput/Properties[Output]" />
-                      <MemberExpression
-                        Member="Output_ID" />
-                    </ChainExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <ParameterExpression
-                      Parameter="Output_ID" />
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[SubOutputs]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Output_ID"
-                ParameterType=":Int32?" />
-            </ScreenQueryDefinition.Parameters>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseSubOutputs/Properties[SubOutputs]/Query">
-              <ArgumentExpression
-                Parameter="Output_ID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseSubOutputs/Properties[pOutput_ID]" />
-                </ChainExpression>
-              </ArgumentExpression>
-            </CallExpression>
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="pOutput_ID"
-        PropertyType=":Int32?">
-        <ScreenProperty.Attributes>
-          <IsParameter />
-        </ScreenProperty.Attributes>
-      </ScreenProperty>
-      <ScreenCollectionProperty
         Name="SubOutputsSorted"
         PageSize="45"
         PropertyType="CollectionView$SubOutput">
@@ -1651,19 +1571,11 @@
             <CallExpression
               Target="BrowseSubOutputs/Properties[SubOutputsSorted]/Query">
               <ArgumentExpression
-                Parameter="ShortName">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseSubOutputs/Properties[ShortName]" />
-                </ChainExpression>
-              </ArgumentExpression>
+                Parameter="ShortName" />
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="ShortName"
-        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Screen
@@ -2101,31 +2013,6 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="ShowBrowseActivities"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showBrowseActivities]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-list"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
                 Name="Home"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -2144,6 +2031,31 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowBrowseActivities"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showBrowseActivities]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-list"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -2255,24 +2167,11 @@
               <ArgumentExpression
                 Parameter="ShortName" />
               <ArgumentExpression
-                Parameter="OutcomeID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseProjects/Properties[OutcomeID]" />
-                </ChainExpression>
-              </ArgumentExpression>
+                Parameter="OutcomeID" />
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="OutcomeID"
-        PropertyType=":Int32">
-        <ScreenProperty.Attributes>
-          <Required />
-          <IsParameter />
-        </ScreenProperty.Attributes>
-      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Screen
@@ -2464,7 +2363,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-text"
+                          Value="msls-custom"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -3015,6 +2914,31 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
+                Name="Home"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showHome]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
                 Name="ShowBrowseMilestoneValues"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -3033,31 +2957,6 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-list"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
-                Name="Home"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showHome]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-text"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -3122,32 +3021,6 @@
       </ScreenMethod>
     </Screen.Methods>
     <Screen.Properties>
-      <ScreenCollectionProperty
-        Name="Milestones"
-        PageSize="45"
-        PropertyType="CollectionView$Milestone">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="MilestonesQuery"
-            ReturnType="Milestone*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[Milestones]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseMilestones/Properties[Milestones]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
       <ScreenCollectionProperty
         Name="MilestonesSorted"
         PageSize="45"
@@ -3588,38 +3461,6 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="AddMilestoneValue"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditMilestoneValue]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="BrowseMilestoneValues/Properties[MilestoneValues]" />
-                            <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditMilestoneValue]/Parameters[MilestoneValue]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-add"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
                 Name="Home"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -3637,7 +3478,23 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-text"
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="AddMilestoneValue"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -3703,32 +3560,6 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="MilestoneValues"
-        PageSize="45"
-        PropertyType="CollectionView$MilestoneValue">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="MilestoneValuesQuery"
-            ReturnType="MilestoneValue*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[MilestoneValues]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseMilestoneValues/Properties[MilestoneValues]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenCollectionProperty
         Name="MilestoneValuesSorted"
         PageSize="45"
         PropertyType="CollectionView$MilestoneValue">
@@ -3785,19 +3616,6 @@
           <ContentItem
             Name="IndicatorValueList"
             Kind="Group">
-            <ContentItem
-              Name="ActualLabel1"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseIndicatorValues/Properties[ActualLabel]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
             <ContentItem
               Name="IndicatorValuesSorted"
               Kind="Collection"
@@ -4182,38 +4000,6 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="AddIndicatorValue"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditIndicatorValue]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="BrowseIndicatorValues/Properties[IndicatorValues]" />
-                            <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditIndicatorValue]/Parameters[IndicatorValue]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-add"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
                 Name="Home"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -4231,7 +4017,23 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-text"
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="AddIndicatorValue"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -4297,32 +4099,6 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="IndicatorValues"
-        PageSize="45"
-        PropertyType="CollectionView$IndicatorValue">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="IndicatorValuesQuery"
-            ReturnType="IndicatorValue*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[IndicatorValues]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseIndicatorValues/Properties[IndicatorValues]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenCollectionProperty
         Name="IndicatorValuesSorted"
         PageSize="45"
         PropertyType="CollectionView$IndicatorValue">
@@ -4346,19 +4122,11 @@
             <CallExpression
               Target="BrowseIndicatorValues/Properties[IndicatorValuesSorted]/Query">
               <ArgumentExpression
-                Parameter="ActualLabel">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseIndicatorValues/Properties[ActualLabel]" />
-                </ChainExpression>
-              </ArgumentExpression>
+                Parameter="ActualLabel" />
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="ActualLabel"
-        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Screen
@@ -4692,7 +4460,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-text"
+                          Value="msls-custom"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -5158,7 +4926,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-text"
+                          Value="msls-custom"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
