@@ -62,7 +62,13 @@
                 });
         };
 
-        entity.deleteEntity();
+        //entity.deleteEntity();
+        var activeType = screen[entityLabel].ActiveType;
+        screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Deleted'").execute().then(function (x) {
+            activeType = x.results[0];
+        }, function (x) {
+            console.log(x);
+        });
 
         myapp.commitChanges().then(null, function fail(e) {
             // If error occurs, show the error.
