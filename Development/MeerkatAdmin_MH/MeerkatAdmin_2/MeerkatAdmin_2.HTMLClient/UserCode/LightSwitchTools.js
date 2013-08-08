@@ -3,7 +3,7 @@
 (function (lightswitchTools, undefined) {
     "use strict";
 
-    lightswitchTools.configureCaptureForm = function(screen) {
+    lightswitchTools.configureCaptureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;
 
         var primaryKeyColumn;
@@ -27,19 +27,57 @@
             screen[name].sys_ModifiedBy = "NA";
             screen[name].sys_ModifiedOn = "1999/01/01";
 
-            screen.findContentItem("ActiveType").isVisible = false;
+            var activeTypeDropDown = screen.findContentItem("ActiveType");
+
+            if (activeTypeDropDown !== undefined) {
+                activeTypeDropDown.isVisible = false;
+            }
 
             screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Active'").execute().then(function (x) {
                 activeType = x.results[0];
             }, function (x) {
-                console.log(x);
+                msls.showMessageBox(x, {
+                    title: "Default value for ActiveType failed"
+                });
             });
 
+
             return;
+        } else {
+            screen.details.displayName = "Edit " + name;
+
+            var newDataWorkspace = new myapp.DataWorkspace();
+            newDataWorkspace.MeerkatData.IndicatorTypes_SingleOrDefault(primaryKey).execute().then(function (result) {
+
+                var serverValue = result.results[0];
+                if (serverValue !== undefined) {
+                    // Replace the raw JSON object representing the
+                    // IndicatorType.
+                    screen[name].details._ = serverValue.details._;
+
+                    // Raise changes notification for all storage
+                    // properties, so the UI can update.
+                    screen[name].details.properties.all().forEach(
+                    function (prop) {
+                        if (prop instanceof
+                            msls.Entity.Details.StorageProperty) {
+                            // The property's value.
+                            prop.dispatchChange("value");
+                            // The entity's property value.
+                            IndicatorType.dispatchChange(prop.name);
+                        }
+                    });
+                }
+
+
+            }, function (error) {
+                msls.showMessageBox(error, {
+                    title: "Data Refresh failed"
+                });
+            });
         }
 
-        screen.details.displayName = "Edit " + name;
-    };
+    }
 
     lightswitchTools.canDelete = function (screen) {
         var name = screen.details.getModel().properties[0].name;
@@ -84,6 +122,6 @@
             callback("version: " + data.Version + " (built " + data.Deployed + ")");
         });
     }
-    
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 

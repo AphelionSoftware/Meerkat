@@ -19,7 +19,7 @@ namespace LightSwitchApplication
             var modifiedBy = properties.SingleOrDefault(_ => _.Name == "sys_ModifiedBy");
             var modifiedOn = properties.SingleOrDefault(_ => _.Name == "sys_ModifiedOn");
 
-            if ((string)createdBy.GetValue(entity, null) == default(string))
+            if ((string)createdBy.GetValue(entity, null) == "NA")
             {
                 createdBy.SetValue(entity, Environment.UserName == "" ? "Authentication problem" : Environment.UserName, null);
             }
