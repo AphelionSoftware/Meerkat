@@ -3,7 +3,7 @@
     [Code]            VARCHAR (20)  NOT NULL,
     [ShortName]       VARCHAR (50)  NOT NULL,
     [BusinessKey]     VARCHAR (MAX) NULL,
-    [Output_ID]       INT           NULL,
+    [Output_ID]       INT           NOT NULL,
     [LongName]        VARCHAR (500) NOT NULL,
     [TextDescription] VARCHAR (MAX) NULL,
     [Active]          INT            NOT NULL,
