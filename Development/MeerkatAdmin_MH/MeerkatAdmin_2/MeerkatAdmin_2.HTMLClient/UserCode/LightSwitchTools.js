@@ -3,7 +3,47 @@
 (function (lightswitchTools, undefined) {
     "use strict";
 
-    lightswitchTools.canDelete = function (entity) {
+    lightswitchTools.configureCaptureForm = function(screen) {
+        var name = screen.details.getModel().properties[0].name;
+
+        var primaryKeyColumn;
+        var properties = screen.details.getModel().properties[0].elementType.properties;
+
+        $.each(properties, function (index, property) {
+            if (property.__isKeyProperty === 1) {
+                primaryKeyColumn = property.name;
+                return false;
+            }
+        });
+
+        var primaryKey = screen[name][primaryKeyColumn];
+        var activeType = screen[name].ActiveType;
+
+        if (primaryKey === undefined) {
+            screen.details.displayName = "Add " + name;
+
+            screen[name].sys_CreatedBy = "NA";
+            screen[name].sys_CreatedOn = "1999/01/01";
+            screen[name].sys_ModifiedBy = "NA";
+            screen[name].sys_ModifiedOn = "1999/01/01";
+
+            screen.findContentItem("ActiveType").isVisible = false;
+
+            screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Active'").execute().then(function (x) {
+                activeType = x.results[0];
+            }, function (x) {
+                console.log(x);
+            });
+
+            return;
+        }
+
+        screen.details.displayName = "Edit " + name;
+    };
+
+    lightswitchTools.canDelete = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var entity = screen[name];
         if (entity.details.entityState !== msls.EntityState.unchanged) {
             return false;
         };
@@ -11,7 +51,9 @@
         return true;
     };
 
-    lightswitchTools.deleteEntity = function (entity, entityLabel) {
+    lightswitchTools.deleteEntity = function (screen) {
+        var entityLabel = screen.details.getModel().properties[0].name;
+        var entity = screen[entityLabel];
         if (!lightswitchTools.canDelete(entity)) {
             return msls.showMessageBox(
                 "Cannot delete the " + entityLabel + " because it was changed.",

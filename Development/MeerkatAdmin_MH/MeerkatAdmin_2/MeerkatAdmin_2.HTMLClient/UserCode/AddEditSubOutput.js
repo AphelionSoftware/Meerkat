@@ -1,22 +1,14 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
-
-myapp.AddEditSubOutput.beforeApplyChanges = function (screen) {
-    "use strict";
-
-    var activeType = screen.findContentItem("ActiveType");
-    if (activeType.value === undefined) {
-        activeType.validationResults = [
-            new msls.ValidationResult(screen.SubOutput.details.properties.ActiveType, "Active type is required")
-        ];
-
-        return false;
-    }
-};
+/// <reference path="LightSwitchTools.js" />
 
 myapp.AddEditSubOutput.Project_Delete_execute = function (screen) {
-    msls.application.lightswitchTools.deleteEntity(screen.SubOutput, "Activity");
+    msls.application.lightswitchTools.deleteEntity(screen);
 };
 
 myapp.AddEditSubOutput.SubOutput_Delete_canExecute = function (screen) {
-    return msls.application.lightswitchTools.canDelete(screen.SubOutput);
+    return msls.application.lightswitchTools.canDelete(screen);
+};
+
+myapp.AddEditSubOutput.created = function (screen) {
+    msls.application.lightswitchTools.configureCaptureForm(screen);
 };

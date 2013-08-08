@@ -1,7 +1,7 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
 myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
-    msls.application.lightswitchTools.deleteEntity(screen.Indicator, "Indicator");
+    msls.application.lightswitchTools.deleteEntity(screen);
 };
 
 myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem) {
@@ -63,5 +63,10 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
     });
 };
 myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
-    return msls.application.lightswitchTools.canDelete(screen.Indicator);
+    return msls.application.lightswitchTools.canDelete(screen);
+};
+
+myapp.AddEditIndicator.created = function (screen) {
+    msls.application.lightswitchTools.configureCaptureForm(screen);
+    screen.Indicator.IsKeyIndicator = false;
 };
