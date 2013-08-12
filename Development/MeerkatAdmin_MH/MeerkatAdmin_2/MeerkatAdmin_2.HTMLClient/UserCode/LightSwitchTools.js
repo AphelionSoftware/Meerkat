@@ -59,7 +59,7 @@
 
                         if ((property instanceof msls.Entity.Details.StorageProperty) &&
                             (propertyName[0] !== '_') &&
-                            (propertyName.substring(0,3) !== 'sys')) {
+                            (propertyName.substring(0, 3) !== 'sys')) {
                             var diffFound = false;
 
                             if (thisObject.details._[propertyName] instanceof Date) {
@@ -105,7 +105,7 @@
     lightswitchTools.deleteEntity = function (screen) {
         var entityLabel = screen.details.getModel().properties[0].name;
         var entity = screen[entityLabel];
-        if (!lightswitchTools.canDelete(entity)) {
+        if (!lightswitchTools.canDelete(screen)) {
             return msls.showMessageBox(
                 "Cannot delete the " + entityLabel + " because it was changed.",
                 {
@@ -113,27 +113,52 @@
                 });
         };
 
-        //entity.deleteEntity();
-        var activeType = screen[entityLabel].ActiveType;
-        screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Deleted'").execute().then(function (x) {
-            activeType = x.results[0];
-        }, function (x) {
-            console.log(x);
+        msls.showMessageBox("Are you sure you want to delete this record", {
+            title: "Confirm",
+            buttons: msls.MessageBoxButtons.yesNo
+
+        }).then(function (result) {
+            if (result === msls.MessageBoxResult.yes) {
+                screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Deleted'").execute().then(function (x) {
+                    screen[entityLabel].ActiveType = x.results[0];
+
+                    myapp.commitChanges().then(null,
+                    function fail(e) {
+                        // If error occurs, show the error.
+                        msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                            // Discard Changes
+                            screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                        });
+                    });
+                }, function (x) {
+                    msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                        // Discard Changes
+                        screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                    });
+                });
+            }
         });
 
-        myapp.commitChanges().then(null, function fail(e) {
-            // If error occurs, show the error.
-            msls.showMessageBox(e.message, { title: e.title }).then(function () {
-                // Discard Changes
-                screen.details.dataWorkspace.ApplicationData.details.discardChanges();
-            });
-        });
     }
 
     lightswitchTools.getVersionInfo = function (callback) {
         $.getJSON("/api/LightswitchHelpers", function (data) {
             callback("version: " + data.Version + " (built " + data.Deployed + ")");
         });
+    }
+
+    lightswitchTools.browseAndRefresh = function (screen, target) {
+        var selectedItem = screen.details.properties.all()[0].value.selectedItem;
+
+        target(selectedItem, {
+            afterClosed: function () {
+                screen.details.properties.all()[0].value.load();
+            }
+        });
+    }
+
+    lightswitchTools.canBrowse = function (screen) {
+        return screen.details.properties.all()[0].value.selectedItem !== undefined;
     }
 
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
