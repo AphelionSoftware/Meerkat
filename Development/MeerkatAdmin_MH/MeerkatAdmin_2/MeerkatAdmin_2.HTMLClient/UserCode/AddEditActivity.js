@@ -12,3 +12,8 @@ myapp.AddEditActivity.Activity_Delete_canExecute = function (screen) {
 myapp.AddEditActivity.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
 };
+
+myapp.AddEditActivity.Method_execute = function (screen) {
+    // Write code here.
+
+};
