@@ -10,5 +10,5 @@ myapp.AddEditSubOutput.SubOutput_Delete_canExecute = function (screen) {
 };
 
 myapp.AddEditSubOutput.created = function (screen) {
-    msls.application.lightswitchTools.configureCaptureForm(screen);
+    msls.application.lightswitchTools.configureCaptureForm(screen); 
 };
