@@ -69,12 +69,6 @@ namespace LightSwitchApplication
 
         }
 
-        partial void DataVersionLevels_Filter(ref Expression<Func<DataVersionLevel, bool>> filter)
-        {
-            filter = e => e.ActiveType.ID == 1;
-
-        }
-
         partial void DataVersions_Filter(ref Expression<Func<DataVersion, bool>> filter)
         {
 
