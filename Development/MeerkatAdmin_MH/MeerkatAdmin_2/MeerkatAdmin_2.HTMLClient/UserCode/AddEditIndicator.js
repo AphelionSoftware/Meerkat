@@ -5,7 +5,7 @@ myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
 };
 
 myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem) {
-    
+
     contentItem.dataBind("value", function (newValue) {
 
         var indicatorGroup = contentItem.screen.findContentItem("SubIndicators");
@@ -62,6 +62,7 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
         }
     });
 };
+
 myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
     return msls.application.lightswitchTools.canDelete(screen);
 };

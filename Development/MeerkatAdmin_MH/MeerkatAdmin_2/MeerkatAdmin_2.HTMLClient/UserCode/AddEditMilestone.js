@@ -13,3 +13,46 @@ myapp.AddEditMilestone.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
     screen.Milestone.IsKeyIndicator = false;
 };
+
+myapp.AddEditMilestone.MilestoneType_postRender = function (element, contentItem) {
+    contentItem.dataBind("value", function (newValue) {
+
+        var indicatorGroup = contentItem.screen.findContentItem("Subcategories");
+        $.each(indicatorGroup.children, function (index, child) {
+            child.isVisible = false;
+        });
+
+        if (newValue === undefined) {
+            return;
+        }
+
+        var target = undefined;
+        switch (newValue.Code) {
+            case "Outcome":
+                {
+                    target = contentItem.screen.findContentItem("Outcome");
+                    break;
+                }
+            case "Activity":
+                {
+                    target = contentItem.screen.findContentItem("Activity");
+                    break;
+                }
+            case "Project":
+                {
+                    target = contentItem.screen.findContentItem("Project");
+                    break;
+                }
+            default:
+                {
+                    console.log(newValue.Code);
+                    break;
+                }
+
+        }
+
+        if (target !== undefined) {
+            target.isVisible = true;
+        }
+    });
+};
