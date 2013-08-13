@@ -26,7 +26,6 @@
     [UnitOfMeasure]    VARCHAR (50)     NOT NULL,
     [Active]           INT              CONSTRAINT [DF__Indicator__sys_A__4F9CCB9E] DEFAULT ((1)) NOT NULL,
     [projectID]        INT              NULL,
-	[DataVersion]		INT			 NOT NULL,
     [sys_CreatedBy]    VARCHAR (255)    CONSTRAINT [DF_Indicator_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]    DATETIME         CONSTRAINT [DF_Indicator_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]   VARCHAR (255)    CONSTRAINT [DF_Indicator_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -38,7 +37,6 @@
     CONSTRAINT [FK_Indicator_IndicatorType] FOREIGN KEY ([IndicatorType_ID]) REFERENCES [app].[IndicatorType] ([IndicatorType_ID]),
     CONSTRAINT [FK_Indicator_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
     CONSTRAINT [FK_Indicator_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
-    CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
-	CONSTRAINT [FK_Indicator_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] (DataVersion_ID)
+    CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID])
 );
 

@@ -14,7 +14,6 @@
       Name="SecurityData"
       EntityContainer="Microsoft.LightSwitch.Security:SecurityData">
       <EntityContainerGroupProperty.Attributes>
-        
         <Generated />
         <DisplayName
           Value="Security Data" />
@@ -2190,11 +2189,6 @@
         FromEnd="ActiveType"
         ToEnd="DataVersion" />
       <NavigationProperty
-        Name="DataVersionLevels"
-        Association="FK_DataVersionLevel_ActiveType"
-        FromEnd="ActiveType"
-        ToEnd="DataVersionLevel" />
-      <NavigationProperty
         Name="DimDates"
         Association="FK_DimDate_ActiveType"
         FromEnd="ActiveType"
@@ -2607,21 +2601,6 @@
         FromEnd="DataVersion"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="DataVersions"
-        Association="FK_DataVersion_DataVersion"
-        FromEnd="DataVersion"
-        ToEnd="DataVersion1" />
-      <NavigationProperty
-        Name="DataVersion1"
-        Association="FK_DataVersion_DataVersion"
-        FromEnd="DataVersion1"
-        ToEnd="DataVersion" />
-      <NavigationProperty
-        Name="DataVersionLevel"
-        Association="FK_DataVersion_DataVersionLevel"
-        FromEnd="DataVersion"
-        ToEnd="DataVersionLevel" />
-      <NavigationProperty
         Name="Outcome"
         Association="FK_DataVersion_Outcome"
         FromEnd="DataVersion"
@@ -2636,118 +2615,14 @@
         Association="FK_MilestoneValues_DataVersion"
         FromEnd="DataVersion"
         ToEnd="MilestoneValues" />
-    </EntityType.Properties>
-  </EntityType>
-  <EntityType
-    Name="DataVersionLevel">
-    <EntityType.Methods>
-      <EntityMethod
-        Name="Delete">
-        <EntityMethod.Attributes>
-          <Generated />
-        </EntityMethod.Attributes>
-      </EntityMethod>
-    </EntityType.Methods>
-    <EntityType.Properties>
-      <KeyProperty
-        Name="DataVersionLevel_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
       <EntityProperty
-        Name="VersionLevelCode"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="VersionOrder"
+        Name="Order"
         PropertyType=":Int32">
         <EntityProperty.Attributes>
           <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Description"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <Required />
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <Required />
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="DataVersions"
-        Association="FK_DataVersion_DataVersionLevel"
-        FromEnd="DataVersionLevel"
-        ToEnd="DataVersion" />
-      <NavigationProperty
-        Name="ActiveType"
-        Association="FK_DataVersionLevel_ActiveType"
-        FromEnd="DataVersionLevel"
-        ToEnd="ActiveType" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -4348,63 +4223,18 @@
       EntityType="DataVersion" />
   </Association>
   <Association
-    Name="FK_DataVersion_DataVersion">
-    <AssociationEnd
-      Name="DataVersion"
-      EntityType="DataVersion">
-      <AssociationEnd.Attributes>
-        <DeleteRule
-          Action="Restrict" />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="DataVersion1"
-      Multiplicity="Many"
-      EntityType="DataVersion" />
-  </Association>
-  <Association
-    Name="FK_DataVersion_DataVersionLevel">
-    <AssociationEnd
-      Name="DataVersionLevel"
-      Multiplicity="One"
-      EntityType="DataVersionLevel">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="DataVersion"
-      Multiplicity="Many"
-      EntityType="DataVersion" />
-  </Association>
-  <Association
     Name="FK_DataVersion_Outcome">
     <AssociationEnd
       Name="Outcome"
-      EntityType="Outcome">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
+      EntityType="Outcome" />
     <AssociationEnd
       Name="DataVersion"
       Multiplicity="Many"
-      EntityType="DataVersion" />
-  </Association>
-  <Association
-    Name="FK_DataVersionLevel_ActiveType">
-    <AssociationEnd
-      Name="ActiveType"
-      Multiplicity="One"
-      EntityType="ActiveType">
+      EntityType="DataVersion">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
-    <AssociationEnd
-      Name="DataVersionLevel"
-      Multiplicity="Many"
-      EntityType="DataVersionLevel" />
   </Association>
   <Association
     Name="FK_DimDate_ActiveType">
@@ -5584,12 +5414,6 @@
       CanUpdate="True"
       EntityType="DataVersion" />
     <EntitySet
-      Name="DataVersionLevels"
-      CanDelete="True"
-      CanInsert="True"
-      CanUpdate="True"
-      EntityType="DataVersionLevel" />
-    <EntitySet
       Name="DimDates"
       CanDelete="True"
       CanInsert="True"
@@ -5676,26 +5500,6 @@
         EntitySet="DataVersions" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_DataVersion_DataVersion"
-      Association="FK_DataVersion_DataVersion">
-      <AssociationSetEnd
-        Name="DataVersion"
-        EntitySet="DataVersions" />
-      <AssociationSetEnd
-        Name="DataVersion1"
-        EntitySet="DataVersions" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_DataVersion_DataVersionLevel"
-      Association="FK_DataVersion_DataVersionLevel">
-      <AssociationSetEnd
-        Name="DataVersionLevel"
-        EntitySet="DataVersionLevels" />
-      <AssociationSetEnd
-        Name="DataVersion"
-        EntitySet="DataVersions" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_DataVersion_Outcome"
       Association="FK_DataVersion_Outcome">
       <AssociationSetEnd
@@ -5704,16 +5508,6 @@
       <AssociationSetEnd
         Name="DataVersion"
         EntitySet="DataVersions" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_DataVersionLevel_ActiveType"
-      Association="FK_DataVersionLevel_ActiveType">
-      <AssociationSetEnd
-        Name="ActiveType"
-        EntitySet="ActiveTypes" />
-      <AssociationSetEnd
-        Name="DataVersionLevel"
-        EntitySet="DataVersionLevels" />
     </AssociationSet>
     <AssociationSet
       Name="FK_DimDate_ActiveType"
@@ -8038,86 +7832,6 @@
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="DataVersionLevels_Single"
-      ReturnType="DataVersionLevel">
-      <QueryOperation.Attributes>
-        <Generated />
-        <Description
-          Value="Returns the entity whose identity is specified by the parameter(s)." />
-      </QueryOperation.Attributes>
-      <QueryOperation.FilterExpression>
-        <QueryFilterExpressionTree>
-          <BinaryExpression
-            NodeType="Equal">
-            <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="DataVersionLevel_ID" />
-              </ChainExpression>
-            </BinaryExpression.Left>
-            <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="DataVersionLevel_ID" />
-            </BinaryExpression.Right>
-          </BinaryExpression>
-        </QueryFilterExpressionTree>
-      </QueryOperation.FilterExpression>
-      <QueryOperation.Source>
-        <QuerySourceExpressionTree>
-          <MemberExpression
-            Member="DataVersionLevels" />
-        </QuerySourceExpressionTree>
-      </QueryOperation.Source>
-      <QueryOperationParameter
-        Name="DataVersionLevel_ID"
-        ParameterType=":Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'DataVersionLevel_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-    </QueryOperation>
-    <QueryOperation
-      Name="DataVersionLevels_SingleOrDefault"
-      ReturnType="DataVersionLevel">
-      <QueryOperation.Attributes>
-        <Generated />
-        <Description
-          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
-      </QueryOperation.Attributes>
-      <QueryOperation.FilterExpression>
-        <QueryFilterExpressionTree>
-          <BinaryExpression
-            NodeType="Equal">
-            <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="DataVersionLevel_ID" />
-              </ChainExpression>
-            </BinaryExpression.Left>
-            <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="DataVersionLevel_ID" />
-            </BinaryExpression.Right>
-          </BinaryExpression>
-        </QueryFilterExpressionTree>
-      </QueryOperation.FilterExpression>
-      <QueryOperation.Source>
-        <QuerySourceExpressionTree>
-          <MemberExpression
-            Member="DataVersionLevels" />
-        </QuerySourceExpressionTree>
-      </QueryOperation.Source>
-      <QueryOperationParameter
-        Name="DataVersionLevel_ID"
-        ParameterType=":Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'DataVersionLevel_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-    </QueryOperation>
-    <QueryOperation
       Name="DimDates_Single"
       ReturnType="DimDate">
       <QueryOperation.Attributes>
@@ -9273,45 +8987,6 @@
         <QuerySourceExpressionTree>
           <MemberExpression
             Member="DataSources" />
-        </QuerySourceExpressionTree>
-      </QueryOperation.Source>
-      <QueryOperationParameter
-        Name="Name"
-        IsOptional="True"
-        ParameterType=":String?" />
-      <QueryOperation.SortCriteria>
-        <SortCriterion>
-          <ChainExpression>
-            <MemberExpression
-              Member="Name" />
-          </ChainExpression>
-        </SortCriterion>
-      </QueryOperation.SortCriteria>
-    </QueryOperation>
-    <QueryOperation
-      Name="DataVersionLevelsSorted"
-      ReturnType="DataVersionLevel*">
-      <QueryOperation.FilterExpression>
-        <QueryFilterExpressionTree>
-          <BinaryExpression
-            NodeType="Equal">
-            <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="Name" />
-              </ChainExpression>
-            </BinaryExpression.Left>
-            <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="Name" />
-            </BinaryExpression.Right>
-          </BinaryExpression>
-        </QueryFilterExpressionTree>
-      </QueryOperation.FilterExpression>
-      <QueryOperation.Source>
-        <QuerySourceExpressionTree>
-          <MemberExpression
-            Member="DataVersionLevels" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
@@ -11390,6 +11065,12 @@
           Type="nvarchar(max)"
           Property="Outcome/Properties[TextDescription]" />
         <SsdlProperty
+          MaxLength="50"
+          Name="OutcomeSiteName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Outcome/Properties[OutcomeSiteName]" />
+        <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
@@ -11411,17 +11092,16 @@
           Nullable="False"
           Type="datetime"
           Property="Outcome/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="OutcomeSiteName"
-          Nullable="True"
-          Type="nvarchar"
-          Property="Outcome/Properties[OutcomeSiteName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="DataVersion"
+          Nullable="False"
+          Type="int"
+          PropertyName="DataVersion" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <EntitySetMapping
@@ -12235,6 +11915,11 @@
           Type="varchar(max)"
           Property="DataVersion/Properties[Description]" />
         <SsdlProperty
+          Name="Order"
+          Nullable="False"
+          Type="int"
+          Property="DataVersion/Properties[Order]" />
+        <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
@@ -12256,84 +11941,6 @@
           Nullable="False"
           Type="datetime"
           Property="DataVersion/Properties[sys_ModifiedOn]" />
-        <SsdlForeignKeyProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="ParentDataVersion_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="ParentDataVersion_ID" />
-        <SsdlForeignKeyProperty
-          Name="DataVersionLevel_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="DataVersionLevel_ID" />
-        <SsdlForeignKeyProperty
-          Name="Outcome_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Outcome_ID" />
-      </EntitySetMapping.Attributes>
-    </EntitySetMapping>
-    <EntitySetMapping
-      EntitySet="DataVersionLevels">
-      <EntitySetMapping.Attributes>
-        <SsdlEntitySet
-          Schema="Core"
-          Table="DataVersionLevel" />
-        <SsdlProperty
-          Name="DataVersionLevel_ID"
-          Nullable="False"
-          StoreGeneratedPattern="Identity"
-          Type="int"
-          Property="DataVersionLevel/Properties[DataVersionLevel_ID]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="VersionLevelCode"
-          Nullable="False"
-          Type="varchar"
-          Property="DataVersionLevel/Properties[VersionLevelCode]" />
-        <SsdlProperty
-          Name="VersionOrder"
-          Nullable="False"
-          Type="int"
-          Property="DataVersionLevel/Properties[VersionOrder]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="DataVersionLevel/Properties[Name]" />
-        <SsdlProperty
-          Name="Description"
-          Nullable="False"
-          Type="varchar(max)"
-          Property="DataVersionLevel/Properties[Description]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="sys_CreatedBy"
-          Nullable="False"
-          Type="varchar"
-          Property="DataVersionLevel/Properties[sys_CreatedBy]" />
-        <SsdlProperty
-          Name="sys_CreatedOn"
-          Nullable="False"
-          Type="datetime"
-          Property="DataVersionLevel/Properties[sys_CreatedOn]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="sys_ModifiedBy"
-          Nullable="False"
-          Type="varchar"
-          Property="DataVersionLevel/Properties[sys_ModifiedBy]" />
-        <SsdlProperty
-          Name="sys_ModifiedOn"
-          Nullable="False"
-          Type="datetime"
-          Property="DataVersionLevel/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -13331,90 +12938,6 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_DataVersion_DataVersion">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_DataVersion_DataVersion" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_DataVersion]/Members[DataVersion]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DataVersion_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_DataVersion]/Members[DataVersion1]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ParentDataVersion_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_DataVersion_DataVersionLevel">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_DataVersion_DataVersionLevel" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_DataVersionLevel]/Members[DataVersionLevel]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DataVersionLevel_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_DataVersionLevel]/Members[DataVersion]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DataVersionLevel_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_DataVersion_Outcome">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_DataVersion_Outcome" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_Outcome]/Members[Outcome]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="OutcomeID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersion_Outcome]/Members[DataVersion]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Outcome_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_DataVersionLevel_ActiveType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_DataVersionLevel_ActiveType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersionLevel_ActiveType]/Members[ActiveType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_DataVersionLevel_ActiveType]/Members[DataVersionLevel]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Active" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
       AssociationSet="FK_DimDate_ActiveType">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -14334,6 +13857,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_DataVersion_Outcome">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutCome_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DataVersion_Outcome]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DataVersion_Outcome]/Members[Outcome]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

@@ -48,11 +48,6 @@ namespace LightSwitchApplication
             SetTrackingInfo(entity);
         }
 
-        partial void DataVersionLevels_Inserting(DataVersionLevel entity)
-        {
-            SetTrackingInfo(entity);
-        }
-
         partial void DataVersions_Inserting(DataVersion entity)
         {
             SetTrackingInfo(entity);
@@ -172,12 +167,7 @@ namespace LightSwitchApplication
         {
             SetTrackingInfo(entity);
         }
-
-        partial void DataVersionLevels_Updating(DataVersionLevel entity)
-        {
-            SetTrackingInfo(entity);
-        }
-
+       
         partial void DataVersions_Updating(DataVersion entity)
         {
             SetTrackingInfo(entity);
@@ -322,14 +312,7 @@ namespace LightSwitchApplication
             filter = e => e.ActiveType.ID == 1;
 
         }
-
-        partial void DataVersionLevels_Filter(ref Expression<Func<DataVersionLevel, bool>> filter)
-        {
-            // filter = e => e.IntegerProperty == 0;
-            filter = e => e.ActiveType.ID == 1;
-
-        }
-
+       
         partial void DataVersions_Filter(ref Expression<Func<DataVersion, bool>> filter)
         {
             // filter = e => e.IntegerProperty == 0;

@@ -397,8 +397,7 @@ INSERT INTO [app].[Indicator]
            ,[SubOutput_ID]
            ,[ShortName]
 		   ,IsKeyIndicator
-		   ,UnitOfMeasure,
-		   DataVersion
+		   ,UnitOfMeasure
            )
      
 SELECT OM.ShortName + ' Status', 
@@ -421,7 +420,6 @@ SELECT OM.ShortName + ' Status',
 	 LEFT('Status of ' + OM.ShortName,50),
 	 0
 	 ,'Percentage'
-	 ,0
 FROM app.Outcome OM
 
 UNION ALL 
@@ -446,7 +444,6 @@ SELECT OP.ShortName + ' Status',
 	 LEFT('Status of ' + OP.ShortName,50),
 	 0 
 	 ,'Percentage'
-	 ,0
 FROM app.Output OP
 
 UNION ALL 
@@ -472,7 +469,6 @@ SELECT SO.ShortName + ' Status',
 	 LEFT('Status of ' + SO.ShortName,50),
 	 0
 	 ,'Percentage'
-	 ,0
 FROM app.SubOutput SO
 
 GO

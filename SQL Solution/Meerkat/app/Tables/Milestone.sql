@@ -22,7 +22,6 @@
     [TargetDateID]    AS              ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),
     [IsKeyIndicator]  BIT             NOT NULL,
     [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
-	[DataVersion]     INT			 NOT NULL,
     [Active]          INT             CONSTRAINT [DF__Milestone__sys_A__5F492382] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME        CONSTRAINT [DF_Milestone_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -34,7 +33,6 @@
     CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
     CONSTRAINT [FK_Milestone_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
-    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
-	CONSTRAINT [FK_Milestone_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] (DataVersion_ID)
+    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
 );
 
