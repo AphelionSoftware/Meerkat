@@ -9,7 +9,7 @@ CREATE PROC [Core].[sp_IndicatorCaptureProgress]
 , @MilestoneCode varchar(255) = '0'
 AS
 
-/*
+
 
 Select 
 		(OC.Code + ' : ' + OC.LongName) as Outcome
@@ -18,8 +18,10 @@ Select
 		,otp.Output_ID
 		,(STP.Code + ' : ' + STP.LongName) as SubOutput
 		,stp.SubOutput_ID
-		,(ACT.Code + ' : ' + ACT.LongName) as Activity
-		,act.ActivityID as Activity_ID
+		,--(ACT.Code + ' : ' + ACT.LongName) 
+		''as Activity
+		,--act.ActivityID 
+		0 as Activity_ID
 		,(MST.Code + ' : ' + MST.LongName) as Indicator
 		,mst.IndicatorID as Indicator_ID
 			,LEFT(RC.YearNumber,4 ) Year
@@ -38,9 +40,9 @@ Select
 from app.outcome oc
 	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
-	Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
+	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
-	(act.ActivityID = mst.Activity_ID or 
+	(--act.ActivityID = mst.Activity_ID or 
 	stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
 	OC.OutcomeID = MST.OutcomeID)
@@ -56,7 +58,7 @@ Where OC.OutcomeID = @@Outcome_ID and MSV.DataVersion_ID=@@DataVersion_ID
 order by (OC.Code + ' : ' + OC.LongName)
       ,(OTP.Code + ' : ' + OTP.LongName)
       ,(STP.Code + ' : ' + STP.LongName)
-      ,(ACT.Code + ' : ' + ACT.LongName)
+      --,(ACT.Code + ' : ' + ACT.LongName)
       ,(MST.Code + ' : ' + MST.LongName)
       ,RCC.YearNumber
       ,rCc.ReportingPeriod
@@ -67,5 +69,5 @@ order by (OC.Code + ' : ' + OC.LongName)
 
 
 
-	  */
-	  SELECT 'Not implemented' as X
+	 
+	  --SELECT 'Not implemented' as X
