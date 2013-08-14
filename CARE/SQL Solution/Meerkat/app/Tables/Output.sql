@@ -13,6 +13,9 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Output_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
     CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID])
+    CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
+    UNIQUE NONCLUSTERED ([ShortName] ASC)
 );
+
+
 

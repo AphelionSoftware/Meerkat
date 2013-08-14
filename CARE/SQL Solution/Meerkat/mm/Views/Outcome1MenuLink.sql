@@ -1,4 +1,5 @@
 ﻿
+
 CREATE VIEW [mm].[Outcome1MenuLink]
 AS
 /*
@@ -33,4 +34,9 @@ app.DimSubOutput dso ON da.SubOutput_ID = dso.SubOutput_ID INNER JOIN
 app.DimOutput do ON dso.Output_ID = do.Output_ID
 WHERE do.outcomeId=7
 */
-SELECT 'Not implemented' as X
+/*SELECT 'Not implemented' as X
+*/
+
+SELECT     Substring(Title,1,50) as Title, Link, ID, Parent 
+FROM mm.ALL_OutcomeMenuLink
+WHERE OutcomeID = 2

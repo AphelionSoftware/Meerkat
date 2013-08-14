@@ -3,6 +3,7 @@
 
 
 
+
 CREATE VIEW [mm].[ALL_OutcomeMenuCategory]
 AS
 /*---Outputs*/ 
@@ -12,7 +13,7 @@ FROM app.Outcome
 UNION ALL
 SELECT     Title = do.ShortName, 
            Link = '' ---/Outcome2/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx' + CONVERT(Nvarchar(20), do.Output_ID) 
-		   ,1 - do.Output_ID +	 5000 as ID 
+		   ,do.Output_ID +	 5000 as ID 
 		   ,do.OutcomeID,OC.[OutcomeSiteName]
  FROM app.Output do Left Join app.Outcome as OC on do.OutcomeID=oc.OutcomeID
 --WHERE     do.OutcomeID = 9 --- LIKE 'Outcome 2.%'
