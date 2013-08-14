@@ -67,10 +67,10 @@
           ParameterType="Indicator" />
       </ApplicationMethod>
       <ApplicationMethod
-        Name="showAddEditIndicatorValue">
+        Name="showAddIndicatorValue">
         <ApplicationMethod.Attributes>
           <ShowScreenMethod
-            TargetScreen="AddEditIndicatorValue" />
+            TargetScreen="AddIndicatorValue" />
         </ApplicationMethod.Attributes>
         <ApplicationMethodParameter
           Name="IndicatorValue"
@@ -113,10 +113,10 @@
           ParameterType="Milestone" />
       </ApplicationMethod>
       <ApplicationMethod
-        Name="showAddEditMilestoneValue">
+        Name="showAddMilestoneValue">
         <ApplicationMethod.Attributes>
           <ShowScreenMethod
-            TargetScreen="AddEditMilestoneValue" />
+            TargetScreen="AddMilestoneValue" />
         </ApplicationMethod.Attributes>
         <ApplicationMethodParameter
           Name="MilestoneValue"
@@ -134,6 +134,26 @@
         <ApplicationMethodParameter
           Name="Output_ID"
           ParameterType=":Int32?" />
+      </ApplicationMethod>
+      <ApplicationMethod
+        Name="showViewIndicatorValue">
+        <ApplicationMethod.Attributes>
+          <ShowScreenMethod
+            TargetScreen="ViewIndicatorValue" />
+        </ApplicationMethod.Attributes>
+        <ApplicationMethodParameter
+          Name="IndicatorValue"
+          ParameterType="IndicatorValue" />
+      </ApplicationMethod>
+      <ApplicationMethod
+        Name="showViewMilestoneValue">
+        <ApplicationMethod.Attributes>
+          <ShowScreenMethod
+            TargetScreen="ViewMilestoneValue" />
+        </ApplicationMethod.Attributes>
+        <ApplicationMethodParameter
+          Name="MilestoneValue"
+          ParameterType="MilestoneValue" />
       </ApplicationMethod>
     </Application.Methods>
   </Application>
@@ -1353,10 +1373,10 @@
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree>
                 <BinaryExpression
-                  NodeType="Or">
+                  NodeType="And">
                   <BinaryExpression.Left>
                     <BinaryExpression
-                      NodeType="Or">
+                      NodeType="And">
                       <BinaryExpression.Left>
                         <BinaryExpression
                           NodeType="Equal">
@@ -2371,17 +2391,6 @@
                   </ContentItem>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="ViewIndicator/Methods[EditIndicatorValues]" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
@@ -2409,6 +2418,45 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
+              <ContentItem
+                Name="ShowViewIndicatorValue"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="View Indicator Value" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showViewIndicatorValue]">
+                          <ArgumentExpression
+                            Parameter="IndicatorValue">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewIndicator/Properties[IndicatorValues]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-document"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
             </ContentItem.CommandItems>
           </ContentItem>
           <ContentItem
@@ -2420,115 +2468,79 @@
                 Value="Details" />
             </ContentItem.Attributes>
             <ContentItem
-              Name="left"
-              Kind="Group">
+              Name="Group3"
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="Group3"
+                Name="Group2"
                 Kind="Group"
-                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                 <ContentItem
-                  Name="Group2"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
-                  <ContentItem
-                    Name="Code"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ViewIndicator/Properties[Indicator]" />
-                          <MemberExpression
-                            Member="Code" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="ShortName"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ViewIndicator/Properties[Indicator]" />
-                          <MemberExpression
-                            Member="ShortName" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewIndicator/Properties[Indicator]" />
+                        <MemberExpression
+                          Member="Code" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
                 </ContentItem>
                 <ContentItem
-                  Name="Group1"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
-                  <ContentItem
-                    Name="LongName"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ViewIndicator/Properties[Indicator]" />
-                          <MemberExpression
-                            Member="LongName" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="TextDescription"
-                    Kind="Value"
-                    DataType=":String?">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ViewIndicator/Properties[Indicator]" />
-                          <MemberExpression
-                            Member="TextDescription" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
+                  Name="ShortName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewIndicator/Properties[Indicator]" />
+                        <MemberExpression
+                          Member="ShortName" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="200"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="400"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[HeightSizingMode]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="StretchToContainer"
-                        ResultType=":String" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
+              <ContentItem
+                Name="Group1"
+                Kind="Group"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewIndicator/Properties[Indicator]" />
+                        <MemberExpression
+                          Member="LongName" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="TextDescription"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewIndicator/Properties[Indicator]" />
+                        <MemberExpression
+                          Member="TextDescription" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
             </ContentItem>
             <ContentItem.PropertySources>
               <ControlPropertySource
@@ -2599,8 +2611,6 @@
       </ScreenMethod>
       <ScreenMethod
         Name="AddIndicatorValue" />
-      <ScreenMethod
-        Name="EditIndicatorValues" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenProperty
@@ -2673,10 +2683,12 @@
     </Screen.Properties>
   </Screen>
   <Screen
-    Name="AddEditIndicatorValue">
+    Name="AddIndicatorValue">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
+      <DisplayName
+        Value="Add Indicator Value" />
     </Screen.Attributes>
     <Screen.RootContentItem>
       <ContentItem
@@ -2697,325 +2709,245 @@
             </ContentItem.Attributes>
             <ContentItem
               Name="left"
-              Kind="Group">
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="ActualLabel"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="ActualLabel" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="ActualValue"
-                Kind="Value"
-                DataType=":Decimal?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="ActualValue" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="ActualDate"
-                Kind="Value"
-                DataType=":Date?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="ActualDate" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="BusinessKey"
-                Kind="Value"
-                DataType=":String?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="BusinessKey" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="Notes"
-                Kind="Value"
-                DataType=":String?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="Notes" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="DataVersion"
-                Kind="Details"
-                DataType="DataVersion">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="DataVersion" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="Group"
+                Kind="Group">
                 <ContentItem
-                  Name="RowTemplate1"
-                  Kind="Details"
-                  DataType="DataVersion"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  Name="ActualValue"
+                  Kind="Value"
+                  DataType=":Decimal?">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="ActualValue" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
-                  <ContentItem
-                    Name="Code"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="DataVersion/Properties[Code]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="Name"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="DataVersion/Properties[Name]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualLabel"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="ActualLabel" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="BusinessKey"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="BusinessKey" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Notes"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="Notes" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
                 </ContentItem>
               </ContentItem>
               <ContentItem
-                Name="Location"
-                Kind="Details"
-                DataType="Location">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="Location" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="Group1"
+                Kind="Group">
                 <ContentItem
-                  Name="RowTemplate3"
+                  Name="ReportingPeriod"
                   Kind="Details"
-                  DataType="Location"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  DataType="ReportingPeriod">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="ReportingPeriod" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="Code1"
-                    Kind="Value"
-                    DataType=":String?">
+                    Name="RowTemplate5"
+                    Kind="Details"
+                    DataType="ReportingPeriod"
+                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Location/Properties[Code]" />
-                        </ChainExpression>
+                        <ChainExpression />
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="Name1"
-                    Kind="Value"
-                    DataType=":String?">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Location/Properties[Name]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="ReportingPeriod1"
+                      Kind="Value"
+                      DataType=":Int32">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="ReportingPeriod/Properties[ReportingPeriod1]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Name="YearName"
+                      Kind="Value"
+                      DataType=":String">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="ReportingPeriod/Properties[YearName]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Name="YearNumber"
+                      Kind="Value"
+                      DataType=":Int32">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="ReportingPeriod/Properties[YearNumber]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
-              </ContentItem>
-              <ContentItem
-                Name="Organization"
-                Kind="Details"
-                DataType="Organization">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="Organization" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
                 <ContentItem
-                  Name="RowTemplate4"
+                  Name="Organization"
                   Kind="Details"
-                  DataType="Organization"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  DataType="Organization">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="Organization" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="Code2"
-                    Kind="Value"
-                    DataType=":String?">
+                    Name="RowTemplate4"
+                    Kind="Details"
+                    DataType="Organization"
+                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Organization/Properties[Code]" />
-                        </ChainExpression>
+                        <ChainExpression />
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="BusinessKey1"
-                    Kind="Value"
-                    DataType=":String?">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Organization/Properties[BusinessKey]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Code2"
+                      Kind="Value"
+                      DataType=":String?">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Organization/Properties[Code]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Name="BusinessKey1"
+                      Kind="Value"
+                      DataType=":String?">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Organization/Properties[BusinessKey]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
-              </ContentItem>
-              <ContentItem
-                Name="ReportingPeriod"
-                Kind="Details"
-                DataType="ReportingPeriod">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                      <MemberExpression
-                        Member="ReportingPeriod" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
                 <ContentItem
-                  Name="RowTemplate5"
+                  Name="Location"
                   Kind="Details"
-                  DataType="ReportingPeriod"
-                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  DataType="Location">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                        <MemberExpression
+                          Member="Location" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="ReportingPeriod1"
-                    Kind="Value"
-                    DataType=":Int32">
+                    Name="RowTemplate3"
+                    Kind="Details"
+                    DataType="Location"
+                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ReportingPeriod/Properties[ReportingPeriod1]" />
-                        </ChainExpression>
+                        <ChainExpression />
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="YearName"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ReportingPeriod/Properties[YearName]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="YearNumber"
-                    Kind="Value"
-                    DataType=":Int32">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ReportingPeriod/Properties[YearNumber]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Code1"
+                      Kind="Value"
+                      DataType=":String?">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Location/Properties[Code]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Name="Name1"
+                      Kind="Value"
+                      DataType=":String?">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Location/Properties[Name]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="200"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="400"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
           </ContentItem>
         </ContentItem>
@@ -3409,33 +3341,47 @@
                   </ContentItem.DataSource>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="!module/Methods[showViewMilestone]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="BrowseMilestones/Properties[Milestones]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="Milestone">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="BrowseMilestones/Properties[Milestones]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
+              <ContentItem
+                Name="ShowViewMilestone"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="View Milestone" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showViewMilestone]">
+                          <ArgumentExpression
+                            Parameter="Milestone">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="BrowseMilestones/Properties[Milestones]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-document"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
               <ContentItem
                 Name="ShowHome"
                 Kind="Command">
@@ -3534,7 +3480,7 @@
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree>
                 <BinaryExpression
-                  NodeType="Or">
+                  NodeType="And">
                   <BinaryExpression.Left>
                     <BinaryExpression
                       NodeType="Equal">
@@ -3643,98 +3589,6 @@
           Name="Tabs"
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
-          <ContentItem
-            Name="Details"
-            Kind="Group"
-            View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
-            <ContentItem.Attributes>
-              <DisplayName
-                Value="Details" />
-            </ContentItem.Attributes>
-            <ContentItem
-              Name="left"
-              Kind="Group">
-              <ContentItem
-                Name="Code"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="ViewMilestone/Properties[Milestone]" />
-                      <MemberExpression
-                        Member="Code" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="ShortName"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="ViewMilestone/Properties[Milestone]" />
-                      <MemberExpression
-                        Member="ShortName" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="200"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="400"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
-            </ContentItem>
-            <ContentItem.CommandItems>
-              <ContentItem
-                Name="AddMilestoneValue"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-add"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="ViewMilestone/Methods[AddMilestoneValue]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-            </ContentItem.CommandItems>
-          </ContentItem>
           <ContentItem
             Name="Group"
             Kind="Group">
@@ -4010,21 +3864,143 @@
               </ContentItem>
               <ContentItem.PropertySources>
                 <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="ViewMilestone/Methods[EditMilestoneValue]" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
                   Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ShowHeader]">
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <ConstantExpression
                         Value="True"
                         ResultType=":Boolean" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="AddMilestoneValue"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="ViewMilestone/Methods[AddMilestoneValue]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowViewMilestoneValue"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="View Milestone Value" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showViewMilestoneValue]">
+                          <ArgumentExpression
+                            Parameter="MilestoneValue">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewMilestone/Properties[MilestoneValues]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-document"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
+          </ContentItem>
+          <ContentItem
+            Name="Details"
+            Kind="Group"
+            View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+            <ContentItem.Attributes>
+              <DisplayName
+                Value="Details" />
+            </ContentItem.Attributes>
+            <ContentItem
+              Name="left"
+              Kind="Group">
+              <ContentItem
+                Name="Code"
+                Kind="Value"
+                DataType=":String">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="ViewMilestone/Properties[Milestone]" />
+                      <MemberExpression
+                        Member="Code" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem
+                Name="ShortName"
+                Kind="Value"
+                DataType=":String">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="ViewMilestone/Properties[Milestone]" />
+                      <MemberExpression
+                        Member="ShortName" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="200"
+                        ResultType=":Double" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="400"
+                        ResultType=":Double" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
@@ -4087,8 +4063,6 @@
       </ScreenMethod>
       <ScreenMethod
         Name="AddMilestoneValue" />
-      <ScreenMethod
-        Name="EditMilestoneValue" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenProperty
@@ -4161,10 +4135,12 @@
     </Screen.Properties>
   </Screen>
   <Screen
-    Name="AddEditMilestoneValue">
+    Name="AddMilestoneValue">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
+      <DisplayName
+        Value="Add Milestone Value" />
     </Screen.Attributes>
     <Screen.RootContentItem>
       <ContentItem
@@ -4185,229 +4161,153 @@
             </ContentItem.Attributes>
             <ContentItem
               Name="left"
-              Kind="Group">
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="ActualLabel"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="ActualLabel" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="ActualValue"
-                Kind="Value"
-                DataType=":Decimal?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="ActualValue" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="ActualDate"
-                Kind="Value"
-                DataType=":Date?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="ActualDate" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="BusinessKey"
-                Kind="Value"
-                DataType=":String?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="BusinessKey" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="Notes"
-                Kind="Value"
-                DataType=":String?">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="Notes" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="DataVersion"
-                Kind="Details"
-                DataType="DataVersion">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="DataVersion" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="Group1"
+                Kind="Group"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                 <ContentItem
-                  Name="RowTemplate1"
-                  Kind="Details"
-                  DataType="DataVersion">
+                  Name="ActualValue"
+                  Kind="Value"
+                  DataType=":Decimal?">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="ActualValue" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualLabel"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="ActualLabel" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="BusinessKey"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="BusinessKey" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Notes"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="Notes" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
               </ContentItem>
               <ContentItem
-                Name="Location"
-                Kind="Details"
-                DataType="Location">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="Location" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="Group"
+                Kind="Group"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                 <ContentItem
-                  Name="RowTemplate2"
+                  Name="Location"
                   Kind="Details"
                   DataType="Location">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="Location" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate2"
+                    Kind="Details"
+                    DataType="Location">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
                 </ContentItem>
-              </ContentItem>
-              <ContentItem
-                Name="Milestone"
-                Kind="Details"
-                DataType="Milestone">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="Milestone" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
                 <ContentItem
-                  Name="RowTemplate3"
-                  Kind="Details"
-                  DataType="Milestone">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression />
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-              </ContentItem>
-              <ContentItem
-                Name="ReportingPeriod"
-                Kind="Details"
-                DataType="ReportingPeriod">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="ReportingPeriod" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-                <ContentItem
-                  Name="RowTemplate4"
+                  Name="ReportingPeriod"
                   Kind="Details"
                   DataType="ReportingPeriod">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="ReportingPeriod" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate4"
+                    Kind="Details"
+                    DataType="ReportingPeriod">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
                 </ContentItem>
-              </ContentItem>
-              <ContentItem
-                Name="Organization"
-                Kind="Details"
-                DataType="Organization">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditMilestoneValue/Properties[MilestoneValue]" />
-                      <MemberExpression
-                        Member="Organization" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
                 <ContentItem
-                  Name="RowTemplate5"
+                  Name="Organization"
                   Kind="Details"
                   DataType="Organization">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
-                      <ChainExpression />
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddMilestoneValue/Properties[MilestoneValue]" />
+                        <MemberExpression
+                          Member="Organization" />
+                      </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate5"
+                    Kind="Details"
+                    DataType="Organization">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="200"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="400"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
           </ContentItem>
         </ContentItem>
@@ -4717,6 +4617,640 @@
       <ScreenProperty
         Name="Output_ID"
         PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+    </Screen.Properties>
+  </Screen>
+  <Screen
+    Name="ViewIndicatorValue">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="MeerkatData" />
+    </Screen.Attributes>
+    <Screen.RootContentItem>
+      <ContentItem
+        Name="RootContentItem"
+        Kind="Screen"
+        View="Microsoft.LightSwitch.MobileWeb:Screen">
+        <ContentItem
+          Name="Tabs"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:TabPages">
+          <ContentItem
+            Name="Details"
+            Kind="Group"
+            View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+            <ContentItem.Attributes>
+              <DisplayName
+                Value="Details" />
+            </ContentItem.Attributes>
+            <ContentItem
+              Name="columns"
+              Kind="Details"
+              DataType="IndicatorValue"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="columns" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewIndicatorValue/Properties[IndicatorValue]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="left"
+                Kind="Group">
+                <ContentItem
+                  Name="ActualLabel"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualLabel]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualValue"
+                  Kind="Value"
+                  DataType=":Decimal?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualValue]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualDate"
+                  Kind="Value"
+                  DataType=":Date?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualDate]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="BusinessKey"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[BusinessKey]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Notes"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[Notes]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Name="right"
+                Kind="Group">
+                <ContentItem
+                  Name="DataVersion"
+                  Kind="Details"
+                  DataType="DataVersion">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[DataVersion]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate1"
+                    Kind="Details"
+                    DataType="DataVersion">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Indicator"
+                  Kind="Details"
+                  DataType="Indicator">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[Indicator]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate2"
+                    Kind="Details"
+                    DataType="Indicator">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Location"
+                  Kind="Details"
+                  DataType="Location">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[Location]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate3"
+                    Kind="Details"
+                    DataType="Location">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Organization"
+                  Kind="Details"
+                  DataType="Organization">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[Organization]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate4"
+                    Kind="Details"
+                    DataType="Organization">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="ReportingPeriod"
+                  Kind="Details"
+                  DataType="ReportingPeriod">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ReportingPeriod]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate5"
+                    Kind="Details"
+                    DataType="ReportingPeriod">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+          <ContentItem.PropertySources>
+            <ControlPropertySource
+              Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <ConstantExpression
+                    Value="True"
+                    ResultType=":Boolean" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ControlPropertySource>
+          </ContentItem.PropertySources>
+        </ContentItem>
+        <ContentItem
+          Name="Popups"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+        <ContentItem.PropertySources>
+          <ControlPropertySource
+            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
+            <ScreenExpressionTree>
+              <ChainExpression>
+                <ConstantExpression
+                  Value="Browse"
+                  ResultType=":String" />
+              </ChainExpression>
+            </ScreenExpressionTree>
+          </ControlPropertySource>
+        </ContentItem.PropertySources>
+      </ContentItem>
+    </Screen.RootContentItem>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="showTab">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="tabName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="showDialog">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="dialogName"
+          ParameterType=":String" />
+      </ScreenMethod>
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenProperty
+        Name="IndicatorValue"
+        PropertyType="IndicatorValue">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+    </Screen.Properties>
+  </Screen>
+  <Screen
+    Name="ViewMilestoneValue">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="MeerkatData" />
+    </Screen.Attributes>
+    <Screen.RootContentItem>
+      <ContentItem
+        Name="RootContentItem"
+        Kind="Screen"
+        View="Microsoft.LightSwitch.MobileWeb:Screen">
+        <ContentItem
+          Name="Tabs"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:TabPages">
+          <ContentItem
+            Name="Details"
+            Kind="Group"
+            View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+            <ContentItem.Attributes>
+              <DisplayName
+                Value="Details" />
+            </ContentItem.Attributes>
+            <ContentItem
+              Name="columns"
+              Kind="Details"
+              DataType="MilestoneValue"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="columns" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewMilestoneValue/Properties[MilestoneValue]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="left"
+                Kind="Group">
+                <ContentItem
+                  Name="ActualLabel"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualLabel]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualValue"
+                  Kind="Value"
+                  DataType=":Decimal?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualValue]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualDate"
+                  Kind="Value"
+                  DataType=":Date?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualDate]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="BusinessKey"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[BusinessKey]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Notes"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[Notes]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="200"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="400"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="right"
+                Kind="Group">
+                <ContentItem
+                  Name="DataVersion"
+                  Kind="Details"
+                  DataType="DataVersion">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[DataVersion]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate1"
+                    Kind="Details"
+                    DataType="DataVersion">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Location"
+                  Kind="Details"
+                  DataType="Location">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[Location]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate2"
+                    Kind="Details"
+                    DataType="Location">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Milestone"
+                  Kind="Details"
+                  DataType="Milestone">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[Milestone]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate3"
+                    Kind="Details"
+                    DataType="Milestone">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="ReportingPeriod"
+                  Kind="Details"
+                  DataType="ReportingPeriod">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ReportingPeriod]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate4"
+                    Kind="Details"
+                    DataType="ReportingPeriod">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Organization"
+                  Kind="Details"
+                  DataType="Organization">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[Organization]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="RowTemplate5"
+                    Kind="Details"
+                    DataType="Organization">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="200"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="400"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+          <ContentItem.PropertySources>
+            <ControlPropertySource
+              Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <ConstantExpression
+                    Value="True"
+                    ResultType=":Boolean" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ControlPropertySource>
+          </ContentItem.PropertySources>
+        </ContentItem>
+        <ContentItem
+          Name="Popups"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+        <ContentItem.PropertySources>
+          <ControlPropertySource
+            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
+            <ScreenExpressionTree>
+              <ChainExpression>
+                <ConstantExpression
+                  Value="Browse"
+                  ResultType=":String" />
+              </ChainExpression>
+            </ScreenExpressionTree>
+          </ControlPropertySource>
+        </ContentItem.PropertySources>
+      </ContentItem>
+    </Screen.RootContentItem>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="showTab">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="tabName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="showDialog">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="dialogName"
+          ParameterType=":String" />
+      </ScreenMethod>
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenProperty
+        Name="MilestoneValue"
+        PropertyType="MilestoneValue">
         <ScreenProperty.Attributes>
           <IsParameter />
         </ScreenProperty.Attributes>

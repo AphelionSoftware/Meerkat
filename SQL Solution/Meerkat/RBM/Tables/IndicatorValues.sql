@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [RBM].[IndicatorValues] (
     [IndicatorValues_ID]     INT             IDENTITY (1, 1) NOT NULL,
     [Indicator_ID]           INT             NOT NULL,
-    [ActualLabel]            VARCHAR (50)    DEFAULT ('((left(CONVERT([varchar](50),[ActualString]),(50))))') NOT NULL,
+    [ActualLabel]            VARCHAR (50)    NOT NULL,
     [ActualValue]            DECIMAL (20, 5) NULL,
     [ActualDate]             DATE            NULL,
     [BusinessKey]            VARCHAR (MAX)   NULL,
