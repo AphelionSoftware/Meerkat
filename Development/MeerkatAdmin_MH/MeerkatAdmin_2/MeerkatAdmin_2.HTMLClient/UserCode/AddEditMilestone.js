@@ -28,11 +28,6 @@ myapp.AddEditMilestone.MilestoneType_postRender = function (element, contentItem
 
         var target = undefined;
         switch (newValue.Code) {
-            case "Outcome":
-                {
-                    target = contentItem.screen.findContentItem("Outcome");
-                    break;
-                }
             case "Activity":
                 {
                     target = contentItem.screen.findContentItem("Activity");

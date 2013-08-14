@@ -1,5 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
-myapp.BrowseOutputs.ShowBrowseOutcomes_postRender = function (element, contentItem) {
+myapp.BrowseOutputs.ShowHome_postRender = function (element, contentItem) {
     $(element).addClass("customHomeIcon");
 };

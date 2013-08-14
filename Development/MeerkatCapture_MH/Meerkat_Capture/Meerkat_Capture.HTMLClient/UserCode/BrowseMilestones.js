@@ -1,5 +1,6 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
-myapp.BrowseMilestones.Home_postRender = function (element, contentItem) {
+myapp.BrowseMilestones.ShowHome_postRender = function (element, contentItem) {
     $(element).addClass("customHomeIcon");
+
 };

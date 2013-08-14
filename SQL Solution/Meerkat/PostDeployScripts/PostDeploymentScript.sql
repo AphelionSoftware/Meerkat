@@ -293,14 +293,6 @@ INSERT [app].[MilestoneType]
 , [Code]
 , [Name]
 , [Active]) 
-Select 1, N'Outcome', N'Outcome', 1
-where not exists(select 1 from  app.MilestoneType where MilestoneTypeID = 1)
-GO
-INSERT [app].[MilestoneType] 
-([MilestoneTypeID]
-, [Code]
-, [Name]
-, [Active]) 
 Select 4, N'Project', N'Project', 1
 where not exists(select 1 from  app.MilestoneType where MilestoneTypeID = 4)
 GO
