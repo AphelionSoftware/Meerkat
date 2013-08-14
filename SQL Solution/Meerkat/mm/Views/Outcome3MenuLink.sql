@@ -1,13 +1,8 @@
-﻿
-
-
-
-
-
-
-CREATE VIEW [mm].[Outcome3MenuLink]
-AS
-SELECT     Substring(Title,1,50) as Title, Link, ID, Parent 
-FROM mm.ALL_OutcomeMenuLink
-WHERE OutcomeID = 3
-
+﻿CREATE VIEW [mm].[Outcome3MenuLink] 
+AS 
+  SELECT Substring(title, 1, 50) AS Title, 
+         link, 
+         id, 
+         parent 
+  FROM   mm.all_outcomemenulink 
+  WHERE  outcomeid = 3 
