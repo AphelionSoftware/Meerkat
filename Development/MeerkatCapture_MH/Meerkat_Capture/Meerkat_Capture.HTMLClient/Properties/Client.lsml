@@ -98,6 +98,9 @@
         <ApplicationMethodParameter
           Name="ActivityID"
           ParameterType=":Int32?" />
+        <ApplicationMethodParameter
+          Name="ProjectID"
+          ParameterType=":Int32?" />
       </ApplicationMethod>
       <ApplicationMethod
         Name="showViewMilestone">
@@ -1899,6 +1902,47 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
+                Name="ShowBrowseMilestones"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Related Milestones" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showBrowseMilestones]">
+                          <ArgumentExpression
+                            Parameter="ProjectID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="BrowseProjects/Properties[Projects]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="ProjectID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-list"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
                 Name="ShowHome"
                 Kind="Command">
                 <ContentItem.Attributes>
@@ -3490,18 +3534,40 @@
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree>
                 <BinaryExpression
-                  NodeType="Equal">
+                  NodeType="Or">
                   <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="Milestone/Properties[Activity]" />
-                      <MemberExpression
-                        Member="ActivityID" />
-                    </ChainExpression>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Milestone/Properties[Activity]" />
+                          <MemberExpression
+                            Member="ActivityID" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="ActivityID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
-                    <ParameterExpression
-                      Parameter="ActivityID" />
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Milestone/Properties[Project]" />
+                          <MemberExpression
+                            Member="ProjectID" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="ProjectID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Right>
                 </BinaryExpression>
               </QueryFilterExpressionTree>
@@ -3515,6 +3581,11 @@
             <ScreenQueryDefinition.Parameters>
               <QueryParameter
                 Name="ActivityID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="ProjectID"
+                IsOptional="True"
                 ParameterType=":Int32?" />
             </ScreenQueryDefinition.Parameters>
           </ScreenQueryDefinition>
@@ -3530,12 +3601,26 @@
                     Member="BrowseMilestones/Properties[ActivityID]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[ProjectID]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
         Name="ActivityID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="ProjectID"
         PropertyType=":Int32?">
         <ScreenProperty.Attributes>
           <IsParameter />
