@@ -6,7 +6,7 @@
     [ShortName]       NVARCHAR (50)  NOT NULL,
     [TextDescription] NVARCHAR (MAX) NULL,
 	[OutcomeSiteName] NVARCHAR (50)  NULL,
-	[DataVersion]     INT			 NOT NULL,
+	[DataVersion]     INT			 NOT NULL DEFAULT ((0)),
     [Active]          INT            CONSTRAINT [DF__Outcome__sys_Act__075714DC] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Outcome_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Outcome_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

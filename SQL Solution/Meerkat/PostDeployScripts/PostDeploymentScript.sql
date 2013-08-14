@@ -44,11 +44,11 @@ where not exists
 (Select 1 from core.ActiveType where ID =1)
 GO
 
-/* Data Vsersions */
+/* Data Versions */
 SET IDENTITY_INSERT Core.DataVersion ON 
 INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '1', 0, 'Publish', 10, '');
 INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '2', 1, 'Final Draft', 20, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '3', 2, 'First Draft', 30, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '3', 3, 'First Draft', 30, '');
 SET IDENTITY_INSERT  Core.DataVersion OFF
 
 
