@@ -112,6 +112,60 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="OutcomeParValues">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>
+Select '9999' as OutcomeID, 'All Outcomes' AS Lable
+Union All
+SELECT  Convert(Varchar(50),[OutcomeID]) as [OutcomeID]
+      ,[Code] + ' : ' + [ShortName] as Lable
+      
+  FROM [app].[Outcome]
+  Where Active=1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OutcomeID">
+          <DataField>OutcomeID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Lable">
+          <DataField>Lable</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataVerParValues">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT Convert(Varchar(50),[DataVersion_ID]) as [DataVersion_ID]
+      ,[Code]
+      ,[Name]
+      ,[Description]
+     
+  FROM [Core].[DataVersion]
+  where active = 1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="DataVersion_ID">
+          <DataField>DataVersion_ID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -518,7 +572,6 @@ IIF(ReportItems!Textbox274.value = 0,"Red",(IIF(ReportItems!Textbox274.value &lt
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1131,10 +1184,24 @@ IIF(ReportItems!Textbox274.value = 0,"Red",(IIF(ReportItems!Textbox274.value &lt
         </Values>
       </DefaultValue>
       <Prompt>DataVersion</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataVerParValues</DataSetName>
+          <ValueField>DataVersion_ID</ValueField>
+          <LabelField>Name</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
     <ReportParameter Name="Outcome_ID">
       <DataType>String</DataType>
       <Prompt>Outcome_ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>OutcomeParValues</DataSetName>
+          <ValueField>OutcomeID</ValueField>
+          <LabelField>Lable</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Mm</rd:ReportUnitType>
