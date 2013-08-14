@@ -35,7 +35,7 @@
             }
 
             screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Active'").execute().then(function (x) {
-                activeType = x.results[0];
+                thisObject.setActiveType(x.results[0]);
             }, function (x) {
                 msls.showMessageBox(x, {
                     title: "Default value for ActiveType failed"
