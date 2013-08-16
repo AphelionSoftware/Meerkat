@@ -46,9 +46,10 @@ GO
 
 /* Data Versions */
 SET IDENTITY_INSERT Core.DataVersion ON 
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '1', 0, 'Publish', 10, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '2', 1, 'Final Draft', 20, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '3', 3, 'First Draft', 30, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '0', 0, 'External', 10, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '1', 1, 'Publish', 20, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '2', 3, 'Final Draft', 30, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '3', 4, 'First Draft', 40, '');
 SET IDENTITY_INSERT  Core.DataVersion OFF
 
 

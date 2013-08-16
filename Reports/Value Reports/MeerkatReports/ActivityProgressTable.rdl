@@ -3,11 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="rsdsPOA">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=.\sql2012;Initial Catalog=Meerkat20130615</ConnectString>
-        <IntegratedSecurity>true</IntegratedSecurity>
-      </ConnectionProperties>
+      <DataSourceReference>rsdsPOA</DataSourceReference>
       <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>0e363575-f0eb-4b52-a1e9-dc47cb1cf828</rd:DataSourceID>
     </DataSource>
@@ -110,7 +106,7 @@
         </Field>
         <Field Name="MilestoneCompletionDate">
           <DataField>MilestoneCompletionDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ActivityCode">
           <DataField>ActivityCode</DataField>
@@ -226,6 +222,40 @@
         </Field>
         <Field Name="Remainder">
           <Value>=1-Fields!Percentage.Value</Value>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataVersion">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT        DataVersion_ID, Name
+FROM            Core.DataVersion</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="DataVersion_ID">
+          <DataField>DataVersion_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Activity">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT        ActivityID, ShortName
+FROM            app.Activity</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ActivityID">
+          <DataField>ActivityID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ShortName">
+          <DataField>ShortName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1750,6 +1780,13 @@ iif(Variables!Perc.Value&gt;=1, "icontick", "") )</Value>
         </Values>
       </DefaultValue>
       <Prompt>Data Version ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataVersion</DataSetName>
+          <ValueField>DataVersion_ID</ValueField>
+          <LabelField>Name</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
     <ReportParameter Name="ActivityID">
       <DataType>Integer</DataType>
@@ -1759,6 +1796,13 @@ iif(Variables!Perc.Value&gt;=1, "icontick", "") )</Value>
         </Values>
       </DefaultValue>
       <Prompt>ActivityID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Activity</DataSetName>
+          <ValueField>ActivityID</ValueField>
+          <LabelField>ShortName</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
