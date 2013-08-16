@@ -1,0 +1,4 @@
+﻿CREATE USER [PWLAB\mneAdmin];
+
+
+

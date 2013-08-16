@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [POA]
+    AUTHORIZATION [dbo];
+
