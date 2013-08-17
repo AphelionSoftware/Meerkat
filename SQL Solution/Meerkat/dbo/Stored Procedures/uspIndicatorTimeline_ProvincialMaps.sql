@@ -76,8 +76,8 @@
 --l.geog, 
 --i.UnitOfMeasure,
 --rc.YearName financialYear,
---ROW_NUMBER() over (partition by i.indicatorid, iv.location_id order by rc.EndDateID  desc) as DatePosition,
---ROW_NUMBER() over (partition by i.indicatorid, iv.location_id order by rc.EndDateID ) as RowX,
+--ROW_NUMBER() over (partition by i.IndicatorID, iv.location_id order by rc.EndDateID  desc) as DatePosition,
+--ROW_NUMBER() over (partition by i.IndicatorID, iv.location_id order by rc.EndDateID ) as RowX,
 --ISNULL(iv.[IndicatorValues_ID],0) [IndicatorValues_ID] 
 --      ,i.[IndicatorID] [Indicator_ID]
 --      ,i.[Baseline] [Baseline]
@@ -113,9 +113,9 @@
 --      ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
 --      ,i.TargetDate
 --       ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
---            ,RolledUpToOutcome_ID = ISNULL(i.outcomeID, o.outcomeid)
---      ,RolledUpToOutput_ID = ISNULL(i.output_id, so.output_ID)
---      ,RolledUpToSubOutput_ID = i.suboutput_id
+--            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+--      ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
+--      ,RolledUpToSubOutput_ID = i.SubOutput_ID
 
 --	,i.Baseline OriginalBaseline
 --	,i.Target Target2014
@@ -160,7 +160,7 @@
 --  iv.ReportPeriodID = rc.ID
     
 
---LEFT OUTER JOIN app.SubOutput SO
+--LEFT OUTER JOIN [app].[SubOutput] SO
 --on i.SubOutput_ID = so.SubOutput_ID 
 --LEFT OUTER JOIN app.Output o
 --on i.Output_ID = o.Output_ID

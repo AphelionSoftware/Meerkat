@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Core].[Location] (
     [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
-    [Code]              VARCHAR (MAX)     NULL,
-    [Name]              VARCHAR (MAX)     NULL,
+    [Code]             VARCHAR (50)     NOT NULL,
+    [Name]                 VARCHAR (255)     NOT NULL,
     [Area]              VARCHAR (MAX)     NULL,
     [Density]           VARCHAR (MAX)     NULL,
     [BusinessKey]       NVARCHAR (MAX)    NULL,

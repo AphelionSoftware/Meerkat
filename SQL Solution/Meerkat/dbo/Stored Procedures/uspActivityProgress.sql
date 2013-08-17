@@ -14,7 +14,7 @@ DECLARE @DataVersion_ID varchar(255)=0
 */
 SELECT    
 
-DENSE_RANK() over(order by m.code)  %2  RN,
+DENSE_RANK() over(order by m.Code)  %2  RN,
 p.Code ProjectCode,
 p.LongName ProjectLongName,
 CONVERT(Date, CAST(RP.StartDateID as char(8))) ReportingPeriodStartDate,
@@ -71,14 +71,14 @@ mv.DataVersion_ID,
   FROM 
   app.Milestone M
   
-  INNER JOIN core.ReportingPeriod RP 
+  INNER JOIN Core.ReportingPeriod RP 
   on  
   (RP.StartDateID BETWEEN M.BaselineDateID AND M.TargetDateID
 	 AND RP.EndDateID BETWEEN M.BaselineDateID AND M.TargetDateID)
 	 OR (M.BaselineDateID BETWEEN RP.StartDateID AND RP.EndDateID)
 	 OR (M.TargetDateID BETWEEN RP.StartDateID AND RP.EndDateID)
 
-	 INNER JOIN core.ReportingPeriod RPStart
+	 INNER JOIN Core.ReportingPeriod RPStart
 	 ON M.BaselineDateID BETWEEN RPStart.StartDateID AND RPStart.EndDateID
 
 	  JOIN Core.ReportingPeriod RPEnd
@@ -96,7 +96,7 @@ mv.DataVersion_ID,
 	JOIN  app.Project P
 	on a.ProjectID = P.ProjectID
 
-order by m.code, RP.StartDateID ASC
+order by m.Code, RP.StartDateID ASC
 
 
 

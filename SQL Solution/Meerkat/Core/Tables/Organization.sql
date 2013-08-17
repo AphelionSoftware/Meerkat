@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Core].[Organization] (
     [Organization_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Code]                  VARCHAR (MAX) NULL,
+    [Code]             VARCHAR (50) NULL,
     [BusinessKey]           VARCHAR (MAX) NULL,
     [OrganizationType_ID]   INT           NULL,
     [ParentOrganization_ID] INT           NULL,

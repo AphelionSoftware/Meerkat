@@ -30,12 +30,12 @@ IF ISNUMERIC(@MDXKey) = 1 SET @Outcome_ID = @MDXKey
 
 
 SELECT  
-DENSE_RANK() OVER (order by I.code) %2 RN,
+DENSE_RANK() OVER (order by I.Code) %2 RN,
 @MDXKey Original,
 dbo.fn_StripMDXKey(@MDXKey ) New,
 @Outcome_ID OM,
 @Output_ID O,
-@Suboutput_ID So,
+@SubOutput_ID So,
 @INdicator_id I,
 Type = 'Indicator',
 om.Code OutcomeCode  , 
@@ -54,8 +54,8 @@ so.LongName SubOutputName  ,
 i.LongName IndicatorName  , 
 
 Path = om.Code + ' 
-' + isnull(o.code  , '') + ' 
-' + isnull(so.code  , '')  , 
+' + isnull(o.Code  , '') + ' 
+' + isnull(so.Code  , '')  , 
 cast(rc.StartDateID as varchar) StartDate  , 
 cast(rc.EndDateID as varchar) EndDate  , 
 
@@ -85,7 +85,7 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
         , null [VerifiedActualNotes]
 
         , i.[IndicatorType_ID]
-        , i.[Activity_ID]
+        /*, i.[Activity_ID]*/
         , i.[SubOutput_ID]
         , ISNULL(iv.[DataVersion_ID]  , 0) DataVersion_ID
         , ISNULL(iv.Location_ID  , 1) Location_ID
@@ -96,10 +96,10 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
         , BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
         , i.TargetDate
          , TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-              , RolledUpToOutcome_ID = ISNULL(i.outcomeID  ,  o.outcomeid)
-        , RolledUpToOutput_ID = ISNULL(i.output_id  ,  so.output_ID)
-        , RolledUpToSubOutput_ID = i.suboutput_id  
-        , RolledUpToActivity_ID = i.activity_ID
+              , RolledUpToOutcome_ID = ISNULL(i.OutcomeID  ,  o.OutcomeID)
+        , RolledUpToOutput_ID = ISNULL(i.Output_ID  ,  so.Output_ID)
+        , RolledUpToSubOutput_ID = i.SubOutput_ID  
+        /*, RolledUpToActivity_ID = i.Activity_ID*/
      --       , TermSetID = DIML.TermsetDeepGrainID
 	  , i.Baseline OriginalBaseline
 	  , i.Target Target2014
@@ -123,7 +123,7 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
 	WHEN i.SubOutput_ID IS Not NULL 
 	THEN '[Sub Output].[Sub Output].%26[' + CAST (i.SubOutput_ID as varchar(8)) + ']'
 	END
-	, om.Outcomesitename 
+	, om.OutcomeSitename 
   FROM app.Indicator i 
  LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
@@ -133,10 +133,10 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
  
     
     
-    
+/*    
 LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID
-LEFT OUTER JOIN app.SubOutput SO
+on i.Activity_ID = a.ActivityID*/
+LEFT OUTER JOIN [app].[SubOutput] SO
 
 /*	INNER JOIN dbo.Activity SOA
 	on so.SubOutput_ID = soa.SubOutput_ID
@@ -150,7 +150,7 @@ LEFT OUTER JOIN app.Output o
 on i.Output_ID = o.Output_ID
 OR so.Output_ID = o.Output_ID
 
-LEFT OUTER JOIN app.Outcome om
+LEFT OUTER JOIN [app].[Outcome] om
 on i.OutcomeID = om.OutcomeID
 OR o.OutcomeID = om.OutcomeID
 
@@ -158,14 +158,14 @@ OR o.OutcomeID = om.OutcomeID
 LEFT JOIN Core.DimDate DDStart
 on rc.StartDateID = DDStart.DateID
 
-LEFT JOIN core.DimDate DDEnd
+LEFT JOIN Core.DimDate DDEnd
 on rc.EndDateID= DDEnd.DateID
 
 --LEFT JOIN dwPoa.DimDate DDNext
 --on iv.NextReportingPeriodReleaseDate_ID = DDNext.DateKey
 
 
-AND ( i.outcomeID  = @Outcome_ID OR @Outcome_ID = 0)
+AND ( i.OutcomeID  = @Outcome_ID OR @Outcome_ID = 0)
 AND (i.Output_ID  = @Output_ID OR @Output_ID = 0)
 AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0) 
 AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is null)

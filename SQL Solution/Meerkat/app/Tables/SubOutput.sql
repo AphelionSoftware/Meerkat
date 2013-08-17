@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [app].[SubOutput] (
     [SubOutput_ID]    INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (20)  NOT NULL,
+    [Code]            VARCHAR (50)  NOT NULL,
     [ShortName]       VARCHAR (50)  NOT NULL,
     [BusinessKey]     VARCHAR (MAX) NULL,
     [Output_ID]       INT           NOT NULL,

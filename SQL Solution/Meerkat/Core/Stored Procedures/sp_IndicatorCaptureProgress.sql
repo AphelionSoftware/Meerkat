@@ -28,14 +28,14 @@ Select
 			,OTP.Output_ID as RolledUpToOutput_ID
 			,STP.SubOutput_ID as RolledUpToSubOutput_ID
 			,MSv.ActualDate as ReportingDate
-from app.outcome oc
+from [app].[Outcome] oc
 	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
-	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
+	Left join [app].[SubOutput] STP on OTP.Output_ID = STP.Output_ID
 	Left join app.Indicator MST on 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
 	OC.OutcomeID = MST.OutcomeID)
-	and MST.IndicatorType_ID not in (SELECT TOP 1 IV.[IndicatorType_ID] FROM app.[IndicatorType] IV WHERE CODE = 'OS')	
+	and MST.IndicatorType_ID not in (SELECT TOP 1 IV.[IndicatorType_ID] FROM app.[IndicatorType] IV WHERE Code = 'OS')	
 	
 
 
@@ -55,6 +55,6 @@ order by (OC.Code + ' : ' + OC.LongName)
       ,RCC.YearNumber
       ,rCc.ReportingPeriod
       
-	  go
+	  /*go
 
-	  exec [Core].[sp_IndicatorCaptureProgress] 0 , 2
+	  exec [Core].[sp_IndicatorCaptureProgress] 0 , 2*/

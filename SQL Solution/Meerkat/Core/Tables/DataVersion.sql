@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Core].[DataVersion] (
     [DataVersion_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Code]                 VARCHAR (20)  NOT NULL,
-    [Name]                 VARCHAR (50)  NOT NULL,
+    [Code]             VARCHAR (50)  NOT NULL,
+    [Name]                 VARCHAR (255)  NOT NULL,
     [Description]          VARCHAR (MAX) NOT NULL,
 	[Order]                 INT  NOT NULL DEFAULT ((10)),
     [Active]               INT           CONSTRAINT [DF__DataVersi__sys_A__50C5FA01] DEFAULT ((1)) NOT NULL,

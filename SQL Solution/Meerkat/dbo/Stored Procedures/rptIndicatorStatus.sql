@@ -9,7 +9,7 @@ AS
 SELECT 
 	OM.ShortName as OutcomeName
 	,OP.ShortName as OutputName
-	,SO.ShortName As Suboutputname
+	,SO.ShortName As SubOutputname
 	--,CASE 
 	--WHEN OMI.OutcomeID IS NOT NULL
 	--	THEN OMIV.IndicatorStatusPercent 
@@ -27,7 +27,7 @@ SELECT
 	--	END SubOutputStatus
 	
 			
-FROM app.Outcome OM 
+FROM [app].[Outcome] OM 
 	INNER JOIN app.Indicator OmI 
 	ON OM.OutcomeID = OMI.OutcomeID
 		AND OMI.IndicatorType_ID = 6
@@ -45,7 +45,7 @@ FROM app.Outcome OM
 	INNER JOIN RBM.IndicatorValues OPIV
 		ON OPI.IndicatorID = OPIV.Indicator_ID
 
-	INNER JOIN app.SubOutput SO
+	INNER JOIN [app].[SubOutput] SO
 		ON OP.Output_ID = SO.Output_ID
 	 INNER JOIN app.Indicator SOI 
 	ON SO.SubOutput_ID = SOI.SubOutput_ID 

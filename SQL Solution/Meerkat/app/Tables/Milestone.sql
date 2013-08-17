@@ -13,7 +13,7 @@
     [ProjectID]       INT             NULL,
     [BusinessKey]     NVARCHAR (MAX)  NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
-    [Code]            NVARCHAR (20)   NOT NULL,
+    [Code]             VARCHAR (50)   NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
     [ActivityID]      INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,

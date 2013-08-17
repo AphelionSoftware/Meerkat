@@ -1,8 +1,8 @@
 ﻿CREATE VIEW [mm].[Outcome8MenuLink] 
 AS 
-  SELECT Substring(title, 1, 50) AS Title, 
-         link, 
-         id, 
-         parent 
-  FROM   mm.all_outcomemenulink 
-  WHERE  outcomeid = 8 
+  SELECT Substring(Title, 1, 50) AS Title, 
+         Link, 
+         ID, 
+         Parent 
+  FROM   mm.ALL_OutcomeMenuLink 
+  WHERE  OutcomeID = 8 

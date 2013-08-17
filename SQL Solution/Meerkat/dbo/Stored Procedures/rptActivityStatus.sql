@@ -8,12 +8,12 @@
 --SELECT 
 --	OM.ShortName as OutcomeName
 --	,PR.ShortName as OutputName
---	,ACT.ShortName As Suboutputname
+--	,ACT.ShortName As SubOutputname
 --	,OMIV.IndicatorStatusPercent OutcomeStatus
 --	,OPIV.IndicatorStatusPercent OutputStatus
 --	,SOIV.IndicatorStatusPercent SubOutputStatus
 			
---FROM app.Outcome OM 
+--FROM [app].[Outcome] OM 
 --	INNER JOIN app.Indicator OmI 
 --	ON OM.OutcomeID = OMI.OutcomeID
 --		AND OMI.IndicatorType_ID = 6
@@ -31,7 +31,7 @@
 --	INNER JOIN RBM.IndicatorValues OPIV
 --		ON OPI.IndicatorID = OPIV.Indicator_ID
 
---	INNER JOIN app.SubOutput SO
+--	INNER JOIN [app].[SubOutput] SO
 --		ON PR.Output_ID = ACT.Output_ID
 --	 INNER JOIN app.Indicator SOI 
 --	ON ACT.SubOutput_ID = SOI.SubOutput_ID 
@@ -63,7 +63,7 @@
 --		ELSE NULL 
 --		END OutcomeStatus
 --		,CASE 
---	WHEN OPP.projectID IS NOT NULL
+--	WHEN OPP.ProjectID IS NOT NULL
 --		THEN OPIV.IndicatorStatusPercent 
 --		ELSE NULL 
 --		END ProjectStatus
@@ -74,7 +74,7 @@
 --		END ActivityStatus
 	
 			
---FROM app.Outcome OM 
+--FROM [app].[Outcome] OM 
 --	INNER JOIN app.Indicator OmI 
 --	ON OM.OutcomeID = OMI.OutcomeID
 --		AND OMI.IndicatorType_ID = 6
@@ -93,7 +93,7 @@
 --		ON OPP.IndicatorID = OPIV.Indicator_ID
 
 --	INNER JOIN app.Activity ACT
---		ON PR.projectID = ACT.projectID
+--		ON PR.ProjectID = ACT.ProjectID
 --	 INNER JOIN app.Indicator SOI 
 --	 /* MGS Fixed */
 --	ON ACT.ActivityID = SOI.Activity_ID 

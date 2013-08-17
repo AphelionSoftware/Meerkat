@@ -28,7 +28,7 @@ Select
 			,OTP.Output_ID as RolledUpToOutput_ID
 			,PRJ.ProjectID as RolledUpToProjectID
 			,MSv.ActualDate as ReportingDate
-from app.outcome oc
+from [app].[Outcome]		 oc
 	inner join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
 	inner join app.Project PRJ on OTP.Output_ID = PRJ.ProjectID
 	inner join app.Activity ACT on PRJ.ProjectID = ACT.ProjectID
@@ -51,6 +51,6 @@ order by (OC.Code + ' : ' + OC.LongName)
       ,RC.YearNumber
       ,rc.ReportingPeriod
       
-GO
+/*GO
 
-exec [Core].[sp_MilestoneCaptureProgress] 0, 0
+exec [Core].[sp_MilestoneCaptureProgress] 0, 0*/

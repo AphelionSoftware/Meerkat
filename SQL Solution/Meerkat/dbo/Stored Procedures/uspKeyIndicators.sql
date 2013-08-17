@@ -14,18 +14,18 @@
 --SELECT  
 
 ----rcdate,rcedate,
---DENSE_RANK() OVER (ORDER BY code) % 2 AS RN,
+--DENSE_RANK() OVER (ORDER BY Code) % 2 AS RN,
 
--- [dbo].[fn_ConcatenateIndicator_LocationTypeNames] (indicatorID) LocationTypeNames,
-----dbo.fn_ConcatenateIndicator_DSName (indicatorid) 
+-- [dbo].[fn_ConcatenateIndicator_LocationTypeNames] (IndicatorID) LocationTypeNames,
+----dbo.fn_ConcatenateIndicator_DSName (IndicatorID) 
 --null
 --DataSourceNames, -- no indicator dsn tbl
 
---CASE WHEN MAX(RowX) over (partition by indicatorid,location_ID) > 1 THEN 
---OriginalBaseline + ( (( Target2014 - OriginalBaseline)/  (CAST(MAX(RowX) over (partition by indicatorid,location_ID)  as float) -1))
+--CASE WHEN MAX(RowX) over (partition by IndicatorID,location_ID) > 1 THEN 
+--OriginalBaseline + ( (( Target2014 - OriginalBaseline)/  (CAST(MAX(RowX) over (partition by IndicatorID,location_ID)  as float) -1))
 
 -- )
--- * CAST((ROW_NUMBER() over (partition by indicatorid,location_ID order by ReportCycleDate_ID)) -1  as float)
+-- * CAST((ROW_NUMBER() over (partition by IndicatorID,location_ID order by ReportCycleDate_ID)) -1  as float)
 -- ELSE 
 -- OriginalBaseline END
 -- AS ExtrapolatedTarget,
@@ -38,7 +38,7 @@
 ----RCExtrapolated.ReportCycleReportDate_ID RCEDate,
 -- --i.baseline OriginalBaseline,
 -- --i.Target Target2014,
---ROW_NUMBER() over (partition by i.indicatorid order by rc.StartDateID) as RowX,
+--ROW_NUMBER() over (partition by i.IndicatorID order by rc.StartDateID) as RowX,
 --CASE WHEN ROW_NUMBER() Over (PARTITION by i.IndicatorID,iv.location_ID order by rc.StartDateID) = 1 THEN i.Baseline
 --ELSE NULL END
 
@@ -63,8 +63,8 @@
 --so.LongName SubOutputName,
 --i.LongName IndicatorName,
 --Path = om.Code + ' 
---' + isnull(o.code,'') + ' 
---' + isnull(so.code,''),
+--' + isnull(o.Code,'') + ' 
+--' + isnull(so.Code,''),
 --convert(varchar(20),DDStart.[Date],112) StartDate,
 --convert(varchar(20),DDEnd.[Date],112) EndDate,
 --DDEnd.YearNumber,
@@ -111,10 +111,10 @@
 --      ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
 --      ,i.TargetDate
 --       ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
---            ,RolledUpToOutcome_ID = ISNULL(i.outcomeID, o.outcomeid)
---      ,RolledUpToOutput_ID = ISNULL(i.output_id, so.output_ID)
---      ,RolledUpToSubOutput_ID = i.suboutput_id
---      ,RolledUpToActivity_ID = i.activity_ID
+--            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+--      ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
+--      ,RolledUpToSubOutput_ID = i.SubOutput_ID
+--      ,RolledUpToActivity_ID = i.Activity_ID
 -- --         ,TermSetID = DIML.TermsetDeepGrainID
 --	,i.Baseline OriginalBaseline
 --	,i.Target Target2014
@@ -133,20 +133,20 @@
 --	WHEN i.SubOutput_ID IS Not NULL 
 --	THEN '[Sub Output].[Sub Output].[' + CAST (i.SubOutput_ID as varchar(8)) + ']'
 --	END 
---	,om.[OutcomeSiteName]
+--	,om.[OutcomeSitename]
 --FROM 
 --  app.Indicator i 
 --  join RBM.[IndicatorValues] iv
 --    on i.IndicatorID = iv.Indicator_ID
 --  JOIN Core.ReportingPeriod rc
 --    on iv.ReportPeriodID = rc.ID
---  LEFT JOIN app.SubOutput SO
+--  LEFT JOIN [app].[SubOutput] SO
 --    on i.SubOutput_ID = so.SubOutput_ID 
 --  LEFT JOIN app.Output o
 --    on i.Output_ID = o.Output_ID
 --    OR so.Output_ID = o.Output_ID
 
---  LEFT JOIN app.Outcome om
+--  LEFT JOIN [app].[Outcome] om
 --    on i.OutcomeID = om.OutcomeID
 --    OR o.OutcomeID = om.OutcomeID
 
@@ -161,7 +161,7 @@
 
 --where 
 --  i.ShortName not like '%overall%'
---  AND  (ISNULL(i.outcomeID, o.outcomeid) = @OutcomeID OR @OutcomeID = 0 )
+--  AND  (ISNULL(i.OutcomeID, o.OutcomeID) = @OutcomeID OR @OutcomeID = 0 )
 --  and (i.IsKeyIndicator = @KeyIndicator  or @KeyIndicator = 0)
 --  AND (iv.DataVersion_ID = @DataVersionID OR @DataVersionID = 0 OR iv.DataVersion_ID is null)
 --  AND (iv.Location_ID = @LocationID OR @LocationID = 0 OR iv.Location_ID IS NULL)

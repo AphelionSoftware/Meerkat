@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Core].[Person] (
     [Person_ID]      INT              IDENTITY (1, 1) NOT NULL,
     [Title]          VARCHAR (MAX)    NULL,
-    [Name]           VARCHAR (MAX)    NULL,
+    [Name]                 VARCHAR (255)    NOT NULL,
     [ContactDetails] VARCHAR (MAX)    NULL,
     [Category]       VARCHAR (MAX)    NULL,
     [BusinessKey]    VARCHAR (MAX)    NULL,

@@ -1,16 +1,16 @@
 ﻿CREATE VIEW [mm].[Outcome2MenuGroup] 
 AS 
-  SELECT Substring(title, 1, 50) AS Title, 
-         link, 
-         parent, 
-         id 
-  FROM   mm.all_outcomemenugroup 
-  WHERE  outcomeid IN (SELECT id 
+  SELECT Substring(Title, 1, 50) AS Title, 
+         Link, 
+         Parent, 
+         ID 
+  FROM   [mm].[ALL_OutcomeMenuGroup] 
+  WHERE  OutcomeID IN (SELECT ID 
                        FROM   (SELECT Row_number() 
                                         OVER ( 
                                           partition BY 1 
-                                          ORDER BY code) AS IDX, 
-                                      outcomeid          AS ID 
-                               FROM   app.outcome 
-                               WHERE  active = 1) AS IDX 
-                       WHERE  IDX.idx = 2) 
+                                          ORDER BY Code) AS IDX, 
+                                      OutcomeID          AS ID 
+                               FROM   [app].[Outcome] 
+                               WHERE  Active = 1) AS IDX 
+                       WHERE  IDX.IDx = 2) 

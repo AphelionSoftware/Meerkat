@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [app].[IndicatorType] (
     [IndicatorType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]             VARCHAR (50)  NOT NULL,
-    [Name]             VARCHAR (MAX) NULL,
+    [Code]            VARCHAR (50)  NOT NULL,
+    [Name]                 VARCHAR (255),
     [Active]           INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]    VARCHAR (255) CONSTRAINT [DF_IndicatorType_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]    DATETIME      CONSTRAINT [DF_IndicatorType_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

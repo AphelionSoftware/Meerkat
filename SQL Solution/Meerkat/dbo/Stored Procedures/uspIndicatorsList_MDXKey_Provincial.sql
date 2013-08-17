@@ -33,12 +33,12 @@
 
 --SELECT  
 
---DENSE_RANK() OVER (order by i.code) %2 RN,
+--DENSE_RANK() OVER (order by i.Code) %2 RN,
 --@MDXKey Original,
 --dbo.fn_StripMDXKey(@MDXKey ) New,
 --@Outcome_ID OM,
 --@Output_ID O,
---@Suboutput_ID So,
+--@SubOutput_ID So,
 --@INdicator_id I,
 --Type = 'Indicator',
 --om.Code OutcomeCode  , 
@@ -58,8 +58,8 @@
 --i.LongName IndicatorName  , 
 
 --Path = om.Code + ' 
---' + isnull(o.code  , '') + ' 
---' + isnull(so.code  , '')  , 
+--' + isnull(o.Code  , '') + ' 
+--' + isnull(so.Code  , '')  , 
 --rc.FirstCycleDate StartDate  , 
 --rc.LastCycleDate EndDate  , 
 
@@ -103,10 +103,10 @@
 --        , BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
 --        , i.TargetDate
 --         , TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
---              , RolledUpToOutcome_ID = ISNULL(i.outcomeID  ,  o.outcomeid)
---        , RolledUpToOutput_ID = ISNULL(i.output_id  ,  so.output_ID)
---        , RolledUpToSubOutput_ID = i.suboutput_id 
---        , RolledUpToActivity_ID = i.activity_ID
+--              , RolledUpToOutcome_ID = ISNULL(i.OutcomeID  ,  o.OutcomeID)
+--        , RolledUpToOutput_ID = ISNULL(i.Output_ID  ,  so.Output_ID)
+--        , RolledUpToSubOutput_ID = i.SubOutput_ID 
+--        , RolledUpToActivity_ID = i.Activity_ID
 
 --	  , i.Baseline OriginalBaseline
 --	  , i.Target Target2014
@@ -136,14 +136,14 @@
  
 --  INNER JOIN Core.ReportingPeriod rc
 --  on iv.ReportPeriodID = rc.ID  
---  LEFT OUTER JOIN app.SubOutput SO
+--  LEFT OUTER JOIN [app].[SubOutput] SO
 --  on i.SubOutput_ID = so.SubOutput_ID 
 
 --LEFT OUTER JOIN app.Output o
 --on i.Output_ID = o.Output_ID
 --OR so.Output_ID = o.Output_ID
 
---LEFT OUTER JOIN app.Outcome om
+--LEFT OUTER JOIN [app].[Outcome] om
 --on i.OutcomeID = om.OutcomeID
 --OR o.OutcomeID = om.OutcomeID
 
@@ -152,12 +152,12 @@
 --on iv.Location_ID = l.Location_ID
 
 --where i.ShortName not like '%overall%'
---/*AND ( ISNULL(i.outcome_ID  ,  om.outcome_id) = @Outcome_ID OR @Outcome_ID = 0)
---AND (ISNULL(i.Output_ID  ,  o.Output_id) = @Output_ID OR @Output_ID = 0)
---AND (ISNULL(i.SubOutput_ID  ,  so.SubOutput_id) = @SubOutput_ID OR @SubOutput_ID = 0) 
+--/*AND ( ISNULL(i.Outcome_ID  ,  om.Outcome_id) = @Outcome_ID OR @Outcome_ID = 0)
+--AND (ISNULL(i.Output_ID  ,  o.Output_ID) = @Output_ID OR @Output_ID = 0)
+--AND (ISNULL(i.SubOutput_ID  ,  so.SubOutput_ID) = @SubOutput_ID OR @SubOutput_ID = 0) 
 --*/
 
---AND ( i.outcomeID  = @Outcome_ID OR @Outcome_ID = 0)
+--AND ( i.OutcomeID  = @Outcome_ID OR @Outcome_ID = 0)
 --AND (i.Output_ID  = @Output_ID OR @Output_ID = 0)
 --AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0) 
 --AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0)

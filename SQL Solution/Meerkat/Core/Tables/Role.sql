@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Core].[Role] (
     [RoleID]         INT           IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NULL,
+    [Name]           VARCHAR (255) NOT NULL,
     [Description]    VARCHAR (MAX) NULL,
     [Active]         INT           CONSTRAINT [DF__Role__Active__71BCD978] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255) CONSTRAINT [DF_Role_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

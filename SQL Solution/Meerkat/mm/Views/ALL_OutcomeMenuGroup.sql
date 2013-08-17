@@ -1,129 +1,129 @@
 ﻿CREATE VIEW [mm].[ALL_OutcomeMenuGroup] 
 AS 
-  SELECT TOP (10000) title, 
-                     link, 
-                     parent, 
-                     id, 
-                     outcomeid 
-  FROM   (SELECT dso.code 
+  SELECT TOP (10000) Title, 
+                     Link, 
+                     Parent, 
+                     ID, 
+                     OutcomeID 
+  FROM   (SELECT dso.Code 
                  AS 
                         orderBy1 
                          , 
                  1 
                          AS orderby2 
                          , 
-                 dso.shortname 
+                 dso.ShortName 
                          AS Title 
 , 
-                 '/' + oc.[outcomesitename] 
+                 '/' + oc.[OutcomeSitename] 
        + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
        + '[Sub Output].[Sub Output].%26[' 
-       + Cast(dso.suboutput_id AS VARCHAR(8)) + ']'                  AS Link, 
-       (SELECT id 
-        FROM   mm.all_outcomemenucategory 
-        WHERE  ( title = do.shortname ) 
-               AND all_outcomemenucategory.outcomeid = do.outcomeid) AS Parent, 
-       1 - dso.suboutput_id + 5000                                   AS ID, 
-       do.outcomeid 
-FROM   app.suboutput AS dso 
-       INNER JOIN app.output AS do 
-               ON dso.output_id = do.output_id 
-       INNER JOIN app.outcome AS OC 
-               ON do.outcomeid = oc.outcomeid 
-WHERE  dso.active = 1 AND do.Active = 1 AND oc.Active = 1
+       + Cast(dso.SubOutput_ID AS VARCHAR(8)) + ']'                  AS Link, 
+       (SELECT ID 
+        FROM   mm.ALL_OutcomeMenuCategory 
+        WHERE  ( Title = do.ShortName ) 
+               AND ALL_OutcomeMenuCategory.OutcomeID = do.OutcomeID) AS Parent, 
+       1 - dso.SubOutput_ID + 5000                                   AS ID, 
+       do.OutcomeID 
+FROM   [app].[SubOutput] AS dso 
+INNER JOIN app.Output AS do 
+               ON dso.Output_ID = do.Output_ID 
+       INNER JOIN [app].[Outcome] AS OC 
+               ON do.OutcomeID = oc.OutcomeID 
+WHERE  dso.Active = 1 AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
-SELECT do.shortname                                                  AS orderBy1 
+SELECT do.ShortName                                                  AS orderBy1 
        , 
        1                                                             AS 
        orderby2 
        , 
-       'Indicators: ' + do.shortname + ' '                           AS 
+       'Indicators: ' + do.ShortName + ' '                           AS 
        Title, 
-       '/' + [outcomesitename] 
+       '/' + [OutcomeSitename] 
        + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
        + '[Output].[Output].%26[' 
-       + Cast(do.output_id AS VARCHAR(8)) + ']'                      AS Link, 
-       (SELECT id 
-        FROM   mm.all_outcomemenucategory 
-        WHERE  ( title = do.shortname ) 
-               AND all_outcomemenucategory.outcomeid = do.outcomeid) AS Parent, 
-       100 + do.output_id                                            AS ID, 
-       dom.outcomeid 
-FROM   app.output AS do 
-       INNER JOIN app.outcome AS dom 
-               ON do.outcomeid = dom.outcomeid 
-WHERE  do.active = 1  AND dom.Active = 1
+       + Cast(do.Output_ID AS VARCHAR(8)) + ']'                      AS Link, 
+       (SELECT ID 
+        FROM   mm.ALL_OutcomeMenuCategory 
+        WHERE  ( Title = do.ShortName ) 
+               AND ALL_OutcomeMenuCategory.OutcomeID = do.OutcomeID) AS Parent, 
+       100 + do.Output_ID                                            AS ID, 
+       dom.OutcomeID 
+FROM   app.Output AS do 
+       INNER JOIN [app].[Outcome] AS dom 
+               ON do.OutcomeID = dom.OutcomeID 
+WHERE  do.Active = 1  AND dom.Active = 1
 UNION ALL 
 SELECT '10003'                                    AS OrderBy1, 
        0                                          AS OrderBy2, 
        'Outcome Level Indicators'                 AS Title, 
-       '/' + [outcomesitename] 
+       '/' + [OutcomeSitename] 
        + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=[Outcome].[Outcome].%26[10]' 
                                            AS Link, 
-(SELECT id 
- FROM   mm.all_outcomemenucategory AS OMC_7 
- WHERE  ( title = 'Outcome Pages' ) 
-        AND OMC_7.outcomeid = O.outcomeid) AS Parent, 
+(SELECT ID 
+ FROM   mm.ALL_OutcomeMenuCategory AS OMC_7 
+ WHERE  ( Title = 'Outcome Pages' ) 
+        AND OMC_7.OutcomeID = O.OutcomeID) AS Parent, 
 70                                         AS ID, 
-outcomeid 
-FROM   app.outcome O 
-WHERE  active = 1 
+OutcomeID 
+FROM   [app].[Outcome] O 
+WHERE  Active = 1 
 UNION ALL 
 SELECT '10006'                                    AS OrderBy1, 
        0                                          AS OrderBy2, 
        'Outcome Documents'                        AS Title, 
-       '/' + [outcomesitename] 
+       '/' + [OutcomeSitename] 
        + '/Documents/Forms/AllItems.aspx'         AS Link, 
-       (SELECT id 
-        FROM   mm.all_outcomemenucategory AS OMC_4 
-        WHERE  ( title = 'Outcome Pages' ) 
-               AND OMC_4.outcomeid = O.outcomeid) AS Parent, 
+       (SELECT ID 
+        FROM   mm.ALL_OutcomeMenuCategory AS OMC_4 
+        WHERE  ( Title = 'Outcome Pages' ) 
+               AND OMC_4.OutcomeID = O.OutcomeID) AS Parent, 
        40                                         AS ID, 
-       outcomeid 
-FROM   app.outcome O 
-WHERE  active = 1 
+       OutcomeID 
+FROM   [app].[Outcome] O 
+WHERE  Active = 1 
 UNION ALL 
 SELECT '10008'                                    AS OrderBy1, 
        0                                          AS OrderBy2, 
        'Outcome Contact Info'                     AS Title, 
-       '/' + [outcomesitename] 
+       '/' + [OutcomeSitename] 
        + '/Pages/OutcomeContacts.aspx'            AS Link, 
-       (SELECT id 
-        FROM   mm.all_outcomemenucategory AS OMC_2 
-        WHERE  ( title = 'Outcome Pages' ) 
-               AND OMC_2.outcomeid = O.outcomeid) AS Parent, 
+       (SELECT ID 
+        FROM   mm.ALL_OutcomeMenuCategory AS OMC_2 
+        WHERE  ( Title = 'Outcome Pages' ) 
+               AND OMC_2.OutcomeID = O.OutcomeID) AS Parent, 
        20                                         AS ID, 
-       outcomeid 
-FROM   app.outcome O 
-WHERE  active = 1 
+       OutcomeID 
+FROM   [app].[Outcome] O 
+WHERE  Active = 1 
 UNION ALL 
 SELECT '10009'                                     AS OrderBy1, 
        0                                           AS OrderBy2, 
        'FAQs'                                      AS Title, 
-       '/' + [outcomesitename] + '/Outcome%20Wiki' AS Link, 
-       (SELECT id 
-        FROM   mm.all_outcomemenucategory AS OMC_1 
-        WHERE  ( title = 'Outcome Pages' ) 
-               AND OMC_1.outcomeid = O.outcomeid)  AS Parent, 
+       '/' + [OutcomeSitename] + '/Outcome%20Wiki' AS Link, 
+       (SELECT ID 
+        FROM   mm.ALL_OutcomeMenuCategory AS OMC_1 
+        WHERE  ( Title = 'Outcome Pages' ) 
+               AND OMC_1.OutcomeID = O.OutcomeID)  AS Parent, 
        10                                          AS ID, 
-       outcomeid 
-FROM   app.outcome O 
-WHERE  active = 1 
+       OutcomeID 
+FROM   [app].[Outcome] O 
+WHERE  Active = 1 
  UNION ALL 
- SELECT P.shortname          AS OrderBy1, 
+ SELECT P.ShortName          AS OrderBy1, 
         30000                AS OrderBy2, 
-        P.shortname          AS Title, 
+        P.ShortName          AS Title, 
         ''                   AS Link, 
-        Src.id               AS Parent, 
-        SRC.id + P.projectid AS ID, 
-        outcomeid 
- FROM   app.project P 
-        CROSS apply (SELECT id 
-                     FROM   mm.all_outcomemenucategory 
-                     WHERE  title = 'Projects' 
-                            AND all_outcomemenucategory.outcomeid = P.outcomeid) 
+        Src.ID               AS Parent, 
+        SRC.ID + P.ProjectID AS ID, 
+        OutcomeID 
+ FROM   app.Project P 
+        CROSS apply (SELECT ID 
+                     FROM   mm.ALL_OutcomeMenuCategory 
+                     WHERE  Title = 'Projects' 
+                            AND ALL_OutcomeMenuCategory.OutcomeID = P.OutcomeID) 
                     Src) AS t 
 ORDER  BY orderby1, 
           orderby2 

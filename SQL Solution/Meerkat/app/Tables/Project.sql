@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [app].[Project] (
     [ProjectID]       INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (255)  CONSTRAINT [DF_Project_Code] DEFAULT ((1)) NOT NULL,
+    [Code]             VARCHAR (50)  NOT NULL,
     [ShortName]       NVARCHAR (255) NOT NULL,
     [LongName]        VARCHAR (255)  NOT NULL,
     [TextDescription] VARCHAR (MAX)  NOT NULL,
