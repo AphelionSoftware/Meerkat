@@ -95,7 +95,7 @@
 --        , i.[SubOutput_ID]
 --        , ISNULL([DataVersion_ID]  , 0) DataVersion_ID
 --        , ISNULL(iv.Location_ID  , 1) Location_ID
---        , iv.IndicatorStatusPercent      
+--        , iv.IndicatorStatusValuesPercent      
          
 --        , rc.EndDateID ReportCycleDate_ID
          

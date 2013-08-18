@@ -214,12 +214,7 @@ namespace LightSwitchApplication
 
         }
 
-        partial void Status_Filter(ref Expression<Func<Status, bool>> filter)
-        {
-            filter = e => e.ActiveType.ID == 1;
-
-        }
-
+        
         partial void SubOutputPersonRoles_Filter(ref Expression<Func<SubOutputPersonRole, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;

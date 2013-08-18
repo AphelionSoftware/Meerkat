@@ -60,7 +60,7 @@
 --                         , FIV.ReleaseDate
 --                         , FIV.ReportingDate
 --                         , FIV.IndicatorReportingDate
---                         , FIV.IndicatorStatusPercent
+--                         , FIV.IndicatorStatusValuesPercent
 --                         , FIV.ReportCycleDate_ID, 
 --                         CONVERT(DATETIME, CONVERT(VARCHAR, FIV.ReportCycleDate_ID), 112) AS ReportCycleDate
                          
@@ -105,7 +105,7 @@
 --      ,i.[SubOutput_ID]
 --      ,ISNULL(iv.[DataVersion_ID],0) DataVersion_ID
 --      ,iv.Location_ID
---      ,iv.IndicatorStatusPercent      
+--      ,iv.IndicatorStatusValuesPercent      
          
 --      ,rc.EndDateID ReportCycleDate_ID
          

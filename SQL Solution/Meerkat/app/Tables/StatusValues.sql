@@ -1,5 +1,5 @@
-﻿CREATE TABLE [app].[Status] (
-    [StatusID]        INT              IDENTITY (1, 1) NOT NULL,
+﻿CREATE TABLE [app].[StatusValues] (
+    [StatusValuesID]        INT              IDENTITY (1, 1) NOT NULL,
     [Output_ID]       INT              NULL,
     [OutcomeID]       INT              NULL,
     [IndicatorID]     INT              NULL,
@@ -9,19 +9,19 @@
     [ReportingPeriodID]        INT              NOT NULL,
     [Percentage]      DECIMAL (20, 5)  NULL,
     [Notes]           NVARCHAR (MAX)   NULL,
-    [Active]          INT              CONSTRAINT [DF__Status_sys_A__4F9CCB9E] DEFAULT ((1)) NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)    CONSTRAINT [DF_Status_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_CreatedOn]   DATETIME         CONSTRAINT [DF_Status_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)    CONSTRAINT [DF_Status_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_ModifiedOn]  DATETIME         CONSTRAINT [DF_Status_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    CONSTRAINT [PK_Status] PRIMARY KEY CLUSTERED ([StatusID] ASC),
-    CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_Status] CHECK ((((case when [Output_ID] IS NOT NULL then (1) else (0) end+case when [OutcomeID] IS NOT NULL then (1) else (0) end)+case when [Activity_ID] IS NOT NULL then (1) else (0) end)+case when [SubOutput_ID] IS NOT NULL then (1) else (0) end)=(1)),
-    CONSTRAINT [FK_Status_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Status_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([ActivityID]),
-    CONSTRAINT [FK_Status_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
-    CONSTRAINT [FK_Status_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
-    CONSTRAINT [FK_Status_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]), 
-    CONSTRAINT [FK_Status_ReportingPeriod] FOREIGN KEY (ReportingPeriodID) REFERENCES Core.ReportingPeriod(ID), 
-    CONSTRAINT [FK_Status_Project] FOREIGN KEY (ProjectID) REFERENCES app.Project(ProjectID)
+    [Active]          INT              CONSTRAINT [DF__StatusValues_sys_A__4F9CCB9E] DEFAULT ((1)) NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)    CONSTRAINT [DF_StatusValues_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_CreatedOn]   DATETIME         CONSTRAINT [DF_StatusValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)    CONSTRAINT [DF_StatusValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_ModifiedOn]  DATETIME         CONSTRAINT [DF_StatusValues_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    CONSTRAINT [PK_StatusValues] PRIMARY KEY CLUSTERED ([StatusValuesID] ASC),
+    CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_StatusValues] CHECK ((((case when [Output_ID] IS NOT NULL then (1) else (0) end+case when [OutcomeID] IS NOT NULL then (1) else (0) end)+case when [Activity_ID] IS NOT NULL then (1) else (0) end)+case when [SubOutput_ID] IS NOT NULL then (1) else (0) end)=(1)),
+    CONSTRAINT [FK_StatusValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [FK_StatusValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([ActivityID]),
+    CONSTRAINT [FK_StatusValues_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
+    CONSTRAINT [FK_StatusValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
+    CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]), 
+    CONSTRAINT [FK_StatusValues_ReportingPeriod] FOREIGN KEY (ReportingPeriodID) REFERENCES Core.ReportingPeriod(ID), 
+    CONSTRAINT [FK_StatusValues_Project] FOREIGN KEY (ProjectID) REFERENCES app.Project(ProjectID)
 );
 

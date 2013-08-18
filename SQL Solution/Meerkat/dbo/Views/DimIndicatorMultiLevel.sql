@@ -246,13 +246,13 @@ as
       ) src 
      
 	  WHERE 
-			(	COALESCE (TermSetLevel1, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel2, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel3, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel4, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel5, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel6, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel7, '') NOT LIKE '%Overall Status%'	)
+			(	COALESCE (TermSetLevel1, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel2, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel3, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel4, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel5, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel6, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel7, '') NOT LIKE '%Overall StatusValues%'	)
 	  
 
       ORDER BY TermSetID1,

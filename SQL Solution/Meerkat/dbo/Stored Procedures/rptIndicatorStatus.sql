@@ -1,4 +1,4 @@
-﻿CREATE PROC [dbo].[rptIndicatorStatus]
+﻿CREATE PROC [dbo].[rptIndicatorStatusValues]
 ( 
 	@OutcomeID int ,
 	@ReportingPeriodID int
@@ -12,19 +12,19 @@ SELECT
 	,SO.ShortName As SubOutputname
 	--,CASE 
 	--WHEN OMI.OutcomeID IS NOT NULL
-	--	THEN OMIV.IndicatorStatusPercent 
+	--	THEN OMIV.IndicatorStatusValuesPercent 
 	--	ELSE NULL 
-	--	END OutcomeStatus
+	--	END OutcomeStatusValues
 	--	,CASE 
 	--WHEN OPI.Output_ID IS NOT NULL
-	--	THEN OPIV.IndicatorStatusPercent 
+	--	THEN OPIV.IndicatorStatusValuesPercent 
 	--	ELSE NULL 
-	--	END OutputStatus
+	--	END OutputStatusValues
 	--,CASE
 	--WHEN SOI.SubOutput_ID IS NOT NULL
-	--	THEN SOIV.IndicatorStatusPercent 
+	--	THEN SOIV.IndicatorStatusValuesPercent 
 	--	ELSE NULL 
-	--	END SubOutputStatus
+	--	END SubOutputStatusValues
 	
 			
 FROM [app].[Outcome] OM 

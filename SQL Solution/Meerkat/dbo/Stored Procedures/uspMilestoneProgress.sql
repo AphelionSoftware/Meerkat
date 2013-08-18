@@ -24,10 +24,10 @@
 --rp.FirstCycleDate ReportingPeriodStartDate,
 --rp.LastCycleDate ReportingPeriodEndDate,
 
---DATEADD(d, (DATEDIFF(d,FirstCycleDate, m.TargetDate) * mv.MilestoneStatusPercent), FirstCycleDate) MilestoneCurrentDate,
+--DATEADD(d, (DATEDIFF(d,FirstCycleDate, m.TargetDate) * mv.MilestoneStatusValuesPercent), FirstCycleDate) MilestoneCurrentDate,
 
 
--- mv.MilestoneStatusPercent MilestoneProgressPercent,
+-- mv.MilestoneStatusValuesPercent MilestoneProgressPercent,
 -- mv.Milestone_ID,
 -- a.LongName ActivityLongName,
 -- CASE WHEN ROW_NUMBER() over (order by mv.[ReportPeriodID])  = 1 THEN mv.ActualDate ELSE NULL END MilestoneStartDate,

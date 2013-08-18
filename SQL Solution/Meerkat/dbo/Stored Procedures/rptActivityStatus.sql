@@ -1,5 +1,5 @@
 ﻿
---CREATE PROC [dbo].[rptActivityStatus]
+--CREATE PROC [dbo].[rptActivityStatusValues]
 --( @OutcomeID int ,
 --@ReportingPeriodID int)
 --as
@@ -9,9 +9,9 @@
 --	OM.ShortName as OutcomeName
 --	,PR.ShortName as OutputName
 --	,ACT.ShortName As SubOutputname
---	,OMIV.IndicatorStatusPercent OutcomeStatus
---	,OPIV.IndicatorStatusPercent OutputStatus
---	,SOIV.IndicatorStatusPercent SubOutputStatus
+--	,OMIV.IndicatorStatusValuesPercent OutcomeStatusValues
+--	,OPIV.IndicatorStatusValuesPercent OutputStatusValues
+--	,SOIV.IndicatorStatusValuesPercent SubOutputStatusValues
 			
 --FROM [app].[Outcome] OM 
 --	INNER JOIN app.Indicator OmI 
@@ -59,19 +59,19 @@
 --	,ACT.ShortName As ActivityName
 --	,CASE 
 --	WHEN OMI.OutcomeID IS NOT NULL
---		THEN OMIV.IndicatorStatusPercent 
+--		THEN OMIV.IndicatorStatusValuesPercent 
 --		ELSE NULL 
---		END OutcomeStatus
+--		END OutcomeStatusValues
 --		,CASE 
 --	WHEN OPP.ProjectID IS NOT NULL
---		THEN OPIV.IndicatorStatusPercent 
+--		THEN OPIV.IndicatorStatusValuesPercent 
 --		ELSE NULL 
---		END ProjectStatus
+--		END ProjectStatusValues
 --	,CASE
 --	WHEN SOI.Activity_ID IS NOT NULL
---		THEN SOIV.IndicatorStatusPercent 
+--		THEN SOIV.IndicatorStatusValuesPercent 
 --		ELSE NULL 
---		END ActivityStatus
+--		END ActivityStatusValues
 	
 			
 --FROM [app].[Outcome] OM 
