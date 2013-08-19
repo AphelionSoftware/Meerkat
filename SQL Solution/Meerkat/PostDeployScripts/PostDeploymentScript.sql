@@ -1,25 +1,15 @@
-﻿/*
-Post-Deployment Script Template							
---------------------------------------------------------------------------------------
- This file contains SQL statements that will be appended to the build script.		
- Use SQLCMD syntax to include a file in the post-deployment script.			
- Example:      :r .\myfile.sql								
- Use SQLCMD syntax to reference a variable in the post-deployment script.		
- Example:      :setvar TableName MyTable							
-               SELECT * FROM [$(TableName)]					
---------------------------------------------------------------------------------------
-*/
-
+﻿
 /*Status Type*/
+
 INSERT INTO [Core].StatusType
-(Code, Name, Value)
-SELECT '+', 'On Target', 1
+(ID, Code, Name, Value)
+SELECT 0, '+', 'On Target', 1
 WHERE NOT EXISTS (SELECT 1 FROM Core.StatusType WHERE Code = '+')
 UNION ALL
-SELECT '=', 'Acceptable', 0
+SELECT 1, '=', 'Acceptable', 0
 WHERE NOT EXISTS (SELECT 1 FROM Core.StatusType WHERE Code = '=')
 UNION ALL
-SELECT '-', 'Sub par', 1
+SELECT 2, '-', 'Sub par', 1
 WHERE NOT EXISTS (SELECT 1 FROM Core.StatusType WHERE Code = '-')
 
 
@@ -57,10 +47,23 @@ GO
 
 /* Data Versions */
 SET IDENTITY_INSERT Core.DataVersion ON 
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '0', 0, 'External', 10, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '1', 1, 'Publish', 20, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '2', 3, 'Final Draft', 30, '');
-INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) VALUES (1, '3', 4, 'First Draft', 40, '');
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) 
+SELECT 1, '0', 0, 'External', 10, ''
+WHERE NOT EXISTS (SELECT 1 FROM Core.DataVersion WHERE DataVersion_ID = 0)
+
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) 
+SELECT 1, '1', 1, 'Publish', 20, ''
+WHERE NOT EXISTS (SELECT 1 FROM Core.DataVersion WHERE DataVersion_ID = 1)
+
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) 
+SELECT 1, '2', 3, 'Final Draft', 30, ''
+WHERE NOT EXISTS (SELECT 1 FROM Core.DataVersion WHERE DataVersion_ID = 3)
+
+INSERT INTO Core.DataVersion (Active, Code, DataVersion_ID, Name, [Order], [Description]) 
+SELECT 1, '3', 4, 'First Draft', 40, ''
+WHERE NOT EXISTS (SELECT 1 FROM Core.DataVersion WHERE DataVersion_ID = 4)
+
+
 SET IDENTITY_INSERT  Core.DataVersion OFF
 
 
@@ -397,32 +400,28 @@ INSERT INTO [app].[Indicator]
            ,[Notes]
            ,[Code]
            ,[IndicatorType_ID]
-           ,[Activity_ID]
            ,[SubOutput_ID]
            ,[ShortName]
-		   ,IsKeyIndicator
 		   ,UnitOfMeasure
            )
      
-SELECT OM.ShortName + ' Status', 
-	OM.ShortName + ' Status', 
-	0,
-	0,
-	'2012/01/01' As BaselineDate,
-	0,
-	0,
-	'2012/01/01' As TargetDate,
-	'2012/01/01' As ReleaseDate,
-	NULL AS OutputID,
-	OM.OutcomeID as OutcomeID,
-	OM.ShortName + ' Status' as BusinessKey,
-	'' AS NOTES,
-	CAST(OM.OutcomeID as varchar(10)) + ' Status' As Code,
-	 6 as IndicatorType_ID,
-	 NULL AS Activity_ID,
-	 NULL AS SubOutput_ID,
-	 LEFT('Status of ' + OM.ShortName,50),
-	 0
+SELECT OM.ShortName + ' Status',                                  /* Long Name */
+	OM.ShortName + ' Status',                                     /* Text Description */
+	0,                                                            /* Baseline */
+	0,                                                            /* Baseline String */
+	'2012/01/01' As BaselineDate,                                 /* Baseline Date */
+	0,                                                            /* Target */
+	0,                                                            /* Target String */
+	'2012/01/01' As TargetDate,                                   /* Target Date */
+	'2012/01/01' As ReleaseDate,                                  /* Release Date */
+	NULL AS OutputID,                                             /* Output ID */
+	OM.OutcomeID as OutcomeID,                                    /* OutcomeID */
+	OM.ShortName + ' Status' as BusinessKey,                      /* Business Key */
+	'' AS NOTES,                                                  /* Notes */
+	CAST(OM.OutcomeID as varchar(10)) + ' Status' As Code,        /* Code */
+	 6 as IndicatorType_ID,                                       /* Indicator Type ID */
+	 NULL AS SubOutput_ID,                                        /* Sub output ID */
+	 LEFT('Status of ' + OM.ShortName,50)                        /* Short Name */
 	 ,'Percentage'
 FROM [app].[Outcome] OM
 
@@ -443,10 +442,8 @@ SELECT OP.ShortName + ' Status',
 	'' AS NOTES,
 	CAST(OP.Output_ID as varchar(10)) + ' Status' As Code,
 	 6 as IndicatorType_ID,
-	 NULL AS Activity_ID,
 	 NULL AS SubOutput_ID,
-	 LEFT('Status of ' + OP.ShortName,50),
-	 0 
+	 LEFT('Status of ' + OP.ShortName,50)
 	 ,'Percentage'
 FROM app.Output OP
 
@@ -468,10 +465,9 @@ SELECT SO.ShortName + ' Status',
 	'' AS NOTES,
 	CAST(SO.SubOutput_ID as varchar(10)) + ' Status' As Code,
 	 6 as IndicatorType_ID,
-	 NULL AS Activity_ID,
+
 	 SO.SubOutput_ID AS SubSubOutput_ID,
-	 LEFT('Status of ' + SO.ShortName,50),
-	 0
+	 LEFT('Status of ' + SO.ShortName,50)
 	 ,'Percentage'
 FROM [app].[SubOutput] SO
 
