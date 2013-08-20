@@ -9,7 +9,7 @@ UNION ALL
 SELECT 1, '=', 'Acceptable', 0
 WHERE NOT EXISTS (SELECT 1 FROM Core.StatusType WHERE Code = '=')
 UNION ALL
-SELECT 2, '-', 'Sub par', 1
+SELECT 2, '-', 'Sub par', -1
 WHERE NOT EXISTS (SELECT 1 FROM Core.StatusType WHERE Code = '-')
 
 
