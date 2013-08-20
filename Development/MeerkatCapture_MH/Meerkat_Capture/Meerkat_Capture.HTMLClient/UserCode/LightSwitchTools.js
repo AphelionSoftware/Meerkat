@@ -1,4 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+/// <reference path="../Scripts/jquery-1.9.1.js" />
 
 (function (lightswitchTools, undefined) {
     "use strict";
@@ -36,6 +37,10 @@
                 title: "Default value for ActiveType failed"
             });
         });
+    }
+
+    lightswitchTools.homeIcon = function (element) {
+        $(element).addClass("customHomeIcon");
     }
 
     lightswitchTools.getVersionInfo = function (callback) {
