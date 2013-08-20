@@ -3,6 +3,18 @@
 (function (lightswitchTools, undefined) {
     "use strict";
 
+    function pluralName(name) {
+        var pluralled = name + "s";
+
+        if (name.charAt(name.length - 1).toLocaleLowerCase() === 'y') {
+            //activity
+            //activities
+            pluralled = name.substring(0, name.length - 1) + "ies";
+        }
+
+        return pluralled;
+    }
+
     lightswitchTools.configureCaptureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;
 
@@ -48,7 +60,7 @@
             screen.details.displayName = "Edit " + name;
 
             var newDataWorkspace = new myapp.DataWorkspace();
-            newDataWorkspace.MeerkatData[name + "s"].filter(primaryKeyColumn + " eq " + primaryKey).execute().then(function (result) {
+            newDataWorkspace.MeerkatData[pluralName(name)].filter(primaryKeyColumn + " eq " + primaryKey).execute().then(function (result) {
 
                 var serverValue = result.results[0];
                 if (serverValue !== undefined) {

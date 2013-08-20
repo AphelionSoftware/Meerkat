@@ -2,10 +2,10 @@
     [StatusValuesID]        INT              IDENTITY (1, 1) NOT NULL,
     [Output_ID]       INT              NULL,
     [OutcomeID]       INT              NULL,
-    [IndicatorID]     INT              NULL,
     [Activity_ID]     INT              NULL,
     [SubOutput_ID]    INT              NULL,
     [ProjectID]       INT              NULL,
+	[StatusTypeID]	  INT	           NULL, 
     [ReportingPeriodID]        INT              NOT NULL,
     [Percentage]      DECIMAL (20, 5)  NULL,
     [Notes]           NVARCHAR (MAX)   NULL,
@@ -22,6 +22,7 @@
     CONSTRAINT [FK_StatusValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]), 
     CONSTRAINT [FK_StatusValues_ReportingPeriod] FOREIGN KEY (ReportingPeriodID) REFERENCES Core.ReportingPeriod(ID), 
-    CONSTRAINT [FK_StatusValues_Project] FOREIGN KEY (ProjectID) REFERENCES app.Project(ProjectID)
+    CONSTRAINT [FK_StatusValues_Project] FOREIGN KEY (ProjectID) REFERENCES app.Project(ProjectID), 
+    CONSTRAINT [FK_StatusValues_StatusType] FOREIGN KEY (StatusTypeID) REFERENCES Core.StatusType(ID)
 );
 
