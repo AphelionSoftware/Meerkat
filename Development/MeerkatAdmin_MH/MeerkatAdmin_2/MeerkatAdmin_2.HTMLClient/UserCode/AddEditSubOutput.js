@@ -12,3 +12,14 @@ myapp.AddEditSubOutput.created = function (screen) {
 myapp.AddEditSubOutput.SubOutput_Delete_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);
 };
+
+myapp.AddEditSubOutput.EditStatusValues_execute = function (screen) {
+    msls.application.lightswitchTools.editStatusValue(screen, "Output");
+};
+
+myapp.AddEditSubOutput.AddOutputStatusValue_execute = function (screen) {
+    msls.application.lightswitchTools.addStatusValue(screen, {
+        SubOutput: screen.SubOutput,
+        Type: "Output"
+    });
+};

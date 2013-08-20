@@ -181,5 +181,30 @@
         return screen.details.properties.all()[0].value.selectedItem !== undefined;
     }
 
+    lightswitchTools.editStatusValue = function (screen, type) {
+        var data = {};
+        if (type !== undefined) {
+            data.Type = type;
+        }
+
+        screen.getStatusValues().then(function (x) {
+            myapp.showAddEditStatusValue(x.selectedItem, data, {
+                afterClosed: function () {
+                    x.load();
+                }
+            });
+        });
+    }
+
+    lightswitchTools.addStatusValue = function(screen, data) {
+        myapp.showAddEditStatusValue(undefined, data, {
+            afterClosed: function () {
+                screen.getStatusValues().then(function (x) {
+                    x.load();
+                });
+            }
+        });
+    }
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 

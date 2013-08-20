@@ -12,3 +12,14 @@ myapp.AddEditActivity.Activity_Delete_canExecute = function (screen) {
 myapp.AddEditActivity.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
 };
+
+myapp.AddEditActivity.AddProjectStatusValue_execute = function (screen) {
+    msls.application.lightswitchTools.addStatusValue(screen, {
+        Activity: screen.Activity,
+        Type: "Project"
+    });
+};
+
+myapp.AddEditActivity.EditStatusValues_execute = function (screen) {
+    msls.application.lightswitchTools.editStatusValue(screen, "Project");
+};
