@@ -697,3 +697,40 @@ INSERT  INTO [app].[Indicator]
         FROM    [app].[SubOutput] SO
 
 GO
+
+
+/*GeoSpatialData*/
+
+Insert Into Meerkat.Core.DimMunicipalityGEOM (
+      [ID]
+      ,[LBL]
+      ,[FIP]
+      ,[MMT_ID]
+      ,[SHORT__FRM]
+      ,[LONG_FRM]
+      ,[ADM0]
+      ,[ADM1]
+      ,[ADM2]
+      ,[ADM3]
+      ,[ADM4]
+      ,[ADM5]
+      ,[geom])
+
+
+Select 
+       Location_ID as [ID]
+      ,ISO as [LBL]
+      ,'' as [FIP]
+      ,'' [MMT_ID]
+      ,'' [SHORT__FRM]
+      ,'' [LONG_FRM]
+      ,[ADM0]
+      ,[ADM1]
+      ,'' [ADM2]
+      ,'' [ADM3]
+      ,'' [ADM4]
+      ,'' [ADM5]
+      ,Geog as [geom] 
+
+
+From [SpatialProvince].dbo.[SimpleProvince] 
