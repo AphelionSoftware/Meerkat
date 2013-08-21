@@ -1,5 +1,4 @@
-﻿
-/****** Object:  StoredProcedure [dbo].[uspIndicatorTimelineWithLocation]    Script Date: 2013-08-21 11:17:47 AM ******/
+﻿/****** Object:  StoredProcedure [dbo].[uspIndicatorTimelineWithLocation]    Script Date: 2013-08-21 01:45:14 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -24,38 +23,91 @@ declare
 
 SELECT    
 
-DENSE_RANK() Over (order by Code) %2 RN,
+DENSE_RANK() Over (order by fiv.Code) %2 RN,
 UnitOfMeasure,
-CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
-ELSE NULL END
-
+ Case When 
+		(CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
+		ELSE NULL END) is null and OriginalBaseline + (
+			(
+				( FinalTarget - OriginalBaseline) / 
+				(	 FinalTargetPeriodID -BaselinePeriodID ) 
+				)
+			* (CurrentReportPeriodID-BaselinePeriodID)
+			) = OriginalBaseline Then ISNULL(OriginalBaseline,0) 
+			Else 
+			(CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
+		ELSE NULL END)
+ End
  BaselineStart,
  
+  Case When 
+		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString)
+ELSE NULL END) is null and OriginalBaseline + (
+			(
+				( FinalTarget - OriginalBaseline) / 
+				(	 FinalTargetPeriodID -BaselinePeriodID ) 
+				)
+			* (CurrentReportPeriodID-BaselinePeriodID)
+			) = OriginalBaseline Then ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString) 
+			Else 
+			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString)
+ELSE NULL END)
+ End
+ /*
  CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString)
 ELSE NULL END
-
+*/
  BaselineStartString,
 
-CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
-ELSE NULL END TargetEnd, 
+/*CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
+ELSE NULL END */
+ Case When 
+		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
+ELSE NULL END) is null and OriginalBaseline + (
+			(
+				( FinalTarget - OriginalBaseline) / 
+				(	 FinalTargetPeriodID -BaselinePeriodID ) 
+				)
+			* (CurrentReportPeriodID-BaselinePeriodID)
+			) = FinalTarget Then ISNULL(FinalTarget,0) 
+			Else 
+			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
+ELSE NULL END)
+ End
+TargetEnd, 
  FinalTarget,
  
  
-CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
-ELSE NULL END TargetEndString, 
+/*CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
+ELSE NULL END */
+ Case When 
+		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
+ELSE NULL END) is null and OriginalBaseline + (
+			(
+				( FinalTarget - OriginalBaseline) / 
+				(	 FinalTargetPeriodID -BaselinePeriodID ) 
+				)
+			* (CurrentReportPeriodID-BaselinePeriodID)
+			) = FinalTarget Then ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString) 
+			Else 
+			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
+ELSE NULL END)
+ End
+
+TargetEndString, 
 dbo.fn_StripMDXKey(@DataVersion_ID) DataVersionParm,
 
 FinancialYear,
 --FIV.ExtrapolatedTarget,
-FIV.LocationName,
-fiv.Location_ID,
+ISNULL(FIV.LocationName,loc.Name) as LocationName,
+Case When FIV.LocationName is Null Then loc.Location_ID Else FIV.Location_ID End as Location_ID,
 FIV.IndicatorValues_ID, FIV.Indicator_ID
 ,FIV.Notes,FIV.Title,FIV.DataVersion_ID,
  FIV.ReportCycle, FIV.LongName, FIV.Code, FIV.ShortName
 , FIV.Baseline, FIV.BaselineString
 , ISNULL(FIV.TargetValue, 0) AS TargetValue
 , FIV.TargetValueString
-, ISNULL(FIV.ActualValue , FIV.Baseline)--CASE WHEN Title IS null OR Title = '' then null else 0 end)
+, ISNULL(FIV.ActualValue ,0) --FIV.Baseline)--CASE WHEN Title IS null OR Title = '' then null else 0 end)
                          AS ActualValue
                          , FIV.ActualLabel
 
@@ -188,7 +240,7 @@ on (iv.Location_ID = l.Location_ID )
 /*
 */
 ) FIV
-
+cross Join Core.Location loc --on fiv.Location_ID=loc.Location_ID
 
 where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
 

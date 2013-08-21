@@ -25,8 +25,12 @@
             <Value>=Parameters!DataVersion_ID.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec [uspIndicatorTimeline]
+        <CommandText>/*exec [uspIndicatorTimeline]
 
+@DataVersion_ID 
+, @indicator_id
+*/
+EXEC [uspIndicatorTimelineWithLocation]
 @DataVersion_ID 
 , @indicator_id</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
@@ -147,6 +151,14 @@
         <Field Name="Location_ID">
           <DataField>Location_ID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SubOutputSN">
+          <DataField>SubOutputSN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OutputSN">
+          <DataField>OutputSN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <Filters>
@@ -1116,6 +1128,15 @@ iif(Fields!Location_ID.Value=Parameters!Location_ID.Value,"1","0")))</FilterValu
               </Style>
             </ChartNoDataMessage>
             <DataSetName>DataSet1</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!Location_ID.Value</FilterExpression>
+                <Operator>Equal</Operator>
+                <FilterValues>
+                  <FilterValue>=CInt(Parameters!Location_ID.Value)</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
             <Top>0mm</Top>
             <Left>0mm</Left>
             <Height>72.02312mm</Height>
