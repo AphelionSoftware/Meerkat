@@ -1,4 +1,13 @@
-﻿CREATE PROC [dbo].[uspIndicatorTimeline]
+﻿
+/****** Object:  StoredProcedure [dbo].[uspIndicatorTimelineWithLocation]    Script Date: 2013-08-21 11:17:47 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROC [dbo].[uspIndicatorTimelineWithLocation]
 
 	@DataVersion_ID int --varchar(255)
 , @indicator_id int --varchar(255)
@@ -39,13 +48,14 @@ dbo.fn_StripMDXKey(@DataVersion_ID) DataVersionParm,
 FinancialYear,
 --FIV.ExtrapolatedTarget,
 FIV.LocationName,
+fiv.Location_ID,
 FIV.IndicatorValues_ID, FIV.Indicator_ID
 ,FIV.Notes,FIV.Title,FIV.DataVersion_ID,
  FIV.ReportCycle, FIV.LongName, FIV.Code, FIV.ShortName
 , FIV.Baseline, FIV.BaselineString
 , ISNULL(FIV.TargetValue, 0) AS TargetValue
 , FIV.TargetValueString
-, ISNULL(FIV.ActualValue , CASE WHEN Title IS null OR Title = '' then null else 0 end)
+, ISNULL(FIV.ActualValue , FIV.Baseline)--CASE WHEN Title IS null OR Title = '' then null else 0 end)
                          AS ActualValue
                          , FIV.ActualLabel
 
@@ -69,7 +79,8 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
  --ELSE 
  --Baseline END
  AS ExtrapolatedTarget
- ,fiv.Location_ID
+ ,fiv.SubOutputSN
+ ,fiv.OutputSN
 
  FROM 
 
@@ -127,6 +138,9 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
 	,FinalTargetPeriod.ID FinalTargetPeriodID
 	,rc.ID CurrentReportPeriodID
 	,BaselinePeriod.ID BaselinePeriodID
+	,so.ShortName as SubOutputSN
+	,o.ShortName as OutputSN
+	
   FROM app.Indicator i 
 
    
@@ -180,3 +194,8 @@ where (Indicator_ID = @indicator_id OR @indicator_id  = 0 )
 
 
 order by ReportCycleDate_ID ASC
+
+
+GO
+
+
