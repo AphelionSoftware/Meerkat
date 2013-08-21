@@ -9,6 +9,8 @@
       [ProjectID] INT NULL ,
       [StatusTypeID] INT NULL ,
       [ReportingPeriodID] INT NOT NULL ,
+      [LocationID] INT NOT NULL ,
+      [DataVersionID] INT NOT NULL ,
       [Percentage] DECIMAL(20, 5) NULL ,
       [Notes] NVARCHAR(MAX) NULL ,
       [Active] INT
@@ -60,6 +62,8 @@
       CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ( [SubOutput_ID] ) REFERENCES [app].[SubOutput] ( [SubOutput_ID] ) ,
       CONSTRAINT [FK_StatusValues_ReportingPeriod] FOREIGN KEY ( ReportingPeriodID ) REFERENCES Core.ReportingPeriod ( ID ) ,
       CONSTRAINT [FK_StatusValues_Project] FOREIGN KEY ( ProjectID ) REFERENCES app.Project ( ProjectID ) ,
-      CONSTRAINT [FK_StatusValues_StatusType] FOREIGN KEY ( StatusTypeID ) REFERENCES Core.StatusType ( ID )
+      CONSTRAINT [FK_StatusValues_StatusType] FOREIGN KEY ( StatusTypeID ) REFERENCES Core.StatusType ( ID ) ,
+      CONSTRAINT [FK_StatusValues_DataVersion] FOREIGN KEY ( [DataVersionID] ) REFERENCES Core.DataVersion ( DataVersion_ID ) ,
+      CONSTRAINT [FK_StatusValues_Location] FOREIGN KEY ( [LocationID] ) REFERENCES [Core].[Location] ( [Location_ID] )
     );
 

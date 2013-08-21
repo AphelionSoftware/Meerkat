@@ -4,11 +4,17 @@
 myapp.AddEditStatusValue.created = function (screen) {
     if (screen.Values === undefined) {
         msls.showMessageBox("This screen has been called without the required values and thus will be broken");
-    }
+    };
 
     var isOutputPage = false;
 
-    screen.StatusValue = new myapp.StatusValue();
+
+    screen.StatusValue = new myapp.StatusValue();    
+
+    screen.StatusValue.sys_CreatedBy = "NA";
+    screen.StatusValue.sys_CreatedOn = "1999/01/01";
+    screen.StatusValue.sys_ModifiedBy = "NA";
+    screen.StatusValue.sys_ModifiedOn = "1999/01/01";
 
     if (screen.Values.Outcome !== undefined || screen.Values.DataType == "Outcome") {
         if (screen.Values.Type === "Output") {
@@ -60,4 +66,35 @@ myapp.AddEditStatusValue.created = function (screen) {
     } else {
         screen.details.displayName = "Add Project Status Value";
     }
+};
+
+myapp.AddEditStatusValue.CopyStatusValue_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.copyIcon(element);
+};
+
+myapp.AddEditStatusValue.CopyStatusValue_execute = function (screen) {
+    screen.getStatusValues().then(function (statusValues) {
+        if (statusValues.selectedItem === undefined) {
+            debugger
+            msls.showMessageBox("You must select an existing version from below first", {
+                title: "Error"
+            });
+        } else {
+
+            screen.StatusValue.Percentage = statusValues.selectedItem.Percentage;
+            statusValues.selectedItem.getStatusType().then(function (statusType) {
+                screen.StatusValue.setStatusType(statusType);
+            });
+
+            statusValues.selectedItem.getLocation().then(function (location) {
+                screen.StatusValue.setLocation(location);
+            });
+
+            statusValues.selectedItem.getDataVersion().then(function (dataVersion) {
+                screen.StatusValue.setDataVersion(dataVersion);
+            });
+
+            percentageElement.focus();
+        }
+    });
 };

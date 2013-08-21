@@ -43,6 +43,10 @@
         $(element).addClass("customHomeIcon");
     }
 
+    lightswitchTools.copyIcon = function (element) {
+        $(element).addClass("customCopyIcon");
+    }
+
     lightswitchTools.getVersionInfo = function (callback) {
         $.getJSON("../api/LightswitchHelpers", function (data) {
             callback("version: " + data.Version + " (built " + data.Deployed + ")");

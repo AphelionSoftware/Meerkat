@@ -2093,6 +2093,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -2478,6 +2483,11 @@
         Association="FK_Location_ActiveType"
         FromEnd="Location"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Location"
+        FromEnd="Location"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -7135,6 +7145,26 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_DataVersion"
+      Association="FK_StatusValues_DataVersion">
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_Location"
+      Association="FK_StatusValues_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
   <GlobalAttributeGroup
     Name="LightSwitchServiceApplicationGroup">
@@ -7901,6 +7931,16 @@
         Association="FK_StatusValues_StatusType"
         FromEnd="StatusValues"
         ToEnd="StatusType" />
+      <NavigationProperty
+        Name="DataVersion"
+        Association="FK_StatusValues_DataVersion"
+        FromEnd="StatusValues"
+        ToEnd="DataVersion" />
+      <NavigationProperty
+        Name="Location"
+        Association="FK_StatusValues_Location"
+        FromEnd="StatusValues"
+        ToEnd="Location" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -8107,6 +8147,36 @@
     <AssociationEnd
       Name="StatusType"
       EntityType="StatusType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_DataVersion">
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
@@ -9173,6 +9243,16 @@
           Nullable="True"
           Type="int"
           PropertyName="Activity_ID" />
+        <SsdlForeignKeyProperty
+          Name="DataVersionID"
+          Nullable="False"
+          Type="int"
+          PropertyName="DataVersionID" />
+        <SsdlForeignKeyProperty
+          Name="LocationID"
+          Nullable="False"
+          Type="int"
+          PropertyName="LocationID" />
         <SsdlForeignKeyProperty
           Name="OutcomeID"
           Nullable="True"
@@ -11590,6 +11670,48 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Activity_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_DataVersion">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_DataVersion]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_DataVersion]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersionID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Location]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="LocationID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

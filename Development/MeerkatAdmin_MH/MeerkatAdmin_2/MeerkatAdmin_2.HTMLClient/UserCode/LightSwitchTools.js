@@ -206,5 +206,13 @@
         });
     }
 
+    lightswitchTools.copyIcon = function (element) {
+        $(element).addClass("customCopyIcon");
+    }
+
+    lightswitchTools.homeIcon = function (element) {
+        $(element).addClass("customHomeIcon");
+    }
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 

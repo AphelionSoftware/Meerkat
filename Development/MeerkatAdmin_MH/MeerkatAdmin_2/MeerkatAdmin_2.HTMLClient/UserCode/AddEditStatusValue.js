@@ -3,6 +3,8 @@
 
 myapp.AddEditStatusValue.created = function (screen) {
 
+    var percentageElement;
+
     if (screen.Values === undefined) {
         msls.showMessageBox("This screen has been called without the required values and thus will be broken");
     }
@@ -102,4 +104,39 @@ myapp.AddEditStatusValue.Delete_execute = function (screen) {
 
 myapp.AddEditStatusValue.Delete_canExecute = function (screen) {
     return msls.application.lightswitchTools.canDelete(screen);
+};
+
+myapp.AddEditStatusValue.CopyPercentage_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.copyIcon(element);
+};
+
+myapp.AddEditStatusValue.CopyPercentage_execute = function (screen) {
+    screen.getStatusValues().then(function (statusValues) {
+        if (statusValues.selectedItem === undefined) {
+            debugger
+            msls.showMessageBox("You must select an existing version from below first", {
+                title: "Error"
+            });
+        } else {
+
+            screen.StatusValue.Percentage = statusValues.selectedItem.Percentage;
+            statusValues.selectedItem.getStatusType().then(function (statusType) {
+                screen.StatusValue.setStatusType(statusType);
+            });
+
+            statusValues.selectedItem.getLocation().then(function (location) {
+                screen.StatusValue.setLocation(location);
+            });
+
+            statusValues.selectedItem.getDataVersion().then(function (dataVersion) {
+                screen.StatusValue.setDataVersion(dataVersion);
+            });
+
+            percentageElement.focus();
+        }
+    });
+};
+
+myapp.AddEditStatusValue.Percentage_postRender = function (element, contentItem) {
+    percentageElement = $('input', $(element));
 };
