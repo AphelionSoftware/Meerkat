@@ -12,3 +12,14 @@ myapp.AddEditProject.Project_Delete_execute = function (screen) {
 myapp.AddEditProject.Project_Delete_canExecute = function (screen) {
     return msls.application.lightswitchTools.canDelete(screen);
 };
+
+myapp.AddEditProject.AddProjectStatusValue_execute = function (screen) {
+    msls.application.lightswitchTools.addStatusValue(screen, {
+        Project: screen.Project,
+        Type: "Project"
+    });
+};
+
+myapp.AddEditProject.EditStatusValue_execute = function (screen) {
+    msls.application.lightswitchTools.editStatusValue(screen, "Project");
+};

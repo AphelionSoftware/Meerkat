@@ -1,4 +1,5 @@
-﻿
+﻿using System.Linq.Expressions;
+
 namespace LightSwitchApplication
 {
     using Microsoft.LightSwitch;
@@ -455,6 +456,31 @@ namespace LightSwitchApplication
             {
                 results.AddPropertyError("Active Type is required", entity.Details.Properties.ActiveType);
             }
+        }
+
+        partial void StatusTypes_Inserting(StatusType entity)
+        {
+            SetTrackingInfo(entity);
+        }
+
+        partial void StatusTypes_Updating(StatusType entity)
+        {
+            SetTrackingInfo(entity);
+        }
+
+        partial void StatusValues_Inserting(StatusValue entity)
+        {
+            SetTrackingInfo(entity);
+        }
+
+        partial void StatusValues_Updating(StatusValue entity)
+        {
+            SetTrackingInfo(entity);
+        }
+
+        partial void StatusValues_Filter(ref Expression<Func<StatusValue, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
         }
     }
 }

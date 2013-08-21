@@ -8799,6 +8799,16 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_StatusValues_StatusType"
+      Association="FK_StatusValues_StatusType">
+      <AssociationSetEnd
+        Name="StatusType"
+        EntitySet="StatusTypes" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_MilestoneValues_Organization">
@@ -8865,13 +8875,6 @@
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
-      <EntityProperty
-        Name="IndicatorID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <EntityProperty
         Name="Percentage"
         PropertyType=":Decimal?">
@@ -8966,6 +8969,11 @@
         Association="FK_StatusValues_SubOutput"
         FromEnd="StatusValues"
         ToEnd="SubOutput" />
+      <NavigationProperty
+        Name="StatusType"
+        Association="FK_StatusValues_StatusType"
+        FromEnd="StatusValues"
+        ToEnd="StatusType" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -9060,6 +9068,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_StatusType"
+        FromEnd="StatusType"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -9162,6 +9175,20 @@
       Multiplicity="Many"
       EntityType="StatusValue" />
   </Association>
+  <Association
+    Name="FK_StatusValues_StatusType">
+    <AssociationEnd
+      Name="StatusType"
+      EntityType="StatusType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService"
     DataProvider="EntityFrameworkDataProvider"
@@ -9178,7 +9205,7 @@
         Value="System.Data.SqlClient" />
       <ConnectionProperty
         Name="ConnectionStringGuid"
-        Value="0b3ebad1-623e-46c4-b2bf-363cfb04689f" />
+        Value="b7bfd50a-f51a-4fa4-8031-f7c7d3deb6b4" />
       <ConnectionProperty
         Name="ProviderManifestToken"
         Value="2008" />
@@ -10227,11 +10254,6 @@
           Type="int"
           Property="StatusValue/Properties[StatusValuesID]" />
         <SsdlProperty
-          Name="IndicatorID"
-          Nullable="True"
-          Type="int"
-          Property="StatusValue/Properties[IndicatorID]" />
-        <SsdlProperty
           Name="Percentage"
           Nullable="True"
           Precision="20"
@@ -10295,6 +10317,11 @@
           Nullable="False"
           Type="int"
           PropertyName="ReportingPeriodID" />
+        <SsdlForeignKeyProperty
+          Name="StatusTypeID"
+          Nullable="True"
+          Type="int"
+          PropertyName="StatusTypeID" />
         <SsdlForeignKeyProperty
           Name="SubOutput_ID"
           Nullable="True"
@@ -13091,6 +13118,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ReportingPeriodID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_StatusType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_StatusType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_StatusType]/Members[StatusType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_StatusType]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="StatusTypeID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
