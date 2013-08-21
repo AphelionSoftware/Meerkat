@@ -5,7 +5,7 @@
     <DataSource Name="Meerkat">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=.\sql2012;Initial Catalog=Meerkat20130615</ConnectString>
+        <ConnectString>Data Source=(localdb)\v11.0;Initial Catalog=Meerkat</ConnectString>
         <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
       <rd:SecurityType>Integrated</rd:SecurityType>
@@ -16,7 +16,15 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>Meerkat</DataSourceName>
-        <CommandText>exec [rptStatusValuesOutput] 0,0</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@OutcomeId">
+            <Value>=Parameters!OutcomeId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportingPeriodId">
+            <Value>=Parameters!ReportingPeriodId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>EXEC [rptStatusValuesOutput] @OutcomeId, @ReportingPeriodId</CommandText>
         <rd:DesignerState><QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational"><Functions><SProc ColumnOwner="rptIndicatorStatus"><Parameter Name="@OutcomeID"><Value>7</Value></Parameter><Parameter Name="@ReportingPeriodID"><Value>2</Value></Parameter></SProc></Functions><SelectedColumns><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="Suboutputname" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="SubOutputStatus" /></SelectedColumns></QueryDefinition></rd:DesignerState>
       </Query>
       <Fields>
@@ -50,6 +58,42 @@
         </Field>
         <Field Name="YearName">
           <DataField>YearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Outcomes">
+      <Query>
+        <DataSourceName>Meerkat</DataSourceName>
+        <CommandText>SELECT        OutcomeID, ShortName
+FROM            app.Outcome
+WHERE        (Active = 1)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OutcomeID">
+          <DataField>OutcomeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ShortName">
+          <DataField>ShortName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="ReportingPeriods">
+      <Query>
+        <DataSourceName>Meerkat</DataSourceName>
+        <CommandText>SELECT        ID, CONCAT(ReportingPeriod, ' ', YearNumber) AS Title
+FROM            Core.ReportingPeriod
+WHERE        (Active = 1)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1346,7 +1390,14 @@
           <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Outcome ID</Prompt>
+      <Prompt>Outcome</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Outcomes</DataSetName>
+          <ValueField>OutcomeID</ValueField>
+          <LabelField>ShortName</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
     <ReportParameter Name="ReportingPeriodID">
       <DataType>Integer</DataType>
@@ -1356,7 +1407,14 @@
           <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Reporting Period ID</Prompt>
+      <Prompt>Reporting Period</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ReportingPeriods</DataSetName>
+          <ValueField>ID</ValueField>
+          <LabelField>Title</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Mm</rd:ReportUnitType>
