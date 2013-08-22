@@ -8,3 +8,11 @@ myapp.AdministrationHome.VersionLabel_render = function (element, contentItem) {
         element.appendChild(smallElement);
     })
 };
+
+myapp.AdministrationHome.created = function (screen) {
+    if (document.location.hostname.toLocaleLowerCase() === "localhost") {    
+        screen.findContentItem("ShowBrowseIndicatorTypes").isVisible = true;
+        screen.findContentItem("ShowBrowseIndicatorTypes").isVisible = true;
+        screen.findContentItem("ShowBrowseIndicatorTypes").isVisible = true;
+    }
+};
