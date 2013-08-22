@@ -1,10 +1,10 @@
 ﻿
 /****** Object:  StoredProcedure [dbo].[uspIndicatorTimelineWithLocation]    Script Date: 2013-08-21 04:15:22 PM ******/
-SET ANSI_NULLS ON
+/*SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
-GO
+GO*/
 
 
 CREATE PROC [dbo].[uspIndicatorTimelineWithLocation]
@@ -171,3 +171,80 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,ISNULL(iv.Location_ID,1) Location_ID
 
          
+      ,rc.EndDateID  ReportCycleDate_ID
+      ,rc.StartDateID ReportCycleStartDateID
+                     ,i.BaselineDate
+      ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
+      ,i.TargetDate
+       ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
+            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+      ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
+      ,RolledUpToSubOutput_ID = i.SubOutput_ID
+      --,RolledUpToActivity_ID = i.Activity_ID
+      --  ,TermSetID = DIML.TermsetDeepGrainID
+	,i.Baseline OriginalBaseline
+	,i.Target FinalTarget
+	--,rc.StartDateID ReportingPeriodStartDate_ID
+	--,rc.EndDateID 	
+	,null NextReportingPeriodReleaseDate_ID
+	,l.Name LocationName
+	,FinalTargetPeriod.ID FinalTargetPeriodID
+	,rc.ID CurrentReportPeriodID
+	,BaselinePeriod.ID BaselinePeriodID
+	,so.ShortName as SubOutputSN
+	,o.ShortName as OutputSN
+	
+  FROM app.Indicator i 
+
+   
+  INNER JOIN Core.ReportingPeriod rc
+  on rc.EndDateID >=   i.BaselineDate_ID 
+  and rc.StartDateID <= i.TargetDate_ID
+  
+
+  LEFT join RBM.[IndicatorValues] iv
+  on i.IndicatorID = iv.Indicator_ID
+    and iv.ReportPeriodID  = rc.ID 
+	and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
+	--and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
+    
+
+  INNER JOIN Core.ReportingPeriod FinalTargetPeriod
+  ON i.TargetDate_ID BETWEEN
+   FinalTargetPeriod.StartDateID  AND
+   FinalTargetPeriod.EndDateID 
+    
+	INNER JOIN Core.ReportingPeriod BaselinePeriod
+  ON i.BaselineDate_ID BETWEEN
+  BaselinePeriod.StartDateID 
+  AND
+  BaselinePeriod.EndDateID 
+  
+  
+  
+    
+    
+/*LEFT OUTER JOIN app.Activity a
+on i.Activity_ID = a.ActivityID*/
+LEFT OUTER JOIN [app].[SubOutput] SO
+on i.SubOutput_ID = so.SubOutput_ID 
+
+LEFT OUTER JOIN app.Output o
+on i.Output_ID = o.Output_ID
+OR so.Output_ID = o.Output_ID
+LEFT OUTER JOIN Core.Location l
+on (iv.Location_ID = l.Location_ID )
+
+
+
+  --where 
+/*
+*/
+) FIV
+cross Join Core.Location loc --on fiv.Location_ID=loc.Location_ID
+
+where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
+
+
+order by ReportCycleDate_ID ASC
+
