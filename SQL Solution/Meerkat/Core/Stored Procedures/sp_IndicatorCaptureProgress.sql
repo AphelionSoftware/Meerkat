@@ -48,7 +48,7 @@ from app.outcome oc
 	inner Join Core.ReportCycle RC on MST.TargetDate_ID Between RC.StartDateID and rc.EndDateID 
 	Left Join Core.ReportCycle RCC on rc.YearNumber=RCC.YearNumber
 	
-Where OC.OutcomeID Between @@OTCFilt and  @@Outcome_ID and MSV.DataVersion_ID=@@DataVersion_ID
+Where OC.OutcomeID Between @@OTCFilt and  @@Outcome_ID and (MSV.DataVersion_ID=@@DataVersion_ID  or MSV.DataVersion_ID is null )
 
 
 order by (OC.Code + ' : ' + OC.LongName)
