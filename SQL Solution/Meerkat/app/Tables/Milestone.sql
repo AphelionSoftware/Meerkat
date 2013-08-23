@@ -13,7 +13,7 @@
     [ProjectID]       INT             NULL,
     [BusinessKey]     NVARCHAR (MAX)  NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
-    [Code]             VARCHAR (50)   NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
     [ActivityID]      INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
@@ -30,6 +30,9 @@
     CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
-    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
