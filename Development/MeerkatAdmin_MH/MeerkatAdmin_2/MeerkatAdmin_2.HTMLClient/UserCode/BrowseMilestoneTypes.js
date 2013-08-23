@@ -2,7 +2,7 @@
 /// <reference path="LightSwitchTools.js" />
 
 myapp.BrowseMilestoneTypes.ShowAdministrationHome_postRender = function (element, contentItem) {
-    $(element).addClass("customHomeIcon");
+    msls.application.lightswitchTools.homeIcon(element);
 };
 
 myapp.BrowseMilestoneTypes.EditMilestoneType_execute = function (screen) {
