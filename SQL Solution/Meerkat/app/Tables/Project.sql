@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [app].[Project] (
     [ProjectID]       INT            IDENTITY (1, 1) NOT NULL,
-    [Code]             VARCHAR (50)  NOT NULL,
+    [Code]            VARCHAR (50)   NOT NULL,
     [ShortName]       NVARCHAR (255) NOT NULL,
     [LongName]        VARCHAR (255)  NOT NULL,
     [TextDescription] VARCHAR (MAX)  NOT NULL,
@@ -14,6 +14,9 @@
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
     CONSTRAINT [FK_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Project_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
-    CONSTRAINT [FK_Project_Project] FOREIGN KEY ([ProjectParentID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_Project_Project] FOREIGN KEY ([ProjectParentID]) REFERENCES [app].[Project] ([ProjectID]),
+    UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
