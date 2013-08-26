@@ -128,11 +128,14 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
  LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
      and (iv.DataVersion_ID = @DataVersion_ID OR @DataVersion_ID = 0)
-  INNER JOIN Core.ReportingPeriod rc
+  Left JOIN Core.ReportingPeriod rc
   on   iv.ReportPeriodID = rc.ID
  
     
-    
+/*
+IV Left to RC
+
+*/    
 /*    
 LEFT OUTER JOIN app.Activity a
 on i.Activity_ID = a.ActivityID*/
@@ -164,8 +167,8 @@ on rc.EndDateID= DDEnd.DateID
 --LEFT JOIN dwPoa.DimDate DDNext
 --on iv.NextReportingPeriodReleaseDate_ID = DDNext.DateKey
 
-
-AND ( i.OutcomeID  = @Outcome_ID OR @Outcome_ID = 0)
+Where 
+ ( i.OutcomeID  = @Outcome_ID OR @Outcome_ID = 0)
 AND (i.Output_ID  = @Output_ID OR @Output_ID = 0)
 AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0) 
 AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is null)
