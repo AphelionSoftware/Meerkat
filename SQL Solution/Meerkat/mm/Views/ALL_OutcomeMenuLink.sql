@@ -1,6 +1,6 @@
 ﻿CREATE VIEW [mm].[ALL_OutcomeMenuLink] 
 AS 
-  SELECT Title = 'Indicator Details', 
+   SELECT Title = 'Indicator Details', 
          Link = '/' + [OutcomeSitename] 
                 + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
@@ -41,9 +41,8 @@ UNION ALL
 SELECT Title = Da.ShortName, 
 Link = '/' + [OutcomeSitename] 
        + 
-'/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsActivity=' 
-       + '[Activity].[Activity].%26[' 
-       + Cast(da.ActivityID AS VARCHAR(8)) + ']', 
+'/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsActivity='
+	+ Cast(da.ActivityID AS VARCHAR(8)) , 
 Priority = 1 - da.ActivityID + 5000, 
 Parent = (SELECT SRC.ID + P.ProjectID AS ID 
           FROM   app.Project P 
