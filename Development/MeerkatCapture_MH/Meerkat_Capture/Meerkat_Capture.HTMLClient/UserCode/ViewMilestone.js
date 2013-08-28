@@ -1,7 +1,7 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
 function ShowEditMVScreen(mv, screen) {
-    myapp.showAddEditMilestoneValue(mv, screen.Milestone.MilestoneID, {
+    myapp.showAddMilestoneValue(mv, screen.Milestone.MilestoneID, {
         afterClose: function () {
             screen.details.properties.MilestoneValues.load();
         }
