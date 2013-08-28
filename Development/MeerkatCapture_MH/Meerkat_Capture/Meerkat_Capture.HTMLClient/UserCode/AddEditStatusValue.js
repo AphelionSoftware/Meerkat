@@ -6,9 +6,6 @@ myapp.AddEditStatusValue.created = function (screen) {
         msls.showMessageBox("This screen has been called without the required values and thus will be broken");
     };
 
-    var isOutputPage = false;
-
-
     screen.StatusValue = new myapp.StatusValue();    
 
     screen.StatusValue.sys_CreatedBy = "NA";
@@ -17,22 +14,19 @@ myapp.AddEditStatusValue.created = function (screen) {
     screen.StatusValue.sys_ModifiedOn = "1999/01/01";
 
     if (screen.Values.Outcome !== undefined || screen.Values.DataType == "Outcome") {
-        if (screen.Values.Type === "Output") {
-            isOutputPage = true;
-        }
-
+        screen.details.displayName = "Add Outcome Status Value";
         screen.findContentItem("Outcome").isVisible = true;
         screen.StatusValue.setOutcome(screen.Values.Outcome);
     }
 
     if (screen.Values.Output !== undefined || screen.Values.DataType === "Output") {
-        isOutputPage = true;
+        screen.details.displayName = "Add Output Status Value";
         screen.findContentItem("Output").isVisible = true;
         screen.StatusValue.setOutput(screen.Values.Output);
     }
 
     if (screen.Values.SubOutput !== undefined || screen.Values.DataType == "SubOutput") {
-        isOutputPage = true;
+        screen.details.displayName = "Add SubOutput Status Value";
         screen.findContentItem("SubOutput").isVisible = true;
         screen.StatusValue.setSubOutput(screen.Values.SubOutput);
     }
@@ -40,11 +34,13 @@ myapp.AddEditStatusValue.created = function (screen) {
     if (screen.Values.Activity !== undefined || screen.Values.DataType == "Activity") {
         screen.findContentItem("Activity").isVisible = true;
         screen.StatusValue.setActivity(screen.Values.Activity);
+        screen.details.displayName = "Add Activity Status Value";
     }
 
     if (screen.Values.Project !== undefined || screen.Values.DataType == "Project") {
         screen.findContentItem("Project").isVisible = true;
         screen.StatusValue.setProject(screen.Values.Project);
+        screen.details.displayName = "Add Project Status Value";
     }
 
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
@@ -60,12 +56,6 @@ myapp.AddEditStatusValue.created = function (screen) {
             title: "Default value for ActiveType failed"
         });
     });
-
-    if (isOutputPage) {
-        screen.details.displayName = "Add Output Status Value";
-    } else {
-        screen.details.displayName = "Add Project Status Value";
-    }
 };
 
 myapp.AddEditStatusValue.CopyStatusValue_postRender = function (element, contentItem) {

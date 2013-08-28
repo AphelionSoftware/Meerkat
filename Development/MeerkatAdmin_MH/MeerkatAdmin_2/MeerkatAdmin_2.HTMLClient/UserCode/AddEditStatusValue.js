@@ -16,32 +16,31 @@ myapp.AddEditStatusValue.created = function (screen) {
         screen.StatusValue = new myapp.StatusValue();
 
         if (screen.Values.Outcome !== undefined) {
-            if (screen.Values.Type === "Output") {
-                isOutputPage = true;
-            }
-
+            screen.pageTitle = "Add Outcome Status Value";
             screen.findContentItem("Outcome").isVisible = true;
             screen.StatusValue.setOutcome(screen.Values.Outcome);
         }
 
         if (screen.Values.Output !== undefined) {
-            isOutputPage = true;
+            screen.pageTitle = "Add Output Status Value";
             screen.findContentItem("Output").isVisible = true;
             screen.StatusValue.setOutput(screen.Values.Output);
         }
 
         if (screen.Values.SubOutput !== undefined) {
-            isOutputPage = true;
+            screen.pageTitle = "Add SubOutput Status Value";
             screen.findContentItem("SubOutput").isVisible = true;
             screen.StatusValue.setSubOutput(screen.Values.SubOutput);
         }
 
         if (screen.Values.Activity !== undefined) {
+            screen.pageTitle = "Add Activity Status Value";
             screen.findContentItem("Activity").isVisible = true;
             screen.StatusValue.setActivity(screen.Values.Activity);
         }
 
         if (screen.Values.Project !== undefined) {
+            screen.pageTitle = "Add Project Status Value";
             screen.findContentItem("StatusValue_Project").isVisible = true;
             screen.StatusValue.setProject(screen.Values.Project);
         }
@@ -55,28 +54,28 @@ myapp.AddEditStatusValue.created = function (screen) {
         /* modified screen */
         screen.StatusValue.getOutcome().then(function (outcome) {
             if (outcome !== undefined) {
-                if (screen.Values.Type === "Output") {
-                    isOutputPage = true;
-                }
-
                 screen.findContentItem("Outcome").isVisible = true;
+                screen.pageTitle = "Edit Outcome Status Value";
             } else {
                 screen.StatusValue.getOutput().then(function (output) {
                     if (output !== undefined) {
-                        isOutputPage = true;
                         screen.findContentItem("Output").isVisible = true;
+                        screen.pageTitle = "Edit Output Status Value";
                     } else {
                         screen.StatusValue.getSubOutput().then(function (suboutput) {
-                            if (suboutput !== undefined) {
-                                isOutputPage = true;
+                            if (suboutput !== undefined) {             
                                 screen.findContentItem("SubOutput").isVisible = true;
+                                screen.pageTitle = "Edit SubOutput Status Value";
                             } else {
                                 screen.StatusValue.getProject().then(function (project) {
                                     if (project !== undefined) {
                                         screen.findContentItem("StatusValue_Project").isVisible = true;
+                                        screen.Values.Type = "Project";
+                                        screen.pageTitle = "Edit Project Status Value";
                                     } else {
                                         screen.StatusValue.getActivity().then(function (activity) {
                                             screen.findContentItem("Activity").isVisible = true;
+                                            screen.pageTitle = "Edit Activity Status Value";
                                         });
                                     }
                                 });
@@ -87,12 +86,6 @@ myapp.AddEditStatusValue.created = function (screen) {
             }
 
         });
-    }
-
-    if (isOutputPage) {
-        screen.pageTitle = "Output Status Value";
-    } else {
-        screen.pageTitle = "Project Status Value";
     }
 
     msls.application.lightswitchTools.configureCaptureForm(screen);

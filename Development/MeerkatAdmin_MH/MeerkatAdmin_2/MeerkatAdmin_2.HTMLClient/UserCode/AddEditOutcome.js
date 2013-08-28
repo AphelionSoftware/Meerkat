@@ -16,17 +16,10 @@ myapp.AddEditOutcome.created = function (screen) {
 myapp.AddEditOutcome.AddOutputStatusValue_execute = function (screen) {
     msls.application.lightswitchTools.addStatusValue(screen, {
         Outcome: screen.Outcome,
-        Type: "Output"
+        Type: "Outcome"
     });
 };
 
 myapp.AddEditOutcome.EditStatusValue_execute = function (screen) {
     msls.application.lightswitchTools.editStatusValue(screen);
-};
-
-myapp.AddEditOutcome.AddProjectStatusValue_execute = function (screen) {
-    msls.application.lightswitchTools.addStatusValue(screen, {
-        Outcome: screen.Outcome,
-        Type: "Project"
-    });
 };
