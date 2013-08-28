@@ -214,5 +214,17 @@
         $(element).addClass("customHomeIcon");
     }
 
+    lightswitchTools.loadScript = function (element, scriptPath) {
+        var jsFile = document.createElement("script");
+        jsFile.setAttribute("type", "text/javascript");
+        jsFile.setAttribute("src", scriptPath);
+
+        $("body").append(jsFile);
+
+        $(element).html("");
+
+        report.run(element);
+    }
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 
