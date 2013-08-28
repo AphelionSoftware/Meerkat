@@ -13,8 +13,7 @@ SELECT  [SubOutput_ID]
       ,[Output_ID]
       --,[Target]
       ,[Code]
-  --    ,[Sharepoint_ID]
 
-  FROM [App].[SubOutput]
+  FROM [app].[SubOutput]
 
 

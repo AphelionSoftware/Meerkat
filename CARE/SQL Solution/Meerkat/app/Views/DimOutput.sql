@@ -12,6 +12,5 @@ SELECT  [Output_ID]
       ,[OutcomeID]
      -- ,[Target]
       ,[Code]
-      --,[Sharepoint_ID]
 
-  FROM [App].[Output]
+  FROM [app].[Output]

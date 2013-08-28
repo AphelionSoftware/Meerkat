@@ -10,6 +10,5 @@ SELECT  [ActivityID] as Activity_ID
       --,[Target]
       ,[Code]
       --,[ActivityType_ID]
-      --,[Sharepoint_ID]
 
   FROM [app].[Activity]

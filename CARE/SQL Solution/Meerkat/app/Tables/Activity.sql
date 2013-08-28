@@ -12,6 +12,11 @@
     [sys_ModifiedOn]  DATETIME      CONSTRAINT [DF_Activity_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Activity_3] PRIMARY KEY CLUSTERED ([ActivityID] ASC),
     CONSTRAINT [FK_Activity_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    UNIQUE NONCLUSTERED ([Code] ASC),
+    UNIQUE NONCLUSTERED ([Code] ASC),
+    UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
