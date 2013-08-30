@@ -61,8 +61,8 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
   * CAST((ROW_NUMBER() over (partition by indicator_id order by ReportCycleDate_ID)) -1  as float) )*/
   OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
 		)
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	)
@@ -180,3 +180,6 @@ where (Indicator_ID = @indicator_id OR @indicator_id  = 0 )
 
 
 order by ReportCycleDate_ID ASC
+
+GO
+

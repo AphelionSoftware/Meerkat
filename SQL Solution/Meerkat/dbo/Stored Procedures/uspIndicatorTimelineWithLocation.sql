@@ -29,12 +29,12 @@ UnitOfMeasure,
  Case When 
 		(CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
 		ELSE NULL END) is null and OriginalBaseline + (
-			(
-				( FinalTarget - OriginalBaseline) / 
-				(	 FinalTargetPeriodID -BaselinePeriodID ) 
-				)
-			* (CurrentReportPeriodID-BaselinePeriodID)
-			) = OriginalBaseline Then ISNULL(OriginalBaseline,0) 
+    (
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
+		)
+	* (CurrentReportPeriodID-BaselinePeriodID)
+	) = OriginalBaseline Then ISNULL(OriginalBaseline,0) 
 			Else 
 			(CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
 		ELSE NULL END)
@@ -44,12 +44,12 @@ UnitOfMeasure,
   Case When 
 		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString)
 ELSE NULL END) is null and OriginalBaseline + (
-			(
-				( FinalTarget - OriginalBaseline) / 
-				(	 FinalTargetPeriodID -BaselinePeriodID ) 
-				)
-			* (CurrentReportPeriodID-BaselinePeriodID)
-			) = OriginalBaseline Then ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString) 
+    (
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
+		)
+	* (CurrentReportPeriodID-BaselinePeriodID)
+	) = OriginalBaseline Then ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString) 
 			Else 
 			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(CAST(OriginalBaseline as varchar(255)), BaselineString)
 ELSE NULL END)
@@ -65,12 +65,12 @@ ELSE NULL END */
  Case When 
 		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
 ELSE NULL END) is null and OriginalBaseline + (
-			(
-				( FinalTarget - OriginalBaseline) / 
-				(	 FinalTargetPeriodID -BaselinePeriodID ) 
-				)
-			* (CurrentReportPeriodID-BaselinePeriodID)
-			) = FinalTarget Then ISNULL(FinalTarget,0) 
+    (
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
+		)
+	* (CurrentReportPeriodID-BaselinePeriodID)
+	) = FinalTarget Then ISNULL(FinalTarget,0) 
 			Else 
 			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(FinalTarget,0)
 ELSE NULL END)
@@ -84,12 +84,12 @@ ELSE NULL END */
  Case When 
 		( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
 ELSE NULL END) is null and OriginalBaseline + (
-			(
-				( FinalTarget - OriginalBaseline) / 
-				(	 FinalTargetPeriodID -BaselinePeriodID ) 
-				)
-			* (CurrentReportPeriodID-BaselinePeriodID)
-			) = FinalTarget Then ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString) 
+    (
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
+		)
+	* (CurrentReportPeriodID-BaselinePeriodID)
+	) = FinalTarget Then ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString) 
 			Else 
 			( CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID DESC) = 1 THEN ISNULL(Cast(FinalTarget as varchar(255)), TargetValueString)
 ELSE NULL END)
@@ -124,8 +124,8 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
   * CAST((ROW_NUMBER() over (partition by indicator_id order by ReportCycleDate_ID)) -1  as float) )*/
   OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
+		Case wHEN FinalTargetPeriodID -BaselinePeriodID = 0 THEN 0 ELSE ( FinalTarget - OriginalBaseline) / 
+		(	 FinalTargetPeriodID -BaselinePeriodID )END 
 		)
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	)
@@ -247,4 +247,5 @@ where (Indicator_ID = @indicator_id OR @indicator_id  = 0 )
 
 
 order by ReportCycleDate_ID ASC
+GO
 
