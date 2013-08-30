@@ -16,31 +16,31 @@ myapp.AddEditStatusValue.created = function (screen) {
         screen.StatusValue = new myapp.StatusValue();
 
         if (screen.Values.Outcome !== undefined) {
-            screen.pageTitle = "Add Outcome Status Value";
+            screen.pageTitle = "Outcome Status Value";
             screen.findContentItem("Outcome").isVisible = true;
             screen.StatusValue.setOutcome(screen.Values.Outcome);
         }
 
         if (screen.Values.Output !== undefined) {
-            screen.pageTitle = "Add Output Status Value";
+            screen.pageTitle = "Output Status Value";
             screen.findContentItem("Output").isVisible = true;
             screen.StatusValue.setOutput(screen.Values.Output);
         }
 
         if (screen.Values.SubOutput !== undefined) {
-            screen.pageTitle = "Add SubOutput Status Value";
+            screen.pageTitle = "SubOutput Status Value";
             screen.findContentItem("SubOutput").isVisible = true;
             screen.StatusValue.setSubOutput(screen.Values.SubOutput);
         }
 
         if (screen.Values.Activity !== undefined) {
-            screen.pageTitle = "Add Activity Status Value";
+            screen.pageTitle = "Activity Status Value";
             screen.findContentItem("Activity").isVisible = true;
             screen.StatusValue.setActivity(screen.Values.Activity);
         }
 
         if (screen.Values.Project !== undefined) {
-            screen.pageTitle = "Add Project Status Value";
+            screen.pageTitle = "Project Status Value";
             screen.findContentItem("StatusValue_Project").isVisible = true;
             screen.StatusValue.setProject(screen.Values.Project);
         }
@@ -55,27 +55,27 @@ myapp.AddEditStatusValue.created = function (screen) {
         screen.StatusValue.getOutcome().then(function (outcome) {
             if (outcome !== undefined) {
                 screen.findContentItem("Outcome").isVisible = true;
-                screen.pageTitle = "Edit Outcome Status Value";
+                screen.pageTitle = "Outcome Status Value";
             } else {
                 screen.StatusValue.getOutput().then(function (output) {
                     if (output !== undefined) {
                         screen.findContentItem("Output").isVisible = true;
-                        screen.pageTitle = "Edit Output Status Value";
+                        screen.pageTitle = "Output Status Value";
                     } else {
                         screen.StatusValue.getSubOutput().then(function (suboutput) {
                             if (suboutput !== undefined) {             
                                 screen.findContentItem("SubOutput").isVisible = true;
-                                screen.pageTitle = "Edit SubOutput Status Value";
+                                screen.pageTitle = "SubOutput Status Value";
                             } else {
                                 screen.StatusValue.getProject().then(function (project) {
                                     if (project !== undefined) {
                                         screen.findContentItem("StatusValue_Project").isVisible = true;
                                         screen.Values.Type = "Project";
-                                        screen.pageTitle = "Edit Project Status Value";
+                                        screen.pageTitle = "Project Status Value";
                                     } else {
                                         screen.StatusValue.getActivity().then(function (activity) {
                                             screen.findContentItem("Activity").isVisible = true;
-                                            screen.pageTitle = "Edit Activity Status Value";
+                                            screen.pageTitle = "Activity Status Value";
                                         });
                                     }
                                 });
