@@ -1,26 +1,21 @@
-﻿
-
-
-
-CREATE PROC [dbo].[uspIndicatorTimeline]
+﻿CREATE PROC [dbo].[uspIndicatorTimeline]
 
 	@DataVersion_ID int --varchar(255)
 , @indicator_id int --varchar(255)
-, @TermSetIndicator_ID int--varchar(255)
-, @Location_ID int =1 
+--, @Location_ID int =0 
 --, @Location_ID int =1 
 AS
 /*
 declare 
-@DataVersion_ID int  = 40
-, @indicator_id int = 751
-, @TermSetIndicator_ID int = 0
-, @Location_ID int =1 
+@DataVersion_ID int  = 0
+, @indicator_id int = 1
+--, @TermSetIndicator_ID int = 0
+, @Location_ID int =0 
 */
 
 SELECT    
 
-DENSE_RANK() Over (order by code) %2 RN,
+DENSE_RANK() Over (order by Code) %2 RN,
 UnitOfMeasure,
 CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
 ELSE NULL END
@@ -52,11 +47,8 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
 , FIV.TargetValueString
 , ISNULL(FIV.ActualValue , CASE WHEN Title IS null OR Title = '' then null else 0 end)
                          AS ActualValue
-                         , FIV.ActualValueString
-                         , FIV.ReleaseDate
-                         , FIV.ReportingDate
-                         , FIV.IndicatorReportingDate
-                         , FIV.IndicatorStatusPercent
+                         , FIV.ActualLabel
+
                          , FIV.ReportCycleDate_ID, 
                          CONVERT(DATETIME, CONVERT(VARCHAR, FIV.ReportCycleDate_ID), 112) AS ReportCycleDate
                          
@@ -77,7 +69,7 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
  --ELSE 
  --Baseline END
  AS ExtrapolatedTarget
-
+ ,fiv.Location_ID
 
  FROM 
 
@@ -85,7 +77,7 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
 SELECT  
 i.UnitOfMeasure,
 rc.YearNumber financialYear,
-ROW_NUMBER() over (partition by i.indicatorid order by rc.StartDateID) as RowX,
+ROW_NUMBER() over (partition by i.IndicatorID order by rc.StartDateID) as RowX,
 ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
       ,i.[IndicatorID] [Indicator_ID]
       ,i.[Baseline] [Baseline]
@@ -93,15 +85,12 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,i.Target [TargetValue]
       ,i.TargetString [TargetValueString]
       ,[ActualValue]
-      ,[ActualValueString]
-      ,ISNULL(iv.[ReleaseDate], i.ReleaseDate) ReleaseDate
-      ,ISNULL(iv.[ReportingDate], i.ReportingDate) ReportingDate
-      ,[IndicatorReportingDate]
+      ,[ActualLabel]
       ,i.[Output_ID]
       ,i.[OutcomeID]
       ,iv.[BusinessKey]
       ,iv.[Notes]
-      ,ISNULL(iv.Title, iv.ActualValueString) Title
+      ,iv.ActualLabel Title
       --,iv.Title
       ,rc.ReportingPeriod ReportCycle
       ,i.ShortName
@@ -111,12 +100,12 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,null [VerifiedActualNotes]
 
       ,i.[IndicatorType_ID]
-      ,i.[Activity_ID]
+      --,i.[Activity_ID]
       ,i.[SubOutput_ID]
       ,ISNULL(iv.[DataVersion_ID],0) DataVersion_ID
-      ,i.[Sharepoint_ID]
+
       ,ISNULL(iv.Location_ID,1) Location_ID
-      ,iv.IndicatorStatusPercent      
+
          
       ,rc.EndDateID  ReportCycleDate_ID
       ,rc.StartDateID ReportCycleStartDateID
@@ -124,10 +113,10 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
       ,i.TargetDate
        ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-            ,RolledUpToOutcome_ID = ISNULL(i.outcomeID, o.outcomeid)
-      ,RolledUpToOutput_ID = ISNULL(i.output_id, so.output_ID)
-      ,RolledUpToSubOutput_ID = i.suboutput_id
-      ,RolledUpToActivity_ID = i.activity_ID
+            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+      ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
+      ,RolledUpToSubOutput_ID = i.SubOutput_ID
+      --,RolledUpToActivity_ID = i.Activity_ID
       --  ,TermSetID = DIML.TermsetDeepGrainID
 	,i.Baseline OriginalBaseline
 	,i.Target FinalTarget
@@ -148,8 +137,10 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
 
   LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
-    and iv.ReportPeriodID  = rc.id 
- 
+    and iv.ReportPeriodID  = rc.ID 
+	and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
+	--and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
+    
 
   INNER JOIN Core.ReportingPeriod FinalTargetPeriod
   ON i.TargetDate_ID BETWEEN
@@ -162,42 +153,20 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
   AND
   BaselinePeriod.EndDateID 
   
-    inner join 
-  
-  Core.DataVersion DDV 
-  
-  ON (CHARINDEX('level',@DataVersion_ID) = 0 
-  AND DDV.DataVersion_ID  = dbo.fn_StripMDXKey(@DataVersion_ID)
-  )
-  OR ( CHARINDEX('level',@DataVersion_ID) > 0 
-  AND DDV.DataVersionLevel_ID = dbo.fn_StripMDXKey(@DataVersion_ID)
-  AND DDV.Outcome_ID IS NULL
-  )
   
   
-
-    and  (
-    
-    (iv.DataVersion_ID = DDV.DataVersion_ID OR iv.DataVersion_ID is null)
-    OR ( iv.DataVersion_ID  IN (SELECT DataVersion_ID FROM Core.DataVersion DV WHERE DV.DataVersionLevel_ID = DDV.DataVersionLevel_ID )
-and DDV.Outcome_ID is null
-)
-
-    
-    )
-    and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
     
     
-LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID
-LEFT OUTER JOIN app.SubOutput SO
+/*LEFT OUTER JOIN app.Activity a
+on i.Activity_ID = a.ActivityID*/
+LEFT OUTER JOIN [app].[SubOutput] SO
 on i.SubOutput_ID = so.SubOutput_ID 
 
 LEFT OUTER JOIN app.Output o
 on i.Output_ID = o.Output_ID
 OR so.Output_ID = o.Output_ID
 LEFT OUTER JOIN Core.Location l
-on (iv.Location_ID = l.Location_ID OR @Location_ID = l.Location_ID)
+on (iv.Location_ID = l.Location_ID )
 
 
 
@@ -207,19 +176,8 @@ on (iv.Location_ID = l.Location_ID OR @Location_ID = l.Location_ID)
 ) FIV
 
 
-where (Indicator_ID = dbo.fn_StripMDXKey(@indicator_id) OR (dbo.fn_StripMDXKey(@indicator_id)  = 0 AND NOT @TermSetIndicator_ID ='0') )
+where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
 
---AND (
-
---CAST([TermSetID] as varchar(255)) = dbo.fn_StripMDXKey(@TermSetIndicator_ID )
-
- --OR @TermSetIndicator_ID = '0') 
-
-
---and ReportCycleDate_ID >= 20090101
-
-and ReportCycle not like '%pre%'
---and (Location_ID = @Location_ID OR @Location_ID = 0 OR @Location_ID iS NULL)
 
 order by ReportCycleDate_ID ASC
 

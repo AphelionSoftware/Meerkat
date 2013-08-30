@@ -10,8 +10,6 @@ SELECT  [OutcomeID] as [Outcome_ID]
       ,Left(TextDescription,255) as TextDescription
       ,[BusinessKey]
       --,[Target]
-     -- ,[Sharepoint_ID]
-
 
   FROM app.[Outcome]
 

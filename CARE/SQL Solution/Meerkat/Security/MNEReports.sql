@@ -1,4 +1,0 @@
-﻿CREATE USER [MNEReports];
-
-
-

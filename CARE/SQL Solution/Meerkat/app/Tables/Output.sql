@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [app].[Output] (
     [Output_ID]       INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            NVARCHAR (20)  NOT NULL,
+    [Code]            VARCHAR (50)   NOT NULL,
     [LongName]        NVARCHAR (500) NOT NULL,
     [BusinessKey]     NVARCHAR (MAX) NULL,
     [OutcomeID]       INT            NULL,
@@ -14,8 +14,11 @@
     CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
     CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
+    UNIQUE NONCLUSTERED ([Code] ASC),
     UNIQUE NONCLUSTERED ([ShortName] ASC)
 );
+
+
 
 
 

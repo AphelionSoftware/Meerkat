@@ -16,10 +16,10 @@ as
 	  ,LCID = ''
 	  ,AvailableForTagging = 'TRUE'
 	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
+      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
        
       ,TermSetLevel2 = 'Indicators'
-      ,TermSetLevel3 =   i.shortname + ' : ' + left(i.longname,80)
+      ,TermSetLevel3 =   i.ShortName + ' : ' + left(i.longname,80)
       ,TermSetLevel4 = null
       ,TermSetLevel5 = null
       ,TermSetLevel6 = null
@@ -34,7 +34,7 @@ as
       ,CodeLevel6 = null
       ,CodeLevel7 = null
       
-      ,NameLevel1 = oc.shortname 
+      ,NameLevel1 = oc.ShortName 
       ,NameLevel2 = 'Indicators'
       ,NameLevel3 =   i.ShortName
       ,NameLevel4 = null
@@ -60,7 +60,7 @@ as
       ,TermSetID7 = null
       ,Indicator_ID = i.IndicatorID
       ,i.UnitOfMeasure,i.isKeyIndicator
-      from app.Outcome oc
+      from [app].[Outcome] oc
 
       
        inner join app.INdicator I
@@ -76,10 +76,10 @@ as
 	  ,LCID = ''
 	  ,AvailableForTagging = 'TRUE'
 	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.shortname + ' : ' + left(otp.longname,80)
+      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
       ,TermSetLevel3 = 'Indicators'
-      ,TermSetLevel4 =  i.shortname + ' : ' + left(i.longname,80)
+      ,TermSetLevel4 =  i.ShortName + ' : ' + left(i.longname,80)
       ,TermSetLevel5 = null
       ,TermSetLevel6 = null
       ,TermSetLevel7 = null
@@ -92,7 +92,7 @@ as
       ,CodeLevel6 = null
       ,CodeLevel7 = null
       
-      ,NameLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80)
+      ,NameLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80)
       ,NameLevel2 = otp.ShortName
       ,NameLevel3 = 'Indicators' 
       ,NameLevel4 =  i.ShortName
@@ -116,13 +116,13 @@ as
       ,TermSetID7 = null
       ,Indicator_ID = i.IndicatorID
       ,i.UnitOfMeasure,i.isKeyIndicator
-      from app.Outcome oc
+      from [app].[Outcome] oc
       inner join app.Output otp
-      on oc.outcomeid = otp.outcomeid
+      on oc.OutcomeID = otp.OutcomeID
 
       
        inner join app.INdicator I
-      on otp.output_id = i.output_id
+      on otp.Output_ID = i.Output_ID
       
            
       
@@ -133,11 +133,11 @@ as
 	  ,LCID = ''
 	  ,AvailableForTagging = 'TRUE'
 	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.shortname + ' : ' + left(otp.longname,80)
-      ,TermSetLevel3 = so.shortname + ' : ' + left(so.longname,80)
+      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
+      ,TermSetLevel3 = so.ShortName + ' : ' + left(so.longname,80)
       ,TermSetLevel4 = 'Indicators'
-      ,TermSetLevel5 = i.shortname + ' : ' + left(i.longname,80)
+      ,TermSetLevel5 = i.ShortName + ' : ' + left(i.longname,80)
       ,TermSetLevel6 = null
       ,TermSetLevel7 = null
       ,CodeLevel1 = oc.Code
@@ -148,7 +148,7 @@ as
       ,CodeLevel6 = null
       ,CodeLevel7 = null
       
-      ,NameLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
+      ,NameLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
       ,NameLevel2 = otp.ShortName
       ,NameLevel3 =  so.ShortName
       ,NameLevel4 =  'Indicators'
@@ -171,14 +171,14 @@ as
       ,TermSetID7 = null
        ,Indicator_ID = i.IndicatorID
        ,i.UnitOfMeasure,i.isKeyIndicator
-      from app.Outcome oc
+      from [app].[Outcome] oc
       inner join app.Output otp
-      on oc.outcomeid = otp.outcomeid
-       inner join app.SubOutput so
-      on otp.output_id = so.output_id
+      on oc.OutcomeID = otp.OutcomeID
+       inner join [app].[SubOutput] so
+      on otp.Output_ID = so.Output_ID
       
        inner join app.INdicator I
-      on so.suboutput_id = i.suboutput_id
+      on so.SubOutput_ID = i.SubOutput_ID
       
       
       ----------------------------------
@@ -191,12 +191,12 @@ as
 	  ,LCID = ''
 	  ,AvailableForTagging = 'TRUE'
 	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.shortname + ' : ' + left(otp.longname,80)
-      ,TermSetLevel3 = so.shortname + ' : ' + left(so.longname,80)
-      ,TermSetLevel4 = a.shortname + ' : ' + left(a.longname,80)
+      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
+      ,TermSetLevel3 = so.ShortName + ' : ' + left(so.longname,80)
+      ,TermSetLevel4 = a.ShortName + ' : ' + left(a.longname,80)
       ,TermSetLevel5 = 'Indicators'
-      ,TermSetLevel6 = i.shortname + ' : ' + left(i.longname,80)
+      ,TermSetLevel6 = i.ShortName + ' : ' + left(i.longname,80)
       ,TermSetLevel7 = null
       ,CodeLevel1 = oc.Code
       ,CodeLevel2 = otp.Code
@@ -206,7 +206,7 @@ as
       ,CodeLevel6 = i.Code
       ,CodeLevel7 = null
       
-      ,NameLevel1 = oc.shortname --+ ' : ' + LEFT(oc.Longname,80) 
+      ,NameLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
       ,NameLevel2 = otp.ShortName
       ,NameLevel3 =  so.ShortName
       ,NameLevel4 =  a.ShortName
@@ -230,29 +230,29 @@ as
  
  ,Indicator_ID = i.IndicatorID
  ,i.UnitOfMeasure,i.isKeyIndicator
-      from app.Outcome oc
+      from [app].[Outcome] oc
       inner join app.Output otp
-      on oc.outcomeID = otp.outcomeID
-       inner join app.SubOutput so
-      on otp.output_id = so.output_id
+      on oc.OutcomeID = otp.OutcomeID
+       inner join [app].[SubOutput] so
+      on otp.Output_ID = so.Output_ID
       
        inner join app.Activity A
-      on so.suboutput_id = a.suboutputID
+      on so.SubOutput_ID = a.SubOutputID
       
       inner join app.Indicator I
-      on a.activityID = i.activity_id
+      on a.ActivityID = i.Activity_id
 
       
       ) src 
      
 	  WHERE 
-			(	COALESCE (TermSetLevel1, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel2, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel3, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel4, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel5, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel6, '') NOT LIKE '%Overall Status%'	) 
-		AND (	COALESCE (TermSetLevel7, '') NOT LIKE '%Overall Status%'	)
+			(	COALESCE (TermSetLevel1, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel2, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel3, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel4, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel5, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel6, '') NOT LIKE '%Overall StatusValues%'	) 
+		AND (	COALESCE (TermSetLevel7, '') NOT LIKE '%Overall StatusValues%'	)
 	  
 
       ORDER BY TermSetID1,
