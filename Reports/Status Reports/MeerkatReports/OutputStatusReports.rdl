@@ -17,14 +17,14 @@
       <Query>
         <DataSourceName>Meerkat</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@OutcomeId">
-            <Value>=Parameters!OutcomeId.Value</Value>
+          <QueryParameter Name="@OutcomeID">
+            <Value>=Parameters!OutcomeID.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ReportingPeriodId">
-            <Value>=Parameters!ReportingPeriodId.Value</Value>
+          <QueryParameter Name="@ReportingPeriodID">
+            <Value>=Parameters!ReportingPeriodID.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>EXEC [rptStatusValuesOutput] @OutcomeId, @ReportingPeriodId</CommandText>
+        <CommandText>EXEC [rptStatusValuesOutput] @OutcomeID, @ReportingPeriodID</CommandText>
         <rd:DesignerState><QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational"><Functions><SProc ColumnOwner="rptIndicatorStatus"><Parameter Name="@OutcomeID"><Value>7</Value></Parameter><Parameter Name="@ReportingPeriodID"><Value>2</Value></Parameter></SProc></Functions><SelectedColumns><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="Suboutputname" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="SubOutputStatus" /></SelectedColumns></QueryDefinition></rd:DesignerState>
       </Query>
       <Fields>
@@ -60,12 +60,26 @@
           <DataField>YearName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OutcomeID">
+          <DataField>OutcomeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OutputID">
+          <DataField>OutputID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SubOutputID">
+          <DataField>SubOutputID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="Outcomes">
       <Query>
         <DataSourceName>Meerkat</DataSourceName>
-        <CommandText>SELECT        OutcomeID, ShortName
+        <CommandText>SELECT        0 AS OutcomeID, 'All' AS ShortName
+UNION ALL
+SELECT        OutcomeID, ShortName
 FROM            app.Outcome
 WHERE        (Active = 1)</CommandText>
       </Query>
@@ -83,7 +97,9 @@ WHERE        (Active = 1)</CommandText>
     <DataSet Name="ReportingPeriods">
       <Query>
         <DataSourceName>Meerkat</DataSourceName>
-        <CommandText>SELECT        ID, CONCAT(ReportingPeriod, ' ', YearNumber) AS Title
+        <CommandText>SELECT 0 AS ID, 'All' AS Title
+UNION ALL
+SELECT        ID, CAST(ReportingPeriod +  ' ' + YearNumber AS varchar)  AS Title
 FROM            Core.ReportingPeriod
 WHERE        (Active = 1)</CommandText>
       </Query>

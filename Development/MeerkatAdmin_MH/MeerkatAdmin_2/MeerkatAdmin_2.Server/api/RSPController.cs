@@ -20,8 +20,8 @@ namespace LightSwitchApplication.api
 
             using (var connection = new SqlConnection())
             {
-                //connection.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringIdentifier].ConnectionString;
-                connection.ConnectionString = "Data Source=46.4.60.108;Initial Catalog=Meerkat;Persist Security Info=True;User ID=remoteAdmin;Password=Denali@2011";
+                connection.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringIdentifier].ConnectionString;
+                //connection.ConnectionString = "Data Source=46.4.60.108;Initial Catalog=Meerkat;Persist Security Info=True;User ID=remoteAdmin;Password=Denali@2011";
 
                 using (var command = new SqlCommand(storedProc, connection))
                 {

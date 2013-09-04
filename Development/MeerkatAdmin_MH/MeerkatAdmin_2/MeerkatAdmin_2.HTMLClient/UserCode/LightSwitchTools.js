@@ -225,6 +225,5 @@
 
         report.run(element);
     }
-
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 

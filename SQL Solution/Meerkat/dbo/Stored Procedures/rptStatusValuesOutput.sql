@@ -4,14 +4,18 @@
       @ReportingPeriodID INT
     )
 AS 
-    SELECT  OM.ShortName AS OutcomeName ,
-            OP.ShortName AS OutputName ,
-            SO.ShortName AS SubOutputname ,
-            ST.Value StatusTypeValue ,
-            ST.Name StatusType ,
-            SV.Percentage ,
-            RP.YearName ,
-            RP.ReportingPeriod
+    SELECT  OM.ShortName AS OutcomeName
+            ,OP.ShortName AS OutputName
+            ,SO.ShortName AS SubOutputname
+            ,ST.Value StatusTypeValue
+            ,ST.Name StatusType
+            ,SV.Percentage
+            ,RP.YearName
+            ,RP.ReportingPeriod
+			,OM.OutcomeID AS OutcomeID
+			,OP.Output_ID AS OutputID
+			,SO.SubOutput_ID AS SubOutputID
+			,RP.YearNumber
 
     FROM    app.StatusValues SV
             INNER JOIN Core.StatusType ST ON SV.StatusTypeID = ST.ID
