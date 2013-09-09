@@ -2345,6 +2345,11 @@
         Association="FK_StatusValues_ActiveType"
         FromEnd="ActiveType"
         ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="StatusTypes"
+        Association="FK_StatusType_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="StatusType" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -8839,6 +8844,16 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusType_ActiveType"
+      Association="FK_StatusType_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="StatusType"
+        EntitySet="StatusTypes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_MilestoneValues_Organization">
@@ -9113,6 +9128,11 @@
         Association="FK_StatusValues_StatusType"
         FromEnd="StatusType"
         ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_StatusType_ActiveType"
+        FromEnd="StatusType"
+        ToEnd="ActiveType" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -9258,6 +9278,21 @@
       Name="StatusValues"
       Multiplicity="Many"
       EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="FK_StatusType_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusType"
+      Multiplicity="Many"
+      EntityType="StatusType" />
   </Association>
   <DataService
     Name="MeerkatDataDataService"
@@ -11479,6 +11514,11 @@
           Nullable="False"
           Type="datetime"
           Property="StatusType/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <EntitySetMapping
@@ -13069,6 +13109,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Role_ActiveType]/Members[Role]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusType_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusType_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusType_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusType_ActiveType]/Members[StatusType]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

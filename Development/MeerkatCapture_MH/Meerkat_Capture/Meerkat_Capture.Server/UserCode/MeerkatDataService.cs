@@ -1,4 +1,5 @@
-﻿
+﻿using System.Linq.Expressions;
+
 namespace LightSwitchApplication
 {
     using System;
@@ -220,6 +221,11 @@ namespace LightSwitchApplication
         partial void StatusTypes_Updating(StatusType entity)
         {
             SetTrackingInfo(entity);
+        }
+
+        partial void StatusTypes_Filter(ref Expression<Func<StatusType, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
         }
     }
 }

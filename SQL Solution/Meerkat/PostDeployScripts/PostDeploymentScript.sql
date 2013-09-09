@@ -1,37 +1,4 @@
 ﻿
-/*Status Type*/
-
-INSERT  INTO [Core].StatusType
-        ( [Core].[StatusType].[ID] ,
-          [Core].[StatusType].[Code] ,
-          [Core].[StatusType].[Name] ,
-          [Core].[StatusType].[Value]
-        )
-        SELECT  0 ,
-                '+' ,
-                'On Target' ,
-                1
-        WHERE   NOT EXISTS ( SELECT 1
-                             FROM   Core.StatusType
-                             WHERE  [Core].[StatusType].[Code] = '+' )
-        UNION ALL
-        SELECT  1 ,
-                '=' ,
-                'Acceptable' ,
-                0
-        WHERE   NOT EXISTS ( SELECT 1
-                             FROM   Core.StatusType
-                             WHERE  [Core].[StatusType].[Code] = '=' )
-        UNION ALL
-        SELECT  2 ,
-                '-' ,
-                'Sub par' ,
-                -1
-        WHERE   NOT EXISTS ( SELECT 1
-                             FROM   Core.StatusType
-                             WHERE  [Core].[StatusType].[Code] = '-' )
-
-
 
 /*Activity Type */
 
@@ -71,6 +38,44 @@ INSERT  [Core].[ActiveType]
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ActiveType
                              WHERE  [Core].[ActiveType].[ID] = 1 )
+GO
+
+/*Status Type*/
+
+INSERT  INTO [Core].StatusType
+        ( [Core].[StatusType].[ID] ,
+          [Core].[StatusType].[Code] ,
+          [Core].[StatusType].[Name] ,
+          [Core].[StatusType].[Value],
+		  [Core].[StatusType].[Active]
+        )
+        SELECT  0 ,
+                '+' ,
+                'On Target' ,
+                1,
+				1
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.StatusType
+                             WHERE  [Core].[StatusType].[Code] = '+' )
+        UNION ALL
+        SELECT  1 ,
+                '=' ,
+                'Acceptable' ,
+                0,
+				1
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.StatusType
+                             WHERE  [Core].[StatusType].[Code] = '=' )
+        UNION ALL
+        SELECT  2 ,
+                '-' ,
+                'Sub par' ,
+                -1,
+				1
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.StatusType
+                             WHERE  [Core].[StatusType].[Code] = '-' )
+
 GO
 
 /* Data Versions */

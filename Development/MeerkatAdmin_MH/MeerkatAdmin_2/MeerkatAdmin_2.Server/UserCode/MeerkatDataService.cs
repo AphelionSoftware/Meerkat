@@ -482,5 +482,10 @@ namespace LightSwitchApplication
         {
             filter = e => e.ActiveType.ID == 1;
         }
+
+        partial void StatusTypes_Filter(ref Expression<Func<StatusType, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+        }
     }
 }
