@@ -19,7 +19,6 @@
     [ShortName]       VARCHAR (50)    NOT NULL,
     [BaselineDateID]  AS              ((datepart(year,[BaselineDate])*(10000)+datepart(month,[baselineDate])*(100))+datepart(day,[BaselineDate])),
     [TargetDateID]    AS              ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),
-    [IsKeyIndicator]  BIT             NOT NULL,
     [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
     [Active]          INT             CONSTRAINT [DF__Milestone__sys_A__5F492382] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
