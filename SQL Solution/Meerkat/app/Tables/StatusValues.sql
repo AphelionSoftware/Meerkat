@@ -11,7 +11,6 @@
       [ReportingPeriodID] INT NOT NULL ,
       [LocationID] INT NOT NULL ,
       [DataVersionID] INT NOT NULL ,
-      [Percentage] DECIMAL(20, 5) NULL ,
       [Notes] NVARCHAR(MAX) NULL ,
       [Active] INT
         CONSTRAINT [DF__StatusValues_sys_A__4F9CCB9E] DEFAULT ( (1) )

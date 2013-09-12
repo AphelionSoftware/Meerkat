@@ -12,6 +12,7 @@
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_ReportingPeriod_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR(255)  CONSTRAINT [DF_ReportingPeriod_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME      CONSTRAINT [DF_ReportingPeriod_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Summary] VARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );

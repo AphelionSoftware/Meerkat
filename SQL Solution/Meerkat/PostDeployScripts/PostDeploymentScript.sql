@@ -277,7 +277,8 @@ INSERT  INTO Core.ReportingPeriod
           [Core].[ReportingPeriod].[FirstCycleDate] ,
           [Core].[ReportingPeriod].[LastCycleDate] ,
           [Core].[ReportingPeriod].[YearName] ,
-          [Core].[ReportingPeriod].[YearNumber]
+          [Core].[ReportingPeriod].[YearNumber],
+		  [Core].[ReportingPeriod].[Summary]
         )
         SELECT  rc.[ReportingPeriod] ,
                 rc.[StartDateID] ,
@@ -285,7 +286,8 @@ INSERT  INTO Core.ReportingPeriod
                 rc.[FirstCycleDate] ,
                 rc.[LastCycleDate] ,
                 rc.[YearName] ,
-                rc.[YearNumber]
+                rc.[YearNumber],
+				CONCAT(rc.[YearNumber],' - ',rc.[ReportingPeriod])
         FROM    [Core].[ReportCycle] AS rc
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ReportingPeriod

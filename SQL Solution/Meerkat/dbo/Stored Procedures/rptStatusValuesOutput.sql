@@ -9,7 +9,6 @@ AS
             ,SO.ShortName AS SubOutputname
             ,ST.Value StatusTypeValue
             ,ST.Name StatusType
-            ,SV.Percentage
             ,RP.YearName
             ,RP.ReportingPeriod
 			,OM.OutcomeID AS OutcomeID
