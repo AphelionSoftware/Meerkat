@@ -1,4 +1,6 @@
-﻿CREATE VIEW [mm].[ALL_OutcomeMenuGroup]
+﻿
+
+CREATE VIEW [mm].[ALL_OutcomeMenuGroup]
 AS
     SELECT TOP ( 10000 )
             [t].[Title] ,
@@ -26,7 +28,7 @@ AS
               WHERE     dso.Active = 1
                         AND do.Active = 1
                         AND oc.Active = 1
-              UNION ALL
+			UNION ALL
               SELECT    do.ShortName AS orderBy1 ,
                         1 AS orderby2 ,
                         'Indicators: ' + do.ShortName + ' ' AS Title ,
@@ -45,6 +47,22 @@ AS
                         INNER JOIN [app].[Outcome] AS dom ON do.OutcomeID = dom.OutcomeID
               WHERE     do.Active = 1
                         AND dom.Active = 1
+              UNION ALL
+			 SELECT    '10002' AS OrderBy1 ,
+                        0 AS OrderBy2 ,
+                        'Outcome Level Status' AS Title ,
+                        '/' + [O].[OutcomeSiteName]
+                        + '/Dashboards/Template%20Pages/Outcome%20Status%20Report.aspx?qsOutcome=' + [O].[OutcomeSiteName] AS Link ,
+                        ( SELECT    [OMC_2].[ID]
+                          FROM      mm.ALL_OutcomeMenuCategory AS OMC_2
+                          WHERE     ( [OMC_2].[Title] = 'Outcome Pages' )
+                                    AND OMC_2.OutcomeID = O.OutcomeID
+                        ) AS Parent ,
+                        20 AS ID ,
+                        [O].[OutcomeID]
+              FROM      [app].[Outcome] O
+              WHERE     [O].[Active] = 1
+
               UNION ALL
               SELECT    '10003' AS OrderBy1 ,
                         0 AS OrderBy2 ,
@@ -105,6 +123,7 @@ AS
                         [O].[OutcomeID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
+
               UNION ALL
               SELECT    P.ShortName AS OrderBy1 ,
                         30000 AS OrderBy2 ,
