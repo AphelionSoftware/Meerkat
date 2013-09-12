@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE VIEW [mm].[ALL_OutcomeMenuGroup]
 AS
     SELECT TOP ( 10000 )
@@ -84,7 +85,7 @@ AS
                         0 AS OrderBy2 ,
                         'Outcome Documents' AS Title ,
                         '/' + [O].[OutcomeSiteName]
-                        + '/Documents/Forms/AllItems.aspx' AS Link ,
+                        + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_4
                           WHERE     ( [OMC_4].[Title] = 'Outcome Pages' )
@@ -99,7 +100,7 @@ AS
                         0 AS OrderBy2 ,
                         'Outcome Contact Info' AS Title ,
                         '/' + [O].[OutcomeSiteName]
-                        + '/Pages/OutcomeContacts.aspx' AS Link ,
+                        + '/lists/Outcome%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_2
                           WHERE     ( [OMC_2].[Title] = 'Outcome Pages' )
