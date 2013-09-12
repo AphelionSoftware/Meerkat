@@ -3,8 +3,12 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="rsdsPOA">
-      <DataSourceReference>rsdsPOA</DataSourceReference>
-      <rd:SecurityType>Integrated</rd:SecurityType>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=.;Initial Catalog=Meerkat</ConnectString>
+        <Prompt>Enter a user name and password to access the data source:</Prompt>
+      </ConnectionProperties>
+      <rd:SecurityType>Windows</rd:SecurityType>
       <rd:DataSourceID>0e363575-f0eb-4b52-a1e9-dc47cb1cf828</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -221,7 +225,7 @@
           <Value>=Fields!MilestoneProgressPercent.Value</Value>
         </Field>
         <Field Name="Remainder">
-          <Value>=1-Fields!Percentage.Value</Value>
+          <Value>=100-Fields!Percentage.Value</Value>
         </Field>
       </Fields>
     </DataSet>
@@ -584,7 +588,7 @@ FROM            app.Activity</CommandText>
                                       <Style>
                                         <Format>0%</Format>
                                       </Style>
-                                      <Label>=Fields!MilestoneProgressPercent.Value</Label>
+                                      <Label>=Fields!MilestoneProgressPercent.Value/100</Label>
                                       <Visible>true</Visible>
                                     </ChartDataLabel>
                                     <Style>
@@ -594,6 +598,9 @@ FROM            app.Activity</CommandText>
                                       <Style />
                                     </ChartMarker>
                                     <DataElementOutput>Output</DataElementOutput>
+                                    <ChartItemInLegend>
+                                      <LegendText>=Fields!Percentage.Value</LegendText>
+                                    </ChartItemInLegend>
                                   </ChartDataPoint>
                                 </ChartDataPoints>
                                 <Type>Bar</Type>
@@ -612,6 +619,7 @@ FROM            app.Activity</CommandText>
                                 <CategoryAxisName>Primary</CategoryAxisName>
                                 <ChartSmartLabel>
                                   <CalloutLineColor>Black</CalloutLineColor>
+                                  <ShowOverlapped>true</ShowOverlapped>
                                   <MinMovingDistance>0pt</MinMovingDistance>
                                 </ChartSmartLabel>
                               </ChartSeries>
@@ -625,7 +633,6 @@ FROM            app.Activity</CommandText>
                                     <ChartDataLabel>
                                       <Style />
                                       <UseValueAsLabel>true</UseValueAsLabel>
-                                      <Visible>true</Visible>
                                     </ChartDataLabel>
                                     <Style>
                                       <Border>
@@ -773,12 +780,11 @@ FROM            app.Activity</CommandText>
                                   </ChartMinorTickMarks>
                                   <CrossAt>NaN</CrossAt>
                                   <Minimum>0</Minimum>
-                                  <Maximum>NaN</Maximum>
+                                  <Maximum>100</Maximum>
                                   <ChartAxisScaleBreak>
                                     <Style />
                                   </ChartAxisScaleBreak>
                                   <rd:SyncScope>Tablix2</rd:SyncScope>
-                                  <rd:SyncMaximum>true</rd:SyncMaximum>
                                 </ChartAxis>
                                 <ChartAxis Name="Secondary">
                                   <Visible>False</Visible>
@@ -1778,7 +1784,7 @@ iif(Variables!Perc.Value&gt;=1, "icontick", "") )</Value>
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>0</Value>
+          <Value>1</Value>
         </Values>
       </DefaultValue>
       <Prompt>Data Version ID</Prompt>
@@ -1794,7 +1800,7 @@ iif(Variables!Perc.Value&gt;=1, "icontick", "") )</Value>
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value>0</Value>
+          <Value>103</Value>
         </Values>
       </DefaultValue>
       <Prompt>ActivityID</Prompt>

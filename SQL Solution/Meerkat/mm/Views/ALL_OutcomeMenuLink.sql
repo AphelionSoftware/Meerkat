@@ -47,8 +47,10 @@ Priority = 1 - da.ActivityID + 5000,
 Parent = (SELECT SRC.ID + P.ProjectID AS ID 
           FROM   app.Project P 
                  CROSS apply (SELECT ID 
-                              FROM   mm.Outcome2MenuCategory O2MC 
-                              WHERE  Title = 'Projects') Src 
+                              FROM   mm.ALL_OutcomeMenuCategory O2MC 
+                              WHERE  Title = 'Projects'
+							  AND O2MC.OutcomeID = OC.OutcomeID
+							  ) Src 
           WHERE  OutcomeID = dp.OutcomeID 
                  AND P.ProjectID = da.ProjectID), 
 Dp.OutcomeID 
