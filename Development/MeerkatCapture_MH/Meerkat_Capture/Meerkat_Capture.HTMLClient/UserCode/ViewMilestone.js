@@ -11,3 +11,7 @@ function ShowEditMVScreen(mv, screen) {
 myapp.ViewMilestone.AddMilestoneValue_execute = function (screen) {
     ShowEditMVScreen(undefined, screen);
 };
+
+myapp.ViewMilestone.ShowHome_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.homeIcon(element);
+};
