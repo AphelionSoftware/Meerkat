@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE VIEW [mm].[ALL_OutcomeMenuGroup]
 AS
     SELECT TOP ( 10000 )
@@ -53,7 +54,7 @@ AS
                         0 AS OrderBy2 ,
                         'Outcome Level Status' AS Title ,
                         '/' + [O].[OutcomeSiteName]
-                        + '/Dashboards/Template%20Pages/Outcome%20Status%20Report.aspx?qsOutcome=' + [O].[OutcomeSiteName] AS Link ,
+                        + '/Dashboards/Template%20Pages/Outcome%20Status%20Report.aspx?qsOutcome=' + substring([O].[OutcomeSiteName],8,1) AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_2
                           WHERE     ( [OMC_2].[Title] = 'Outcome Pages' )
