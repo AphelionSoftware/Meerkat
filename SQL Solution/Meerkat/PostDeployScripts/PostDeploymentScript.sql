@@ -945,14 +945,28 @@ INSERT INTO [app].[Indicator]
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.2')
            
 
-GO
-
-SET IDENTITY_INSERT [Core].[Location]  ON 
-INSERT INTO [Core].[Location] ([Location_ID], [Code], [Name]) VALUES
-(1, 'One', 'One')
-SET IDENTITY_INSERT[Core].[Location]  OFF
+SET IDENTITY_INSERT [Core].[Location] ON 
 
 GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'Loc1', N'Central', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00BFE874 AS DateTime), N'dbo', CAST(0x0000A23B00BFE874 AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'Loc2', N'Coast', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEA9AD AS DateTime), N'dbo', CAST(0x0000A23B00EEA9AD AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'Loc3', N'Eastern', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEAFFE AS DateTime), N'dbo', CAST(0x0000A23B00EEAFFE AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (5, N'Loc4', N'Nairobi', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEBA1E AS DateTime), N'dbo', CAST(0x0000A23B00EEBA1E AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (6, N'Loc5', N'North Eastern', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEC853 AS DateTime), N'dbo', CAST(0x0000A23B00EEC853 AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (7, N'Loc6', N'Nyanza', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEECA3 AS DateTime), N'dbo', CAST(0x0000A23B00EEECA3 AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (8, N'Loc7', N'Rift Valley', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEF778 AS DateTime), N'dbo', CAST(0x0000A23B00EEF778 AS DateTime))
+GO
+INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (9, N'Loc8', N'Western', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEFDEB AS DateTime), N'dbo', CAST(0x0000A23B00EEFDEB AS DateTime))
+GO
+SET IDENTITY_INSERT [Core].[Location] OFF
+GO
+
 --------IV Values 1 province
 
 INSERT INTO [RBM].[IndicatorValues]
