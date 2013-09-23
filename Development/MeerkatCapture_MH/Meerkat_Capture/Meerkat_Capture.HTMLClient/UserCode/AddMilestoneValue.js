@@ -9,6 +9,12 @@ myapp.AddMilestoneValue.created = function (screen) {
 
     msls.application.lightswitchTools.setCommonAddScreenValues(screen);
     
+    $.getJSON("/api/TodaysReportingPeriod", function (data) {
+        myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+            screen.MilestoneValue.setReportingPeriod(reportingPeriod.results[0]);
+        });
+    });
+
     myapp.activeDataWorkspace.MeerkatData.Milestones_SingleOrDefault(screen.MilestoneId).execute().then(function (result) {
         var mileStone = result.results[0];
         screen.MilestoneValue.setMilestone(mileStone);
