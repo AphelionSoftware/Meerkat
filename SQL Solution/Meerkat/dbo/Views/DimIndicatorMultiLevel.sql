@@ -1,22 +1,10 @@
 ﻿
 
-CREATE VIEW  [DimIndicatorMultiLevel]
+CREATE  VIEW  [dbo].[DimIndicatorMultiLevel]
 as 
-/*SELECT top 1000000 *
 
 
-,TermsetDeepGrainID = COALESCE(TermSetID7, TermsetID6, TermsetId5, TermsetID4, TermsetID3, TermsetID2, TermsetID1)
- FROM (
-
-      ---------------------------------------
-
-
-      SELECT NameLevel = 'Program of Action'
-	  ,TermSetDescription  = 'Program of Action Outcomes'
-	  ,LCID = ''
-	  ,AvailableForTagging = 'TRUE'
-	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
        
       ,TermSetLevel2 = 'Indicators'
       ,TermSetLevel3 =   i.ShortName + ' : ' + left(i.longname,80)
@@ -59,7 +47,7 @@ as
       ,TermSetID6 = null
       ,TermSetID7 = null
       ,Indicator_ID = i.IndicatorID
-      ,i.UnitOfMeasure,i.isKeyIndicator
+      ,i.UnitOfMeasure
       from [app].[Outcome] oc
 
       
@@ -71,12 +59,7 @@ as
       
 
 
-      SELECT NameLevel = 'Program of Action'
-	  ,TermSetDescription  = 'Program of Action Outcomes'
-	  ,LCID = ''
-	  ,AvailableForTagging = 'TRUE'
-	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
       ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
       ,TermSetLevel3 = 'Indicators'
       ,TermSetLevel4 =  i.ShortName + ' : ' + left(i.longname,80)
@@ -115,7 +98,7 @@ as
       ,TermSetID6 = null
       ,TermSetID7 = null
       ,Indicator_ID = i.IndicatorID
-      ,i.UnitOfMeasure,i.isKeyIndicator
+      ,i.UnitOfMeasure
       from [app].[Outcome] oc
       inner join app.Output otp
       on oc.OutcomeID = otp.OutcomeID
@@ -128,12 +111,7 @@ as
       
       
        UNION ALL
-      SELECT NameLevel = 'Program of Action'
-	  ,TermSetDescription  = 'Program of Action Outcomes'
-	  ,LCID = ''
-	  ,AvailableForTagging = 'TRUE'
-	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
+      SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
       ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
       ,TermSetLevel3 = so.ShortName + ' : ' + left(so.longname,80)
       ,TermSetLevel4 = 'Indicators'
@@ -170,7 +148,7 @@ as
       ,TermSetID6 = null
       ,TermSetID7 = null
        ,Indicator_ID = i.IndicatorID
-       ,i.UnitOfMeasure,i.isKeyIndicator
+       ,i.UnitOfMeasure
       from [app].[Outcome] oc
       inner join app.Output otp
       on oc.OutcomeID = otp.OutcomeID
@@ -181,88 +159,6 @@ as
       on so.SubOutput_ID = i.SubOutput_ID
       
       
-      ----------------------------------
-      --Activities
+  GO
 
-      
-      UNION ALL
-       SELECT NameLevel = 'Program of Action'
-	  ,TermSetDescription  = 'Program of Action Outcomes'
-	  ,LCID = ''
-	  ,AvailableForTagging = 'TRUE'
-	  ,TermDescription = ''
-      ,TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
-      ,TermSetLevel3 = so.ShortName + ' : ' + left(so.longname,80)
-      ,TermSetLevel4 = a.ShortName + ' : ' + left(a.longname,80)
-      ,TermSetLevel5 = 'Indicators'
-      ,TermSetLevel6 = i.ShortName + ' : ' + left(i.longname,80)
-      ,TermSetLevel7 = null
-      ,CodeLevel1 = oc.Code
-      ,CodeLevel2 = otp.Code
-      ,CodeLevel3 = so.Code
-      ,CodeLevel4 = a.Code
-      ,CodeLevel5 = 'Ind'
-      ,CodeLevel6 = i.Code
-      ,CodeLevel7 = null
-      
-      ,NameLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
-      ,NameLevel2 = otp.ShortName
-      ,NameLevel3 =  so.ShortName
-      ,NameLevel4 =  a.ShortName
-      ,NameLevel5 = 'Indicators'
-      ,NameLevel6 = i.ShortName
-      ,NameLevel7 = null
-            ,LongNameLevel1 = oc.LongName --+ ' : ' + LEFT(oc.LongLongName,80) 
-      ,LongNameLevel2 = otp.LongName
-      ,LongNameLevel3 =  so.LongName
-      ,LongNameLevel4 =  a.LongName
-      ,LongNameLevel5 = 'Indicators'
-      ,LongNameLevel6 = i.LongName
-      ,LongNameLevel7 = null
-        ,TermSetID1 = RIGHT ('000' + Cast( oc.OutcomeID as varchar(50)), 4)
-      ,TermSetID2 = RIGHT ('000' +Cast(  otp.Output_ID as varchar(50)),4)
-      ,TermSetID3 = RIGHT ('000' +Cast( so.SubOutput_ID as varchar(50)),4)
-      ,TermSetID4 =RIGHT ('000' + Cast( a.ActivityID as varchar(50)),4)
-      ,TermSetID5 =RIGHT ('000' +Cast(  a.ActivityID as varchar(50)),4) + 'Indicators'
-      ,TermSetID6 = RIGHT ('000' +Cast( i.IndicatorID as varchar(50)),4)
-      ,TermSetID7 = null
- 
- ,Indicator_ID = i.IndicatorID
- ,i.UnitOfMeasure,i.isKeyIndicator
-      from [app].[Outcome] oc
-      inner join app.Output otp
-      on oc.OutcomeID = otp.OutcomeID
-       inner join [app].[SubOutput] so
-      on otp.Output_ID = so.Output_ID
-      
-       inner join app.Activity A
-      on so.SubOutput_ID = a.SubOutputID
-      
-      inner join app.Indicator I
-      on a.ActivityID = i.Activity_id
-
-      
-      ) src 
-     
-	  WHERE 
-			(	COALESCE (TermSetLevel1, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel2, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel3, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel4, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel5, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel6, '') NOT LIKE '%Overall StatusValues%'	) 
-		AND (	COALESCE (TermSetLevel7, '') NOT LIKE '%Overall StatusValues%'	)
-	  
-
-      ORDER BY TermSetID1,
-  TermSetID2,
-  TermSetID3,
-  TermSetID4,
-  TermSetID5,
-  TermSetID6,
-  TermSetID7
-
-  */
-  SELECT 'Not implemented' as X
 
