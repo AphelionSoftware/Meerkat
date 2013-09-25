@@ -1,7 +1,7 @@
 ﻿
 
 
-ALTER PROC [dbo].[uspIndicatorTimelineWithLocation]
+CREATE PROC [dbo].[uspIndicatorTimeline]
 --	declare 
 	@DataVersion_ID int = 1--varchar(255)
 , @indicator_id int = 10 --varchar(255)
