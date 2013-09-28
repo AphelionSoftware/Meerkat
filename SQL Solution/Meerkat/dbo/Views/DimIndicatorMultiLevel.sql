@@ -1,5 +1,4 @@
 ﻿
-
 CREATE  VIEW  [dbo].[DimIndicatorMultiLevel]
 as 
 

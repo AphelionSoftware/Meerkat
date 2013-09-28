@@ -944,29 +944,735 @@ INSERT INTO [app].[Indicator]
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.2')
            
+GO
 
-SET IDENTITY_INSERT [Core].[Location] ON 
+/*Location Types*/
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'CONT' ,'Continent' ,'Continent' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CONT')
+
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'CNTRY' ,'Country' ,'Country' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
+
+		  
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'REG' ,'Region' ,'Region' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
+
+		  
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'PROV' ,'Province' ,'Province' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='PROV')
+
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'CNTY' ,'County' ,'County' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTY')
+
+
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'CTY' ,'City' ,'City' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CTY')
+
+
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'TWN' ,'Town' ,'Town' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='TWN')
+
+
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description])
+     SELECT
+          'Municipality' ,'Municipality' ,'Municipality' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='Municipality')
+
+/*Location Types*/
 
 GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'Loc1', N'Central', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00BFE874 AS DateTime), N'dbo', CAST(0x0000A23B00BFE874 AS DateTime))
+
+
+/*Location for Kenya*/
+
+/*Location Insert*/
+SET IDENTITY_INSERT [Core].[Location] ON
 GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'Loc2', N'Coast', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEA9AD AS DateTime), N'dbo', CAST(0x0000A23B00EEA9AD AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'Loc3', N'Eastern', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEAFFE AS DateTime), N'dbo', CAST(0x0000A23B00EEAFFE AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (5, N'Loc4', N'Nairobi', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEBA1E AS DateTime), N'dbo', CAST(0x0000A23B00EEBA1E AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (6, N'Loc5', N'North Eastern', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEC853 AS DateTime), N'dbo', CAST(0x0000A23B00EEC853 AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (7, N'Loc6', N'Nyanza', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEECA3 AS DateTime), N'dbo', CAST(0x0000A23B00EEECA3 AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (8, N'Loc7', N'Rift Valley', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEF778 AS DateTime), N'dbo', CAST(0x0000A23B00EEF778 AS DateTime))
-GO
-INSERT [Core].[Location] ([Location_ID], [Code], [Name], [Area], [Density], [BusinessKey], [LocationType_ID], [ParentLocation_ID], [Geog], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (9, N'Loc8', N'Western', NULL, NULL, NULL, NULL, NULL, NULL, 1, N'dbo', CAST(0x0000A23B00EEFDEB AS DateTime), N'dbo', CAST(0x0000A23B00EEFDEB AS DateTime))
-GO
+
+INSERT [Core].[Location] (
+	[Location_ID]
+	, [Code]
+	, [Name]
+	, [AreaKM]
+	, [Population]
+	, [LocationType_ID]
+	, [ParentLocation_ID]
+	, [Geog]
+	) 
+	SELECT 0
+	, 'KE' Code
+	, 'Kenya' [Name]
+	, 562245
+	, 38610097
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
+	, NULL
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+	SELECT 1 FROM [Core].[Location] WHERE Code = 'KE'
+	)
+
 SET IDENTITY_INSERT [Core].[Location] OFF
 GO
 
+INSERT [Core].[Location] (
+	[Code]
+	, [Name]
+	, [AreaKM]
+	, [Population]
+	, [LocationType_ID]
+	, [ParentLocation_ID]
+	, [Geog]
+	) 
+	SELECT '47' Code
+	, 'Nairobi' [Name]
+	, 694 
+	, 3138369
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '47' 
+	)	
+	
+
+UNION ALL
+SELECT '1' Code
+	, 'Mombasa' [Name]
+	, 212 
+	, 939370
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
+	)	
+	
+
+UNION ALL
+SELECT '2' Code
+	, 'Kwale' [Name]
+	, 8270 
+	, 649931
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
+	)	
+	
+
+UNION ALL
+SELECT '3' Code
+	, 'Kilifi' [Name]
+	, 12245 
+	, 1109735
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
+	)	
+	
+
+UNION ALL
+SELECT '4' Code
+	, 'Tana River' [Name]
+	, 35375 
+	, 240075
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
+	)	
+	
+
+UNION ALL
+SELECT '5' Code
+	, 'Lamu' [Name]
+	, 6497 
+	, 101539
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
+	)	
+	
+
+UNION ALL
+SELECT '6' Code
+	, 'Taita-Taveta' [Name]
+	, 17083 
+	, 284657
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
+	)	
+	
+
+UNION ALL
+SELECT '7' Code
+	, 'Garissa' [Name]
+	, 45720 
+	, 623060
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
+	)	
+	
+
+UNION ALL
+SELECT '8' Code
+	, 'Wajir' [Name]
+	, 55840 
+	, 661941
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
+	)	
+	
+
+UNION ALL
+SELECT '9' Code
+	, 'Mandera' [Name]
+	, 25797 
+	, 1025756
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
+	)	
+	
+
+UNION ALL
+SELECT '10' Code
+	, 'Marsabit' [Name]
+	, 66923 
+	, 291166
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
+	)	
+	
+
+UNION ALL
+SELECT '11' Code
+	, 'Isiolo' [Name]
+	, 25336 
+	, 143294
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
+	)	
+	
+
+UNION ALL
+SELECT '12' Code
+	, 'Meru' [Name]
+	, 5127 
+	, 1356301
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
+	)	
+	
+
+UNION ALL
+SELECT '13' Code
+	, 'Tharaka-Nithi' [Name]
+	, 2409 
+	, 365330
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
+	)	
+	
+
+UNION ALL
+SELECT '14' Code
+	, 'Embu' [Name]
+	, 2555 
+	, 516212
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
+	)	
+	
+
+UNION ALL
+SELECT '15' Code
+	, 'Kitui' [Name]
+	, 24385 
+	, 1012709
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
+	)	
+	
+
+UNION ALL
+SELECT '16' Code
+	, 'Machakos' [Name]
+	, 5952 
+	, 1098584
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
+	)	
+	
+
+UNION ALL
+SELECT '18' Code
+	, 'Nyandarua' [Name]
+	, 3107 
+	, 596268
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
+	)	
+	
+
+UNION ALL
+SELECT '19' Code
+	, 'Nyeri' [Name]
+	, 2361 
+	, 693558
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
+	)	
+	
+
+UNION ALL
+SELECT '20' Code
+	, 'Kirinyaga' [Name]
+	, 1205 
+	, 528054
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
+	)	
+	
+
+UNION ALL
+SELECT '21' Code
+	, 'Murang''a' [Name]
+	, 2325 
+	, 942581
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
+	)	
+	
+
+UNION ALL
+SELECT '22' Code
+	, 'Kiambu' [Name]
+	, 2449 
+	, 1623282
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
+	)	
+	
+
+UNION ALL
+SELECT '23' Code
+	, 'Turkana' [Name]
+	, 71597 
+	, 855399
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '23' 
+	)	
+	
+
+UNION ALL
+SELECT '24' Code
+	, 'West Pokot' [Name]
+	, 8418 
+	, 512690
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '24' 
+	)	
+	
+
+UNION ALL
+SELECT '25' Code
+	, 'Samburu' [Name]
+	, 20182 
+	, 223947
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '25' 
+	)	
+	
+
+UNION ALL
+SELECT '27' Code
+	, 'Uasin Gishu' [Name]
+	, 2955 
+	, 894179
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '27' 
+	)	
+	
+
+UNION ALL
+SELECT '28' Code
+	, 'Elgeyo-Marakwet' [Name]
+	, 3049 
+	, 369998
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '28' 
+	)	
+	
+
+UNION ALL
+SELECT '29' Code
+	, 'Nandi' [Name]
+	, 2884 
+	, 752965
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '29' 
+	)	
+	
+
+UNION ALL
+SELECT '30' Code
+	, 'Baringo' [Name]
+	, 11075 
+	, 555561
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '30' 
+	)	
+	
+
+UNION ALL
+SELECT '31' Code
+	, 'Laikipia' [Name]
+	, 8696 
+	, 399227
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '31' 
+	)	
+	
+
+UNION ALL
+SELECT '32' Code
+	, 'Nakuru' [Name]
+	, 7509 
+	, 1603325
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '32' 
+	)	
+	
+
+UNION ALL
+SELECT '33' Code
+	, 'Narok' [Name]
+	, 17921 
+	, 850920
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '33' 
+	)	
+	
+
+UNION ALL
+SELECT '34' Code
+	, 'Kajiado' [Name]
+	, 21292 
+	, 687312
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '34' 
+	)	
+	
+
+UNION ALL
+SELECT '17' Code
+	, 'Makueni' [Name]
+	, 8008 
+	, 884527
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '17' 
+	)	
+	
+
+UNION ALL
+SELECT '35' Code
+	, 'Kericho' [Name]
+	, 2454 
+	, 752396
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '35' 
+	)	
+	
+
+UNION ALL
+SELECT '37' Code
+	, 'Kakamega' [Name]
+	, 3033 
+	, 1660651
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '37' 
+	)	
+	
+
+UNION ALL
+SELECT '38' Code
+	, 'Vihiga' [Name]
+	, 531 
+	, 554622
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '38' 
+	)	
+	
+
+UNION ALL
+SELECT '39' Code
+	, 'Bungoma' [Name]
+	, 2206 
+	, 1375063
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '39' 
+	)	
+	
+
+UNION ALL
+SELECT '40' Code
+	, 'Busia' [Name]
+	, 1628 
+	, 743946
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '40' 
+	)	
+	
+
+UNION ALL
+SELECT '41' Code
+	, 'Siaya' [Name]
+	, 2496 
+	, 842304
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '41' 
+	)	
+	
+
+UNION ALL
+SELECT '43' Code
+	, 'Homa Bay' [Name]
+	, 3154 
+	, 963794
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '43' 
+	)	
+	
+
+UNION ALL
+SELECT '44' Code
+	, 'Migori' [Name]
+	, 2586 
+	, 917170
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '44' 
+	)	
+	
+
+UNION ALL
+SELECT '45' Code
+	, 'Kisii' [Name]
+	, 1317 
+	, 1152282
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '45' 
+	)	
+	
+
+UNION ALL
+SELECT '36' Code
+	, 'Bomet' [Name]
+	, 1997 
+	, 730129
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '36' 
+	)	
+	
+
+UNION ALL
+SELECT '46' Code
+	, 'Nyamira' [Name]
+	, 912 
+	, 598252
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '46' 
+	)	
+	
+
+UNION ALL
+SELECT '42' Code
+	, 'Kisumu' [Name]
+	, 2009 
+	, 968909
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '42' 
+	)	
+	
+
+UNION ALL
+SELECT '26' Code
+	, 'Trans Nzoia' [Name]
+	, 2469 
+	, 818757
+	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+	, NULL [Geog]
+	WHERE NOT EXISTS (
+		SELECT 1 FROM [Core].[Location] WHERE [Code] = '26' 
+	)	
+	
+
+	/*Location Insert end*/
+	/*Update Geography*/
+	
+IF NOT EXISTs (select 1 FROM KenyaShapes.dbo.Counties)
+	
+	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes', -- Message text.
+               18, -- Severity.
+               1 -- State.
+               );
+
+UPDATE [Core].[Location]
+SET Geog = (SELECT Geography::UnionAggregate(geom)
+  FROM [KenyaShapes].[dbo].[Counties])
+  WHERE [Code] = 'KE'
+
+UPDATE [Core].[Location]
+SET Geog = geom
+FROM [KenyaShapes].[dbo].[Counties]
+  WHERE  [Code] = CAST(COUNTY_COD as varchar(10))
+
+
+
+	/*Update Geography End*/
+
+
+/*Location for Kenya end*/
 --------IV Values 1 province
 
 INSERT INTO [RBM].[IndicatorValues]

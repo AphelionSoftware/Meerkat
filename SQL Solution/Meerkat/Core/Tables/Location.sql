@@ -2,10 +2,11 @@
     [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)      NOT NULL,
     [Name]              VARCHAR (255)     NOT NULL,
-    [Area]              VARCHAR (MAX)     NULL,
-    [Density]           VARCHAR (MAX)     NULL,
-    [BusinessKey]       NVARCHAR (MAX)    NULL,
-    [LocationType_ID]   INT               NULL,
+    [AreaKM]              DECIMAL(18, 2)     NULL,
+    [Population]              DECIMAL(18, 2)     NULL,
+	[Density]           VARCHAR (MAX)     NULL,
+	[BusinessKey]       NVARCHAR (MAX)    NULL,
+    [LocationType_ID]   INT               NOT NULL,
     [ParentLocation_ID] INT               NULL,
     [Geog]              [sys].[geography] NULL,
     [Active]            INT               CONSTRAINT [DF__Location__sys_Ac__36470DEF] DEFAULT ((1)) NOT NULL,
@@ -16,8 +17,9 @@
     CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED ([Location_ID] ASC),
     CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]),
+    CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC)
+    UNIQUE NONCLUSTERED ([Name] ASC)
 );
 
 

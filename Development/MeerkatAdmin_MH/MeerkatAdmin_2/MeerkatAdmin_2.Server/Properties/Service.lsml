@@ -2354,16 +2354,6 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Name"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -2374,11 +2364,13 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Area"
-        PropertyType=":String?">
+        Name="Code"
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="50" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -2394,13 +2386,6 @@
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ParentLocation_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -2456,11 +2441,6 @@
         FromEnd="Location"
         ToEnd="IndicatorValues" />
       <NavigationProperty
-        Name="LocationType"
-        Association="FK_Location_LocationType"
-        FromEnd="Location"
-        ToEnd="LocationType" />
-      <NavigationProperty
         Name="MilestoneLocations"
         Association="FK_MilestoneLocation_Location"
         FromEnd="Location"
@@ -2480,6 +2460,41 @@
         Association="FK_StatusValues_Location"
         FromEnd="Location"
         ToEnd="StatusValues" />
+      <EntityProperty
+        Name="AreaKM"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Population"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Locations"
+        Association="FK_Location_Location"
+        FromEnd="Location"
+        ToEnd="Location1" />
+      <NavigationProperty
+        Name="Location1"
+        Association="FK_Location_Location"
+        FromEnd="Location1"
+        ToEnd="Location" />
+      <NavigationProperty
+        Name="LocationType"
+        Association="FK_Location_LocationType"
+        FromEnd="Location"
+        ToEnd="LocationType" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -2505,9 +2520,11 @@
       </KeyProperty>
       <EntityProperty
         Name="Description"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength />
+          <Required />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -2553,15 +2570,35 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Locations"
-        Association="FK_Location_LocationType"
-        FromEnd="LocationType"
-        ToEnd="Location" />
-      <NavigationProperty
         Name="ActiveType"
         Association="FK_LocationType_ActiveType"
         FromEnd="LocationType"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Locations"
+        Association="FK_Location_LocationType"
+        FromEnd="LocationType"
+        ToEnd="Location" />
     </EntityType.Properties>
   </EntityType>
   <EntityType
@@ -3610,20 +3647,6 @@
       EntityType="IndicatorValue" />
   </Association>
   <Association
-    Name="FK_Location_LocationType">
-    <AssociationEnd
-      Name="LocationType"
-      EntityType="LocationType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Location"
-      Multiplicity="Many"
-      EntityType="Location" />
-  </Association>
-  <Association
     Name="FK_Milestone_Activity">
     <AssociationEnd
       Name="Activity"
@@ -4205,16 +4228,6 @@
       <AssociationSetEnd
         Name="IndicatorValues"
         EntitySet="IndicatorValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Location_LocationType"
-      Association="FK_Location_LocationType">
-      <AssociationSetEnd
-        Name="LocationType"
-        EntitySet="LocationTypes" />
-      <AssociationSetEnd
-        Name="Location"
-        EntitySet="Locations" />
     </AssociationSet>
     <AssociationSet
       Name="FK_Milestone_Activity"
@@ -7177,6 +7190,99 @@
         Name="StatusType"
         EntitySet="StatusTypes" />
     </AssociationSet>
+    <QueryOperation
+      Name="LocationSorted"
+      ReturnType="Location*">
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="And">
+            <BinaryExpression.Left>
+              <BinaryExpression
+                NodeType="Contains">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="LocationType" />
+                    <MemberExpression
+                      Member="Name" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="LocationType" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <BinaryExpression
+                NodeType="Contains">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="Name" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="LocationName" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Locations" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="LocationType"
+        IsOptional="True"
+        ParameterType=":String?" />
+      <QueryOperationParameter
+        Name="LocationName"
+        IsOptional="True"
+        ParameterType=":String?" />
+      <QueryOperation.SortCriteria>
+        <SortCriterion>
+          <ChainExpression>
+            <MemberExpression
+              Member="LocationType" />
+            <MemberExpression
+              Member="Name" />
+          </ChainExpression>
+        </SortCriterion>
+        <SortCriterion>
+          <ChainExpression>
+            <MemberExpression
+              Member="Name" />
+          </ChainExpression>
+        </SortCriterion>
+      </QueryOperation.SortCriteria>
+    </QueryOperation>
+    <AssociationSet
+      Name="FK_Location_Location"
+      Association="FK_Location_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Location1"
+        EntitySet="Locations" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Location_LocationType"
+      Association="FK_Location_LocationType">
+      <AssociationSetEnd
+        Name="LocationType"
+        EntitySet="LocationTypes" />
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+    </AssociationSet>
   </EntityContainer>
   <GlobalAttributeGroup
     Name="LightSwitchServiceApplicationGroup">
@@ -8213,6 +8319,36 @@
       Multiplicity="Many"
       EntityType="StatusType" />
   </Association>
+  <Association
+    Name="FK_Location_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Location1"
+      Multiplicity="Many"
+      EntityType="Location" />
+  </Association>
+  <Association
+    Name="FK_Location_LocationType">
+    <AssociationEnd
+      Name="LocationType"
+      Multiplicity="One"
+      EntityType="LocationType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="Many"
+      EntityType="Location" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService"
     DataProvider="EntityFrameworkDataProvider"
@@ -8229,7 +8365,7 @@
         Value="System.Data.SqlClient" />
       <ConnectionProperty
         Name="ConnectionStringGuid"
-        Value="2b5a4135-e0ba-4b5f-8a96-e6fa7f985c5a" />
+        Value="bd569df9-95b6-4cac-b610-aa140eaa736b" />
       <ConnectionProperty
         Name="ProviderManifestToken"
         Value="2008" />
@@ -9730,10 +9866,17 @@
           Type="varchar"
           Property="Location/Properties[Name]" />
         <SsdlProperty
-          Name="Area"
+          Name="AreaKM"
           Nullable="True"
-          Type="varchar(max)"
-          Property="Location/Properties[Area]" />
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[AreaKM]" />
+        <SsdlProperty
+          Name="Population"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[Population]" />
         <SsdlProperty
           Name="Density"
           Nullable="True"
@@ -9744,11 +9887,6 @@
           Nullable="True"
           Type="nvarchar(max)"
           Property="Location/Properties[BusinessKey]" />
-        <SsdlProperty
-          Name="ParentLocation_ID"
-          Nullable="True"
-          Type="int"
-          Property="Location/Properties[ParentLocation_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -9777,8 +9915,13 @@
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="LocationType_ID"
+          Name="ParentLocation_ID"
           Nullable="True"
+          Type="int"
+          PropertyName="ParentLocation_ID" />
+        <SsdlForeignKeyProperty
+          Name="LocationType_ID"
+          Nullable="False"
           Type="int"
           PropertyName="LocationType_ID" />
       </EntitySetMapping.Attributes>
@@ -9796,9 +9939,21 @@
           Type="int"
           Property="LocationType/Properties[LocationType_ID]" />
         <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="LocationType/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
+          Type="varchar"
+          Property="LocationType/Properties[Name]" />
+        <SsdlProperty
           Name="Description"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="varchar(max)"
           Property="LocationType/Properties[Description]" />
         <SsdlProperty
           MaxLength="255"
@@ -10835,6 +10990,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Location_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Location_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Location_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Location_Location]/Members[Location1]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ParentLocation_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
