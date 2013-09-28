@@ -1652,7 +1652,7 @@ SELECT '26' Code
 	
 IF NOT EXISTs (select 1 FROM KenyaShapes.dbo.Counties)
 	
-	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes', -- Message text.
+	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
                18, -- Severity.
                1 -- State.
                );
