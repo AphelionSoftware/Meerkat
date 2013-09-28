@@ -620,92 +620,6 @@ GO
 
 
 
-/*Status Indicators*/
-
-INSERT  INTO [app].[Indicator]
-        ( [app].[Indicator].[LongName] ,
-          [app].[Indicator].[TextDescription] ,
-          [app].[Indicator].[Baseline] ,
-          [app].[Indicator].[BaselineString] ,
-          [app].[Indicator].[BaselineDate] ,
-          [app].[Indicator].[Target] ,
-          [app].[Indicator].[TargetString] ,
-          [app].[Indicator].[TargetDate] ,
-          [app].[Indicator].[ReleaseDate] ,
-          [app].[Indicator].[Output_ID] ,
-          [app].[Indicator].[OutcomeID] ,
-          [app].[Indicator].[BusinessKey] ,
-          [app].[Indicator].[Notes] ,
-          [app].[Indicator].[Code] ,
-          [app].[Indicator].[IndicatorType_ID] ,
-          [app].[Indicator].[SubOutput_ID] ,
-          [app].[Indicator].[ShortName] ,
-          [app].[Indicator].[UnitOfMeasure]
-           
-        )
-        SELECT  OM.ShortName + ' Status' ,                                  /* Long Name */
-                OM.ShortName + ' Status' ,                                     /* Text Description */
-                0 ,                                                            /* Baseline */
-                0 ,                                                            /* Baseline String */
-                '2012/01/01' AS BaselineDate ,                                 /* Baseline Date */
-                0 ,                                                            /* Target */
-                0 ,                                                            /* Target String */
-                '2012/01/01' AS TargetDate ,                                   /* Target Date */
-                '2012/01/01' AS ReleaseDate ,                                  /* Release Date */
-                NULL AS OutputID ,                                             /* Output ID */
-                OM.OutcomeID AS OutcomeID ,                                    /* OutcomeID */
-                OM.ShortName + ' Status' AS BusinessKey ,                      /* Business Key */
-                '' AS NOTES ,                                                  /* Notes */
-                CAST(OM.OutcomeID AS VARCHAR(10)) + ' Status' AS Code ,        /* Code */
-                6 AS IndicatorType_ID ,                                       /* Indicator Type ID */
-                NULL AS SubOutput_ID ,                                        /* Sub output ID */
-                LEFT('Status of ' + OM.ShortName, 50)                        /* Short Name */ ,
-                'Percentage'
-        FROM    [app].[Outcome] OM
-        UNION ALL
-        SELECT  OP.ShortName + ' Status' ,
-                OP.ShortName + ' Status' ,
-                0 ,
-                0 ,
-                '2012/01/01' AS BaselineDate ,
-                0 ,
-                0 ,
-                '2012/01/01' AS TargetDate ,
-                '2012/01/01' AS ReleaseDate ,
-                OP.Output_ID AS Output_ID ,
-                NULL AS OutcomeID ,
-                OP.ShortName + ' Status' AS BusinessKey ,
-                '' AS NOTES ,
-                CAST(OP.Output_ID AS VARCHAR(10)) + ' Status' AS Code ,
-                6 AS IndicatorType_ID ,
-                NULL AS SubOutput_ID ,
-                LEFT('Status of ' + OP.ShortName, 50) ,
-                'Percentage'
-        FROM    app.Output OP
-        UNION ALL
-        SELECT  SO.ShortName + ' Status' ,
-                SO.ShortName + ' Status' ,
-                0 ,
-                0 ,
-                '2012/01/01' AS BaselineDate ,
-                0 ,
-                0 ,
-                '2012/01/01' AS TargetDate ,
-                '2012/01/01' AS ReleaseDate ,
-                NULL AS Output_ID ,
-                NULL AS OutcomeID ,
-                SO.ShortName + ' Status' AS BusinessKey ,
-                '' AS NOTES ,
-                CAST(SO.SubOutput_ID AS VARCHAR(10)) + ' Status' AS Code ,
-                6 AS IndicatorType_ID ,
-                SO.SubOutput_ID AS SubSubOutput_ID ,
-                LEFT('Status of ' + SO.ShortName, 50) ,
-                'Percentage'
-        FROM    [app].[SubOutput] SO
-
-GO
-
-
 /*GeoSpatialData*/
 
 IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
@@ -882,7 +796,7 @@ UNION SELECT
 
 
 
---	----INdicator
+--	----Indicator
 GO
 	
 INSERT INTO [app].[Indicator]
@@ -1650,7 +1564,7 @@ SELECT '26' Code
 	/*Location Insert end*/
 	/*Update Geography*/
 	
-IF NOT EXISTs (select 1 FROM KenyaShapes.dbo.Counties)
+IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
 	
 	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
                18, -- Severity.
@@ -1721,7 +1635,7 @@ as ActualValue
 
 as varchar(255)) as Notes
 	,1 as DataVersionID
-	,1 AS Location_ID
+	,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') AS Location_ID
 	,ReportPeriodID
  FROM 
 
@@ -1853,18 +1767,19 @@ INSERT INTO [RBM].[IndicatorValues]
            ,[ReportPeriodID]
            )
 
-
 SELECT    
 Indicator_ID
-,Cast((OriginalBaseline + (
+
+, CAST (  (OriginalBaseline + (
     (
 		( FinalTarget - OriginalBaseline) / 
 		(	 FinalTargetPeriodID -BaselinePeriodID ) 
 		)
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	) * RAND(ReportPeriodID))
-	/Location.Location_ID
-as varchar(255))
+	/ (1150.0/ cast(Location.Code as int))	 
+	as varchar(255))
+as ActualLabel
 , (OriginalBaseline + (
     (
 		( FinalTarget - OriginalBaseline) / 
@@ -1872,7 +1787,7 @@ as varchar(255))
 		)
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	) * RAND(ReportPeriodID))
-	/Location.Location_ID	 
+	/ (1150.0/ cast(Location.Code as int))	 
 as ActualValue
 ,CONVERT(DATETIME, CONVERT(VARCHAR, FIV.ReportCycleDate_ID), 112) As ActualDate
 ,'IV' as businessKey
@@ -1883,7 +1798,7 @@ as ActualValue
 		)
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	) * RAND(ReportPeriodID))
-	/Location.Location_ID
+	/ (1551.0* cast(Location.Code as int))
 
 as varchar(255)) as Notes
 	,1 as DataVersionID
@@ -1891,6 +1806,9 @@ as varchar(255)) as Notes
 	,ReportPeriodID
  FROM 
  Core.Location
+ INNER JOIN [Core].[LocationType]
+ ON Location.LocationType_ID = [LocationType].[LocationType_ID]
+ AND [LocationType].[Code] = 'CNTY'
  CROSS JOIN 
  (
 SELECT  
@@ -2002,6 +1920,8 @@ AND NOT EXISTS (SELECT 1 from rbm.IndicatorValues IVInner where Indicator_ID = F
 AND financialYear <2014
 order by ReportCycleDate_ID ASC
 
+
+GO
 
 GO
 
@@ -2248,11 +2168,11 @@ select * from rbm.IndicatorValues where Indicator_ID in (201)
 */
 UPDATE RBM.IndicatorValues
 set Actuallabel = CAST (CAST(ROUND(ActualValue,0) as int) as varchar(10)) + ' per class'
-where Indicator_ID IN (select Indicator_ID from app.Indicator where code in ('IND2.1.1.1')) 
+where Indicator_ID IN (select IndicatorID from app.Indicator where code in ('IND2.1.1.1')) 
 
 UPDATE RBM.IndicatorValues
 set Actuallabel = CAST (CAST(ROUND(ActualValue,0) as int) as varchar(10)) + ' schools'
-where Indicator_ID IN (select Indicator_ID from app.Indicator where code in ('IND2.1.1.2')) 
+where Indicator_ID IN (select IndicatorID from app.Indicator where code in ('IND2.1.1.2')) 
 
 
 UPDATE rbm.IndicatorValues 
