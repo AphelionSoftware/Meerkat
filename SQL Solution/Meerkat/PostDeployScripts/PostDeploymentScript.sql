@@ -2206,3 +2206,64 @@ where Indicator_ID = (select IndicatorID from app.Indicator where code = 'IND2.1
 and ActualDate = '2013-08-31'
 
 
+/*Insert status values*/
+
+INSERT INTO [app].[StatusValues]
+           ([ProjectID]
+           , [LocationID] ,[StatusTypeID]
+           ,[ReportingPeriodID]
+           ,[DataVersionID]
+		   )
+select projectid ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by id)) - .71355) * 10000),0) as int) % 3
+,RP.ID
+,1
+from app.Project P
+JOIN core.ReportingPeriod RP 
+on startdateid between 20120101 and 20131001
+where not exists (select 1 FROM app.StatusValues SV where SV.ProjectID = P.ProjectID and sv.ReportingPeriodID = rp.ID)
+
+INSERT INTO [app].[StatusValues]
+           ([Output_ID]
+           , [LocationID] ,[StatusTypeID]
+           ,[ReportingPeriodID]
+           ,[DataVersionID]
+		   )
+select Output_ID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by [Output_ID],id)) - .71355) * 10000),0) as int) % 3
+,RP.ID
+,1
+from app.Output O
+JOIN core.ReportingPeriod RP
+on startdateid between 20110101 and 20131001
+
+where not exists (select 1 FROM app.StatusValues SV where SV.Output_ID = O.Output_ID and sv.ReportingPeriodID = rp.ID)
+
+INSERT INTO [app].[StatusValues]
+           ([SubOutput_ID]
+           , [LocationID] ,[StatusTypeID]
+           ,[ReportingPeriodID]
+           ,[DataVersionID]
+		   )
+select SubOutput_ID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by suboutput_id, id)) - .71355) * 10000),0) as int) % 3
+,RP.ID
+,1
+from app.SubOutput SO
+JOIN core.ReportingPeriod RP 
+on startdateid between 20110101 and 20131001
+where not exists (select 1 FROM app.StatusValues SV where SV.SubOutput_ID = SO.SubOutput_ID and sv.ReportingPeriodID = rp.ID)
+
+
+INSERT INTO [app].[StatusValues]
+           ([OutcomeID]
+           , [LocationID] ,[StatusTypeID]
+           ,[ReportingPeriodID]
+           ,[DataVersionID]
+		   )
+select OutcomeID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by outcomeid)) - .71355) * 10000),0) as int) % 3
+,RP.ID
+,1
+from app.Outcome OM
+JOIN core.ReportingPeriod RP 
+on startdateid between 20130101 and 20131001
+where not exists (select 1 FROM app.StatusValues SV where SV.OutcomeID = OM.OutcomeID and sv.ReportingPeriodID = rp.ID)
+
+/*end Insert status values*/
