@@ -823,7 +823,7 @@ INSERT INTO [app].[Indicator]
 		   ,'IND2.1.1.1'
 		   ,3
 		   ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
-		   ,'Indicator 2.1.1.1'
+		   ,'Children per classroom'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.1')
 
@@ -854,7 +854,7 @@ INSERT INTO [app].[Indicator]
 		   ,'IND2.1.1.2'
 		   ,3
 		   ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
-		   ,'Indicator 2.1.1.2'
+		   ,'# schools'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.2')
            
