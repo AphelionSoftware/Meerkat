@@ -2033,7 +2033,7 @@ INSERT INTO [app].[Milestone]
 		   ,'M2.1.2.1'
 		   ,5
 		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Milestone 2.1.2.1'
+		   ,'Identify work committee'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.1')
 	UNION ALL
@@ -2048,7 +2048,7 @@ INSERT INTO [app].[Milestone]
 		   ,'M2.1.2.2'
 		   ,5
 		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Milestone 2.1.2.2'
+		   ,'Choose methodology'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.2')
 
@@ -2065,7 +2065,7 @@ INSERT INTO [app].[Milestone]
 		   ,'M2.1.2.3'
 		   ,5
 		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Milestone 2.1.2.3'
+		   ,'Create draft plan'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.3')
 
@@ -2082,7 +2082,7 @@ INSERT INTO [app].[Milestone]
 		   ,'M2.1.2.4'
 		   ,5
 		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Milestone 2.1.2.4'
+		   ,'Ratify plan with executive'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.4')
 
@@ -2099,7 +2099,7 @@ INSERT INTO [app].[Milestone]
 		   ,'M2.1.2.5'
 		   ,5
 		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Milestone 2.1.2.5'
+		   ,'Ratify plan with provinces'
 		   ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.5')
 
