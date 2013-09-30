@@ -100,8 +100,8 @@ dbo.fn_StripMDXKey(@DataVersion_ID) DataVersionParm,
 
 FinancialYear,
 --FIV.ExtrapolatedTarget,
-ISNULL(FIV.LocationName,loc.Name) as LocationName,
-Case When FIV.LocationName is Null Then loc.Location_ID Else FIV.Location_ID End as Location_ID,
+ISNULL(FIV.LocationName,LocationName) as LocationName,
+Case When FIV.LocationName is Null Then Location_ID Else FIV.Location_ID End as Location_ID,
 FIV.IndicatorValues_ID, FIV.Indicator_ID
 ,FIV.Notes,FIV.Title,FIV.DataVersion_ID,
  FIV.ReportCycle, FIV.LongName, FIV.Code, FIV.ShortName
@@ -138,114 +138,100 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
  FROM 
 
  (
-SELECT  
-i.UnitOfMeasure,
-rc.YearNumber financialYear,
-ROW_NUMBER() over (partition by i.IndicatorID order by rc.StartDateID) as RowX,
-ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
-      ,i.[IndicatorID] [Indicator_ID]
-      ,i.[Baseline] [Baseline]
-      , i.[BaselineString] BaselineString
-      ,i.Target [TargetValue]
-      ,i.TargetString [TargetValueString]
+SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
       ,[ActualValue]
       ,[ActualLabel]
-      ,i.[Output_ID]
-      ,i.[OutcomeID]
       ,iv.[BusinessKey]
       ,iv.[Notes]
       ,iv.ActualLabel Title
       --,iv.Title
-      ,rc.ReportingPeriod ReportCycle
-      ,i.ShortName
-      ,i.Code
-      ,i.LongName
-      ,null [VerifiedActualValue]
-      ,null [VerifiedActualNotes]
-
-      ,i.[IndicatorType_ID]
-      --,i.[Activity_ID]
-      ,i.[SubOutput_ID]
-      ,ISNULL(iv.[DataVersion_ID],0) DataVersion_ID
-
-      ,ISNULL(iv.Location_ID,1) Location_ID
-
-         
-      ,rc.EndDateID  ReportCycleDate_ID
-      ,rc.StartDateID ReportCycleStartDateID
-                     ,i.BaselineDate
-      ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
-      ,i.TargetDate
-       ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
-      ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
-      ,RolledUpToSubOutput_ID = i.SubOutput_ID
-      --,RolledUpToActivity_ID = i.Activity_ID
-      --  ,TermSetID = DIML.TermsetDeepGrainID
-	,i.Baseline OriginalBaseline
-	,i.Target FinalTarget
-	--,rc.StartDateID ReportingPeriodStartDate_ID
-	--,rc.EndDateID 	
-	,null NextReportingPeriodReleaseDate_ID
-	,l.Name LocationName
-	,FinalTargetPeriod.ID FinalTargetPeriodID
-	,rc.ID CurrentReportPeriodID
-	,BaselinePeriod.ID BaselinePeriodID
+      ,ISNULL(iv.[DataVersion_ID],-1) DataVersion_ID
+      --,ISNULL(iv.Location_ID,-1) Location_ID
+	  ,RolledUpToOutcome_ID = ISNULL(TargetFIV.OutcomeID, o.OutcomeID)
+      ,RolledUpToOutput_ID = ISNULL(TargetFIV.Output_ID, so.Output_ID)
+      ,RolledUpToSubOutput_ID = TargetFIV.SubOutput_ID
 	,so.ShortName as SubOutputSN
 	,o.ShortName as OutputSN
-	
-  FROM app.Indicator i 
+, TargetFIV.* FROM  (
 
-   
-  INNER JOIN Core.ReportingPeriod rc
-  on rc.EndDateID >=   i.BaselineDate_ID 
-  and rc.StartDateID <= i.TargetDate_ID
+	SELECT 
+	Location.Location_ID,
+	Location.Geog,
+	rc.ID ReportingPeriod,
+	i.UnitOfMeasure,
+	rc.YearNumber financialYear,
+	ROW_NUMBER() over (partition by i.IndicatorID order by rc.StartDateID) as RowX
+		  ,i.[IndicatorID] [Indicator_ID]
+		  ,i.[Baseline] [Baseline]
+		  , i.[BaselineString] BaselineString
+		  ,i.Target [TargetValue]
+		  ,i.TargetString [TargetValueString]
+		  ,i.[Output_ID]
+		  ,i.[OutcomeID]
+		  ,rc.ReportingPeriod ReportCycle
+		  ,i.ShortName
+		  ,i.Code
+		  ,i.LongName
+		  ,null [VerifiedActualValue]
+		  ,null [VerifiedActualNotes]
+
+		  ,i.[IndicatorType_ID]
+		  --,i.[Activity_ID]
+		  ,i.[SubOutput_ID]
+         
+		  ,rc.EndDateID  ReportCycleDate_ID
+		  ,rc.StartDateID ReportCycleStartDateID
+						 ,i.BaselineDate
+		  ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
+		  ,i.TargetDate
+		   ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
+		,i.Baseline OriginalBaseline
+		,i.Target FinalTarget
+		--,rc.StartDateID ReportingPeriodStartDate_ID
+		--,rc.EndDateID 	
+		,null NextReportingPeriodReleaseDate_ID
+		,Location.Name LocationName
+		,FinalTargetPeriod.ID FinalTargetPeriodID
+		,rc.ID CurrentReportPeriodID
+		,BaselinePeriod.ID BaselinePeriodID
+		  FROM app.Indicator i 
+	  INNER JOIN Core.ReportingPeriod rc
+		  on rc.EndDateID >=   i.BaselineDate_ID 
+		and rc.StartDateID <= i.TargetDate_ID
   
-
-  LEFT join RBM.[IndicatorValues] iv
-  on i.IndicatorID = iv.Indicator_ID
-    and iv.ReportPeriodID  = rc.ID 
-	and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
-	--and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
+		INNER JOIN Core.ReportingPeriod FinalTargetPeriod
+		  ON i.TargetDate_ID BETWEEN
+		   FinalTargetPeriod.StartDateID  AND
+		   FinalTargetPeriod.EndDateID 
     
+		INNER JOIN Core.ReportingPeriod BaselinePeriod
+		  ON i.BaselineDate_ID BETWEEN
+		  BaselinePeriod.StartDateID 
+		  AND 	  BaselinePeriod.EndDateID 
 
-  INNER JOIN Core.ReportingPeriod FinalTargetPeriod
-  ON i.TargetDate_ID BETWEEN
-   FinalTargetPeriod.StartDateID  AND
-   FinalTargetPeriod.EndDateID 
-    
-	INNER JOIN Core.ReportingPeriod BaselinePeriod
-  ON i.BaselineDate_ID BETWEEN
-  BaselinePeriod.StartDateID 
-  AND
-  BaselinePeriod.EndDateID 
-  
-  
-  
-    
-    
-/*LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID*/
-LEFT OUTER JOIN [app].[SubOutput] SO
-on i.SubOutput_ID = so.SubOutput_ID 
+	CROSS JOIN Core.Location
+) TargetFIV 
 
-LEFT OUTER JOIN app.Output o
-on i.Output_ID = o.Output_ID
-OR so.Output_ID = o.Output_ID
-LEFT OUTER JOIN Core.Location l
-on (iv.Location_ID = l.Location_ID )
+LEFT JOIN RBM.IndicatorValues IV 
+ON TargetFIV.ReportingPeriod = IV.ReportPeriodID
+	and TargetFIV.Location_ID = IV.Location_ID
+
+LEFT JOIN App.SubOutput SO
+	ON TargetFIV.SubOutput_ID = SO.SubOutput_ID
+
+LEFT JOIN App.Output O 
+	ON TargetFIV.Output_ID = O.Output_ID
+		OR SO.Output_ID = O.Output_ID
+
+LEFT JOIN App.Outcome OM 
+	ON TargetFIV.OutcomeID = OM.OutcomeID
+		OR  O.OutcomeID = OM.OutcomeID
 
 
-
-  --where 
-/*
-*/
 ) FIV
-cross Join Core.Location loc --on fiv.Location_ID=loc.Location_ID
-
 where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
 
 
 order by ReportCycleDate_ID ASC
-GO
 
+GO
