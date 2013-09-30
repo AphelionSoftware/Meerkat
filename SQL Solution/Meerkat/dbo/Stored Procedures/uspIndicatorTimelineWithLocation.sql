@@ -1,13 +1,4 @@
-﻿
-/****** Object:  StoredProcedure [dbo].[uspIndicatorTimelineWithLocation]    Script Date: 2013-08-21 04:15:22 PM ******/
-/*SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO*/
-
-
-CREATE PROC [dbo].[uspIndicatorTimelineWithLocation]
+﻿CREATE PROC [dbo].[uspIndicatorTimelineWithLocation]
 
 	@DataVersion_ID int --varchar(255)
 , @indicator_id int --varchar(255)
@@ -235,3 +226,5 @@ where (Indicator_ID = @indicator_id OR @indicator_id  = 0 )
 order by ReportCycleDate_ID ASC
 
 GO
+
+--exec uspIndicatorTimelineWithLocation 1,1 
