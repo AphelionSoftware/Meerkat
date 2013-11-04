@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="Project">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="ProjectID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LongName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TextDescription"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <Required />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <Required />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Milestones"
+        Association="FK_Milestone_Project"
+        FromEnd="Project"
+        ToEnd="Milestone" />
+      <NavigationProperty
+        Name="Outcome"
+        Association="FK_Project_Outcome"
+        FromEnd="Project"
+        ToEnd="Outcome" />
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_Project"
+        FromEnd="Project"
+        ToEnd="Project1" />
+      <NavigationProperty
+        Name="Project1"
+        Association="FK_Project_Project"
+        FromEnd="Project1"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Project_ActiveType"
+        FromEnd="Project"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Activities"
+        Association="FK_Activity_Project"
+        FromEnd="Project"
+        ToEnd="Activity" />
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Project"
+        FromEnd="Project"
+        ToEnd="StatusValues" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="FK_Milestone_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Milestone"
+      Multiplicity="Many"
+      EntityType="Milestone" />
+  </Association>
+  <Association
+    Name="FK_Project_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project1"
+      Multiplicity="Many"
+      EntityType="Project" />
+  </Association>
+  <Association
+    Name="FK_Activity_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Activity"
+      Multiplicity="Many"
+      EntityType="Activity" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      Name="Projects"
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="Project" />
+    <AssociationSet
+      Name="FK_Milestone_Project"
+      Association="FK_Milestone_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_Project"
+      Association="FK_Project_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Project1"
+        EntitySet="Projects" />
+    </AssociationSet>
+    <QueryOperation
+      Name="Projects_Single"
+      ReturnType="Project">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="ProjectID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="ProjectID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Projects" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="ProjectID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ProjectID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="Projects_SingleOrDefault"
+      ReturnType="Project">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="ProjectID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="ProjectID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Projects" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="ProjectID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ProjectID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Name="FK_Activity_Project"
+      Association="FK_Activity_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Activity"
+        EntitySet="Activities" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_Project"
+      Association="FK_StatusValues_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+  </EntityContainer>
+  <DataService
+    Name="MeerkatDataDataService">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="Projects">
+      <EntitySetMapping.Attributes>
+        <SsdlEntitySet
+          Schema="app"
+          Table="Project" />
+        <SsdlProperty
+          Name="ProjectID"
+          Nullable="False"
+          StoreGeneratedPattern="Identity"
+          Type="int"
+          Property="Project/Properties[ProjectID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ShortName"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Project/Properties[ShortName]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LongName"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[LongName]" />
+        <SsdlProperty
+          Name="TextDescription"
+          Nullable="False"
+          Type="varchar(max)"
+          Property="Project/Properties[TextDescription]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_CreatedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[sys_CreatedBy]" />
+        <SsdlProperty
+          Name="sys_CreatedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Project/Properties[sys_CreatedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_ModifiedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Project/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="OutcomeID"
+          Nullable="False"
+          Type="int"
+          PropertyName="OutcomeID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectParentID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectParentID" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Activity_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Activity_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Activity_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Activity_Project]/Members[Activity]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Milestone_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Milestone_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Milestone_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Milestone_Project]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectParentID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Project]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>

@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication.MeerkatAdmin_2" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Attributes>
+    <Partial />
+  </Application.Attributes>
+  <Screen
+    Name="BrowseIndicators">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="MeerkatData" />
+    </Screen.Attributes>
+    <Screen.RootContentItem>
+      <ContentItem
+        Name="RootContentItem"
+        Kind="Screen"
+        View="Microsoft.LightSwitch.MobileWeb:Screen">
+        <ContentItem
+          Name="Tabs"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:TabPages">
+          <ContentItem
+            Name="IndicatorList"
+            Kind="Group">
+            <ContentItem
+              Name="Indicators"
+              Kind="Collection"
+              DataType="CollectionView$Indicator">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseIndicators/Properties[Indicators]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="IndicatorsTemplate"
+                Kind="Details"
+                DataType="Indicator"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[ShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <CallExpression
+                        Target="BrowseIndicators/Methods[EditIndicator]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="ShowAdministrationHome"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Home" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAdministrationHome]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="AddIndicator"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditIndicator]">
+                          <CallExpression.Attributes>
+                            <CreateNewEntity
+                              EntityType="Indicator"
+                              TargetParameter="!module/Methods[showAddEditIndicator]/Parameters[Indicator]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
+          </ContentItem>
+          <ContentItem.PropertySources>
+            <ControlPropertySource
+              Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <ConstantExpression
+                    Value="True"
+                    ResultType=":Boolean" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ControlPropertySource>
+          </ContentItem.PropertySources>
+        </ContentItem>
+        <ContentItem
+          Name="Popups"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+        <ContentItem.PropertySources>
+          <ControlPropertySource
+            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
+            <ScreenExpressionTree>
+              <ChainExpression>
+                <ConstantExpression
+                  Value="Browse"
+                  ResultType=":String" />
+              </ChainExpression>
+            </ScreenExpressionTree>
+          </ControlPropertySource>
+        </ContentItem.PropertySources>
+      </ContentItem>
+    </Screen.RootContentItem>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="showTab">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="tabName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="showDialog">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="dialogName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="EditIndicator" />
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenCollectionProperty
+        Name="Indicators"
+        PageSize="45"
+        PropertyType="CollectionView$Indicator">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="IndicatorsQuery"
+            ReturnType="Indicator*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[Indicators]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.SortCriteria>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="Code" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ShortName" />
+                </ChainExpression>
+              </SortCriterion>
+            </ScreenQueryDefinition.SortCriteria>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseIndicators/Properties[Indicators]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+    </Screen.Properties>
+  </Screen>
+  <Application.Methods>
+    <ApplicationMethod
+      Name="showBrowseIndicators">
+      <ApplicationMethod.Attributes>
+        <ShowScreenMethod
+          TargetScreen="BrowseIndicators" />
+      </ApplicationMethod.Attributes>
+    </ApplicationMethod>
+  </Application.Methods>
+</Application>

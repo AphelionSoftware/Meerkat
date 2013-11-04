@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="Output">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="Output_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LongName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TextDescription"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <Required />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <Required />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_Output"
+        FromEnd="Output"
+        ToEnd="Indicator" />
+      <NavigationProperty
+        Name="Outcome"
+        Association="FK_Output_Outcome"
+        FromEnd="Output"
+        ToEnd="Outcome" />
+      <NavigationProperty
+        Name="OutputPersonRoles"
+        Association="FK_OutputPersonRole_Output"
+        FromEnd="Output"
+        ToEnd="OutputPersonRole" />
+      <NavigationProperty
+        Name="SubOutputs"
+        Association="FK_SubOutput_Output"
+        FromEnd="Output"
+        ToEnd="SubOutput" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Output_ActiveType"
+        FromEnd="Output"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Output"
+        FromEnd="Output"
+        ToEnd="StatusValues" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="FK_Indicator_Output">
+    <AssociationEnd
+      Name="Output"
+      EntityType="Output">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+  </Association>
+  <Association
+    Name="FK_OutputPersonRole_Output">
+    <AssociationEnd
+      Name="Output"
+      EntityType="Output">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OutputPersonRole"
+      Multiplicity="Many"
+      EntityType="OutputPersonRole" />
+  </Association>
+  <Association
+    Name="FK_SubOutput_Output">
+    <AssociationEnd
+      Name="Output"
+      Multiplicity="One"
+      EntityType="Output">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="SubOutput"
+      Multiplicity="Many"
+      EntityType="SubOutput" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_Output">
+    <AssociationEnd
+      Name="Output"
+      EntityType="Output">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      Name="Outputs"
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="Output" />
+    <AssociationSet
+      Name="FK_Indicator_Output"
+      Association="FK_Indicator_Output">
+      <AssociationSetEnd
+        Name="Output"
+        EntitySet="Outputs" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_OutputPersonRole_Output"
+      Association="FK_OutputPersonRole_Output">
+      <AssociationSetEnd
+        Name="Output"
+        EntitySet="Outputs" />
+      <AssociationSetEnd
+        Name="OutputPersonRole"
+        EntitySet="OutputPersonRoles" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_SubOutput_Output"
+      Association="FK_SubOutput_Output">
+      <AssociationSetEnd
+        Name="Output"
+        EntitySet="Outputs" />
+      <AssociationSetEnd
+        Name="SubOutput"
+        EntitySet="SubOutputs" />
+    </AssociationSet>
+    <QueryOperation
+      Name="Outputs_Single"
+      ReturnType="Output">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Output_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Output_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Outputs" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Output_ID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Output_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="Outputs_SingleOrDefault"
+      ReturnType="Output">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Output_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Output_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Outputs" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Output_ID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Output_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Name="FK_StatusValues_Output"
+      Association="FK_StatusValues_Output">
+      <AssociationSetEnd
+        Name="Output"
+        EntitySet="Outputs" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+  </EntityContainer>
+  <DataService
+    Name="MeerkatDataDataService">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="Outputs">
+      <EntitySetMapping.Attributes>
+        <SsdlEntitySet
+          Schema="app"
+          Table="Output" />
+        <SsdlProperty
+          Name="Output_ID"
+          Nullable="False"
+          StoreGeneratedPattern="Identity"
+          Type="int"
+          Property="Output/Properties[Output_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="Output/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Output/Properties[LongName]" />
+        <SsdlProperty
+          Name="BusinessKey"
+          Nullable="True"
+          Type="nvarchar(max)"
+          Property="Output/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="ShortName"
+          Nullable="False"
+          Type="varchar"
+          Property="Output/Properties[ShortName]" />
+        <SsdlProperty
+          Name="TextDescription"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Output/Properties[TextDescription]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_CreatedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Output/Properties[sys_CreatedBy]" />
+        <SsdlProperty
+          Name="sys_CreatedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Output/Properties[sys_CreatedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_ModifiedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Output/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Output/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="OutcomeID"
+          Nullable="True"
+          Type="int"
+          PropertyName="OutcomeID" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Indicator_Output">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Indicator_Output" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Output]/Members[Output]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Output]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OutputPersonRole_Output">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutputPersonRole_Output" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutputPersonRole_Output]/Members[Output]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutputPersonRole_Output]/Members[OutputPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Output">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Output" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Output]/Members[Output]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Output]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_SubOutput_Output">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_SubOutput_Output" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SubOutput_Output]/Members[Output]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SubOutput_Output]/Members[SubOutput]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>

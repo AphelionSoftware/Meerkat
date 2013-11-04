@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="MilestoneType">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="MilestoneTypeID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Milestones"
+        Association="FK_Milestone_MilestoneType"
+        FromEnd="MilestoneType"
+        ToEnd="Milestone" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_MilestoneType_ActiveType"
+        FromEnd="MilestoneType"
+        ToEnd="ActiveType" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="FK_Milestone_MilestoneType">
+    <AssociationEnd
+      Name="MilestoneType"
+      Multiplicity="One"
+      EntityType="MilestoneType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Milestone"
+      Multiplicity="Many"
+      EntityType="Milestone" />
+  </Association>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      Name="MilestoneTypes"
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="MilestoneType" />
+    <AssociationSet
+      Name="FK_Milestone_MilestoneType"
+      Association="FK_Milestone_MilestoneType">
+      <AssociationSetEnd
+        Name="MilestoneType"
+        EntitySet="MilestoneTypes" />
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
+    </AssociationSet>
+    <QueryOperation
+      Name="MilestoneTypes_Single"
+      ReturnType="MilestoneType">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="MilestoneTypeID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="MilestoneTypeID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="MilestoneTypes" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="MilestoneTypeID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'MilestoneTypeID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="MilestoneTypes_SingleOrDefault"
+      ReturnType="MilestoneType">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="MilestoneTypeID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="MilestoneTypeID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="MilestoneTypes" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="MilestoneTypeID"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'MilestoneTypeID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+  </EntityContainer>
+  <DataService
+    Name="MeerkatDataDataService">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="MilestoneTypes">
+      <EntitySetMapping.Attributes>
+        <SsdlEntitySet
+          Schema="app"
+          Table="MilestoneType" />
+        <SsdlProperty
+          Name="MilestoneTypeID"
+          Nullable="False"
+          StoreGeneratedPattern="Identity"
+          Type="int"
+          Property="MilestoneType/Properties[MilestoneTypeID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="MilestoneType/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
+          Type="varchar"
+          Property="MilestoneType/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_CreatedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="MilestoneType/Properties[sys_CreatedBy]" />
+        <SsdlProperty
+          Name="sys_CreatedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="MilestoneType/Properties[sys_CreatedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_ModifiedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="MilestoneType/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="MilestoneType/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Milestone_MilestoneType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Milestone_MilestoneType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Milestone_MilestoneType]/Members[MilestoneType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneTypeID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Milestone_MilestoneType]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneTypeID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>

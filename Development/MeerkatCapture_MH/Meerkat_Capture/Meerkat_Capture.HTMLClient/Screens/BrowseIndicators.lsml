@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication.Meerkat_Capture" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Attributes>
+    <Partial />
+  </Application.Attributes>
+  <Screen
+    Name="BrowseIndicators">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="MeerkatData" />
+    </Screen.Attributes>
+    <Screen.RootContentItem>
+      <ContentItem
+        Name="RootContentItem"
+        Kind="Screen"
+        View="Microsoft.LightSwitch.MobileWeb:Screen">
+        <ContentItem
+          Name="Tabs"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:TabPages">
+          <ContentItem
+            Name="IndicatorList"
+            Kind="Group">
+            <ContentItem
+              Name="Indicator"
+              Kind="Collection"
+              DataType="CollectionView$Indicator"
+              View="Microsoft.LightSwitch.MobileWeb:List">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseIndicators/Properties[Indicators]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="RowTemplate"
+                Kind="Details"
+                DataType="Indicator"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[ShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="ShowAddIndicatorValue"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Add Indicator Value" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddIndicatorValue]">
+                          <CallExpression.Attributes>
+                            <CreateNewEntity
+                              EntityType="IndicatorValue"
+                              TargetParameter="!module/Methods[showAddIndicatorValue]/Parameters[IndicatorValue]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="IndicatorId">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="BrowseIndicators/Properties[Indicators]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="IndicatorID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowViewIndicator"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="View Indicator" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showViewIndicator]">
+                          <ArgumentExpression
+                            Parameter="Indicator">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="BrowseIndicators/Properties[Indicators]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-document"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowHome"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Home" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showHome]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-custom"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
+          </ContentItem>
+          <ContentItem.PropertySources>
+            <ControlPropertySource
+              Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <ConstantExpression
+                    Value="True"
+                    ResultType=":Boolean" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ControlPropertySource>
+          </ContentItem.PropertySources>
+        </ContentItem>
+        <ContentItem
+          Name="Popups"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+        <ContentItem.PropertySources>
+          <ControlPropertySource
+            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
+            <ScreenExpressionTree>
+              <ChainExpression>
+                <ConstantExpression
+                  Value="Browse"
+                  ResultType=":String" />
+              </ChainExpression>
+            </ScreenExpressionTree>
+          </ControlPropertySource>
+        </ContentItem.PropertySources>
+      </ContentItem>
+    </Screen.RootContentItem>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="showTab">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="tabName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="showDialog">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="dialogName"
+          ParameterType=":String" />
+      </ScreenMethod>
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenCollectionProperty
+        Name="Indicators"
+        PageSize="45"
+        PropertyType="CollectionView$Indicator">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="IndicatorsQuery"
+            ReturnType="Indicator*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="And">
+                      <BinaryExpression.Left>
+                        <BinaryExpression
+                          NodeType="Equal">
+                          <BinaryExpression.Left>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Indicator/Properties[Outcome]" />
+                              <MemberExpression
+                                Member="OutcomeID" />
+                            </ChainExpression>
+                          </BinaryExpression.Left>
+                          <BinaryExpression.Right>
+                            <ParameterExpression
+                              Parameter="OutcomeID" />
+                          </BinaryExpression.Right>
+                        </BinaryExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <BinaryExpression
+                          NodeType="Equal">
+                          <BinaryExpression.Left>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Indicator/Properties[Output]" />
+                              <MemberExpression
+                                Member="Output_ID" />
+                            </ChainExpression>
+                          </BinaryExpression.Left>
+                          <BinaryExpression.Right>
+                            <ParameterExpression
+                              Parameter="Output_ID" />
+                          </BinaryExpression.Right>
+                        </BinaryExpression>
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Indicator/Properties[SubOutput]" />
+                          <MemberExpression
+                            Member="SubOutput_ID" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="SubOutput_ID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[Indicators]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="OutcomeID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="Output_ID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="SubOutput_ID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
+            <ScreenQueryDefinition.SortCriteria>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="Code" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ShortName" />
+                </ChainExpression>
+              </SortCriterion>
+            </ScreenQueryDefinition.SortCriteria>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseIndicators/Properties[Indicators]/Query">
+              <ArgumentExpression
+                Parameter="OutcomeID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[OutcomeID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="SubOutput_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[SubOutput_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Output_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Output_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="OutcomeID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="SubOutput_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="Output_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+    </Screen.Properties>
+  </Screen>
+  <Application.Methods>
+    <ApplicationMethod
+      Name="showBrowseIndicators">
+      <ApplicationMethod.Attributes>
+        <ShowScreenMethod
+          TargetScreen="BrowseIndicators" />
+      </ApplicationMethod.Attributes>
+      <ApplicationMethodParameter
+        Name="OutcomeID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="SubOutput_ID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="Output_ID"
+        ParameterType=":Int32?" />
+    </ApplicationMethod>
+  </Application.Methods>
+</Application>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <QueryOperation
+      Name="LocationSorted"
+      ReturnType="Location*">
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="And">
+            <BinaryExpression.Left>
+              <BinaryExpression
+                NodeType="Contains">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="LocationType" />
+                    <MemberExpression
+                      Member="Name" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="LocationType" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <BinaryExpression
+                NodeType="Contains">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="Name" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="LocationName" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="Locations" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="LocationType"
+        IsOptional="True"
+        ParameterType=":String?" />
+      <QueryOperationParameter
+        Name="LocationName"
+        IsOptional="True"
+        ParameterType=":String?" />
+      <QueryOperation.SortCriteria>
+        <SortCriterion>
+          <ChainExpression>
+            <MemberExpression
+              Member="LocationType" />
+            <MemberExpression
+              Member="Name" />
+          </ChainExpression>
+        </SortCriterion>
+        <SortCriterion>
+          <ChainExpression>
+            <MemberExpression
+              Member="Name" />
+          </ChainExpression>
+        </SortCriterion>
+      </QueryOperation.SortCriteria>
+    </QueryOperation>
+  </EntityContainer>
+</ServiceApplication>
