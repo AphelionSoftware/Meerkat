@@ -19,7 +19,7 @@ INNER JOIN [app].[Outcome] AS OC
         ON do.OutcomeID = oc.OutcomeID 
 WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
-SELECT Title = 'Provincial Indicator Details', 
+SELECT Title = 'Location Indicator Details', 
 Link = '/' + [OutcomeSitename] 
        + 
 '/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
