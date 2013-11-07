@@ -324,6 +324,100 @@
               </ContentItem>
             </ContentItem>
           </ContentItem>
+          <ContentItem
+            Name="PreviousVersions"
+            Kind="Group">
+            <ContentItem
+              Name="PreviousIndicatorValues"
+              Kind="Collection"
+              DataType="CollectionView$IndicatorValue"
+              View="Microsoft.LightSwitch.MobileWeb:Table">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewIndicatorValue/Properties[PreviousIndicatorValues]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="PreviousIndicatorValuesTemplate"
+                Kind="Details"
+                DataType="IndicatorValue">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="ActualLabel1"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualLabel]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualValue1"
+                  Kind="Value"
+                  DataType=":Decimal?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualValue]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualDate1"
+                  Kind="Value"
+                  DataType=":Date?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[ActualDate]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="DataVersion1"
+                  Kind="Details"
+                  DataType="DataVersion"
+                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="IndicatorValue/Properties[DataVersion]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name2"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="DataVersion/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
           <ContentItem.PropertySources>
             <ControlPropertySource
               Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
@@ -387,6 +481,115 @@
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="PreviousIndicatorValues"
+        PageSize="45"
+        PropertyType="CollectionView$IndicatorValue">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PreviousIndicatorValuesQuery"
+            ReturnType="IndicatorValue*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="IndicatorValue/Properties[IndicatorValueGroup]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="IndicatorValueGroup" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="NotEqual">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="IndicatorValue/Properties[IndicatorValues_ID]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="IndicatorValues_ID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[IndicatorValues]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="IndicatorValueGroup"
+                ParameterType=":Guid?" />
+              <QueryParameter
+                Name="IndicatorValues_ID"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
+            <ScreenQueryDefinition.SortCriteria>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="DataVersion" />
+                  <MemberExpression
+                    Member="Order" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="sys_ModifiedOn" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="sys_CreatedOn" />
+                </ChainExpression>
+              </SortCriterion>
+            </ScreenQueryDefinition.SortCriteria>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="ViewIndicatorValue/Properties[PreviousIndicatorValues]/Query">
+              <ArgumentExpression
+                Parameter="IndicatorValueGroup">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ViewIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="IndicatorValueGroup" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="IndicatorValues_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ViewIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="IndicatorValues_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>

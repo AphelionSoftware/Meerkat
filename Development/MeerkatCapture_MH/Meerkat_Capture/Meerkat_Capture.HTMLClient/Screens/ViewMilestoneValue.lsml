@@ -363,6 +363,100 @@
               </ContentItem>
             </ContentItem>
           </ContentItem>
+          <ContentItem
+            Name="PreviousValues"
+            Kind="Group">
+            <ContentItem
+              Name="PreviousMilestoneValues"
+              Kind="Collection"
+              DataType="CollectionView$MilestoneValue"
+              View="Microsoft.LightSwitch.MobileWeb:Table">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewMilestoneValue/Properties[PreviousMilestoneValues]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="PreviousMilestoneValuesTemplate"
+                Kind="Details"
+                DataType="MilestoneValue">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="ActualLabel1"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualLabel]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualValue1"
+                  Kind="Value"
+                  DataType=":Decimal?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualValue]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ActualDate1"
+                  Kind="Value"
+                  DataType=":Date?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[ActualDate]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="DataVersion1"
+                  Kind="Details"
+                  DataType="DataVersion"
+                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[DataVersion]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name2"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="DataVersion/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
           <ContentItem.PropertySources>
             <ControlPropertySource
               Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
@@ -426,6 +520,115 @@
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="PreviousMilestoneValues"
+        PageSize="45"
+        PropertyType="CollectionView$MilestoneValue">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PreviousMilestoneValuesQuery"
+            ReturnType="MilestoneValue*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="MilestoneValue/Properties[MilestoneValueGroup]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="MilestoneValueGroup" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="NotEqual">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="MilestoneValue/Properties[MilestoneValues_ID]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="MilestoneValues_ID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[MilestoneValues]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="MilestoneValueGroup"
+                ParameterType=":Guid?" />
+              <QueryParameter
+                Name="MilestoneValues_ID"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
+            <ScreenQueryDefinition.SortCriteria>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="DataVersion" />
+                  <MemberExpression
+                    Member="Order" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="sys_ModifiedOn" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="sys_CreatedOn" />
+                </ChainExpression>
+              </SortCriterion>
+            </ScreenQueryDefinition.SortCriteria>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="ViewMilestoneValue/Properties[PreviousMilestoneValues]/Query">
+              <ArgumentExpression
+                Parameter="MilestoneValueGroup">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ViewMilestoneValue/Properties[MilestoneValue]" />
+                  <MemberExpression
+                    Member="MilestoneValueGroup" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="MilestoneValues_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ViewMilestoneValue/Properties[MilestoneValue]" />
+                  <MemberExpression
+                    Member="MilestoneValues_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
