@@ -1,5 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
-/// <reference path="LightSwitchTools.js" />
+/// <reference path="../Scripts/LightSwitchTools.js" />
 
 myapp.AddEditStatusValue.created = function (screen) {
     if (screen.Values === undefined) {
@@ -45,7 +45,11 @@ myapp.AddEditStatusValue.created = function (screen) {
 
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
         myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
-            screen.StatusValue.setReportingPeriod(reportingPeriod.results[0]);
+            screen.MaxReportingRange = reportingPeriod.results[0].EndDateID;
+            screen.ReportingPeriods.load().then(function () {
+                screen.StatusValue.setReportingPeriod(reportingPeriod.results[0]);
+            });
+            //debugger
         });
     });
 

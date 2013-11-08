@@ -123,34 +123,21 @@
                   Name="RowTemplate5"
                   Kind="Details"
                   DataType="ReportingPeriod"
-                  View="Microsoft.LightSwitch.MobileWeb:Summary">
+                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression />
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="ReportingPeriod1"
+                    Name="Summary"
                     Kind="Value"
-                    DataType=":Int32">
+                    DataType=":String">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
                           <MemberExpression
-                            Member="ReportingPeriod/Properties[ReportingPeriod1]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="YearNumber"
-                    Kind="Value"
-                    DataType=":Int32">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="ReportingPeriod/Properties[YearNumber]" />
+                            Member="ReportingPeriod/Properties[Summary]" />
                         </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
@@ -357,7 +344,41 @@
             Name="ReportingPeriodsQuery"
             ReturnType="ReportingPeriod*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="GreaterThanOrEqual">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="ReportingPeriod/Properties[StartDateID]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="StartDateID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="LessThanOrEqual">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="ReportingPeriod/Properties[EndDateID]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="EndDateID" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
@@ -365,6 +386,14 @@
                   Member="MeerkatData/Members[ReportingPeriods]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="StartDateID"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="EndDateID"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
                 <ChainExpression>
@@ -378,7 +407,26 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="AddIndicatorValue/Properties[ReportingPeriods]/Query" />
+              Target="AddIndicatorValue/Properties[ReportingPeriods]/Query">
+              <ArgumentExpression
+                Parameter="StartDateID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="Indicator" />
+                  <MemberExpression
+                    Member="BaselineDate_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="EndDateID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddIndicatorValue/Properties[MaxReportingRangeID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -462,6 +510,9 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="MaxReportingRangeID"
+        PropertyType=":Int32?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

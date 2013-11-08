@@ -1243,7 +1243,21 @@
             Name="ReportingPeriodsQuery"
             ReturnType="ReportingPeriod*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="LessThanOrEqual">
+                  <BinaryExpression.Left>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="ReportingPeriod/Properties[EndDateID]" />
+                    </ChainExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <ParameterExpression
+                      Parameter="EndDateID" />
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
@@ -1251,6 +1265,11 @@
                   Member="MeerkatData/Members[ReportingPeriods]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="EndDateID"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
                 <ChainExpression>
@@ -1264,7 +1283,15 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="AddEditStatusValue/Properties[ReportingPeriods]/Query" />
+              Target="AddEditStatusValue/Properties[ReportingPeriods]/Query">
+              <ArgumentExpression
+                Parameter="EndDateID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditStatusValue/Properties[MaxReportingRange]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -1388,6 +1415,13 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="MaxReportingRange"
+        PropertyType=":Int32">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
