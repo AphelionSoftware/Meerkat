@@ -6,7 +6,7 @@
     [Population]              DECIMAL(18, 2)     NULL,
 	[Density]           VARCHAR (MAX)     NULL,
 	[BusinessKey]       NVARCHAR (MAX)    NULL,
-    [LocationType_ID]   INT               NOT NULL,
+    [LocationType_ID]   INT               NULL,
     [ParentLocation_ID] INT               NULL,
     [Geog]              [sys].[geography] NULL,
     [Active]            INT               CONSTRAINT [DF__Location__sys_Ac__36470DEF] DEFAULT ((1)) NOT NULL,

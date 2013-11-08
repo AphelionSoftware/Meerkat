@@ -16,6 +16,7 @@
     [sys_ModifiedBy]     VARCHAR (255)   CONSTRAINT [DF_MilestoneValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]     DATETIME        CONSTRAINT [DF_MilestoneValues_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [MilestoneValueGroup] UNIQUEIDENTIFIER NOT NULL DEFAULT (newid()), 
+    [GroupVersion] INT NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_MilestoneValues] PRIMARY KEY CLUSTERED ([MilestoneValues_ID] ASC),
     CONSTRAINT [FK_MilestoneValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_MilestoneValues_DataVersion] FOREIGN KEY ([DataVersion_ID]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),

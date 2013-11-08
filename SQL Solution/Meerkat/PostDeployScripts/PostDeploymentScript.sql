@@ -1562,22 +1562,22 @@ SELECT '26' Code
 	/*Location Insert end*/
 	/*Update Geography*/
 	
---IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
+IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
 	
---	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
---               18, -- Severity.
---               1 -- State.
---               );
+	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
+               18, -- Severity.
+               1 -- State.
+               );
 
---UPDATE [Core].[Location]
---SET Geog = (SELECT Geography::UnionAggregate(geom)
---  FROM [KenyaShapes].[dbo].[Counties])
---  WHERE [Code] = 'KE'
+UPDATE [Core].[Location]
+SET Geog = (SELECT Geography::UnionAggregate(geom)
+  FROM [KenyaShapes].[dbo].[Counties])
+  WHERE [Code] = 'KE'
 
---UPDATE [Core].[Location]
---SET Geog = geom
---FROM [KenyaShapes].[dbo].[Counties]
---  WHERE  [Code] = CAST(COUNTY_COD as varchar(10))
+UPDATE [Core].[Location]
+SET Geog = geom
+FROM [KenyaShapes].[dbo].[Counties]
+  WHERE  [Code] = CAST(COUNTY_COD as varchar(10))
 
 
 
