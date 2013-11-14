@@ -1,9 +1,9 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
-/// <reference path="LightSwitchTools.js" />
+/// <reference path="../Scripts/LightSwitchTools.js" />
 
 myapp.AddEditProject.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-}
+};
 
 myapp.AddEditProject.Project_Delete_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);

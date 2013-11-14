@@ -23,3 +23,13 @@ myapp.AddIndicatorValue.created = function (screen) {
         screen.IndicatorValue.setIndicator(indicator);
     });
 };
+
+myapp.AddIndicatorValue.SearchLocationsTap_execute = function (screen) {
+    screen.IndicatorValue.Location = screen.Locations.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddIndicatorValue.SearchOrganizationsTap_execute = function (screen) {
+    screen.IndicatorValue.Organization = screen.Organizations.selectedItem;
+    screen.closePopup();
+};

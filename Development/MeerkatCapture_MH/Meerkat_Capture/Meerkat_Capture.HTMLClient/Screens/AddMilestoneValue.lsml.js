@@ -23,3 +23,13 @@ myapp.AddMilestoneValue.created = function (screen) {
         screen.MilestoneValue.setMilestone(mileStone);
     });
 };
+
+myapp.AddMilestoneValue.SearchOrganizationsTap_execute = function (screen) {
+    screen.MilestoneValue.Organization = screen.Organizations.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddMilestoneValue.SelectedLocationsTap_execute = function (screen) {
+    screen.MilestoneValue.Location = screen.Locations.selectedItem;
+    screen.closePopup();
+};

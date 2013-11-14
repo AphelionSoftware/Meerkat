@@ -160,6 +160,42 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
+                Name="ShowFilter"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Filter" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="BrowseMilestones/Methods[showDialog]">
+                          <ArgumentExpression
+                            Parameter="dialogName">
+                            <ConstantExpression
+                              Value="Filter"
+                              ResultType=":String" />
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-filter"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
                 Name="ShowHome"
                 Kind="Command">
                 <ContentItem.Attributes>
@@ -206,7 +242,38 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
+          <ContentItem
+            Name="Filter"
+            Kind="Group">
+            <ContentItem
+              Name="Code1"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[Code]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="ShortName1"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[ShortName]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
         <ContentItem.PropertySources>
           <ControlPropertySource
             Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
@@ -260,35 +327,75 @@
                   NodeType="And">
                   <BinaryExpression.Left>
                     <BinaryExpression
-                      NodeType="Equal">
+                      NodeType="And">
                       <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Milestone/Properties[Activity]" />
-                          <MemberExpression
-                            Member="ActivityID" />
-                        </ChainExpression>
+                        <BinaryExpression
+                          NodeType="And">
+                          <BinaryExpression.Left>
+                            <BinaryExpression
+                              NodeType="Equal">
+                              <BinaryExpression.Left>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="Milestone/Properties[Activity]" />
+                                  <MemberExpression
+                                    Member="ActivityID" />
+                                </ChainExpression>
+                              </BinaryExpression.Left>
+                              <BinaryExpression.Right>
+                                <ParameterExpression
+                                  Parameter="ActivityID" />
+                              </BinaryExpression.Right>
+                            </BinaryExpression>
+                          </BinaryExpression.Left>
+                          <BinaryExpression.Right>
+                            <BinaryExpression
+                              NodeType="Equal">
+                              <BinaryExpression.Left>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="Milestone/Properties[Project]" />
+                                  <MemberExpression
+                                    Member="ProjectID" />
+                                </ChainExpression>
+                              </BinaryExpression.Left>
+                              <BinaryExpression.Right>
+                                <ParameterExpression
+                                  Parameter="ProjectID" />
+                              </BinaryExpression.Right>
+                            </BinaryExpression>
+                          </BinaryExpression.Right>
+                        </BinaryExpression>
                       </BinaryExpression.Left>
                       <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ActivityID" />
+                        <BinaryExpression
+                          NodeType="Contains">
+                          <BinaryExpression.Left>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Milestone/Properties[Code]" />
+                            </ChainExpression>
+                          </BinaryExpression.Left>
+                          <BinaryExpression.Right>
+                            <ParameterExpression
+                              Parameter="Code" />
+                          </BinaryExpression.Right>
+                        </BinaryExpression>
                       </BinaryExpression.Right>
                     </BinaryExpression>
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
                     <BinaryExpression
-                      NodeType="Equal">
+                      NodeType="Contains">
                       <BinaryExpression.Left>
                         <ChainExpression>
                           <MemberExpression
-                            Member="Milestone/Properties[Project]" />
-                          <MemberExpression
-                            Member="ProjectID" />
+                            Member="Milestone/Properties[ShortName]" />
                         </ChainExpression>
                       </BinaryExpression.Left>
                       <BinaryExpression.Right>
                         <ParameterExpression
-                          Parameter="ProjectID" />
+                          Parameter="ShortName" />
                       </BinaryExpression.Right>
                     </BinaryExpression>
                   </BinaryExpression.Right>
@@ -310,6 +417,14 @@
                 Name="ProjectID"
                 IsOptional="True"
                 ParameterType=":Int32?" />
+              <QueryParameter
+                Name="Code"
+                IsOptional="True"
+                ParameterType=":String?" />
+              <QueryParameter
+                Name="ShortName"
+                IsOptional="True"
+                ParameterType=":String?" />
             </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
@@ -345,6 +460,20 @@
                     Member="BrowseMilestones/Properties[ProjectID]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Code">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[Code]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ShortName">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[ShortName]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -363,6 +492,12 @@
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenProperty
+        Name="Code"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="ShortName"
+        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

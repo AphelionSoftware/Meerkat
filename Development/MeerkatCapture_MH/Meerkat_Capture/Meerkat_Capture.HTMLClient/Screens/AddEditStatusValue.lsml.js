@@ -4,7 +4,7 @@
 myapp.AddEditStatusValue.created = function (screen) {
     if (screen.Values === undefined) {
         msls.showMessageBox("This screen has been called without the required values and thus will be broken");
-    };
+    }
 
     screen.StatusValue = new myapp.StatusValue();    
 
@@ -13,32 +13,32 @@ myapp.AddEditStatusValue.created = function (screen) {
     screen.StatusValue.sys_ModifiedBy = "NA";
     screen.StatusValue.sys_ModifiedOn = "1999/01/01";
 
-    if (screen.Values.Outcome !== undefined || screen.Values.DataType == "Outcome") {
+    if (screen.Values.Outcome !== undefined || screen.Values.DataType === "Outcome") {
         screen.details.displayName = "Add Outcome Status Value";
-        screen.findContentItem("Outcome").isVisible = true;
+        screen.findContentItem("OutcomeGroup").isVisible = true;
         screen.StatusValue.setOutcome(screen.Values.Outcome);
     }
 
     if (screen.Values.Output !== undefined || screen.Values.DataType === "Output") {
         screen.details.displayName = "Add Output Status Value";
-        screen.findContentItem("Output").isVisible = true;
+        screen.findContentItem("OutputGroup").isVisible = true;
         screen.StatusValue.setOutput(screen.Values.Output);
     }
 
-    if (screen.Values.SubOutput !== undefined || screen.Values.DataType == "SubOutput") {
+    if (screen.Values.SubOutput !== undefined || screen.Values.DataType === "SubOutput") {
         screen.details.displayName = "Add SubOutput Status Value";
-        screen.findContentItem("SubOutput").isVisible = true;
+        screen.findContentItem("SubOutputGroup").isVisible = true;
         screen.StatusValue.setSubOutput(screen.Values.SubOutput);
     }
 
-    if (screen.Values.Activity !== undefined || screen.Values.DataType == "Activity") {
-        screen.findContentItem("Activity").isVisible = true;
+    if (screen.Values.Activity !== undefined || screen.Values.DataType === "Activity") {
+        screen.findContentItem("ActivityGroup").isVisible = true;
         screen.StatusValue.setActivity(screen.Values.Activity);
         screen.details.displayName = "Add Activity Status Value";
     }
 
-    if (screen.Values.Project !== undefined || screen.Values.DataType == "Project") {
-        screen.findContentItem("Project").isVisible = true;
+    if (screen.Values.Project !== undefined || screen.Values.DataType === "Project") {
+        screen.findContentItem("ProjectGroup").isVisible = true;
         screen.StatusValue.setProject(screen.Values.Project);
         screen.details.displayName = "Add Project Status Value";
     }
@@ -87,8 +87,46 @@ myapp.AddEditStatusValue.CopyStatusValue_execute = function (screen) {
             statusValues.selectedItem.getDataVersion().then(function (dataVersion) {
                 screen.StatusValue.setDataVersion(dataVersion);
             });
-
-            percentageElement.focus();
         }
     });
+};
+
+myapp.AddEditStatusValue.SearchOutcomesTap_execute = function (screen) {
+    screen.StatusValue.Outcome = screen.Outcomes.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchOutputsTap_execute = function (screen) {
+    screen.StatusValue.Output = screen.Outputs.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchSubOutputsTap_execute = function (screen) {
+    screen.StatusValue.SubOutput = screen.SubOutputs.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchProjectsTap_execute = function (screen) {
+    screen.StatusValue.Project = screen.Projects.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchActivitiesTap_execute = function (screen) {
+    screen.StatusValue.Activity = screen.Activities.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchStatusTypesTap_execute = function (screen) {
+    screen.StatusValue.StatusType = screen.StatusTypes.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchDataVersionsTap_execute = function (screen) {
+    screen.StatusValue.DataVersion = screen.DataVersions.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchLocationsTap_execute = function (screen) {
+    screen.StatusValue.Location = screen.Locations.selectedItem;
+    screen.closePopup();
 };
