@@ -4,7 +4,7 @@ AS
          Link = '', 
          ID = 10000, 
          OutcomeID, 
-         [OutcomeSitename] 
+         [OutcomeSiteName] 
   FROM   [app].[Outcome] 
   WHERE Active = 1
   UNION ALL 
@@ -12,7 +12,7 @@ AS
          Link = '', 
          1 - do.Output_ID + 5000 AS ID, 
          do.OutcomeID, 
-         OC.[OutcomeSitename] 
+         OC.[OutcomeSiteName] 
   FROM   [app].[Output] do 
          LEFT JOIN [app].[Outcome] AS OC 
                 ON do.OutcomeID = oc.OutcomeID 
@@ -22,6 +22,6 @@ AS
          Link = '', 
          ID = 30000, 
          OutcomeID, 
-         [OutcomeSitename] 
+         [OutcomeSiteName] 
   FROM   [app].[Outcome] 
   WHERE Active = 1

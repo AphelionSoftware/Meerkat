@@ -45,13 +45,13 @@ INSERT  INTO [Core].StatusType
           [Core].[StatusType].[Code] ,
           [Core].[StatusType].[Name] ,
           [Core].[StatusType].[Value],
-		  [Core].[StatusType].[Active]
+          [Core].[StatusType].[Active]
         )
         SELECT  0 ,
                 '+' ,
                 'On Target' ,
                 1,
-				1
+                1
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '+' )
@@ -60,7 +60,7 @@ INSERT  INTO [Core].StatusType
                 '=' ,
                 'Acceptable' ,
                 0,
-				1
+                1
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '=' )
@@ -69,7 +69,7 @@ INSERT  INTO [Core].StatusType
                 '-' ,
                 'Sub par' ,
                 -1,
-				1
+                1
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '-' )
@@ -276,7 +276,7 @@ INSERT  INTO Core.ReportingPeriod
           [Core].[ReportingPeriod].[LastCycleDate] ,
           [Core].[ReportingPeriod].[YearName] ,
           [Core].[ReportingPeriod].[YearNumber],
-		  [Core].[ReportingPeriod].[Summary]
+          [Core].[ReportingPeriod].[Summary]
         )
         SELECT  rc.[ReportingPeriod] ,
                 rc.[StartDateID] ,
@@ -285,7 +285,7 @@ INSERT  INTO Core.ReportingPeriod
                 rc.[LastCycleDate] ,
                 rc.[YearName] ,
                 rc.[YearNumber],
-				CONCAT(rc.[YearNumber],' - ',rc.[ReportingPeriod])
+                CONCAT(rc.[YearNumber],' - ',rc.[ReportingPeriod])
         FROM    [Core].[ReportCycle] AS rc
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ReportingPeriod
@@ -308,7 +308,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  1 ,
@@ -330,7 +330,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  2 ,
@@ -352,7 +352,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  3 ,
@@ -375,7 +375,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  4 ,
@@ -398,7 +398,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  5 ,
@@ -421,7 +421,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  6 ,
@@ -443,7 +443,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  7 ,
@@ -466,7 +466,7 @@ INSERT  [app].[Outcome]
           [app].[Outcome].[BusinessKey] ,
           [app].[Outcome].[ShortName] ,
           [app].[Outcome].[TextDescription] ,
-          [app].[Outcome].[OutcomeSitename] ,
+          [app].[Outcome].[OutcomeSiteName] ,
           [app].[Outcome].[DataVersion]
         )
         SELECT  8 ,
@@ -658,7 +658,7 @@ IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
     END
 
 /*ALTER TABLE app.SubOutput ADD CONSTRAINT
-	DF_SubOutput_Active DEFAULT 1 FOR Active
+    DF_SubOutput_Active DEFAULT 1 FOR Active
 GO*/
 
 /*Populate Organistation Type*/
@@ -688,13 +688,13 @@ GO
 SET IDENTITY_INSERT [Core].[Organization] ON 
 
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'FOA', N'Food and Agriculture Organization', 1, NULL, 1, N'spinstall', CAST(0x0000A23700F7DA7B AS DateTime), N'spinstall', CAST(0x0000A23700F7DA85 AS DateTime))
+INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'FOA',N'FOA', N'Food and Agriculture Organization', 1, NULL, 1, N'spinstall', CAST(0x0000A23700F7DA7B AS DateTime), N'spinstall', CAST(0x0000A23700F7DA85 AS DateTime))
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'IFAD', N'International Fund for Agricultural Development', 3, NULL, 1, N'spinstall', CAST(0x0000A23700F875D5 AS DateTime), N'spinstall', CAST(0x0000A23700F875D5 AS DateTime))
+INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'IFAD',N'IFAD', N'International Fund for Agricultural Development', 3, NULL, 1, N'spinstall', CAST(0x0000A23700F875D5 AS DateTime), N'spinstall', CAST(0x0000A23700F875D5 AS DateTime))
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'UNESCO', N'United Nations Educational, Scientific and Cultural Organization ', 4, NULL, 1, N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime), N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime))
+INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'UNESCO',N'UNESCO', N'United Nations Educational, Scientific and Cultural Organization ', 4, NULL, 1, N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime), N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime))
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'WHO', N'World Health Organization', 7, NULL, 1, N'spinstall', CAST(0x0000A23700F8C45C AS DateTime), N'spinstall', CAST(0x0000A23700F8C45C AS DateTime))
+INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'WHO',N'WHO', N'World Health Organization', 7, NULL, 1, N'spinstall', CAST(0x0000A23700F8C45C AS DateTime), N'spinstall', CAST(0x0000A23700F8C45C AS DateTime))
 GO
 SET IDENTITY_INSERT [Core].[Organization] OFF
 GO
@@ -716,31 +716,31 @@ INSERT INTO [app].[Output]
            )
      SELECT
            'OTP2.1'
-		   ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
-		   ,'OTP2.1'
-		   ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
-		   ,'Full Primary Schooling'
-		   ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
-	WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.1')
-	UNION 
-	
+           ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
+           ,'OTP2.1'
+           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,'Full Primary Schooling'
+           ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
+    WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.1')
+    UNION 
+    
      SELECT
            'OTP2.2'
-		   ,'Incentivise good schooling practises in schools'
-		   ,'OTP2.2'
-		   ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
-		   ,'Good schooling practices'
-		   ,'Incentivise good schooling practises in schools'
-	WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.2')
-	UNION 
-	 SELECT
+           ,'Incentivise good schooling practises in schools'
+           ,'OTP2.2'
+           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,'Good schooling practices'
+           ,'Incentivise good schooling practises in schools'
+    WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.2')
+    UNION 
+     SELECT
            'OTP2.3'
-		   ,'Ensure the schools are well managed'
-		   ,'OTP2.3'
-		   ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
-		   ,'Well managed schools'
-		   ,'Ensure the schools are well managed'
-	WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.3' )
+           ,'Ensure the schools are well managed'
+           ,'OTP2.3'
+           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,'Well managed schools'
+           ,'Ensure the schools are well managed'
+    WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.3' )
 
 
 --SubOutput
@@ -755,48 +755,48 @@ INSERT INTO [app].[SubOutput]
 )
 SELECT
            'SO2.1.1'
-		   ,'Increase ratio of schools to number of children'
-		   ,'Sub Output 2.1.1'
-		   ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
-		   ,'Sub Output 2.1.1'
-		   ,'Increase the ratio of schools to the number of children '
-	WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.1')
-	UNION
+           ,'Increase ratio of schools to number of children'
+           ,'Sub Output 2.1.1'
+           ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
+           ,'Sub Output 2.1.1'
+           ,'Increase the ratio of schools to the number of children '
+    WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.1')
+    UNION
 SELECT
            'SO2.1.2'
-		   ,'Deliver adequate textbooks to children'
-		   ,'Sub Output 2.1.2'
-		   ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
-		   ,'Sub Output 2.1.2'
-		   ,'Deliver adequate textbooks to children'
-	WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.2')
+           ,'Deliver adequate textbooks to children'
+           ,'Sub Output 2.1.2'
+           ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
+           ,'Sub Output 2.1.2'
+           ,'Deliver adequate textbooks to children'
+    WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.2')
 
-	UNION
+    UNION
 SELECT
            'SO2.1.3'
-		   ,'Provide a lunch time meal to all schools'
-		   ,'Sub Output 2.1.3'
-		   ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
-		   ,'Sub Output 2.1.3'
-		   ,'Provide a lunch time meal to all schools'
-	WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.3')
+           ,'Provide a lunch time meal to all schools'
+           ,'Sub Output 2.1.3'
+           ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.1') 
+           ,'Sub Output 2.1.3'
+           ,'Provide a lunch time meal to all schools'
+    WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.1.3')
 
-	
+    
 UNION SELECT
            'SO2.2.1'
-		   ,'Provide additional training for teachers'
-		   ,'Sub Output 2.2.1'
-		   ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.2') 
-		   ,'Sub Output 2.2.1'
-		   ,'Provide additional training for teachers  on literacy, math & science'
-	WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.2.1')
-	
+           ,'Provide additional training for teachers'
+           ,'Sub Output 2.2.1'
+           ,(SELECT Output_ID FROM app.Output WHERE Code = 'OTP2.2') 
+           ,'Sub Output 2.2.1'
+           ,'Provide additional training for teachers  on literacy, math & science'
+    WHERE NOT EXISTS (SELECT 1 FROM app.SubOutput where code = 'SO2.2.1')
+    
 
 
 
 --	----Indicator
 GO
-	
+    
 INSERT INTO [app].[Indicator]
            ([LongName]
            ,[TextDescription]
@@ -811,23 +811,23 @@ INSERT INTO [app].[Indicator]
            ,[ShortName]
            ,[UnitOfMeasure])
 
-		   SELECT 'Number of children per classroom'
-		   ,'Number of children per classroom'
-		   ,50 As Baseline
-		   ,'2012/01/01'
-		   ,20 As target
-		   ,'2015/01/01'
-		   ,'#'
-		   ,'IND2.1.1.1'
-		   ,3
-		   ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
-		   ,'Children per classroom'
-		   ,'Number'
+           SELECT 'Number of children per classroom'
+           ,'Number of children per classroom'
+           ,50 As Baseline
+           ,'2012/01/01'
+           ,20 As target
+           ,'2015/01/01'
+           ,'#'
+           ,'IND2.1.1.1'
+           ,3
+           ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
+           ,'Children per classroom'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.1')
 
 GO	
 
-		   
+           
 INSERT INTO [app].[Indicator]
            ([LongName]
            ,[TextDescription]
@@ -842,18 +842,18 @@ INSERT INTO [app].[Indicator]
            ,[ShortName]
            ,[UnitOfMeasure])
 
-		   SELECT 'Total number of schools'
-		   ,'Total number of schools'
-		   ,1188
-		   ,'2012/01/01'
-		   ,2000
-		   ,'2017/01/01'
-		   ,'#'
-		   ,'IND2.1.1.2'
-		   ,3
-		   ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
-		   ,'# schools'
-		   ,'Number'
+           SELECT 'Total number of schools'
+           ,'Total number of schools'
+           ,1188
+           ,'2012/01/01'
+           ,2000
+           ,'2017/01/01'
+           ,'#'
+           ,'IND2.1.1.2'
+           ,3
+           ,(Select Suboutput_ID from app.SubOutput SO where SO.code = 'SO2.1.1')
+           ,'# schools'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.2')
            
 GO
@@ -869,13 +869,13 @@ INSERT INTO [Core].[LocationType]
      SELECT
           'CNTRY' ,'Country' ,'Country' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
 
-		  
+          
 INSERT INTO [Core].[LocationType]
            ([Code], [Name], [Description])
      SELECT
           'REG' ,'Region' ,'Region' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
 
-		  
+          
 INSERT INTO [Core].[LocationType]
            ([Code], [Name], [Description])
      SELECT
@@ -916,655 +916,655 @@ SET IDENTITY_INSERT [Core].[Location] ON
 GO
 
 INSERT [Core].[Location] (
-	[Location_ID]
-	, [Code]
-	, [Name]
-	, [AreaKM]
-	, [Population]
-	, [LocationType_ID]
-	, [ParentLocation_ID]
-	, [Geog]
-	) 
-	SELECT 0
-	, 'KE' Code
-	, 'Kenya' [Name]
-	, 562245
-	, 38610097
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
-	, NULL
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-	SELECT 1 FROM [Core].[Location] WHERE Code = 'KE'
-	)
+    [Location_ID]
+    , [Code]
+    , [Name]
+    , [AreaKM]
+    , [Population]
+    , [LocationType_ID]
+    , [ParentLocation_ID]
+    , [Geog]
+    ) 
+    SELECT 0
+    , 'KE' Code
+    , 'Kenya' [Name]
+    , 562245
+    , 38610097
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
+    , NULL
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+    SELECT 1 FROM [Core].[Location] WHERE Code = 'KE'
+    )
 
 SET IDENTITY_INSERT [Core].[Location] OFF
 GO
 
 INSERT [Core].[Location] (
-	[Code]
-	, [Name]
-	, [AreaKM]
-	, [Population]
-	, [LocationType_ID]
-	, [ParentLocation_ID]
-	, [Geog]
-	) 
-	SELECT '47' Code
-	, 'Nairobi' [Name]
-	, 694 
-	, 3138369
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '47' 
-	)	
-	
+    [Code]
+    , [Name]
+    , [AreaKM]
+    , [Population]
+    , [LocationType_ID]
+    , [ParentLocation_ID]
+    , [Geog]
+    ) 
+    SELECT '47' Code
+    , 'Nairobi' [Name]
+    , 694 
+    , 3138369
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '47' 
+    )	
+    
 
 UNION ALL
 SELECT '1' Code
-	, 'Mombasa' [Name]
-	, 212 
-	, 939370
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
-	)	
-	
+    , 'Mombasa' [Name]
+    , 212 
+    , 939370
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
+    )	
+    
 
 UNION ALL
 SELECT '2' Code
-	, 'Kwale' [Name]
-	, 8270 
-	, 649931
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
-	)	
-	
+    , 'Kwale' [Name]
+    , 8270 
+    , 649931
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
+    )	
+    
 
 UNION ALL
 SELECT '3' Code
-	, 'Kilifi' [Name]
-	, 12245 
-	, 1109735
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
-	)	
-	
+    , 'Kilifi' [Name]
+    , 12245 
+    , 1109735
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
+    )	
+    
 
 UNION ALL
 SELECT '4' Code
-	, 'Tana River' [Name]
-	, 35375 
-	, 240075
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
-	)	
-	
+    , 'Tana River' [Name]
+    , 35375 
+    , 240075
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
+    )	
+    
 
 UNION ALL
 SELECT '5' Code
-	, 'Lamu' [Name]
-	, 6497 
-	, 101539
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
-	)	
-	
+    , 'Lamu' [Name]
+    , 6497 
+    , 101539
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
+    )	
+    
 
 UNION ALL
 SELECT '6' Code
-	, 'Taita-Taveta' [Name]
-	, 17083 
-	, 284657
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
-	)	
-	
+    , 'Taita-Taveta' [Name]
+    , 17083 
+    , 284657
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
+    )	
+    
 
 UNION ALL
 SELECT '7' Code
-	, 'Garissa' [Name]
-	, 45720 
-	, 623060
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
-	)	
-	
+    , 'Garissa' [Name]
+    , 45720 
+    , 623060
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
+    )	
+    
 
 UNION ALL
 SELECT '8' Code
-	, 'Wajir' [Name]
-	, 55840 
-	, 661941
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
-	)	
-	
+    , 'Wajir' [Name]
+    , 55840 
+    , 661941
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
+    )	
+    
 
 UNION ALL
 SELECT '9' Code
-	, 'Mandera' [Name]
-	, 25797 
-	, 1025756
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
-	)	
-	
+    , 'Mandera' [Name]
+    , 25797 
+    , 1025756
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
+    )	
+    
 
 UNION ALL
 SELECT '10' Code
-	, 'Marsabit' [Name]
-	, 66923 
-	, 291166
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
-	)	
-	
+    , 'Marsabit' [Name]
+    , 66923 
+    , 291166
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
+    )	
+    
 
 UNION ALL
 SELECT '11' Code
-	, 'Isiolo' [Name]
-	, 25336 
-	, 143294
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
-	)	
-	
+    , 'Isiolo' [Name]
+    , 25336 
+    , 143294
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
+    )	
+    
 
 UNION ALL
 SELECT '12' Code
-	, 'Meru' [Name]
-	, 5127 
-	, 1356301
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
-	)	
-	
+    , 'Meru' [Name]
+    , 5127 
+    , 1356301
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
+    )	
+    
 
 UNION ALL
 SELECT '13' Code
-	, 'Tharaka-Nithi' [Name]
-	, 2409 
-	, 365330
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
-	)	
-	
+    , 'Tharaka-Nithi' [Name]
+    , 2409 
+    , 365330
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
+    )	
+    
 
 UNION ALL
 SELECT '14' Code
-	, 'Embu' [Name]
-	, 2555 
-	, 516212
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
-	)	
-	
+    , 'Embu' [Name]
+    , 2555 
+    , 516212
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
+    )	
+    
 
 UNION ALL
 SELECT '15' Code
-	, 'Kitui' [Name]
-	, 24385 
-	, 1012709
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
-	)	
-	
+    , 'Kitui' [Name]
+    , 24385 
+    , 1012709
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
+    )	
+    
 
 UNION ALL
 SELECT '16' Code
-	, 'Machakos' [Name]
-	, 5952 
-	, 1098584
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
-	)	
-	
+    , 'Machakos' [Name]
+    , 5952 
+    , 1098584
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
+    )	
+    
 
 UNION ALL
 SELECT '18' Code
-	, 'Nyandarua' [Name]
-	, 3107 
-	, 596268
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
-	)	
-	
+    , 'Nyandarua' [Name]
+    , 3107 
+    , 596268
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
+    )	
+    
 
 UNION ALL
 SELECT '19' Code
-	, 'Nyeri' [Name]
-	, 2361 
-	, 693558
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
-	)	
-	
+    , 'Nyeri' [Name]
+    , 2361 
+    , 693558
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
+    )	
+    
 
 UNION ALL
 SELECT '20' Code
-	, 'Kirinyaga' [Name]
-	, 1205 
-	, 528054
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
-	)	
-	
+    , 'Kirinyaga' [Name]
+    , 1205 
+    , 528054
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
+    )	
+    
 
 UNION ALL
 SELECT '21' Code
-	, 'Murang''a' [Name]
-	, 2325 
-	, 942581
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
-	)	
-	
+    , 'Murang''a' [Name]
+    , 2325 
+    , 942581
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
+    )	
+    
 
 UNION ALL
 SELECT '22' Code
-	, 'Kiambu' [Name]
-	, 2449 
-	, 1623282
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
-	)	
-	
+    , 'Kiambu' [Name]
+    , 2449 
+    , 1623282
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
+    )	
+    
 
 UNION ALL
 SELECT '23' Code
-	, 'Turkana' [Name]
-	, 71597 
-	, 855399
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '23' 
-	)	
-	
+    , 'Turkana' [Name]
+    , 71597 
+    , 855399
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '23' 
+    )	
+    
 
 UNION ALL
 SELECT '24' Code
-	, 'West Pokot' [Name]
-	, 8418 
-	, 512690
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '24' 
-	)	
-	
+    , 'West Pokot' [Name]
+    , 8418 
+    , 512690
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '24' 
+    )	
+    
 
 UNION ALL
 SELECT '25' Code
-	, 'Samburu' [Name]
-	, 20182 
-	, 223947
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '25' 
-	)	
-	
+    , 'Samburu' [Name]
+    , 20182 
+    , 223947
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '25' 
+    )	
+    
 
 UNION ALL
 SELECT '27' Code
-	, 'Uasin Gishu' [Name]
-	, 2955 
-	, 894179
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '27' 
-	)	
-	
+    , 'Uasin Gishu' [Name]
+    , 2955 
+    , 894179
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '27' 
+    )	
+    
 
 UNION ALL
 SELECT '28' Code
-	, 'Elgeyo-Marakwet' [Name]
-	, 3049 
-	, 369998
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '28' 
-	)	
-	
+    , 'Elgeyo-Marakwet' [Name]
+    , 3049 
+    , 369998
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '28' 
+    )	
+    
 
 UNION ALL
 SELECT '29' Code
-	, 'Nandi' [Name]
-	, 2884 
-	, 752965
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '29' 
-	)	
-	
+    , 'Nandi' [Name]
+    , 2884 
+    , 752965
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '29' 
+    )	
+    
 
 UNION ALL
 SELECT '30' Code
-	, 'Baringo' [Name]
-	, 11075 
-	, 555561
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '30' 
-	)	
-	
+    , 'Baringo' [Name]
+    , 11075 
+    , 555561
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '30' 
+    )	
+    
 
 UNION ALL
 SELECT '31' Code
-	, 'Laikipia' [Name]
-	, 8696 
-	, 399227
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '31' 
-	)	
-	
+    , 'Laikipia' [Name]
+    , 8696 
+    , 399227
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '31' 
+    )	
+    
 
 UNION ALL
 SELECT '32' Code
-	, 'Nakuru' [Name]
-	, 7509 
-	, 1603325
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '32' 
-	)	
-	
+    , 'Nakuru' [Name]
+    , 7509 
+    , 1603325
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '32' 
+    )	
+    
 
 UNION ALL
 SELECT '33' Code
-	, 'Narok' [Name]
-	, 17921 
-	, 850920
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '33' 
-	)	
-	
+    , 'Narok' [Name]
+    , 17921 
+    , 850920
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '33' 
+    )	
+    
 
 UNION ALL
 SELECT '34' Code
-	, 'Kajiado' [Name]
-	, 21292 
-	, 687312
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '34' 
-	)	
-	
+    , 'Kajiado' [Name]
+    , 21292 
+    , 687312
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '34' 
+    )	
+    
 
 UNION ALL
 SELECT '17' Code
-	, 'Makueni' [Name]
-	, 8008 
-	, 884527
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '17' 
-	)	
-	
+    , 'Makueni' [Name]
+    , 8008 
+    , 884527
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '17' 
+    )	
+    
 
 UNION ALL
 SELECT '35' Code
-	, 'Kericho' [Name]
-	, 2454 
-	, 752396
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '35' 
-	)	
-	
+    , 'Kericho' [Name]
+    , 2454 
+    , 752396
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '35' 
+    )	
+    
 
 UNION ALL
 SELECT '37' Code
-	, 'Kakamega' [Name]
-	, 3033 
-	, 1660651
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '37' 
-	)	
-	
+    , 'Kakamega' [Name]
+    , 3033 
+    , 1660651
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '37' 
+    )	
+    
 
 UNION ALL
 SELECT '38' Code
-	, 'Vihiga' [Name]
-	, 531 
-	, 554622
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '38' 
-	)	
-	
+    , 'Vihiga' [Name]
+    , 531 
+    , 554622
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '38' 
+    )	
+    
 
 UNION ALL
 SELECT '39' Code
-	, 'Bungoma' [Name]
-	, 2206 
-	, 1375063
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '39' 
-	)	
-	
+    , 'Bungoma' [Name]
+    , 2206 
+    , 1375063
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '39' 
+    )	
+    
 
 UNION ALL
 SELECT '40' Code
-	, 'Busia' [Name]
-	, 1628 
-	, 743946
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '40' 
-	)	
-	
+    , 'Busia' [Name]
+    , 1628 
+    , 743946
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '40' 
+    )	
+    
 
 UNION ALL
 SELECT '41' Code
-	, 'Siaya' [Name]
-	, 2496 
-	, 842304
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '41' 
-	)	
-	
+    , 'Siaya' [Name]
+    , 2496 
+    , 842304
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '41' 
+    )	
+    
 
 UNION ALL
 SELECT '43' Code
-	, 'Homa Bay' [Name]
-	, 3154 
-	, 963794
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '43' 
-	)	
-	
+    , 'Homa Bay' [Name]
+    , 3154 
+    , 963794
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '43' 
+    )	
+    
 
 UNION ALL
 SELECT '44' Code
-	, 'Migori' [Name]
-	, 2586 
-	, 917170
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '44' 
-	)	
-	
+    , 'Migori' [Name]
+    , 2586 
+    , 917170
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '44' 
+    )	
+    
 
 UNION ALL
 SELECT '45' Code
-	, 'Kisii' [Name]
-	, 1317 
-	, 1152282
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '45' 
-	)	
-	
+    , 'Kisii' [Name]
+    , 1317 
+    , 1152282
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '45' 
+    )	
+    
 
 UNION ALL
 SELECT '36' Code
-	, 'Bomet' [Name]
-	, 1997 
-	, 730129
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '36' 
-	)	
-	
+    , 'Bomet' [Name]
+    , 1997 
+    , 730129
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '36' 
+    )	
+    
 
 UNION ALL
 SELECT '46' Code
-	, 'Nyamira' [Name]
-	, 912 
-	, 598252
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '46' 
-	)	
-	
+    , 'Nyamira' [Name]
+    , 912 
+    , 598252
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '46' 
+    )	
+    
 
 UNION ALL
 SELECT '42' Code
-	, 'Kisumu' [Name]
-	, 2009 
-	, 968909
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '42' 
-	)	
-	
+    , 'Kisumu' [Name]
+    , 2009 
+    , 968909
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '42' 
+    )	
+    
 
 UNION ALL
 SELECT '26' Code
-	, 'Trans Nzoia' [Name]
-	, 2469 
-	, 818757
-	,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-	, (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-	, NULL [Geog]
-	WHERE NOT EXISTS (
-		SELECT 1 FROM [Core].[Location] WHERE [Code] = '26' 
-	)	
-	
+    , 'Trans Nzoia' [Name]
+    , 2469 
+    , 818757
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+        SELECT 1 FROM [Core].[Location] WHERE [Code] = '26' 
+    )	
+    
 
-	/*Location Insert end*/
-	/*Update Geography*/
-	
+    /*Location Insert end*/
+    /*Update Geography*/
+    
 IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
-	
-	RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
+    
+    RAISERROR ('You must restore the KenyaShapes DB to get the geography shapes, obtain it at https://www.dropbox.com/s/jtb9ohpuov51wkt/KenyaShapes.bak', -- Message text.
                18, -- Severity.
                1 -- State.
                );
@@ -1581,7 +1581,7 @@ FROM [KenyaShapes].[dbo].[Counties]
 
 
 
-	/*Update Geography End*/
+    /*Update Geography End*/
 
 
 /*Location for Kenya end*/
@@ -1602,36 +1602,36 @@ SELECT
 Indicator_ID
 ,Cast(OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID)
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID)
 
 as varchar(255))
 , OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID)
-	 
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID)
+     
 as ActualValue
 ,CONVERT(DATETIME, CONVERT(VARCHAR, FIV.ReportCycleDate_ID), 112) As ActualDate
 ,'IV' as businessKey
 ,Cast(OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID)
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID)
 
 as varchar(255)) as Notes
-	,1 as DataVersionID
-	,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') AS Location_ID
-	,ReportPeriodID
+    ,1 as DataVersionID
+    ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') AS Location_ID
+    ,ReportPeriodID
  FROM 
 
  (
@@ -1679,15 +1679,15 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,RolledUpToSubOutput_ID = i.SubOutput_ID
       --,RolledUpToActivity_ID = i.Activity_ID
       --  ,TermSetID = DIML.TermsetDeepGrainID
-	,i.Baseline OriginalBaseline
-	,i.Target FinalTarget
-	--,rc.StartDateID ReportingPeriodStartDate_ID
-	--,rc.EndDateID 	
-	,null NextReportingPeriodReleaseDate_ID
-	,l.Name LocationName
-	,FinalTargetPeriod.ID FinalTargetPeriodID
-	,rc.ID CurrentReportPeriodID
-	,BaselinePeriod.ID BaselinePeriodID
+    ,i.Baseline OriginalBaseline
+    ,i.Target FinalTarget
+    --,rc.StartDateID ReportingPeriodStartDate_ID
+    --,rc.EndDateID 	
+    ,null NextReportingPeriodReleaseDate_ID
+    ,l.Name LocationName
+    ,FinalTargetPeriod.ID FinalTargetPeriodID
+    ,rc.ID CurrentReportPeriodID
+    ,BaselinePeriod.ID BaselinePeriodID
   FROM app.Indicator i 
 
    
@@ -1699,8 +1699,8 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
   LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
     and iv.ReportPeriodID  = rc.ID 
-	--and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
-	--and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
+    --and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
+    --and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
     
 
   INNER JOIN Core.ReportingPeriod FinalTargetPeriod
@@ -1708,7 +1708,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
    FinalTargetPeriod.StartDateID  AND
    FinalTargetPeriod.EndDateID 
     
-	INNER JOIN Core.ReportingPeriod BaselinePeriod
+    INNER JOIN Core.ReportingPeriod BaselinePeriod
   ON i.BaselineDate_ID BETWEEN
   BaselinePeriod.StartDateID 
   AND
@@ -1739,7 +1739,7 @@ on (iv.Location_ID = l.Location_ID )
 
 where Indicator_ID in (select IndicatorID from app.Indicator where code = 'IND2.1.1.1' )
 AND NOT EXISTS (SELECT 1 from rbm.IndicatorValues IVInner where Indicator_ID = FIV.Indicator_ID and 
-				IVInner.ReportPeriodID = ReportPeriodID)
+                IVInner.ReportPeriodID = ReportPeriodID)
 AND financialYear <2014
 order by ReportCycleDate_ID ASC
 
@@ -1766,38 +1766,38 @@ Indicator_ID
 
 , CAST (  (OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID))
-	/ (1150.0/ cast(Location.Code as int))	 
-	as varchar(255))
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID))
+    / (1150.0/ cast(Location.Code as int))	 
+    as varchar(255))
 as ActualLabel
 , (OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID))
-	/ (1150.0/ cast(Location.Code as int))	 
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID))
+    / (1150.0/ cast(Location.Code as int))	 
 as ActualValue
 ,CONVERT(DATETIME, CONVERT(VARCHAR, FIV.ReportCycleDate_ID), 112) As ActualDate
 ,'IV' as businessKey
 ,Cast((OriginalBaseline + (
     (
-		( FinalTarget - OriginalBaseline) / 
-		(	 FinalTargetPeriodID -BaselinePeriodID ) 
-		)
-	* (CurrentReportPeriodID-BaselinePeriodID)
-	) * RAND(ReportPeriodID))
-	/ (1551.0* cast(Location.Code as int))
+        ( FinalTarget - OriginalBaseline) / 
+        (	 FinalTargetPeriodID -BaselinePeriodID ) 
+        )
+    * (CurrentReportPeriodID-BaselinePeriodID)
+    ) * RAND(ReportPeriodID))
+    / (1551.0* cast(Location.Code as int))
 
 as varchar(255)) as Notes
-	,1 as DataVersionID
-	,Location.Location_ID AS Location_ID
-	,ReportPeriodID
+    ,1 as DataVersionID
+    ,Location.Location_ID AS Location_ID
+    ,ReportPeriodID
  FROM 
  Core.Location
  INNER JOIN [Core].[LocationType]
@@ -1850,15 +1850,15 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,RolledUpToSubOutput_ID = i.SubOutput_ID
       --,RolledUpToActivity_ID = i.Activity_ID
       --  ,TermSetID = DIML.TermsetDeepGrainID
-	,i.Baseline OriginalBaseline
-	,i.Target FinalTarget
-	--,rc.StartDateID ReportingPeriodStartDate_ID
-	--,rc.EndDateID 	
-	,null NextReportingPeriodReleaseDate_ID
-	,l.Name LocationName
-	,FinalTargetPeriod.ID FinalTargetPeriodID
-	,rc.ID CurrentReportPeriodID
-	,BaselinePeriod.ID BaselinePeriodID
+    ,i.Baseline OriginalBaseline
+    ,i.Target FinalTarget
+    --,rc.StartDateID ReportingPeriodStartDate_ID
+    --,rc.EndDateID 	
+    ,null NextReportingPeriodReleaseDate_ID
+    ,l.Name LocationName
+    ,FinalTargetPeriod.ID FinalTargetPeriodID
+    ,rc.ID CurrentReportPeriodID
+    ,BaselinePeriod.ID BaselinePeriodID
   FROM app.Indicator i 
 
    
@@ -1870,8 +1870,8 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
   LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
     and iv.ReportPeriodID  = rc.ID 
-	--and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
-	--and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
+    --and  (@DataVersion_ID = 0 OR iv.DataVersion_ID = @DataVersion_ID)
+    --and (iv.Location_ID = @Location_ID OR @Location_ID = 0 )
     
 
   INNER JOIN Core.ReportingPeriod FinalTargetPeriod
@@ -1879,7 +1879,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
    FinalTargetPeriod.StartDateID  AND
    FinalTargetPeriod.EndDateID 
     
-	INNER JOIN Core.ReportingPeriod BaselinePeriod
+    INNER JOIN Core.ReportingPeriod BaselinePeriod
   ON i.BaselineDate_ID BETWEEN
   BaselinePeriod.StartDateID 
   AND
@@ -1910,7 +1910,7 @@ on (iv.Location_ID = l.Location_ID )
 
 where Indicator_ID in (select IndicatorID from app.Indicator where code = 'IND2.1.1.2' ) 
 AND NOT EXISTS (SELECT 1 from rbm.IndicatorValues IVInner where Indicator_ID = FIV.Indicator_ID and 
-				IVInner.ReportPeriodID = ReportPeriodID)
+                IVInner.ReportPeriodID = ReportPeriodID)
 AND financialYear <2014
 order by ReportCycleDate_ID ASC
 
@@ -1930,20 +1930,20 @@ INSERT INTO [app].[Project]
            )
      SELECT
            'PRJ2.1'
-		   ,'Build new schools'
-		   ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
-		   ,'Build new schools'
-		   ,'Build new schools'
-	WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.1')
-	UNION 
-	
+           ,'Build new schools'
+           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,'Build new schools'
+           ,'Build new schools'
+    WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.1')
+    UNION 
+    
      SELECT
            'PRJ2.2'
-		   ,'Add canteens to existing schools'
-		   ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
-		   ,'Add canteens to existing schools'
-		   ,'Add canteens to existing schools'
-	WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.2')
+           ,'Add canteens to existing schools'
+           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,'Add canteens to existing schools'
+           ,'Add canteens to existing schools'
+    WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.2')
 --Activities
 
 GO
@@ -1957,47 +1957,47 @@ INSERT INTO [app].[Activity]
 )
 
 SELECT 'Choosing areas to build schools', 
-		'Choosing areas to build schools', 
-		'Choosing areas to build schools', 
-		(SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
-		,'ACT2.1.1'
-		WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.1')
+        'Choosing areas to build schools', 
+        'Choosing areas to build schools', 
+        (SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
+        ,'ACT2.1.1'
+        WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.1')
 
 UNION 
 
 SELECT 'Create plan for school construction', 
-		'Create plan for school construction', 
-		'Create plan for school construction', 
-		(SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
-		,'ACT2.1.2'
-		WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.2')
-		
+        'Create plan for school construction', 
+        'Create plan for school construction', 
+        (SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
+        ,'ACT2.1.2'
+        WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.2')
+        
 UNION 
 
 SELECT 'Build new schools', 
-		'Build new schools', 
-		'Build new schools', 
-		(SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
-		,'ACT2.1.3'
-		WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.3')
+        'Build new schools', 
+        'Build new schools', 
+        (SELECT PRojectID FROM app.Project where code = 'PRJ2.1')
+        ,'ACT2.1.3'
+        WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.1.3')
 
 UNION 
 SELECT 'Identify schools needing a canteen', 
-		'Identify schools needing a canteen', 
-		'Identify schools needing a canteen', 
-		(SELECT PRojectID FROM app.Project where code = 'PRJ2.2')
-		,'ACT2.2.1'
-		WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.2.1')
+        'Identify schools needing a canteen', 
+        'Identify schools needing a canteen', 
+        (SELECT PRojectID FROM app.Project where code = 'PRJ2.2')
+        ,'ACT2.2.1'
+        WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.2.1')
 
 UNION 
 
 SELECT 'Build new canteens', 
-		'Build new canteens', 
-		'Build new canteens', 
-		(SELECT PRojectID FROM app.Project where code = 'PRJ2.2')
-		,'ACT2.2.2'
-		WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.2.2')
-		
+        'Build new canteens', 
+        'Build new canteens', 
+        (SELECT PRojectID FROM app.Project where code = 'PRJ2.2')
+        ,'ACT2.2.2'
+        WHERE NOT EXISTS (SELECT 1 FROM app.Activity where code = 'ACT2.2.2')
+        
 
 GO
 
@@ -2012,89 +2012,89 @@ INSERT INTO [app].[Milestone]
            ,[TargetDate]
            ,[BusinessKey]
            ,[Code]
-		   ,MilestoneTypeID
+           ,MilestoneTypeID
            ,[ActivityID]
            ,[ShortName]
            ,[UnitOfMeasure])
 
-		   SELECT 'Identify work committee'
-		   ,'Identify work committee'
-		   ,0 As Baseline
-		   ,'2013/01/01'
-		   ,20 As target
-		   ,'2013/04/01'
-		   ,'#'
-		   ,'M2.1.2.1'
-		   ,5
-		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Identify work committee'
-		   ,'Number'
+           SELECT 'Identify work committee'
+           ,'Identify work committee'
+           ,0 As Baseline
+           ,'2013/01/01'
+           ,20 As target
+           ,'2013/04/01'
+           ,'#'
+           ,'M2.1.2.1'
+           ,5
+           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,'Identify work committee'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.1')
-	UNION ALL
-	
-		   SELECT 'Choose methodology'
-		   ,'Choose methodology'
-		   ,0 As Baseline
-		   ,'2013/01/01'
-		   ,1 As target
-		   ,'2013/04/01'
-		   ,'#'
-		   ,'M2.1.2.2'
-		   ,5
-		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Choose methodology'
-		   ,'Number'
+    UNION ALL
+    
+           SELECT 'Choose methodology'
+           ,'Choose methodology'
+           ,0 As Baseline
+           ,'2013/01/01'
+           ,1 As target
+           ,'2013/04/01'
+           ,'#'
+           ,'M2.1.2.2'
+           ,5
+           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,'Choose methodology'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.2')
 
 
-		   UNION ALL
-	
-		   SELECT 'Create draft plan'
-		   ,'Create draft plan'
-		   ,0 As Baseline
-		   ,'2013/04/01'
-		   ,1 As target
-		   ,'2013/08/01'
-		   ,'#'
-		   ,'M2.1.2.3'
-		   ,5
-		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Create draft plan'
-		   ,'Number'
+           UNION ALL
+    
+           SELECT 'Create draft plan'
+           ,'Create draft plan'
+           ,0 As Baseline
+           ,'2013/04/01'
+           ,1 As target
+           ,'2013/08/01'
+           ,'#'
+           ,'M2.1.2.3'
+           ,5
+           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,'Create draft plan'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.3')
 
-		   
-		   UNION ALL
-	
-		   SELECT 'Ratify plan with executive'
-		   ,'Ratify plan with executive'
-		   ,0 As Baseline
-		   ,'2013/08/02'
-		   ,1 As target
-		   ,'2013/10/01'
-		   ,'#'
-		   ,'M2.1.2.4'
-		   ,5
-		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Ratify plan with executive'
-		   ,'Number'
+           
+           UNION ALL
+    
+           SELECT 'Ratify plan with executive'
+           ,'Ratify plan with executive'
+           ,0 As Baseline
+           ,'2013/08/02'
+           ,1 As target
+           ,'2013/10/01'
+           ,'#'
+           ,'M2.1.2.4'
+           ,5
+           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,'Ratify plan with executive'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.4')
 
-		   
-		   UNION ALL
-	
-		   SELECT 'Ratify plan with provinces'
-		   ,'Ratify plan with provinces'
-		   ,0 As Baseline
-		   ,'2013/10/02'
-		   ,11 As target
-		   ,'2013/11/01'
-		   ,'#'
-		   ,'M2.1.2.5'
-		   ,5
-		   ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
-		   ,'Ratify plan with provinces'
-		   ,'Number'
+           
+           UNION ALL
+    
+           SELECT 'Ratify plan with provinces'
+           ,'Ratify plan with provinces'
+           ,0 As Baseline
+           ,'2013/10/02'
+           ,11 As target
+           ,'2013/11/01'
+           ,'#'
+           ,'M2.1.2.5'
+           ,5
+           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,'Ratify plan with provinces'
+           ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.5')
 
 ----------------------------------------------------------------------------------
@@ -2113,51 +2113,51 @@ INSERT INTO [RBM].[MilestoneValues]
            ,[ReportPeriodID]
            )
 
-		   SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.1')
-		   ,'Identified twelve candidates'
-		   ,12
-		   ,Getdate()
-		   ,1
-		   ,1
-		   ,(SELECT ID FROM Core.ReportingPeriod WHERE 20121231 between StartDateID and EndDateID)
-		   where not exists (select 1 from rbm.MilestoneValues where 
-						Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.1')
-						and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20121231 between StartDateID and EndDateID)
-						)
+           SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.1')
+           ,'Identified twelve candidates'
+           ,12
+           ,Getdate()
+           ,1
+           ,1
+           ,(SELECT ID FROM Core.ReportingPeriod WHERE 20121231 between StartDateID and EndDateID)
+           where not exists (select 1 from rbm.MilestoneValues where 
+                        Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.1')
+                        and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20121231 between StartDateID and EndDateID)
+                        )
 UNION ALL 
-						SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.1')
-		   ,'Chose committee'
-		   ,20
-		   ,Getdate()
-		   ,1
-		   ,1
-		   ,(SELECT ID FROM Core.ReportingPeriod WHERE 20130301 between StartDateID and EndDateID)
-		   where not exists (select 1 from rbm.MilestoneValues where 
-						Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.1')
-						and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20130301 between StartDateID and EndDateID)
-						)
+                        SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.1')
+           ,'Chose committee'
+           ,20
+           ,Getdate()
+           ,1
+           ,1
+           ,(SELECT ID FROM Core.ReportingPeriod WHERE 20130301 between StartDateID and EndDateID)
+           where not exists (select 1 from rbm.MilestoneValues where 
+                        Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.1')
+                        and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20130301 between StartDateID and EndDateID)
+                        )
 
 UNION ALL 
-		   SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.2')
-		   ,'Chose methodology'
-		   ,1
-		   ,Getdate()
-		   ,1
-		   ,1
-		   ,(SELECT ID FROM Core.ReportingPeriod WHERE 20130401 between StartDateID and EndDateID)
-		   where not exists (select 1 from rbm.MilestoneValues where 
-						Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.2')
-						and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20130401 between StartDateID and EndDateID)
-						)
+           SELECT (select milestoneid from app.Milestone where code = 'M2.1.2.2')
+           ,'Chose methodology'
+           ,1
+           ,Getdate()
+           ,1
+           ,1
+           ,(SELECT ID FROM Core.ReportingPeriod WHERE 20130401 between StartDateID and EndDateID)
+           where not exists (select 1 from rbm.MilestoneValues where 
+                        Milestone_ID = (select milestoneid from app.Milestone where code = 'M2.1.2.2')
+                        and ReportPeriodID = (SELECT ID FROM Core.ReportingPeriod WHERE 20130401 between StartDateID and EndDateID)
+                        )
 
-	
-		   
+    
+           
 GO
 
 
-		   ----------------IV Qualitative
+           ----------------IV Qualitative
 
-		   /*select * from app.Indicator where IndicatorID in (201,202)
+           /*select * from app.Indicator where IndicatorID in (201,202)
 select * from rbm.IndicatorValues where Indicator_ID in (201)
 */
 UPDATE RBM.IndicatorValues
@@ -2207,7 +2207,7 @@ INSERT INTO [app].[StatusValues]
            , [LocationID] ,[StatusTypeID]
            ,[ReportingPeriodID]
            ,[DataVersionID]
-		   )
+           )
 select projectid ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by id)) - .71355) * 10000),0) as int) % 3
 ,RP.ID
 ,1
@@ -2221,7 +2221,7 @@ INSERT INTO [app].[StatusValues]
            , [LocationID] ,[StatusTypeID]
            ,[ReportingPeriodID]
            ,[DataVersionID]
-		   )
+           )
 select Output_ID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by [Output_ID],id)) - .71355) * 10000),0) as int) % 3
 ,RP.ID
 ,1
@@ -2236,7 +2236,7 @@ INSERT INTO [app].[StatusValues]
            , [LocationID] ,[StatusTypeID]
            ,[ReportingPeriodID]
            ,[DataVersionID]
-		   )
+           )
 select SubOutput_ID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by suboutput_id, id)) - .71355) * 10000),0) as int) % 3
 ,RP.ID
 ,1
@@ -2251,7 +2251,7 @@ INSERT INTO [app].[StatusValues]
            , [LocationID] ,[StatusTypeID]
            ,[ReportingPeriodID]
            ,[DataVersionID]
-		   )
+           )
 select OutcomeID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by outcomeid)) - .71355) * 10000),0) as int) % 3
 ,RP.ID
 ,1

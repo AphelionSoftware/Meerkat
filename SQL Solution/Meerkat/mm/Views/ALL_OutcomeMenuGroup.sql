@@ -13,7 +13,7 @@ AS
     FROM    ( SELECT    dso.Code AS orderBy1 ,
                         1 AS orderby2 ,
                         dso.ShortName AS Title ,
-                        '/' + oc.[OutcomeSitename]
+                        '/' + oc.[OutcomeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
                         + '[Sub Output].[Sub Output].%26['
                         + CAST(dso.SubOutput_ID AS VARCHAR(8)) + ']' AS Link ,

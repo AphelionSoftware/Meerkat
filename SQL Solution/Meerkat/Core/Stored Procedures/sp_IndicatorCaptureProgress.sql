@@ -1,9 +1,8 @@
 ﻿CREATE PROC [Core].[sp_IndicatorCaptureProgress]
-@@DataVersion_ID int
-,@@Outcome_ID int
-
-, @Location_ID int =1
-, @MilestoneCode varchar(255) = '0'
+	@@DataVersion_ID int
+	,@@Outcome_ID int
+	,@Location_ID int =1
+	,@MilestoneCode varchar(255) = '0'
 AS
 Declare @@OTCFilt int = @@Outcome_ID
 IF @@Outcome_ID = 9999 set @@OTCFilt = 0
@@ -12,7 +11,7 @@ IF @@Outcome_ID = 9999 set @@OTCFilt = 0
 Declare @@MaxYear as INT = (
 	Select LEFT(MAX(RC.YearNumber),4 ) 
 		
-from app.outcome oc
+from app.Outcome oc
 	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
@@ -31,7 +30,7 @@ from app.outcome oc
 Declare @@MinYear as INT = (
 	Select LEFT(Min(RC.YearNumber),4 ) 
 		
-from app.outcome oc
+from app.Outcome oc
 	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
@@ -78,7 +77,7 @@ Select
 			,STP.SubOutput_ID as RolledUpToSubOutput_ID
 			,MSv.ActualDate as ReportingDate
 			
-from app.outcome oc
+from app.Outcome oc
 	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID

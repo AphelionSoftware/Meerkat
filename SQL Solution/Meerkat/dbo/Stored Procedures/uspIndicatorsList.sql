@@ -62,14 +62,14 @@ cast(rc.EndDateID as varchar) EndDate  ,
 cast(rc.StartDateID as varchar) + ' - ' + 
 cast(rc.EndDateID as varchar)  ReportingPeriod  , 
 null NextDate  , 
-ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID] 
+ISNULL([iv].[IndicatorValues_ID]  , 0) [IndicatorValues_ID] 
         , i.[IndicatorID] [Indicator_ID]
         , i.[Baseline] [Baseline]
         ,  i.[BaselineString] BaselineString
         , i.Target [TargetValue]
         ,   i.TargetString [TargetValueString]
-        , [ActualValue]
-        , ActualLabel as [ActualValueString]
+        , [iv].[ActualValue]
+        , [iv].[ActualLabel] as [ActualValueString]
         , i.UnitOfMeasure
       
         , i.[Output_ID]
@@ -123,7 +123,7 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
 	WHEN i.SubOutput_ID IS Not NULL 
 	THEN '[Sub Output].[Sub Output].%26[' + CAST (i.SubOutput_ID as varchar(8)) + ']'
 	END
-	, om.OutcomeSitename 
+	, om.[OutcomeSiteName]
   FROM app.Indicator i 
  LEFT join RBM.[IndicatorValues] iv
   on i.IndicatorID = iv.Indicator_ID
@@ -132,20 +132,8 @@ ISNULL([IndicatorValues_ID]  , 0) [IndicatorValues_ID]
   on   iv.ReportPeriodID = rc.ID
  
     
-/*
-IV Left to RC
-
-*/    
-/*    
-LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID*/
 LEFT OUTER JOIN [app].[SubOutput] SO
 
-/*	INNER JOIN dbo.Activity SOA
-	on so.SubOutput_ID = soa.SubOutput_ID
-	inner join dbo.Milestone AM
-		on SOA.Activity_ID = AM.Activity_ID
-*/
 
 on i.SubOutput_ID = so.SubOutput_ID 
 

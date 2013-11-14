@@ -1,7 +1,7 @@
 ﻿CREATE VIEW [mm].[ALL_OutcomeMenuLink] 
 AS 
    SELECT Title = 'Indicator Details', 
-         Link = '/' + [OutcomeSitename] 
+         Link = '/' + [OutcomeSiteName] 
                 + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
        + '[Sub Output].[Sub Output].%26[' 
@@ -20,7 +20,7 @@ INNER JOIN [app].[Outcome] AS OC
 WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
 SELECT Title = 'Location Indicator Details', 
-Link = '/' + [OutcomeSitename] 
+Link = '/' + [OutcomeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
 + '[Sub Output].[Sub Output].%26[' 
@@ -39,7 +39,7 @@ INNER JOIN [app].[Outcome] AS OC
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 UNION ALL 
 SELECT Title = Da.ShortName, 
-Link = '/' + [OutcomeSitename] 
+Link = '/' + [OutcomeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsActivity='
 	+ Cast(da.ActivityID AS VARCHAR(8)) , 

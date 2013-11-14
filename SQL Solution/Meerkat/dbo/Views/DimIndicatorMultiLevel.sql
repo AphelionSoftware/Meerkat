@@ -3,10 +3,9 @@ CREATE  VIEW  [dbo].[DimIndicatorMultiLevel]
 as 
 
 
-      SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
-       
+      SELECT TermSetLevel1 = oc.ShortName        
       ,TermSetLevel2 = 'Indicators'
-      ,TermSetLevel3 =   i.ShortName + ' : ' + left(i.longname,80)
+      ,TermSetLevel3 =   i.ShortName + ' : ' + left([i].[LongName],80)
       ,TermSetLevel4 = null
       ,TermSetLevel5 = null
       ,TermSetLevel6 = null
@@ -50,7 +49,7 @@ as
       from [app].[Outcome] oc
 
       
-       inner join app.INdicator I
+       inner join app.Indicator I
       on oc.OutcomeID = i.OutcomeID
            UNION ALL
       ------------------------------------
@@ -58,10 +57,10 @@ as
       
 
 
-      SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
+      SELECT TermSetLevel1 = oc.ShortName 
+      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.[LongName],80)
       ,TermSetLevel3 = 'Indicators'
-      ,TermSetLevel4 =  i.ShortName + ' : ' + left(i.longname,80)
+      ,TermSetLevel4 =  i.ShortName + ' : ' + left(i.[LongName],80)
       ,TermSetLevel5 = null
       ,TermSetLevel6 = null
       ,TermSetLevel7 = null
@@ -103,7 +102,7 @@ as
       on oc.OutcomeID = otp.OutcomeID
 
       
-       inner join app.INdicator I
+       inner join app.Indicator I
       on otp.Output_ID = i.Output_ID
       
            
@@ -111,10 +110,10 @@ as
       
        UNION ALL
       SELECT TermSetLevel1 = oc.ShortName --+ ' : ' + LEFT(oc.Longname,80) 
-      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.longname,80)
-      ,TermSetLevel3 = so.ShortName + ' : ' + left(so.longname,80)
+      ,TermSetLevel2 =  otp.ShortName + ' : ' + left(otp.LongName,80)
+      ,TermSetLevel3 = so.ShortName + ' : ' + left(so.LongName,80)
       ,TermSetLevel4 = 'Indicators'
-      ,TermSetLevel5 = i.ShortName + ' : ' + left(i.longname,80)
+      ,TermSetLevel5 = i.ShortName + ' : ' + left(i.LongName,80)
       ,TermSetLevel6 = null
       ,TermSetLevel7 = null
       ,CodeLevel1 = oc.Code
@@ -154,7 +153,7 @@ as
        inner join [app].[SubOutput] so
       on otp.Output_ID = so.Output_ID
       
-       inner join app.INdicator I
+       inner join app.Indicator I
       on so.SubOutput_ID = i.SubOutput_ID
       
       
