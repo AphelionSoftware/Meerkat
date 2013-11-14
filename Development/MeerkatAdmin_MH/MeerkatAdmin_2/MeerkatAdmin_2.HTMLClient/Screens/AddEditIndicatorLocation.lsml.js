@@ -12,3 +12,13 @@ myapp.AddEditIndicatorLocation.IndicatorLocation_delete_canExecute = function (s
 myapp.AddEditIndicatorLocation.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
 };
+
+myapp.AddEditIndicatorLocation.SearchIndicatorsTap_execute = function (screen) {
+    screen.IndicatorLocation.Indicator = screen.Indicators.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditIndicatorLocation.SelectedLocationsTap_execute = function (screen) {
+    screen.IndicatorLocation.Location = screen.Locations.selectedItem;
+    screen.closePopup();
+};

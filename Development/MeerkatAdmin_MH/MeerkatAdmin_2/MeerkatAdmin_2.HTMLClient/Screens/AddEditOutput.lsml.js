@@ -1,5 +1,6 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
-/// <reference path="LightSwitchTools.js" />
+
+'use strict';
 
 myapp.AddEditOutput.Output_Delete_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);
@@ -23,3 +24,9 @@ myapp.AddEditOutput.AddOutputStatusValue_execute = function (screen) {
 myapp.AddEditOutput.EditStatusValue_execute = function (screen) {
     msls.application.lightswitchTools.editStatusValue(screen, "Output");
 };
+
+myapp.AddEditOutput.OutcomesPopupItemTap_execute = function (screen) {
+    screen.Output.Outcome = screen.Outcomes.selectedItem;
+    screen.closePopup();
+};
+

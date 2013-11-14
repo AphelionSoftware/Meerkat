@@ -165,6 +165,10 @@
               <ContentItem
                 Name="ShowLocationFilter"
                 Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Filter" />
+                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
@@ -217,27 +221,27 @@
             Name="LocationFilter"
             Kind="Group">
             <ContentItem
-              Name="LocationType"
+              Name="Code1"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseLocations/Properties[LocationType]" />
+                      Member="BrowseLocations/Properties[Code]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
             <ContentItem
-              Name="LocationName"
+              Name="Name1"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseLocations/Properties[LocationName]" />
+                      Member="BrowseLocations/Properties[Name]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
@@ -286,22 +290,66 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Locations"
+        Name="LocationSorted"
         PageSize="45"
         PropertyType="CollectionView$Location">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="LocationsQuery"
+            Name="LocationSortedQuery"
             ReturnType="Location*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="Contains">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Location/Properties[Code]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="Code" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="Contains">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Location/Properties[Name]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="Name" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Locations]" />
+                  Member="MeerkatData/Members[LocationSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="Code"
+                IsOptional="True"
+                ParameterType=":String?" />
+              <QueryParameter
+                Name="Name"
+                IsOptional="True"
+                ParameterType=":String?" />
+            </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
                 <ChainExpression>
@@ -321,45 +369,23 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseLocations/Properties[Locations]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenCollectionProperty
-        Name="LocationSorted"
-        PageSize="45"
-        PropertyType="CollectionView$Location">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="LocationSortedQuery"
-            ReturnType="Location*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[LocationSorted]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
               Target="BrowseLocations/Properties[LocationSorted]/Query">
               <ArgumentExpression
-                Parameter="LocationType">
+                Parameter="LocationType" />
+              <ArgumentExpression
+                Parameter="LocationName" />
+              <ArgumentExpression
+                Parameter="Code">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseLocations/Properties[LocationType]" />
+                    Member="BrowseLocations/Properties[Code]" />
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
-                Parameter="LocationName">
+                Parameter="Name">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseLocations/Properties[LocationName]" />
+                    Member="BrowseLocations/Properties[Name]" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -367,10 +393,10 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
-        Name="LocationType"
+        Name="Code"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="LocationName"
+        Name="Name"
         PropertyType=":String?" />
     </Screen.Properties>
   </Screen>

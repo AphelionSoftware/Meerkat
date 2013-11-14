@@ -4,3 +4,13 @@
 myapp.AddEditLocation.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
 };
+
+myapp.AddEditLocation.SearchParentLocationsTap_execute = function (screen) {
+    screen.Location.Location1 = screen.ParentLocations.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditLocation.SearchLocationsTap_execute = function (screen) {
+    screen.Location.locations
+    screen.closePopup();
+};

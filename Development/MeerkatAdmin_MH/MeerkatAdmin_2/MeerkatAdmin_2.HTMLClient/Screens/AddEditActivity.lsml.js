@@ -23,3 +23,7 @@ myapp.AddEditActivity.AddProjectStatusValue_execute = function (screen) {
 myapp.AddEditActivity.EditStatusValues_execute = function (screen) {
     msls.application.lightswitchTools.editStatusValue(screen, "Project");
 };
+myapp.AddEditActivity.SelectedProjectTap_execute = function (screen) {  
+    screen.Activity.Project = screen.Projects.selectedItem;
+    screen.closePopup();
+};

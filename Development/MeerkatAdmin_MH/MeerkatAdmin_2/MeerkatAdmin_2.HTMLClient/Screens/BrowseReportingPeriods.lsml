@@ -38,7 +38,7 @@
                 Name="ReportingPeriodsTemplate"
                 Kind="Details"
                 DataType="ReportingPeriod"
-                View="Microsoft.LightSwitch.MobileWeb:Summary">
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
@@ -148,6 +148,42 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
+              <ContentItem
+                Name="ShowFilter"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Filter" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="BrowseReportingPeriods/Methods[showDialog]">
+                          <ArgumentExpression
+                            Parameter="dialogName">
+                            <ConstantExpression
+                              Value="Filter"
+                              ResultType=":String" />
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-filter"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
             </ContentItem.CommandItems>
           </ContentItem>
           <ContentItem.PropertySources>
@@ -166,7 +202,88 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
+          <ContentItem
+            Name="Filter"
+            Kind="Group">
+            <ContentItem
+              Name="Year"
+              Kind="Group">
+              <ContentItem
+                Name="YearNumberStart"
+                Kind="Value"
+                DataType=":Int32?">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Start" />
+                </ContentItem.Attributes>
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseReportingPeriods/Properties[YearNumberStart]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem
+                Name="YearNumberEnd"
+                Kind="Value"
+                DataType=":Int32?">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="End" />
+                </ContentItem.Attributes>
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseReportingPeriods/Properties[YearNumberEnd]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="ReportingPeriod"
+              Kind="Group">
+              <ContentItem
+                Name="ReportingPeriodStart"
+                Kind="Value"
+                DataType=":Int32?">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Start" />
+                </ContentItem.Attributes>
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseReportingPeriods/Properties[ReportingPeriodStart]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem
+                Name="ReportingPeriodEnd"
+                Kind="Value"
+                DataType=":Int32?">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="End" />
+                </ContentItem.Attributes>
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseReportingPeriods/Properties[ReportingPeriodEnd]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
         <ContentItem.PropertySources>
           <ControlPropertySource
             Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
@@ -217,7 +334,49 @@
             Name="ReportingPeriodsQuery"
             ReturnType="ReportingPeriod*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <TernaryExpression
+                      NodeType="Between">
+                      <TernaryExpression.First>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="ReportingPeriod/Properties[ReportingPeriod1]" />
+                        </ChainExpression>
+                      </TernaryExpression.First>
+                      <TernaryExpression.Second>
+                        <ParameterExpression
+                          Parameter="ReportingPeriodStart" />
+                      </TernaryExpression.Second>
+                      <TernaryExpression.Third>
+                        <ParameterExpression
+                          Parameter="ReportingPeriodEnd" />
+                      </TernaryExpression.Third>
+                    </TernaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <TernaryExpression
+                      NodeType="Between">
+                      <TernaryExpression.First>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="ReportingPeriod/Properties[YearNumber]" />
+                        </ChainExpression>
+                      </TernaryExpression.First>
+                      <TernaryExpression.Second>
+                        <ParameterExpression
+                          Parameter="YearNumberStart" />
+                      </TernaryExpression.Second>
+                      <TernaryExpression.Third>
+                        <ParameterExpression
+                          Parameter="YearNumberEnd" />
+                      </TernaryExpression.Third>
+                    </TernaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
@@ -225,6 +384,24 @@
                   Member="MeerkatData/Members[ReportingPeriods]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="YearNumberStart"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="YearNumberEnd"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="ReportingPeriodStart"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="ReportingPeriodEnd"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
                 <ChainExpression>
@@ -244,10 +421,51 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseReportingPeriods/Properties[ReportingPeriods]/Query" />
+              Target="BrowseReportingPeriods/Properties[ReportingPeriods]/Query">
+              <ArgumentExpression
+                Parameter="YearNumberStart">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseReportingPeriods/Properties[YearNumberStart]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="YearNumberEnd">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseReportingPeriods/Properties[YearNumberEnd]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ReportingPeriodStart">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseReportingPeriods/Properties[ReportingPeriodStart]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ReportingPeriodEnd">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseReportingPeriods/Properties[ReportingPeriodEnd]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="YearNumberStart"
+        PropertyType=":Int32?" />
+      <ScreenProperty
+        Name="YearNumberEnd"
+        PropertyType=":Int32?" />
+      <ScreenProperty
+        Name="ReportingPeriodStart"
+        PropertyType=":Int32?" />
+      <ScreenProperty
+        Name="ReportingPeriodEnd"
+        PropertyType=":Int32?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

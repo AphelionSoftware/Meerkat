@@ -30,12 +30,12 @@ myapp.AddEditMilestone.MilestoneType_postRender = function (element, contentItem
         switch (newValue.Code) {
             case "Activity":
                 {
-                    target = contentItem.screen.findContentItem("Activity");
+                    target = contentItem.screen.findContentItem("ActivityGroup");
                     break;
                 }
             case "Project":
                 {
-                    target = contentItem.screen.findContentItem("Project");
+                    target = contentItem.screen.findContentItem("ProjectGroup");
                     break;
                 }
             default:
@@ -50,4 +50,14 @@ myapp.AddEditMilestone.MilestoneType_postRender = function (element, contentItem
             target.isVisible = true;
         }
     });
+};
+
+myapp.AddEditMilestone.SearchProjectsTap_execute = function (screen) {
+    screen.Milestone.Project = screen.Projects.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditMilestone.SearchActivitiesTap_execute = function (screen) {
+    screen.Milestone.Activity = screen.Activities.selectedItem;
+    screen.closePopup();
 };

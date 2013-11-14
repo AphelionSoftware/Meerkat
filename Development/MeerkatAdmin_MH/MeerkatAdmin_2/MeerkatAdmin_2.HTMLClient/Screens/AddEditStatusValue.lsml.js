@@ -17,31 +17,31 @@ myapp.AddEditStatusValue.created = function (screen) {
 
         if (screen.Values.Outcome !== undefined) {
             screen.pageTitle = "Outcome Status Value";
-            screen.findContentItem("Outcome").isVisible = true;
+            screen.findContentItem("OutcomeGroup").isVisible = true;
             screen.StatusValue.setOutcome(screen.Values.Outcome);
         }
 
         if (screen.Values.Output !== undefined) {
             screen.pageTitle = "Output Status Value";
-            screen.findContentItem("Output").isVisible = true;
+            screen.findContentItem("OutputGroup").isVisible = true;
             screen.StatusValue.setOutput(screen.Values.Output);
         }
 
         if (screen.Values.SubOutput !== undefined) {
             screen.pageTitle = "SubOutput Status Value";
-            screen.findContentItem("SubOutput").isVisible = true;
+            screen.findContentItem("SubOutputGroup").isVisible = true;
             screen.StatusValue.setSubOutput(screen.Values.SubOutput);
         }
 
         if (screen.Values.Activity !== undefined) {
             screen.pageTitle = "Activity Status Value";
-            screen.findContentItem("Activity").isVisible = true;
+            screen.findContentItem("ActivityGroup").isVisible = true;
             screen.StatusValue.setActivity(screen.Values.Activity);
         }
 
         if (screen.Values.Project !== undefined) {
             screen.pageTitle = "Project Status Value";
-            screen.findContentItem("StatusValue_Project").isVisible = true;
+            screen.findContentItem("ProjectGroup").isVisible = true;
             screen.StatusValue.setProject(screen.Values.Project);
         }
 
@@ -54,27 +54,27 @@ myapp.AddEditStatusValue.created = function (screen) {
         /* modified screen */
         screen.StatusValue.getOutcome().then(function (outcome) {
             if (outcome !== undefined) {
-                screen.findContentItem("Outcome").isVisible = true;
+                screen.findContentItem("OutcomeGroup").isVisible = true;
                 screen.pageTitle = "Outcome Status Value";
             } else {
                 screen.StatusValue.getOutput().then(function (output) {
                     if (output !== undefined) {
-                        screen.findContentItem("Output").isVisible = true;
+                        screen.findContentItem("OutputGroup").isVisible = true;
                         screen.pageTitle = "Output Status Value";
                     } else {
                         screen.StatusValue.getSubOutput().then(function (suboutput) {
                             if (suboutput !== undefined) {             
-                                screen.findContentItem("SubOutput").isVisible = true;
+                                screen.findContentItem("SubOutputGroup").isVisible = true;
                                 screen.pageTitle = "SubOutput Status Value";
                             } else {
                                 screen.StatusValue.getProject().then(function (project) {
                                     if (project !== undefined) {
-                                        screen.findContentItem("StatusValue_Project").isVisible = true;
+                                        screen.findContentItem("ProjectGroup").isVisible = true;
                                         screen.Values.Type = "Project";
                                         screen.pageTitle = "Project Status Value";
                                     } else {
                                         screen.StatusValue.getActivity().then(function (activity) {
-                                            screen.findContentItem("Activity").isVisible = true;
+                                            screen.findContentItem("ActivityGroup").isVisible = true;
                                             screen.pageTitle = "Activity Status Value";
                                         });
                                     }
@@ -132,4 +132,49 @@ myapp.AddEditStatusValue.CopyPercentage_execute = function (screen) {
 
 myapp.AddEditStatusValue.Percentage_postRender = function (element, contentItem) {
     percentageElement = $('input', $(element));
+};
+
+myapp.AddEditStatusValue.SearchOutcomesTap_execute = function (screen) {
+    screen.StatusValue.Outcome = screen.Outcomes.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchOutputsTap_execute = function (screen) {
+    screen.StatusValue.Output = screen.Outputs.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchSubOutputsTap_execute = function (screen) {
+    screen.StatusValue.SubOutput = screen.SubOutputs.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchProjectsTap_execute = function (screen) {
+    screen.StatusValue.Project = screen.Projects.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchActivitiesTap_execute = function (screen) {
+    screen.StatusValue.Activity = screen.Activities.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchReportingPeriodsTap_execute = function (screen) {
+    screen.StatusValue.ReportingPeriod = screen.ReportingPeriods.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchStatusTypesTap_execute = function (screen) {
+    screen.StatusValue.StatusType = screen.StatusTypes.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchDataVersionsTap_execute = function (screen) {
+    screen.StatusValue.DataVersion = screen.DataVersions.selectedItem;
+    screen.closePopup();
+};
+
+myapp.AddEditStatusValue.SearchLocationsTap_execute = function (screen) {
+    screen.StatusValue.Location = screen.Locations.selectedItem;
+    screen.closePopup();
 };
