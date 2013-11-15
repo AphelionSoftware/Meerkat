@@ -322,12 +322,63 @@
                               Member="selectedItem" />
                           </ChainExpression>
                         </ArgumentExpression>
+                        <ArgumentExpression
+                          Parameter="ParentLocation">
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditLocation/Properties[Location]" />
+                          </ChainExpression>
+                        </ArgumentExpression>
                       </CallExpression>
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
               </ContentItem.PropertySources>
             </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="ShowAddEditLocation"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Add" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditLocation]">
+                          <CallExpression.Attributes>
+                            <CreateNewEntity
+                              EntityType="Location"
+                              TargetParameter="!module/Methods[showAddEditLocation]/Parameters[Location]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="ParentLocation">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AddEditLocation/Properties[Location]" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
           </ContentItem>
         </ContentItem>
         <ContentItem
@@ -650,6 +701,13 @@
       <ScreenProperty
         Name="Name"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="ParentLocation"
+        PropertyType="Location">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -661,6 +719,9 @@
       </ApplicationMethod.Attributes>
       <ApplicationMethodParameter
         Name="Location"
+        ParameterType="Location" />
+      <ApplicationMethodParameter
+        Name="ParentLocation"
         ParameterType="Location" />
     </ApplicationMethod>
   </Application.Methods>

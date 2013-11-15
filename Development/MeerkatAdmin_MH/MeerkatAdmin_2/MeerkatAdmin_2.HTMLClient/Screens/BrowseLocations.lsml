@@ -81,6 +81,9 @@
                         <CallExpression.Attributes>
                           <AssociatedCollection
                             Collection="BrowseLocations/Properties[LocationSorted]" />
+                          <CreateNewEntity
+                            EntityType="Location"
+                            TargetParameter="!module/Methods[showAddEditLocation]/Parameters[ParentLocation]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
                           Parameter="Location">
@@ -398,6 +401,32 @@
       <ScreenProperty
         Name="Name"
         PropertyType=":String?" />
+      <ScreenCollectionProperty
+        Name="ChildLocations"
+        PageSize="45"
+        PropertyType="CollectionView$Location">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="ChildLocationsQuery"
+            ReturnType="Location*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[Locations]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseLocations/Properties[ChildLocations]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>

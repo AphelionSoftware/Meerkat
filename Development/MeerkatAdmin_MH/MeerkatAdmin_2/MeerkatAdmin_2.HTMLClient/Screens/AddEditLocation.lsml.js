@@ -3,6 +3,12 @@
 
 myapp.AddEditLocation.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
+    screen.ParentLocation.getLocation_ID().then(function(_){
+        if (_ !== undefined) {
+            screen.Location.Location1 = screen.ParentLocation;
+        } 
+    });
+    
 };
 
 myapp.AddEditLocation.SearchParentLocationsTap_execute = function (screen) {
