@@ -667,19 +667,68 @@ GO
 SET IDENTITY_INSERT [Core].[OrganizationType] ON 
 
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'Food Support', 1, N'dbo', CAST(0x0000A23700F26E2A AS DateTime), N'dbo', CAST(0x0000A23700F26E2A AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 1
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'Food Support', 1, N'dbo', CAST(0x0000A23700F26E2A AS DateTime), N'dbo', CAST(0x0000A23700F26E2A AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'Agricultural Development Support', 1, N'dbo', CAST(0x0000A23700F27C1C AS DateTime), N'dbo', CAST(0x0000A23700F27C1C AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 2
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'Agricultural Development Support', 1, N'dbo', CAST(0x0000A23700F27C1C AS DateTime), N'dbo', CAST(0x0000A23700F27C1C AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'Funding/Financing Support', 1, N'dbo', CAST(0x0000A23700F28B06 AS DateTime), N'dbo', CAST(0x0000A23700F28B06 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 3
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'Funding/Financing Support', 1, N'dbo', CAST(0x0000A23700F28B06 AS DateTime), N'dbo', CAST(0x0000A23700F28B06 AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'Educational Support', 1, N'dbo', CAST(0x0000A23700F29855 AS DateTime), N'dbo', CAST(0x0000A23700F29855 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 4
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'Educational Support', 1, N'dbo', CAST(0x0000A23700F29855 AS DateTime), N'dbo', CAST(0x0000A23700F29855 AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (5, N'Transport Support', 1, N'dbo', CAST(0x0000A23700F2A66F AS DateTime), N'dbo', CAST(0x0000A23700F2A66F AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 5
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (5, N'Transport Support', 1, N'dbo', CAST(0x0000A23700F2A66F AS DateTime), N'dbo', CAST(0x0000A23700F2A66F AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (6, N'Telecomunications Support', 1, N'dbo', CAST(0x0000A23700F2B7D9 AS DateTime), N'dbo', CAST(0x0000A23700F2B7D9 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 6
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (6, N'Telecomunications Support', 1, N'dbo', CAST(0x0000A23700F2B7D9 AS DateTime), N'dbo', CAST(0x0000A23700F2B7D9 AS DateTime))
+END
 GO
-INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (7, N'Health & Wellbeing Support', 1, N'dbo', CAST(0x0000A23700F2C268 AS DateTime), N'dbo', CAST(0x0000A23700F2C268 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[OrganizationType]
+        WHERE [OrganizationType_ID] = 7
+)
+BEGIN
+    INSERT [Core].[OrganizationType] ([OrganizationType_ID], [Description], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (7, N'Health & Wellbeing Support', 1, N'dbo', CAST(0x0000A23700F2C268 AS DateTime), N'dbo', CAST(0x0000A23700F2C268 AS DateTime))
+END
 GO
 SET IDENTITY_INSERT [Core].[OrganizationType] OFF
 GO
@@ -688,13 +737,41 @@ GO
 SET IDENTITY_INSERT [Core].[Organization] ON 
 
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'FOA',N'FOA', N'Food and Agriculture Organization', 1, NULL, 1, N'spinstall', CAST(0x0000A23700F7DA7B AS DateTime), N'spinstall', CAST(0x0000A23700F7DA85 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[Organization]
+        WHERE [Organization_ID] = 1
+)
+BEGIN
+	INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (1, N'FOA',N'FOA', N'Food and Agriculture Organization', 1, NULL, 1, N'spinstall', CAST(0x0000A23700F7DA7B AS DateTime), N'spinstall', CAST(0x0000A23700F7DA85 AS DateTime))
+END
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'IFAD',N'IFAD', N'International Fund for Agricultural Development', 3, NULL, 1, N'spinstall', CAST(0x0000A23700F875D5 AS DateTime), N'spinstall', CAST(0x0000A23700F875D5 AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[Organization]
+        WHERE [Organization_ID] = 2
+)
+BEGIN
+	INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (2, N'IFAD',N'IFAD', N'International Fund for Agricultural Development', 3, NULL, 1, N'spinstall', CAST(0x0000A23700F875D5 AS DateTime), N'spinstall', CAST(0x0000A23700F875D5 AS DateTime))
+END
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'UNESCO',N'UNESCO', N'United Nations Educational, Scientific and Cultural Organization ', 4, NULL, 1, N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime), N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[Organization]
+        WHERE [Organization_ID] = 3
+)
+BEGIN
+	INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (3, N'UNESCO',N'UNESCO', N'United Nations Educational, Scientific and Cultural Organization ', 4, NULL, 1, N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime), N'spinstall', CAST(0x0000A23700F8A1CD AS DateTime))
+END
 GO
-INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'WHO',N'WHO', N'World Health Organization', 7, NULL, 1, N'spinstall', CAST(0x0000A23700F8C45C AS DateTime), N'spinstall', CAST(0x0000A23700F8C45C AS DateTime))
+IF NOT EXISTS (
+        SELECT 1
+        FROM [Core].[Organization]
+        WHERE [Organization_ID] = 4
+)
+BEGIN
+	INSERT [Core].[Organization] ([Organization_ID], [Name], [Code], [BusinessKey], [OrganizationType_ID], [ParentOrganization_ID], [Active], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn]) VALUES (4, N'WHO',N'WHO', N'World Health Organization', 7, NULL, 1, N'spinstall', CAST(0x0000A23700F8C45C AS DateTime), N'spinstall', CAST(0x0000A23700F8C45C AS DateTime))
+END
 GO
 SET IDENTITY_INSERT [Core].[Organization] OFF
 GO
