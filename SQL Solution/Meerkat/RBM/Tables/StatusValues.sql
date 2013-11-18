@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[StatusValues]
+﻿CREATE TABLE [RBM].[StatusValues]
     (
       [StatusValuesID] INT IDENTITY(1, 1)
                            NOT NULL ,

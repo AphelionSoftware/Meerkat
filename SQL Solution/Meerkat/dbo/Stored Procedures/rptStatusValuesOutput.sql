@@ -16,7 +16,7 @@ AS
 			,SO.SubOutput_ID AS SubOutputID
 			,RP.YearNumber
 
-    FROM    app.StatusValues SV
+    FROM    [RBM].[StatusValues] SV
             INNER JOIN Core.StatusType ST ON SV.StatusTypeID = ST.ID
             LEFT JOIN [app].[SubOutput] SO ON SV.SubOutput_ID = SO.SubOutput_ID
             LEFT JOIN [app].[Output] OP ON SV.Output_ID = OP.Output_ID
