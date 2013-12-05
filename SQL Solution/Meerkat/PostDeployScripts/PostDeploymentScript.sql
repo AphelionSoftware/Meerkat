@@ -1639,7 +1639,7 @@ SELECT '26' Code
     /*Location Insert end*/
     /*Update Geography*/
 
-IF NOT (CHARINDEX(CONVERT(VARCHAR, SERVERPROPERTY('edition')), N'Express') > -1)
+IF (CHARINDEX(CONVERT(VARCHAR, SERVERPROPERTY('edition')), N'Express') > -1)
 BEGIN    
 IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
     
