@@ -6,7 +6,7 @@
     [Category]       VARCHAR (MAX)    NULL,
     [BusinessKey]    VARCHAR (MAX)    NULL,
     [UserDetails]    VARCHAR (50)     NULL,
-    [Active]         INT              DEFAULT ((1)) NOT NULL,
+    [Active]         INT              CONSTRAINT [DF_Person_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)    CONSTRAINT [DF_Person_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]  DATETIME         CONSTRAINT [DF_Person_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)    CONSTRAINT [DF_Person_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,

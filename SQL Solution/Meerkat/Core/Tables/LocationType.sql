@@ -10,8 +10,8 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_LocationType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_LocationType] PRIMARY KEY CLUSTERED ([LocationType_ID] ASC),
     CONSTRAINT [FK_LocationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-	UNIQUE NONCLUSTERED  ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Name] ASC)
+	CONSTRAINT [UQ_LocationType_Code] UNIQUE NONCLUSTERED  ([Code] ASC),
+    CONSTRAINT [UQ_LocationType_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 )
 
 

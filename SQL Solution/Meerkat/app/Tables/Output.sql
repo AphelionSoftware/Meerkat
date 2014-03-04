@@ -6,7 +6,7 @@
     [OutcomeID]       INT            NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
     [TextDescription] VARCHAR (MAX)  NULL,
-    [Active]          INT            DEFAULT ((1)) NOT NULL,
+    [Active]          INT            CONSTRAINT [DF_Output_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Output_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Output_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_Output_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,

@@ -6,7 +6,7 @@
     [TextDescription] VARCHAR (MAX)  NOT NULL,
     [ProjectParentID] INT            NULL,
     [OutcomeID]       INT            NOT NULL,
-    [Active]          INT            CONSTRAINT [DF__Project__Active__65570293] DEFAULT ((1)) NOT NULL,
+    [Active]          INT            CONSTRAINT [DF__Project_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
