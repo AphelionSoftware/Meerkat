@@ -1,4 +1,4 @@
-﻿CREATE SCHEMA [app]
+﻿CREATE SCHEMA [App]
     AUTHORIZATION [dbo];
 
 
