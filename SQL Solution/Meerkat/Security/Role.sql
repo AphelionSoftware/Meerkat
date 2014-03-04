@@ -1,1 +1,2 @@
 ﻿CREATE SCHEMA [Role]
+    AUTHORIZATION [dbo];
