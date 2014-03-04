@@ -10,7 +10,7 @@
     [Location_ID]        INT             NOT NULL,
     [ReportPeriodID]     INT             NOT NULL,
     [Organization_ID]    INT             NULL,
-    [Active]             INT             DEFAULT ((1)) NOT NULL,
+    [Active]             INT             CONSTRAINT [DF_IndicatorValues_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]      VARCHAR (255)   CONSTRAINT [DF_IndicatorValues_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]      DATETIME        CONSTRAINT [DF_IndicatorValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]     VARCHAR (255)   CONSTRAINT [DF_IndicatorValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
