@@ -11,9 +11,7 @@
     [sys_ModifiedOn] DATETIME      CONSTRAINT [DF_DataVersion_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Version] PRIMARY KEY CLUSTERED ([DataVersion_ID] ASC),
     CONSTRAINT [FK_DataVersion_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC)
+     CONSTRAINT [UQ_DataVersion_Active] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
 
