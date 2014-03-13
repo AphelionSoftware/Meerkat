@@ -13,12 +13,12 @@
     [ADM4]           NVARCHAR (255)    NULL,
     [ADM5]           NVARCHAR (255)    NULL,
     [geom]           [sys].[geography] NULL,
-    [Active]         INT               DEFAULT ((1)) NOT NULL,
+    [Active]         INT               CONSTRAINT [DF_DimMunicipalityGEOM_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)     CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]  DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)     CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    PRIMARY KEY CLUSTERED ([PK_ID] ASC),
+    CONSTRAINT [PK_DimMunicipalityGEOM] PRIMARY KEY CLUSTERED ([PK_ID] ASC),
     CONSTRAINT [enforce_srid_geometry_DimMunicipalityGEOM] CHECK ([geom].[STSrid]=(4326))
 );
 

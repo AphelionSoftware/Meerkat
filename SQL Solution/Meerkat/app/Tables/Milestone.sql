@@ -10,12 +10,13 @@
     [TargetDate]      DATETIME        NOT NULL,
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
-    [ProjectID]       INT             NULL,
     [BusinessKey]     NVARCHAR (MAX)  NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
     [ActivityID]      INT             NULL,
+	[ProjectID]       INT             NULL,
+	[OutcomeID]		  INT			  NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
     [BaselineDateID]  AS              ((datepart(year,[BaselineDate])*(10000)+datepart(month,[baselineDate])*(100))+datepart(day,[BaselineDate])),
     [TargetDateID]    AS              ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),
@@ -30,6 +31,11 @@
     CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
     CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+	CONSTRAINT [FK_Milestone_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
+	CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_Milestone] CHECK 
+		(([ActivityID] IS NOT NULL AND [OutcomeID] IS NULL AND [ProjectID] IS NULL)
+		OR ([ActivityID] IS NULL AND [OutcomeID] IS NOT NULL AND [ProjectID] IS NULL)
+		OR ([ActivityID] IS NULL AND [OutcomeID] IS NULL AND [ProjectID] IS NOT NULL)),
     UNIQUE NONCLUSTERED ([Code] ASC)
 );
 

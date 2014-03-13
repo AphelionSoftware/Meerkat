@@ -2,14 +2,14 @@
     [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)      NOT NULL,
     [Name]              VARCHAR (255)     NOT NULL,
-    [AreaKM]              DECIMAL(18, 2)     NULL,
-    [Population]              DECIMAL(18, 2)     NULL,
+    [AreaKM]            DECIMAL(18, 2)    NULL,
+    [Population]        DECIMAL(18, 2)    NULL,
 	[Density]           VARCHAR (MAX)     NULL,
 	[BusinessKey]       NVARCHAR (MAX)    NULL,
     [LocationType_ID]   INT               NULL,
     [ParentLocation_ID] INT               NULL,
     [Geog]              [sys].[geography] NULL,
-    [Active]            INT               CONSTRAINT [DF__Location__sys_Ac__36470DEF] DEFAULT ((1)) NOT NULL,
+    [Active]            INT               CONSTRAINT [DF__Location_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]     VARCHAR (255)     CONSTRAINT [DF_Location_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]     DATETIME          CONSTRAINT [DF_Location_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]    VARCHAR (255)     CONSTRAINT [DF_Location_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -18,8 +18,8 @@
     CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]),
     CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Name] ASC)
+    CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([Code] ASC),
+    CONSTRAINT [UQ_Location_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
 
 

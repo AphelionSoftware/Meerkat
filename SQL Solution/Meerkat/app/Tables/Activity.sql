@@ -4,7 +4,7 @@
     [LongName]        VARCHAR (500) NOT NULL,
     [TextDescription] VARCHAR (MAX) NOT NULL,
     [ProjectID]       INT           NOT NULL,
-    [Active]          INT           CONSTRAINT [DF__Activity__sys_Ac__3AA1AEB8] DEFAULT ((1)) NOT NULL,
+    [Active]          INT           CONSTRAINT [DF__Activity__Active] DEFAULT ((1)) NOT NULL,
     [Code]            VARCHAR (50)  NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_Activity_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_Activity_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
