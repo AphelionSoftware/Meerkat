@@ -14,7 +14,7 @@
     CONSTRAINT [PK_SubOutput] PRIMARY KEY CLUSTERED ([SubOutput_ID] ASC),
     CONSTRAINT [FK_SubOutput_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubOutput_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
-    CONSTRAINT [UQ_SubOutput_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+    UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
 

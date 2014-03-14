@@ -1,4 +1,4 @@
-﻿CREATE SCHEMA [MM]
+﻿CREATE SCHEMA [mm]
     AUTHORIZATION [dbo];
 
 

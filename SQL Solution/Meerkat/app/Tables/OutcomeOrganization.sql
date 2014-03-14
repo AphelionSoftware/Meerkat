@@ -2,7 +2,7 @@
     [OutcomeOrganization_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Organization_ID]        INT           NULL,
     [OutcomeID]              INT           NULL,
-    [Active]                 INT           CONSTRAINT [DF_OutcomeOrganization_Active] DEFAULT ((1)) NOT NULL,
+    [Active]                 INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]          VARCHAR (255) CONSTRAINT [DF_OutcomeOrganization_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]          DATETIME      CONSTRAINT [DF_OutcomeOrganization_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]         VARCHAR (255) CONSTRAINT [DF_OutcomeOrganization_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
