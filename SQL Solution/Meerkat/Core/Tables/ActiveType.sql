@@ -7,11 +7,8 @@
     [sys_ModifiedBy] VARCHAR (255) CONSTRAINT [DF_ActiveType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME      CONSTRAINT [DF_ActiveType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_ActiveType] PRIMARY KEY CLUSTERED ([ID] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([Code] ASC)
+    CONSTRAINT [UQ_ActiveType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+  
 );
 
 
