@@ -2,7 +2,7 @@
     [OutputOutputLink_ID] INT           IDENTITY (1, 1) NOT NULL,
     [PrimaryOutput_ID]    INT           NOT NULL,
     [SecondaryOutput_ID]  INT           NOT NULL,
-    [Active]              INT           DEFAULT ((1)) NOT NULL,
+    [Active]              INT           CONSTRAINT [DF_OutputOutputLink_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]       VARCHAR (255) CONSTRAINT [DF_OutputOutputLink_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]       DATETIME      CONSTRAINT [DF_OutputOutputLink_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255) CONSTRAINT [DF_OutputOutputLink_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
