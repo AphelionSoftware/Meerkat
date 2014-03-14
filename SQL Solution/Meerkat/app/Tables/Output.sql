@@ -6,7 +6,7 @@
     [OutcomeID]       INT            NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
     [TextDescription] VARCHAR (MAX)  NULL,
-    [Active]          INT            DEFAULT ((1)) NOT NULL,
+    [Active]          INT            CONSTRAINT [DF_Output_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Output_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Output_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_Output_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -14,8 +14,8 @@
     CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
     CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
-    UNIQUE NONCLUSTERED ([Code] ASC),
-    UNIQUE NONCLUSTERED ([ShortName] ASC)
+    CONSTRAINT [UQ_Output_Code] UNIQUE NONCLUSTERED ([Code] ASC),
+    CONSTRAINT [UQ_Output_ShortName] UNIQUE NONCLUSTERED ([ShortName] ASC)
 );
 
 
