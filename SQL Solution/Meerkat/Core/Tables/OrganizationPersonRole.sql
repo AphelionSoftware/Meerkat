@@ -5,7 +5,7 @@
     [Organization_ID]           INT              NULL,
     [StartDate]                 DATETIME2 (7)    NULL,
     [EndDate]                   DATETIME2 (7)    NULL,
-    [Active]                    INT              DEFAULT ((1)) NOT NULL,
+    [Active]                    INT              CONSTRAINT [DF_OrganizationPersonRole_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]             VARCHAR (255)    CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]             DATETIME         CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]            VARCHAR (255)    CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
