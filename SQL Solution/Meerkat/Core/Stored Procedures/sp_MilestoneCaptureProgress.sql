@@ -1,4 +1,4 @@
-﻿CREATE PROC [Core].[sp_MilestoneCaptureProgress]
+﻿CREATE PROC [Core].[usp_MilestoneCaptureProgress]
 	@DataVersion_ID int = 0,
 	@Outcome_ID int = 0
 
@@ -28,7 +28,7 @@ SELECT
 	MilestoneProgressPercent = (MSV.ActualValue / MST.Target) * 100.0,
 	RolledUpToOutcome_ID = OC.Outcome_ID,
 	RolledUpToOutput_ID	= 0,
-	RolledUpToOutput_ID = PRJ.ProjectID,
+	RolledUpToProjectID = PRJ.ProjectID,
 	ReportingDate = MSv.ActualDate 
 FROM [app].[Outcome] AS oc
 INNER JOIN app.Project AS PRJ ON 
