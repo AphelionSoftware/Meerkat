@@ -87,7 +87,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,[ActualValue]
       ,[ActualLabel]
       ,i.[Output_ID]
-      ,i.[OutcomeID]
+      ,i.[Outcome_ID]
       ,iv.[BusinessKey]
       ,iv.[Notes]
       ,iv.ActualLabel Title
@@ -113,7 +113,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
       ,i.TargetDate
        ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+            ,RolledUpToOutcome_ID = ISNULL(i.Outcome_ID, o.Outcome_ID)
       ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
       ,RolledUpToSubOutput_ID = i.SubOutput_ID
       --,RolledUpToActivity_ID = i.Activity_ID

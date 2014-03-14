@@ -12,14 +12,14 @@ Declare @@MaxYear as INT = (
 	Select LEFT(MAX(RC.YearNumber),4 ) 
 		
 from app.Outcome oc
-	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
+	Left join app.Output OTP on OC.Outcome_ID = OTP.Outcome_ID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
 	--(act.ActivityID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
-	OC.OutcomeID = MST.OutcomeID)
+	OC.Outcome_ID = MST.Outcome_ID)
 
 
 	Left Outer Join RBM.IndicatorValues MSV on MSV.Indicator_ID=MST.IndicatorID
@@ -31,14 +31,14 @@ Declare @@MinYear as INT = (
 	Select LEFT(Min(RC.YearNumber),4 ) 
 		
 from app.Outcome oc
-	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
+	Left join app.Output OTP on OC.Outcome_ID = OTP.Outcome_ID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
 	--(act.ActivityID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
-	OC.OutcomeID = MST.OutcomeID)
+	OC.Outcome_ID = MST.Outcome_ID)
 
 
 	Left Outer Join RBM.IndicatorValues MSV on MSV.Indicator_ID=MST.IndicatorID
@@ -54,7 +54,7 @@ from app.Outcome oc
 
 Select 
 		(OC.Code + ' : ' + OC.LongName) as Outcome
-		,oc.OutcomeID as Outcome_ID
+		,oc.Outcome_ID as Outcome_ID
 		,(OTP.Code + ' : ' + OTP.LongName) as [Output]
 		,otp.Output_ID
 		,(STP.Code + ' : ' + STP.LongName) as SubOutput
@@ -72,20 +72,20 @@ Select
 				else 0
 			end)   PercentageCaptured
 			--,MSV.IndicatorStatusPercent as IndicatorProgressPercent
-			,OC.OutcomeID as RolledUpToOutcome_ID
+			,OC.Outcome_ID as RolledUpToOutcome_ID
 			,OTP.Output_ID as RolledUpToOutput_ID
 			,STP.SubOutput_ID as RolledUpToSubOutput_ID
 			,MSv.ActualDate as ReportingDate
 			
 from app.Outcome oc
-	Left join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
+	Left join app.Output OTP on OC.Outcome_ID = OTP.Outcome_ID
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
 	--(act.ActivityID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
-	OC.OutcomeID = MST.OutcomeID)
+	OC.Outcome_ID = MST.Outcome_ID)
 
 
 	Left Outer Join RBM.IndicatorValues MSV on MSV.Indicator_ID=MST.IndicatorID
@@ -93,7 +93,7 @@ from app.Outcome oc
 	inner Join Core.ReportCycle RCC on rcc.YearNumber Between @@MinYear and @@MaxYear
 	
 	
-Where (OC.OutcomeID Between @@OTCFilt and  @@Outcome_ID) and (MSV.DataVersion_ID=@@DataVersion_ID  or MSV.DataVersion_ID is null )
+Where (OC.Outcome_ID Between @@OTCFilt and  @@Outcome_ID) and (MSV.DataVersion_ID=@@DataVersion_ID  or MSV.DataVersion_ID is null )
 
 
 order by (OC.Code + ' : ' + OC.LongName)

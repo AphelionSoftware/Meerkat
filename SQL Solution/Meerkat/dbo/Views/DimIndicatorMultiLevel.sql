@@ -37,8 +37,8 @@ as
       ,LongNameLevel7 = null
       
       
-       ,TermSetID1 = RIGHT ('000' + Cast( oc.OutcomeID as varchar(50)), 4)
-      ,TermSetID2 = RIGHT ('000' + Cast( oc.OutcomeID as varchar(50)), 4) + 'Indicators'
+       ,TermSetID1 = RIGHT ('000' + Cast( oc.Outcome_ID as varchar(50)), 4)
+      ,TermSetID2 = RIGHT ('000' + Cast( oc.Outcome_ID as varchar(50)), 4) + 'Indicators'
       ,TermSetID3 = RIGHT ('000' + Cast(   i.IndicatorID as varchar(50)), 4)
       ,TermSetID4 = null
       ,TermSetID5 = null
@@ -50,7 +50,7 @@ as
 
       
        inner join app.Indicator I
-      on oc.OutcomeID = i.OutcomeID
+      on oc.Outcome_ID = i.Outcome_ID
            UNION ALL
       ------------------------------------
       --Outputs
@@ -88,7 +88,7 @@ as
       ,LongNameLevel5 = null
       ,LongNameLevel6 = null
       ,LongNameLevel7 = null
-      ,TermSetID1 = RIGHT ('000' + Cast( oc.OutcomeID  as varchar(50)), 4) 
+      ,TermSetID1 = RIGHT ('000' + Cast( oc.Outcome_ID  as varchar(50)), 4) 
       ,TermSetID2 = RIGHT ('000' + Cast(  otp.Output_ID  as varchar(50)), 4) 
       ,TermSetID3 = RIGHT ('000' +Cast(  otp.Output_ID as varchar(50)), 4)  + 'Indicators' 
       ,TermSetID4 = RIGHT ('000' +Cast( i.IndicatorID as varchar(50)), 4) 
@@ -99,7 +99,7 @@ as
       ,i.UnitOfMeasure
       from [app].[Outcome] oc
       inner join app.Output otp
-      on oc.OutcomeID = otp.OutcomeID
+      on oc.Outcome_ID = otp.Outcome_ID
 
       
        inner join app.Indicator I
@@ -138,7 +138,7 @@ as
       ,LongNameLevel5 = i.LongName
       ,LongNameLevel6 = null
       ,LongNameLevel7 = null
-       ,TermSetID1 = RIGHT ('000' + Cast( oc.OutcomeID as varchar(50)), 4)
+       ,TermSetID1 = RIGHT ('000' + Cast( oc.Outcome_ID as varchar(50)), 4)
       ,TermSetID2 = RIGHT ('000' +Cast(  otp.Output_ID as varchar(50)),4)
       ,TermSetID3 = RIGHT ('000' +Cast( so.SubOutput_ID as varchar(50)),4)
       ,TermSetID4 = RIGHT ('000' +Cast( so.SubOutput_ID as varchar(50)),4) + 'Indicators'
@@ -149,7 +149,7 @@ as
        ,i.UnitOfMeasure
       from [app].[Outcome] oc
       inner join app.Output otp
-      on oc.OutcomeID = otp.OutcomeID
+      on oc.Outcome_ID = otp.Outcome_ID
        inner join [app].[SubOutput] so
       on otp.Output_ID = so.Output_ID
       

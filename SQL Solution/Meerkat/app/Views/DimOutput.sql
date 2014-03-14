@@ -9,7 +9,7 @@ SELECT  [Output_ID]
       ,left(ShortName + ' : ' + left(LongName,80),255) as FullName
       ,Left(TextDescription,255) as TextDescription
       ,[BusinessKey]
-      ,[OutcomeID]
+      ,[Outcome_ID]
      -- ,[Target]
       ,[Code]
 

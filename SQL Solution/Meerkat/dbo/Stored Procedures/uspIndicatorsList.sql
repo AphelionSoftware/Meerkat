@@ -73,7 +73,7 @@ ISNULL([iv].[IndicatorValues_ID]  , 0) [IndicatorValues_ID]
         , i.UnitOfMeasure
       
         , i.[Output_ID]
-        , i.[OutcomeID]
+        , i.[Outcome_ID]
         , iv.[BusinessKey]
         , iv.[Notes]
         , iv.ActualLabel as Title
@@ -96,7 +96,7 @@ ISNULL([iv].[IndicatorValues_ID]  , 0) [IndicatorValues_ID]
         , BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
         , i.TargetDate
          , TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-              , RolledUpToOutcome_ID = ISNULL(i.OutcomeID  ,  o.OutcomeID)
+              , RolledUpToOutcome_ID = ISNULL(i.Outcome_ID  ,  o.Outcome_ID)
         , RolledUpToOutput_ID = ISNULL(i.Output_ID  ,  so.Output_ID)
         , RolledUpToSubOutput_ID = i.SubOutput_ID  
         /*, RolledUpToActivity_ID = i.Activity_ID*/
@@ -109,13 +109,13 @@ ISNULL([iv].[IndicatorValues_ID]  , 0) [IndicatorValues_ID]
 	
 	
 	
-	  , OutcomeMDX  = '[Outcome].[Outcome].%26[' + CAST (om.OutcomeID  as varchar(8)) + ']'
+	  , OutcomeMDX  = '[Outcome].[Outcome].%26[' + CAST (om.Outcome_ID  as varchar(8)) + ']'
 	  , OutputMDX = '[Output].[Output].%26[' + CAST (o.Output_ID as varchar(8))  + ']'
 	  , SubOutputMDX = '[Sub Output].[Sub Output].%26[' + CAST (SO.SubOutput_ID as varchar(8)) + ']'
 	
 	  ,  ParentMDX =  
-	CASE WHEN i.OutcomeID IS Not NULL 
-	THEN '[Outcome].[Outcome].%26[' + CAST (i.OutcomeID  as varchar(8)) + ']'
+	CASE WHEN i.Outcome_ID IS Not NULL 
+	THEN '[Outcome].[Outcome].%26[' + CAST (i.Outcome_ID  as varchar(8)) + ']'
 	
 	WHEN i.Output_ID IS Not NULL 
 	THEN '[Output].[Output].%26[' + CAST (i.Output_ID as varchar(8))  + ']'
@@ -142,8 +142,8 @@ on i.Output_ID = o.Output_ID
 OR so.Output_ID = o.Output_ID
 
 LEFT OUTER JOIN [app].[Outcome] om
-on i.OutcomeID = om.OutcomeID
-OR o.OutcomeID = om.OutcomeID
+on i.Outcome_ID = om.Outcome_ID
+OR o.Outcome_ID = om.Outcome_ID
 
 
 LEFT JOIN Core.DimDate DDStart
@@ -156,7 +156,7 @@ on rc.EndDateID= DDEnd.DateID
 --on iv.NextReportingPeriodReleaseDate_ID = DDNext.DateKey
 
 Where 
- ( i.OutcomeID  = @Outcome_ID OR @Outcome_ID = 0)
+ ( i.Outcome_ID  = @Outcome_ID OR @Outcome_ID = 0)
 AND (i.Output_ID  = @Output_ID OR @Output_ID = 0)
 AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0) 
 AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is null)

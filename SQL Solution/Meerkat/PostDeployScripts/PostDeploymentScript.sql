@@ -302,7 +302,7 @@ SET IDENTITY_INSERT [app].[Outcome] ON
 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -321,10 +321,10 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 1 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 1 ) 
  
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -343,10 +343,10 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 2 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 2 ) 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -365,11 +365,11 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 3 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 3 ) 
 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -388,11 +388,11 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 4 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 4 ) 
 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -411,11 +411,11 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 5 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 5 ) 
 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -434,10 +434,10 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 6 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 6 ) 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -456,11 +456,11 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 7 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 7 ) 
 
 
 INSERT  [app].[Outcome]
-        ( [app].[Outcome].[OutcomeID] ,
+        ( [app].[Outcome].[Outcome_ID] ,
           [app].[Outcome].[Code] ,
           [app].[Outcome].[LongName] ,
           [app].[Outcome].[BusinessKey] ,
@@ -479,7 +479,7 @@ INSERT  [app].[Outcome]
                 0
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   [app].[Outcome]
-                             WHERE  [app].[Outcome].[OutcomeID] = 8 ) 
+                             WHERE  [app].[Outcome].[Outcome_ID] = 8 ) 
 
 SET IDENTITY_INSERT [app].[Outcome]  OFF
 
@@ -787,7 +787,7 @@ INSERT INTO [app].[Output]
            ([Code]
            ,[LongName]
            ,[BusinessKey]
-           ,[OutcomeID]
+           ,[Outcome_ID]
            ,[ShortName]
            ,[TextDescription]
            )
@@ -795,7 +795,7 @@ INSERT INTO [app].[Output]
            'OTP2.1'
            ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
            ,'OTP2.1'
-           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,(SELECT Outcome_ID FROM app.Outcome WHERE Code = 'Outcome 2') 
            ,'Full Primary Schooling'
            ,'Ensure that, by 2015, children everywhere, boys and girls alike, will be able to complete a full course of primary schooling'
     WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.1')
@@ -805,7 +805,7 @@ INSERT INTO [app].[Output]
            'OTP2.2'
            ,'Incentivise good schooling practises in schools'
            ,'OTP2.2'
-           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,(SELECT Outcome_ID FROM app.Outcome WHERE Code = 'Outcome 2') 
            ,'Good schooling practices'
            ,'Incentivise good schooling practises in schools'
     WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.2')
@@ -814,7 +814,7 @@ INSERT INTO [app].[Output]
            'OTP2.3'
            ,'Ensure the schools are well managed'
            ,'OTP2.3'
-           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,(SELECT Outcome_ID FROM app.Outcome WHERE Code = 'Outcome 2') 
            ,'Well managed schools'
            ,'Ensure the schools are well managed'
     WHERE NOT EXISTS (SELECT 1 FROM app.Output where code = 'OTP2.3' )
@@ -1727,7 +1727,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,[ActualValue]
       ,[ActualLabel]
       ,i.[Output_ID]
-      ,i.[OutcomeID]
+      ,i.[Outcome_ID]
       ,iv.[BusinessKey]
       ,iv.[Notes]
       ,iv.ActualLabel Title
@@ -1753,7 +1753,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
       ,i.TargetDate
        ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+            ,RolledUpToOutcome_ID = ISNULL(i.Outcome_ID, o.Outcome_ID)
       ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
       ,RolledUpToSubOutput_ID = i.SubOutput_ID
       --,RolledUpToActivity_ID = i.Activity_ID
@@ -1898,7 +1898,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,[ActualValue]
       ,[ActualLabel]
       ,i.[Output_ID]
-      ,i.[OutcomeID]
+      ,i.[Outcome_ID]
       ,iv.[BusinessKey]
       ,iv.[Notes]
       ,iv.ActualLabel Title
@@ -1924,7 +1924,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       ,BaselineDate_ID = (YEAR(i.BaselineDate) * 10000)  + (MONTH(i.BaselineDate) * 100) + DAY(i.BaselineDate)
       ,i.TargetDate
        ,TargetDate_ID = (YEAR(i.TargetDate) * 10000)  + (MONTH(i.TargetDate) * 100) + DAY(i.TargetDate)
-            ,RolledUpToOutcome_ID = ISNULL(i.OutcomeID, o.OutcomeID)
+            ,RolledUpToOutcome_ID = ISNULL(i.Outcome_ID, o.Outcome_ID)
       ,RolledUpToOutput_ID = ISNULL(i.Output_ID, so.Output_ID)
       ,RolledUpToSubOutput_ID = i.SubOutput_ID
       --,RolledUpToActivity_ID = i.Activity_ID
@@ -2003,14 +2003,14 @@ GO
 INSERT INTO [app].[Project]
            ([Code]
            ,[LongName]
-           ,[OutcomeID]
+           ,[Outcome_ID]
            ,[ShortName]
            ,[TextDescription]
            )
      SELECT
            'PRJ2.1'
            ,'Build new schools'
-           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,(SELECT Outcome_ID FROM app.Outcome WHERE Code = 'Outcome 2') 
            ,'Build new schools'
            ,'Build new schools'
     WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.1')
@@ -2019,7 +2019,7 @@ INSERT INTO [app].[Project]
      SELECT
            'PRJ2.2'
            ,'Add canteens to existing schools'
-           ,(SELECT OutcomeID FROM app.Outcome WHERE Code = 'Outcome 2') 
+           ,(SELECT Outcome_ID FROM app.Outcome WHERE Code = 'Outcome 2') 
            ,'Add canteens to existing schools'
            ,'Add canteens to existing schools'
     WHERE NOT EXISTS (SELECT 1 FROM app.Project where code = 'PRJ2.2')
@@ -2326,17 +2326,17 @@ where not exists (select 1 FROM [RBM].[StatusValues] SV where SV.SubOutput_ID = 
 
 
 INSERT INTO [RBM].[StatusValues]
-           ([OutcomeID]
+           ([Outcome_ID]
            , [LocationID] ,[StatusTypeID]
            ,[ReportingPeriodID]
            ,[DataVersionID]
            )
-select OutcomeID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by outcomeid)) - .71355) * 10000),0) as int) % 3
+select Outcome_ID ,(SELECT Location_ID FROM [Core].[Location] WHERE Code = 'KE') , cast(ROUND(((rand( ROW_NUMBER() over (order by Outcome_ID)) - .71355) * 10000),0) as int) % 3
 ,RP.ID
 ,1
 from app.Outcome OM
 JOIN core.ReportingPeriod RP 
 on startdateid between 20130101 and 20131001
-where not exists (select 1 FROM [RBM].[StatusValues] SV where SV.OutcomeID = OM.OutcomeID and sv.ReportingPeriodID = rp.ID)
+where not exists (select 1 FROM [RBM].[StatusValues] SV where SV.Outcome_ID = OM.Outcome_ID and sv.ReportingPeriodID = rp.ID)
 
 /*end Insert status values*/

@@ -138,7 +138,7 @@ SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
       --,iv.Title
       ,ISNULL(iv.[DataVersion_ID],-1) DataVersion_ID
       --,ISNULL(iv.Location_ID,-1) Location_ID
-      ,RolledUpToOutcome_ID = ISNULL(TargetFIV.OutcomeID, o.OutcomeID)
+      ,RolledUpToOutcome_ID = ISNULL(TargetFIV.Outcome_ID, o.Outcome_ID)
       ,RolledUpToOutput_ID = ISNULL(TargetFIV.Output_ID, so.Output_ID)
       ,RolledUpToSubOutput_ID = TargetFIV.SubOutput_ID
     ,so.ShortName as SubOutputSN
@@ -158,7 +158,7 @@ SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
           ,i.Target [TargetValue]
           ,i.TargetString [TargetValueString]
           ,i.[Output_ID]
-          ,i.[OutcomeID]
+          ,i.[Outcome_ID]
           ,rc.ReportingPeriod ReportCycle
           ,i.ShortName
           ,i.Code
@@ -215,8 +215,8 @@ LEFT JOIN app.Output O
         OR SO.Output_ID = O.Output_ID
 
 LEFT JOIN app.Outcome OM 
-    ON TargetFIV.OutcomeID = OM.OutcomeID
-        OR  O.OutcomeID = OM.OutcomeID
+    ON TargetFIV.Outcome_ID = OM.Outcome_ID
+        OR  O.Outcome_ID = OM.Outcome_ID
 
 
 ) FIV

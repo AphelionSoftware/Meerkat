@@ -10,13 +10,13 @@ ID = 100 * dso.SubOutput_ID,
 Parent = (SELECT ID 
           FROM   [mm].[ALL_OutcomeMenuGroup] G 
           WHERE  G.Title = dso.ShortName 
-                 AND G.OutcomeID = do.OutcomeID), 
-do.OutcomeID 
+                 AND G.Outcome_ID = do.Outcome_ID), 
+do.Outcome_ID 
 FROM   [app].[SubOutput] dso 
 INNER JOIN app.Output do 
         ON dso.Output_ID = do.Output_ID 
 INNER JOIN [app].[Outcome] AS OC 
-        ON do.OutcomeID = oc.OutcomeID 
+        ON do.Outcome_ID = oc.Outcome_ID 
 WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
 SELECT Title = 'Location Indicator Details', 
@@ -29,13 +29,13 @@ Priority = 100 * dso.SubOutput_ID,
 Parent = (SELECT ID 
    FROM   [mm].[ALL_OutcomeMenuGroup] G 
    WHERE  G.Title = dso.ShortName 
-          AND G.OutcomeID = DO.OutcomeID), 
-do.OutcomeID 
+          AND G.Outcome_ID = DO.Outcome_ID), 
+do.Outcome_ID 
 FROM   [app].[SubOutput] dso 
 INNER JOIN app.Output do 
         ON dso.Output_ID = do.Output_ID 
 INNER JOIN [app].[Outcome] AS OC 
-        ON do.OutcomeID = oc.OutcomeID 
+        ON do.Outcome_ID = oc.Outcome_ID 
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 UNION ALL 
 SELECT Title = Da.ShortName, 
@@ -49,14 +49,14 @@ Parent = (SELECT SRC.ID + P.ProjectID AS ID
                  CROSS apply (SELECT ID 
                               FROM   mm.ALL_OutcomeMenuCategory O2MC 
                               WHERE  Title = 'Projects'
-							  AND O2MC.OutcomeID = OC.OutcomeID
+							  AND O2MC.Outcome_ID = OC.Outcome_ID
 							  ) Src 
-          WHERE  OutcomeID = dp.OutcomeID 
+          WHERE  Outcome_ID = dp.Outcome_ID 
                  AND P.ProjectID = da.ProjectID), 
-Dp.OutcomeID 
+Dp.Outcome_ID 
 FROM   app.Activity da 
 INNER JOIN app.Project dp 
         ON da.ProjectID = dp.ProjectID 
 INNER JOIN [app].[Outcome] AS OC 
-        ON dp.OutcomeID = oc.OutcomeID 
+        ON dp.Outcome_ID = oc.Outcome_ID 
 WHERE  da.Active = 1 AND dp.Active = 1 AND oc.Active = 1

@@ -9,7 +9,7 @@ AS
             [t].[Link] ,
             [t].[Parent] ,
             [t].[ID] ,
-            [t].[OutcomeID]
+            [t].[Outcome_ID]
     FROM    ( SELECT    dso.Code AS orderBy1 ,
                         1 AS orderby2 ,
                         dso.ShortName AS Title ,
@@ -20,13 +20,13 @@ AS
                         ( SELECT    [mm].[ALL_OutcomeMenuCategory].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory
                           WHERE     ( [mm].[ALL_OutcomeMenuCategory].[Title] = do.ShortName )
-                                    AND [mm].[ALL_OutcomeMenuCategory].[OutcomeID] = do.OutcomeID
+                                    AND [mm].[ALL_OutcomeMenuCategory].[Outcome_ID] = do.Outcome_ID
                         ) AS Parent ,
                         1 - dso.SubOutput_ID + 5000 AS ID ,
-                        do.OutcomeID
+                        do.Outcome_ID
               FROM      [app].[SubOutput] AS dso
                         INNER JOIN app.Output AS do ON dso.Output_ID = do.Output_ID
-                        INNER JOIN [app].[Outcome] AS OC ON do.OutcomeID = oc.OutcomeID
+                        INNER JOIN [app].[Outcome] AS OC ON do.Outcome_ID = oc.Outcome_ID
               WHERE     dso.Active = 1
                         AND do.Active = 1
                         AND oc.Active = 1
@@ -41,12 +41,12 @@ AS
                         ( SELECT    [mm].[ALL_OutcomeMenuCategory].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory
                           WHERE     ( [mm].[ALL_OutcomeMenuCategory].[Title] = do.ShortName )
-                                    AND [mm].[ALL_OutcomeMenuCategory].[OutcomeID] = do.OutcomeID
+                                    AND [mm].[ALL_OutcomeMenuCategory].[Outcome_ID] = do.Outcome_ID
                         ) AS Parent ,
                         100 + do.Output_ID AS ID ,
-                        dom.OutcomeID
+                        dom.Outcome_ID
               FROM      app.Output AS do
-                        INNER JOIN [app].[Outcome] AS dom ON do.OutcomeID = dom.OutcomeID
+                        INNER JOIN [app].[Outcome] AS dom ON do.Outcome_ID = dom.Outcome_ID
               WHERE     do.Active = 1
                         AND dom.Active = 1
               UNION ALL
@@ -58,10 +58,10 @@ AS
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_2
                           WHERE     ( [OMC_2].[Title] = 'Outcome Pages' )
-                                    AND OMC_2.OutcomeID = O.OutcomeID
+                                    AND OMC_2.Outcome_ID = O.Outcome_ID
                         ) AS Parent ,
                         20 AS ID ,
-                        [O].[OutcomeID]
+                        [O].[Outcome_ID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
 
@@ -71,14 +71,14 @@ AS
                         'Outcome Level Indicators' AS Title ,
                         '/' + [O].[OutcomeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=[Outcome].[Outcome].%26['
-                        + CAST(O.OutcomeID AS VARCHAR(8)) + ']' AS Link ,
+                        + CAST(O.Outcome_ID AS VARCHAR(8)) + ']' AS Link ,
                         ( SELECT    [OMC_7].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_7
                           WHERE     ( [OMC_7].[Title] = 'Outcome Pages' )
-                                    AND OMC_7.OutcomeID = O.OutcomeID
+                                    AND OMC_7.Outcome_ID = O.Outcome_ID
                         ) AS Parent ,
                         70 AS ID ,
-                        [O].[OutcomeID]
+                        [O].[Outcome_ID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
               UNION ALL
@@ -90,10 +90,10 @@ AS
                         ( SELECT    [OMC_4].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_4
                           WHERE     ( [OMC_4].[Title] = 'Outcome Pages' )
-                                    AND OMC_4.OutcomeID = O.OutcomeID
+                                    AND OMC_4.Outcome_ID = O.Outcome_ID
                         ) AS Parent ,
                         40 AS ID ,
-                        [O].[OutcomeID]
+                        [O].[Outcome_ID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
               UNION ALL
@@ -105,10 +105,10 @@ AS
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_2
                           WHERE     ( [OMC_2].[Title] = 'Outcome Pages' )
-                                    AND OMC_2.OutcomeID = O.OutcomeID
+                                    AND OMC_2.Outcome_ID = O.Outcome_ID
                         ) AS Parent ,
                         20 AS ID ,
-                        [O].[OutcomeID]
+                        [O].[Outcome_ID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
               UNION ALL
@@ -119,10 +119,10 @@ AS
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_OutcomeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Outcome Pages' )
-                                    AND OMC_1.OutcomeID = O.OutcomeID
+                                    AND OMC_1.Outcome_ID = O.Outcome_ID
                         ) AS Parent ,
                         10 AS ID ,
-                        [O].[OutcomeID]
+                        [O].[Outcome_ID]
               FROM      [app].[Outcome] O
               WHERE     [O].[Active] = 1
 
@@ -133,12 +133,12 @@ AS
                         '' AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + P.ProjectID AS ID ,
-                        [P].[OutcomeID]
+                        [P].[Outcome_ID]
               FROM      app.Project P
                         CROSS APPLY ( SELECT    [mm].[ALL_OutcomeMenuCategory].[ID]
                                       FROM      mm.ALL_OutcomeMenuCategory
                                       WHERE     [mm].[ALL_OutcomeMenuCategory].[Title] = 'Projects'
-                                                AND [mm].[ALL_OutcomeMenuCategory].[OutcomeID] = P.OutcomeID
+                                                AND [mm].[ALL_OutcomeMenuCategory].[Outcome_ID] = P.Outcome_ID
                                     ) Src
             ) AS t
     ORDER BY [t].[orderBy1] ,

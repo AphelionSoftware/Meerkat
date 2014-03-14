@@ -1,6 +1,6 @@
 ﻿
 --CREATE PROC [dbo].[rptActivityStatusValues]
---( @OutcomeID int ,
+--( @Outcome_ID int ,
 --@ReportingPeriodID int)
 --as
 
@@ -15,10 +15,10 @@
 			
 --FROM [app].[Outcome] OM 
 --	INNER JOIN app.Indicator OmI 
---	ON OM.OutcomeID = OMI.OutcomeID
+--	ON OM.Outcome_ID = OMI.Outcome_ID
 --		AND OMI.IndicatorType_ID = 6
 --	Inner JOIN app.Output OP
---		ON OM.OutcomeID = PR.OutcomeID 
+--		ON OM.Outcome_ID = PR.Outcome_ID 
 	
 --	INNER JOIN RBM.IndicatorValues OMIV
 --		ON OMI.IndicatorID = OMIV.Indicator_ID
@@ -41,8 +41,8 @@
 --	INNER JOIN RBM.IndicatorValues SOIV
 --		ON SOI.IndicatorID = SOIV.Indicator_ID
 
---	WHERE (OM.OutcomeID = @OutcomeID 
---			OR @OutcomeID = 0)
+--	WHERE (OM.Outcome_ID = @Outcome_ID 
+--			OR @Outcome_ID = 0)
 --		AND
 --			(
 --				OMIV.ReportPeriodID = @ReportingPeriodID
@@ -58,7 +58,7 @@
 --	,PR.ShortName as ProjectName
 --	,ACT.ShortName As ActivityName
 --	,CASE 
---	WHEN OMI.OutcomeID IS NOT NULL
+--	WHEN OMI.Outcome_ID IS NOT NULL
 --		THEN OMIV.IndicatorStatusValuesPercent 
 --		ELSE NULL 
 --		END OutcomeStatusValues
@@ -76,10 +76,10 @@
 			
 --FROM [app].[Outcome] OM 
 --	INNER JOIN app.Indicator OmI 
---	ON OM.OutcomeID = OMI.OutcomeID
+--	ON OM.Outcome_ID = OMI.Outcome_ID
 --		AND OMI.IndicatorType_ID = 6
 --	Inner JOIN app.Project PR
---		ON OM.OutcomeID = PR.OutcomeID 
+--		ON OM.Outcome_ID = PR.Outcome_ID 
 	
 --	INNER JOIN RBM.IndicatorValues OMIV
 --		ON OMI.IndicatorID = OMIV.Indicator_ID
@@ -103,8 +103,8 @@
 --	INNER JOIN RBM.IndicatorValues SOIV
 --		ON SOI.IndicatorID = SOIV.Indicator_ID
 
---	WHERE (OM.OutcomeID = @OutcomeID 
---			OR @OutcomeID = 0)
+--	WHERE (OM.Outcome_ID = @Outcome_ID 
+--			OR @Outcome_ID = 0)
 --		AND
 --			(
 --				OMIV.ReportPeriodID = @ReportingPeriodID

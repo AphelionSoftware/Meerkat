@@ -1,6 +1,6 @@
 ﻿CREATE PROC [dbo].[rptIndicatorStatusValues]
 ( 
-	@OutcomeID int ,
+	@Outcome_ID int ,
 	@ReportingPeriodID int
 )
 AS
@@ -11,7 +11,7 @@ SELECT
 	,OP.ShortName as OutputName
 	,SO.ShortName As SubOutputname
 	--,CASE 
-	--WHEN OMI.OutcomeID IS NOT NULL
+	--WHEN OMI.Outcome_ID IS NOT NULL
 	--	THEN OMIV.IndicatorStatusValuesPercent 
 	--	ELSE NULL 
 	--	END OutcomeStatusValues
@@ -29,10 +29,10 @@ SELECT
 			
 FROM [app].[Outcome] OM 
 	INNER JOIN app.Indicator OmI 
-	ON OM.OutcomeID = OMI.OutcomeID
+	ON OM.Outcome_ID = OMI.Outcome_ID
 		AND OMI.IndicatorType_ID = 6
 	Inner JOIN app.Output OP
-		ON OM.OutcomeID = OP.OutcomeID 
+		ON OM.Outcome_ID = OP.Outcome_ID 
 	
 	INNER JOIN RBM.IndicatorValues OMIV
 		ON OMI.IndicatorID = OMIV.Indicator_ID
@@ -55,8 +55,8 @@ FROM [app].[Outcome] OM
 	INNER JOIN RBM.IndicatorValues SOIV
 		ON SOI.IndicatorID = SOIV.Indicator_ID
 
-	WHERE (OM.OutcomeID = @OutcomeID 
-			OR @OutcomeID = 0)
+	WHERE (OM.Outcome_ID = @Outcome_ID 
+			OR @Outcome_ID = 0)
 		AND
 			(
 				OMIV.ReportPeriodID = @ReportingPeriodID

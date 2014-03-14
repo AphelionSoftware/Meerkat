@@ -2,7 +2,7 @@
     (
       [StatusValuesID] INT IDENTITY(1, 1) NOT NULL ,
       [Output_ID] INT NULL ,
-      [OutcomeID] INT NULL ,
+      [Outcome_ID] INT NULL ,
       [Activity_ID] INT NULL ,
       [SubOutput_ID] INT NULL ,
       [ProjectID] INT NULL ,
@@ -28,7 +28,7 @@
                                                               ELSE ( 0 )
                                                               END )
                                                               + CASE
-                                                              WHEN [StatusValues].[OutcomeID] IS NOT NULL
+                                                              WHEN [StatusValues].[Outcome_ID] IS NOT NULL
                                                               THEN ( 1 )
                                                               ELSE ( 0 )
                                                               END )
@@ -44,7 +44,7 @@
                                                               END ) = ( 1 ) ) ,
       CONSTRAINT [FK_StatusValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]) ,
       CONSTRAINT [FK_StatusValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([ActivityID]) ,
-      CONSTRAINT [FK_StatusValues_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]) ,
+      CONSTRAINT [FK_StatusValues_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]) ,
       CONSTRAINT [FK_StatusValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]) ,
       CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]) ,
       CONSTRAINT [FK_StatusValues_ReportingPeriod] FOREIGN KEY (ReportingPeriodID) REFERENCES Core.ReportingPeriod (ID) ,

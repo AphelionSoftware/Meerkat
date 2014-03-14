@@ -6,7 +6,7 @@ AS
 
 SELECT
 	Outcome = (OC.Code + ' : ' + OC.LongName),
-	Outcome_ID = oc.OutcomeID, 
+	Outcome_ID = oc.Outcome_ID, 
 	[Output] = '',
 	Output_ID = 0,
 	Project = (PRJ.Code + ' : ' + PRJ.LongName),
@@ -26,13 +26,13 @@ SELECT
 			ELSE 0
 		END,
 	MilestoneProgressPercent = (MSV.ActualValue / MST.Target) * 100.0,
-	RolledUpToOutcome_ID = OC.OutcomeID,
+	RolledUpToOutcome_ID = OC.Outcome_ID,
 	RolledUpToOutput_ID	= 0,
 	RolledUpToOutput_ID = PRJ.ProjectID,
 	ReportingDate = MSv.ActualDate 
 FROM [app].[Outcome] AS oc
 INNER JOIN app.Project AS PRJ ON 
-	oc.OutcomeID = PRJ.OutcomeID
+	oc.Outcome_ID = PRJ.Outcome_ID
 INNER JOIN app.Activity AS ACT ON 
 	PRJ.ProjectID = ACT.ProjectID
 INNER JOIN app.Milestone AS MST ON act.ActivityID = mst.ActivityID
@@ -44,7 +44,7 @@ INNER JOIN Core.ReportCycle AS RC ON
 LEFT OUTER JOIN Core.ReportCycle AS RCC ON 
 	rc.YearNumber=RCC.YearNumber
 WHERE  
-	(OC.OutcomeID = @Outcome_ID OR @Outcome_ID = 0)
+	(OC.Outcome_ID = @Outcome_ID OR @Outcome_ID = 0)
 ORDER BY
 	(OC.Code + ' : ' + OC.LongName),
     (PRJ.Code + ' : ' + PRJ.LongName),
