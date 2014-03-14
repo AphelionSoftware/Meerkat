@@ -17,10 +17,10 @@
     [MilestoneTypeID] INT             NOT NULL,
     [ActivityID]      INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
-    [BaselineDateID]  AS              ((datepart(year,[BaselineDate])*(10000)+datepart(month,[baselineDate])*(100))+datepart(day,[BaselineDate])),
-    [TargetDateID]    AS              ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),
+	[BaselineDate_ID]  AS (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
+	[TargetDate_ID]  AS (CONVERT([int],CONVERT([varchar](8),[TargetDate],(112)))),
     [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
-    [Active]          INT             CONSTRAINT [DF__Milestone__sys_A__5F492382] DEFAULT ((1)) NOT NULL,
+    [Active]          INT             CONSTRAINT [DF_Milestone_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME        CONSTRAINT [DF_Milestone_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -30,7 +30,7 @@
     CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
     CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
-    UNIQUE NONCLUSTERED ([Code] ASC)
+    CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
 
