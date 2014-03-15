@@ -42,8 +42,8 @@ SELECT Title = Da.ShortName,
 Link = '/' + [OutcomeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsActivity='
-	+ Cast(da.ActivityID AS VARCHAR(8)) , 
-Priority = 1 - da.ActivityID + 5000, 
+	+ Cast(da.Activity_ID AS VARCHAR(8)) , 
+Priority = 1 - da.Activity_ID + 5000, 
 Parent = (SELECT SRC.ID + P.ProjectID AS ID 
           FROM   app.Project P 
                  CROSS apply (SELECT ID 

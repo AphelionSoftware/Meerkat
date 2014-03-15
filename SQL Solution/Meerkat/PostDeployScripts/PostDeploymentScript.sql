@@ -1798,7 +1798,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
     
     
 /*LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID*/
+on i.Activity_ID = a.Activity_ID*/
 LEFT OUTER JOIN [app].[SubOutput] SO
 on i.SubOutput_ID = so.SubOutput_ID 
 
@@ -1969,7 +1969,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
     
     
 /*LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID*/
+on i.Activity_ID = a.Activity_ID*/
 LEFT OUTER JOIN [app].[SubOutput] SO
 on i.SubOutput_ID = so.SubOutput_ID 
 
@@ -2092,7 +2092,7 @@ INSERT INTO [app].[Milestone]
            ,[BusinessKey]
            ,[Code]
            ,MilestoneTypeID
-           ,[ActivityID]
+           ,[Activity_ID]
            ,[ShortName]
            ,[UnitOfMeasure])
 
@@ -2105,7 +2105,7 @@ INSERT INTO [app].[Milestone]
            ,'#'
            ,'M2.1.2.1'
            ,5
-           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,(Select Activity_ID from app.Activity  where code = 'ACT2.1.2')
            ,'Identify work committee'
            ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.1')
@@ -2120,7 +2120,7 @@ INSERT INTO [app].[Milestone]
            ,'#'
            ,'M2.1.2.2'
            ,5
-           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,(Select Activity_ID from app.Activity  where code = 'ACT2.1.2')
            ,'Choose methodology'
            ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.2')
@@ -2137,7 +2137,7 @@ INSERT INTO [app].[Milestone]
            ,'#'
            ,'M2.1.2.3'
            ,5
-           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,(Select Activity_ID from app.Activity  where code = 'ACT2.1.2')
            ,'Create draft plan'
            ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.3')
@@ -2154,7 +2154,7 @@ INSERT INTO [app].[Milestone]
            ,'#'
            ,'M2.1.2.4'
            ,5
-           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,(Select Activity_ID from app.Activity  where code = 'ACT2.1.2')
            ,'Ratify plan with executive'
            ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.4')
@@ -2171,7 +2171,7 @@ INSERT INTO [app].[Milestone]
            ,'#'
            ,'M2.1.2.5'
            ,5
-           ,(Select ActivityID from app.Activity  where code = 'ACT2.1.2')
+           ,(Select Activity_ID from app.Activity  where code = 'ACT2.1.2')
            ,'Ratify plan with provinces'
            ,'Number'
            WHERE NOT EXISTS (SELECT 1 FROM app.Milestone where code = 'M2.1.2.5')

@@ -158,7 +158,7 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
     
     
 /*LEFT OUTER JOIN app.Activity a
-on i.Activity_ID = a.ActivityID*/
+on i.Activity_ID = a.Activity_ID*/
 LEFT OUTER JOIN [app].[SubOutput] SO
 on i.SubOutput_ID = so.SubOutput_ID 
 

@@ -96,7 +96,7 @@
 --		ON PR.ProjectID = ACT.ProjectID
 --	 INNER JOIN app.Indicator SOI 
 --	 /* MGS Fixed */
---	ON ACT.ActivityID = SOI.Activity_ID 
+--	ON ACT.Activity_ID = SOI.Activity_ID 
 --	 AND SOI.IndicatorType_ID = 6
 
 	 

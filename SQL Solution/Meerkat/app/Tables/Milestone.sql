@@ -15,7 +15,7 @@
     [Notes]           NVARCHAR (MAX)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
-    [ActivityID]      INT             NULL,
+    [Activity_ID]      INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
 	[BaselineDateID]  AS (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
 	[TargetDateID]  AS (CONVERT([int],CONVERT([varchar](8),[TargetDate],(112)))),
@@ -27,7 +27,7 @@
     [sys_ModifiedOn]  DATETIME        CONSTRAINT [DF_Milestone_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Milestone] PRIMARY KEY CLUSTERED ([MilestoneID] ASC),
     CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
+    CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
     CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)

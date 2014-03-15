@@ -16,7 +16,7 @@ from app.Outcome oc
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
-	--(act.ActivityID = mst.Activity_ID or 
+	--(act.Activity_ID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
 	OC.Outcome_ID = MST.Outcome_ID)
@@ -35,7 +35,7 @@ from app.Outcome oc
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
-	--(act.ActivityID = mst.Activity_ID or 
+	--(act.Activity_ID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
 	OC.Outcome_ID = MST.Outcome_ID)
@@ -60,7 +60,7 @@ Select
 		,(STP.Code + ' : ' + STP.LongName) as SubOutput
 		,stp.SubOutput_ID
 		--,(ACT.Code + ' : ' + ACT.LongName) as Activity
-		--,act.ActivityID as Activity_ID
+		--,act.Activity_ID as Activity_ID
 		,(MST.Code + ' : ' + MST.LongName) as Indicator
 		,mst.IndicatorID as Indicator_ID
 			,LEFT(RC.YearNumber,4 ) Year
@@ -82,7 +82,7 @@ from app.Outcome oc
 	Left join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
 	--Left join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
 	Left join app.Indicator MST on 
-	--(act.ActivityID = mst.Activity_ID or 
+	--(act.Activity_ID = mst.Activity_ID or 
 	(stp.SubOutput_ID = MST.SubOutput_ID or
 	OTP.Output_ID = MST.Output_ID or
 	OC.Outcome_ID = MST.Outcome_ID)

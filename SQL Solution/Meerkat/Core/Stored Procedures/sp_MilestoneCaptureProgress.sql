@@ -12,7 +12,7 @@ SELECT
 	Project = (PRJ.Code + ' : ' + PRJ.LongName),
 	PRJ.ProjectID,
 	Activity = (ACT.Code + ' : ' + ACT.LongName), 
-	Activity_ID = act.ActivityID, 
+	Activity_ID = act.Activity_ID, 
 	Milestone = (MST.Code + ' : ' + MST.LongName),
 	Milestone_ID = mst.MilestoneID,
 	[Year] = LEFT(RCC.YearNumber,4),
@@ -35,7 +35,7 @@ INNER JOIN app.Project AS PRJ ON
 	oc.Outcome_ID = PRJ.Outcome_ID
 INNER JOIN app.Activity AS ACT ON 
 	PRJ.ProjectID = ACT.ProjectID
-INNER JOIN app.Milestone AS MST ON act.ActivityID = mst.ActivityID
+INNER JOIN app.Milestone AS MST ON act.Activity_ID = mst.Activity_ID
 LEFT OUTER JOIN RBM.MilestoneValues AS MSV ON 
 	MSV.Milestone_ID=MST.MilestoneID
 	AND (MSV.DataVersion_ID = @DataVersion_ID OR @DataVersion_ID = 0)

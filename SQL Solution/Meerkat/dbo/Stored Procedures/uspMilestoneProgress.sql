@@ -63,7 +63,7 @@
 --  join app.Milestone m
 --    on mv.Milestone_ID = m.MilestoneID
 --  join app.Activity a
---    on m.ActivityID = a.ActivityID
+--    on m.Activity_ID = a.Activity_ID
 --  join Core.ReportingPeriod rp
 --    on rp.ID = mv.ReportPeriodID
 --  join Core.DataVersion DDV 

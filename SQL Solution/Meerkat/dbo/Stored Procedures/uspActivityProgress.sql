@@ -91,8 +91,8 @@ mv.DataVersion_ID,
   AND MV.ReportPeriodID = RP.ID
   
    JOIN app.Activity a
-    on m.ActivityID = a.ActivityID
-	and (m.ActivityID = @Activity_ID or @Activity_ID = 0)
+    on m.Activity_ID = a.Activity_ID
+	and (m.Activity_ID = @Activity_ID or @Activity_ID = 0)
 	JOIN  app.Project P
 	on a.ProjectID = P.ProjectID
 
