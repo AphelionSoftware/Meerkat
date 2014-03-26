@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.support.cors = true;
+
+            var tableText = "<table><thead><tr><th>ID</th><th>Name</th><th>Gender</th><th>Species</th></tr></thead><tbody>";
+
+            //var url = "http://localhost:50000/?tableName=Astronauts&callback=?";
+            var url = "http://196.33.19.32:8080/?commandText=SELECT * FROM Capture.IndicatorLastThree WHERE IndicatorJSONCode= %27Indicator STP8.1.1D1%27&callback=?";
+            //var url = "http://localhost:50000/?commandText=SELECT Name FROM Astronauts ORDER BY Name DESC&callback=?";
+            $.getJSON(url, function (results) {
+                $.each(results, function (index, value) {
+                    tableText += "<tr><td>" + value.dictionary.ID + "</td><td>" + value.dictionary.Name + "</td><td>" + value.dictionary.Sex + "</td><td>" + value.dictionary.Species + "</td></tr>";
+                });
+
+                tableText += "</tbody></table>";
+                $("#replaceme").html(tableText);
+            });
+        });
+</script>
+</head>
+<body>
+    <div id="replaceme" />
+</body>
+</html>
