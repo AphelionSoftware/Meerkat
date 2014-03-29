@@ -1,4 +1,3 @@
-﻿CREATE SCHEMA [RBM]
+﻿CREATE SCHEMA [forms]
     AUTHORIZATION [dbo];
-
 
