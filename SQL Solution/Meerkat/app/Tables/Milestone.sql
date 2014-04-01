@@ -11,28 +11,27 @@
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
     [ProjectID]       INT             NULL,
-    [OutcomeID]       INT             NULL,
     [BusinessKey]     NVARCHAR (MAX)  NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
-    [Code]            NVARCHAR (20)   NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
-    [ActivityID]      INT             NULL,
+    [Activity_ID]      INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
-    [BaselineDateID]  AS              ((datepart(year,[BaselineDate])*(10000)+datepart(month,[baselineDate])*(100))+datepart(day,[BaselineDate])),
-    [TargetDateID]    AS              ((datepart(year,[TargetDate])*(10000)+datepart(month,[TargetDate])*(100))+datepart(day,[TargetDate])),
-    [IsKeyIndicator]  BIT             NOT NULL,
+	[BaselineDateID]  AS (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
+	[TargetDateID]  AS (CONVERT([int],CONVERT([varchar](8),[TargetDate],(112)))),
     [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
-    [Active]          INT             CONSTRAINT [DF__Milestone__sys_A__5F492382] DEFAULT ((1)) NOT NULL,
+    [Active]          INT             CONSTRAINT [DF_Milestone_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME        CONSTRAINT [DF_Milestone_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME        CONSTRAINT [DF_Milestone_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Milestone] PRIMARY KEY CLUSTERED ([MilestoneID] ASC),
-    CONSTRAINT [CK_ENFORCE_SINGLE_PARENT_LINK_MIlestone] CHECK (((case when [OutcomeID] IS NOT NULL then (1) else (0) end+case when [ActivityID] IS NOT NULL then (1) else (0) end)+case when [ProjectID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([ActivityID]) REFERENCES [app].[Activity] ([ActivityID]),
+    CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
-    CONSTRAINT [FK_Milestone_Outcome] FOREIGN KEY ([OutcomeID]) REFERENCES [app].[Outcome] ([OutcomeID]),
-    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
