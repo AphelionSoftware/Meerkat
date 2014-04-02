@@ -14,6 +14,6 @@ SELECT  [SubOutput_ID]
       --,[Target]
       ,[Code]
 
-  FROM [app].[SubOutput]
+  FROM [App].[SubOutput]
 
 

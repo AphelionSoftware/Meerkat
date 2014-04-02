@@ -1,15 +1,17 @@
-﻿CREATE VIEW [mm].[Outcome4MenuCategory] 
-AS 
-  SELECT Substring(Title, 1, 50) AS Title, 
-         Link, 
-         ID 
-  FROM   [mm].[ALL_OutcomeMenuCategory] 
-  WHERE  Outcome_ID IN (SELECT ID 
-                       FROM   (SELECT Row_number() 
-                                        OVER ( 
-                                          partition BY 1 
-                                          ORDER BY Code) AS IDX, 
-                                      Outcome_ID          AS ID 
-                               FROM   [app].[Outcome] 
-                               WHERE  Active = 1) AS IDX 
-                       WHERE  IDX.IDx = 4) 
+﻿
+
+
+
+
+
+
+
+CREATE VIEW [mm].[Outcome4MenuCategory]
+AS
+SELECT Substring(Title,1,50) as Title, Link, ID 
+FROM [mm].[ALL_OutcomeMenuCategory]
+WHERE OutcomeId		in (Select ID from (
+Select Row_Number() Over (Partition by 1 Order By Code) as IDX, OutcomeID as ID
+from app.Outcome Where Active=1 ) as IDX
+
+Where IDX.IDX=4)

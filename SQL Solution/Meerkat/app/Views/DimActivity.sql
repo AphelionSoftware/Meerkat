@@ -1,6 +1,6 @@
 ﻿CREATE view [app].[DimActivity] as
 /****** Script for SelectTopNRows command from SSMS  ******/
-SELECT  [Activity_ID] as Activity_ID
+SELECT  [ActivityID] as Activity_ID
             ,ShortName + ' : ' + left(LongName,80) as ShortName
       ,Left(LongName, 255) as LongName
       ,left(Code + ' : ' + LongName,255) as FullName

@@ -29,7 +29,7 @@ CREATE PROCEDURE [Core].[uspModIndicatorValue]
 	@VerifiedActualNotes as [varchar](max) ,
 	@DataVersion_ID as [int]  ,
 	@Location_ID as [int]  ,
-	@IndicatorStatusValuesPercent as [decimal](18, 2) ,
+	@IndicatorStatusPercent as [decimal](18, 2) ,
 	@ReportPeriodID as [int]  ,
 	@Title as [varchar](255) ,
 	@ModifiedDate as [datetime] ,
@@ -64,7 +64,7 @@ IF @CRUD in ('C','U')
 	[VerifiedActualNotes] [varchar](max) NULL,
 	[DataVersion_ID] [int] NOT NULL,
 	[Location_ID] [int] NOT NULL,
-	[IndicatorStatusValuesPercent] [decimal](18, 2) NULL,
+	[IndicatorStatusPercent] [decimal](18, 2) NULL,
 	[ReportPeriodID] [int] NOT NULL,
 	[Title] [varchar](255) NULL,
 	[ModifiedDate] [datetime] NULL,
@@ -101,7 +101,7 @@ IF @CRUD in ('C','U')
       ,@VerifiedActualNotes
       ,@DataVersion_ID
       ,@Location_ID
-      ,@IndicatorStatusValuesPercent
+      ,@IndicatorStatusPercent
       ,@ReportPeriodID
       ,@Title
       ,@ModifiedDate
@@ -140,7 +140,7 @@ t.[Notes]=s.[Notes],
 t.[VerifiedActualNotes]=s.[VerifiedActualNotes],*/
 t.[DataVersion_ID]=s.[DataVersion_ID],
 t.[Location_ID]=s.[Location_ID],
-t.[IndicatorStatusValuesPercent]=s.[IndicatorStatusValuesPercent],
+t.[IndicatorStatusPercent]=s.[IndicatorStatusPercent],
 t.[ReportPeriodID]=s.[ReportPeriodID],
 t.[Title]=s.[Title],
 t.[ModifiedDate]=s.[ModifiedDate],
@@ -174,7 +174,7 @@ t.[sys_ModifiedBy]=s.[sys_ModifiedBy]
 ,[VerifiedActualNotes]*/
 ,[DataVersion_ID]
 ,[Location_ID]
-,[IndicatorStatusValuesPercent]
+,[IndicatorStatusPercent]
 ,[ReportPeriodID]
 ,[Title]
 ,[ModifiedDate]
@@ -209,7 +209,7 @@ s.[VerifiedActualValue],
 s.[VerifiedActualNotes],
 s.[DataVersion_ID],
 s.[Location_ID],
-s.[IndicatorStatusValuesPercent],
+s.[IndicatorStatusPercent],
 s.[ReportPeriodID],
 s.[Title],
 s.[ModifiedDate],

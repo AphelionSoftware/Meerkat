@@ -9,9 +9,8 @@ SELECT  [Output_ID]
       ,left(ShortName + ' : ' + left(LongName,80),255) as FullName
       ,Left(TextDescription,255) as TextDescription
       ,[BusinessKey]
-      ,[Outcome_ID]
+      ,[OutcomeID]
      -- ,[Target]
       ,[Code]
 
-  FROM [app].[Output]
-		
+  FROM [App].[Output]

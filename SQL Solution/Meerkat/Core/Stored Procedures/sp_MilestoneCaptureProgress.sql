@@ -1,56 +1,59 @@
-﻿CREATE PROC [Core].[usp_MilestoneCaptureProgress]
-	@DataVersion_ID int = 0,
-	@Outcome_ID int = 0
+﻿
 
+
+CREATE PROC [Core].[sp_MilestoneCaptureProgress]
+@@DataVersion_ID int
+,@@Outcome_ID int
+
+, @Location_ID int =1
+, @MilestoneCode varchar(255) = '0'
 AS
+/*
 
-SELECT
-	Outcome = (OC.Code + ' : ' + OC.LongName),
-	Outcome_ID = oc.Outcome_ID, 
-	[Output] = '',
-	Output_ID = 0,
-	Project = (PRJ.Code + ' : ' + PRJ.LongName),
-	PRJ.ProjectID,
-	Activity = (ACT.Code + ' : ' + ACT.LongName), 
-	Activity_ID = act.Activity_ID, 
-	Milestone = (MST.Code + ' : ' + MST.LongName),
-	Milestone_ID = mst.MilestoneID,
-	[Year] = LEFT(RCC.YearNumber,4),
-	FinancialYear = RCC.YearNumber, 
-	ReportCycle = rcC.ReportingPeriod,
-	MSV.DataVersion_ID,
-	PercentageCaptured =
-		CASE 
-			WHEN MSV.ActualValue IS NOT NULL
-			THEN 1
-			ELSE 0
-		END,
-	MilestoneProgressPercent = (MSV.ActualValue / MST.Target) * 100.0,
-	RolledUpToOutcome_ID = OC.Outcome_ID,
-	RolledUpToOutput_ID	= 0,
-	RolledUpToProjectID = PRJ.ProjectID,
-	ReportingDate = MSv.ActualDate 
-FROM [app].[Outcome] AS oc
-INNER JOIN app.Project AS PRJ ON 
-	oc.Outcome_ID = PRJ.Outcome_ID
-INNER JOIN app.Activity AS ACT ON 
-	PRJ.ProjectID = ACT.ProjectID
-INNER JOIN app.Milestone AS MST ON act.Activity_ID = mst.Activity_ID
-LEFT OUTER JOIN RBM.MilestoneValues AS MSV ON 
-	MSV.Milestone_ID=MST.MilestoneID
-	AND (MSV.DataVersion_ID = @DataVersion_ID OR @DataVersion_ID = 0)
-INNER JOIN Core.ReportCycle AS RC ON 
-	(MST.TargetDateID BETWEEN RC.StartDateID AND rc.EndDateID)
-LEFT OUTER JOIN Core.ReportCycle AS RCC ON 
-	rc.YearNumber=RCC.YearNumber
-WHERE  
-	(OC.Outcome_ID = @Outcome_ID OR @Outcome_ID = 0)
-ORDER BY
-	(OC.Code + ' : ' + OC.LongName),
-    (PRJ.Code + ' : ' + PRJ.LongName),
-    (ACT.Code + ' : ' + ACT.LongName),
-    (MST.Code + ' : ' + MST.LongName),
-    RC.YearNumber,
-    rc.ReportingPeriod
+
+
+Select 
+		(OC.Code + ' : ' + OC.LongName) as Outcome
+		,oc.OutcomeID as Outcome_ID
+		,(OTP.Code + ' : ' + OTP.LongName) as [Output]
+		,otp.Output_ID
+		,(STP.Code + ' : ' + STP.LongName) as SubOutput
+		,stp.SubOutput_ID
+		,(ACT.Code + ' : ' + ACT.LongName) as Activity
+		,act.ActivityID as Activity_ID
+		,(MST.Code + ' : ' + MST.LongName) as Milestone
+		,mst.MilestoneID as Milestone_ID
+			,LEFT(RC.YearNumber,4 ) Year
+			,RC.YearNumber as FinancialYear
+			,rc.ReportingPeriod as ReportCycle
+			,MSV.DataVersion_ID
+			,(Case when (MSV.MilestoneStatusPercent Is not null )
+				then 1
+				else 0
+			end)   PercentageCaptured
+			,MSV.MilestoneStatusPercent as MilestoneProgressPercent
+			,OC.OutcomeID as RolledUpToOutcome_ID
+			,OTP.Output_ID as RolledUpToOutput_ID
+			,STP.SubOutput_ID as RolledUpToSubOutput_ID
+			,MSv.ActualDate as ReportingDate
+from app.outcome oc
+	inner join app.Output OTP on OC.OutcomeID = OTP.OutcomeID
+	inner join app.SubOutput STP on OTP.Output_ID = STP.Output_ID
+	inner join app.Activity ACT on stp.SubOutput_ID = ACT.SubOutput_ID
+	inner join app.Milestone MST on act.ActivityID = mst.ActivityID
+	Left Outer Join RBM.MilestoneValues MSV on MSV.Milestone_ID=MST.MilestoneID
+	inner Join Core.ReportCycle RC on MST.TargetDateID Between RC.StartDateID and rc.EndDateID 
+	
+Where OC.OutcomeID = @@Outcome_ID and MSV.DataVersion_ID=@@DataVersion_ID
+
+
+order by (OC.Code + ' : ' + OC.LongName)
+      ,(OTP.Code + ' : ' + OTP.LongName)
+      ,(STP.Code + ' : ' + STP.LongName)
+      ,(ACT.Code + ' : ' + ACT.LongName)
+      ,(MST.Code + ' : ' + MST.LongName)
+      ,RC.YearNumber
+      ,rc.ReportingPeriod
       
-
+	  */
+	  SELECT 'Not implemented' as X

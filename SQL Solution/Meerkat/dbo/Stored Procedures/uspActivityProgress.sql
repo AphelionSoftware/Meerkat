@@ -1,55 +1,56 @@
 ﻿
 
+
+
 CREATE PROC [dbo].[uspActivityProgress]
 --declare
 @DataVersion_ID varchar(255)=5
+, @MDXRolledUpToActivity_ID varchar(255)
 ,@Activity_ID int = 0
-AS
-/*
---begin
-DECLARE @DataVersion_ID varchar(255)=0
-,@Activity_ID int = 0
-,@Project_ID int = 0
 , @Milestone_ID int = 0
-*/
+AS
+
+--begin
 SELECT    
 
-DENSE_RANK() over(order by m.Code)  %2  RN,
+DENSE_RANK() over(order by m.code)  %2  RN,
 p.Code ProjectCode,
 p.LongName ProjectLongName,
-CONVERT(Date, CAST(RP.StartDateID as char(8))) ReportingPeriodStartDate,
-CONVERT(Date, CAST(RP.EndDateID as char(8))) ReportingPeriodEndDate,
 
-/*case when (mv.ActualValue / m.Target * 100) >= 100 then RPEnd.YearName else null end*/RPEnd.YearName  CompletionFinancialYear,
-/*case when (mv.ActualValue / m.Target * 100) >= 100 then RPEnd.ReportingPeriod else null end*/RPEnd.ReportingPeriod  CompletionCycle,
-mv.MilestoneValues_ID MID,
+case when mv.MilestoneStatusPercent=100 then rc.YearName else null end CompletionFinancialYear,
+case when mv.MilestoneStatusPercent=100 then rc.ReportingPeriod else null end CompletionCycle,
+mv.MilestoneValues_ID mid,
 m.Code MilestoneCode,
 m.LongName MilestoneLongName,
+dbo.fn_StripMDXKey(@DataVersion_ID) parmDataVersion_ID,
+dbo.fn_StripMDXKey(@MDXRolledUpToActivity_ID) parmMdxRolledUpToActivity,
  m.Target AS TargetValue,
   mv.ActualValue ActualValue,
-  (mv.ActualValue / m.Target * 100) MilestoneProgressPercent,
+  mv.MilestoneStatusPercent MilestoneProgressPercent,
   
 mv.DataVersion_ID newDV,
-RP.YearName FinancialYear
-,RP.ReportingPeriod ReportCycle,
-RPEnd.EndDateID ,
+RC.YearName EndingPeriodFinancialYear
+,RC.ReportingPeriod EndingPeriodReportCycle,
+rc.EndDateID,
 DATEADD(d, 
-(DATEDIFF(D,m.BaselineDate, case when (mv.ActualValue / m.Target)=100 then mv.ActualDate else null end) * (mv.ActualValue / m.Target * 100))
+(DATEDIFF(D,m.BaselineDate, case when mv.MilestoneStatusPercent=100 then mv.ActualDate else null end) * mv.MilestoneStatusPercent)
 , m.BaselineDate) MilestoneCurrentDate,
+rc.FirstCycleDate ReportingPeriodStartDate,
+rc.LastCycleDate ReportingPeriodEndDate,
 
 mv.Milestone_ID, 
 a.LongName ActivityLongName,
 a.ShortName ActivityCode,
 m.BaselineDate MilestoneStartDate,
-CONVERT(varchar(10),m.TargetDate,111) MilestoneCompletionDate ,
- CAST(RP.StartDateID as varchar(255)) + ' - ' +  CAST(rp.EndDateID as varchar(255)) as ReportingPeriod,
-      RP.StartDateID ReportingPeriodStartDate_ID
-      ,RP.EndDateID ReportingPeriodEndDate_ID,
-	  RP.EndDateID EndingReportCycleReportDate_ID,
+mv.ActualDate MilestoneCompletionDate ,
+ CAST(rc.StartDateID as varchar(255)) + ' - ' +  CAST(rc.EndDateID as varchar(255)) as ReportingPeriod,
+      rc.StartDateID ReportingPeriodStartDate_ID
+      ,rc.EndDateID ReportingPeriodEndDate_ID,
+	  rc.EndDateID EndingReportCycleReportDate_ID,
 mv.MilestoneValues_ID ActivityMilestone_ID, 
 null RolledUpToActivity_ID
 ,mv.Notes,
-mv.ActualLabel Title,
+mv.Title,
 mv.DataVersion_ID,
  m.LongName, m.Code, m.ShortName
 , m.Baseline, m.BaselineString
@@ -57,48 +58,68 @@ mv.DataVersion_ID,
 , m.TargetString TargetValueString
 
                          
-                         , mv.ActualLabel ActualValueString
+                         , mv.ActualValueString ActualValueString
                          , m.ReleaseDate
                          , m.ReportingDate
                          
-						 ,RPEnd.EndDateID MilestoneCompletionEndCycleDate_ID
-						 ,RPEnd.EndDateID MilestoneCompletionDate_ID
+						 ,rc.EndDateID MilestoneCompletionEndCycleDate_ID
+						 ,RC.EndDateID MilestoneCompletionDate_ID
                          , m.BaselineDateID MilestoneStartDate_ID
-                         ,RP.StartDateID ReportCycleDate_ID, 
-                         convert(date,CAST(RPEnd.EndDateID as char(8))) AS ReportCycleDate
+                         ,RC.StartDateID ReportCycleDate_ID, 
+                         RC.LastCycleDate AS ReportCycleDate
                          
 
   FROM 
   app.Milestone M
   
-  INNER JOIN Core.ReportingPeriod RP 
-  on  
-  (RP.StartDateID BETWEEN M.BaselineDateID AND M.TargetDateID
-	 AND RP.EndDateID BETWEEN M.BaselineDateID AND M.TargetDateID)
-	 OR (M.BaselineDateID BETWEEN RP.StartDateID AND RP.EndDateID)
-	 OR (M.TargetDateID BETWEEN RP.StartDateID AND RP.EndDateID)
-
-	 INNER JOIN Core.ReportingPeriod RPStart
-	 ON M.BaselineDateID BETWEEN RPStart.StartDateID AND RPStart.EndDateID
-
-	  JOIN Core.ReportingPeriod RPEnd
-	 ON M.TargetDateID BETWEEN RPEnd.StartDateID AND RPEnd.EndDateID
-
-
-  LEFT JOIN RBM.MilestoneValues mv
+  JOIN RBM.MilestoneValues mv
   on M.MilestoneID = mv.Milestone_ID
-  AND (MV.DataVersion_ID =  @DataVersion_ID OR @DataVersion_ID = 0 )
-  AND MV.ReportPeriodID = RP.ID
+  JOIN Core.ReportingPeriod rc
+  on rc.ID  =mv.ReportPeriodID
+  inner join 
   
-   JOIN app.Activity a
-    on m.Activity_ID = a.Activity_ID
-	and (m.Activity_ID = @Activity_ID or @Activity_ID = 0)
-	JOIN  app.Project P
-	on a.ProjectID = P.ProjectID
+  Core.DataVersion DDV 
+  
+  ON (CHARINDEX('level',@DataVersion_ID) = 0 
+  AND (DDV.DataVersion_ID  = dbo.fn_StripMDXKey(@DataVersion_ID)
+	OR DDV.DataVersion_ID = 39)
+  
+  )
+  OR ( CHARINDEX('level',@DataVersion_ID) > 0 
+  AND DDV.DataVersionLevel_ID = dbo.fn_StripMDXKey(@DataVersion_ID)
+  AND DDV.Outcome_ID IS NULL
+  
+  )
+  
 
-order by m.Code, RP.StartDateID ASC
+  LEFT JOIN Core.DataVersion DVChild
+  on DDV.DataVersion_ID  = DVChild.ParentDataVersion_ID
+  
+  left join app.Project p
+    on m.ProjectID = p.ProjectID
+  left join app.Activity a
+    on m.ActivityID = a.ActivityID
+  
+  
+where 
+(mv.DataVersion_ID = DDV.DataVersion_ID 
+OR mv.DataVersion_ID = DVChild.DataVersion_ID
+OR mv.DataVersion_ID IS NULL
+OR mv.DataVersion_ID = 5
+)
+--and
+
+--(CAST([RolledUpToActivity_ID] as varchar(255)) = dbo.fn_StripMDXKey(@MDXRolledUpToActivity_ID )
+--OR 
+--CAST(M.ActivityID as varchar(255)) = dbo.fn_StripMDXKey(@MDXRolledUpToActivity_ID )
+--)
+and (m.ActivityID = @Activity_ID or @Activity_ID = 0)
+AND (M.MilestoneiD = @Milestone_ID OR @Milestone_ID = 0)
+
+
+--And  m.code = 'ACT8.1.1.1M7'
+order by m.code, RC.StartDateID ASC
 
 
 
-GO
---exec [dbo].[uspActivityProgress] 0 , 0
+--end
