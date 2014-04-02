@@ -3,24 +3,15 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Meerkat">
-      <DataSourceReference>http://meerkat.bi/Reports/DataSources/MeerKat.rsds</DataSourceReference>
+      <DataSourceReference>Meerkat</DataSourceReference>
       <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>13f5ff64-3472-4b29-aa44-893042369dfb</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="DataSource1">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=(localdb)\v11.0;Initial Catalog=Meerkat</ConnectString>
-        <IntegratedSecurity>true</IntegratedSecurity>
-      </ConnectionProperties>
-      <rd:SecurityType>Integrated</rd:SecurityType>
-      <rd:DataSourceID>b8901f44-1bfd-448b-9713-6b91625dc14d</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
       <Query>
-        <DataSourceName>DataSource1</DataSourceName>
+        <DataSourceName>Meerkat</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@OutcomeID">
             <Value>=Parameters!OutcomeID.Value</Value>
@@ -29,8 +20,7 @@
             <Value>=Parameters!ReportingPeriodID.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>rptIndicatorStatus</CommandText>
+        <CommandText>EXEC [rptStatusValuesOutput] @OutcomeID, @ReportingPeriodID</CommandText>
         <rd:DesignerState><QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational"><Functions><SProc ColumnOwner="rptIndicatorStatus"><Parameter Name="@OutcomeID"><Value>7</Value></Parameter><Parameter Name="@ReportingPeriodID"><Value>2</Value></Parameter></SProc></Functions><SelectedColumns><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputName" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="Suboutputname" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutcomeStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="OutputStatus" /><ColumnExpression ColumnOwner="rptIndicatorStatus" ColumnName="SubOutputStatus" /></SelectedColumns></QueryDefinition></rd:DesignerState>
       </Query>
       <Fields>
@@ -43,20 +33,80 @@
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Suboutputname">
-          <DataField>Suboutputname</DataField>
+          <DataField>SubOutputname</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="OutcomeStatus">
-          <DataField>OutcomeStatus</DataField>
+        <Field Name="StatusTypeValue">
+          <DataField>StatusTypeValue</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="OutputStatus">
-          <DataField>OutputStatus</DataField>
+        <Field Name="StatusType">
+          <DataField>StatusType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Percentage">
+          <DataField>Percentage</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="SubOutputStatus">
-          <DataField>SubOutputStatus</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="ReportingPeriod">
+          <DataField>ReportingPeriod</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="YearName">
+          <DataField>YearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OutcomeID">
+          <DataField>OutcomeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OutputID">
+          <DataField>OutputID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SubOutputID">
+          <DataField>SubOutputID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Outcomes">
+      <Query>
+        <DataSourceName>Meerkat</DataSourceName>
+        <CommandText>SELECT        0 AS OutcomeID, 'All' AS ShortName
+UNION ALL
+SELECT        Outcome_ID, ShortName
+FROM            app.Outcome
+WHERE        (Active = 1)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OutcomeID">
+          <DataField>OutcomeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ShortName">
+          <DataField>ShortName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="ReportingPeriods">
+      <Query>
+        <DataSourceName>Meerkat</DataSourceName>
+        <CommandText>SELECT 0 AS ID, 'All' AS Title
+UNION ALL
+SELECT        ID, CAST(ReportingPeriod +  ' ' + YearNumber AS varchar)  AS Title
+FROM            Core.ReportingPeriod
+WHERE        (Active = 1)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -66,10 +116,222 @@
       <Body>
         <ReportItems>
           <Tablix Name="Tablix1">
+            <TablixCorner>
+              <TablixCornerRows>
+                <TablixCornerRow>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox10">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox10</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox12">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox12</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox13">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox13</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                </TablixCornerRow>
+                <TablixCornerRow>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox1">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox1</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox3">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox3</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox4">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox4</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                </TablixCornerRow>
+              </TablixCornerRows>
+            </TablixCorner>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>46.25799mm</Width>
+                  <Width>12mm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -121,11 +383,11 @@
                           <StateIndicators>
                             <StateIndicator Name="outcome">
                               <GaugeInputValue>
-                                <Value>=Max(Fields!SubOutputStatus.Value)</Value>
+                                <Value>=Max(Fields!StatusTypeValue.Value)</Value>
                                 <Multiplier>1</Multiplier>
                                 <DataElementOutput>NoOutput</DataElementOutput>
                               </GaugeInputValue>
-                              <TransformationScope>OutcomeName</TransformationScope>
+                              <TransformationScope />
                               <MinimumValue>
                                 <Value>0</Value>
                                 <Multiplier>1</Multiplier>
@@ -143,11 +405,11 @@
                               <IndicatorStates>
                                 <IndicatorState Name="ThreeSymbolUnCircledCross">
                                   <StartValue>
-                                    <Value>0</Value>
+                                    <Value>-100</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>79</Value>
+                                    <Value>-1</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Red</Color>
@@ -160,11 +422,11 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledExclamation">
                                   <StartValue>
-                                    <Value>80</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>99</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Yellow</Color>
@@ -177,11 +439,11 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledCheck">
                                   <StartValue>
-                                    <Value>100</Value>
+                                    <Value>1</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>100</Value>
+                                    <Value>1</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Green</Color>
@@ -193,6 +455,7 @@
                                   </IndicatorImage>
                                 </IndicatorState>
                               </IndicatorStates>
+                              <ResizeMode>None</ResizeMode>
                               <Angle>0</Angle>
                               <StateDataElementName />
                               <rd:IconsSet>ThreeUncircledSymbols</rd:IconsSet>
@@ -205,7 +468,6 @@
                               <Width>92</Width>
                             </StateIndicator>
                           </StateIndicators>
-                          <AutoLayout>true</AutoLayout>
                           <BackFrame>
                             <Style>
                               <Border>
@@ -256,7 +518,7 @@
                           <StateIndicators>
                             <StateIndicator Name="OutCome1">
                               <GaugeInputValue>
-                                <Value>=Max(Fields!OutputStatus.Value)</Value>
+                                <Value>=Max(Fields!StatusTypeValue.Value)</Value>
                                 <Multiplier>1</Multiplier>
                                 <DataElementOutput>NoOutput</DataElementOutput>
                               </GaugeInputValue>
@@ -278,11 +540,11 @@
                               <IndicatorStates>
                                 <IndicatorState Name="ThreeSymbolUnCircledCross">
                                   <StartValue>
-                                    <Value>0</Value>
+                                    <Value>-100</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>79</Value>
+                                    <Value>-1</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Red</Color>
@@ -295,11 +557,11 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledExclamation">
                                   <StartValue>
-                                    <Value>80</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>99</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Yellow</Color>
@@ -312,7 +574,7 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledCheck">
                                   <StartValue>
-                                    <Value>100</Value>
+                                    <Value>1</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
@@ -328,6 +590,7 @@
                                   </IndicatorImage>
                                 </IndicatorState>
                               </IndicatorStates>
+                              <ResizeMode>None</ResizeMode>
                               <Angle>0</Angle>
                               <StateDataElementName />
                               <rd:IconsSet>ThreeUncircledSymbols</rd:IconsSet>
@@ -391,7 +654,7 @@
                           <StateIndicators>
                             <StateIndicator Name="OutcomeTotal3">
                               <GaugeInputValue>
-                                <Value>=Max(Fields!OutcomeStatus.Value)</Value>
+                                <Value>=Max(Fields!StatusTypeValue.Value)</Value>
                                 <Multiplier>1</Multiplier>
                                 <DataElementOutput>NoOutput</DataElementOutput>
                               </GaugeInputValue>
@@ -413,11 +676,11 @@
                               <IndicatorStates>
                                 <IndicatorState Name="ThreeSymbolUnCircledCross">
                                   <StartValue>
-                                    <Value>0</Value>
+                                    <Value>-100</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>79</Value>
+                                    <Value>-1</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Red</Color>
@@ -430,11 +693,11 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledExclamation">
                                   <StartValue>
-                                    <Value>80</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
-                                    <Value>99</Value>
+                                    <Value>0</Value>
                                     <Multiplier>1</Multiplier>
                                   </EndValue>
                                   <Color>Yellow</Color>
@@ -447,7 +710,7 @@
                                 </IndicatorState>
                                 <IndicatorState Name="ThreeSymbolUnCircledCheck">
                                   <StartValue>
-                                    <Value>100</Value>
+                                    <Value>1</Value>
                                     <Multiplier>1</Multiplier>
                                   </StartValue>
                                   <EndValue>
@@ -463,6 +726,7 @@
                                   </IndicatorImage>
                                 </IndicatorState>
                               </IndicatorStates>
+                              <ResizeMode>None</ResizeMode>
                               <Angle>0</Angle>
                               <StateDataElementName />
                               <rd:IconsSet>ThreeUncircledSymbols</rd:IconsSet>
@@ -521,7 +785,105 @@
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
-                <TablixMember />
+                <TablixMember>
+                  <Group Name="YearName">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!YearName.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!YearName.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>6mm</Size>
+                    <CellContents>
+                      <Textbox Name="YearName">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!YearName.Value</Value>
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>YearName</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>#7292cc</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gray</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="ReportingPeriod">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!ReportingPeriod.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!ReportingPeriod.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixHeader>
+                        <Size>6mm</Size>
+                        <CellContents>
+                          <Textbox Name="ReportingPeriod">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!ReportingPeriod.Value</Value>
+                                    <Style>
+                                      <FontWeight>Bold</FontWeight>
+                                      <Color>White</Color>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>ReportingPeriod</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>#7292cc</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>Gray</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember />
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -799,14 +1161,14 @@
                           <TablixHeader>
                             <Size>46.25799mm</Size>
                             <CellContents>
-                              <Textbox Name="Textbox26">
+                              <Textbox Name="Textbox6">
                                 <CanGrow>true</CanGrow>
                                 <KeepTogether>true</KeepTogether>
                                 <Paragraphs>
                                   <Paragraph>
                                     <TextRuns>
                                       <TextRun>
-                                        <Value>=Fields!OutputName.Value</Value>
+                                        <Value />
                                         <Style>
                                           <FontFamily>Tahoma</FontFamily>
                                           <FontSize>9pt</FontSize>
@@ -818,7 +1180,7 @@
                                     <Style />
                                   </Paragraph>
                                 </Paragraphs>
-                                <rd:DefaultName>Textbox26</rd:DefaultName>
+                                <rd:DefaultName>Textbox6</rd:DefaultName>
                                 <Style>
                                   <Border>
                                     <Color>#e6eefc</Color>
@@ -883,14 +1245,14 @@
                           <TablixHeader>
                             <Size>46.25799mm</Size>
                             <CellContents>
-                              <Textbox Name="Textbox21">
+                              <Textbox Name="Textbox8">
                                 <CanGrow>true</CanGrow>
                                 <KeepTogether>true</KeepTogether>
                                 <Paragraphs>
                                   <Paragraph>
                                     <TextRuns>
                                       <TextRun>
-                                        <Value>=Fields!OutcomeName.Value</Value>
+                                        <Value />
                                         <Style>
                                           <FontFamily>Tahoma</FontFamily>
                                           <FontWeight>Bold</FontWeight>
@@ -901,7 +1263,7 @@
                                     <Style />
                                   </Paragraph>
                                 </Paragraphs>
-                                <rd:DefaultName>Textbox21</rd:DefaultName>
+                                <rd:DefaultName>Textbox8</rd:DefaultName>
                                 <Style>
                                   <Border>
                                     <Color>#c6daf8</Color>
@@ -927,8 +1289,8 @@
             <DataSetName>DataSet1</DataSetName>
             <Top>10.16mm</Top>
             <Left>0mm</Left>
-            <Height>24mm</Height>
-            <Width>185.03196mm</Width>
+            <Height>36mm</Height>
+            <Width>150.77397mm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1037,23 +1399,36 @@
       <Nullable>true</Nullable>
       <DefaultValue>
         <Values>
-          <Value>7</Value>
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Outcome ID</Prompt>
+      <Prompt>Outcome</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Outcomes</DataSetName>
+          <ValueField>OutcomeID</ValueField>
+          <LabelField>ShortName</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
     <ReportParameter Name="ReportingPeriodID">
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <DefaultValue>
         <Values>
-          <Value>2</Value>
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Reporting Period ID</Prompt>
+      <Prompt>Reporting Period</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ReportingPeriods</DataSetName>
+          <ValueField>ID</ValueField>
+          <LabelField>Title</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Mm</rd:ReportUnitType>
-  <rd:ReportServerUrl>http://meerkat.bi/Reports</rd:ReportServerUrl>
   <rd:ReportID>d71de852-0d4d-415a-ac59-e7cb86af737d</rd:ReportID>
 </Report>
