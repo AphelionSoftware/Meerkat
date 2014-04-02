@@ -34,3 +34,7 @@ myapp.Home.AddOutputStatusValue_execute = function (screen) {
 myapp.Home.AddProjectStatusValue_execute = function (screen) {
     addStatusValue(screen, "Project");
 };
+myapp.Home.ShowOutcomeIndicators_Tap_canExecute = function (screen) {
+    // Write code here.
+
+};
