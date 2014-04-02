@@ -3,7 +3,7 @@
     [Code]            VARCHAR (50)   NOT NULL,
     [LongName]        NVARCHAR (500) NOT NULL,
     [BusinessKey]     NVARCHAR (MAX) NULL,
-    [Outcome_ID]       INT            NULL,
+    [Outcome_ID]       INT            NOT NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
     [TextDescription] VARCHAR (MAX)  NULL,
     [Active]          INT            CONSTRAINT [DF_Output_Active] DEFAULT ((1)) NOT NULL,
