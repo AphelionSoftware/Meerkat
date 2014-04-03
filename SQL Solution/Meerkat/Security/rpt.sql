@@ -1,3 +1,3 @@
-﻿CREATE SCHEMA [MnE]
+﻿CREATE SCHEMA [rpt]
     AUTHORIZATION [dbo];
 

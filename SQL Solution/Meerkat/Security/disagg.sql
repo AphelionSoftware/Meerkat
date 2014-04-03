@@ -1,3 +1,3 @@
-﻿CREATE SCHEMA [Cmn]
+﻿CREATE SCHEMA [disagg]
     AUTHORIZATION [dbo];
 
