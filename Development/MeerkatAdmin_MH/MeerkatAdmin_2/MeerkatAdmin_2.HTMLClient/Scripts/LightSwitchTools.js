@@ -4,6 +4,9 @@
     "use strict";
 
     function pluralName(name) {
+        if (name == "Person") {
+            return "People";
+        }
         var pluralled = name + "s";
 
         if (name.charAt(name.length - 1).toLocaleLowerCase() === 'y') {
