@@ -36,6 +36,7 @@
         var activeType = thisObject.ActiveType;
 
         if (primaryKey === undefined) {
+            ///I.E. this is a new record
             if (screen.pageTitle !== undefined) {
                 screen.details.displayName = "Add " + screen.pageTitle;
             } else {

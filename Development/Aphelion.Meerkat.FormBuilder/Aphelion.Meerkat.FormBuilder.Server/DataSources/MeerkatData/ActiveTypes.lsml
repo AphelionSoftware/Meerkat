@@ -155,6 +155,11 @@
         Association="FK_SubSector_ActiveType"
         FromEnd="ActiveType"
         ToEnd="SubSector" />
+      <NavigationProperty
+        Name="Genders"
+        Association="FK_Gender_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="Gender" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -523,6 +528,16 @@
         Name="SubSector"
         EntitySet="SubSectors" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Gender_ActiveType"
+      Association="FK_Gender_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="Gender"
+        EntitySet="Genders" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Event_ActiveType">
@@ -598,6 +613,21 @@
       Name="SubSector"
       Multiplicity="Many"
       EntityType="SubSector" />
+  </Association>
+  <Association
+    Name="FK_Gender_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Gender"
+      Multiplicity="Many"
+      EntityType="Gender" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -749,6 +779,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_FormResponse_ActiveType]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Gender_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Gender_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Gender_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Gender_ActiveType]/Members[Gender]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

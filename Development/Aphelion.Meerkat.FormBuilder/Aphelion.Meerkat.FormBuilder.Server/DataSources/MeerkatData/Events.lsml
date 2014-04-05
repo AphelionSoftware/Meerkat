@@ -27,12 +27,13 @@
       </KeyProperty>
       <EntityProperty
         Name="EventDate"
-        PropertyType=":Date?">
+        PropertyType=":Date">
         <EntityProperty.Attributes>
           <DateTimeConstraint
             Precision="0"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -127,6 +128,40 @@
         Association="FK_EventRegister_Event"
         FromEnd="c_Event"
         ToEnd="EventRegister" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Event_Project"
+        FromEnd="c_Event"
+        ToEnd="Project" />
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TextDescription"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -264,8 +299,25 @@
           Type="int"
           Property="c_Event/Properties[Event_ID]" />
         <SsdlProperty
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
+          Type="varchar"
+          Property="c_Event/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="c_Event/Properties[Code]" />
+        <SsdlProperty
+          Name="TextDescription"
+          Nullable="False"
+          Type="varchar(max)"
+          Property="c_Event/Properties[TextDescription]" />
+        <SsdlProperty
           Name="EventDate"
-          Nullable="True"
+          Nullable="False"
           Type="date"
           Property="c_Event/Properties[EventDate]" />
         <SsdlProperty
@@ -315,6 +367,11 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Project_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Project_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping

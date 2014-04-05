@@ -127,9 +127,8 @@
         ToEnd="ActiveType" />
       <EntityProperty
         Name="Outcome_ID"
-        PropertyType=":Int32">
+        PropertyType=":Int32?">
         <EntityProperty.Attributes>
-          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -138,6 +137,26 @@
         Association="FK_Indicator_Project"
         FromEnd="Project"
         ToEnd="Indicator" />
+      <NavigationProperty
+        Name="Events"
+        Association="FK_Event_Project"
+        FromEnd="Project"
+        ToEnd="c_Event" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Project_Programme"
+        FromEnd="Project"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Sector"
+        Association="FK_Project_Sector"
+        FromEnd="Project"
+        ToEnd="Sector" />
+      <NavigationProperty
+        Name="SubSector"
+        Association="FK_Project_SubSector"
+        FromEnd="Project"
+        ToEnd="SubSector" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -291,6 +310,16 @@
         Name="Indicator"
         EntitySet="Indicators" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Event_Project"
+      Association="FK_Event_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Indicator_Project">
@@ -305,6 +334,21 @@
       Name="Indicator"
       Multiplicity="Many"
       EntityType="Indicator" />
+  </Association>
+  <Association
+    Name="FK_Event_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="Many"
+      EntityType="c_Event" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -348,7 +392,7 @@
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
           Name="Outcome_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           Property="Project/Properties[Outcome_ID]" />
         <SsdlProperty
@@ -379,12 +423,48 @@
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
           Name="ProjectParentID"
           Nullable="True"
           Type="int"
           PropertyName="ProjectParentID" />
+        <SsdlForeignKeyProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Sector_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Project]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Project_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Form_Project">
       <AssociationSetMapping.Attributes>
