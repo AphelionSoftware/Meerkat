@@ -2340,3 +2340,10 @@ on startdateid between 20130101 and 20131001
 where not exists (select 1 FROM [RBM].[StatusValues] SV where SV.Outcome_ID = OM.Outcome_ID and sv.ReportingPeriodID = rp.ID)
 
 /*end Insert status values*/
+
+/*Insert Forms data*/
+
+:r .\forms.PostDeploymentScript.sql								
+
+/*end Insert Forms data*/
+
