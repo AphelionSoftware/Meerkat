@@ -126,15 +126,25 @@
         FromEnd="ActiveType"
         ToEnd="QuestionType" />
       <NavigationProperty
-        Name="Responses"
-        Association="FK_Response_ActiveType"
-        FromEnd="ActiveType"
-        ToEnd="Response" />
-      <NavigationProperty
         Name="RollupTypes"
         Association="FK_RollupType_ActiveType"
         FromEnd="ActiveType"
         ToEnd="RollupType" />
+      <NavigationProperty
+        Name="Events"
+        Association="FK_Event_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="c_Event" />
+      <NavigationProperty
+        Name="EventRegisters"
+        Association="FK_EventRegister_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="EventRegister" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="FormResponse" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -258,21 +268,6 @@
       EntityType="QuestionType" />
   </Association>
   <Association
-    Name="FK_Response_ActiveType">
-    <AssociationEnd
-      Name="ActiveType"
-      Multiplicity="One"
-      EntityType="ActiveType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Response"
-      Multiplicity="Many"
-      EntityType="Response" />
-  </Association>
-  <Association
     Name="FK_RollupType_ActiveType">
     <AssociationEnd
       Name="ActiveType"
@@ -379,16 +374,6 @@
         EntitySet="QuestionTypes" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_Response_ActiveType"
-      Association="FK_Response_ActiveType">
-      <AssociationSetEnd
-        Name="ActiveType"
-        EntitySet="ActiveTypes" />
-      <AssociationSetEnd
-        Name="Response"
-        EntitySet="Responses" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_RollupType_ActiveType"
       Association="FK_RollupType_ActiveType">
       <AssociationSetEnd
@@ -478,7 +463,82 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Event_ActiveType"
+      Association="FK_Event_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_EventRegister_ActiveType"
+      Association="FK_EventRegister_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="EventRegister"
+        EntitySet="EventRegisters" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_ActiveType"
+      Association="FK_FormResponse_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Event_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="Many"
+      EntityType="c_Event" />
+  </Association>
+  <Association
+    Name="FK_EventRegister_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="EventRegister"
+      Multiplicity="Many"
+      EntityType="EventRegister" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -553,6 +613,48 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
+      AssociationSet="FK_Event_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_ActiveType]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_EventRegister_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_EventRegister_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_ActiveType]/Members[EventRegister]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
       AssociationSet="FK_Form_ActiveType">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -566,6 +668,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_ActiveType]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_ActiveType]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />
@@ -692,27 +815,6 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_QuestionType_ActiveType]/Members[QuestionType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Active" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Response_ActiveType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Response_ActiveType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_ActiveType]/Members[ActiveType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_ActiveType]/Members[Response]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

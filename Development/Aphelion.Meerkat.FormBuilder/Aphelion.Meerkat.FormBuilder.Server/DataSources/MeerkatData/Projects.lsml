@@ -64,14 +64,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="OutcomeID"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -133,6 +125,19 @@
         Association="FK_Project_ActiveType"
         FromEnd="Project"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="Outcome_ID"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_Project"
+        FromEnd="Project"
+        ToEnd="Indicator" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -276,7 +281,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Indicator_Project"
+      Association="FK_Indicator_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Indicator_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -318,10 +347,10 @@
           Type="varchar(max)"
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
-          Name="OutcomeID"
+          Name="Outcome_ID"
           Nullable="False"
           Type="int"
-          Property="Project/Properties[OutcomeID]" />
+          Property="Project/Properties[Outcome_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -370,6 +399,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_Project]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Indicator_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Indicator_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Project]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />

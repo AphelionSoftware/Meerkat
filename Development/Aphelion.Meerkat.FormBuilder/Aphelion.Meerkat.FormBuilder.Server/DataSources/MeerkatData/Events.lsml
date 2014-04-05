@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="RollupType">
+    Name="c_Event">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,33 +15,64 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="Event_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="EventDate"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
+        Name="ScheduledEventStartTime"
+        PropertyType=":TimeSpan?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="TextDescription"
-        PropertyType=":String">
+        Name="ScheduledEventEndTime"
+        PropertyType=":TimeSpan?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
-          <AnsiConstraint />
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="EventStartTime"
+        PropertyType=":TimeSpan?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="EventEndTime"
+        PropertyType=":TimeSpan?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -88,35 +119,55 @@
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_RollupType_ActiveType"
-        FromEnd="RollupType"
+        Association="FK_Event_ActiveType"
+        FromEnd="c_Event"
         ToEnd="ActiveType" />
-      <KeyProperty
-        Name="RollupType_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
+      <NavigationProperty
+        Name="EventRegisters"
+        Association="FK_EventRegister_Event"
+        FromEnd="c_Event"
+        ToEnd="EventRegister" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_EventRegister_Event">
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="One"
+      EntityType="c_Event">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="EventRegister"
+      Multiplicity="Many"
+      EntityType="EventRegister" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="RollupTypes"
+      Name="Events"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="RollupType" />
+      EntityType="c_Event" />
+    <AssociationSet
+      Name="FK_EventRegister_Event"
+      Association="FK_EventRegister_Event">
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+      <AssociationSetEnd
+        Name="EventRegister"
+        EntitySet="EventRegisters" />
+    </AssociationSet>
     <QueryOperation
-      Name="RollupTypes_Single"
-      ReturnType="RollupType">
+      Name="Events_Single"
+      ReturnType="c_Event">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -129,12 +180,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RollupType_ID" />
+                  Member="Event_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RollupType_ID" />
+                Parameter="Event_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -142,21 +193,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="RollupTypes" />
+            Member="Events" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RollupType_ID"
+        Name="Event_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RollupType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Event_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="RollupTypes_SingleOrDefault"
-      ReturnType="RollupType">
+      Name="Events_SingleOrDefault"
+      ReturnType="c_Event">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -169,12 +220,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RollupType_ID" />
+                  Member="Event_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RollupType_ID" />
+                Parameter="Event_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -182,15 +233,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="RollupTypes" />
+            Member="Events" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RollupType_ID"
+        Name="Event_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RollupType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Event_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -201,56 +252,64 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="RollupTypes">
+      EntitySet="Events">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="forms"
-          Table="RollupType" />
+          Table="Event" />
         <SsdlProperty
-          Name="RollupType_ID"
+          Name="Event_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="RollupType/Properties[RollupType_ID]" />
+          Property="c_Event/Properties[Event_ID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="RollupType/Properties[Name]" />
+          Name="EventDate"
+          Nullable="True"
+          Type="date"
+          Property="c_Event/Properties[EventDate]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
-          Type="varchar"
-          Property="RollupType/Properties[Code]" />
+          Name="ScheduledEventStartTime"
+          Nullable="True"
+          Type="time"
+          Property="c_Event/Properties[ScheduledEventStartTime]" />
         <SsdlProperty
-          Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
-          Property="RollupType/Properties[TextDescription]" />
+          Name="ScheduledEventEndTime"
+          Nullable="True"
+          Type="time"
+          Property="c_Event/Properties[ScheduledEventEndTime]" />
+        <SsdlProperty
+          Name="EventStartTime"
+          Nullable="True"
+          Type="time"
+          Property="c_Event/Properties[EventStartTime]" />
+        <SsdlProperty
+          Name="EventEndTime"
+          Nullable="True"
+          Type="time"
+          Property="c_Event/Properties[EventEndTime]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="RollupType/Properties[sys_CreatedBy]" />
+          Property="c_Event/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="RollupType/Properties[sys_CreatedOn]" />
+          Property="c_Event/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="RollupType/Properties[sys_ModifiedBy]" />
+          Property="c_Event/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="RollupType/Properties[sys_ModifiedOn]" />
+          Property="c_Event/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -258,5 +317,26 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_EventRegister_Event">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_EventRegister_Event" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_Event]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_Event]/Members[EventRegister]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Response">
+    Name="FormResponse">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="ResponseID"
+        Name="FormResponse_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -83,20 +83,15 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="PotentialResponse"
-        Association="FK_Response_PotentialResponse"
-        FromEnd="Response"
-        ToEnd="PotentialResponse" />
-      <NavigationProperty
-        Name="Question"
-        Association="FK_Response_Question"
-        FromEnd="Response"
-        ToEnd="Question" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_Response_ActiveType"
-        FromEnd="Response"
+        Association="FK_FormResponse_ActiveType"
+        FromEnd="FormResponse"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Form"
+        Association="FK_FormResponse_Form"
+        FromEnd="FormResponse"
+        ToEnd="Form" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -105,14 +100,14 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Responses"
+      Name="FormResponses"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Response" />
+      EntityType="FormResponse" />
     <QueryOperation
-      Name="Responses_Single"
-      ReturnType="Response">
+      Name="FormResponses_Single"
+      ReturnType="FormResponse">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -125,12 +120,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ResponseID" />
+                  Member="FormResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ResponseID" />
+                Parameter="FormResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -138,21 +133,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Responses" />
+            Member="FormResponses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ResponseID"
+        Name="FormResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ResponseID' key property of the entity to retrieve." />
+            Value="The value of the 'FormResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Responses_SingleOrDefault"
-      ReturnType="Response">
+      Name="FormResponses_SingleOrDefault"
+      ReturnType="FormResponse">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -165,12 +160,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ResponseID" />
+                  Member="FormResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ResponseID" />
+                Parameter="FormResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -178,15 +173,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Responses" />
+            Member="FormResponses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ResponseID"
+        Name="FormResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ResponseID' key property of the entity to retrieve." />
+            Value="The value of the 'FormResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -197,64 +192,59 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Responses">
+      EntitySet="FormResponses">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="forms"
-          Table="Response" />
+          Table="FormResponse" />
         <SsdlProperty
-          Name="ResponseID"
+          Name="FormResponse_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Response/Properties[ResponseID]" />
+          Property="FormResponse/Properties[FormResponse_ID]" />
         <SsdlProperty
           Name="Text"
           Nullable="True"
           Type="varchar(max)"
-          Property="Response/Properties[Text]" />
+          Property="FormResponse/Properties[Text]" />
         <SsdlProperty
           Name="TrueFalse"
           Nullable="True"
           Type="bit"
-          Property="Response/Properties[TrueFalse]" />
+          Property="FormResponse/Properties[TrueFalse]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Response/Properties[sys_CreatedBy]" />
+          Property="FormResponse/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Response/Properties[sys_CreatedOn]" />
+          Property="FormResponse/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Response/Properties[sys_ModifiedBy]" />
+          Property="FormResponse/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Response/Properties[sys_ModifiedOn]" />
+          Property="FormResponse/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="PotentialResponseID"
+          Name="Form_ID"
           Nullable="False"
           Type="int"
-          PropertyName="PotentialResponseID" />
-        <SsdlForeignKeyProperty
-          Name="QuestionID"
-          Nullable="False"
-          Type="int"
-          PropertyName="QuestionID" />
+          PropertyName="Form_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
   </DataService>

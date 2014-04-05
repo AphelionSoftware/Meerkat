@@ -15,16 +15,6 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <KeyProperty
-        Name="PotentialResponseID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
       <EntityProperty
         Name="Name"
         PropertyType=":String">
@@ -102,32 +92,22 @@
         FromEnd="PotentialResponse"
         ToEnd="Question" />
       <NavigationProperty
-        Name="Responses"
-        Association="FK_Response_PotentialResponse"
-        FromEnd="PotentialResponse"
-        ToEnd="Response" />
-      <NavigationProperty
         Name="ActiveType"
         Association="FK_PotentialResponse_ActiveType"
         FromEnd="PotentialResponse"
         ToEnd="ActiveType" />
+      <KeyProperty
+        Name="PotentialResponse_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_Response_PotentialResponse">
-    <AssociationEnd
-      Name="PotentialResponse"
-      Multiplicity="One"
-      EntityType="PotentialResponse">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Response"
-      Multiplicity="Many"
-      EntityType="Response" />
-  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
@@ -139,16 +119,6 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="PotentialResponse" />
-    <AssociationSet
-      Name="FK_Response_PotentialResponse"
-      Association="FK_Response_PotentialResponse">
-      <AssociationSetEnd
-        Name="PotentialResponse"
-        EntitySet="PotentialResponses" />
-      <AssociationSetEnd
-        Name="Response"
-        EntitySet="Responses" />
-    </AssociationSet>
     <QueryOperation
       Name="PotentialResponses_Single"
       ReturnType="PotentialResponse">
@@ -164,12 +134,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="PotentialResponseID" />
+                  Member="PotentialResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="PotentialResponseID" />
+                Parameter="PotentialResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -181,11 +151,11 @@
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="PotentialResponseID"
+        Name="PotentialResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'PotentialResponseID' key property of the entity to retrieve." />
+            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -204,12 +174,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="PotentialResponseID" />
+                  Member="PotentialResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="PotentialResponseID" />
+                Parameter="PotentialResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -221,11 +191,11 @@
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="PotentialResponseID"
+        Name="PotentialResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'PotentialResponseID' key property of the entity to retrieve." />
+            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -242,11 +212,11 @@
           Schema="forms"
           Table="PotentialResponse" />
         <SsdlProperty
-          Name="PotentialResponseID"
+          Name="PotentialResponse_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="PotentialResponse/Properties[PotentialResponseID]" />
+          Property="PotentialResponse/Properties[PotentialResponse_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Name"
@@ -292,32 +262,11 @@
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="QuestionID"
+          Name="Question_ID"
           Nullable="False"
           Type="int"
-          PropertyName="QuestionID" />
+          PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Response_PotentialResponse">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Response_PotentialResponse" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_PotentialResponse]/Members[PotentialResponse]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="PotentialResponseID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_PotentialResponse]/Members[Response]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="PotentialResponseID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

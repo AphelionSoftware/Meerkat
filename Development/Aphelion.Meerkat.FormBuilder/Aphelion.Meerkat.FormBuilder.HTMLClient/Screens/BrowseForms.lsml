@@ -23,20 +23,19 @@
             Name="FormList"
             Kind="Group">
             <ContentItem
-              Name="Form"
+              Name="FormsSorted"
               Kind="Collection"
-              DataType="CollectionView$Form"
-              View="Microsoft.LightSwitch.MobileWeb:List">
+              DataType="CollectionView$Form">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseForms/Properties[Forms]" />
+                      Member="BrowseForms/Properties[FormsSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="RowTemplate"
+                Name="FormsSortedTemplate"
                 Kind="Details"
                 DataType="Form">
                 <ContentItem.DataSource>
@@ -45,7 +44,7 @@
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="Name"
+                  Name="Name1"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
@@ -58,7 +57,7 @@
                   </ContentItem.DataSource>
                 </ContentItem>
                 <ContentItem
-                  Name="Code"
+                  Name="Code1"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
@@ -148,9 +147,32 @@
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="RowTemplate1"
+                    Name="Project1"
                     Kind="Details"
                     DataType="Project">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="ActiveType"
+                  Kind="Details"
+                  DataType="ActiveType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Form/Properties[ActiveType]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="ActiveType1"
+                    Kind="Details"
+                    DataType="ActiveType">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression />
@@ -162,7 +184,23 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="EditForm"
+                Name="AddForm"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowFilter"
                 Kind="Command">
                 <ContentItem.PropertySources>
                   <ControlPropertySource
@@ -170,21 +208,24 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAddEditForm]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="BrowseForms/Properties[Forms]" />
-                          </CallExpression.Attributes>
+                          Target="BrowseForms/Methods[showDialog]">
                           <ArgumentExpression
-                            Parameter="Form">
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="BrowseForms/Properties[Forms]" />
-                              <MemberExpression
-                                Member="selectedItem" />
-                            </ChainExpression>
+                            Parameter="dialogName">
+                            <ConstantExpression
+                              Value="Filter"
+                              ResultType=":String" />
                           </ArgumentExpression>
                         </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-filter"
+                          ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -208,7 +249,64 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
+          <ContentItem
+            Name="Filter"
+            Kind="Group">
+            <ContentItem
+              Name="Code"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseForms/Properties[Code]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="Name"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseForms/Properties[Name]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="ProjectCode"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseForms/Properties[ProjectCode]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="ProjectName"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseForms/Properties[ProjectName]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
       </ContentItem>
     </Screen.RootContentItem>
     <Screen.Methods>
@@ -237,12 +335,12 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Forms"
+        Name="FormsSorted"
         PageSize="45"
         PropertyType="CollectionView$Form">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="FormsQuery"
+            Name="FormsSortedQuery"
             ReturnType="Form*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
@@ -250,7 +348,7 @@
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Forms]" />
+                  Member="MeerkatData/Members[FormsSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -258,10 +356,51 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseForms/Properties[Forms]/Query" />
+              Target="BrowseForms/Properties[FormsSorted]/Query">
+              <ArgumentExpression
+                Parameter="Code">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseForms/Properties[Code]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseForms/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectCode">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseForms/Properties[ProjectCode]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectName">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseForms/Properties[ProjectName]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="Code"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="Name"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="ProjectCode"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="ProjectName"
+        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

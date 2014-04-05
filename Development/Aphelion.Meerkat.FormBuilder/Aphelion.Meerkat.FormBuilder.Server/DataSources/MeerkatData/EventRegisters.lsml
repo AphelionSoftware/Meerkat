@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="RollupType">
+    Name="EventRegister">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,33 +15,65 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="EventRegister_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="FirstName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
+        Name="Surname"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="TextDescription"
-        PropertyType=":String">
+        Name="IdentificationNumber"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="255" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Age"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DateOfBirth"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Gender_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -88,19 +120,14 @@
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_RollupType_ActiveType"
-        FromEnd="RollupType"
+        Association="FK_EventRegister_ActiveType"
+        FromEnd="EventRegister"
         ToEnd="ActiveType" />
-      <KeyProperty
-        Name="RollupType_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
+      <NavigationProperty
+        Name="c_Event"
+        Association="FK_EventRegister_Event"
+        FromEnd="EventRegister"
+        ToEnd="c_Event" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -109,14 +136,14 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="RollupTypes"
+      Name="EventRegisters"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="RollupType" />
+      EntityType="EventRegister" />
     <QueryOperation
-      Name="RollupTypes_Single"
-      ReturnType="RollupType">
+      Name="EventRegisters_Single"
+      ReturnType="EventRegister">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -129,12 +156,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RollupType_ID" />
+                  Member="EventRegister_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RollupType_ID" />
+                Parameter="EventRegister_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -142,21 +169,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="RollupTypes" />
+            Member="EventRegisters" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RollupType_ID"
+        Name="EventRegister_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RollupType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'EventRegister_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="RollupTypes_SingleOrDefault"
-      ReturnType="RollupType">
+      Name="EventRegisters_SingleOrDefault"
+      ReturnType="EventRegister">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -169,12 +196,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RollupType_ID" />
+                  Member="EventRegister_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RollupType_ID" />
+                Parameter="EventRegister_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -182,15 +209,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="RollupTypes" />
+            Member="EventRegisters" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RollupType_ID"
+        Name="EventRegister_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RollupType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'EventRegister_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -201,61 +228,82 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="RollupTypes">
+      EntitySet="EventRegisters">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="forms"
-          Table="RollupType" />
+          Table="EventRegister" />
         <SsdlProperty
-          Name="RollupType_ID"
+          Name="EventRegister_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="RollupType/Properties[RollupType_ID]" />
+          Property="EventRegister/Properties[EventRegister_ID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Name"
-          Nullable="False"
+          MaxLength="255"
+          Name="FirstName"
+          Nullable="True"
           Type="varchar"
-          Property="RollupType/Properties[Name]" />
+          Property="EventRegister/Properties[FirstName]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
+          MaxLength="255"
+          Name="Surname"
+          Nullable="True"
           Type="varchar"
-          Property="RollupType/Properties[Code]" />
+          Property="EventRegister/Properties[Surname]" />
         <SsdlProperty
-          Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
-          Property="RollupType/Properties[TextDescription]" />
+          MaxLength="255"
+          Name="IdentificationNumber"
+          Nullable="True"
+          Type="varchar"
+          Property="EventRegister/Properties[IdentificationNumber]" />
+        <SsdlProperty
+          Name="Age"
+          Nullable="True"
+          Type="int"
+          Property="EventRegister/Properties[Age]" />
+        <SsdlProperty
+          Name="DateOfBirth"
+          Nullable="True"
+          Type="date"
+          Property="EventRegister/Properties[DateOfBirth]" />
+        <SsdlProperty
+          Name="Gender_ID"
+          Nullable="True"
+          Type="int"
+          Property="EventRegister/Properties[Gender_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="RollupType/Properties[sys_CreatedBy]" />
+          Property="EventRegister/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="RollupType/Properties[sys_CreatedOn]" />
+          Property="EventRegister/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="RollupType/Properties[sys_ModifiedBy]" />
+          Property="EventRegister/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="RollupType/Properties[sys_ModifiedOn]" />
+          Property="EventRegister/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Event_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Event_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
   </DataService>
