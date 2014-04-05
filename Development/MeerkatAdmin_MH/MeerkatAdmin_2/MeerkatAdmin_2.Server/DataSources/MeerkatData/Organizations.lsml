@@ -128,6 +128,11 @@
             Value="50" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Frameworks"
+        Association="FK_Framework_Organization"
+        FromEnd="Organization"
+        ToEnd="Framework" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -318,7 +323,31 @@
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Framework_Organization"
+      Association="FK_Framework_Organization">
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+      <AssociationSetEnd
+        Name="Framework"
+        EntitySet="Frameworks" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Framework_Organization">
+    <AssociationEnd
+      Name="Organization"
+      EntityType="Organization">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Framework"
+      Multiplicity="Many"
+      EntityType="Framework" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -392,6 +421,27 @@
           PropertyName="OrganizationType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Framework_Organization">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Framework_Organization" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Organization]/Members[Organization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Organization]/Members[Framework]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="SourceOrganizationID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Organization">
       <AssociationSetMapping.Attributes>

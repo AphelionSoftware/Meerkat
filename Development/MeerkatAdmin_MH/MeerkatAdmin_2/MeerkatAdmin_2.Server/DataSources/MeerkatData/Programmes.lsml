@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Role">
+    Name="Programme">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,68 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Description"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <Required />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <Required />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="OutputPersonRoles"
-        Association="FK_OutputPersonRole_Role"
-        FromEnd="Role"
-        ToEnd="OutputPersonRole" />
-      <NavigationProperty
-        Name="ActiveType"
-        Association="FK_Role_ActiveType"
-        FromEnd="Role"
-        ToEnd="ActiveType" />
       <KeyProperty
-        Name="RoleID"
+        Name="Programme_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -87,44 +27,127 @@
       </KeyProperty>
       <EntityProperty
         Name="Code"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="50" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
+        Name="LongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TextDescription"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProgrammeSiteName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Active"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
           <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="SubOutputPersonRoles"
-        Association="FK_SubOutputPersonRole_Role"
-        FromEnd="Role"
-        ToEnd="SubOutputPersonRole" />
+        Name="Indicators"
+        Association="FK_Indicator_Programme"
+        FromEnd="Programme"
+        ToEnd="Indicator" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_OutputPersonRole_Role">
+    Name="FK_Indicator_Programme">
     <AssociationEnd
-      Name="Role"
-      EntityType="Role">
+      Name="Programme"
+      EntityType="Programme">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="OutputPersonRole"
+      Name="Indicator"
       Multiplicity="Many"
-      EntityType="OutputPersonRole" />
+      EntityType="Indicator" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -132,24 +155,24 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Roles"
+      Name="Programmes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Role" />
+      EntityType="Programme" />
     <AssociationSet
-      Name="FK_OutputPersonRole_Role"
-      Association="FK_OutputPersonRole_Role">
+      Name="FK_Indicator_Programme"
+      Association="FK_Indicator_Programme">
       <AssociationSetEnd
-        Name="Role"
-        EntitySet="Roles" />
+        Name="Programme"
+        EntitySet="Programmes" />
       <AssociationSetEnd
-        Name="OutputPersonRole"
-        EntitySet="OutputPersonRoles" />
+        Name="Indicator"
+        EntitySet="Indicators" />
     </AssociationSet>
     <QueryOperation
-      Name="Roles_Single"
-      ReturnType="Role">
+      Name="Programmes_Single"
+      ReturnType="Programme">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -162,12 +185,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RoleID" />
+                  Member="Programme_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RoleID" />
+                Parameter="Programme_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -175,21 +198,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Roles" />
+            Member="Programmes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RoleID"
+        Name="Programme_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RoleID' key property of the entity to retrieve." />
+            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Roles_SingleOrDefault"
-      ReturnType="Role">
+      Name="Programmes_SingleOrDefault"
+      ReturnType="Programme">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -202,12 +225,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RoleID" />
+                  Member="Programme_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RoleID" />
+                Parameter="Programme_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -215,144 +238,117 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Roles" />
+            Member="Programmes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RoleID"
+        Name="Programme_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RoleID' key property of the entity to retrieve." />
+            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_SubOutputPersonRole_Role"
-      Association="FK_SubOutputPersonRole_Role">
-      <AssociationSetEnd
-        Name="Role"
-        EntitySet="Roles" />
-      <AssociationSetEnd
-        Name="SubOutputPersonRole"
-        EntitySet="SubOutputPersonRoles" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_SubOutputPersonRole_Role">
-    <AssociationEnd
-      Name="Role"
-      EntityType="Role">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="SubOutputPersonRole"
-      Multiplicity="Many"
-      EntityType="SubOutputPersonRole" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Roles">
+      EntitySet="Programmes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="Role" />
+          Schema="app"
+          Table="Programme" />
         <SsdlProperty
-          Name="RoleID"
+          Name="Programme_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Role/Properties[RoleID]" />
+          Property="Programme/Properties[Programme_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
-          Property="Role/Properties[Code]" />
+          Property="Programme/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
+          Nullable="True"
+          Type="varchar"
+          Property="Programme/Properties[LongName]" />
         <SsdlProperty
           MaxLength="255"
-          Name="Name"
-          Nullable="False"
+          Name="BusinessKey"
+          Nullable="True"
           Type="varchar"
-          Property="Role/Properties[Name]" />
+          Property="Programme/Properties[BusinessKey]" />
         <SsdlProperty
-          Name="Description"
+          MaxLength="50"
+          Name="ShortName"
+          Nullable="True"
+          Type="varchar"
+          Property="Programme/Properties[ShortName]" />
+        <SsdlProperty
+          Name="TextDescription"
           Nullable="True"
           Type="varchar(max)"
-          Property="Role/Properties[Description]" />
+          Property="Programme/Properties[TextDescription]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="ProgrammeSiteName"
+          Nullable="True"
+          Type="varchar"
+          Property="Programme/Properties[ProgrammeSiteName]" />
+        <SsdlProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          Property="Programme/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[sys_CreatedBy]" />
+          Property="Programme/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Role/Properties[sys_CreatedOn]" />
+          Property="Programme/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[sys_ModifiedBy]" />
+          Property="Programme/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Role/Properties[sys_ModifiedOn]" />
-        <SsdlForeignKeyProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          PropertyName="Active" />
+          Property="Programme/Properties[sys_ModifiedOn]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_OutputPersonRole_Role">
+      AssociationSet="FK_Indicator_Programme">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_OutputPersonRole_Role" />
+          Name="FK_Indicator_Programme" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_OutputPersonRole_Role]/Members[Role]">
+          End="MeerkatData/Members[FK_Indicator_Programme]/Members[Programme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="RoleID" />
+              Name="Programme_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_OutputPersonRole_Role]/Members[OutputPersonRole]">
+          End="MeerkatData/Members[FK_Indicator_Programme]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Role_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_SubOutputPersonRole_Role">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_SubOutputPersonRole_Role" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubOutputPersonRole_Role]/Members[Role]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="RoleID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubOutputPersonRole_Role]/Members[SubOutputPersonRole]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Role_ID" />
+              Name="Programme_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

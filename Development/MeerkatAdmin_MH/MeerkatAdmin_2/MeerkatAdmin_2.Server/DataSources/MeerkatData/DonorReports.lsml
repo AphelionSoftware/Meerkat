@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Role">
+    Name="DonorReport">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,68 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Description"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <Required />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <Required />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="OutputPersonRoles"
-        Association="FK_OutputPersonRole_Role"
-        FromEnd="Role"
-        ToEnd="OutputPersonRole" />
-      <NavigationProperty
-        Name="ActiveType"
-        Association="FK_Role_ActiveType"
-        FromEnd="Role"
-        ToEnd="ActiveType" />
       <KeyProperty
-        Name="RoleID"
+        Name="DonorReport_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -99,32 +39,107 @@
         Name="Name"
         PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
           <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="SubOutputPersonRoles"
-        Association="FK_SubOutputPersonRole_Role"
-        FromEnd="Role"
-        ToEnd="SubOutputPersonRole" />
+        Name="ActiveType"
+        Association="FK_DonorReport_ActiveType"
+        FromEnd="DonorReport"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="DonorReport_Indicators"
+        Association="FK_DonorReport_Indicator_DonorReport"
+        FromEnd="DonorReport"
+        ToEnd="DonorReport_Indicator" />
+      <NavigationProperty
+        Name="DonorReport_Projects"
+        Association="FK_DonorReport_Project_DonorReport"
+        FromEnd="DonorReport"
+        ToEnd="DonorReport_Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_OutputPersonRole_Role">
+    Name="FK_DonorReport_Indicator_DonorReport">
     <AssociationEnd
-      Name="Role"
-      EntityType="Role">
+      Name="DonorReport"
+      EntityType="DonorReport">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="OutputPersonRole"
+      Name="DonorReport_Indicator"
       Multiplicity="Many"
-      EntityType="OutputPersonRole" />
+      EntityType="DonorReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_DonorReport_Project_DonorReport">
+    <AssociationEnd
+      Name="DonorReport"
+      EntityType="DonorReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="DonorReport_Project"
+      Multiplicity="Many"
+      EntityType="DonorReport_Project" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -132,24 +147,34 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Roles"
+      Name="DonorReports"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Role" />
+      EntityType="DonorReport" />
     <AssociationSet
-      Name="FK_OutputPersonRole_Role"
-      Association="FK_OutputPersonRole_Role">
+      Name="FK_DonorReport_Indicator_DonorReport"
+      Association="FK_DonorReport_Indicator_DonorReport">
       <AssociationSetEnd
-        Name="Role"
-        EntitySet="Roles" />
+        Name="DonorReport"
+        EntitySet="DonorReports" />
       <AssociationSetEnd
-        Name="OutputPersonRole"
-        EntitySet="OutputPersonRoles" />
+        Name="DonorReport_Indicator"
+        EntitySet="DonorReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_DonorReport_Project_DonorReport"
+      Association="FK_DonorReport_Project_DonorReport">
+      <AssociationSetEnd
+        Name="DonorReport"
+        EntitySet="DonorReports" />
+      <AssociationSetEnd
+        Name="DonorReport_Project"
+        EntitySet="DonorReport_Projects" />
     </AssociationSet>
     <QueryOperation
-      Name="Roles_Single"
-      ReturnType="Role">
+      Name="DonorReports_Single"
+      ReturnType="DonorReport">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -162,12 +187,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RoleID" />
+                  Member="DonorReport_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RoleID" />
+                Parameter="DonorReport_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -175,21 +200,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Roles" />
+            Member="DonorReports" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RoleID"
+        Name="DonorReport_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RoleID' key property of the entity to retrieve." />
+            Value="The value of the 'DonorReport_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Roles_SingleOrDefault"
-      ReturnType="Role">
+      Name="DonorReports_SingleOrDefault"
+      ReturnType="DonorReport">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -202,12 +227,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="RoleID" />
+                  Member="DonorReport_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="RoleID" />
+                Parameter="DonorReport_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -215,99 +240,76 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Roles" />
+            Member="DonorReports" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="RoleID"
+        Name="DonorReport_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'RoleID' key property of the entity to retrieve." />
+            Value="The value of the 'DonorReport_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_SubOutputPersonRole_Role"
-      Association="FK_SubOutputPersonRole_Role">
-      <AssociationSetEnd
-        Name="Role"
-        EntitySet="Roles" />
-      <AssociationSetEnd
-        Name="SubOutputPersonRole"
-        EntitySet="SubOutputPersonRoles" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_SubOutputPersonRole_Role">
-    <AssociationEnd
-      Name="Role"
-      EntityType="Role">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="SubOutputPersonRole"
-      Multiplicity="Many"
-      EntityType="SubOutputPersonRole" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Roles">
+      EntitySet="DonorReports">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="Role" />
+          Schema="rpt"
+          Table="DonorReport" />
         <SsdlProperty
-          Name="RoleID"
+          Name="DonorReport_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Role/Properties[RoleID]" />
+          Property="DonorReport/Properties[DonorReport_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[Code]" />
+          Property="DonorReport/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[Name]" />
+          Property="DonorReport/Properties[Name]" />
         <SsdlProperty
-          Name="Description"
+          MaxLength="255"
+          Name="BusinessKey"
           Nullable="True"
-          Type="varchar(max)"
-          Property="Role/Properties[Description]" />
+          Type="varchar"
+          Property="DonorReport/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[sys_CreatedBy]" />
+          Property="DonorReport/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Role/Properties[sys_CreatedOn]" />
+          Property="DonorReport/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Role/Properties[sys_ModifiedBy]" />
+          Property="DonorReport/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Role/Properties[sys_ModifiedOn]" />
+          Property="DonorReport/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -316,43 +318,43 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_OutputPersonRole_Role">
+      AssociationSet="FK_DonorReport_Indicator_DonorReport">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_OutputPersonRole_Role" />
+          Name="FK_DonorReport_Indicator_DonorReport" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_OutputPersonRole_Role]/Members[Role]">
+          End="MeerkatData/Members[FK_DonorReport_Indicator_DonorReport]/Members[DonorReport]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="RoleID" />
+              Name="DonorReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_OutputPersonRole_Role]/Members[OutputPersonRole]">
+          End="MeerkatData/Members[FK_DonorReport_Indicator_DonorReport]/Members[DonorReport_Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Role_ID" />
+              Name="DonorReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_SubOutputPersonRole_Role">
+      AssociationSet="FK_DonorReport_Project_DonorReport">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_SubOutputPersonRole_Role" />
+          Name="FK_DonorReport_Project_DonorReport" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubOutputPersonRole_Role]/Members[Role]">
+          End="MeerkatData/Members[FK_DonorReport_Project_DonorReport]/Members[DonorReport]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="RoleID" />
+              Name="DonorReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubOutputPersonRole_Role]/Members[SubOutputPersonRole]">
+          End="MeerkatData/Members[FK_DonorReport_Project_DonorReport]/Members[DonorReport_Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Role_ID" />
+              Name="DonorReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

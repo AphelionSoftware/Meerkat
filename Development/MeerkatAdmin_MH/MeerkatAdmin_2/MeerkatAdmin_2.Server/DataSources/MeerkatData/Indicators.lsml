@@ -258,6 +258,38 @@
         Association="FK_Indicator_ActiveType"
         FromEnd="Indicator"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="Sector_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="DonorReport_Indicators"
+        Association="FK_DonorReport_Indicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="DonorReport_Indicator" />
+      <NavigationProperty
+        Name="Framework_Indicators"
+        Association="FK_Framework_Indicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="Framework_Indicator" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Indicator_Programme"
+        FromEnd="Indicator"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Indicator_Project"
+        FromEnd="Indicator"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="SubSector"
+        Association="FK_Indicator_SubSector"
+        FromEnd="Indicator"
+        ToEnd="SubSector" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -400,7 +432,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_DonorReport_Indicator_Indicator"
+      Association="FK_DonorReport_Indicator_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="DonorReport_Indicator"
+        EntitySet="DonorReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Framework_Indicator_Indicator"
+      Association="FK_Framework_Indicator_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="Framework_Indicator"
+        EntitySet="Framework_Indicators" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_DonorReport_Indicator_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="DonorReport_Indicator"
+      Multiplicity="Many"
+      EntityType="DonorReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_Framework_Indicator_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Framework_Indicator"
+      Multiplicity="Many"
+      EntityType="Framework_Indicator" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -535,6 +615,11 @@
           Nullable="False"
           Type="datetime"
           Property="Indicator/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[Sector_ID]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -556,12 +641,69 @@
           Type="int"
           PropertyName="Output_ID" />
         <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectID" />
+        <SsdlForeignKeyProperty
           Name="SubOutput_ID"
           Nullable="True"
           Type="int"
           PropertyName="SubOutput_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_DonorReport_Indicator_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_DonorReport_Indicator_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DonorReport_Indicator_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DonorReport_Indicator_Indicator]/Members[DonorReport_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Framework_Indicator_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Framework_Indicator_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Indicator_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Indicator_Indicator]/Members[Framework_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorLocation_Indicator">
       <AssociationSetMapping.Attributes>
