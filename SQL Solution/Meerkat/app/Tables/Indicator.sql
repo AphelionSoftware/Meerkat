@@ -38,10 +38,13 @@
     CONSTRAINT [FK_Indicator_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [FK_Indicator_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_Indicator_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    CONSTRAINT [FK_Indicator_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]),
     CONSTRAINT [UQ_Indicator_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

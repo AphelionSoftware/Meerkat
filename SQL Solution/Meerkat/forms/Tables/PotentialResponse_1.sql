@@ -4,6 +4,7 @@
     [Code]                 VARCHAR (50)  NOT NULL,
     [TextDescription]      VARCHAR (MAX) NOT NULL,
     [Question_ID]          INT           NOT NULL,
+    [ResponseOrder]        INT           NOT NULL,
     [Active]               INT           CONSTRAINT [DF__PotentialResponse_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]        VARCHAR (255) CONSTRAINT [DF_PotentialResponse_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]        DATETIME      CONSTRAINT [DF_PotentialResponse_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -13,6 +14,8 @@
     CONSTRAINT [FK_PotentialResponse_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_PotentialResponse_Question] FOREIGN KEY ([Question_ID]) REFERENCES [forms].[Question] ([Question_ID])
 );
+
+
 
 
 

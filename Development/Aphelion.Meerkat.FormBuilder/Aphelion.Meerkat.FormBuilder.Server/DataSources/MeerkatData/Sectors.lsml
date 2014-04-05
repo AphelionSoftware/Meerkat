@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="PotentialResponse">
+    Name="Sector">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,18 +15,45 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="Sector_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Code"
+        Name="LongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ShortName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
@@ -37,9 +64,8 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength />
           <AnsiConstraint />
         </EntityProperty.Attributes>
@@ -87,49 +113,66 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Question"
-        Association="FK_PotentialResponse_Question"
-        FromEnd="PotentialResponse"
-        ToEnd="Question" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_PotentialResponse_ActiveType"
-        FromEnd="PotentialResponse"
+        Association="FK_Sector_ActiveType"
+        FromEnd="Sector"
         ToEnd="ActiveType" />
-      <KeyProperty
-        Name="PotentialResponse_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <EntityProperty
-        Name="ResponseOrder"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+      <NavigationProperty
+        Name="SubSectors"
+        Association="FK_SubSector_Sector"
+        FromEnd="Sector"
+        ToEnd="SubSector" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Sector_Programme"
+        FromEnd="Sector"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_Sector"
+        FromEnd="Sector"
+        ToEnd="Indicator" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_SubSector_Sector">
+    <AssociationEnd
+      Name="Sector"
+      Multiplicity="One"
+      EntityType="Sector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="SubSector"
+      Multiplicity="Many"
+      EntityType="SubSector" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="PotentialResponses"
+      Name="Sectors"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="PotentialResponse" />
+      EntityType="Sector" />
+    <AssociationSet
+      Name="FK_SubSector_Sector"
+      Association="FK_SubSector_Sector">
+      <AssociationSetEnd
+        Name="Sector"
+        EntitySet="Sectors" />
+      <AssociationSetEnd
+        Name="SubSector"
+        EntitySet="SubSectors" />
+    </AssociationSet>
     <QueryOperation
-      Name="PotentialResponses_Single"
-      ReturnType="PotentialResponse">
+      Name="Sectors_Single"
+      ReturnType="Sector">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -142,12 +185,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="PotentialResponse_ID" />
+                  Member="Sector_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="PotentialResponse_ID" />
+                Parameter="Sector_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -155,21 +198,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="PotentialResponses" />
+            Member="Sectors" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="PotentialResponse_ID"
+        Name="Sector_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Sector_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="PotentialResponses_SingleOrDefault"
-      ReturnType="PotentialResponse">
+      Name="Sectors_SingleOrDefault"
+      ReturnType="Sector">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -182,12 +225,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="PotentialResponse_ID" />
+                  Member="Sector_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="PotentialResponse_ID" />
+                Parameter="Sector_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -195,91 +238,164 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="PotentialResponses" />
+            Member="Sectors" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="PotentialResponse_ID"
+        Name="Sector_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Sector_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Indicator_Sector"
+      Association="FK_Indicator_Sector">
+      <AssociationSetEnd
+        Name="Sector"
+        EntitySet="Sectors" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Indicator_Sector">
+    <AssociationEnd
+      Name="Sector"
+      EntityType="Sector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="PotentialResponses">
+      EntitySet="Sectors">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="forms"
-          Table="PotentialResponse" />
+          Schema="app"
+          Table="Sector" />
         <SsdlProperty
-          Name="PotentialResponse_ID"
+          Name="Sector_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="PotentialResponse/Properties[PotentialResponse_ID]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="PotentialResponse/Properties[Name]" />
+          Property="Sector/Properties[Sector_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
+          Nullable="True"
+          Type="varchar"
+          Property="Sector/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
+          Nullable="True"
+          Type="varchar"
+          Property="Sector/Properties[LongName]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="BusinessKey"
+          Nullable="True"
+          Type="varchar"
+          Property="Sector/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="ShortName"
           Nullable="False"
           Type="varchar"
-          Property="PotentialResponse/Properties[Code]" />
+          Property="Sector/Properties[ShortName]" />
         <SsdlProperty
           Name="TextDescription"
-          Nullable="False"
+          Nullable="True"
           Type="varchar(max)"
-          Property="PotentialResponse/Properties[TextDescription]" />
-        <SsdlProperty
-          Name="ResponseOrder"
-          Nullable="False"
-          Type="int"
-          Property="PotentialResponse/Properties[ResponseOrder]" />
+          Property="Sector/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="PotentialResponse/Properties[sys_CreatedBy]" />
+          Property="Sector/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="PotentialResponse/Properties[sys_CreatedOn]" />
+          Property="Sector/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="PotentialResponse/Properties[sys_ModifiedBy]" />
+          Property="Sector/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="PotentialResponse/Properties[sys_ModifiedOn]" />
+          Property="Sector/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="Question_ID"
-          Nullable="False"
+          Name="Programme_ID"
+          Nullable="True"
           Type="int"
-          PropertyName="Question_ID" />
+          PropertyName="Programme_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Indicator_Sector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Indicator_Sector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_SubSector_Sector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_SubSector_Sector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SubSector_Sector]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SubSector_Sector]/Members[SubSector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>
