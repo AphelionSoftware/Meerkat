@@ -201,7 +201,23 @@
             Name="EventsSortedQuery"
             ReturnType="c_Event*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="Equal">
+                  <BinaryExpression.Left>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="c_Event/Properties[Project]" />
+                      <MemberExpression
+                        Member="ProjectID" />
+                    </ChainExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <ParameterExpression
+                      Parameter="ProjectID" />
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
@@ -214,10 +230,25 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseEventsSorted/Properties[EventsSorted]/Query" />
+              Target="BrowseEventsSorted/Properties[EventsSorted]/Query">
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseEventsSorted/Properties[ProjectID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="ProjectID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -227,6 +258,9 @@
         <ShowScreenMethod
           TargetScreen="BrowseEventsSorted" />
       </ApplicationMethod.Attributes>
+      <ApplicationMethodParameter
+        Name="ProjectID"
+        ParameterType=":Int32?" />
     </ApplicationMethod>
   </Application.Methods>
 </Application>

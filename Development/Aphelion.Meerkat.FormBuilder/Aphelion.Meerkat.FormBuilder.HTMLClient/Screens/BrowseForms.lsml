@@ -109,22 +109,6 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="AddForm"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-add"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
                 Name="ShowFilter"
                 Kind="Command">
                 <ContentItem.PropertySources>
@@ -150,6 +134,38 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-filter"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="AddForm"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditForm]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="BrowseForms/Properties[FormsSorted]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditForm]/Parameters[Form]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -268,7 +284,23 @@
             Name="FormsSortedQuery"
             ReturnType="Form*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="Equal">
+                  <BinaryExpression.Left>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="Form/Properties[Project]" />
+                      <MemberExpression
+                        Member="ProjectID" />
+                    </ChainExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <ParameterExpression
+                      Parameter="ProjectID" />
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
@@ -310,6 +342,13 @@
                     Member="BrowseForms/Properties[ProjectName]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseForms/Properties[ProjectID]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -326,6 +365,13 @@
       <ScreenProperty
         Name="ProjectName"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="ProjectID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -335,6 +381,9 @@
         <ShowScreenMethod
           TargetScreen="BrowseForms" />
       </ApplicationMethod.Attributes>
+      <ApplicationMethodParameter
+        Name="ProjectID"
+        ParameterType=":Int32?" />
     </ApplicationMethod>
   </Application.Methods>
 </Application>

@@ -1220,7 +1220,7 @@ $.widget( "mobile.widget", {
 //         inclusion of the X-UA-Compatible IE=EmulateIE7 meta tag.
 // 1.0   - (1/9/2010) Initial Release. Broke out the jQuery BBQ event.special
 //         window.onhashchange functionality into a separate plugin for users
-//         who want just the basic event & back button support, without all the
+//         who want just the basi Event & back button support, without all the
 //         extra awesomeness that BBQ provides. This plugin will be included as
 //         part of jQuery BBQ, but also be available separately.
 
@@ -2555,7 +2555,7 @@ if ( !$.support.boxShadow ) {
 		// and completely prevent them from propagating. The popstate event will then be
 		// retriggered after execution resumes
 		//
-		// TODO grab the original event here and use it for the synthetic event in the
+		// TODO grab the original event here and use it for the syntheti Event in the
 		//      second half of the navigate execution that will follow this binding
 		popstate: function( event ) {
 			var active, hash, state, closestIndex;

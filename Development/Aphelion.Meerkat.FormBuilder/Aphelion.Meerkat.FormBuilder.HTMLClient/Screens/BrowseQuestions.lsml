@@ -23,7 +23,7 @@
             Name="QuestionList"
             Kind="Group">
             <ContentItem
-              Name="Question"
+              Name="QuestionsSorted"
               Kind="Collection"
               DataType="CollectionView$Question"
               View="Microsoft.LightSwitch.MobileWeb:Table">
@@ -31,12 +31,12 @@
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseQuestions/Properties[Questions]" />
+                      Member="BrowseQuestions/Properties[QuestionsSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="RowTemplate"
+                Name="QuestionsSortedTemplate"
                 Kind="Details"
                 DataType="Question">
                 <ContentItem.DataSource>
@@ -45,10 +45,59 @@
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="QuestionType"
+                  Name="Category"
                   Kind="Details"
-                  DataType="QuestionType"
-                  View="Microsoft.LightSwitch.MobileWeb:DetailsModalPicker">
+                  DataType="Category"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Question/Properties[Category]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Form"
+                    Kind="Details"
+                    DataType="Form">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Category/Properties[Form]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Form1"
+                      Kind="Details"
+                      DataType="Form">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Name"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Category/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="QuestionType1"
+                  Kind="Details"
+                  DataType="QuestionType">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -58,7 +107,7 @@
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="QuestionTypeTemplate"
+                    Name="QuestionType2"
                     Kind="Details"
                     DataType="QuestionType">
                     <ContentItem.DataSource>
@@ -66,23 +115,12 @@
                         <ChainExpression />
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
-                    <ContentItem
-                      Name="RowTemplate1"
-                      Kind="Details"
-                      DataType="QuestionType">
-                      <ContentItem.DataSource>
-                        <ScreenExpressionTree>
-                          <ChainExpression />
-                        </ScreenExpressionTree>
-                      </ContentItem.DataSource>
-                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
                 <ContentItem
-                  Name="Name"
+                  Name="Name1"
                   Kind="Value"
-                  DataType=":String"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                  DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -93,10 +131,9 @@
                   </ContentItem.DataSource>
                 </ContentItem>
                 <ContentItem
-                  Name="Code"
+                  Name="Code1"
                   Kind="Value"
-                  DataType=":String"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                  DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -109,8 +146,7 @@
                 <ContentItem
                   Name="TextDescription"
                   Kind="Value"
-                  DataType=":String"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                  DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -119,29 +155,6 @@
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="ActiveType"
-                  Kind="Details"
-                  DataType="ActiveType">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[ActiveType]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                  <ContentItem
-                    Name="RowTemplate2"
-                    Kind="Details"
-                    DataType="ActiveType">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression />
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
                 </ContentItem>
               </ContentItem>
             </ContentItem>
@@ -158,11 +171,21 @@
                           Target="!module/Methods[showAddEditQuestion]">
                           <CallExpression.Attributes>
                             <AssociatedCollection
-                              Collection="BrowseQuestions/Properties[Questions]" />
+                              Collection="BrowseQuestions/Properties[QuestionsSorted]" />
                             <CreateNewEntity
                               TargetParameter="!module/Methods[showAddEditQuestion]/Parameters[Question]" />
                           </CallExpression.Attributes>
                         </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -186,7 +209,87 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
+          <ContentItem
+            Name="Filter"
+            Kind="Group">
+            <ContentItem
+              Name="QuestionType_ID"
+              Kind="Details"
+              DataType="QuestionType">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseQuestions/Properties[QuestionType_ID]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="QuestionType"
+                Kind="Details"
+                DataType="QuestionType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Name2"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseQuestions/Properties[Name]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="Code"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseQuestions/Properties[Code]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="FormName"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseQuestions/Properties[FormName]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="FormCode"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseQuestions/Properties[FormCode]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
         <ContentItem.PropertySources>
           <ControlPropertySource
             Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
@@ -227,12 +330,12 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Questions"
+        Name="QuestionsSorted"
         PageSize="45"
         PropertyType="CollectionView$Question">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="QuestionsQuery"
+            Name="QuestionsSortedQuery"
             ReturnType="Question*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
@@ -240,7 +343,7 @@
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Questions]" />
+                  Member="MeerkatData/Members[QuestionsSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -248,10 +351,63 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseQuestions/Properties[Questions]/Query" />
+              Target="BrowseQuestions/Properties[QuestionsSorted]/Query">
+              <ArgumentExpression
+                Parameter="Code">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseQuestions/Properties[Code]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseQuestions/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="QuestionType_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseQuestions/Properties[QuestionType_ID]" />
+                  <MemberExpression
+                    Member="QuestionType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="FormName">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseQuestions/Properties[FormName]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="FormCode">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseQuestions/Properties[FormCode]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="Code"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="Name"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="QuestionType_ID"
+        PropertyType="QuestionType" />
+      <ScreenProperty
+        Name="FormName"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="FormCode"
+        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
