@@ -15,18 +15,62 @@
       <QueryOperation.FilterExpression>
         <QueryFilterExpressionTree>
           <BinaryExpression
-            NodeType="Equal">
+            NodeType="And">
             <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="Project" />
-                <MemberExpression
-                  Member="ProjectID" />
-              </ChainExpression>
+              <BinaryExpression
+                NodeType="And">
+                <BinaryExpression.Left>
+                  <BinaryExpression
+                    NodeType="Equal">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Project" />
+                        <MemberExpression
+                          Member="ProjectID" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="ProjectID" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <BinaryExpression
+                    NodeType="Contains">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Name" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="Name" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="ProjectID" />
+              <TernaryExpression
+                NodeType="Between">
+                <TernaryExpression.First>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="EventDate" />
+                  </ChainExpression>
+                </TernaryExpression.First>
+                <TernaryExpression.Second>
+                  <ParameterExpression
+                    Parameter="StartDate" />
+                </TernaryExpression.Second>
+                <TernaryExpression.Third>
+                  <ParameterExpression
+                    Parameter="EndDate" />
+                </TernaryExpression.Third>
+              </TernaryExpression>
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -41,6 +85,18 @@
         Name="ProjectID"
         IsOptional="True"
         ParameterType=":Int32?" />
+      <QueryOperationParameter
+        Name="Name"
+        IsOptional="True"
+        ParameterType=":String?" />
+      <QueryOperationParameter
+        Name="StartDate"
+        IsOptional="True"
+        ParameterType=":Date?" />
+      <QueryOperationParameter
+        Name="EndDate"
+        IsOptional="True"
+        ParameterType=":Date?" />
       <QueryOperation.SortCriteria>
         <SortCriterion>
           <ChainExpression>

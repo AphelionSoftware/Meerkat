@@ -2344,7 +2344,8 @@ where not exists (select 1 FROM [RBM].[StatusValues] SV where SV.Outcome_ID = OM
 /*Insert Forms data*/
 
 :r .\forms.QuestionType.PDS.sql								
-:r .\disagg.Gender.PDS.sql								
+:r .\disagg.Gender.PDS.sql
+:r .\disagg.Age.PDS.sql								
 
 /*end Insert Forms data*/
 
