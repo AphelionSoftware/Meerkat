@@ -9,6 +9,7 @@
     [Programme_ID]    INT            NULL,
     [Sector_ID]       INT            NULL,
     [SubSector_ID]    INT            NULL,
+    [ProjectSiteName] VARCHAR (255)  CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
     [Active]          INT            CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -24,6 +25,8 @@
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]),
     CONSTRAINT [UW_Project_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
