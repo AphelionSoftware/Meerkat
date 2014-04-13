@@ -121,16 +121,6 @@
         FromEnd="Project"
         ToEnd="Outcome" />
       <NavigationProperty
-        Name="Projects"
-        Association="FK_Project_Project"
-        FromEnd="Project"
-        ToEnd="Project1" />
-      <NavigationProperty
-        Name="Project1"
-        Association="FK_Project_Project"
-        FromEnd="Project1"
-        ToEnd="Project" />
-      <NavigationProperty
         Name="Activities"
         Association="FK_Activity_Project"
         FromEnd="Project"
@@ -140,6 +130,58 @@
         Association="FK_StatusValues_Project"
         FromEnd="Project"
         ToEnd="StatusValues" />
+      <EntityProperty
+        Name="ProjectParentID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProjectSiteName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_Project"
+        FromEnd="Project"
+        ToEnd="Indicator" />
+      <NavigationProperty
+        Name="Outcome1"
+        Association="FK_Project_Outcome1"
+        FromEnd="Project"
+        ToEnd="Outcome" />
+      <NavigationProperty
+        Name="AgeBands"
+        Association="FK_AgeBand_Project"
+        FromEnd="Project"
+        ToEnd="AgeBand" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Project"
+        FromEnd="Project"
+        ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Project_Programme"
+        FromEnd="Project"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Sector"
+        Association="FK_Project_Sector"
+        FromEnd="Project"
+        ToEnd="Sector" />
+      <NavigationProperty
+        Name="SubSector"
+        Association="FK_Project_SubSector"
+        FromEnd="Project"
+        ToEnd="SubSector" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -155,21 +197,6 @@
       Name="Milestone"
       Multiplicity="Many"
       EntityType="Milestone" />
-  </Association>
-  <Association
-    Name="FK_Project_Project">
-    <AssociationEnd
-      Name="Project"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule
-          Action="Restrict" />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project1"
-      Multiplicity="Many"
-      EntityType="Project" />
   </Association>
   <Association
     Name="FK_Activity_Project">
@@ -220,16 +247,6 @@
       <AssociationSetEnd
         Name="Milestone"
         EntitySet="Milestones" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Project_Project"
-      Association="FK_Project_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Project1"
-        EntitySet="Projects" />
     </AssociationSet>
     <QueryOperation
       Name="Projects_Single"
@@ -331,7 +348,80 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Indicator_Project"
+      Association="FK_Indicator_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_AgeBand_Project"
+      Association="FK_AgeBand_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Project"
+      Association="FK_PeopleReachedValues_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Indicator_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+  </Association>
+  <Association
+    Name="FK_AgeBand_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_PeopleReachedValues_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -373,6 +463,17 @@
           Type="varchar(max)"
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
+          Name="ProjectParentID"
+          Nullable="True"
+          Type="int"
+          Property="Project/Properties[ProjectParentID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ProjectSiteName"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[ProjectSiteName]" />
+        <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
@@ -401,14 +502,24 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="Outcome_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="Outcome_ID" />
         <SsdlForeignKeyProperty
-          Name="ProjectParentID"
+          Name="Programme_ID"
           Nullable="True"
           Type="int"
-          PropertyName="ProjectParentID" />
+          PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Sector_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -425,6 +536,48 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Activity_Project]/Members[Activity]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Indicator_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Indicator_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Project]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
@@ -454,22 +607,22 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Project_Project">
+      AssociationSet="FK_PeopleReachedValues_Project">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Project_Project" />
+          Name="FK_PeopleReachedValues_Project" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
+          End="MeerkatData/Members[FK_PeopleReachedValues_Project]/Members[Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
+          End="MeerkatData/Members[FK_PeopleReachedValues_Project]/Members[PeopleReachedValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ProjectParentID" />
+              Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

@@ -151,6 +151,11 @@
         Association="FK_StatusValues_Output"
         FromEnd="Output"
         ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Output"
+        FromEnd="Output"
+        ToEnd="PeopleReachedValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -391,7 +396,31 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Output"
+      Association="FK_PeopleReachedValues_Output">
+      <AssociationSetEnd
+        Name="Output"
+        EntitySet="Outputs" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_Output">
+    <AssociationEnd
+      Name="Output"
+      EntityType="Output">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -466,7 +495,7 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="Outcome_ID"
-          Nullable="True"
+          Nullable="False"
           Type="int"
           PropertyName="Outcome_ID" />
       </EntitySetMapping.Attributes>
@@ -548,6 +577,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OutputPersonRole_Output]/Members[OutputPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PeopleReachedValues_Output">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PeopleReachedValues_Output" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Output]/Members[Output]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Output_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Output]/Members[PeopleReachedValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Output_ID" />

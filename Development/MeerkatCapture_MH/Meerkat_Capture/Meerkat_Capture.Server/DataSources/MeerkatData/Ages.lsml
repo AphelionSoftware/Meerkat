@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="StatusValue">
+    Name="Age">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="StatusValuesID"
+        Name="Age_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -25,13 +25,6 @@
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
-      <EntityProperty
-        Name="Notes"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
@@ -76,77 +69,85 @@
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_StatusValues_ActiveType"
-        FromEnd="StatusValues"
+        Association="FK_Age_ActiveType"
+        FromEnd="Age"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="Activity"
-        Association="FK_StatusValues_Activity"
-        FromEnd="StatusValues"
-        ToEnd="Activity" />
+        Name="AgeBands"
+        Association="FK_AgeBand_Age"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
       <NavigationProperty
-        Name="Outcome"
-        Association="FK_StatusValues_Outcome"
-        FromEnd="StatusValues"
-        ToEnd="Outcome" />
-      <NavigationProperty
-        Name="Output"
-        Association="FK_StatusValues_Output"
-        FromEnd="StatusValues"
-        ToEnd="Output" />
-      <NavigationProperty
-        Name="Project"
-        Association="FK_StatusValues_Project"
-        FromEnd="StatusValues"
-        ToEnd="Project" />
-      <NavigationProperty
-        Name="ReportingPeriod"
-        Association="FK_StatusValues_ReportingPeriod"
-        FromEnd="StatusValues"
-        ToEnd="ReportingPeriod" />
-      <NavigationProperty
-        Name="SubOutput"
-        Association="FK_StatusValues_SubOutput"
-        FromEnd="StatusValues"
-        ToEnd="SubOutput" />
-      <NavigationProperty
-        Name="StatusType"
-        Association="FK_StatusValues_StatusType"
-        FromEnd="StatusValues"
-        ToEnd="StatusType" />
-      <NavigationProperty
-        Name="DataVersion"
-        Association="FK_StatusValues_DataVersion"
-        FromEnd="StatusValues"
-        ToEnd="DataVersion" />
-      <NavigationProperty
-        Name="Location"
-        Association="FK_StatusValues_Location"
-        FromEnd="StatusValues"
-        ToEnd="Location" />
-      <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        Name="AgeBands1"
+        Association="FK_AgeBand_Age1"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_AgeBand_Age">
+    <AssociationEnd
+      Name="Age"
+      Multiplicity="One"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_AgeBand_Age1">
+    <AssociationEnd
+      Name="Age"
+      Multiplicity="One"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="StatusValues"
+      Name="Ages"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="StatusValue" />
+      EntityType="Age" />
+    <AssociationSet
+      Name="FK_AgeBand_Age"
+      Association="FK_AgeBand_Age">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_AgeBand_Age1"
+      Association="FK_AgeBand_Age1">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
     <QueryOperation
-      Name="StatusValues_Single"
-      ReturnType="StatusValue">
+      Name="Ages_Single"
+      ReturnType="Age">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -159,12 +160,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StatusValuesID" />
+                  Member="Age_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StatusValuesID" />
+                Parameter="Age_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -172,21 +173,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusValues" />
+            Member="Ages" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StatusValuesID"
+        Name="Age_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StatusValuesID' key property of the entity to retrieve." />
+            Value="The value of the 'Age_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="StatusValues_SingleOrDefault"
-      ReturnType="StatusValue">
+      Name="Ages_SingleOrDefault"
+      ReturnType="Age">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -199,12 +200,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StatusValuesID" />
+                  Member="Age_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StatusValuesID" />
+                Parameter="Age_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -212,15 +213,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusValues" />
+            Member="Ages" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StatusValuesID"
+        Name="Age_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StatusValuesID' key property of the entity to retrieve." />
+            Value="The value of the 'Age_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -231,100 +232,87 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="StatusValues">
+      EntitySet="Ages">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="RBM"
-          Table="StatusValues" />
+          Schema="disagg"
+          Table="Age" />
         <SsdlProperty
-          Name="StatusValuesID"
+          Name="Age_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="StatusValue/Properties[StatusValuesID]" />
-        <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="StatusValue/Properties[Programme_ID]" />
-        <SsdlProperty
-          Name="Notes"
-          Nullable="True"
-          Type="nvarchar(max)"
-          Property="StatusValue/Properties[Notes]" />
+          Property="Age/Properties[Age_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusValue/Properties[sys_CreatedBy]" />
+          Property="Age/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusValue/Properties[sys_CreatedOn]" />
+          Property="Age/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusValue/Properties[sys_ModifiedBy]" />
+          Property="Age/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusValue/Properties[sys_ModifiedOn]" />
+          Property="Age/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="Activity_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Activity_ID" />
-        <SsdlForeignKeyProperty
-          Name="DataVersionID"
-          Nullable="False"
-          Type="int"
-          PropertyName="DataVersionID" />
-        <SsdlForeignKeyProperty
-          Name="LocationID"
-          Nullable="False"
-          Type="int"
-          PropertyName="LocationID" />
-        <SsdlForeignKeyProperty
-          Name="Outcome_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Outcome_ID" />
-        <SsdlForeignKeyProperty
-          Name="Output_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Output_ID" />
-        <SsdlForeignKeyProperty
-          Name="ProjectID"
-          Nullable="True"
-          Type="int"
-          PropertyName="ProjectID" />
-        <SsdlForeignKeyProperty
-          Name="ReportingPeriodID"
-          Nullable="False"
-          Type="int"
-          PropertyName="ReportingPeriodID" />
-        <SsdlForeignKeyProperty
-          Name="StatusTypeID"
-          Nullable="True"
-          Type="int"
-          PropertyName="StatusTypeID" />
-        <SsdlForeignKeyProperty
-          Name="SubOutput_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="SubOutput_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Age">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Age" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBandMin_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Age1">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Age1" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBandMax_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

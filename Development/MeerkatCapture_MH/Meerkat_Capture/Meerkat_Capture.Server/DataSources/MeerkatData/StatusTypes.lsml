@@ -106,6 +106,11 @@
         Association="FK_StatusType_ActiveType"
         FromEnd="StatusType"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_StatusType"
+        FromEnd="StatusType"
+        ToEnd="PeopleReachedValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -223,7 +228,31 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_StatusType"
+      Association="FK_PeopleReachedValues_StatusType">
+      <AssociationSetEnd
+        Name="StatusType"
+        EntitySet="StatusTypes" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_StatusType">
+    <AssociationEnd
+      Name="StatusType"
+      EntityType="StatusType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -288,6 +317,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PeopleReachedValues_StatusType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PeopleReachedValues_StatusType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_StatusType]/Members[StatusType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_StatusType]/Members[PeopleReachedValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="StatusType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_StatusValues_StatusType">
       <AssociationSetMapping.Attributes>

@@ -167,6 +167,11 @@
         Association="FK_Location_LocationType"
         FromEnd="Location"
         ToEnd="LocationType" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Location"
+        FromEnd="Location"
+        ToEnd="PeopleReachedValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -409,7 +414,32 @@
         Name="Location1"
         EntitySet="Locations" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Location"
+      Association="FK_PeopleReachedValues_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -598,6 +628,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_MilestoneValues_Location]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PeopleReachedValues_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PeopleReachedValues_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Location]/Members[PeopleReachedValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />
