@@ -351,6 +351,66 @@
                 Kind="Group"
                 View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem
+                  Name="StatusValue_Project"
+                  Kind="Details"
+                  DataType="Project">
+                  <ContentItem.ChoicesSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddEditStatusValue/Properties[Projects]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.ChoicesSource>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddEditStatusValue/Properties[StatusValue]" />
+                        <MemberExpression
+                          Member="Project" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Project"
+                    Kind="Details"
+                    DataType="Project"
+                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Code"
+                      Kind="Value"
+                      DataType=":String">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Project/Properties[Code]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Name="ShortName4"
+                      Kind="Value"
+                      DataType=":String">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="Project/Properties[ShortName]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
                   Name="ShowSearchProject"
                   Kind="Command">
                   <ContentItem.Attributes>
@@ -1167,6 +1227,67 @@
               Name="Group3"
               Kind="Group"
               View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout" />
+            <ContentItem
+              Name="Projects"
+              Kind="Collection"
+              DataType="CollectionView$Project">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditStatusValue/Properties[Projects]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="ProjectsTemplate"
+                Kind="Details"
+                DataType="Project"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Code13"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Project/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName6"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Project/Properties[ShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <CallExpression
+                        Target="AddEditStatusValue/Methods[SearchProjectsTap]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
           </ContentItem>
           <ContentItem
             Name="SearchActivity"
@@ -1688,7 +1809,12 @@
                         <BinaryExpression
                           NodeType="Equal">
                           <BinaryExpression.Left>
-                            <ChainExpression />
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="StatusValue/Properties[Project]" />
+                              <MemberExpression
+                                Member="ProjectID" />
+                            </ChainExpression>
                           </BinaryExpression.Left>
                           <BinaryExpression.Right>
                             <ParameterExpression
@@ -1801,7 +1927,16 @@
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
-                Parameter="ProjectID" />
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditStatusValue/Properties[StatusValue]" />
+                  <MemberExpression
+                    Member="Project" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="SubOutput_ID">
                 <ChainExpression>
@@ -1934,6 +2069,46 @@
           <ChainExpression>
             <CallExpression
               Target="AddEditStatusValue/Properties[SubOutputs]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="Projects"
+        PageSize="45"
+        PropertyType="CollectionView$Project">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="ProjectsQuery"
+            ReturnType="Project*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[Projects]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+            <ScreenQueryDefinition.SortCriteria>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="Code" />
+                </ChainExpression>
+              </SortCriterion>
+              <SortCriterion>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ShortName" />
+                </ChainExpression>
+              </SortCriterion>
+            </ScreenQueryDefinition.SortCriteria>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditStatusValue/Properties[Projects]/Query" />
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
