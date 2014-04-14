@@ -112,9 +112,19 @@
         FromEnd="ProjectParticipantAgeBand"
         ToEnd="Age" />
       <NavigationProperty
+        Name="IndicatorValues"
+        Association="FK_IndicatorValues_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="IndicatorValues" />
+      <NavigationProperty
+        Name="MilestoneValues"
+        Association="FK_MilestoneValues_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="MilestoneValues" />
+      <NavigationProperty
         Name="Project"
-        Association="Project_ProjectParticipantAgeBand"
-        FromEnd="ProjectParticipantAgeBand"
+        Association="FK_AgeBand_Project"
+        FromEnd="AgeBand"
         ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
@@ -209,7 +219,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_IndicatorValues_AgeBand"
+      Association="FK_IndicatorValues_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="ProjectParticipantAgeBands" />
+      <AssociationSetEnd
+        Name="IndicatorValues"
+        EntitySet="IndicatorValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_MilestoneValues_AgeBand"
+      Association="FK_MilestoneValues_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="ProjectParticipantAgeBands" />
+      <AssociationSetEnd
+        Name="MilestoneValues"
+        EntitySet="MilestoneValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_IndicatorValues_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="ProjectParticipantAgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="IndicatorValues"
+      Multiplicity="Many"
+      EntityType="IndicatorValue" />
+  </Association>
+  <Association
+    Name="FK_MilestoneValues_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="ProjectParticipantAgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="MilestoneValues"
+      Multiplicity="Many"
+      EntityType="MilestoneValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -288,5 +346,47 @@
           PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_IndicatorValues_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_IndicatorValues_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_AgeBand]/Members[IndicatorValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_MilestoneValues_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_MilestoneValues_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_AgeBand]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

@@ -101,6 +101,16 @@
         Association="FK_Group_ActiveType"
         FromEnd="Group"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="IndicatorValues"
+        Association="FK_IndicatorValues_Group"
+        FromEnd="Group"
+        ToEnd="IndicatorValues" />
+      <NavigationProperty
+        Name="MilestoneValues"
+        Association="FK_MilestoneValues_Group"
+        FromEnd="Group"
+        ToEnd="MilestoneValues" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -194,7 +204,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_IndicatorValues_Group"
+      Association="FK_IndicatorValues_Group">
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+      <AssociationSetEnd
+        Name="IndicatorValues"
+        EntitySet="IndicatorValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_MilestoneValues_Group"
+      Association="FK_MilestoneValues_Group">
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+      <AssociationSetEnd
+        Name="MilestoneValues"
+        EntitySet="MilestoneValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_IndicatorValues_Group">
+    <AssociationEnd
+      Name="Group"
+      EntityType="Group">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="IndicatorValues"
+      Multiplicity="Many"
+      EntityType="IndicatorValue" />
+  </Association>
+  <Association
+    Name="FK_MilestoneValues_Group">
+    <AssociationEnd
+      Name="Group"
+      EntityType="Group">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="MilestoneValues"
+      Multiplicity="Many"
+      EntityType="MilestoneValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -259,5 +317,47 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_IndicatorValues_Group">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_IndicatorValues_Group" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Group]/Members[Group]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Group]/Members[IndicatorValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_MilestoneValues_Group">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_MilestoneValues_Group" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Group]/Members[Group]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Group]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

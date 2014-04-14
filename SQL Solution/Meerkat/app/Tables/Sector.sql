@@ -3,7 +3,7 @@
     [Code]            VARCHAR (50)  NULL,
     [LongName]        VARCHAR (500) NULL,
     [BusinessKey]     VARCHAR (255) NULL,
-    [Programme_ID]    INT           NULL,
+    [Programme_ID]    INT           NOT NULL,
     [ShortName]       VARCHAR (50)  NOT NULL,
     [TextDescription] VARCHAR (MAX) NULL,
     [Active]          INT           DEFAULT ((1)) NOT NULL,

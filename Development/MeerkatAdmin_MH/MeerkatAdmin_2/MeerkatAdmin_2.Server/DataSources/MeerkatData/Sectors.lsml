@@ -53,13 +53,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="ShortName"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -129,6 +122,21 @@
         Association="FK_SubSector_Sector"
         FromEnd="Sector"
         ToEnd="SubSector" />
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_Sector"
+        FromEnd="Sector"
+        ToEnd="Indicator" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Sector_Programme"
+        FromEnd="Sector"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_Sector"
+        FromEnd="Sector"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -247,7 +255,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Indicator_Sector"
+      Association="FK_Indicator_Sector">
+      <AssociationSetEnd
+        Name="Sector"
+        EntitySet="Sectors" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_Sector"
+      Association="FK_Project_Sector">
+      <AssociationSetEnd
+        Name="Sector"
+        EntitySet="Sectors" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Indicator_Sector">
+    <AssociationEnd
+      Name="Sector"
+      EntityType="Sector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
+  </Association>
+  <Association
+    Name="FK_Project_Sector">
+    <AssociationEnd
+      Name="Sector"
+      EntityType="Sector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="Many"
+      EntityType="Project" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -283,11 +339,6 @@
           Nullable="True"
           Type="varchar"
           Property="Sector/Properties[BusinessKey]" />
-        <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="Sector/Properties[Programme_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="ShortName"
@@ -326,8 +377,55 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Programme_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Indicator_Sector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Indicator_Sector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_Sector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_Sector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Sector]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Sector]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_SubSector_Sector">
       <AssociationSetMapping.Attributes>

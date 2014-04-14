@@ -101,6 +101,16 @@
         Association="FK_Institution_ActiveType"
         FromEnd="Institution"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="IndicatorValues"
+        Association="FK_IndicatorValues_Institution"
+        FromEnd="Institution"
+        ToEnd="IndicatorValues" />
+      <NavigationProperty
+        Name="MilestoneValues"
+        Association="FK_MilestoneValues_Institution"
+        FromEnd="Institution"
+        ToEnd="MilestoneValues" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -194,7 +204,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_IndicatorValues_Institution"
+      Association="FK_IndicatorValues_Institution">
+      <AssociationSetEnd
+        Name="Institution"
+        EntitySet="Institutions" />
+      <AssociationSetEnd
+        Name="IndicatorValues"
+        EntitySet="IndicatorValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_MilestoneValues_Institution"
+      Association="FK_MilestoneValues_Institution">
+      <AssociationSetEnd
+        Name="Institution"
+        EntitySet="Institutions" />
+      <AssociationSetEnd
+        Name="MilestoneValues"
+        EntitySet="MilestoneValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_IndicatorValues_Institution">
+    <AssociationEnd
+      Name="Institution"
+      EntityType="Institution">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="IndicatorValues"
+      Multiplicity="Many"
+      EntityType="IndicatorValue" />
+  </Association>
+  <Association
+    Name="FK_MilestoneValues_Institution">
+    <AssociationEnd
+      Name="Institution"
+      EntityType="Institution">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="MilestoneValues"
+      Multiplicity="Many"
+      EntityType="MilestoneValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -259,5 +317,47 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_IndicatorValues_Institution">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_IndicatorValues_Institution" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Institution]/Members[Institution]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Institution]/Members[IndicatorValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_MilestoneValues_Institution">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_MilestoneValues_Institution" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Institution]/Members[Institution]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Institution]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

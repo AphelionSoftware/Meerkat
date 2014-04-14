@@ -133,6 +133,11 @@
         Association="FK_Framework_Organization"
         FromEnd="Organization"
         ToEnd="Framework" />
+      <NavigationProperty
+        Name="OrganizationPersonRoles"
+        Association="FK_OrganizationPersonRole_Organization"
+        FromEnd="Organization"
+        ToEnd="OrganizationPersonRole" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -333,6 +338,16 @@
         Name="Framework"
         EntitySet="Frameworks" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_OrganizationPersonRole_Organization"
+      Association="FK_OrganizationPersonRole_Organization">
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+      <AssociationSetEnd
+        Name="OrganizationPersonRole"
+        EntitySet="OrganizationPersonRoles" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Framework_Organization">
@@ -347,6 +362,20 @@
       Name="Framework"
       Multiplicity="Many"
       EntityType="Framework" />
+  </Association>
+  <Association
+    Name="FK_OrganizationPersonRole_Organization">
+    <AssociationEnd
+      Name="Organization"
+      EntityType="Organization">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OrganizationPersonRole"
+      Multiplicity="Many"
+      EntityType="OrganizationPersonRole" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -501,6 +530,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ParentOrganization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OrganizationPersonRole_Organization">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OrganizationPersonRole_Organization" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OrganizationPersonRole_Organization]/Members[Organization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OrganizationPersonRole_Organization]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

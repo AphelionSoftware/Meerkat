@@ -22,67 +22,6 @@
           <ContentItem
             Name="ProjectList"
             Kind="Group">
-            <ContentItem
-              Name="Projects"
-              Kind="Collection"
-              DataType="CollectionView$Project">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseProjects/Properties[Projects]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-              <ContentItem
-                Name="ProjectsTemplate"
-                Kind="Details"
-                DataType="Project"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression />
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-                <ContentItem
-                  Name="Code"
-                  Kind="Value"
-                  DataType=":String">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Project/Properties[Code]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="ShortName"
-                  Kind="Value"
-                  DataType=":String">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Project/Properties[ShortName]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-              </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="BrowseProjects/Methods[EditProject]" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
-            </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
                 Name="ShowAdministrationHome"
@@ -124,21 +63,6 @@
                         <ConstantExpression
                           Value="msls-add"
                           ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditProject]">
-                          <CallExpression.Attributes>
-                            <CreateNewEntity
-                              EntityType="Project"
-                              TargetParameter="!module/Methods[showAddEditProject]/Parameters[Project]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -271,105 +195,6 @@
         Name="EditProject" />
     </Screen.Methods>
     <Screen.Properties>
-      <ScreenCollectionProperty
-        Name="Projects"
-        PageSize="45"
-        PropertyType="CollectionView$Project">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="ProjectsQuery"
-            ReturnType="Project*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="And">
-                  <BinaryExpression.Left>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Project/Properties[Code]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="Code" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Project/Properties[ShortName]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ShortName" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[Projects]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-              <QueryParameter
-                Name="ShortName"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ShortName" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseProjects/Properties[Projects]/Query">
-              <ArgumentExpression
-                Parameter="Code">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseProjects/Properties[Code]" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ShortName">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseProjects/Properties[ShortName]" />
-                </ChainExpression>
-              </ArgumentExpression>
-            </CallExpression>
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
       <ScreenProperty
         Name="Code"
         PropertyType=":String?" />

@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="StrategicElement">
+    Name="CustomReport">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="StrategicElement_ID"
+        Name="CustomReport_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -98,35 +98,83 @@
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_StrategicElement_ActiveType"
-        FromEnd="StrategicElement"
+        Association="FK_CustomReport_ActiveType"
+        FromEnd="CustomReport"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="IndicatorValues"
-        Association="FK_IndicatorValues_StrategicElement"
-        FromEnd="StrategicElement"
-        ToEnd="IndicatorValues" />
+        Name="CustomReport_Indicators"
+        Association="FK_CustomReport_Indicator_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_Indicator" />
       <NavigationProperty
-        Name="MilestoneValues"
-        Association="FK_MilestoneValues_StrategicElement"
-        FromEnd="StrategicElement"
-        ToEnd="MilestoneValues" />
+        Name="CustomReport_Projects"
+        Association="FK_CustomReport_Project_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_Project" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_CustomReport_Indicator_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Indicator"
+      Multiplicity="Many"
+      EntityType="CustomReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_CustomReport_Project_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Project"
+      Multiplicity="Many"
+      EntityType="CustomReport_Project" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="StrategicElements"
+      Name="CustomReports"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="StrategicElement" />
+      EntityType="CustomReport" />
+    <AssociationSet
+      Name="FK_CustomReport_Indicator_CustomReport"
+      Association="FK_CustomReport_Indicator_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_Indicator"
+        EntitySet="CustomReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_CustomReport_Project_CustomReport"
+      Association="FK_CustomReport_Project_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_Project"
+        EntitySet="CustomReport_Projects" />
+    </AssociationSet>
     <QueryOperation
-      Name="StrategicElements_Single"
-      ReturnType="StrategicElement">
+      Name="CustomReports_Single"
+      ReturnType="CustomReport">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -139,12 +187,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StrategicElement_ID" />
+                  Member="CustomReport_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StrategicElement_ID" />
+                Parameter="CustomReport_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -152,21 +200,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StrategicElements" />
+            Member="CustomReports" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StrategicElement_ID"
+        Name="CustomReport_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StrategicElement_ID' key property of the entity to retrieve." />
+            Value="The value of the 'CustomReport_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="StrategicElements_SingleOrDefault"
-      ReturnType="StrategicElement">
+      Name="CustomReports_SingleOrDefault"
+      ReturnType="CustomReport">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -179,12 +227,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StrategicElement_ID" />
+                  Member="CustomReport_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StrategicElement_ID" />
+                Parameter="CustomReport_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -192,124 +240,76 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StrategicElements" />
+            Member="CustomReports" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StrategicElement_ID"
+        Name="CustomReport_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StrategicElement_ID' key property of the entity to retrieve." />
+            Value="The value of the 'CustomReport_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_IndicatorValues_StrategicElement"
-      Association="FK_IndicatorValues_StrategicElement">
-      <AssociationSetEnd
-        Name="StrategicElement"
-        EntitySet="StrategicElements" />
-      <AssociationSetEnd
-        Name="IndicatorValues"
-        EntitySet="IndicatorValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_MilestoneValues_StrategicElement"
-      Association="FK_MilestoneValues_StrategicElement">
-      <AssociationSetEnd
-        Name="StrategicElement"
-        EntitySet="StrategicElements" />
-      <AssociationSetEnd
-        Name="MilestoneValues"
-        EntitySet="MilestoneValues" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_IndicatorValues_StrategicElement">
-    <AssociationEnd
-      Name="StrategicElement"
-      EntityType="StrategicElement">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="IndicatorValues"
-      Multiplicity="Many"
-      EntityType="IndicatorValue" />
-  </Association>
-  <Association
-    Name="FK_MilestoneValues_StrategicElement">
-    <AssociationEnd
-      Name="StrategicElement"
-      EntityType="StrategicElement">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="MilestoneValues"
-      Multiplicity="Many"
-      EntityType="MilestoneValue" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="StrategicElements">
+      EntitySet="CustomReports">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="disagg"
-          Table="StrategicElement" />
+          Schema="rpt"
+          Table="CustomReport" />
         <SsdlProperty
-          Name="StrategicElement_ID"
+          Name="CustomReport_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="StrategicElement/Properties[StrategicElement_ID]" />
+          Property="CustomReport/Properties[CustomReport_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="StrategicElement/Properties[Code]" />
+          Property="CustomReport/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="StrategicElement/Properties[Name]" />
+          Property="CustomReport/Properties[Name]" />
         <SsdlProperty
           MaxLength="255"
           Name="BusinessKey"
           Nullable="True"
           Type="varchar"
-          Property="StrategicElement/Properties[BusinessKey]" />
+          Property="CustomReport/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="StrategicElement/Properties[sys_CreatedBy]" />
+          Property="CustomReport/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="StrategicElement/Properties[sys_CreatedOn]" />
+          Property="CustomReport/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="StrategicElement/Properties[sys_ModifiedBy]" />
+          Property="CustomReport/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="StrategicElement/Properties[sys_ModifiedOn]" />
+          Property="CustomReport/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -318,43 +318,43 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_IndicatorValues_StrategicElement">
+      AssociationSet="FK_CustomReport_Indicator_CustomReport">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_IndicatorValues_StrategicElement" />
+          Name="FK_CustomReport_Indicator_CustomReport" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_StrategicElement]/Members[StrategicElement]">
+          End="MeerkatData/Members[FK_CustomReport_Indicator_CustomReport]/Members[CustomReport]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="StrategicElement_ID" />
+              Name="CustomReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_StrategicElement]/Members[IndicatorValues]">
+          End="MeerkatData/Members[FK_CustomReport_Indicator_CustomReport]/Members[CustomReport_Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="StrategicElement_ID" />
+              Name="CustomReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_MilestoneValues_StrategicElement">
+      AssociationSet="FK_CustomReport_Project_CustomReport">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_MilestoneValues_StrategicElement" />
+          Name="FK_CustomReport_Project_CustomReport" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_MilestoneValues_StrategicElement]/Members[StrategicElement]">
+          End="MeerkatData/Members[FK_CustomReport_Project_CustomReport]/Members[CustomReport]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="StrategicElement_ID" />
+              Name="CustomReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_MilestoneValues_StrategicElement]/Members[MilestoneValues]">
+          End="MeerkatData/Members[FK_CustomReport_Project_CustomReport]/Members[CustomReport_Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="StrategicElement_ID" />
+              Name="CustomReport_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

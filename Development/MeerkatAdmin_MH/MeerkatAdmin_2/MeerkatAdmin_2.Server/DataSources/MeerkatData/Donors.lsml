@@ -101,6 +101,16 @@
         Association="FK_Donor_ActiveType"
         FromEnd="Donor"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="IndicatorValues"
+        Association="FK_IndicatorValues_Donor"
+        FromEnd="Donor"
+        ToEnd="IndicatorValues" />
+      <NavigationProperty
+        Name="MilestoneValues"
+        Association="FK_MilestoneValues_Donor"
+        FromEnd="Donor"
+        ToEnd="MilestoneValues" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -194,7 +204,55 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_IndicatorValues_Donor"
+      Association="FK_IndicatorValues_Donor">
+      <AssociationSetEnd
+        Name="Donor"
+        EntitySet="Donors" />
+      <AssociationSetEnd
+        Name="IndicatorValues"
+        EntitySet="IndicatorValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_MilestoneValues_Donor"
+      Association="FK_MilestoneValues_Donor">
+      <AssociationSetEnd
+        Name="Donor"
+        EntitySet="Donors" />
+      <AssociationSetEnd
+        Name="MilestoneValues"
+        EntitySet="MilestoneValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_IndicatorValues_Donor">
+    <AssociationEnd
+      Name="Donor"
+      EntityType="Donor">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="IndicatorValues"
+      Multiplicity="Many"
+      EntityType="IndicatorValue" />
+  </Association>
+  <Association
+    Name="FK_MilestoneValues_Donor">
+    <AssociationEnd
+      Name="Donor"
+      EntityType="Donor">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="MilestoneValues"
+      Multiplicity="Many"
+      EntityType="MilestoneValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -259,5 +317,47 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_IndicatorValues_Donor">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_IndicatorValues_Donor" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Donor]/Members[Donor]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Donor_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_IndicatorValues_Donor]/Members[IndicatorValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Donor_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_MilestoneValues_Donor">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_MilestoneValues_Donor" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Donor]/Members[Donor]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Donor_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_MilestoneValues_Donor]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Donor_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

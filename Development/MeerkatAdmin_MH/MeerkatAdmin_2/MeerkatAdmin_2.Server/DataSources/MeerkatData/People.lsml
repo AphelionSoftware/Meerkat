@@ -133,6 +133,11 @@
         Association="FK_SubOutputPersonRole_Person"
         FromEnd="Person"
         ToEnd="SubOutputPersonRole" />
+      <NavigationProperty
+        Name="OrganizationPersonRoles"
+        Association="FK_OrganizationPersonRole_Person"
+        FromEnd="Person"
+        ToEnd="OrganizationPersonRole" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -260,6 +265,16 @@
         Name="SubOutputPersonRole"
         EntitySet="SubOutputPersonRoles" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_OrganizationPersonRole_Person"
+      Association="FK_OrganizationPersonRole_Person">
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+      <AssociationSetEnd
+        Name="OrganizationPersonRole"
+        EntitySet="OrganizationPersonRoles" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_SubOutputPersonRole_Person">
@@ -274,6 +289,20 @@
       Name="SubOutputPersonRole"
       Multiplicity="Many"
       EntityType="SubOutputPersonRole" />
+  </Association>
+  <Association
+    Name="FK_OrganizationPersonRole_Person">
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OrganizationPersonRole"
+      Multiplicity="Many"
+      EntityType="OrganizationPersonRole" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -353,6 +382,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OrganizationPersonRole_Person">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OrganizationPersonRole_Person" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OrganizationPersonRole_Person]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OrganizationPersonRole_Person]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_OutputPersonRole_Person">
       <AssociationSetMapping.Attributes>
