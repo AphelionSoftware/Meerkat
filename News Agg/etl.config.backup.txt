@@ -1,0 +1,30 @@
+﻿<etl>
+        <pipeline Name="Outcome1">
+		<extractor adapter="Syndication.Extractor">
+			<config>
+				<FeedUri><![CDATA[http://news.google.co.za/news?hl=en&gl=za&as_epq=&as_oq=&as_eq=&as_scoring=r&as_drrb=q&as_qdr=a&as_nsrc=&as_nloc=South+Africa&as_author=&as_occt=any&q=Cats+location:South_Africa&um=1&ie=UTF-8&output=rss]]></FeedUri>
+			</config>
+		</extractor>
+		<transformer adapter="UniqueRows.TransformAdapter">
+			<config>
+				<UniqueColumnName>UniqueId</UniqueColumnName>
+				<Filename>C:\News Aggregator\syndicationRun1.sqlite</Filename>
+			</config>
+		</transformer>
+		<transformer adapter="RemapColumns.TransformColumns">
+			<config>
+				<Map IsMap="True">Title=Title|Author=Author|Date=Date|Content=Content|Source=Source|Id=ItemId|UniqueId=UniqueId</Map>
+			</config>
+		</transformer>
+		<loader adapter="SharePoint.Loader">
+			<config>
+				<Name>NewsAggregator</Name>
+				<Url>http://savjnbdb02/Platforms/_vti_bin/lists.asmx</Url>
+				<UseDefaultCredentials>True</UseDefaultCredentials>
+				<Username></Username>
+				<Password></Password>
+				<Domain>SAVANNAH</Domain>
+			</config>
+		</loader>
+	</pipeline>
+</etl>
