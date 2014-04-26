@@ -117,6 +117,11 @@
         Association="FK_PotentialResponse_Question"
         FromEnd="PotentialResponse"
         ToEnd="Question" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_PotentialResponse"
+        FromEnd="PotentialResponse"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -210,7 +215,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Question_PotentialResponse"
+      Association="FK_Question_PotentialResponse">
+      <AssociationSetEnd
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Question_PotentialResponse">
+    <AssociationEnd
+      Name="PotentialResponse"
+      EntityType="PotentialResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -284,5 +313,26 @@
           PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_PotentialResponse">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_PotentialResponse" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[PotentialResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PotentialResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MultipleChoiceResponseID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

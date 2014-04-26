@@ -64,13 +64,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="ProjectParentID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Outcome_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
@@ -153,6 +146,26 @@
         Association="FK_Form_Project"
         FromEnd="Project"
         ToEnd="Form" />
+      <EntityProperty
+        Name="ProjectSiteName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_Project"
+        FromEnd="Project"
+        ToEnd="Project1" />
+      <NavigationProperty
+        Name="Project1"
+        Association="FK_Project_Project"
+        FromEnd="Project1"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -271,7 +284,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Project_Project"
+      Association="FK_Project_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Project1"
+        EntitySet="Projects" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Project_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project1"
+      Multiplicity="Many"
+      EntityType="Project" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -313,11 +351,6 @@
           Type="varchar(max)"
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
-          Name="ProjectParentID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[ProjectParentID]" />
-        <SsdlProperty
           Name="Outcome_ID"
           Nullable="True"
           Type="int"
@@ -337,6 +370,12 @@
           Nullable="True"
           Type="int"
           Property="Project/Properties[SubSector_ID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ProjectSiteName"
+          Nullable="False"
+          Type="varchar"
+          Property="Project/Properties[ProjectSiteName]" />
         <SsdlProperty
           Name="Active"
           Nullable="False"
@@ -364,6 +403,11 @@
           Nullable="False"
           Type="datetime"
           Property="Project/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="ProjectParentID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectParentID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -383,6 +427,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectParentID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
