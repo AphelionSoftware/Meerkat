@@ -19,12 +19,14 @@
     CONSTRAINT [CK_Project] CHECK ((((case when [Outcome_ID] IS NOT NULL then (1) else (0) end+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [Sector_ID] IS NOT NULL then (1) else (0) end)+case when [SubSector_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Project_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
-    CONSTRAINT [FK_Project_Outcome1] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
     CONSTRAINT [FK_Project_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
+    CONSTRAINT [FK_Project_Project] FOREIGN KEY ([ProjectParentID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Project_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]),
     CONSTRAINT [UW_Project_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
