@@ -16,6 +16,10 @@ myapp.AddEditCategory.created = function (screen) {
         });
     });
 
-
+    screen.details.dataWorkspace.MeerkatData.Categories.filter("Form_ID eq " + screen.FormID).orderByDescending("CategoryOrder")
+    .execute().then(function (x) {
+        screen.Category.CategoryOrder = Math.round( (x.results[0].CategoryOrder + 100) / 100) * 100; //Setting to next whole hundred
+    }
+    )
     
 };
