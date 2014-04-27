@@ -1,5 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
-/// <reference path="LightSwitchTools.js" />
+/// <reference path="Scripts/LightSwitchTools.js" />
 
 myapp.AddEditQuestion.created = function (screen) {
     // Write code here.

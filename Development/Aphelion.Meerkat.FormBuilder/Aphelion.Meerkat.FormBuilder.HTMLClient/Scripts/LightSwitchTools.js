@@ -32,6 +32,27 @@
         });
 
         var thisObject = screen[name];
+
+
+        var NameField = screen.findContentItem("Name");
+        var DescriptionField = screen.findContentItem("TextDescription");
+        if (NameField && DescriptionField){
+            NameField.dataBind("value", function () {
+                if (NameField.value !== undefined && NameField.stringValue !== undefined && NameField.stringValue.length > 0) {
+                    var currentLength = 0;
+                    if (DescriptionField.value !== undefined) {
+                        currentLength = DescriptionField.stringValue.length;
+                    }
+
+                    if (currentLength === 0) {
+                        DescriptionField.stringValue = NameField.stringValue;
+                    }
+                }
+            });
+        }
+
+
+
         var primaryKey = thisObject[primaryKeyColumn];
         var activeType = thisObject.ActiveType;
 
