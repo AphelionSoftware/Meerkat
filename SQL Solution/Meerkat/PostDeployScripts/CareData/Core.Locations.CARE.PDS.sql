@@ -23,15 +23,60 @@ INSERT [Core].[Location] (
     , [Geog]
     ) 
     SELECT 0
-    , 'KE' Code
-    , 'Kenya' [Name]
-    , 562245
-    , 38610097
+    , 'SOM' Code
+    , 'Somaliland' [Name]
+    , 137600
+    , 3500000
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
     WHERE NOT EXISTS (
-    SELECT 1 FROM [Core].[Location] WHERE Code = 'KE'
+    SELECT 1 FROM [Core].[Location] WHERE Code = 'SOM'
+    )
+
+	INSERT [Core].[Location] (
+    [Location_ID]
+    , [Code]
+    , [Name]
+    , [AreaKM]
+    , [Population]
+    , [LocationType_ID]
+    , [ParentLocation_ID]
+    , [Geog]
+    ) 
+    SELECT 0
+    , 'MOG' Code
+    , 'Mogadishu' [Name]
+    , 1637
+    , 1530000
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
+    , NULL
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+    SELECT 1 FROM [Core].[Location] WHERE Code = 'MOG'
+    )
+
+	INSERT [Core].[Location] (
+    [Location_ID]
+    , [Code]
+    , [Name]
+    , [AreaKM]
+    , [Population]
+    , [LocationType_ID]
+    , [ParentLocation_ID]
+    , [Geog]
+    ) 
+
+    SELECT 0
+    , 'PUNT' Code
+    , 'Puntland' [Name]
+    , 212510
+    , 3900000
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
+    , NULL
+    , NULL [Geog]
+    WHERE NOT EXISTS (
+    SELECT 1 FROM [Core].[Location] WHERE Code = 'PUNT'
     )
 
 SET IDENTITY_INSERT [Core].[Location] OFF
@@ -46,25 +91,12 @@ INSERT [Core].[Location] (
     , [ParentLocation_ID]
     , [Geog]
     ) 
-    SELECT '47' Code
-    , 'Nairobi' [Name]
-    , 694 
-    , 3138369
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '47' 
-    )	
-    
-
-UNION ALL
-SELECT '1' Code
-    , 'Mombasa' [Name]
-    , 212 
-    , 939370
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    SELECT '1' Code
+    , 'Lascanood' [Name]
+    , NULL 
+    , NULL
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
@@ -73,11 +105,11 @@ SELECT '1' Code
 
 UNION ALL
 SELECT '2' Code
-    , 'Kwale' [Name]
-    , 8270 
-    , 649931
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    , 'Ainabo' [Name]
+    , NULL 
+    , NULL
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
@@ -86,11 +118,11 @@ SELECT '2' Code
 
 UNION ALL
 SELECT '3' Code
-    , 'Kilifi' [Name]
+    , 'Odweyne' [Name]
     , 12245 
     , 1109735
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
@@ -99,11 +131,11 @@ SELECT '3' Code
 
 UNION ALL
 SELECT '4' Code
-    , 'Tana River' [Name]
+    , 'Burao' [Name]
     , 35375 
     , 240075
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
@@ -112,11 +144,11 @@ SELECT '4' Code
 
 UNION ALL
 SELECT '5' Code
-    , 'Lamu' [Name]
+    , 'Badhan' [Name]
     , 6497 
     , 101539
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
@@ -125,11 +157,11 @@ SELECT '5' Code
 
 UNION ALL
 SELECT '6' Code
-    , 'Taita-Taveta' [Name]
+    , 'Erigavo' [Name]
     , 17083 
     , 284657
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
@@ -138,11 +170,11 @@ SELECT '6' Code
 
 UNION ALL
 SELECT '7' Code
-    , 'Garissa' [Name]
+    , 'El-afweyn' [Name]
     , 45720 
     , 623060
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
@@ -151,11 +183,11 @@ SELECT '7' Code
 
 UNION ALL
 SELECT '8' Code
-    , 'Wajir' [Name]
+    , 'Waaberi' [Name]
     , 55840 
     , 661941
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
@@ -164,11 +196,11 @@ SELECT '8' Code
 
 UNION ALL
 SELECT '9' Code
-    , 'Mandera' [Name]
+    , 'Wadajir' [Name]
     , 25797 
     , 1025756
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
@@ -177,11 +209,11 @@ SELECT '9' Code
 
 UNION ALL
 SELECT '10' Code
-    , 'Marsabit' [Name]
+    , 'Hodan' [Name]
     , 66923 
     , 291166
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
@@ -190,11 +222,11 @@ SELECT '10' Code
 
 UNION ALL
 SELECT '11' Code
-    , 'Isiolo' [Name]
+    , 'Garowe' [Name]
     , 25336 
     , 143294
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
@@ -203,11 +235,11 @@ SELECT '11' Code
 
 UNION ALL
 SELECT '12' Code
-    , 'Meru' [Name]
+    , 'Jalam' [Name]
     , 5127 
     , 1356301
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
@@ -216,11 +248,11 @@ SELECT '12' Code
 
 UNION ALL
 SELECT '13' Code
-    , 'Tharaka-Nithi' [Name]
+    , 'Godobjiran' [Name]
     , 2409 
     , 365330
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
@@ -229,11 +261,11 @@ SELECT '13' Code
 
 UNION ALL
 SELECT '14' Code
-    , 'Embu' [Name]
+    , 'Galkacyo' [Name]
     , 2555 
     , 516212
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
@@ -242,11 +274,11 @@ SELECT '14' Code
 
 UNION ALL
 SELECT '15' Code
-    , 'Kitui' [Name]
+    , 'Gardo' [Name]
     , 24385 
     , 1012709
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
@@ -255,11 +287,11 @@ SELECT '15' Code
 
 UNION ALL
 SELECT '16' Code
-    , 'Machakos' [Name]
+    , 'Bosasso' [Name]
     , 5952 
     , 1098584
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
@@ -268,11 +300,11 @@ SELECT '16' Code
 
 UNION ALL
 SELECT '18' Code
-    , 'Nyandarua' [Name]
+    , 'Taleh' [Name]
     , 3107 
     , 596268
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
@@ -281,11 +313,11 @@ SELECT '18' Code
 
 UNION ALL
 SELECT '19' Code
-    , 'Nyeri' [Name]
+    , 'Kalabyer' [Name]
     , 2361 
     , 693558
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
@@ -294,11 +326,11 @@ SELECT '19' Code
 
 UNION ALL
 SELECT '20' Code
-    , 'Kirinyaga' [Name]
+    , 'Baran' [Name]
     , 1205 
     , 528054
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
@@ -307,11 +339,11 @@ SELECT '20' Code
 
 UNION ALL
 SELECT '21' Code
-    , 'Murang''a' [Name]
+    , 'Buraan' [Name]
     , 2325 
     , 942581
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
+    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
@@ -320,346 +352,20 @@ SELECT '21' Code
 
 UNION ALL
 SELECT '22' Code
-    , 'Kiambu' [Name]
+    , 'Hinglool' [Name]
     , 2449 
     , 1623282
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
+    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
     , NULL [Geog]
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
-    )	
-    
-
-UNION ALL
-SELECT '23' Code
-    , 'Turkana' [Name]
-    , 71597 
-    , 855399
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '23' 
-    )	
-    
-
-UNION ALL
-SELECT '24' Code
-    , 'West Pokot' [Name]
-    , 8418 
-    , 512690
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '24' 
-    )	
-    
-
-UNION ALL
-SELECT '25' Code
-    , 'Samburu' [Name]
-    , 20182 
-    , 223947
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '25' 
-    )	
-    
-
-UNION ALL
-SELECT '27' Code
-    , 'Uasin Gishu' [Name]
-    , 2955 
-    , 894179
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '27' 
-    )	
-    
-
-UNION ALL
-SELECT '28' Code
-    , 'Elgeyo-Marakwet' [Name]
-    , 3049 
-    , 369998
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '28' 
-    )	
-    
-
-UNION ALL
-SELECT '29' Code
-    , 'Nandi' [Name]
-    , 2884 
-    , 752965
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '29' 
-    )	
-    
-
-UNION ALL
-SELECT '30' Code
-    , 'Baringo' [Name]
-    , 11075 
-    , 555561
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '30' 
-    )	
-    
-
-UNION ALL
-SELECT '31' Code
-    , 'Laikipia' [Name]
-    , 8696 
-    , 399227
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '31' 
-    )	
-    
-
-UNION ALL
-SELECT '32' Code
-    , 'Nakuru' [Name]
-    , 7509 
-    , 1603325
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '32' 
-    )	
-    
-
-UNION ALL
-SELECT '33' Code
-    , 'Narok' [Name]
-    , 17921 
-    , 850920
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '33' 
-    )	
-    
-
-UNION ALL
-SELECT '34' Code
-    , 'Kajiado' [Name]
-    , 21292 
-    , 687312
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '34' 
-    )	
-    
-
-UNION ALL
-SELECT '17' Code
-    , 'Makueni' [Name]
-    , 8008 
-    , 884527
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '17' 
-    )	
-    
-
-UNION ALL
-SELECT '35' Code
-    , 'Kericho' [Name]
-    , 2454 
-    , 752396
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '35' 
-    )	
-    
-
-UNION ALL
-SELECT '37' Code
-    , 'Kakamega' [Name]
-    , 3033 
-    , 1660651
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '37' 
-    )	
-    
-
-UNION ALL
-SELECT '38' Code
-    , 'Vihiga' [Name]
-    , 531 
-    , 554622
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '38' 
-    )	
-    
-
-UNION ALL
-SELECT '39' Code
-    , 'Bungoma' [Name]
-    , 2206 
-    , 1375063
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '39' 
-    )	
-    
-
-UNION ALL
-SELECT '40' Code
-    , 'Busia' [Name]
-    , 1628 
-    , 743946
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '40' 
-    )	
-    
-
-UNION ALL
-SELECT '41' Code
-    , 'Siaya' [Name]
-    , 2496 
-    , 842304
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '41' 
-    )	
-    
-
-UNION ALL
-SELECT '43' Code
-    , 'Homa Bay' [Name]
-    , 3154 
-    , 963794
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '43' 
-    )	
-    
-
-UNION ALL
-SELECT '44' Code
-    , 'Migori' [Name]
-    , 2586 
-    , 917170
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '44' 
-    )	
-    
-
-UNION ALL
-SELECT '45' Code
-    , 'Kisii' [Name]
-    , 1317 
-    , 1152282
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '45' 
-    )	
-    
-
-UNION ALL
-SELECT '36' Code
-    , 'Bomet' [Name]
-    , 1997 
-    , 730129
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '36' 
-    )	
-    
-
-UNION ALL
-SELECT '46' Code
-    , 'Nyamira' [Name]
-    , 912 
-    , 598252
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '46' 
-    )	
-    
-
-UNION ALL
-SELECT '42' Code
-    , 'Kisumu' [Name]
-    , 2009 
-    , 968909
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '42' 
-    )	
-    
-
-UNION ALL
-SELECT '26' Code
-    , 'Trans Nzoia' [Name]
-    , 2469 
-    , 818757
-    ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTY')
-    , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
-    , NULL [Geog]
-    WHERE NOT EXISTS (
-        SELECT 1 FROM [Core].[Location] WHERE [Code] = '26' 
-    )	
-    
+    )	   
 
     /*Location Insert end*/
     /*Update Geography*/
 
-IF (CHARINDEX(CONVERT(VARCHAR, SERVERPROPERTY('edition')), N'Express') > -1)
+/*IF (CHARINDEX(CONVERT(VARCHAR, SERVERPROPERTY('edition')), N'Express') > -1)
 BEGIN    
 IF NOT EXISTs (select 1 FROM sys.Databases where Name = 'KenyaShapes')
     
@@ -677,4 +383,4 @@ UPDATE [Core].[Location]
 SET Geog = geom
 FROM [KenyaShapes].[dbo].[Counties]
   WHERE  [Code] = CAST(COUNTY_COD as varchar(10))
-END
+END*/
