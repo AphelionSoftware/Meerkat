@@ -9,12 +9,12 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-/*:r .\Core.OrganizationType.Demo.PDS.sql
+:r .\Core.OrganizationType.Demo.PDS.sql
 :r .\Core.Organization.Demo.PDS.sql
+:r .\app.Outcome.Demo.PDS.sql
 :r .\app.Output.Demo.PDS.sql
 :r .\app.SubOutput.Demo.PDS.sql
 :r .\app.IndicatorMilestone.Demo.PDS.sql
 :r .\Core.LocationType.Demo.PDS.sql
 :r .\Core.Locations.Demo.PDS.sql	
 :r .\RBM.DemoValues.Demo.PDS.sql						
-*/

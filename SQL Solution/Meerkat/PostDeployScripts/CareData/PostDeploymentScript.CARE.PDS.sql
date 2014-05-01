@@ -11,9 +11,10 @@ Post-Deployment Script Template
 */
 --:r .\CareData\Core.OrganizationType.CARE.PDS.sql
 --:r .\CareData\Core.Organization.CARE.PDS.sql
-:r .\app.Output.CARE.PDS.sql
-:r .\app.SubOutput.CARE.PDS.sql
-:r .\app.IndicatorMilestone.CARE.PDS.sql
+--:r .\app.Outcome.CARE.PDS.sql
+--:r .\app.Output.CARE.PDS.sql
+--:r .\app.SubOutput.CARE.PDS.sql
+--:r .\app.IndicatorMilestone.CARE.PDS.sql
 :r .\Core.LocationType.CARE.PDS.sql
 :r .\Core.Locations.CARE.PDS.sql
 

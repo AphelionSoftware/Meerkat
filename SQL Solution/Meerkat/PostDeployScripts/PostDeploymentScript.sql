@@ -1,6 +1,4 @@
-﻿/* Outcomes Meerkat */							
-
-
+﻿
 /*GeoSpatialData*/
 
 IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
@@ -52,8 +50,6 @@ GO*/
 :r .\Core.DataVersions.PDS.sql
 :r .\Core.DimDate.PDS.sql
 :r .\Core.ReportingPeriod.PDS.sql
-:r .\DemoData\app.Outcome.Demo.PDS.sql
---:r .\CareData\app.Outcome.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql
 
