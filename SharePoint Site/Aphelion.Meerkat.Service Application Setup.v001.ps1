@@ -1,18 +1,25 @@
-﻿################################################################################ 
-## This script replicates most of the functionality found in the SharePoint Products Configuration Wizard## 
-################################################################################ 
-  
-  
+﻿# Set admin rights if they are lacking.
+If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+{   
+# No Administrative rights, it will display a popup window asking user for Admin rights
+# After user clicks Yes on the popup, your file will be reopened with Admin rights
+
+$arguments = "& '" + $myinvocation.mycommand.definition + "'"
+Start-Process "$psHome\powershell.exe" -Verb runAs -ArgumentList $arguments
+
+break
+}  
+
+# Import SP Cmdlets 
 Add-PSSnapin Microsoft.SharePoint.PowerShell -erroraction SilentlyContinue 
   
-## Settings you may want to change ## 
-$databaseServerName = "sp2010dev.contoso.com"
-$searchServerName = $databaseServerName
+# Settings you may want to change ## 
+$databaseServerName = "MeerkatDB"
 $saAppPoolName = "SharePoint Web Services"
-$appPoolUserName = "CONTOSO\SAAppPoolAccount"
+$appPoolUserName = "Meerkat\SPApp"
   
   
-## Service Application Service Names ## 
+# Service Application Service Names ## 
 $excelSAName = "Excel Services Application"
 $metadataSAName = "Managed Metadata Web Service"
 $performancePointSAName = "PerformancePoint Service"
@@ -87,3 +94,9 @@ New-SPStateServiceDatabase -Name "StateServiceDB" -DatabaseServer $databaseServe
 Write-Host "Creating Secure Store Service and Proxy..."
 New-SPSecureStoreServiceapplication -Name $secureStoreSAName -Sharing:$false -DatabaseServer $databaseServerName -DatabaseName "SecureStoreServiceAppDB" -ApplicationPool $saAppPoolName -auditingEnabled:$true -auditlogmaxsize 30 | New-SPSecureStoreServiceApplicationProxy -name "$secureStoreSAName Proxy" -DefaultProxygroup > $null
 Get-SPServiceInstance | where-object {$_.TypeName -eq "Secure Store Service"} | Start-SPServiceInstance > $null
+
+
+Write-Host "Configuring Reporting Services"
+Install-SPRSService
+Install-SPRSServiceProxy
+get-spserviceinstance -all |where {$_.TypeName -like "SQL Server Reporting*"} | Start-SPServiceInstance
