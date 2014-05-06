@@ -3,6 +3,7 @@
     [Code]           VARCHAR (50)  NOT NULL,
     [Name]           VARCHAR (255) NOT NULL,
     [Description]    VARCHAR (MAX) NOT NULL,
+	[BusinessKey]    NVARCHAR(MAX) NOT NULL,
     [Order]          INT           CONSTRAINT [DF_DataVersion_Order] DEFAULT ((10)) NOT NULL,
     [Active]         INT           CONSTRAINT [DF_DataVersion_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255) CONSTRAINT [DF_DataVersion_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

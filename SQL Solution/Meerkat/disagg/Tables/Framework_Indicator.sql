@@ -2,6 +2,7 @@
     [Framework_Indicator_ID] INT           IDENTITY (1, 1) NOT NULL,
     [FrameworkID]            INT           NULL,
     [IndicatorID]            INT           NULL,
+	[BusinessKey]			 NVARCHAR(MAX) NOT NULL,
     [Active]                 INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]          VARCHAR (255) CONSTRAINT [DF_Framework_Indicator_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]          DATETIME      CONSTRAINT [DF_Framework_Indicator_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

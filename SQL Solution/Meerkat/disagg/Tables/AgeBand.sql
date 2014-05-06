@@ -5,6 +5,7 @@
     [TextDescription] VARCHAR (MAX) NULL,
     [Name]            VARCHAR (255) NULL,
     [Code]            VARCHAR (50)  NULL,
+	[BusinessKey]	  NVARCHAR(MAX) NOT NULL,
     [Active]          INT           CONSTRAINT [DF__AgeBand__Active__1B7E091A] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_AgeBand_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_AgeBand_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

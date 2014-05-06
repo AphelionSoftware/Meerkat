@@ -7,6 +7,7 @@
     [LastCycleDate]   DATETIME      NOT NULL,
     [YearName]        CHAR (4)      NOT NULL,
     [YearNumber]      INT           NOT NULL,
+	[BusinessKey]	  NVARCHAR(MAX) NOT NULL,
     [Active]          INT           CONSTRAINT [DF_ReportingPeriod_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR(255)  CONSTRAINT [DF_ReportingPeriod_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_ReportingPeriod_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
