@@ -6,7 +6,7 @@ Regenerate SSIS packages
 <#@ import namespace="Varigence.Hadron.CoreLowerer.SchemaManagement" #>
 <# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var tables = connection.GenerateTableNodes(); #>
-<# string SourceDir ="E:\\Aphelion\\Aphelion\\Meerkat\\SSIS\\sourcefiles\\"; #>
+<# string SourceDir ="E:\\Aphelion\\Aphelion\\Meerkat\\StagingTemplates\\InProcess\\"; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStaging" ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
@@ -16,11 +16,11 @@ Regenerate SSIS packages
     <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
       <Tasks>
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStaging">
-          <DirectInput>TRUNCATE TABLE <#=table.SchemaName#>.<#=table.Name#></DirectInput>
+          <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]</DirectInput>
         </ExecuteSQL>
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
-            <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStaging">
+            <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStaging" ValidateExternalMetadata="0">
               <DirectInput>
                 SELECT *
                 FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
@@ -33,8 +33,8 @@ Regenerate SSIS packages
               <InputPath OutputPathName="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
               <Columns>
                 <# foreach (var column in table.Columns) { #>
-                <Column SourceColumn="<#=column.Name#>" TargetColumn="<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>" />
-                <#} #>
+                <Column SourceColumn="<#=column.Name#>" TargetColumn="<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>" Scale="<#=column.Scale#>" Precision="<#=column.Precision#>"/>
+                  <#} #>
               </Columns>
             </DataConversion>
             <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStaging">
