@@ -10,30 +10,30 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'CONT' ,'Continent' ,'Continent' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CONT')
+          'CONT' ,'Continent' ,'Continent', 'CONT' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CONT')
 
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'CNTRY' ,'Country' ,'Country' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
-
-          
-INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
-     SELECT
-          'REG' ,'Region' ,'Region' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
+          'CNTRY' ,'Country' ,'Country', 'CNTRY' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
 
           
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'DIST' ,'District' ,'District' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='DIST')
+          'REG' ,'Region' ,'Region', 'REG' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
+
+          
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description], [BusinessKey])
+     SELECT
+          'DIST' ,'District' ,'District', 'DIST' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='DIST')
 
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'VILG' ,'Village' ,'Village' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='VILG')
+          'VILG' ,'Village' ,'Village', 'VILG' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='VILG')
 
 GO

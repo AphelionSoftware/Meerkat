@@ -10,6 +10,8 @@
     [sys_ModifiedOn]       DATETIME         CONSTRAINT [DF_OutcomePersonRole_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_OutcomePersonRole] PRIMARY KEY CLUSTERED ([OutcomePersonRole_ID] ASC),
     CONSTRAINT [FK_OutcomePersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_OutcomePersonRole_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID])
+    CONSTRAINT [FK_OutcomePersonRole_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
+	CONSTRAINT [FK_OutcomePersonRole_Person] FOREIGN KEY ([Person_ID]) REFERENCES [Core].[Person] ([Person_ID]),
+	CONSTRAINT [FK_OutcomePersonRole_Role] FOREIGN KEY ([Role_ID]) REFERENCES [Core].[Role] ([RoleID])
 );
 

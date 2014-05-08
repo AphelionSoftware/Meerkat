@@ -14,13 +14,15 @@ INSERT  INTO [Core].StatusType
           [Core].[StatusType].[Code] ,
           [Core].[StatusType].[Name] ,
           [Core].[StatusType].[Value],
-          [Core].[StatusType].[Active]
+          [Core].[StatusType].[Active],
+		  [Core].[StatusType].[BusinessKey]
         )
         SELECT  0 ,
                 '+' ,
                 'On Target' ,
                 1,
-                1
+                1,
+				'+'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '+' )
@@ -29,7 +31,8 @@ INSERT  INTO [Core].StatusType
                 '=' ,
                 'Acceptable' ,
                 0,
-                1
+                1,
+				'='
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '=' )
@@ -38,7 +41,8 @@ INSERT  INTO [Core].StatusType
                 '-' ,
                 'Sub par' ,
                 -1,
-                1
+                1,
+				'-'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '-' )

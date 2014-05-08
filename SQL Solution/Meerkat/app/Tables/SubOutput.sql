@@ -2,7 +2,7 @@
     [SubOutput_ID]    INT           IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)  NOT NULL,
     [ShortName]       VARCHAR (50)  NOT NULL,
-    [BusinessKey]     VARCHAR (MAX) NULL,
+    [BusinessKey]     NVARCHAR(4000) NOT NULL,
     [Output_ID]       INT           NOT NULL,
     [LongName]        VARCHAR (500) NOT NULL,
     [TextDescription] VARCHAR (MAX) NULL,

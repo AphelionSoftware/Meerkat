@@ -29,7 +29,7 @@ INSERT  [Core].[ActiveType]
         )
         SELECT  0 ,
                 N'InActive' ,
-                N'Deleted'
+                N'InActive'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ActiveType
                              WHERE  [Core].[ActiveType].[ID] = 0 )
@@ -41,7 +41,7 @@ INSERT  [Core].[ActiveType]
         )
         SELECT  1 ,
                 N'Active' ,
-                N'Deleted'
+                N'Active'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ActiveType
                              WHERE  [Core].[ActiveType].[ID] = 1 )

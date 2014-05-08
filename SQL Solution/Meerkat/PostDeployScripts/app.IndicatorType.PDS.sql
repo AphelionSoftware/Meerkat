@@ -16,12 +16,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  1 ,
                 N'Outcome' ,
                 N'Outcome' ,
-                1
+                1,
+				N'Outcome'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 1 )
@@ -30,12 +32,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  2 ,
                 N'Output' ,
                 N'Output' ,
-                1
+                1,
+				N'Output'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 2 )
@@ -44,12 +48,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  3 ,
                 N'SubOutput' ,
                 N'SubOutput' ,
-                1
+                1,
+				N'SubOutput'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 3 )
@@ -58,12 +64,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  4 ,
                 N'Activity' ,
                 N'Activity' ,
-                1
+                1,
+				N'Activity'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 4 )
@@ -72,12 +80,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  5 ,
                 N'Milestone' ,
                 N'Milestone' ,
-                1
+                1,
+				N'Milestone'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 5 )
@@ -86,12 +96,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  6 ,
                 N'OS' ,
                 N'Overall Status' ,
-                1
+                1,
+				N'OS'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 6 )

@@ -2,7 +2,7 @@
     [SubSector_ID]    INT           IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)  NULL,
     [ShortName]       VARCHAR (50)  NOT NULL,
-    [BusinessKey]     VARCHAR (255) NULL,
+    [BusinessKey]     NVARCHAR(4000) NOT NULL,
     [Sector_ID]       INT           NOT NULL,
     [LongName]        VARCHAR (500) NOT NULL,
     [TextDescription] VARCHAR (MAX) NULL,

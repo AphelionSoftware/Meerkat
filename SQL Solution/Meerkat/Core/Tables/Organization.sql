@@ -2,7 +2,7 @@
     [Organization_ID]       INT           IDENTITY (1, 1) NOT NULL,
 	[Name] NVARCHAR(50) NOT NULL, 
     [Code]                  VARCHAR (50)  NULL,
-    [BusinessKey]           VARCHAR (MAX) NULL,
+    [BusinessKey]           NVARCHAR(4000) NOT NULL,
     [OrganizationType_ID]   INT           NULL,
     [ParentOrganization_ID] INT           NULL,
     [Active]                INT           CONSTRAINT [DF_Organization_Active] DEFAULT ((1)) NOT NULL,

@@ -21,8 +21,9 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
-    SELECT 0
+    SELECT 1
     , 'SOM' Code
     , 'Somaliland' [Name]
     , 137600
@@ -30,6 +31,7 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'SOM'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'SOM'
     )
@@ -43,8 +45,9 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
-    SELECT 0
+    SELECT 2
     , 'MOG' Code
     , 'Mogadishu' [Name]
     , 1637
@@ -52,6 +55,7 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'MOG'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'MOG'
     )
@@ -65,9 +69,10 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
 
-    SELECT 0
+    SELECT 3
     , 'PUNT' Code
     , 'Puntland' [Name]
     , 212510
@@ -75,6 +80,7 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'PUNT'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'PUNT'
     )
@@ -90,6 +96,7 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
     SELECT '1' Code
     , 'Lascanood' [Name]
@@ -98,6 +105,7 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '1'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
     )	
@@ -111,6 +119,7 @@ SELECT '2' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '2'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
     )	
@@ -124,6 +133,7 @@ SELECT '3' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '3'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
     )	
@@ -137,6 +147,7 @@ SELECT '4' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '4'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
     )	
@@ -150,6 +161,7 @@ SELECT '5' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '5'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
     )	
@@ -163,6 +175,7 @@ SELECT '6' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '6'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
     )	
@@ -176,6 +189,7 @@ SELECT '7' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '7'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
     )	
@@ -189,6 +203,7 @@ SELECT '8' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '8'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
     )	
@@ -202,6 +217,7 @@ SELECT '9' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '9'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
     )	
@@ -215,6 +231,7 @@ SELECT '10' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '10'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
     )	
@@ -228,6 +245,7 @@ SELECT '11' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '11'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
     )	
@@ -241,6 +259,7 @@ SELECT '12' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '12'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
     )	
@@ -254,6 +273,7 @@ SELECT '13' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '13'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
     )	
@@ -267,6 +287,7 @@ SELECT '14' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '14'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
     )	
@@ -280,6 +301,7 @@ SELECT '15' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '15'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
     )	
@@ -293,6 +315,7 @@ SELECT '16' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '16'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
     )	
@@ -306,6 +329,7 @@ SELECT '18' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '18'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
     )	
@@ -319,6 +343,7 @@ SELECT '19' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '19'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
     )	
@@ -332,6 +357,7 @@ SELECT '20' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '20'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
     )	
@@ -345,6 +371,7 @@ SELECT '21' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '21'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
     )	
@@ -358,6 +385,7 @@ SELECT '22' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
     , NULL [Geog]
+	, '22'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
     )	   

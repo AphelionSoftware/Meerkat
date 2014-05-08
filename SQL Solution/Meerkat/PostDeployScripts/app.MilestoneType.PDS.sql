@@ -16,12 +16,14 @@ INSERT  [app].[MilestoneType]
         ( [app].[MilestoneType].[MilestoneTypeID] ,
           [app].[MilestoneType].[Code] ,
           [app].[MilestoneType].[Name] ,
-          [app].[MilestoneType].[Active]
+          [app].[MilestoneType].[Active],
+		  [app].[MilestoneType].[BusinessKey]
         )
         SELECT  4 ,
                 N'Project' ,
                 N'Project' ,
-                1
+                1,
+				N'Project'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
                              WHERE  [app].[MilestoneType].[MilestoneTypeID] = 4 )
@@ -30,12 +32,14 @@ INSERT  [app].[MilestoneType]
         ( [app].[MilestoneType].[MilestoneTypeID] ,
           [app].[MilestoneType].[Code] ,
           [app].[MilestoneType].[Name] ,
-          [app].[MilestoneType].[Active]
+          [app].[MilestoneType].[Active],
+		  [app].[MilestoneType].[BusinessKey]
         )
         SELECT  5 ,
                 N'Activity' ,
                 N'Activity' ,
-                1
+                1,
+				N'Activity'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
                              WHERE  [app].[MilestoneType].[MilestoneTypeID] = 5 )

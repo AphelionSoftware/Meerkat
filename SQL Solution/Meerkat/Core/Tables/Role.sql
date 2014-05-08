@@ -3,7 +3,7 @@
     [Code]           VARCHAR (50)  NOT NULL,
     [Name]           VARCHAR (255) NOT NULL,
     [Description]    VARCHAR (MAX) NULL,
-	[BusinessKey]	 NVARCHAR(MAX) NOT NULL,
+	[BusinessKey]	 NVARCHAR(4000) NOT NULL,
     [Active]         INT           CONSTRAINT [DF_Role_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255) CONSTRAINT [DF_Role_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]  DATETIME      CONSTRAINT [DF_Role_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

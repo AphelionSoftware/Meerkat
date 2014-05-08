@@ -4,7 +4,7 @@
     [ActualLabel]         VARCHAR (50)     NOT NULL,
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
-    [BusinessKey]         VARCHAR (MAX)    NULL,
+    [BusinessKey]         NVARCHAR(4000)    NOT NULL,
     [Notes]               VARCHAR (MAX)    NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,

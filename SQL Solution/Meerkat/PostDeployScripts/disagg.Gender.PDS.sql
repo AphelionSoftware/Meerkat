@@ -16,13 +16,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	-1 As Gender_ID
-	 ,'UNK' as Code
+	,'UNK' as Code
 	,'Unknown' as Name
+	,'UNK' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -32,13 +34,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	0 As Gender_ID
-	 ,'M' as Code
+	,'M' as Code
 	,'Male' as Name
+	,'M' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -50,13 +54,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	1 As Gender_ID
-	 ,'F' as Code
+	,'F' as Code
 	,'Female' as Name
+	,'F' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -68,13 +74,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	2 As Gender_ID
-	 ,'UND' as Code
+	,'UND' as Code
 	,'Undisclosed' as Name
+	,'UND' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]

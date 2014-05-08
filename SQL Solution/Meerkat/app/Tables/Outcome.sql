@@ -2,7 +2,7 @@
     [Outcome_ID]       INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [LongName]        NVARCHAR (500) NOT NULL,
-    [BusinessKey]     NVARCHAR (MAX) NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
     [ShortName]       NVARCHAR (50)  NOT NULL,
     [TextDescription] NVARCHAR (MAX) NULL,
     [OutcomeSiteName] NVARCHAR (50)  NULL,

@@ -2,7 +2,7 @@
     [CustomReport_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)  NOT NULL,
     [Name]            VARCHAR (255) NOT NULL,
-    [BusinessKey]     VARCHAR (255) NULL,
+    [BusinessKey]     NVARCHAR(4000) NOT NULL,
     [Active]          INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_CustomReport_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_CustomReport_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

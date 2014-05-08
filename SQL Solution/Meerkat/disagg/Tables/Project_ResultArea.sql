@@ -9,6 +9,7 @@
     [sys_ModifiedOn]        DATETIME      CONSTRAINT [DF_Project_ResultArea_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_ProjectResultArea] PRIMARY KEY CLUSTERED ([Project_ResultArea_ID] ASC),
     CONSTRAINT [FK_Project_ResultArea_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_Project_ResultArea_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_Project_ResultArea_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+	CONSTRAINT [FK_Project_ResultArea_ResultArea] FOREIGN KEY ([ResultAreaID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID])
 );
 

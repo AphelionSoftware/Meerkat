@@ -20,14 +20,18 @@ INSERT INTO [rpt].[CustomReportType]
            ([CustomReportType_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.CustomReportType_ID, Q.Code, Q.Name
+SELECT Q.CustomReportType_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	1 As CustomReportType_ID
-	 ,'DNR' as Code
+	,'DNR' as Code
 	,'Donor' as Name
+	,'DNR' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [rpt].[CustomReportType]
 		WHERE Code = q.Code)
+
+SET identity_insert [rpt].CustomReportType off

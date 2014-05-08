@@ -4,7 +4,7 @@
     [Name]                 VARCHAR (255)    NOT NULL,
     [ContactDetails] VARCHAR (MAX)    NULL,
     [Category]       VARCHAR (MAX)    NULL,
-    [BusinessKey]    VARCHAR (MAX)    NULL,
+    [BusinessKey]    NVARCHAR(4000)    NOT NULL,
     [UserDetails]    VARCHAR (50)     NULL,
     [Active]         INT              CONSTRAINT [DF_Person_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)    CONSTRAINT [DF_Person_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

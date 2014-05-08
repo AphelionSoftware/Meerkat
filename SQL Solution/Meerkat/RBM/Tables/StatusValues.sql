@@ -27,7 +27,8 @@
     CONSTRAINT [FK_StatusValues_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_StatusValues_ReportingPeriod] FOREIGN KEY ([ReportingPeriodID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [FK_StatusValues_StatusType] FOREIGN KEY ([StatusTypeID]) REFERENCES [Core].[StatusType] ([ID]),
-    CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID])
+    CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
+	CONSTRAINT [FK_StatusValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID])
 );
 
 

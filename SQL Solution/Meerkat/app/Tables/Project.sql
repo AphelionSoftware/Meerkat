@@ -9,7 +9,7 @@
     [Programme_ID]    INT            NULL,
     [Sector_ID]       INT            NULL,
     [SubSector_ID]    INT            NULL,
-	[BusinessKey]     NVARCHAR(MAX)	 NOT NULL,
+	[BusinessKey]     NVARCHAR(4000)	 NOT NULL,
     [ProjectSiteName] VARCHAR (255)  CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
     [Active]          INT            CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

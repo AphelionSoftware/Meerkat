@@ -4,7 +4,7 @@
     [LongName]        VARCHAR (500) NOT NULL,
     [TextDescription] VARCHAR (MAX) NOT NULL,
     [ProjectID]       INT           NOT NULL,
-	[BusinessKey]	  NVARCHAR(MAX) NOT NULL,
+	[BusinessKey]	  NVARCHAR(4000) NOT NULL,
     [Active]          INT           CONSTRAINT [DF_Activity_Active] DEFAULT ((1)) NOT NULL,
     [Code]            VARCHAR (50)  NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_Activity_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

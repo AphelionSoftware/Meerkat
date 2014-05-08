@@ -12,7 +12,7 @@
     [ReportingDate]    DATE            NULL,
     [Output_ID]        INT             NULL,
     [Outcome_ID]       INT             NULL,
-    [BusinessKey]      NVARCHAR (MAX)  NULL,
+    [BusinessKey]      NVARCHAR (4000)  NOT NULL,
     [Notes]            NVARCHAR (MAX)  NULL,
     [Code]             VARCHAR (50)    NOT NULL,
     [IndicatorType_ID] INT             NOT NULL,

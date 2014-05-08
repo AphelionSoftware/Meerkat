@@ -2,7 +2,7 @@
     [Framework_ID]         INT           IDENTITY (1, 1) NOT NULL,
     [Code]                 VARCHAR (50)  NOT NULL,
     [Name]                 VARCHAR (255) NOT NULL,
-    [BusinessKey]          VARCHAR (255) NULL,
+    [BusinessKey]          NVARCHAR(4000) NOT NULL,
     [Active]               INT           CONSTRAINT [DF__Framework__Activ__168449D3] DEFAULT ((1)) NOT NULL,
     [SourceOrganizationID] INT           NULL,
     [sys_CreatedBy]        VARCHAR (255) CONSTRAINT [DF_Framework_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
