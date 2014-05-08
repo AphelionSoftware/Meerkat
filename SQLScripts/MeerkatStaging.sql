@@ -34,7 +34,7 @@ CREATE TABLE [Staging].[Activity]
 	[TextDescription] varchar(max) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[Code] varchar(50) NOT NULL,
-	[ProjectBusinessKey] varchar(255) NOT NULL
+	[ProjectBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -60,14 +60,14 @@ CREATE TABLE [Staging].[Indicator]
 	[BaselineDate_ID] int NULL,
 	[TargetDate_ID] int NULL,
 	[UnitOfMeasure] varchar(50) NOT NULL,
-	[IndicatorTypeBusinessKey] varchar(255) NOT NULL,
-	[OutcomeBusinessKey] varchar(255) NULL,
-	[OutputBusinessKey] varchar(255) NULL,
-	[ProgrammeBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL,
-	[SectorBusinessKey] varchar(255) NULL,
-	[SubOutputBusinessKey] varchar(255) NULL,
-	[SubSectorBusinessKey] varchar(255) NULL
+	[IndicatorTypeBusinessKey] nvarchar(4000) NOT NULL,
+	[OutcomeBusinessKey] nvarchar(4000) NULL,
+	[OutputBusinessKey] nvarchar(4000) NULL,
+	[ProgrammeBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL,
+	[SectorBusinessKey] nvarchar(4000) NULL,
+	[SubOutputBusinessKey] nvarchar(4000) NULL,
+	[SubSectorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -80,8 +80,8 @@ CREATE TABLE [Staging].[IndicatorLocation]
 (
 
 	[IndicatorLocation_ID] int NULL,
-	[IndicatorBusinessKey] varchar(255) NULL,
-	[LocationBusinessKey] varchar(255) NULL
+	[IndicatorBusinessKey] nvarchar(4000) NULL,
+	[LocationBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -122,9 +122,9 @@ CREATE TABLE [Staging].[Milestone]
 	[BaselineDateID] int NULL,
 	[TargetDateID] int NULL,
 	[UnitOfMeasure] varchar(50) NOT NULL,
-	[ActivityBusinessKey] varchar(255) NULL,
-	[MilestoneTypeBusinessKey] varchar(255) NOT NULL,
-	[ProjectBusinessKey] varchar(255) NULL
+	[ActivityBusinessKey] nvarchar(4000) NULL,
+	[MilestoneTypeBusinessKey] nvarchar(4000) NOT NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -137,8 +137,8 @@ CREATE TABLE [Staging].[MilestoneLocation]
 (
 
 	[MilestoneLocation_ID] int NULL,
-	[LocationBusinessKey] varchar(255) NOT NULL,
-	[MilestoneBusinessKey] varchar(255) NOT NULL
+	[LocationBusinessKey] nvarchar(4000) NOT NULL,
+	[MilestoneBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -172,7 +172,7 @@ CREATE TABLE [Staging].[Outcome]
 	[ShortName] nvarchar(50) NOT NULL,
 	[TextDescription] nvarchar(max) NULL,
 	[OutcomeSiteName] nvarchar(50) NULL,
-	[DataVersionBusinessKey] varchar(255) NOT NULL
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -185,8 +185,8 @@ CREATE TABLE [Staging].[OutcomeOrganization]
 (
 
 	[OutcomeOrganization_ID] int NULL,
-	[OrganizationBusinessKey] varchar(255) NULL,
-	[OutcomeBusinessKey] varchar(255) NULL
+	[OrganizationBusinessKey] nvarchar(4000) NULL,
+	[OutcomeBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -199,9 +199,9 @@ CREATE TABLE [Staging].[OutcomePersonRole]
 (
 
 	[OutcomePersonRole_ID] int NULL,
-	[OutcomeBusinessKey] varchar(255) NULL,
-	[PersonBusinessKey] varchar(255) NULL,
-	[RoleBusinessKey] varchar(255) NULL
+	[OutcomeBusinessKey] nvarchar(4000) NULL,
+	[PersonBusinessKey] nvarchar(4000) NULL,
+	[RoleBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -219,7 +219,7 @@ CREATE TABLE [Staging].[Output]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ShortName] varchar(50) NOT NULL,
 	[TextDescription] varchar(max) NULL,
-	[OutcomeBusinessKey] varchar(255) NOT NULL
+	[OutcomeBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -232,7 +232,7 @@ CREATE TABLE [Staging].[OutputOutputLink]
 (
 
 	[OutputOutputLink_ID] int NULL,
-	[OutputBusinessKey] varchar(255) NOT NULL
+	[OutputBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -245,9 +245,9 @@ CREATE TABLE [Staging].[OutputPersonRole]
 (
 
 	[OutputPersonRole_ID] int NULL,
-	[OutputBusinessKey] varchar(255) NULL,
-	[PersonBusinessKey] varchar(255) NULL,
-	[RoleBusinessKey] varchar(255) NULL
+	[OutputBusinessKey] nvarchar(4000) NULL,
+	[PersonBusinessKey] nvarchar(4000) NULL,
+	[RoleBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -285,10 +285,10 @@ CREATE TABLE [Staging].[Project]
 	[ProjectParentID] int NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ProjectSiteName] varchar(255) NOT NULL,
-	[OutcomeBusinessKey] varchar(255) NULL,
-	[ProgrammeBusinessKey] varchar(255) NULL,
-	[SectorBusinessKey] varchar(255) NULL,
-	[SubSectorBusinessKey] varchar(255) NULL
+	[OutcomeBusinessKey] nvarchar(4000) NULL,
+	[ProgrammeBusinessKey] nvarchar(4000) NULL,
+	[SectorBusinessKey] nvarchar(4000) NULL,
+	[SubSectorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -306,7 +306,7 @@ CREATE TABLE [Staging].[Sector]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ShortName] varchar(50) NOT NULL,
 	[TextDescription] varchar(max) NULL,
-	[ProgrammeBusinessKey] varchar(255) NOT NULL
+	[ProgrammeBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -324,7 +324,7 @@ CREATE TABLE [Staging].[SubOutput]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[LongName] varchar(500) NOT NULL,
 	[TextDescription] varchar(max) NULL,
-	[OutputBusinessKey] varchar(255) NOT NULL
+	[OutputBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -337,9 +337,9 @@ CREATE TABLE [Staging].[SubOutputPersonRole]
 (
 
 	[SubOutputPersonRole_ID] int NULL,
-	[PersonBusinessKey] varchar(255) NULL,
-	[RoleBusinessKey] varchar(255) NULL,
-	[SubOutputBusinessKey] varchar(255) NULL
+	[PersonBusinessKey] nvarchar(4000) NULL,
+	[RoleBusinessKey] nvarchar(4000) NULL,
+	[SubOutputBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -352,7 +352,7 @@ CREATE TABLE [Staging].[SubOutputSubOutputLink]
 (
 
 	[SubOutputSubOutputLink_ID] int NULL,
-	[SubOutputBusinessKey] varchar(255) NOT NULL
+	[SubOutputBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -370,7 +370,7 @@ CREATE TABLE [Staging].[SubSector]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[LongName] varchar(500) NOT NULL,
 	[TextDescription] varchar(max) NULL,
-	[SectorBusinessKey] varchar(255) NOT NULL
+	[SectorBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -426,7 +426,7 @@ CREATE TABLE [Staging].[Location]
 	[Density] varchar(max) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ParentLocation_ID] int NULL,
-	[LocationTypeBusinessKey] varchar(255) NULL
+	[LocationTypeBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -459,7 +459,7 @@ CREATE TABLE [Staging].[Organization]
 	[Code] varchar(50) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ParentOrganization_ID] int NULL,
-	[OrganizationTypeBusinessKey] varchar(255) NULL
+	[OrganizationTypeBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -472,9 +472,9 @@ CREATE TABLE [Staging].[OrganizationPersonRole]
 (
 
 	[OrganizationPersonRole_ID] int NULL,
-	[OrganizationBusinessKey] varchar(255) NULL,
-	[PersonBusinessKey] varchar(255) NULL,
-	[RoleBusinessKey] varchar(255) NULL
+	[OrganizationBusinessKey] nvarchar(4000) NULL,
+	[PersonBusinessKey] nvarchar(4000) NULL,
+	[RoleBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -575,7 +575,7 @@ CREATE TABLE [Staging].[AgeBand]
 	[Name] varchar(255) NULL,
 	[Code] varchar(50) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
-	[ProjectBusinessKey] varchar(255) NOT NULL
+	[ProjectBusinessKey] nvarchar(4000) NOT NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -621,7 +621,7 @@ CREATE TABLE [Staging].[Framework]
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
-	[OrganizationBusinessKey] varchar(255) NULL
+	[OrganizationBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -635,8 +635,8 @@ CREATE TABLE [Staging].[Framework_Indicator]
 
 	[Framework_Indicator_ID] int NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
-	[FrameworkBusinessKey] varchar(255) NULL,
-	[IndicatorBusinessKey] varchar(255) NULL
+	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[IndicatorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -649,8 +649,8 @@ CREATE TABLE [Staging].[Framework_Project]
 (
 
 	[Framework_Project_ID] int NULL,
-	[FrameworkBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL
+	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -708,8 +708,8 @@ CREATE TABLE [Staging].[Project_ResultArea]
 (
 
 	[Project_ResultArea_ID] int NULL,
-	[ProjectBusinessKey] varchar(255) NULL,
-	[ResultAreaBusinessKey] varchar(255) NULL
+	[ProjectBusinessKey] nvarchar(4000) NULL,
+	[ResultAreaBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -757,20 +757,20 @@ CREATE TABLE [Staging].[IndicatorValues]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[Notes] varchar(max) NULL,
 	[GroupVersion] int NOT NULL,
-	[AgeBandBusinessKey] varchar(255) NULL,
-	[CommunityTypeBusinessKey] varchar(255) NULL,
-	[DataVersionBusinessKey] varchar(255) NOT NULL,
-	[DonorBusinessKey] varchar(255) NULL,
-	[FrameworkBusinessKey] varchar(255) NULL,
-	[GenderBusinessKey] varchar(255) NULL,
-	[GroupBusinessKey] varchar(255) NULL,
-	[IndicatorBusinessKey] varchar(255) NOT NULL,
-	[InstitutionBusinessKey] varchar(255) NULL,
-	[LocationBusinessKey] varchar(255) NOT NULL,
-	[OrganizationBusinessKey] varchar(255) NULL,
-	[ReportingPeriodBusinessKey] varchar(255) NOT NULL,
-	[ResultAreaBusinessKey] varchar(255) NULL,
-	[StrategicElementBusinessKey] varchar(255) NULL
+	[AgeBandBusinessKey] nvarchar(4000) NULL,
+	[CommunityTypeBusinessKey] nvarchar(4000) NULL,
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
+	[DonorBusinessKey] nvarchar(4000) NULL,
+	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[GenderBusinessKey] nvarchar(4000) NULL,
+	[GroupBusinessKey] nvarchar(4000) NULL,
+	[IndicatorBusinessKey] nvarchar(4000) NOT NULL,
+	[InstitutionBusinessKey] nvarchar(4000) NULL,
+	[LocationBusinessKey] nvarchar(4000) NOT NULL,
+	[OrganizationBusinessKey] nvarchar(4000) NULL,
+	[ReportingPeriodBusinessKey] nvarchar(4000) NOT NULL,
+	[ResultAreaBusinessKey] nvarchar(4000) NULL,
+	[StrategicElementBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -788,20 +788,20 @@ CREATE TABLE [Staging].[MilestoneValues]
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[Notes] varchar(max) NULL,
 	[GroupVersion] int NOT NULL,
-	[AgeBandBusinessKey] varchar(255) NULL,
-	[CommunityTypeBusinessKey] varchar(255) NULL,
-	[DataVersionBusinessKey] varchar(255) NOT NULL,
-	[DonorBusinessKey] varchar(255) NULL,
-	[FrameworkBusinessKey] varchar(255) NULL,
-	[GenderBusinessKey] varchar(255) NULL,
-	[GroupBusinessKey] varchar(255) NULL,
-	[InstitutionBusinessKey] varchar(255) NULL,
-	[LocationBusinessKey] varchar(255) NOT NULL,
-	[MilestoneBusinessKey] varchar(255) NOT NULL,
-	[OrganizationBusinessKey] varchar(255) NULL,
-	[ReportingPeriodBusinessKey] varchar(255) NOT NULL,
-	[ResultAreaBusinessKey] varchar(255) NULL,
-	[StrategicElementBusinessKey] varchar(255) NULL
+	[AgeBandBusinessKey] nvarchar(4000) NULL,
+	[CommunityTypeBusinessKey] nvarchar(4000) NULL,
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
+	[DonorBusinessKey] nvarchar(4000) NULL,
+	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[GenderBusinessKey] nvarchar(4000) NULL,
+	[GroupBusinessKey] nvarchar(4000) NULL,
+	[InstitutionBusinessKey] nvarchar(4000) NULL,
+	[LocationBusinessKey] nvarchar(4000) NOT NULL,
+	[MilestoneBusinessKey] nvarchar(4000) NOT NULL,
+	[OrganizationBusinessKey] nvarchar(4000) NULL,
+	[ReportingPeriodBusinessKey] nvarchar(4000) NOT NULL,
+	[ResultAreaBusinessKey] nvarchar(4000) NULL,
+	[StrategicElementBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -815,26 +815,26 @@ CREATE TABLE [Staging].[PeopleReachedValues]
 
 	[PeopleReachedValuesID] int NULL,
 	[Notes] nvarchar(max) NULL,
-	[ActivityBusinessKey] varchar(255) NULL,
-	[AgeBandBusinessKey] varchar(255) NULL,
-	[CommunityTypeBusinessKey] varchar(255) NULL,
-	[DataVersionBusinessKey] varchar(255) NOT NULL,
-	[DonorBusinessKey] varchar(255) NULL,
-	[FrameworkBusinessKey] varchar(255) NULL,
-	[Framework_IndicatorBusinessKey] varchar(255) NULL,
-	[GenderBusinessKey] varchar(255) NULL,
-	[GroupBusinessKey] varchar(255) NULL,
-	[InstitutionBusinessKey] varchar(255) NULL,
-	[LocationBusinessKey] varchar(255) NOT NULL,
-	[OutcomeBusinessKey] varchar(255) NULL,
-	[OutputBusinessKey] varchar(255) NULL,
-	[ProgrammeBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL,
-	[ReportingPeriodBusinessKey] varchar(255) NOT NULL,
-	[ResultAreaBusinessKey] varchar(255) NULL,
-	[StatusTypeBusinessKey] varchar(255) NULL,
-	[StrategicElementBusinessKey] varchar(255) NULL,
-	[SubOutputBusinessKey] varchar(255) NULL
+	[ActivityBusinessKey] nvarchar(4000) NULL,
+	[AgeBandBusinessKey] nvarchar(4000) NULL,
+	[CommunityTypeBusinessKey] nvarchar(4000) NULL,
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
+	[DonorBusinessKey] nvarchar(4000) NULL,
+	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[Framework_IndicatorBusinessKey] nvarchar(4000) NULL,
+	[GenderBusinessKey] nvarchar(4000) NULL,
+	[GroupBusinessKey] nvarchar(4000) NULL,
+	[InstitutionBusinessKey] nvarchar(4000) NULL,
+	[LocationBusinessKey] nvarchar(4000) NOT NULL,
+	[OutcomeBusinessKey] nvarchar(4000) NULL,
+	[OutputBusinessKey] nvarchar(4000) NULL,
+	[ProgrammeBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL,
+	[ReportingPeriodBusinessKey] nvarchar(4000) NOT NULL,
+	[ResultAreaBusinessKey] nvarchar(4000) NULL,
+	[StatusTypeBusinessKey] nvarchar(4000) NULL,
+	[StrategicElementBusinessKey] nvarchar(4000) NULL,
+	[SubOutputBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -848,16 +848,16 @@ CREATE TABLE [Staging].[StatusValues]
 
 	[StatusValuesID] int NULL,
 	[Notes] nvarchar(max) NULL,
-	[ActivityBusinessKey] varchar(255) NULL,
-	[DataVersionBusinessKey] varchar(255) NOT NULL,
-	[LocationBusinessKey] varchar(255) NOT NULL,
-	[OutcomeBusinessKey] varchar(255) NULL,
-	[OutputBusinessKey] varchar(255) NULL,
-	[ProgrammeBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL,
-	[ReportingPeriodBusinessKey] varchar(255) NOT NULL,
-	[StatusTypeBusinessKey] varchar(255) NULL,
-	[SubOutputBusinessKey] varchar(255) NULL
+	[ActivityBusinessKey] nvarchar(4000) NULL,
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
+	[LocationBusinessKey] nvarchar(4000) NOT NULL,
+	[OutcomeBusinessKey] nvarchar(4000) NULL,
+	[OutputBusinessKey] nvarchar(4000) NULL,
+	[ProgrammeBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL,
+	[ReportingPeriodBusinessKey] nvarchar(4000) NOT NULL,
+	[StatusTypeBusinessKey] nvarchar(4000) NULL,
+	[SubOutputBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -885,8 +885,8 @@ CREATE TABLE [Staging].[CustomReport_Indicator]
 (
 
 	[CustomReport_Indicator_ID] int NULL,
-	[CustomReportBusinessKey] varchar(255) NULL,
-	[IndicatorBusinessKey] varchar(255) NULL
+	[CustomReportBusinessKey] nvarchar(4000) NULL,
+	[IndicatorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -899,8 +899,8 @@ CREATE TABLE [Staging].[CustomReport_Project]
 (
 
 	[CustomReport_Project_ID] int NULL,
-	[CustomReportBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL
+	[CustomReportBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -943,8 +943,8 @@ CREATE TABLE [Staging].[DonorReport_Indicator]
 (
 
 	[DonorReport_Indicator_ID] int NULL,
-	[DonorReportBusinessKey] varchar(255) NULL,
-	[IndicatorBusinessKey] varchar(255) NULL
+	[DonorReportBusinessKey] nvarchar(4000) NULL,
+	[IndicatorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -957,7 +957,7 @@ CREATE TABLE [Staging].[DonorReport_Project]
 (
 
 	[DonorReport_Project_ID] int NULL,
-	[DonorReportBusinessKey] varchar(255) NULL,
-	[ProjectBusinessKey] varchar(255) NULL
+	[DonorReportBusinessKey] nvarchar(4000) NULL,
+	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
