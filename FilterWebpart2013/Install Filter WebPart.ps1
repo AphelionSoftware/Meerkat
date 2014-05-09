@@ -14,5 +14,5 @@ Add-PSSnapin microsoft.sharepoint.powershell
 # Add solution to the farm environment and install it.
 $solutionpath = Read-Host 'Please insert the full path for the wsp solution file e.g "C:\FilterWebPart.wsp"'
 $solutionfile = Read-Host 'Please insert the name of the solution file without the extension or path e.g "FilterWebPart"'
-Add-SPSolution $solutionpath
-Install-SPSolution -Identity $solutionfile -AllWebApplications –GACDeployment
+Add-SPSolution "$solutionpath"
+Install-SPSolution -Identity "$solutionfile" -AllWebApplications –GACDeployment

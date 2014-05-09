@@ -14,4 +14,4 @@ Add-PSSnapin microsoft.sharepoint.powershell
 #Import the site collection
 $sitecoll = Read-Host 'Please insert the url for the target site collection'
 $collpath = Read-Host 'Please insert the path to the site collection export file'
-Import-SPWeb -Identity $sitecoll -Path $collpath
+Import-SPWeb -Identity "$sitecoll" -Path "$collpath"
