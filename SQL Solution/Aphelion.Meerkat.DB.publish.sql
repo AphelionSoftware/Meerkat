@@ -6,95 +6,6 @@ Changes to this file may cause incorrect behavior and will be lost if
 the code is regenerated.
 */
 
-/* Create Meerkat Database */
-
-USE [master]
-GO
-/****** Object:  Database [Meerkat]    Script Date: 2013-03-06 08:42:07 AM ******/
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Meerkat')
-BEGIN
-CREATE DATABASE [Meerkat]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'Meerkat', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\Meerkat_v1.0.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'Meerkat_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\Meerkat_v1.0_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
-END
-
-GO
-ALTER DATABASE [Meerkat] SET COMPATIBILITY_LEVEL = 110
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [Meerkat].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [Meerkat] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [Meerkat] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [Meerkat] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [Meerkat] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [Meerkat] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [Meerkat] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [Meerkat] SET AUTO_CREATE_STATISTICS ON 
-GO
-ALTER DATABASE [Meerkat] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [Meerkat] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [Meerkat] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [Meerkat] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [Meerkat] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [Meerkat] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [Meerkat] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [Meerkat] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [Meerkat] SET  DISABLE_BROKER 
-GO
-ALTER DATABASE [Meerkat] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [Meerkat] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [Meerkat] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [Meerkat] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [Meerkat] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [Meerkat] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [Meerkat] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [Meerkat] SET RECOVERY FULL 
-GO
-ALTER DATABASE [Meerkat] SET  MULTI_USER 
-GO
-ALTER DATABASE [Meerkat] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [Meerkat] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [Meerkat] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [Meerkat] SET TARGET_RECOVERY_TIME = 0 SECONDS 
-GO
-EXEC sys.sp_db_vardecimal_storage_format N'Meerkat', N'ON'
-GO
-ALTER DATABASE [Meerkat] SET  READ_WRITE 
-GO
-
-/* End Create Meerkat Database */
-
-
 GO
 SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, QUOTED_IDENTIFIER ON;
 
@@ -124,6 +35,42 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
     END
 
 
+GO
+
+IF (DB_ID(N'$(DatabaseName)') IS NOT NULL)
+BEGIN
+    DECLARE @rc      int,                       -- return code
+            @fn      nvarchar(4000),            -- file name for back up
+            @dir     nvarchar(4000)             -- backup directory
+
+    EXEC @rc = [master].[dbo].[xp_instance_regread] N'HKEY_LOCAL_MACHINE', N'Software\Microsoft\MSSQLServer\MSSQLServer', N'BackupDirectory', @dir output, 'no_output'
+    if (@rc = 0) SELECT @dir = @dir + N'\'
+
+    IF (@dir IS NULL)
+    BEGIN 
+        EXEC @rc = [master].[dbo].[xp_instance_regread] N'HKEY_LOCAL_MACHINE', N'Software\Microsoft\MSSQLServer\MSSQLServer', N'DefaultData', @dir output, 'no_output'
+        if (@rc = 0) SELECT @dir = @dir + N'\'
+    END
+
+    IF (@dir IS NULL)
+    BEGIN
+        EXEC @rc = [master].[dbo].[xp_instance_regread] N'HKEY_LOCAL_MACHINE', N'Software\Microsoft\MSSQLServer\Setup', N'SQLDataRoot', @dir output, 'no_output'
+        if (@rc = 0) SELECT @dir = @dir + N'\Backup\'
+    END
+
+    IF (@dir IS NULL)
+    BEGIN
+        SELECT @dir = N'$(DefaultDataPath)'
+    END
+
+    SELECT  @fn = @dir + N'$(DatabaseName)' + N'-' + 
+            CONVERT(nchar(8), GETDATE(), 112) + N'-' + 
+            RIGHT(N'0' + RTRIM(CONVERT(nchar(2), DATEPART(hh, GETDATE()))), 2) + 
+            RIGHT(N'0' + RTRIM(CONVERT(nchar(2), DATEPART(mi, getdate()))), 2) + 
+            RIGHT(N'0' + RTRIM(CONVERT(nchar(2), DATEPART(ss, getdate()))), 2) + 
+            N'.bak' 
+            BACKUP DATABASE [$(DatabaseName)] TO DISK = @fn
+END
 GO
 USE [master];
 
@@ -382,71 +329,6 @@ CREATE TABLE [app].[SubOutputPersonRole] (
 
 
 GO
-PRINT N'Creating [app].[SubOutput]...';
-
-
-GO
-CREATE TABLE [app].[SubOutput] (
-    [SubOutput_ID]    INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NOT NULL,
-    [ShortName]       VARCHAR (50)  NOT NULL,
-    [BusinessKey]     VARCHAR (MAX) NULL,
-    [Output_ID]       INT           NOT NULL,
-    [LongName]        VARCHAR (500) NOT NULL,
-    [TextDescription] VARCHAR (MAX) NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    CONSTRAINT [PK_SubOutput] PRIMARY KEY CLUSTERED ([SubOutput_ID] ASC),
-    CONSTRAINT [UQ_SubOutput_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[Indicator]...';
-
-
-GO
-CREATE TABLE [app].[Indicator] (
-    [IndicatorID]      INT             IDENTITY (1, 1) NOT NULL,
-    [LongName]         VARCHAR (500)   NOT NULL,
-    [TextDescription]  VARCHAR (MAX)   NULL,
-    [Baseline]         DECIMAL (20, 5) NULL,
-    [BaselineString]   VARCHAR (MAX)   NULL,
-    [BaselineDate]     DATETIME        NOT NULL,
-    [Target]           DECIMAL (20, 5) NULL,
-    [TargetString]     VARCHAR (MAX)   NULL,
-    [TargetDate]       DATETIME        NOT NULL,
-    [ReleaseDate]      DATE            NULL,
-    [ReportingDate]    DATE            NULL,
-    [Output_ID]        INT             NULL,
-    [Outcome_ID]       INT             NULL,
-    [BusinessKey]      NVARCHAR (MAX)  NULL,
-    [Notes]            NVARCHAR (MAX)  NULL,
-    [Code]             VARCHAR (50)    NOT NULL,
-    [IndicatorType_ID] INT             NOT NULL,
-    [SubOutput_ID]     INT             NULL,
-    [ShortName]        VARCHAR (50)    NOT NULL,
-    [BaselineDate_ID]  AS              (CONVERT (INT, CONVERT (VARCHAR (8), [BaselineDate], (112)))),
-    [TargetDate_ID]    AS              (CONVERT (INT, CONVERT (VARCHAR (8), [TargetDate], (112)))),
-    [UnitOfMeasure]    VARCHAR (50)    NOT NULL,
-    [Active]           INT             NOT NULL,
-    [sys_CreatedBy]    VARCHAR (255)   NOT NULL,
-    [sys_CreatedOn]    DATETIME        NOT NULL,
-    [sys_ModifiedBy]   VARCHAR (255)   NOT NULL,
-    [sys_ModifiedOn]   DATETIME        NOT NULL,
-    [Programme_ID]     INT             NULL,
-    [Sector_ID]        INT             NULL,
-    [SubSector_ID]     INT             NULL,
-    [ProjectID]        INT             NULL,
-    CONSTRAINT [PK_Indicator] PRIMARY KEY CLUSTERED ([IndicatorID] ASC),
-    CONSTRAINT [UQ_Indicator_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
 PRINT N'Creating [app].[IndicatorLocation]...';
 
 
@@ -465,44 +347,6 @@ CREATE TABLE [app].[IndicatorLocation] (
 
 
 GO
-PRINT N'Creating [app].[IndicatorType]...';
-
-
-GO
-CREATE TABLE [app].[IndicatorType] (
-    [IndicatorType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]             VARCHAR (50)  NOT NULL,
-    [Name]             VARCHAR (255) NULL,
-    [Active]           INT           NOT NULL,
-    [sys_CreatedBy]    VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]    DATETIME      NOT NULL,
-    [sys_ModifiedBy]   VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]   DATETIME      NOT NULL,
-    CONSTRAINT [PK_IndicatorType] PRIMARY KEY CLUSTERED ([IndicatorType_ID] ASC),
-    CONSTRAINT [FK_IndicatorType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[OutcomePersonRole]...';
-
-
-GO
-CREATE TABLE [app].[OutcomePersonRole] (
-    [OutcomePersonRole_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Outcome_ID]           INT           NULL,
-    [Person_ID]            INT           NULL,
-    [Role_ID]              INT           NULL,
-    [Active]               INT           NOT NULL,
-    [sys_CreatedBy]        VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]        DATETIME      NOT NULL,
-    [sys_ModifiedBy]       VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]       DATETIME      NOT NULL,
-    CONSTRAINT [PK_OutcomePersonRole] PRIMARY KEY CLUSTERED ([OutcomePersonRole_ID] ASC)
-);
-
-
-GO
 PRINT N'Creating [app].[OutcomeOrganization]...';
 
 
@@ -517,108 +361,6 @@ CREATE TABLE [app].[OutcomeOrganization] (
     [sys_ModifiedBy]         VARCHAR (255) NOT NULL,
     [sys_ModifiedOn]         DATETIME      NOT NULL,
     CONSTRAINT [PK_OutcomeOrganization] PRIMARY KEY CLUSTERED ([OutcomeOrganization_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[Output]...';
-
-
-GO
-CREATE TABLE [app].[Output] (
-    [Output_ID]       INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)   NOT NULL,
-    [LongName]        NVARCHAR (500) NOT NULL,
-    [BusinessKey]     NVARCHAR (MAX) NULL,
-    [Outcome_ID]      INT            NOT NULL,
-    [ShortName]       VARCHAR (50)   NOT NULL,
-    [TextDescription] VARCHAR (MAX)  NULL,
-    [Active]          INT            NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)  NOT NULL,
-    [sys_CreatedOn]   DATETIME       NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)  NOT NULL,
-    [sys_ModifiedOn]  DATETIME       NOT NULL,
-    CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
-    CONSTRAINT [UQ_Output_Code] UNIQUE NONCLUSTERED ([Code] ASC),
-    CONSTRAINT [UQ_Output_ShortName] UNIQUE NONCLUSTERED ([ShortName] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[Milestone]...';
-
-
-GO
-CREATE TABLE [app].[Milestone] (
-    [MilestoneID]     INT             IDENTITY (1, 1) NOT NULL,
-    [LongName]        VARCHAR (500)   NOT NULL,
-    [TextDescription] VARCHAR (MAX)   NULL,
-    [Baseline]        DECIMAL (20, 5) NULL,
-    [BaselineString]  VARCHAR (MAX)   NULL,
-    [BaselineDate]    DATETIME        NOT NULL,
-    [Target]          DECIMAL (20, 5) NULL,
-    [TargetString]    VARCHAR (MAX)   NULL,
-    [TargetDate]      DATETIME        NOT NULL,
-    [ReleaseDate]     DATE            NULL,
-    [ReportingDate]   DATE            NULL,
-    [ProjectID]       INT             NULL,
-    [BusinessKey]     NVARCHAR (MAX)  NULL,
-    [Notes]           NVARCHAR (MAX)  NULL,
-    [Code]            VARCHAR (50)    NOT NULL,
-    [MilestoneTypeID] INT             NOT NULL,
-    [Activity_ID]     INT             NULL,
-    [ShortName]       VARCHAR (50)    NOT NULL,
-    [BaselineDateID]  AS              (CONVERT (INT, CONVERT (VARCHAR (8), [BaselineDate], (112)))),
-    [TargetDateID]    AS              (CONVERT (INT, CONVERT (VARCHAR (8), [TargetDate], (112)))),
-    [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
-    [Active]          INT             NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
-    [sys_CreatedOn]   DATETIME        NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
-    [sys_ModifiedOn]  DATETIME        NOT NULL,
-    CONSTRAINT [PK_Milestone] PRIMARY KEY CLUSTERED ([MilestoneID] ASC),
-    CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[MilestoneType]...';
-
-
-GO
-CREATE TABLE [app].[MilestoneType] (
-    [MilestoneTypeID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NOT NULL,
-    [Name]            VARCHAR (255) NOT NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    CONSTRAINT [PK_MilestoneType] PRIMARY KEY CLUSTERED ([MilestoneTypeID] ASC),
-    CONSTRAINT [UQ_MilestoneType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[Activity]...';
-
-
-GO
-CREATE TABLE [app].[Activity] (
-    [Activity_ID]     INT           IDENTITY (1, 1) NOT NULL,
-    [ShortName]       VARCHAR (50)  NOT NULL,
-    [LongName]        VARCHAR (500) NOT NULL,
-    [TextDescription] VARCHAR (MAX) NOT NULL,
-    [ProjectID]       INT           NOT NULL,
-    [Active]          INT           NOT NULL,
-    [Code]            VARCHAR (50)  NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    CONSTRAINT [PK_Activity] PRIMARY KEY CLUSTERED ([Activity_ID] ASC),
-    CONSTRAINT [UQ_Activity_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
 
@@ -678,24 +420,260 @@ CREATE TABLE [app].[MilestoneLocation] (
 
 
 GO
+PRINT N'Creating [app].[SubOutput]...';
+
+
+GO
+CREATE TABLE [app].[SubOutput] (
+    [SubOutput_ID]    INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Output_ID]       INT             NOT NULL,
+    [LongName]        VARCHAR (500)   NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_SubOutput] PRIMARY KEY CLUSTERED ([SubOutput_ID] ASC),
+    CONSTRAINT [UQ_SubOutput_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[Indicator]...';
+
+
+GO
+CREATE TABLE [app].[Indicator] (
+    [IndicatorID]      INT             IDENTITY (1, 1) NOT NULL,
+    [LongName]         VARCHAR (500)   NOT NULL,
+    [TextDescription]  VARCHAR (MAX)   NULL,
+    [Baseline]         DECIMAL (20, 5) NULL,
+    [BaselineString]   VARCHAR (MAX)   NULL,
+    [BaselineDate]     DATETIME        NOT NULL,
+    [Target]           DECIMAL (20, 5) NULL,
+    [TargetString]     VARCHAR (MAX)   NULL,
+    [TargetDate]       DATETIME        NOT NULL,
+    [ReleaseDate]      DATE            NULL,
+    [ReportingDate]    DATE            NULL,
+    [Output_ID]        INT             NULL,
+    [Outcome_ID]       INT             NULL,
+    [BusinessKey]      NVARCHAR (4000) NOT NULL,
+    [Notes]            NVARCHAR (MAX)  NULL,
+    [Code]             VARCHAR (50)    NOT NULL,
+    [IndicatorType_ID] INT             NOT NULL,
+    [SubOutput_ID]     INT             NULL,
+    [ShortName]        VARCHAR (50)    NOT NULL,
+    [BaselineDate_ID]  AS              (CONVERT (INT, CONVERT (VARCHAR (8), [BaselineDate], (112)))),
+    [TargetDate_ID]    AS              (CONVERT (INT, CONVERT (VARCHAR (8), [TargetDate], (112)))),
+    [UnitOfMeasure]    VARCHAR (50)    NOT NULL,
+    [Active]           INT             NOT NULL,
+    [sys_CreatedBy]    VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]    DATETIME        NOT NULL,
+    [sys_ModifiedBy]   VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]   DATETIME        NOT NULL,
+    [Programme_ID]     INT             NULL,
+    [Sector_ID]        INT             NULL,
+    [SubSector_ID]     INT             NULL,
+    [ProjectID]        INT             NULL,
+    CONSTRAINT [PK_Indicator] PRIMARY KEY CLUSTERED ([IndicatorID] ASC),
+    CONSTRAINT [UQ_Indicator_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[IndicatorType]...';
+
+
+GO
+CREATE TABLE [app].[IndicatorType] (
+    [IndicatorType_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]             VARCHAR (50)    NOT NULL,
+    [Name]             VARCHAR (255)   NULL,
+    [BusinessKey]      NVARCHAR (4000) NOT NULL,
+    [Active]           INT             NOT NULL,
+    [sys_CreatedBy]    VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]    DATETIME        NOT NULL,
+    [sys_ModifiedBy]   VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]   DATETIME        NOT NULL,
+    CONSTRAINT [PK_IndicatorType] PRIMARY KEY CLUSTERED ([IndicatorType_ID] ASC),
+    CONSTRAINT [FK_IndicatorType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[OutcomePersonRole]...';
+
+
+GO
+CREATE TABLE [app].[OutcomePersonRole] (
+    [OutcomePersonRole_ID] INT           IDENTITY (1, 1) NOT NULL,
+    [Outcome_ID]           INT           NULL,
+    [Person_ID]            INT           NULL,
+    [Role_ID]              INT           NULL,
+    [Active]               INT           NOT NULL,
+    [sys_CreatedBy]        VARCHAR (255) NOT NULL,
+    [sys_CreatedOn]        DATETIME      NOT NULL,
+    [sys_ModifiedBy]       VARCHAR (255) NOT NULL,
+    [sys_ModifiedOn]       DATETIME      NOT NULL,
+    CONSTRAINT [PK_OutcomePersonRole] PRIMARY KEY CLUSTERED ([OutcomePersonRole_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[Project]...';
+
+
+GO
+CREATE TABLE [app].[Project] (
+    [ProjectID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [ShortName]       NVARCHAR (255)  NOT NULL,
+    [LongName]        VARCHAR (255)   NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NOT NULL,
+    [ProjectParentID] INT             NULL,
+    [Outcome_ID]      INT             NULL,
+    [Programme_ID]    INT             NULL,
+    [Sector_ID]       INT             NULL,
+    [SubSector_ID]    INT             NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [ProjectSiteName] VARCHAR (255)   NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
+    CONSTRAINT [UW_Project_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[Output]...';
+
+
+GO
+CREATE TABLE [app].[Output] (
+    [Output_ID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [LongName]        NVARCHAR (500)  NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Outcome_ID]      INT             NOT NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
+    CONSTRAINT [UQ_Output_Code] UNIQUE NONCLUSTERED ([Code] ASC),
+    CONSTRAINT [UQ_Output_ShortName] UNIQUE NONCLUSTERED ([ShortName] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[Milestone]...';
+
+
+GO
+CREATE TABLE [app].[Milestone] (
+    [MilestoneID]     INT             IDENTITY (1, 1) NOT NULL,
+    [LongName]        VARCHAR (500)   NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Baseline]        DECIMAL (20, 5) NULL,
+    [BaselineString]  VARCHAR (MAX)   NULL,
+    [BaselineDate]    DATETIME        NOT NULL,
+    [Target]          DECIMAL (20, 5) NULL,
+    [TargetString]    VARCHAR (MAX)   NULL,
+    [TargetDate]      DATETIME        NOT NULL,
+    [ReleaseDate]     DATE            NULL,
+    [ReportingDate]   DATE            NULL,
+    [ProjectID]       INT             NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Notes]           NVARCHAR (MAX)  NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [MilestoneTypeID] INT             NOT NULL,
+    [Activity_ID]     INT             NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [BaselineDateID]  AS              (CONVERT (INT, CONVERT (VARCHAR (8), [BaselineDate], (112)))),
+    [TargetDateID]    AS              (CONVERT (INT, CONVERT (VARCHAR (8), [TargetDate], (112)))),
+    [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_Milestone] PRIMARY KEY CLUSTERED ([MilestoneID] ASC),
+    CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[MilestoneType]...';
+
+
+GO
+CREATE TABLE [app].[MilestoneType] (
+    [MilestoneTypeID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [Name]            VARCHAR (255)   NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_MilestoneType] PRIMARY KEY CLUSTERED ([MilestoneTypeID] ASC),
+    CONSTRAINT [UQ_MilestoneType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [app].[Activity]...';
+
+
+GO
+CREATE TABLE [app].[Activity] (
+    [Activity_ID]     INT             IDENTITY (1, 1) NOT NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [LongName]        VARCHAR (500)   NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NOT NULL,
+    [ProjectID]       INT             NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_Activity] PRIMARY KEY CLUSTERED ([Activity_ID] ASC),
+    CONSTRAINT [UQ_Activity_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
 PRINT N'Creating [app].[Outcome]...';
 
 
 GO
 CREATE TABLE [app].[Outcome] (
-    [Outcome_ID]      INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)   NOT NULL,
-    [LongName]        NVARCHAR (500) NOT NULL,
-    [BusinessKey]     NVARCHAR (MAX) NOT NULL,
-    [ShortName]       NVARCHAR (50)  NOT NULL,
-    [TextDescription] NVARCHAR (MAX) NULL,
-    [OutcomeSiteName] NVARCHAR (50)  NULL,
-    [DataVersion]     INT            NOT NULL,
-    [Active]          INT            NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)  NOT NULL,
-    [sys_CreatedOn]   DATETIME       NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)  NOT NULL,
-    [sys_ModifiedOn]  DATETIME       NOT NULL,
+    [Outcome_ID]      INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [LongName]        NVARCHAR (500)  NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [ShortName]       NVARCHAR (50)   NOT NULL,
+    [TextDescription] NVARCHAR (MAX)  NULL,
+    [OutcomeSiteName] NVARCHAR (50)   NULL,
+    [DataVersion]     INT             NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
     CONSTRAINT [PK_Outcome] PRIMARY KEY CLUSTERED ([Outcome_ID] ASC),
     CONSTRAINT [UQ_OutCome_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
@@ -707,18 +685,18 @@ PRINT N'Creating [app].[Programme]...';
 
 GO
 CREATE TABLE [app].[Programme] (
-    [Programme_ID]      INT           IDENTITY (1, 1) NOT NULL,
-    [Code]              VARCHAR (50)  NULL,
-    [LongName]          VARCHAR (500) NULL,
-    [BusinessKey]       VARCHAR (255) NULL,
-    [ShortName]         VARCHAR (50)  NULL,
-    [TextDescription]   VARCHAR (MAX) NULL,
-    [ProgrammeSiteName] VARCHAR (50)  NULL,
-    [Active]            INT           NOT NULL,
-    [sys_CreatedBy]     VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]     DATETIME      NOT NULL,
-    [sys_ModifiedBy]    VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]    DATETIME      NOT NULL,
+    [Programme_ID]      INT             IDENTITY (1, 1) NOT NULL,
+    [Code]              VARCHAR (50)    NULL,
+    [LongName]          VARCHAR (500)   NULL,
+    [BusinessKey]       NVARCHAR (4000) NOT NULL,
+    [ShortName]         VARCHAR (50)    NULL,
+    [TextDescription]   VARCHAR (MAX)   NULL,
+    [ProgrammeSiteName] VARCHAR (50)    NULL,
+    [Active]            INT             NOT NULL,
+    [sys_CreatedBy]     VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]     DATETIME        NOT NULL,
+    [sys_ModifiedBy]    VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]    DATETIME        NOT NULL,
     CONSTRAINT [PK_Programme_1] PRIMARY KEY CLUSTERED ([Programme_ID] ASC)
 );
 
@@ -729,18 +707,18 @@ PRINT N'Creating [app].[Sector]...';
 
 GO
 CREATE TABLE [app].[Sector] (
-    [Sector_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NULL,
-    [LongName]        VARCHAR (500) NULL,
-    [BusinessKey]     VARCHAR (255) NULL,
-    [Programme_ID]    INT           NOT NULL,
-    [ShortName]       VARCHAR (50)  NOT NULL,
-    [TextDescription] VARCHAR (MAX) NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
+    [Sector_ID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NULL,
+    [LongName]        VARCHAR (500)   NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Programme_ID]    INT             NOT NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
     CONSTRAINT [PK_Sector_] PRIMARY KEY CLUSTERED ([Sector_ID] ASC),
     UNIQUE NONCLUSTERED ([ShortName] ASC)
 );
@@ -752,96 +730,19 @@ PRINT N'Creating [app].[SubSector]...';
 
 GO
 CREATE TABLE [app].[SubSector] (
-    [SubSector_ID]    INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NULL,
-    [ShortName]       VARCHAR (50)  NOT NULL,
-    [BusinessKey]     VARCHAR (255) NULL,
-    [Sector_ID]       INT           NOT NULL,
-    [LongName]        VARCHAR (500) NOT NULL,
-    [TextDescription] VARCHAR (MAX) NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
+    [SubSector_ID]    INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NULL,
+    [ShortName]       VARCHAR (50)    NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Sector_ID]       INT             NOT NULL,
+    [LongName]        VARCHAR (500)   NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
     CONSTRAINT [PK_SubSector] PRIMARY KEY CLUSTERED ([SubSector_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [app].[Project]...';
-
-
-GO
-CREATE TABLE [app].[Project] (
-    [ProjectID]       INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)   NOT NULL,
-    [ShortName]       NVARCHAR (255) NOT NULL,
-    [LongName]        VARCHAR (255)  NOT NULL,
-    [TextDescription] VARCHAR (MAX)  NOT NULL,
-    [ProjectParentID] INT            NULL,
-    [Outcome_ID]      INT            NULL,
-    [Programme_ID]    INT            NULL,
-    [Sector_ID]       INT            NULL,
-    [SubSector_ID]    INT            NULL,
-    [ProjectSiteName] VARCHAR (255)  NOT NULL,
-    [Active]          INT            NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)  NOT NULL,
-    [sys_CreatedOn]   DATETIME       NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)  NOT NULL,
-    [sys_ModifiedOn]  DATETIME       NOT NULL,
-    CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
-    CONSTRAINT [UW_Project_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [Core].[DataSource]...';
-
-
-GO
-CREATE TABLE [Core].[DataSource] (
-    [DataSource_ID]    INT           IDENTITY (1, 1) NOT NULL,
-    [Name]             VARCHAR (255) NOT NULL,
-    [ContactDetails]   VARCHAR (MAX) NULL,
-    [Custodian]        VARCHAR (MAX) NULL,
-    [Format]           VARCHAR (MAX) NULL,
-    [CollectionMethod] VARCHAR (MAX) NULL,
-    [MetadataStatus]   VARCHAR (MAX) NULL,
-    [BusinessKey]      VARCHAR (MAX) NULL,
-    [Active]           INT           NOT NULL,
-    [sys_CreatedBy]    VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]    DATETIME      NOT NULL,
-    [sys_ModifiedBy]   VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]   DATETIME      NOT NULL,
-    CONSTRAINT [PK_DataSource] PRIMARY KEY CLUSTERED ([DataSource_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [Core].[Location]...';
-
-
-GO
-CREATE TABLE [Core].[Location] (
-    [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
-    [Code]              VARCHAR (50)      NOT NULL,
-    [Name]              VARCHAR (255)     NOT NULL,
-    [AreaKM]            DECIMAL (18, 2)   NULL,
-    [Population]        DECIMAL (18, 2)   NULL,
-    [Density]           VARCHAR (MAX)     NULL,
-    [BusinessKey]       NVARCHAR (MAX)    NULL,
-    [LocationType_ID]   INT               NULL,
-    [ParentLocation_ID] INT               NULL,
-    [Geog]              [sys].[geography] NULL,
-    [Active]            INT               NOT NULL,
-    [sys_CreatedBy]     VARCHAR (255)     NOT NULL,
-    [sys_CreatedOn]     DATETIME          NOT NULL,
-    [sys_ModifiedBy]    VARCHAR (255)     NOT NULL,
-    [sys_ModifiedOn]    DATETIME          NOT NULL,
-    CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED ([Location_ID] ASC),
-    CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([Code] ASC),
-    CONSTRAINT [UQ_Location_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
 
 
@@ -899,47 +800,6 @@ CREATE TABLE [Core].[ActiveType] (
 
 
 GO
-PRINT N'Creating [Core].[Role]...';
-
-
-GO
-CREATE TABLE [Core].[Role] (
-    [RoleID]         INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [Description]    VARCHAR (MAX) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
-    CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED ([RoleID] ASC),
-    CONSTRAINT [UQ_Role_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
-PRINT N'Creating [Core].[DataVersion]...';
-
-
-GO
-CREATE TABLE [Core].[DataVersion] (
-    [DataVersion_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [Description]    VARCHAR (MAX) NOT NULL,
-    [Order]          INT           NOT NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
-    CONSTRAINT [PK_Version] PRIMARY KEY CLUSTERED ([DataVersion_ID] ASC),
-    CONSTRAINT [UQ_DataVersion_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-);
-
-
-GO
 PRINT N'Creating [Core].[DimMunicipalityGEOM]...';
 
 
@@ -969,49 +829,6 @@ CREATE TABLE [Core].[DimMunicipalityGEOM] (
 
 
 GO
-PRINT N'Creating [Core].[ReportingPeriod]...';
-
-
-GO
-CREATE TABLE [Core].[ReportingPeriod] (
-    [ID]              INT           IDENTITY (1, 1) NOT NULL,
-    [ReportingPeriod] INT           NOT NULL,
-    [StartDateID]     INT           NOT NULL,
-    [EndDateID]       INT           NOT NULL,
-    [FirstCycleDate]  DATETIME      NOT NULL,
-    [LastCycleDate]   DATETIME      NOT NULL,
-    [YearName]        CHAR (4)      NOT NULL,
-    [YearNumber]      INT           NOT NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    [Summary]         VARCHAR (50)  NOT NULL,
-    CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
-    UNIQUE NONCLUSTERED ([EndDateID] ASC),
-    UNIQUE NONCLUSTERED ([StartDateID] ASC)
-);
-
-
-GO
-PRINT N'Creating [Core].[OrganizationType]...';
-
-
-GO
-CREATE TABLE [Core].[OrganizationType] (
-    [OrganizationType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Description]         VARCHAR (MAX) NULL,
-    [Active]              INT           NOT NULL,
-    [sys_CreatedBy]       VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]       DATETIME      NOT NULL,
-    [sys_ModifiedBy]      VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]      DATETIME      NOT NULL,
-    CONSTRAINT [PK_OrganizationType] PRIMARY KEY CLUSTERED ([OrganizationType_ID] ASC)
-);
-
-
-GO
 PRINT N'Creating [Core].[OrganizationPersonRole]...';
 
 
@@ -1033,22 +850,160 @@ CREATE TABLE [Core].[OrganizationPersonRole] (
 
 
 GO
+PRINT N'Creating [Core].[DataSource]...';
+
+
+GO
+CREATE TABLE [Core].[DataSource] (
+    [DataSource_ID]    INT             IDENTITY (1, 1) NOT NULL,
+    [Name]             VARCHAR (255)   NOT NULL,
+    [ContactDetails]   VARCHAR (MAX)   NULL,
+    [Custodian]        VARCHAR (MAX)   NULL,
+    [Format]           VARCHAR (MAX)   NULL,
+    [CollectionMethod] VARCHAR (MAX)   NULL,
+    [MetadataStatus]   VARCHAR (MAX)   NULL,
+    [BusinessKey]      NVARCHAR (4000) NOT NULL,
+    [Active]           INT             NOT NULL,
+    [sys_CreatedBy]    VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]    DATETIME        NOT NULL,
+    [sys_ModifiedBy]   VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]   DATETIME        NOT NULL,
+    CONSTRAINT [PK_DataSource] PRIMARY KEY CLUSTERED ([DataSource_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [Core].[Location]...';
+
+
+GO
+CREATE TABLE [Core].[Location] (
+    [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
+    [Code]              VARCHAR (50)      NOT NULL,
+    [Name]              VARCHAR (255)     NOT NULL,
+    [AreaKM]            DECIMAL (18, 2)   NULL,
+    [Population]        DECIMAL (18, 2)   NULL,
+    [Density]           VARCHAR (MAX)     NULL,
+    [BusinessKey]       NVARCHAR (4000)   NOT NULL,
+    [LocationType_ID]   INT               NULL,
+    [ParentLocation_ID] INT               NULL,
+    [Geog]              [sys].[geography] NULL,
+    [Active]            INT               NOT NULL,
+    [sys_CreatedBy]     VARCHAR (255)     NOT NULL,
+    [sys_CreatedOn]     DATETIME          NOT NULL,
+    [sys_ModifiedBy]    VARCHAR (255)     NOT NULL,
+    [sys_ModifiedOn]    DATETIME          NOT NULL,
+    CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED ([Location_ID] ASC),
+    CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([Code] ASC),
+    CONSTRAINT [UQ_Location_Name] UNIQUE NONCLUSTERED ([Name] ASC)
+);
+
+
+GO
+PRINT N'Creating [Core].[Role]...';
+
+
+GO
+CREATE TABLE [Core].[Role] (
+    [RoleID]         INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [Description]    VARCHAR (MAX)   NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
+    CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED ([RoleID] ASC),
+    CONSTRAINT [UQ_Role_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [Core].[DataVersion]...';
+
+
+GO
+CREATE TABLE [Core].[DataVersion] (
+    [DataVersion_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [Description]    VARCHAR (MAX)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Order]          INT             NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
+    CONSTRAINT [PK_Version] PRIMARY KEY CLUSTERED ([DataVersion_ID] ASC),
+    CONSTRAINT [UQ_DataVersion_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+);
+
+
+GO
+PRINT N'Creating [Core].[ReportingPeriod]...';
+
+
+GO
+CREATE TABLE [Core].[ReportingPeriod] (
+    [ID]              INT             IDENTITY (1, 1) NOT NULL,
+    [ReportingPeriod] INT             NOT NULL,
+    [StartDateID]     INT             NOT NULL,
+    [EndDateID]       INT             NOT NULL,
+    [FirstCycleDate]  DATETIME        NOT NULL,
+    [LastCycleDate]   DATETIME        NOT NULL,
+    [YearName]        CHAR (4)        NOT NULL,
+    [YearNumber]      INT             NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    [Summary]         VARCHAR (50)    NOT NULL,
+    CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
+    UNIQUE NONCLUSTERED ([EndDateID] ASC),
+    UNIQUE NONCLUSTERED ([StartDateID] ASC)
+);
+
+
+GO
+PRINT N'Creating [Core].[OrganizationType]...';
+
+
+GO
+CREATE TABLE [Core].[OrganizationType] (
+    [OrganizationType_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Description]         VARCHAR (MAX)   NULL,
+    [BusinessKey]         NVARCHAR (4000) NOT NULL,
+    [Active]              INT             NOT NULL,
+    [sys_CreatedBy]       VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]       DATETIME        NOT NULL,
+    [sys_ModifiedBy]      VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]      DATETIME        NOT NULL,
+    CONSTRAINT [PK_OrganizationType] PRIMARY KEY CLUSTERED ([OrganizationType_ID] ASC)
+);
+
+
+GO
 PRINT N'Creating [Core].[Organization]...';
 
 
 GO
 CREATE TABLE [Core].[Organization] (
-    [Organization_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Name]                  NVARCHAR (50) NOT NULL,
-    [Code]                  VARCHAR (50)  NULL,
-    [BusinessKey]           VARCHAR (MAX) NULL,
-    [OrganizationType_ID]   INT           NULL,
-    [ParentOrganization_ID] INT           NULL,
-    [Active]                INT           NOT NULL,
-    [sys_CreatedBy]         VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]         DATETIME      NOT NULL,
-    [sys_ModifiedBy]        VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]        DATETIME      NOT NULL,
+    [Organization_ID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Name]                  NVARCHAR (50)   NOT NULL,
+    [Code]                  VARCHAR (50)    NULL,
+    [BusinessKey]           NVARCHAR (4000) NOT NULL,
+    [OrganizationType_ID]   INT             NULL,
+    [ParentOrganization_ID] INT             NULL,
+    [Active]                INT             NOT NULL,
+    [sys_CreatedBy]         VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]         DATETIME        NOT NULL,
+    [sys_ModifiedBy]        VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]        DATETIME        NOT NULL,
     CONSTRAINT [PK_Organization] PRIMARY KEY CLUSTERED ([Organization_ID] ASC),
     CONSTRAINT [UQ_Organization_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
@@ -1060,18 +1015,18 @@ PRINT N'Creating [Core].[Person]...';
 
 GO
 CREATE TABLE [Core].[Person] (
-    [Person_ID]      INT           IDENTITY (1, 1) NOT NULL,
-    [Title]          VARCHAR (MAX) NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [ContactDetails] VARCHAR (MAX) NULL,
-    [Category]       VARCHAR (MAX) NULL,
-    [BusinessKey]    VARCHAR (MAX) NULL,
-    [UserDetails]    VARCHAR (50)  NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [Person_ID]      INT             IDENTITY (1, 1) NOT NULL,
+    [Title]          VARCHAR (MAX)   NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [ContactDetails] VARCHAR (MAX)   NULL,
+    [Category]       VARCHAR (MAX)   NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [UserDetails]    VARCHAR (50)    NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED ([Person_ID] ASC)
 );
 
@@ -1082,15 +1037,16 @@ PRINT N'Creating [Core].[LocationType]...';
 
 GO
 CREATE TABLE [Core].[LocationType] (
-    [LocationType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NOT NULL,
-    [Name]            VARCHAR (255) NOT NULL,
-    [Description]     VARCHAR (MAX) NOT NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
+    [LocationType_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [Name]            VARCHAR (255)   NOT NULL,
+    [Description]     VARCHAR (MAX)   NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
     CONSTRAINT [PK_LocationType] PRIMARY KEY CLUSTERED ([LocationType_ID] ASC),
     CONSTRAINT [FK_LocationType_Code] UNIQUE NONCLUSTERED ([Code] ASC),
     CONSTRAINT [FK_LocationType_Name] UNIQUE NONCLUSTERED ([Name] ASC)
@@ -1107,6 +1063,7 @@ CREATE TABLE [Core].[StatusType] (
     [Code]           VARCHAR (50)    NOT NULL,
     [Name]           VARCHAR (255)   NOT NULL,
     [Value]          DECIMAL (20, 2) NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
     [sys_CreatedOn]  DATETIME        NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
@@ -1118,19 +1075,54 @@ CREATE TABLE [Core].[StatusType] (
 
 
 GO
+PRINT N'Creating [disagg].[Age]...';
+
+
+GO
+CREATE TABLE [disagg].[Age] (
+    [Age_ID]         INT           IDENTITY (1, 1) NOT NULL,
+    [Active]         INT           NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
+    [sys_CreatedOn]  DATETIME      NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
+    [sys_ModifiedOn] DATETIME      NOT NULL,
+    CONSTRAINT [PK_Age] PRIMARY KEY CLUSTERED ([Age_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [disagg].[Framework_Project]...';
+
+
+GO
+CREATE TABLE [disagg].[Framework_Project] (
+    [Framework_Project_ID] INT           IDENTITY (1, 1) NOT NULL,
+    [Framework_ID]         INT           NULL,
+    [ProjectID]            INT           NULL,
+    [Active]               INT           NOT NULL,
+    [sys_CreatedBy]        VARCHAR (255) NOT NULL,
+    [sys_CreatedOn]        DATETIME      NOT NULL,
+    [sys_ModifiedBy]       VARCHAR (255) NOT NULL,
+    [sys_ModifiedOn]       DATETIME      NOT NULL,
+    CONSTRAINT [PK_ProjectFramework] PRIMARY KEY CLUSTERED ([Framework_Project_ID] ASC)
+);
+
+
+GO
 PRINT N'Creating [disagg].[Framework_Indicator]...';
 
 
 GO
 CREATE TABLE [disagg].[Framework_Indicator] (
-    [Framework_Indicator_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [FrameworkID]            INT           NULL,
-    [IndicatorID]            INT           NULL,
-    [Active]                 INT           NOT NULL,
-    [sys_CreatedBy]          VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]          DATETIME      NOT NULL,
-    [sys_ModifiedBy]         VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]         DATETIME      NOT NULL,
+    [Framework_Indicator_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [FrameworkID]            INT             NULL,
+    [IndicatorID]            INT             NULL,
+    [BusinessKey]            NVARCHAR (4000) NOT NULL,
+    [Active]                 INT             NOT NULL,
+    [sys_CreatedBy]          VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]          DATETIME        NOT NULL,
+    [sys_ModifiedBy]         VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]         DATETIME        NOT NULL,
     CONSTRAINT [PK_IndicatorFramework] PRIMARY KEY CLUSTERED ([Framework_Indicator_ID] ASC)
 );
 
@@ -1141,15 +1133,15 @@ PRINT N'Creating [disagg].[StrategicElement]...';
 
 GO
 CREATE TABLE [disagg].[StrategicElement] (
-    [StrategicElement_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]                VARCHAR (50)  NOT NULL,
-    [Name]                VARCHAR (255) NOT NULL,
-    [BusinessKey]         VARCHAR (255) NULL,
-    [Active]              INT           NOT NULL,
-    [sys_CreatedBy]       VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]       DATETIME      NOT NULL,
-    [sys_ModifiedBy]      VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]      DATETIME      NOT NULL,
+    [StrategicElement_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]                VARCHAR (50)    NOT NULL,
+    [Name]                VARCHAR (255)   NOT NULL,
+    [BusinessKey]         NVARCHAR (4000) NOT NULL,
+    [Active]              INT             NOT NULL,
+    [sys_CreatedBy]       VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]       DATETIME        NOT NULL,
+    [sys_ModifiedBy]      VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]      DATETIME        NOT NULL,
     CONSTRAINT [PK_StrategicElement] PRIMARY KEY CLUSTERED ([StrategicElement_ID] ASC)
 );
 
@@ -1160,15 +1152,15 @@ PRINT N'Creating [disagg].[ResultArea]...';
 
 GO
 CREATE TABLE [disagg].[ResultArea] (
-    [ResultArea_ID]  INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [BusinessKey]    VARCHAR (255) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [ResultArea_ID]  INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_ResultArea] PRIMARY KEY CLUSTERED ([ResultArea_ID] ASC)
 );
 
@@ -1197,15 +1189,15 @@ PRINT N'Creating [disagg].[Institution]...';
 
 GO
 CREATE TABLE [disagg].[Institution] (
-    [Institution_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [BusinessKey]    VARCHAR (255) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [Institution_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_Institution] PRIMARY KEY CLUSTERED ([Institution_ID] ASC)
 );
 
@@ -1216,15 +1208,15 @@ PRINT N'Creating [disagg].[Group]...';
 
 GO
 CREATE TABLE [disagg].[Group] (
-    [Group_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [BusinessKey]    VARCHAR (255) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [Group_ID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_Group] PRIMARY KEY CLUSTERED ([Group_ID] ASC)
 );
 
@@ -1235,15 +1227,15 @@ PRINT N'Creating [disagg].[Donor]...';
 
 GO
 CREATE TABLE [disagg].[Donor] (
-    [Donor_ID]       INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [BusinessKey]    VARCHAR (255) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [Donor_ID]       INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_Donor] PRIMARY KEY CLUSTERED ([Donor_ID] ASC)
 );
 
@@ -1254,32 +1246,16 @@ PRINT N'Creating [disagg].[CommunityType]...';
 
 GO
 CREATE TABLE [disagg].[CommunityType] (
-    [CommunityType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]             VARCHAR (50)  NOT NULL,
-    [Name]             VARCHAR (255) NOT NULL,
-    [BusinessKey]      VARCHAR (255) NULL,
-    [Active]           INT           NOT NULL,
-    [sys_CreatedBy]    VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]    DATETIME      NOT NULL,
-    [sys_ModifiedBy]   VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]   DATETIME      NOT NULL,
+    [CommunityType_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]             VARCHAR (50)    NOT NULL,
+    [Name]             VARCHAR (255)   NOT NULL,
+    [BusinessKey]      NVARCHAR (4000) NOT NULL,
+    [Active]           INT             NOT NULL,
+    [sys_CreatedBy]    VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]    DATETIME        NOT NULL,
+    [sys_ModifiedBy]   VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]   DATETIME        NOT NULL,
     CONSTRAINT [PK_CommunityType] PRIMARY KEY CLUSTERED ([CommunityType_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [disagg].[Age]...';
-
-
-GO
-CREATE TABLE [disagg].[Age] (
-    [Age_ID]         INT           IDENTITY (1, 1) NOT NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
-    CONSTRAINT [PK_Age] PRIMARY KEY CLUSTERED ([Age_ID] ASC)
 );
 
 
@@ -1289,18 +1265,19 @@ PRINT N'Creating [disagg].[AgeBand]...';
 
 GO
 CREATE TABLE [disagg].[AgeBand] (
-    [AgeBand_ID]      INT           IDENTITY (1, 1) NOT NULL,
-    [AgeBandMin_ID]   INT           NOT NULL,
-    [AgeBandMax_ID]   INT           NOT NULL,
-    [TextDescription] VARCHAR (MAX) NULL,
-    [Name]            VARCHAR (255) NULL,
-    [Code]            VARCHAR (50)  NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    [ProjectID]       INT           NOT NULL,
+    [AgeBand_ID]      INT             IDENTITY (1, 1) NOT NULL,
+    [AgeBandMin_ID]   INT             NOT NULL,
+    [AgeBandMax_ID]   INT             NOT NULL,
+    [TextDescription] VARCHAR (MAX)   NULL,
+    [Name]            VARCHAR (255)   NULL,
+    [Code]            VARCHAR (50)    NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    [ProjectID]       INT             NOT NULL,
     CONSTRAINT [PK_AgeBand_] PRIMARY KEY CLUSTERED ([AgeBand_ID] ASC)
 );
 
@@ -1311,35 +1288,17 @@ PRINT N'Creating [disagg].[Framework]...';
 
 GO
 CREATE TABLE [disagg].[Framework] (
-    [Framework_ID]         INT           IDENTITY (1, 1) NOT NULL,
-    [Code]                 VARCHAR (50)  NOT NULL,
-    [Name]                 VARCHAR (255) NOT NULL,
-    [BusinessKey]          VARCHAR (255) NULL,
-    [Active]               INT           NOT NULL,
-    [SourceOrganizationID] INT           NULL,
-    [sys_CreatedBy]        VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]        DATETIME      NOT NULL,
-    [sys_ModifiedBy]       VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]       DATETIME      NOT NULL,
+    [Framework_ID]         INT             IDENTITY (1, 1) NOT NULL,
+    [Code]                 VARCHAR (50)    NOT NULL,
+    [Name]                 VARCHAR (255)   NOT NULL,
+    [BusinessKey]          NVARCHAR (4000) NOT NULL,
+    [Active]               INT             NOT NULL,
+    [SourceOrganizationID] INT             NULL,
+    [sys_CreatedBy]        VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]        DATETIME        NOT NULL,
+    [sys_ModifiedBy]       VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]       DATETIME        NOT NULL,
     CONSTRAINT [PK_Framework] PRIMARY KEY CLUSTERED ([Framework_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [disagg].[Framework_Project]...';
-
-
-GO
-CREATE TABLE [disagg].[Framework_Project] (
-    [Framework_Project_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Framework_ID]         INT           NULL,
-    [ProjectID]            INT           NULL,
-    [Active]               INT           NOT NULL,
-    [sys_CreatedBy]        VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]        DATETIME      NOT NULL,
-    [sys_ModifiedBy]       VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]       DATETIME      NOT NULL,
-    CONSTRAINT [PK_ProjectFramework] PRIMARY KEY CLUSTERED ([Framework_Project_ID] ASC)
 );
 
 
@@ -1349,14 +1308,15 @@ PRINT N'Creating [disagg].[Gender]...';
 
 GO
 CREATE TABLE [disagg].[Gender] (
-    [Gender_ID]      INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
+    [Gender_ID]      INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
     CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED ([Gender_ID] ASC)
 );
 
@@ -1597,6 +1557,43 @@ CREATE TABLE [forms].[Question] (
 
 
 GO
+PRINT N'Creating [RBM].[PeopleReachedValues]...';
+
+
+GO
+CREATE TABLE [RBM].[PeopleReachedValues] (
+    [PeopleReachedValuesID]  INT            IDENTITY (1, 1) NOT NULL,
+    [Outcome_ID]             INT            NULL,
+    [Output_ID]              INT            NULL,
+    [SubOutput_ID]           INT            NULL,
+    [Programme_ID]           INT            NULL,
+    [ProjectID]              INT            NULL,
+    [Activity_ID]            INT            NULL,
+    [StatusType_ID]          INT            NULL,
+    [ReportingPeriod_ID]     INT            NOT NULL,
+    [Location_ID]            INT            NOT NULL,
+    [DataVersion_ID]         INT            NOT NULL,
+    [Notes]                  NVARCHAR (MAX) NULL,
+    [Active]                 INT            NOT NULL,
+    [sys_CreatedBy]          VARCHAR (255)  NOT NULL,
+    [sys_CreatedOn]          DATETIME       NOT NULL,
+    [sys_ModifiedBy]         VARCHAR (255)  NOT NULL,
+    [sys_ModifiedOn]         DATETIME       NOT NULL,
+    [AgeBand_ID]             INT            NULL,
+    [CommunityType_ID]       INT            NULL,
+    [Donor_ID]               INT            NULL,
+    [Framework_ID]           INT            NULL,
+    [Framework_Indicator_ID] INT            NULL,
+    [Gender_ID]              INT            NULL,
+    [Group_ID]               INT            NULL,
+    [Institution_ID]         INT            NULL,
+    [ResultArea_ID]          INT            NULL,
+    [StrategicElement_ID]    INT            NULL,
+    CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC)
+);
+
+
+GO
 PRINT N'Creating [RBM].[MilestoneValues]...';
 
 
@@ -1607,7 +1604,7 @@ CREATE TABLE [RBM].[MilestoneValues] (
     [ActualLabel]         VARCHAR (50)     NOT NULL,
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
-    [BusinessKey]         VARCHAR (MAX)    NULL,
+    [BusinessKey]         NVARCHAR (4000)  NOT NULL,
     [Notes]               VARCHAR (MAX)    NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
@@ -1645,7 +1642,7 @@ CREATE TABLE [RBM].[IndicatorValues] (
     [ActualLabel]         VARCHAR (50)     NOT NULL,
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
-    [BusinessKey]         VARCHAR (MAX)    NULL,
+    [BusinessKey]         NVARCHAR (4000)  NOT NULL,
     [Notes]               VARCHAR (MAX)    NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
@@ -1700,62 +1697,6 @@ CREATE TABLE [RBM].[StatusValues] (
 
 
 GO
-PRINT N'Creating [RBM].[PeopleReachedValues]...';
-
-
-GO
-CREATE TABLE [RBM].[PeopleReachedValues] (
-    [PeopleReachedValuesID]  INT            IDENTITY (1, 1) NOT NULL,
-    [Outcome_ID]             INT            NULL,
-    [Output_ID]              INT            NULL,
-    [SubOutput_ID]           INT            NULL,
-    [Programme_ID]           INT            NULL,
-    [ProjectID]              INT            NULL,
-    [Activity_ID]            INT            NULL,
-    [StatusType_ID]          INT            NULL,
-    [ReportingPeriod_ID]     INT            NOT NULL,
-    [Location_ID]            INT            NOT NULL,
-    [DataVersion_ID]         INT            NOT NULL,
-    [Notes]                  NVARCHAR (MAX) NULL,
-    [Active]                 INT            NOT NULL,
-    [sys_CreatedBy]          VARCHAR (255)  NOT NULL,
-    [sys_CreatedOn]          DATETIME       NOT NULL,
-    [sys_ModifiedBy]         VARCHAR (255)  NOT NULL,
-    [sys_ModifiedOn]         DATETIME       NOT NULL,
-    [AgeBand_ID]             INT            NULL,
-    [CommunityType_ID]       INT            NULL,
-    [Donor_ID]               INT            NULL,
-    [Framework_ID]           INT            NULL,
-    [Framework_Indicator_ID] INT            NULL,
-    [Gender_ID]              INT            NULL,
-    [Group_ID]               INT            NULL,
-    [Institution_ID]         INT            NULL,
-    [ResultArea_ID]          INT            NULL,
-    [StrategicElement_ID]    INT            NULL,
-    CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC)
-);
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport]...';
-
-
-GO
-CREATE TABLE [rpt].[CustomReport] (
-    [CustomReport_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)  NOT NULL,
-    [Name]            VARCHAR (255) NOT NULL,
-    [BusinessKey]     VARCHAR (255) NULL,
-    [Active]          INT           NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]   DATETIME      NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]  DATETIME      NOT NULL,
-    CONSTRAINT [PK_CustomReport] PRIMARY KEY CLUSTERED ([CustomReport_ID] ASC)
-);
-
-
-GO
 PRINT N'Creating [rpt].[CustomReport_Indicator]...';
 
 
@@ -1792,44 +1733,6 @@ CREATE TABLE [rpt].[CustomReport_Project] (
 
 
 GO
-PRINT N'Creating [rpt].[CustomReportType]...';
-
-
-GO
-CREATE TABLE [rpt].[CustomReportType] (
-    [CustomReportType_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]                VARCHAR (50)  NOT NULL,
-    [Name]                VARCHAR (255) NOT NULL,
-    [BusinessKey]         VARCHAR (255) NULL,
-    [Active]              INT           NOT NULL,
-    [sys_CreatedBy]       VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]       DATETIME      NOT NULL,
-    [sys_ModifiedBy]      VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]      DATETIME      NOT NULL,
-    CONSTRAINT [PK_CustomReportType] PRIMARY KEY CLUSTERED ([CustomReportType_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating [rpt].[DonorReport]...';
-
-
-GO
-CREATE TABLE [rpt].[DonorReport] (
-    [DonorReport_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Code]           VARCHAR (50)  NOT NULL,
-    [Name]           VARCHAR (255) NOT NULL,
-    [BusinessKey]    VARCHAR (255) NULL,
-    [Active]         INT           NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]  DATETIME      NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn] DATETIME      NOT NULL,
-    CONSTRAINT [PK_DonorReport] PRIMARY KEY CLUSTERED ([DonorReport_ID] ASC)
-);
-
-
-GO
 PRINT N'Creating [rpt].[DonorReport_Indicator]...';
 
 
@@ -1862,6 +1765,63 @@ CREATE TABLE [rpt].[DonorReport_Project] (
     [sys_ModifiedBy]         VARCHAR (255) NOT NULL,
     [sys_ModifiedOn]         DATETIME      NOT NULL,
     CONSTRAINT [PK_ProjectDonorReport] PRIMARY KEY CLUSTERED ([DonorReport_Project_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [rpt].[CustomReport]...';
+
+
+GO
+CREATE TABLE [rpt].[CustomReport] (
+    [CustomReport_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]            VARCHAR (50)    NOT NULL,
+    [Name]            VARCHAR (255)   NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [Active]          INT             NOT NULL,
+    [sys_CreatedBy]   VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]   DATETIME        NOT NULL,
+    [sys_ModifiedBy]  VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]  DATETIME        NOT NULL,
+    CONSTRAINT [PK_CustomReport] PRIMARY KEY CLUSTERED ([CustomReport_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [rpt].[CustomReportType]...';
+
+
+GO
+CREATE TABLE [rpt].[CustomReportType] (
+    [CustomReportType_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]                VARCHAR (50)    NOT NULL,
+    [Name]                VARCHAR (255)   NOT NULL,
+    [BusinessKey]         NVARCHAR (4000) NOT NULL,
+    [Active]              INT             NOT NULL,
+    [sys_CreatedBy]       VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]       DATETIME        NOT NULL,
+    [sys_ModifiedBy]      VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn]      DATETIME        NOT NULL,
+    CONSTRAINT [PK_CustomReportType] PRIMARY KEY CLUSTERED ([CustomReportType_ID] ASC)
+);
+
+
+GO
+PRINT N'Creating [rpt].[DonorReport]...';
+
+
+GO
+CREATE TABLE [rpt].[DonorReport] (
+    [DonorReport_ID] INT             IDENTITY (1, 1) NOT NULL,
+    [Code]           VARCHAR (50)    NOT NULL,
+    [Name]           VARCHAR (255)   NOT NULL,
+    [BusinessKey]    NVARCHAR (4000) NOT NULL,
+    [Active]         INT             NOT NULL,
+    [sys_CreatedBy]  VARCHAR (255)   NOT NULL,
+    [sys_CreatedOn]  DATETIME        NOT NULL,
+    [sys_ModifiedBy] VARCHAR (255)   NOT NULL,
+    [sys_ModifiedOn] DATETIME        NOT NULL,
+    CONSTRAINT [PK_DonorReport] PRIMARY KEY CLUSTERED ([DonorReport_ID] ASC)
 );
 
 
@@ -1973,6 +1933,231 @@ ALTER TABLE [app].[SubOutputPersonRole]
 
 
 GO
+PRINT N'Creating DF_IndicatorLocation_Active...';
+
+
+GO
+ALTER TABLE [app].[IndicatorLocation]
+    ADD CONSTRAINT [DF_IndicatorLocation_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_IndicatorLocation_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [app].[IndicatorLocation]
+    ADD CONSTRAINT [DF_IndicatorLocation_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_IndicatorLocation_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [app].[IndicatorLocation]
+    ADD CONSTRAINT [DF_IndicatorLocation_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_IndicatorLocation_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [app].[IndicatorLocation]
+    ADD CONSTRAINT [DF_IndicatorLocation_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_IndicatorLocation_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[IndicatorLocation]
+    ADD CONSTRAINT [DF_IndicatorLocation_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_OutcomeOrganization_Active...';
+
+
+GO
+ALTER TABLE [app].[OutcomeOrganization]
+    ADD CONSTRAINT [DF_OutcomeOrganization_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_OutcomeOrganization_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [app].[OutcomeOrganization]
+    ADD CONSTRAINT [DF_OutcomeOrganization_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_OutcomeOrganization_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [app].[OutcomeOrganization]
+    ADD CONSTRAINT [DF_OutcomeOrganization_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_OutcomeOrganization_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [app].[OutcomeOrganization]
+    ADD CONSTRAINT [DF_OutcomeOrganization_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_OutcomeOrganization_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[OutcomeOrganization]
+    ADD CONSTRAINT [DF_OutcomeOrganization_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_OutputPersonRole_Active...';
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole]
+    ADD CONSTRAINT [DF_OutputPersonRole_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_OutputPersonRole_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole]
+    ADD CONSTRAINT [DF_OutputPersonRole_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_OutputPersonRole_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole]
+    ADD CONSTRAINT [DF_OutputPersonRole_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_OutputPersonRole_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole]
+    ADD CONSTRAINT [DF_OutputPersonRole_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_OutputPersonRole_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole]
+    ADD CONSTRAINT [DF_OutputPersonRole_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_OutputOutputLink_Active...';
+
+
+GO
+ALTER TABLE [app].[OutputOutputLink]
+    ADD CONSTRAINT [DF_OutputOutputLink_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_OutputOutputLink_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [app].[OutputOutputLink]
+    ADD CONSTRAINT [DF_OutputOutputLink_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_OutputOutputLink_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [app].[OutputOutputLink]
+    ADD CONSTRAINT [DF_OutputOutputLink_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_OutputOutputLink_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [app].[OutputOutputLink]
+    ADD CONSTRAINT [DF_OutputOutputLink_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_OutputOutputLink_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[OutputOutputLink]
+    ADD CONSTRAINT [DF_OutputOutputLink_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_MilestoneLocation_Active...';
+
+
+GO
+ALTER TABLE [app].[MilestoneLocation]
+    ADD CONSTRAINT [DF_MilestoneLocation_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_MilestoneLocation_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [app].[MilestoneLocation]
+    ADD CONSTRAINT [DF_MilestoneLocation_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_MilestoneLocation_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [app].[MilestoneLocation]
+    ADD CONSTRAINT [DF_MilestoneLocation_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_MilestoneLocation_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [app].[MilestoneLocation]
+    ADD CONSTRAINT [DF_MilestoneLocation_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_MilestoneLocation_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[MilestoneLocation]
+    ADD CONSTRAINT [DF_MilestoneLocation_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
 PRINT N'Creating DF_SubOutput_Active...';
 
 
@@ -2060,51 +2245,6 @@ PRINT N'Creating DF_Indicator_sys_ModifiedOn...';
 GO
 ALTER TABLE [app].[Indicator]
     ADD CONSTRAINT [DF_Indicator_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_IndicatorLocation_Active...';
-
-
-GO
-ALTER TABLE [app].[IndicatorLocation]
-    ADD CONSTRAINT [DF_IndicatorLocation_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_IndicatorLocation_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [app].[IndicatorLocation]
-    ADD CONSTRAINT [DF_IndicatorLocation_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_IndicatorLocation_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [app].[IndicatorLocation]
-    ADD CONSTRAINT [DF_IndicatorLocation_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_IndicatorLocation_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [app].[IndicatorLocation]
-    ADD CONSTRAINT [DF_IndicatorLocation_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_IndicatorLocation_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [app].[IndicatorLocation]
-    ADD CONSTRAINT [DF_IndicatorLocation_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -2198,48 +2338,57 @@ ALTER TABLE [app].[OutcomePersonRole]
 
 
 GO
-PRINT N'Creating DF_OutcomeOrganization_Active...';
+PRINT N'Creating DF_Project_ProjectSiteName...';
 
 
 GO
-ALTER TABLE [app].[OutcomeOrganization]
-    ADD CONSTRAINT [DF_OutcomeOrganization_Active] DEFAULT ((1)) FOR [Active];
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') FOR [ProjectSiteName];
 
 
 GO
-PRINT N'Creating DF_OutcomeOrganization_sys_CreatedBy...';
+PRINT N'Creating DF_Project_Active...';
 
 
 GO
-ALTER TABLE [app].[OutcomeOrganization]
-    ADD CONSTRAINT [DF_OutcomeOrganization_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_Active] DEFAULT ((1)) FOR [Active];
 
 
 GO
-PRINT N'Creating DF_OutcomeOrganization_sys_CreatedOn...';
+PRINT N'Creating DF_Project_sys_CreatedBy...';
 
 
 GO
-ALTER TABLE [app].[OutcomeOrganization]
-    ADD CONSTRAINT [DF_OutcomeOrganization_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
 
 
 GO
-PRINT N'Creating DF_OutcomeOrganization_sys_ModifiedBy...';
+PRINT N'Creating DF_Project_sys_CreatedOn...';
 
 
 GO
-ALTER TABLE [app].[OutcomeOrganization]
-    ADD CONSTRAINT [DF_OutcomeOrganization_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
 
 
 GO
-PRINT N'Creating DF_OutcomeOrganization_sys_ModifiedOn...';
+PRINT N'Creating DF_Project_sys_ModifiedBy...';
 
 
 GO
-ALTER TABLE [app].[OutcomeOrganization]
-    ADD CONSTRAINT [DF_OutcomeOrganization_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_Project_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [app].[Project]
+    ADD CONSTRAINT [DF_Project_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -2420,141 +2569,6 @@ PRINT N'Creating DF_Activity_sys_ModifiedOn...';
 GO
 ALTER TABLE [app].[Activity]
     ADD CONSTRAINT [DF_Activity_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_OutputPersonRole_Active...';
-
-
-GO
-ALTER TABLE [app].[OutputPersonRole]
-    ADD CONSTRAINT [DF_OutputPersonRole_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_OutputPersonRole_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [app].[OutputPersonRole]
-    ADD CONSTRAINT [DF_OutputPersonRole_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_OutputPersonRole_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [app].[OutputPersonRole]
-    ADD CONSTRAINT [DF_OutputPersonRole_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_OutputPersonRole_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [app].[OutputPersonRole]
-    ADD CONSTRAINT [DF_OutputPersonRole_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_OutputPersonRole_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [app].[OutputPersonRole]
-    ADD CONSTRAINT [DF_OutputPersonRole_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_OutputOutputLink_Active...';
-
-
-GO
-ALTER TABLE [app].[OutputOutputLink]
-    ADD CONSTRAINT [DF_OutputOutputLink_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_OutputOutputLink_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [app].[OutputOutputLink]
-    ADD CONSTRAINT [DF_OutputOutputLink_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_OutputOutputLink_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [app].[OutputOutputLink]
-    ADD CONSTRAINT [DF_OutputOutputLink_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_OutputOutputLink_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [app].[OutputOutputLink]
-    ADD CONSTRAINT [DF_OutputOutputLink_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_OutputOutputLink_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [app].[OutputOutputLink]
-    ADD CONSTRAINT [DF_OutputOutputLink_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_MilestoneLocation_Active...';
-
-
-GO
-ALTER TABLE [app].[MilestoneLocation]
-    ADD CONSTRAINT [DF_MilestoneLocation_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_MilestoneLocation_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [app].[MilestoneLocation]
-    ADD CONSTRAINT [DF_MilestoneLocation_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_MilestoneLocation_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [app].[MilestoneLocation]
-    ADD CONSTRAINT [DF_MilestoneLocation_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_MilestoneLocation_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [app].[MilestoneLocation]
-    ADD CONSTRAINT [DF_MilestoneLocation_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_MilestoneLocation_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [app].[MilestoneLocation]
-    ADD CONSTRAINT [DF_MilestoneLocation_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -2747,57 +2761,183 @@ ALTER TABLE [app].[SubSector]
 
 
 GO
-PRINT N'Creating DF_Project_ProjectSiteName...';
+PRINT N'Creating Default Constraint on [Core].[DimDate]....';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') FOR [ProjectSiteName];
+ALTER TABLE [Core].[DimDate]
+    ADD DEFAULT ((0)) FOR [IsPublicHoliday];
 
 
 GO
-PRINT N'Creating DF_Project_Active...';
+PRINT N'Creating DF_DimDate_Active...';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_Active] DEFAULT ((1)) FOR [Active];
+ALTER TABLE [Core].[DimDate]
+    ADD CONSTRAINT [DF_DimDate_Active] DEFAULT ((1)) FOR [Active];
 
 
 GO
-PRINT N'Creating DF_Project_sys_CreatedBy...';
+PRINT N'Creating DF_DimDate_sys_CreatedBy...';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+ALTER TABLE [Core].[DimDate]
+    ADD CONSTRAINT [DF_DimDate_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
 
 
 GO
-PRINT N'Creating DF_Project_sys_CreatedOn...';
+PRINT N'Creating DF_DimDate_sys_CreatedOn...';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+ALTER TABLE [Core].[DimDate]
+    ADD CONSTRAINT [DF_DimDate_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
 
 
 GO
-PRINT N'Creating DF_Project_sys_ModifiedBy...';
+PRINT N'Creating DF_DimDate_sys_ModifiedBy...';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+ALTER TABLE [Core].[DimDate]
+    ADD CONSTRAINT [DF_DimDate_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
 
 
 GO
-PRINT N'Creating DF_Project_sys_ModifiedOn...';
+PRINT N'Creating DF_DimDate_sys_ModifiedOn...';
 
 
 GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+ALTER TABLE [Core].[DimDate]
+    ADD CONSTRAINT [DF_DimDate_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_ActiveType_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [Core].[ActiveType]
+    ADD CONSTRAINT [DF_ActiveType_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_ActiveType_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [Core].[ActiveType]
+    ADD CONSTRAINT [DF_ActiveType_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_ActiveType_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [Core].[ActiveType]
+    ADD CONSTRAINT [DF_ActiveType_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_ActiveType_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [Core].[ActiveType]
+    ADD CONSTRAINT [DF_ActiveType_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_DimMunicipalityGEOM_Active...';
+
+
+GO
+ALTER TABLE [Core].[DimMunicipalityGEOM]
+    ADD CONSTRAINT [DF_DimMunicipalityGEOM_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_DimMunicipalityGEOM_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [Core].[DimMunicipalityGEOM]
+    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_DimMunicipalityGEOM_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [Core].[DimMunicipalityGEOM]
+    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_DimMunicipalityGEOM_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [Core].[DimMunicipalityGEOM]
+    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_DimMunicipalityGEOM_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [Core].[DimMunicipalityGEOM]
+    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating DF_OrganizationPersonRole_Active...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationPersonRole]
+    ADD CONSTRAINT [DF_OrganizationPersonRole_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_OrganizationPersonRole_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationPersonRole]
+    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_OrganizationPersonRole_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationPersonRole]
+    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_OrganizationPersonRole_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationPersonRole]
+    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_OrganizationPersonRole_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationPersonRole]
+    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -2888,96 +3028,6 @@ PRINT N'Creating DF_Location_sys_ModifiedOn...';
 GO
 ALTER TABLE [Core].[Location]
     ADD CONSTRAINT [DF_Location_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating Default Constraint on [Core].[DimDate]....';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD DEFAULT ((0)) FOR [IsPublicHoliday];
-
-
-GO
-PRINT N'Creating DF_DimDate_Active...';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD CONSTRAINT [DF_DimDate_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_DimDate_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD CONSTRAINT [DF_DimDate_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_DimDate_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD CONSTRAINT [DF_DimDate_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_DimDate_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD CONSTRAINT [DF_DimDate_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_DimDate_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [Core].[DimDate]
-    ADD CONSTRAINT [DF_DimDate_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_ActiveType_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [Core].[ActiveType]
-    ADD CONSTRAINT [DF_ActiveType_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_ActiveType_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [Core].[ActiveType]
-    ADD CONSTRAINT [DF_ActiveType_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_ActiveType_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [Core].[ActiveType]
-    ADD CONSTRAINT [DF_ActiveType_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_ActiveType_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [Core].[ActiveType]
-    ADD CONSTRAINT [DF_ActiveType_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -3080,51 +3130,6 @@ ALTER TABLE [Core].[DataVersion]
 
 
 GO
-PRINT N'Creating DF_DimMunicipalityGEOM_Active...';
-
-
-GO
-ALTER TABLE [Core].[DimMunicipalityGEOM]
-    ADD CONSTRAINT [DF_DimMunicipalityGEOM_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_DimMunicipalityGEOM_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [Core].[DimMunicipalityGEOM]
-    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_DimMunicipalityGEOM_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [Core].[DimMunicipalityGEOM]
-    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_DimMunicipalityGEOM_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [Core].[DimMunicipalityGEOM]
-    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_DimMunicipalityGEOM_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [Core].[DimMunicipalityGEOM]
-    ADD CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
 PRINT N'Creating DF_ReportingPeriod_Active...';
 
 
@@ -3212,51 +3217,6 @@ PRINT N'Creating DF_OrganizationType_sys_ModifiedOn...';
 GO
 ALTER TABLE [Core].[OrganizationType]
     ADD CONSTRAINT [DF_OrganizationType_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating DF_OrganizationPersonRole_Active...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationPersonRole]
-    ADD CONSTRAINT [DF_OrganizationPersonRole_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_OrganizationPersonRole_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationPersonRole]
-    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_OrganizationPersonRole_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationPersonRole]
-    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_OrganizationPersonRole_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationPersonRole]
-    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_OrganizationPersonRole_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationPersonRole]
-    ADD CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -3437,6 +3397,96 @@ PRINT N'Creating DF_StatusType_Active...';
 GO
 ALTER TABLE [Core].[StatusType]
     ADD CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating Default Constraint on [disagg].[Age]....';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_Age_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD CONSTRAINT [DF_Age_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_Age_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD CONSTRAINT [DF_Age_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_Age_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD CONSTRAINT [DF_Age_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_Age_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD CONSTRAINT [DF_Age_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating Default Constraint on [disagg].[Framework_Project]....';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_Framework_Project_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [DF_Framework_Project_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_Framework_Project_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [DF_Framework_Project_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_Framework_Project_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [DF_Framework_Project_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_Framework_Project_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [DF_Framework_Project_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -3800,51 +3850,6 @@ ALTER TABLE [disagg].[CommunityType]
 
 
 GO
-PRINT N'Creating Default Constraint on [disagg].[Age]....';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_Age_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD CONSTRAINT [DF_Age_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_Age_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD CONSTRAINT [DF_Age_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_Age_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD CONSTRAINT [DF_Age_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_Age_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD CONSTRAINT [DF_Age_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
 PRINT N'Creating DF__AgeBand__Active__1B7E091A...';
 
 
@@ -3932,51 +3937,6 @@ PRINT N'Creating DF_Framework_sys_ModifiedOn...';
 GO
 ALTER TABLE [disagg].[Framework]
     ADD CONSTRAINT [DF_Framework_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating Default Constraint on [disagg].[Framework_Project]....';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_Framework_Project_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [DF_Framework_Project_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_Framework_Project_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [DF_Framework_Project_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_Framework_Project_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [DF_Framework_Project_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_Framework_Project_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [DF_Framework_Project_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -4520,6 +4480,51 @@ ALTER TABLE [forms].[Question]
 
 
 GO
+PRINT N'Creating DF_PeopleReachedValues_Active...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [DF_PeopleReachedValues_Active] DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_PeopleReachedValues_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [DF_PeopleReachedValues_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_PeopleReachedValues_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [DF_PeopleReachedValues_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_PeopleReachedValues_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [DF_PeopleReachedValues_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_PeopleReachedValues_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [DF_PeopleReachedValues_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
 PRINT N'Creating DF_MilestoneValues_Active...';
 
 
@@ -4691,96 +4696,6 @@ ALTER TABLE [RBM].[StatusValues]
 
 
 GO
-PRINT N'Creating DF_PeopleReachedValues_Active...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [DF_PeopleReachedValues_Active] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_PeopleReachedValues_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [DF_PeopleReachedValues_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_PeopleReachedValues_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [DF_PeopleReachedValues_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_PeopleReachedValues_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [DF_PeopleReachedValues_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_PeopleReachedValues_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [DF_PeopleReachedValues_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating Default Constraint on [rpt].[CustomReport]....';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_CustomReport_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD CONSTRAINT [DF_CustomReport_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_CustomReport_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD CONSTRAINT [DF_CustomReport_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_CustomReport_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD CONSTRAINT [DF_CustomReport_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_CustomReport_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD CONSTRAINT [DF_CustomReport_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
 PRINT N'Creating Default Constraint on [rpt].[CustomReport_Indicator]....';
 
 
@@ -4871,96 +4786,6 @@ ALTER TABLE [rpt].[CustomReport_Project]
 
 
 GO
-PRINT N'Creating Default Constraint on [rpt].[CustomReportType]....';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_CustomReportType_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD CONSTRAINT [DF_CustomReportType_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_CustomReportType_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD CONSTRAINT [DF_CustomReportType_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_CustomReportType_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD CONSTRAINT [DF_CustomReportType_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_CustomReportType_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD CONSTRAINT [DF_CustomReportType_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating Default Constraint on [rpt].[DonorReport]....';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF_DonorReport_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD CONSTRAINT [DF_DonorReport_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_DonorReport_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD CONSTRAINT [DF_DonorReport_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_DonorReport_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD CONSTRAINT [DF_DonorReport_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_DonorReport_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD CONSTRAINT [DF_DonorReport_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
 PRINT N'Creating Default Constraint on [rpt].[DonorReport_Indicator]....';
 
 
@@ -5048,6 +4873,141 @@ PRINT N'Creating DF_DonorReport_Project_sys_ModifiedOn...';
 GO
 ALTER TABLE [rpt].[DonorReport_Project]
     ADD CONSTRAINT [DF_DonorReport_Project_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating Default Constraint on [rpt].[CustomReport]....';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_CustomReport_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD CONSTRAINT [DF_CustomReport_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_CustomReport_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD CONSTRAINT [DF_CustomReport_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_CustomReport_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD CONSTRAINT [DF_CustomReport_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_CustomReport_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD CONSTRAINT [DF_CustomReport_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating Default Constraint on [rpt].[CustomReportType]....';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_CustomReportType_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD CONSTRAINT [DF_CustomReportType_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_CustomReportType_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD CONSTRAINT [DF_CustomReportType_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_CustomReportType_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD CONSTRAINT [DF_CustomReportType_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_CustomReportType_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD CONSTRAINT [DF_CustomReportType_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
+
+
+GO
+PRINT N'Creating Default Constraint on [rpt].[DonorReport]....';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD DEFAULT ((1)) FOR [Active];
+
+
+GO
+PRINT N'Creating DF_DonorReport_sys_CreatedBy...';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD CONSTRAINT [DF_DonorReport_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
+
+
+GO
+PRINT N'Creating DF_DonorReport_sys_CreatedOn...';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD CONSTRAINT [DF_DonorReport_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
+
+
+GO
+PRINT N'Creating DF_DonorReport_sys_ModifiedBy...';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD CONSTRAINT [DF_DonorReport_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
+
+
+GO
+PRINT N'Creating DF_DonorReport_sys_ModifiedOn...';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD CONSTRAINT [DF_DonorReport_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
 
 
 GO
@@ -5154,105 +5114,6 @@ ALTER TABLE [app].[SubOutputPersonRole]
 
 
 GO
-PRINT N'Creating FK_SubOutput_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[SubOutput]
-    ADD CONSTRAINT [FK_SubOutput_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_SubOutput_Output...';
-
-
-GO
-ALTER TABLE [app].[SubOutput]
-    ADD CONSTRAINT [FK_SubOutput_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_IndicatorType...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_IndicatorType] FOREIGN KEY ([IndicatorType_ID]) REFERENCES [app].[IndicatorType] ([IndicatorType_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_Outcome...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_Output...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_Programme...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_Project...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_Sector...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_SubOutput...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]);
-
-
-GO
-PRINT N'Creating FK_Indicator_SubSector...';
-
-
-GO
-ALTER TABLE [app].[Indicator]
-    ADD CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]);
-
-
-GO
 PRINT N'Creating FK_IndicatorLocation_ActiveType...';
 
 
@@ -5280,33 +5141,6 @@ ALTER TABLE [app].[IndicatorLocation]
 
 
 GO
-PRINT N'Creating FK_IndicatorType_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[IndicatorType]
-    ADD CONSTRAINT [FK_IndicatorType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_OutcomePersonRole_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[OutcomePersonRole]
-    ADD CONSTRAINT [FK_OutcomePersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_OutcomePersonRole_Outcome...';
-
-
-GO
-ALTER TABLE [app].[OutcomePersonRole]
-    ADD CONSTRAINT [FK_OutcomePersonRole_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
-
-
-GO
 PRINT N'Creating FK_OutcomeOrganization_ActiveType...';
 
 
@@ -5331,87 +5165,6 @@ PRINT N'Creating FK_OutcomeOrganization_Outcome...';
 GO
 ALTER TABLE [app].[OutcomeOrganization]
     ADD CONSTRAINT [FK_OutcomeOrganization_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
-
-
-GO
-PRINT N'Creating FK_Output_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[Output]
-    ADD CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Output_Outcome...';
-
-
-GO
-ALTER TABLE [app].[Output]
-    ADD CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
-
-
-GO
-PRINT N'Creating FK_Milestone_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[Milestone]
-    ADD CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Milestone_Activity...';
-
-
-GO
-ALTER TABLE [app].[Milestone]
-    ADD CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]);
-
-
-GO
-PRINT N'Creating FK_Milestone_MilestoneType...';
-
-
-GO
-ALTER TABLE [app].[Milestone]
-    ADD CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]);
-
-
-GO
-PRINT N'Creating FK_Milestone_Project...';
-
-
-GO
-ALTER TABLE [app].[Milestone]
-    ADD CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
-
-
-GO
-PRINT N'Creating FK_MilestoneType_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[MilestoneType]
-    ADD CONSTRAINT [FK_MilestoneType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Activity_ActiveType...';
-
-
-GO
-ALTER TABLE [app].[Activity]
-    ADD CONSTRAINT [FK_Activity_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Activity_Project...';
-
-
-GO
-ALTER TABLE [app].[Activity]
-    ADD CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
 
 
 GO
@@ -5513,57 +5266,147 @@ ALTER TABLE [app].[MilestoneLocation]
 
 
 GO
-PRINT N'Creating FK_Outcome_ActiveType...';
+PRINT N'Creating FK_SubOutput_ActiveType...';
 
 
 GO
-ALTER TABLE [app].[Outcome]
-    ADD CONSTRAINT [FK_Outcome_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [app].[SubOutput]
+    ADD CONSTRAINT [FK_SubOutput_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
-PRINT N'Creating FK_OutCome_DataVersion...';
+PRINT N'Creating FK_SubOutput_Output...';
 
 
 GO
-ALTER TABLE [app].[Outcome]
-    ADD CONSTRAINT [FK_OutCome_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]);
+ALTER TABLE [app].[SubOutput]
+    ADD CONSTRAINT [FK_SubOutput_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
 
 
 GO
-PRINT N'Creating FK_Sector_ActiveType...';
+PRINT N'Creating FK_Indicator_ActiveType...';
 
 
 GO
-ALTER TABLE [app].[Sector]
-    ADD CONSTRAINT [FK_Sector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
-PRINT N'Creating FK_Sector_Programme...';
+PRINT N'Creating FK_Indicator_IndicatorType...';
 
 
 GO
-ALTER TABLE [app].[Sector]
-    ADD CONSTRAINT [FK_Sector_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_IndicatorType] FOREIGN KEY ([IndicatorType_ID]) REFERENCES [app].[IndicatorType] ([IndicatorType_ID]);
 
 
 GO
-PRINT N'Creating FK_SubSector_ActiveType...';
+PRINT N'Creating FK_Indicator_Outcome...';
 
 
 GO
-ALTER TABLE [app].[SubSector]
-    ADD CONSTRAINT [FK_SubSector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
 
 
 GO
-PRINT N'Creating FK_SubSector_Sector...';
+PRINT N'Creating FK_Indicator_Output...';
 
 
 GO
-ALTER TABLE [app].[SubSector]
-    ADD CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]);
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
+
+
+GO
+PRINT N'Creating FK_Indicator_Programme...';
+
+
+GO
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
+
+
+GO
+PRINT N'Creating FK_Indicator_Project...';
+
+
+GO
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
+
+
+GO
+PRINT N'Creating FK_Indicator_Sector...';
+
+
+GO
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]);
+
+
+GO
+PRINT N'Creating FK_Indicator_SubOutput...';
+
+
+GO
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]);
+
+
+GO
+PRINT N'Creating FK_Indicator_SubSector...';
+
+
+GO
+ALTER TABLE [app].[Indicator]
+    ADD CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]);
+
+
+GO
+PRINT N'Creating FK_IndicatorType_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[IndicatorType]
+    ADD CONSTRAINT [FK_IndicatorType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_OutcomePersonRole_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[OutcomePersonRole]
+    ADD CONSTRAINT [FK_OutcomePersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_OutcomePersonRole_Outcome...';
+
+
+GO
+ALTER TABLE [app].[OutcomePersonRole]
+    ADD CONSTRAINT [FK_OutcomePersonRole_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
+
+
+GO
+PRINT N'Creating FK_OutcomePersonRole_Person...';
+
+
+GO
+ALTER TABLE [app].[OutcomePersonRole]
+    ADD CONSTRAINT [FK_OutcomePersonRole_Person] FOREIGN KEY ([Person_ID]) REFERENCES [Core].[Person] ([Person_ID]);
+
+
+GO
+PRINT N'Creating FK_OutcomePersonRole_Role...';
+
+
+GO
+ALTER TABLE [app].[OutcomePersonRole]
+    ADD CONSTRAINT [FK_OutcomePersonRole_Role] FOREIGN KEY ([Role_ID]) REFERENCES [Core].[Role] ([RoleID]);
 
 
 GO
@@ -5621,39 +5464,138 @@ ALTER TABLE [app].[Project]
 
 
 GO
-PRINT N'Creating FK_DataSource_ActiveType...';
+PRINT N'Creating FK_Output_ActiveType...';
 
 
 GO
-ALTER TABLE [Core].[DataSource]
-    ADD CONSTRAINT [FK_DataSource_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [app].[Output]
+    ADD CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
-PRINT N'Creating FK_Location_ActiveType...';
+PRINT N'Creating FK_Output_Outcome...';
 
 
 GO
-ALTER TABLE [Core].[Location]
-    ADD CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [app].[Output]
+    ADD CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
 
 
 GO
-PRINT N'Creating FK_Location_LocationType...';
+PRINT N'Creating FK_Milestone_ActiveType...';
 
 
 GO
-ALTER TABLE [Core].[Location]
-    ADD CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]);
+ALTER TABLE [app].[Milestone]
+    ADD CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
-PRINT N'Creating FK_Location_ParentLocation...';
+PRINT N'Creating FK_Milestone_Activity...';
 
 
 GO
-ALTER TABLE [Core].[Location]
-    ADD CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]);
+ALTER TABLE [app].[Milestone]
+    ADD CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]);
+
+
+GO
+PRINT N'Creating FK_Milestone_MilestoneType...';
+
+
+GO
+ALTER TABLE [app].[Milestone]
+    ADD CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]);
+
+
+GO
+PRINT N'Creating FK_Milestone_Project...';
+
+
+GO
+ALTER TABLE [app].[Milestone]
+    ADD CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
+
+
+GO
+PRINT N'Creating FK_MilestoneType_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[MilestoneType]
+    ADD CONSTRAINT [FK_MilestoneType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Activity_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[Activity]
+    ADD CONSTRAINT [FK_Activity_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Activity_Project...';
+
+
+GO
+ALTER TABLE [app].[Activity]
+    ADD CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
+
+
+GO
+PRINT N'Creating FK_Outcome_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[Outcome]
+    ADD CONSTRAINT [FK_Outcome_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_OutCome_DataVersion...';
+
+
+GO
+ALTER TABLE [app].[Outcome]
+    ADD CONSTRAINT [FK_OutCome_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]);
+
+
+GO
+PRINT N'Creating FK_Sector_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[Sector]
+    ADD CONSTRAINT [FK_Sector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Sector_Programme...';
+
+
+GO
+ALTER TABLE [app].[Sector]
+    ADD CONSTRAINT [FK_Sector_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
+
+
+GO
+PRINT N'Creating FK_SubSector_ActiveType...';
+
+
+GO
+ALTER TABLE [app].[SubSector]
+    ADD CONSTRAINT [FK_SubSector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_SubSector_Sector...';
+
+
+GO
+ALTER TABLE [app].[SubSector]
+    ADD CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]);
 
 
 GO
@@ -5663,42 +5605,6 @@ PRINT N'Creating FK_DimDate_ActiveType...';
 GO
 ALTER TABLE [Core].[DimDate]
     ADD CONSTRAINT [FK_DimDate_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Role_ActiveType...';
-
-
-GO
-ALTER TABLE [Core].[Role]
-    ADD CONSTRAINT [FK_Role_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_DataVersion_ActiveType...';
-
-
-GO
-ALTER TABLE [Core].[DataVersion]
-    ADD CONSTRAINT [FK_DataVersion_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_ReportingPeriod_ActiveType...';
-
-
-GO
-ALTER TABLE [Core].[ReportingPeriod]
-    ADD CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_OrganizationType_ActiveType...';
-
-
-GO
-ALTER TABLE [Core].[OrganizationType]
-    ADD CONSTRAINT [FK_OrganizationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
@@ -5735,6 +5641,78 @@ PRINT N'Creating FK_OrganizationPersonRole_Role...';
 GO
 ALTER TABLE [Core].[OrganizationPersonRole]
     ADD CONSTRAINT [FK_OrganizationPersonRole_Role] FOREIGN KEY ([Role_ID]) REFERENCES [Core].[Role] ([RoleID]);
+
+
+GO
+PRINT N'Creating FK_DataSource_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[DataSource]
+    ADD CONSTRAINT [FK_DataSource_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Location_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[Location]
+    ADD CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Location_LocationType...';
+
+
+GO
+ALTER TABLE [Core].[Location]
+    ADD CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]);
+
+
+GO
+PRINT N'Creating FK_Location_ParentLocation...';
+
+
+GO
+ALTER TABLE [Core].[Location]
+    ADD CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]);
+
+
+GO
+PRINT N'Creating FK_Role_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[Role]
+    ADD CONSTRAINT [FK_Role_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_DataVersion_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[DataVersion]
+    ADD CONSTRAINT [FK_DataVersion_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_ReportingPeriod_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[ReportingPeriod]
+    ADD CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_OrganizationType_ActiveType...';
+
+
+GO
+ALTER TABLE [Core].[OrganizationType]
+    ADD CONSTRAINT [FK_OrganizationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
@@ -5792,6 +5770,42 @@ ALTER TABLE [Core].[StatusType]
 
 
 GO
+PRINT N'Creating FK_Age_ActiveType...';
+
+
+GO
+ALTER TABLE [disagg].[Age]
+    ADD CONSTRAINT [FK_Age_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Framework_Project_ActiveType...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [FK_Framework_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_Framework_Project_Framework...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [FK_Framework_Project_Framework] FOREIGN KEY ([Framework_ID]) REFERENCES [disagg].[Framework] ([Framework_ID]);
+
+
+GO
+PRINT N'Creating FK_Framework_Project_Project...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Project]
+    ADD CONSTRAINT [FK_Framework_Project_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
+
+
+GO
 PRINT N'Creating FK_Framework_Indicator_ActiveType...';
 
 
@@ -5807,6 +5821,15 @@ PRINT N'Creating FK_Framework_Indicator_Indicator...';
 GO
 ALTER TABLE [disagg].[Framework_Indicator]
     ADD CONSTRAINT [FK_Framework_Indicator_Indicator] FOREIGN KEY ([IndicatorID]) REFERENCES [app].[Indicator] ([IndicatorID]);
+
+
+GO
+PRINT N'Creating FK_Framework_Indicator_Framework...';
+
+
+GO
+ALTER TABLE [disagg].[Framework_Indicator]
+    ADD CONSTRAINT [FK_Framework_Indicator_Framework] FOREIGN KEY ([FrameworkID]) REFERENCES [disagg].[Framework] ([Framework_ID]);
 
 
 GO
@@ -5846,6 +5869,15 @@ ALTER TABLE [disagg].[Project_ResultArea]
 
 
 GO
+PRINT N'Creating FK_Project_ResultArea_ResultArea...';
+
+
+GO
+ALTER TABLE [disagg].[Project_ResultArea]
+    ADD CONSTRAINT [FK_Project_ResultArea_ResultArea] FOREIGN KEY ([ResultAreaID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]);
+
+
+GO
 PRINT N'Creating FK_Institution_ActiveType...';
 
 
@@ -5879,15 +5911,6 @@ PRINT N'Creating FK_CommunityType_ActiveType...';
 GO
 ALTER TABLE [disagg].[CommunityType]
     ADD CONSTRAINT [FK_CommunityType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Age_ActiveType...';
-
-
-GO
-ALTER TABLE [disagg].[Age]
-    ADD CONSTRAINT [FK_Age_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
 
 
 GO
@@ -5933,33 +5956,6 @@ PRINT N'Creating FK_Framework_Organization...';
 GO
 ALTER TABLE [disagg].[Framework]
     ADD CONSTRAINT [FK_Framework_Organization] FOREIGN KEY ([SourceOrganizationID]) REFERENCES [Core].[Organization] ([Organization_ID]);
-
-
-GO
-PRINT N'Creating FK_Framework_Project_ActiveType...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [FK_Framework_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Framework_Project_Framework...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [FK_Framework_Project_Framework] FOREIGN KEY ([Framework_ID]) REFERENCES [disagg].[Framework] ([Framework_ID]);
-
-
-GO
-PRINT N'Creating FK_Framework_Project_Project...';
-
-
-GO
-ALTER TABLE [disagg].[Framework_Project]
-    ADD CONSTRAINT [FK_Framework_Project_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
 
 
 GO
@@ -6221,6 +6217,195 @@ PRINT N'Creating FK_Question_QuestionType...';
 GO
 ALTER TABLE [forms].[Question]
     ADD CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_ActiveType...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Activity...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_AgeBand...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_CommunityType...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_CommunityType] FOREIGN KEY ([CommunityType_ID]) REFERENCES [disagg].[CommunityType] ([CommunityType_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_DataVersion...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_DataVersion] FOREIGN KEY ([DataVersion_ID]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Donor...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Donor] FOREIGN KEY ([Donor_ID]) REFERENCES [disagg].[Donor] ([Donor_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Framework...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Framework] FOREIGN KEY ([Framework_ID]) REFERENCES [disagg].[Framework] ([Framework_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Framework_Indicator...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Framework_Indicator] FOREIGN KEY ([Framework_Indicator_ID]) REFERENCES [disagg].[Framework_Indicator] ([Framework_Indicator_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Gender...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Gender] FOREIGN KEY ([Gender_ID]) REFERENCES [disagg].[Gender] ([Gender_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Group...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Institution...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Location...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Outcome...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Output...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Programme...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_Project...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_ReportingPeriod...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_ResultArea...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_StatusType...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_StatusType] FOREIGN KEY ([StatusType_ID]) REFERENCES [Core].[StatusType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_StrategicElement...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_SubOutput...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]);
 
 
 GO
@@ -6584,201 +6769,12 @@ ALTER TABLE [RBM].[StatusValues]
 
 
 GO
-PRINT N'Creating FK_PeopleReachedValues_ActiveType...';
+PRINT N'Creating FK_StatusValues_Programme...';
 
 
 GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Activity...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_AgeBand...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_CommunityType...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_CommunityType] FOREIGN KEY ([CommunityType_ID]) REFERENCES [disagg].[CommunityType] ([CommunityType_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_DataVersion...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_DataVersion] FOREIGN KEY ([DataVersion_ID]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Donor...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Donor] FOREIGN KEY ([Donor_ID]) REFERENCES [disagg].[Donor] ([Donor_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Framework...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Framework] FOREIGN KEY ([Framework_ID]) REFERENCES [disagg].[Framework] ([Framework_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Framework_Indicator...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Framework_Indicator] FOREIGN KEY ([Framework_Indicator_ID]) REFERENCES [disagg].[Framework_Indicator] ([Framework_Indicator_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Gender...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Gender] FOREIGN KEY ([Gender_ID]) REFERENCES [disagg].[Gender] ([Gender_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Group...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Institution...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Location...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Outcome...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Output...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Programme...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_Project...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_ReportingPeriod...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_ResultArea...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_StatusType...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_StatusType] FOREIGN KEY ([StatusType_ID]) REFERENCES [Core].[StatusType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_StrategicElement...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]);
-
-
-GO
-PRINT N'Creating FK_PeopleReachedValues_SubOutput...';
-
-
-GO
-ALTER TABLE [RBM].[PeopleReachedValues]
-    ADD CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]);
-
-
-GO
-PRINT N'Creating FK_CustomReport_ActiveType...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport]
-    ADD CONSTRAINT [FK_CustomReport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+ALTER TABLE [RBM].[StatusValues]
+    ADD CONSTRAINT [FK_StatusValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
 
 
 GO
@@ -6836,24 +6832,6 @@ ALTER TABLE [rpt].[CustomReport_Project]
 
 
 GO
-PRINT N'Creating FK_CustomReportType_ActiveType...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReportType]
-    ADD CONSTRAINT [FK_CustomReportType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_DonorReport_ActiveType...';
-
-
-GO
-ALTER TABLE [rpt].[DonorReport]
-    ADD CONSTRAINT [FK_DonorReport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
 PRINT N'Creating FK_DonorReport_Indicator_ActiveType...';
 
 
@@ -6908,6 +6886,33 @@ ALTER TABLE [rpt].[DonorReport_Project]
 
 
 GO
+PRINT N'Creating FK_CustomReport_ActiveType...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReport]
+    ADD CONSTRAINT [FK_CustomReport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_CustomReportType_ActiveType...';
+
+
+GO
+ALTER TABLE [rpt].[CustomReportType]
+    ADD CONSTRAINT [FK_CustomReportType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
+PRINT N'Creating FK_DonorReport_ActiveType...';
+
+
+GO
+ALTER TABLE [rpt].[DonorReport]
+    ADD CONSTRAINT [FK_DonorReport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
+
+
+GO
 PRINT N'Creating CK_Indicator...';
 
 
@@ -6935,21 +6940,21 @@ ALTER TABLE [Core].[DimMunicipalityGEOM]
 
 
 GO
-PRINT N'Creating CK_ENFORCE_SINGLE_Parent_Link_StatusValues...';
-
-
-GO
-ALTER TABLE [RBM].[StatusValues]
-    ADD CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_StatusValues] CHECK ((((((case when [StatusValues].[ProjectID] IS NOT NULL then (1) else (0) end+case when [StatusValues].[Programme_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Output_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Activity_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[SubOutput_ID] IS NOT NULL then (1) else (0) end)=(1));
-
-
-GO
 PRINT N'Creating CK_PeopleReachedValues...';
 
 
 GO
 ALTER TABLE [RBM].[PeopleReachedValues]
     ADD CONSTRAINT [CK_PeopleReachedValues] CHECK ((((((case when [PeopleReachedValues].[ProjectID] IS NOT NULL then (1) else (0) end+case when [PeopleReachedValues].[Output_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Activity_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Programme_ID] IS NOT NULL then (1) else (0) end)=(1));
+
+
+GO
+PRINT N'Creating CK_ENFORCE_SINGLE_Parent_Link_StatusValues...';
+
+
+GO
+ALTER TABLE [RBM].[StatusValues]
+    ADD CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_StatusValues] CHECK ((((((case when [StatusValues].[ProjectID] IS NOT NULL then (1) else (0) end+case when [StatusValues].[Programme_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Output_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Activity_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[SubOutput_ID] IS NOT NULL then (1) else (0) end)=(1));
 
 
 GO
@@ -10386,7 +10391,7 @@ INSERT  [Core].[ActiveType]
         )
         SELECT  0 ,
                 N'InActive' ,
-                N'Deleted'
+                N'InActive'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ActiveType
                              WHERE  [Core].[ActiveType].[ID] = 0 )
@@ -10398,7 +10403,7 @@ INSERT  [Core].[ActiveType]
         )
         SELECT  1 ,
                 N'Active' ,
-                N'Deleted'
+                N'Active'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ActiveType
                              WHERE  [Core].[ActiveType].[ID] = 1 )
@@ -10420,13 +10425,15 @@ INSERT  INTO [Core].StatusType
           [Core].[StatusType].[Code] ,
           [Core].[StatusType].[Name] ,
           [Core].[StatusType].[Value],
-          [Core].[StatusType].[Active]
+          [Core].[StatusType].[Active],
+		  [Core].[StatusType].[BusinessKey]
         )
         SELECT  0 ,
                 '+' ,
                 'On Target' ,
                 1,
-                1
+                1,
+				'+'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '+' )
@@ -10435,7 +10442,8 @@ INSERT  INTO [Core].StatusType
                 '=' ,
                 'Acceptable' ,
                 0,
-                1
+                1,
+				'='
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '=' )
@@ -10444,7 +10452,8 @@ INSERT  INTO [Core].StatusType
                 '-' ,
                 'Sub par' ,
                 -1,
-                1
+                1,
+				'-'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.StatusType
                              WHERE  [Core].[StatusType].[Code] = '-' )
@@ -10461,22 +10470,23 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-SET IDENTITY_INSERT [Core].[Location] OFF
-SET IDENTITY_INSERT [Core].[DataVersion] ON
-INSERT INTO Core.DataVersion
+SET IDENTITY_INSERT Core.DataVersion ON 
+INSERT  INTO Core.DataVersion
         ( [Core].[DataVersion].[Active] ,
           [Core].[DataVersion].[Code] ,
           [Core].[DataVersion].[DataVersion_ID] ,
           [Core].[DataVersion].[Name] ,
           [Core].[DataVersion].[Order] ,
-          [Core].[DataVersion].[Description]
+          [Core].[DataVersion].[Description],
+		  [Core].[DataVersion].[BusinessKey]
         )
         SELECT  1 ,
                 '0' ,
                 0 ,
                 'External' ,
                 10 ,
-                ''
+                '',
+				'0'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
                              WHERE  [Core].[DataVersion].[DataVersion_ID] = 0 )
@@ -10487,14 +10497,16 @@ INSERT  INTO Core.DataVersion
           [Core].[DataVersion].[DataVersion_ID] ,
           [Core].[DataVersion].[Name] ,
           [Core].[DataVersion].[Order] ,
-          [Core].[DataVersion].[Description]
+          [Core].[DataVersion].[Description],
+		  [Core].[DataVersion].[BusinessKey]
         )
         SELECT  1 ,
                 '1' ,
                 1 ,
                 'Publish' ,
                 20 ,
-                ''
+                '',
+				'1'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
                              WHERE  [Core].[DataVersion].[DataVersion_ID] = 1 )
@@ -10505,14 +10517,16 @@ INSERT  INTO Core.DataVersion
           [Core].[DataVersion].[DataVersion_ID] ,
           [Core].[DataVersion].[Name] ,
           [Core].[DataVersion].[Order] ,
-          [Core].[DataVersion].[Description]
+          [Core].[DataVersion].[Description],
+		  [Core].[DataVersion].[BusinessKey]
         )
         SELECT  1 ,
                 '2' ,
                 3 ,
                 'Final Draft' ,
                 30 ,
-                ''
+                '',
+				'2'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
                              WHERE  [Core].[DataVersion].[DataVersion_ID] = 3 )
@@ -10523,20 +10537,22 @@ INSERT  INTO Core.DataVersion
           [Core].[DataVersion].[DataVersion_ID] ,
           [Core].[DataVersion].[Name] ,
           [Core].[DataVersion].[Order] ,
-          [Core].[DataVersion].[Description]
+          [Core].[DataVersion].[Description],
+		  [Core].[DataVersion].[BusinessKey]
         )
         SELECT  1 ,
                 '3' ,
                 4 ,
                 'First Draft' ,
                 40 ,
-                ''
+                '',
+				'3'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
                              WHERE  [Core].[DataVersion].[DataVersion_ID] = 4 )
 
 
-SET IDENTITY_INSERT [Core].[DataVersion] OFF
+SET IDENTITY_INSERT  Core.DataVersion OFF
 /*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
@@ -10679,7 +10695,8 @@ INSERT  INTO Core.ReportingPeriod
           [Core].[ReportingPeriod].[LastCycleDate] ,
           [Core].[ReportingPeriod].[YearName] ,
           [Core].[ReportingPeriod].[YearNumber],
-          [Core].[ReportingPeriod].[Summary]
+          [Core].[ReportingPeriod].[Summary],
+		  [Core].[ReportingPeriod].[BusinessKey]
         )
         SELECT  rc.[ReportingPeriod] ,
                 rc.[StartDateID] ,
@@ -10688,7 +10705,8 @@ INSERT  INTO Core.ReportingPeriod
                 rc.[LastCycleDate] ,
                 rc.[YearName] ,
                 rc.[YearNumber],
-                CONCAT(rc.[YearNumber],' - ',rc.[ReportingPeriod])
+                CONCAT(rc.[YearNumber],' - ',rc.[ReportingPeriod]),
+				rc.[ReportingPeriod]
         FROM    [Core].[ReportCycle] AS rc
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.ReportingPeriod
@@ -10716,12 +10734,14 @@ INSERT  [app].[MilestoneType]
         ( [app].[MilestoneType].[MilestoneTypeID] ,
           [app].[MilestoneType].[Code] ,
           [app].[MilestoneType].[Name] ,
-          [app].[MilestoneType].[Active]
+          [app].[MilestoneType].[Active],
+		  [app].[MilestoneType].[BusinessKey]
         )
         SELECT  4 ,
                 N'Project' ,
                 N'Project' ,
-                1
+                1,
+				N'Project'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
                              WHERE  [app].[MilestoneType].[MilestoneTypeID] = 4 )
@@ -10730,12 +10750,14 @@ INSERT  [app].[MilestoneType]
         ( [app].[MilestoneType].[MilestoneTypeID] ,
           [app].[MilestoneType].[Code] ,
           [app].[MilestoneType].[Name] ,
-          [app].[MilestoneType].[Active]
+          [app].[MilestoneType].[Active],
+		  [app].[MilestoneType].[BusinessKey]
         )
         SELECT  5 ,
                 N'Activity' ,
                 N'Activity' ,
-                1
+                1,
+				N'Activity'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
                              WHERE  [app].[MilestoneType].[MilestoneTypeID] = 5 )
@@ -10760,12 +10782,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  1 ,
                 N'Outcome' ,
                 N'Outcome' ,
-                1
+                1,
+				N'Outcome'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 1 )
@@ -10774,12 +10798,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  2 ,
                 N'Output' ,
                 N'Output' ,
-                1
+                1,
+				N'Output'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 2 )
@@ -10788,12 +10814,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  3 ,
                 N'SubOutput' ,
                 N'SubOutput' ,
-                1
+                1,
+				N'SubOutput'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 3 )
@@ -10802,12 +10830,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  4 ,
                 N'Activity' ,
                 N'Activity' ,
-                1
+                1,
+				N'Activity'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 4 )
@@ -10816,12 +10846,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  5 ,
                 N'Milestone' ,
                 N'Milestone' ,
-                1
+                1,
+				N'Milestone'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 5 )
@@ -10830,12 +10862,14 @@ INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
           [app].[IndicatorType].[Name] ,
-          [app].[IndicatorType].[Active]
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  6 ,
                 N'OS' ,
                 N'Overall Status' ,
-                1
+                1,
+				N'OS'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 6 )
@@ -10939,13 +10973,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	-1 As Gender_ID
-	 ,'UNK' as Code
+	,'UNK' as Code
 	,'Unknown' as Name
+	,'UNK' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -10955,13 +10991,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	0 As Gender_ID
-	 ,'M' as Code
+	,'M' as Code
 	,'Male' as Name
+	,'M' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -10973,13 +11011,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	1 As Gender_ID
-	 ,'F' as Code
+	,'F' as Code
 	,'Female' as Name
+	,'F' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -10991,13 +11031,15 @@ INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.Gender_ID, Q.Code, Q.Name
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	2 As Gender_ID
-	 ,'UND' as Code
+	,'UND' as Code
 	,'Undisclosed' as Name
+	,'UND' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
@@ -11045,8 +11087,8 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-/*USE Meerkat
-GO*/
+USE Meerkat
+GO
 
 SET identity_insert [rpt].CustomReportType on
 
@@ -11055,13 +11097,15 @@ INSERT INTO [rpt].[CustomReportType]
            ([CustomReportType_ID]
 		   ,[Code]
            ,[Name]
+		   ,[BusinessKey]
            )
-SELECT Q.CustomReportType_ID, Q.Code, Q.Name
+SELECT Q.CustomReportType_ID, Q.Code, Q.Name, Q.BusinessKey
 FROM
 (SELECT 
 	1 As CustomReportType_ID
-	 ,'DNR' as Code
+	,'DNR' as Code
 	,'Donor' as Name
+	,'DNR' as BusinessKey
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [rpt].[CustomReportType]
@@ -11104,31 +11148,31 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'CONT' ,'Continent' ,'Continent' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CONT')
+          'CONT' ,'Continent' ,'Continent', 'CONT' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CONT')
 
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'CNTRY' ,'Country' ,'Country' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
-
-          
-INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
-     SELECT
-          'REG' ,'Region' ,'Region' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
+          'CNTRY' ,'Country' ,'Country', 'CNTRY' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='CNTRY')
 
           
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'DIST' ,'District' ,'District' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='DIST')
+          'REG' ,'Region' ,'Region', 'REG' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='REG')
+
+          
+INSERT INTO [Core].[LocationType]
+           ([Code], [Name], [Description], [BusinessKey])
+     SELECT
+          'DIST' ,'District' ,'District', 'DIST' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='DIST')
 
 INSERT INTO [Core].[LocationType]
-           ([Code], [Name], [Description])
+           ([Code], [Name], [Description], [BusinessKey])
      SELECT
-          'VILG' ,'Village' ,'Village' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='VILG')
+          'VILG' ,'Village' ,'Village', 'VILG' WHERE NOT EXISTS (SELECT 1 FROM [Core].[LocationType] WHERE [Code]  ='VILG')
 
 GO
 /*
@@ -11142,9 +11186,9 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-
-SET IDENTITY_INSERT [core].[Location] ON
+SET IDENTITY_INSERT [Core].[Location] ON
 GO
+
 INSERT [Core].[Location] (
     [Location_ID]
     , [Code]
@@ -11154,8 +11198,9 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
-    SELECT 0
+    SELECT 1
     , 'SOM' Code
     , 'Somaliland' [Name]
     , 137600
@@ -11163,13 +11208,11 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'SOM'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'SOM'
     )
-SET IDENTITY_INSERT [core].[Location] OFF
-GO
-SET IDENTITY_INSERT [core].[Location] ON
-GO
+
 	INSERT [Core].[Location] (
     [Location_ID]
     , [Code]
@@ -11179,8 +11222,9 @@ GO
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
-    SELECT 1
+    SELECT 2
     , 'MOG' Code
     , 'Mogadishu' [Name]
     , 1637
@@ -11188,13 +11232,11 @@ GO
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'MOG'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'MOG'
     )
-SET IDENTITY_INSERT [core].[Location] OFF
-GO
-SET IDENTITY_INSERT [core].[Location] ON
-GO
+
 	INSERT [Core].[Location] (
     [Location_ID]
     , [Code]
@@ -11204,9 +11246,10 @@ GO
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
 
-    SELECT 2
+    SELECT 3
     , 'PUNT' Code
     , 'Puntland' [Name]
     , 212510
@@ -11214,15 +11257,14 @@ GO
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'CNTRY')
     , NULL
     , NULL [Geog]
+	, 'PUNT'
     WHERE NOT EXISTS (
     SELECT 1 FROM [Core].[Location] WHERE Code = 'PUNT'
     )
 
-SET IDENTITY_INSERT [core].[Location] OFF
+SET IDENTITY_INSERT [Core].[Location] OFF
 GO
 
-/*SET IDENTITY_INSERT [core].[Location] ON
-GO*/
 INSERT [Core].[Location] (
     [Code]
     , [Name]
@@ -11231,6 +11273,7 @@ INSERT [Core].[Location] (
     , [LocationType_ID]
     , [ParentLocation_ID]
     , [Geog]
+	, [BusinessKey]
     ) 
     SELECT '1' Code
     , 'Lascanood' [Name]
@@ -11239,6 +11282,7 @@ INSERT [Core].[Location] (
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '1'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '1' 
     )	
@@ -11252,6 +11296,7 @@ SELECT '2' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '2'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '2' 
     )	
@@ -11265,6 +11310,7 @@ SELECT '3' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '3'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '3' 
     )	
@@ -11278,6 +11324,7 @@ SELECT '4' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '4'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '4' 
     )	
@@ -11291,6 +11338,7 @@ SELECT '5' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '5'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '5' 
     )	
@@ -11304,6 +11352,7 @@ SELECT '6' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '6'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '6' 
     )	
@@ -11317,6 +11366,7 @@ SELECT '7' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'SOM')
     , NULL [Geog]
+	, '7'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '7' 
     )	
@@ -11330,6 +11380,7 @@ SELECT '8' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '8'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '8' 
     )	
@@ -11343,6 +11394,7 @@ SELECT '9' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '9'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '9' 
     )	
@@ -11356,6 +11408,7 @@ SELECT '10' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'MOG')
     , NULL [Geog]
+	, '10'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '10' 
     )	
@@ -11369,6 +11422,7 @@ SELECT '11' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '11'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '11' 
     )	
@@ -11382,6 +11436,7 @@ SELECT '12' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '12'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '12' 
     )	
@@ -11395,6 +11450,7 @@ SELECT '13' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '13'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '13' 
     )	
@@ -11408,6 +11464,7 @@ SELECT '14' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '14'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '14' 
     )	
@@ -11421,6 +11478,7 @@ SELECT '15' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '15'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '15' 
     )	
@@ -11434,6 +11492,7 @@ SELECT '16' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '16'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '16' 
     )	
@@ -11447,6 +11506,7 @@ SELECT '18' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '18'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '18' 
     )	
@@ -11460,6 +11520,7 @@ SELECT '19' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '19'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '19' 
     )	
@@ -11473,6 +11534,7 @@ SELECT '20' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '20'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '20' 
     )	
@@ -11486,6 +11548,7 @@ SELECT '21' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'PUNT')
     , NULL [Geog]
+	, '21'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '21' 
     )	
@@ -11499,12 +11562,11 @@ SELECT '22' Code
     ,(SELECT LocationType_ID FROM [Core].[LocationType] WHERE [Code] = 'DIST')
     , (SELECT Location_ID FROM [Core].[Location] WHERE [Code] = 'KE')
     , NULL [Geog]
+	, '22'
     WHERE NOT EXISTS (
         SELECT 1 FROM [Core].[Location] WHERE [Code] = '22' 
     )	   
 
-/*SET IDENTITY_INSERT [Core].[Location] OFF
-GO*/
     /*Location Insert end*/
     /*Update Geography*/
 

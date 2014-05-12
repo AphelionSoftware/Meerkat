@@ -45,11 +45,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+            Value="4000" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -143,6 +143,11 @@
         Association="FK_Project_Programme"
         FromEnd="Programme"
         ToEnd="Project" />
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Programme"
+        FromEnd="Programme"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -280,11 +285,22 @@
         Name="Project"
         EntitySet="Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_Programme"
+      Association="FK_StatusValues_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Sector_Programme">
     <AssociationEnd
       Name="Programme"
+      Multiplicity="One"
       EntityType="Programme">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -308,6 +324,20 @@
       Name="Project"
       Multiplicity="Many"
       EntityType="Project" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -339,10 +369,9 @@
           Type="varchar"
           Property="Programme/Properties[LongName]" />
         <SsdlProperty
-          MaxLength="255"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="Programme/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
@@ -446,6 +475,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Sector_Programme]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Programme]/Members[StatusValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Programme_ID" />

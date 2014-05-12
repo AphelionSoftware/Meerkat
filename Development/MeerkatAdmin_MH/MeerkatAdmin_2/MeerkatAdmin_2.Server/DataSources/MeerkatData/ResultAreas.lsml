@@ -47,11 +47,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+            Value="4000" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -111,6 +111,11 @@
         Association="FK_MilestoneValues_ResultArea"
         FromEnd="ResultArea"
         ToEnd="MilestoneValues" />
+      <NavigationProperty
+        Name="Project_ResultAreas"
+        Association="FK_Project_ResultArea_ResultArea"
+        FromEnd="ResultArea"
+        ToEnd="Project_ResultArea" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -224,6 +229,16 @@
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_ResultArea_ResultArea"
+      Association="FK_Project_ResultArea_ResultArea">
+      <AssociationSetEnd
+        Name="ResultArea"
+        EntitySet="ResultAreas" />
+      <AssociationSetEnd
+        Name="Project_ResultArea"
+        EntitySet="Project_ResultAreas" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_IndicatorValues_ResultArea">
@@ -252,6 +267,20 @@
       Name="MilestoneValues"
       Multiplicity="Many"
       EntityType="MilestoneValue" />
+  </Association>
+  <Association
+    Name="FK_Project_ResultArea_ResultArea">
+    <AssociationEnd
+      Name="ResultArea"
+      EntityType="ResultArea">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project_ResultArea"
+      Multiplicity="Many"
+      EntityType="Project_ResultArea" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -283,10 +312,9 @@
           Type="varchar"
           Property="ResultArea/Properties[Name]" />
         <SsdlProperty
-          MaxLength="255"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="ResultArea/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -355,6 +383,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ResultArea_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_ResultArea_ResultArea">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_ResultArea_ResultArea" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ResultArea_ResultArea]/Members[ResultArea]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ResultArea_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ResultArea_ResultArea]/Members[Project_ResultArea]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ResultAreaID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

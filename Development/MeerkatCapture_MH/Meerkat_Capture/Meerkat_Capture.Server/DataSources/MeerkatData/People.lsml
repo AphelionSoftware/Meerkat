@@ -43,10 +43,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
+          <MaxLength
+            Value="4000" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -138,6 +139,11 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="OutcomePersonRoles"
+        Association="FK_OutcomePersonRole_Person"
+        FromEnd="Person"
+        ToEnd="OutcomePersonRole" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -303,7 +309,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_OutcomePersonRole_Person"
+      Association="FK_OutcomePersonRole_Person">
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+      <AssociationSetEnd
+        Name="OutcomePersonRole"
+        EntitySet="OutcomePersonRoles" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_OutcomePersonRole_Person">
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OutcomePersonRole"
+      Multiplicity="Many"
+      EntityType="OutcomePersonRole" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -344,8 +374,8 @@
           Property="Person/Properties[Category]" />
         <SsdlProperty
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Person/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
@@ -396,6 +426,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OrganizationPersonRole_Person]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OutcomePersonRole_Person">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutcomePersonRole_Person" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Person]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Person]/Members[OutcomePersonRole]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Person_ID" />

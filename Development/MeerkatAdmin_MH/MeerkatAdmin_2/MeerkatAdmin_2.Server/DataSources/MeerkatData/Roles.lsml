@@ -115,6 +115,20 @@
         Association="FK_OrganizationPersonRole_Role"
         FromEnd="Role"
         ToEnd="OrganizationPersonRole" />
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="4000" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="OutcomePersonRoles"
+        Association="FK_OutcomePersonRole_Role"
+        FromEnd="Role"
+        ToEnd="OutcomePersonRole" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -252,6 +266,16 @@
         Name="OrganizationPersonRole"
         EntitySet="OrganizationPersonRoles" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_OutcomePersonRole_Role"
+      Association="FK_OutcomePersonRole_Role">
+      <AssociationSetEnd
+        Name="Role"
+        EntitySet="Roles" />
+      <AssociationSetEnd
+        Name="OutcomePersonRole"
+        EntitySet="OutcomePersonRoles" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_SubOutputPersonRole_Role">
@@ -280,6 +304,20 @@
       Name="OrganizationPersonRole"
       Multiplicity="Many"
       EntityType="OrganizationPersonRole" />
+  </Association>
+  <Association
+    Name="FK_OutcomePersonRole_Role">
+    <AssociationEnd
+      Name="Role"
+      EntityType="Role">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OutcomePersonRole"
+      Multiplicity="Many"
+      EntityType="OutcomePersonRole" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -315,6 +353,11 @@
           Nullable="True"
           Type="varchar(max)"
           Property="Role/Properties[Description]" />
+        <SsdlProperty
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Role/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -358,6 +401,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OrganizationPersonRole_Role]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Role_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OutcomePersonRole_Role">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutcomePersonRole_Role" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Role]/Members[Role]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="RoleID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Role]/Members[OutcomePersonRole]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Role_ID" />

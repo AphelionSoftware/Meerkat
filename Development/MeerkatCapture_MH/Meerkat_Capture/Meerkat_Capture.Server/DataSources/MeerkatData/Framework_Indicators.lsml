@@ -26,13 +26,6 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="FrameworkID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -89,6 +82,20 @@
         Association="FK_PeopleReachedValues_Framework_Indicator"
         FromEnd="Framework_Indicator"
         ToEnd="PeopleReachedValues" />
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="4000" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Framework"
+        Association="FK_Framework_Indicator_Framework"
+        FromEnd="Framework_Indicator"
+        ToEnd="Framework" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -225,10 +232,10 @@
           Type="int"
           Property="Framework_Indicator/Properties[Framework_Indicator_ID]" />
         <SsdlProperty
-          Name="FrameworkID"
-          Nullable="True"
-          Type="int"
-          Property="Framework_Indicator/Properties[FrameworkID]" />
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Framework_Indicator/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -256,6 +263,11 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="FrameworkID"
+          Nullable="True"
+          Type="int"
+          PropertyName="FrameworkID" />
         <SsdlForeignKeyProperty
           Name="IndicatorID"
           Nullable="True"

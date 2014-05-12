@@ -47,11 +47,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+            Value="4000" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -121,6 +121,11 @@
         Association="FK_PeopleReachedValues_Framework"
         FromEnd="Framework"
         ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="Framework_Indicators"
+        Association="FK_Framework_Indicator_Framework"
+        FromEnd="Framework"
+        ToEnd="Framework_Indicator" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -286,7 +291,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Framework_Indicator_Framework"
+      Association="FK_Framework_Indicator_Framework">
+      <AssociationSetEnd
+        Name="Framework"
+        EntitySet="Frameworks" />
+      <AssociationSetEnd
+        Name="Framework_Indicator"
+        EntitySet="Framework_Indicators" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Framework_Indicator_Framework">
+    <AssociationEnd
+      Name="Framework"
+      EntityType="Framework">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Framework_Indicator"
+      Multiplicity="Many"
+      EntityType="Framework_Indicator" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -317,10 +346,9 @@
           Type="varchar"
           Property="Framework/Properties[Name]" />
         <SsdlProperty
-          MaxLength="255"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="Framework/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -356,6 +384,27 @@
           PropertyName="SourceOrganizationID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Framework_Indicator_Framework">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Framework_Indicator_Framework" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Indicator_Framework]/Members[Framework]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Framework_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Framework_Indicator_Framework]/Members[Framework_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FrameworkID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Framework">
       <AssociationSetMapping.Attributes>
