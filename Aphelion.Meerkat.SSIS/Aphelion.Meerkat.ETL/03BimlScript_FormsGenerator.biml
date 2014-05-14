@@ -1,0 +1,42 @@
+<!--
+Update Connection strings
+Update OutputDir
+Regenerate SSIS packages
+-->
+<#@ import namespace="System.Data" #>
+<#@ import namespace="Varigence.Hadron.CoreLowerer.SchemaManagement" #>
+<# var Connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# DataTable FormsToCreate = ExternalDataAccess.GetDataTable(Connection.ConnectionString, "SELECT F.Name, F.Form_ID FROM forms.Form F"); #>  
+<# string OutputDir ="E:\\Aphelion\\Aphelion\\Meerkat\\Forms\\"; #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+  <Connections>
+    <Connection Name="Meerkat" ConnectionString="Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+  </Connections>
+  <Packages>
+  <# foreach (DataRow Form in FormsToCreate.Rows) { #>
+    <Package Name="GenerateForm_<#=Form["Name"]#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+      <Tasks>
+        <Dataflow Name="DFT_Create <#=Form["Name"]#>">
+          <Transformations>
+            <OleDbSource Name="OLE_SRC_Form" ConnectionName="MeerkatStaging">
+              <DirectInput>
+                SELECT C.Name Column1, C.Category_ID, 1 [Order]
+                FROM forms.Form F
+                JOIN forms.Category C ON F.Form_ID = C.Form_ID
+                WHERE F.Form_ID = <#=Form["Form_ID"]#>
+                UNION ALL
+                SELECT Q.Name, C.Category_ID, 2
+                FROM forms.Form F
+                JOIN forms.Category C ON F.Form_ID = C.Form_ID
+                JOIN forms.Question Q ON C.Category_ID = Q.Category_ID
+                WHERE F.Form_ID = <#=Form["Form_ID"]#>
+                ORDER BY C.Category_ID, [Order]
+              </DirectInput>
+            </OleDbSource>
+          </Transformations>
+        </Dataflow>
+      </Tasks>
+    </Package>
+  <# } #>
+  </Packages>
+</Biml>
