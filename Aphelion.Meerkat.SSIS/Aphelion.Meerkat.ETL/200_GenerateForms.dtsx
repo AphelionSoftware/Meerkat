@@ -10,8 +10,8 @@
   DTS:LastModifiedProductVersion="11.0.3402.0"
   DTS:LocaleID="1033"
   DTS:ObjectName="200_GenerateForms"
-  DTS:VersionBuild="11"
-  DTS:VersionGUID="{C6F2CF53-B6C7-4155-81B1-058E9016AA9A}"
+  DTS:VersionBuild="34"
+  DTS:VersionGUID="{307D4595-2FF0-4182-A734-469C81C4A430}"
   DTS:VersionMajor="0">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
@@ -25,7 +25,7 @@
         DTS:Name="ExcelFilePath">@[User::strFullFileName]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\Aphelion\Aphelion\Meerkat\Forms\test.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=NO&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\Aphelion\Aphelion\Meerkat\Forms\test.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=NO&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="intFormID">
       <DTS:VariableValue
-        DTS:DataType="3">0</DTS:VariableValue>
+        DTS:DataType="3">6</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -81,22 +81,41 @@
       DTS:CreationName=""
       DTS:DTSID="{AD26A5AA-FD05-4EAC-A854-7AEF24378331}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;SELECT C.Name Column1, C.Category_ID, 1 [Order]&#xA;FROM forms.Form F&#xA;JOIN forms.Category C ON F.Form_ID = C.Form_ID&#xA;WHERE F.Form_ID = &quot; + (DT_WSTR, 10)@[User::intFormID] + &quot;&#xA;UNION ALL&#xA;SELECT Q.Name, C.Category_ID, 2&#xA;FROM forms.Form F&#xA;JOIN forms.Category C ON F.Form_ID = C.Form_ID&#xA;JOIN forms.Question Q ON C.Category_ID = Q.Category_ID&#xA;WHERE F.Form_ID = &quot;+ (DT_WSTR, 10)@[User::intFormID] +&quot;&#xA;ORDER BY C.Category_ID, [Order]&quot;"
+      DTS:Expression="&quot;SELECT F.TextDescription + '- ' + F.Code Column1, '' AS Column2, 0 AS CategoryOrder, 0 AS QuestionOrder, 0 AS LayoutOrder&#xA;FROM forms.Form F WHERE F.Form_ID = &quot; + (DT_WSTR, 10)@[User::intFormID] + &quot;&#xA;UNION ALL&#xA;SELECT C.Code + ': ' + C.Name, '', C.CategoryOrder, 0, 1&#xA;FROM forms.Form F&#xA;JOIN forms.Category C ON F.Form_ID = C.Form_ID&#xA;WHERE F.Form_ID = &quot; + (DT_WSTR, 10)@[User::intFormID] + &quot;&#xA;UNION ALL&#xA;SELECT Q.Code, Q.TextDescription, C.CategoryOrder, Q.QuestionOrder, 2&#xA;FROM forms.Form F&#xA;JOIN forms.Category C ON F.Form_ID = C.Form_ID&#xA;JOIN forms.Question Q ON C.Category_ID = Q.Category_ID&#xA;WHERE F.Form_ID = &quot; + (DT_WSTR, 10)@[User::intFormID] + &quot;&#xA;UNION ALL&#xA;SELECT ''&#xA;     , 'Codes for ' + Q.Code + ':' + STUFF((SELECT ', ' + SP.Code + ' = ' + SP.Name&#xA;              FROM forms.PotentialResponse SP&#xA;              WHERE SP.Question_ID = P.Question_ID&#xA;              ORDER BY SP.ResponseOrder&#xA;              FOR XML PATH('')&#xA;             ), 1, 1, ''&#xA;            )&#xA;     , C.CategoryOrder, Q.QuestionOrder, 3&#xA;FROM forms.Form F&#xA;JOIN forms.Category C ON F.Form_ID = C.Form_ID&#xA;JOIN forms.Question Q ON C.Category_ID = Q.Category_ID&#xA;JOIN forms.PotentialResponse P ON Q.Question_ID = P.Question_ID&#xA;WHERE F.Form_ID = &quot; + (DT_WSTR, 10)@[User::intFormID] + &quot;&#xA;GROUP BY P.Question_ID, Q.Code, C.CategoryOrder, Q.QuestionOrder&#xA;ORDER BY CategoryOrder, QuestionOrder, LayoutOrder&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="strSQL">
       <DTS:VariableValue
-        DTS:DataType="8">SELECT C.Name Column1, C.Category_ID, 1 [Order]
+        DTS:DataType="8">SELECT F.TextDescription + '- ' + F.Code Column1, '' AS Column2, 0 AS CategoryOrder, 0 AS QuestionOrder, 0 AS LayoutOrder
+FROM forms.Form F WHERE F.Form_ID = 6
+UNION ALL
+SELECT C.Code + ': ' + C.Name, '', C.CategoryOrder, 0, 1
 FROM forms.Form F
 JOIN forms.Category C ON F.Form_ID = C.Form_ID
-WHERE F.Form_ID = 0
+WHERE F.Form_ID = 6
 UNION ALL
-SELECT Q.Name, C.Category_ID, 2
+SELECT Q.Code, Q.TextDescription, C.CategoryOrder, Q.QuestionOrder, 2
 FROM forms.Form F
 JOIN forms.Category C ON F.Form_ID = C.Form_ID
 JOIN forms.Question Q ON C.Category_ID = Q.Category_ID
-WHERE F.Form_ID = 0
-ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
+WHERE F.Form_ID = 6
+UNION ALL
+SELECT ''
+     , 'Codes for ' + Q.Code + ':' + STUFF((SELECT ', ' + SP.Code + ' = ' + SP.Name
+              FROM forms.PotentialResponse SP
+              WHERE SP.Question_ID = P.Question_ID
+              ORDER BY SP.ResponseOrder
+              FOR XML PATH('')
+             ), 1, 1, ''
+            )
+     , C.CategoryOrder, Q.QuestionOrder, 3
+FROM forms.Form F
+JOIN forms.Category C ON F.Form_ID = C.Form_ID
+JOIN forms.Question Q ON C.Category_ID = Q.Category_ID
+JOIN forms.PotentialResponse P ON Q.Question_ID = P.Question_ID
+WHERE F.Form_ID = 6
+GROUP BY P.Question_ID, Q.Code, C.CategoryOrder, Q.QuestionOrder
+ORDER BY CategoryOrder, QuestionOrder, LayoutOrder</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -146,76 +165,108 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
               version="1">
               <components>
                 <component
-                  refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns"
-                  componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}"
-                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-                  description="Data Conversion"
-                  name="DCNV_Columns"
+                  refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion"
+                  componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="DER_Data conversion"
                   usesDispositions="true">
                   <inputs>
                     <input
-                      refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Inputs[Data Conversion Input]"
-                      name="Data Conversion Input">
+                      refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Inputs[Data Conversion Input].Columns[Column1]"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input].Columns[Column1]"
                           cachedCodepage="1252"
-                          cachedDataType="str"
-                          cachedLength="50"
+                          cachedDataType="text"
                           cachedName="Column1"
                           lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column1]" />
+                        <inputColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input].Columns[Column2]"
+                          cachedDataType="nText"
+                          cachedName="Column2"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column2]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Output]"
+                      refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
                       exclusionGroup="1"
-                      name="Data Conversion Output"
-                      synchronousInputId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Inputs[Data Conversion Input]">
+                      name="Derived Column Output"
+                      synchronousInputId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Output].Columns[Excel_Column1]"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column1]"
                           dataType="wstr"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Computation"
                           errorRowDisposition="FailComponent"
-                          length="50"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Output].Columns[Excel_Column1]"
+                          length="255"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column1]"
                           name="Excel_Column1"
                           truncationRowDisposition="FailComponent">
                           <properties>
                             <property
                               containsID="true"
-                              dataType="System.Int32"
-                              description="Specifies the input column used as the source of data for the conversion."
-                              name="SourceInputColumnLineageID">#{Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column1]}</property>
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,255)(DT_STR,255,1252)#{Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column1]}</property>
                             <property
-                              dataType="System.Boolean"
-                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                              name="FastParse">false</property>
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,255)(DT_STR,255,1252)Column1</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column2]"
+                          name="Excel_Column2"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(DT_WSTR,255)#{Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column2]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,255)Column2</property>
                           </properties>
                         </outputColumn>
                       </outputColumns>
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Error Output]"
+                      refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
                       exclusionGroup="1"
                       isErrorOut="true"
-                      name="Data Conversion Error Output"
-                      synchronousInputId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Inputs[Data Conversion Input]">
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -229,7 +280,8 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                   contactInfo="Excel Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
                   description="Excel Destination"
                   name="EX_DST_Form"
-                  usesDispositions="true">
+                  usesDispositions="true"
+                  validateExternalMetadata="False">
                   <properties>
                     <property
                       dataType="System.Int32"
@@ -289,10 +341,17 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                         <inputColumn
                           refId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input].Columns[Excel_Column1]"
                           cachedDataType="wstr"
-                          cachedLength="50"
+                          cachedLength="255"
                           cachedName="Excel_Column1"
                           externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input].ExternalColumns[F1]"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Output].Columns[Excel_Column1]" />
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column1]" />
+                        <inputColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input].Columns[Excel_Column2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Excel_Column2"
+                          externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input].ExternalColumns[F2]"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output].Columns[Excel_Column2]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -301,6 +360,11 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                           dataType="wstr"
                           length="255"
                           name="F1" />
+                        <externalMetadataColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input].ExternalColumns[F2]"
+                          dataType="wstr"
+                          length="255"
+                          name="F2" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -393,31 +457,21 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                         <outputColumn
                           refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column1]"
                           codePage="1252"
-                          dataType="str"
+                          dataType="text"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Column1]"
-                          length="50"
                           lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column1]"
                           name="Column1"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Category_ID]"
-                          dataType="i4"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column2]"
+                          dataType="nText"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Category_ID]"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Category_ID]"
-                          name="Category_ID"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Order]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Order]"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Order]"
-                          name="Order"
+                          externalMetadataColumnId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Column2]"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].Columns[Column2]"
+                          name="Column2"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
@@ -425,17 +479,24 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                         <externalMetadataColumn
                           refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Column1]"
                           codePage="1252"
-                          dataType="str"
-                          length="50"
+                          dataType="text"
                           name="Column1" />
                         <externalMetadataColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Category_ID]"
-                          dataType="i4"
-                          name="Category_ID" />
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Column2]"
+                          dataType="nText"
+                          name="Column2" />
                         <externalMetadataColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[Order]"
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[CategoryOrder]"
                           dataType="i4"
-                          name="Order" />
+                          name="CategoryOrder" />
+                        <externalMetadataColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[QuestionOrder]"
+                          dataType="i4"
+                          name="QuestionOrder" />
+                        <externalMetadataColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output].ExternalColumns[LayoutOrder]"
+                          dataType="i4"
+                          name="LayoutOrder" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -446,20 +507,9 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                         <outputColumn
                           refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Column1]"
                           codePage="1252"
-                          dataType="str"
-                          length="50"
+                          dataType="text"
                           lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Column1]"
                           name="Column1" />
-                        <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Category_ID]"
-                          dataType="i4"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Category_ID]"
-                          name="Category_ID" />
-                        <outputColumn
-                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Order]"
-                          dataType="i4"
-                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Order]"
-                          name="Order" />
                         <outputColumn
                           refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                           dataType="i4"
@@ -472,6 +522,11 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
                           lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
+                        <outputColumn
+                          refId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Column2]"
+                          dataType="nText"
+                          lineageId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Error Output].Columns[Column2]"
+                          name="Column2" />
                       </outputColumns>
                       <externalMetadataColumns />
                     </output>
@@ -480,13 +535,13 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
               </components>
               <paths>
                 <path
-                  refId="Package\FELC_Generate forms\DFT_Populate form.Paths[Data Conversion Output]"
+                  refId="Package\FELC_Generate forms\DFT_Populate form.Paths[Derived Column Output]"
                   endId="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form.Inputs[Excel Destination Input]"
-                  name="Data Conversion Output"
-                  startId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Outputs[Data Conversion Output]" />
+                  name="Derived Column Output"
+                  startId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Outputs[Derived Column Output]" />
                 <path
                   refId="Package\FELC_Generate forms\DFT_Populate form.Paths[OLE DB Source Output]"
-                  endId="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns.Inputs[Data Conversion Input]"
+                  endId="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion.Inputs[Derived Column Input]"
                   name="OLE DB Source Output"
                   startId="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout.Outputs[OLE DB Source Output]" />
               </paths>
@@ -553,7 +608,7 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{B8F7D022-C655-45D3-94E2-57C05FE0D111}"
-          SQLTask:SqlStatementSource="SELECT F.Name, F.Form_ID FROM forms.Form F"
+          SQLTask:SqlStatementSource="SELECT F.Name + ' form ' + F.Code AS Name&#xA;     , F.Form_ID &#xA;FROM forms.Form F&#xA;WHERE F.Active = 1"
           SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="0"
@@ -587,7 +642,7 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
         <NodeLayout
           Size="170,42"
           Id="Package\FELC_Generate forms\DFT_Populate form"
-          TopLeft="165,162" />
+          TopLeft="165,160" />
         <NodeLayout
           Size="202,42"
           Id="Package\FELC_Generate forms\FSYS_Copy form template"
@@ -598,14 +653,14 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,62"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,54.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,54.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -656,43 +711,31 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="202,42"
-          Id="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout"
-          TopLeft="199,97" />
-        <NodeLayout
           Size="146,42"
           Id="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form"
           TopLeft="222,279" />
         <NodeLayout
-          Size="152,42"
-          Id="Package\FELC_Generate forms\DFT_Populate form\DCNV_Columns"
-          TopLeft="214,200" />
+          Size="202,42"
+          Id="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout"
+          TopLeft="193,53" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\FELC_Generate forms\DFT_Populate form\DER_Data conversion"
+          TopLeft="199,167" />
         <EdgeLayout
           Id="Package\FELC_Generate forms\DFT_Populate form.Paths[OLE DB Source Output]"
-          TopLeft="300,139">
+          TopLeft="291.5,95">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-10,61"
+              EndConnector="0,72"
               Start="0,0"
-              End="-10,53.5">
+              End="0,64.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,26.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26.5"
-                    Point2="0,30.5"
-                    Point3="-4,30.5" />
-                  <mssgle:LineSegment
-                    End="-6,30.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-6,30.5"
-                    Point2="-10,30.5"
-                    Point3="-10,34.5" />
-                  <mssgle:LineSegment
-                    End="-10,53.5" />
+                    End="0,64.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -702,19 +745,19 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\FELC_Generate forms\DFT_Populate form.Paths[Data Conversion Output]"
-          TopLeft="292.5,242">
+          Id="Package\FELC_Generate forms\DFT_Populate form.Paths[Derived Column Output]"
+          TopLeft="292,209">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,37"
+              EndConnector="0,70"
               Start="0,0"
-              End="0,29.5">
+              End="0,62.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.5" />
+                    End="0,62.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -727,14 +770,6 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\FELC_Generate forms\DFT_Populate form\EX_DST_Form">
     <Properties>
       <Property>
@@ -744,6 +779,14 @@ ORDER BY C.Category_ID, [Order]</DTS:VariableValue>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FELC_Generate forms\DFT_Populate form\OLE_SRC_Get form layout">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
