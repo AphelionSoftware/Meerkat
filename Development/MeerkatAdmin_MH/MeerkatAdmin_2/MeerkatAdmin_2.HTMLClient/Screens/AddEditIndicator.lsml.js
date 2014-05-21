@@ -31,7 +31,7 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
                 }
             case "SubOutput":
                 {
-                    target = contentItem.screen.findContentItem("SubOutpuGroupt");
+                    target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
             default:

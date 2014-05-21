@@ -31,7 +31,32 @@
               Name="left"
               Kind="Group">
               <ContentItem
-                Name="Code"
+                Name="Location_LocationType"
+                Kind="Details"
+                DataType="LocationType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="AddEditLocation/Properties[Location]" />
+                      <MemberExpression
+                        Member="LocationType" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="LocationType"
+                  Kind="Details"
+                  DataType="LocationType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Name="Location_Code"
                 Kind="Value"
                 DataType=":String">
                 <ContentItem.DataSource>
@@ -106,7 +131,7 @@
                 </ContentItem.DataSource>
               </ContentItem>
               <ContentItem
-                Name="BusinessKey"
+                Name="Location_BusinessKey"
                 Kind="Value"
                 DataType=":String">
                 <ContentItem.DataSource>
@@ -341,7 +366,7 @@
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
-                    Value="Add" />
+                    Value="Add Child Location" />
                 </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
@@ -351,17 +376,11 @@
                         <CallExpression
                           Target="!module/Methods[showAddEditLocation]">
                           <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="AddEditLocation/Properties[Locations]" />
                             <CreateNewEntity
-                              EntityType="Location"
                               TargetParameter="!module/Methods[showAddEditLocation]/Parameters[Location]" />
                           </CallExpression.Attributes>
-                          <ArgumentExpression
-                            Parameter="ParentLocation">
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="AddEditLocation/Properties[Location]" />
-                            </ChainExpression>
-                          </ArgumentExpression>
                         </CallExpression>
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -373,6 +392,16 @@
                         <ConstantExpression
                           Value="msls-add"
                           ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[HiddenIfDisabled]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="False"
+                          ResultType=":Boolean" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
