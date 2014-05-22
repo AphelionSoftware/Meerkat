@@ -95,7 +95,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[IndicatorType]
 (
 
-	[IndicatorType_ID] int NOT NULL,
+	[IndicatorType_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -154,7 +154,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[MilestoneType]
 (
 
-	[MilestoneTypeID] int NOT NULL,
+	[MilestoneTypeID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -263,7 +263,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Programme]
 (
 
-	[Programme_ID] int NOT NULL,
+	[Programme_ID] int NULL,
 	[Code] varchar(50) NULL,
 	[LongName] varchar(500) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
@@ -386,7 +386,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[DataSource]
 (
 
-	[DataSource_ID] int NOT NULL,
+	[DataSource_ID] int NULL,
 	[Name] varchar(255) NOT NULL,
 	[ContactDetails] varchar(max) NULL,
 	[Custodian] varchar(max) NULL,
@@ -405,7 +405,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[DataVersion]
 (
 
-	[DataVersion_ID] int NOT NULL,
+	[DataVersion_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[Description] varchar(max) NOT NULL,
@@ -442,7 +442,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[LocationType]
 (
 
-	[LocationType_ID] int NOT NULL,
+	[LocationType_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[Description] varchar(max) NOT NULL,
@@ -492,7 +492,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[OrganizationType]
 (
 
-	[OrganizationType_ID] int NOT NULL,
+	[OrganizationType_ID] int NULL,
 	[Description] varchar(max) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
 )
@@ -506,7 +506,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Person]
 (
 
-	[Person_ID] int NOT NULL,
+	[Person_ID] int NULL,
 	[Title] varchar(max) NULL,
 	[Name] varchar(255) NOT NULL,
 	[ContactDetails] varchar(max) NULL,
@@ -524,7 +524,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[ReportingPeriod]
 (
 
-	[ID] int NOT NULL,
+	[ID] int NULL,
 	[ReportingPeriod] int NOT NULL,
 	[StartDateID] int NOT NULL,
 	[EndDateID] int NOT NULL,
@@ -545,7 +545,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Role]
 (
 
-	[RoleID] int NOT NULL,
+	[RoleID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[Description] varchar(max) NULL,
@@ -561,7 +561,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[StatusType]
 (
 
-	[ID] int NOT NULL,
+	[ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[Value] decimal(20,2) NOT NULL,
@@ -596,7 +596,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[CommunityType]
 (
 
-	[CommunityType_ID] int NOT NULL,
+	[CommunityType_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -611,7 +611,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Donor]
 (
 
-	[Donor_ID] int NOT NULL,
+	[Donor_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -671,7 +671,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Gender]
 (
 
-	[Gender_ID] int NOT NULL,
+	[Gender_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -686,7 +686,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Group]
 (
 
-	[Group_ID] int NOT NULL,
+	[Group_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -701,7 +701,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[Institution]
 (
 
-	[Institution_ID] int NOT NULL,
+	[Institution_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -730,7 +730,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[ResultArea]
 (
 
-	[ResultArea_ID] int NOT NULL,
+	[ResultArea_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -745,7 +745,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[StrategicElement]
 (
 
-	[StrategicElement_ID] int NOT NULL,
+	[StrategicElement_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -880,7 +880,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[CustomReport]
 (
 
-	[CustomReport_ID] int NOT NULL,
+	[CustomReport_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -923,7 +923,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[CustomReportType]
 (
 
-	[CustomReportType_ID] int NOT NULL,
+	[CustomReportType_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
@@ -938,7 +938,7 @@ IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 CREATE TABLE [Staging].[DonorReport]
 (
 
-	[DonorReport_ID] int NOT NULL,
+	[DonorReport_ID] int NULL,
 	[Code] varchar(50) NOT NULL,
 	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
