@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="200_StagingTemplateLoader"
   DTS:PackageType="5"
-  DTS:VersionBuild="35"
-  DTS:VersionGUID="{2156CD0B-A003-430A-8D7E-8AF1BE686425}">
+  DTS:VersionBuild="40"
+  DTS:VersionGUID="{8040BDC9-AC06-4B69-AF8B-2EEEAD5681AA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1346,6 +1346,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
                   TaskIsDestinationVariable="True" />
               </DTS:ObjectData>
             </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\SCR_Dummy"
+              DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask, Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:Description="Script Task"
+              DTS:DTSID="{7698BDE3-70A8-45E8-88D0-BFA82A71DAA3}"
+              DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask, Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="SCR_Dummy"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ScriptProject
+                  Name="ST_1575080ecbb347f4af463e40405e6937"
+                  VSTAMajorVersion="3"
+                  VSTAMinorVersion="0"
+                  Language="CSharp" />
+              </DTS:ObjectData>
+            </DTS:Executable>
           </DTS:Executables>
           <DTS:PrecedenceConstraints>
             <DTS:PrecedenceConstraint
@@ -1368,6 +1386,16 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
               DTS:LogicalAnd="True"
               DTS:ObjectName="Constraint 1"
               DTS:To="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\FSYS_Move to Errors" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{A1F1A48E-FEA1-42BB-8EFC-3DF7C3508A02}"
+              DTS:EvalOp="3"
+              DTS:Expression="FINDSTRING(@[User::strFullFileName] ,&quot;StagingTemplate.xlsx&quot;,1) == 0"
+              DTS:From="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\SCR_Dummy"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate" />
           </DTS:PrecedenceConstraints>
           <DTS:ForEachVariableMappings>
             <DTS:ForEachVariableMapping
@@ -1402,7 +1430,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="191,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files\EPT_ExcelLoad_Staging"
@@ -1467,22 +1495,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
           PanelSize="660,233"
           Size="660,276"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files"
-          TopLeft="59,379" />
+          TopLeft="55,438" />
         <NodeLayout
           Size="224,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate"
-          TopLeft="49,34" />
+          TopLeft="60,130" />
         <NodeLayout
           Size="177,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\FSYS_Move to Errors"
-          TopLeft="348,137" />
+          TopLeft="359,233" />
         <NodeLayout
           Size="195,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\FSYS_Move to InProcess"
-          TopLeft="64,136" />
+          TopLeft="75,232" />
         <EdgeLayout
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate.PrecedenceConstraints[Constraint]"
-          TopLeft="125,76">
+          TopLeft="136,172">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1518,7 +1546,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate.PrecedenceConstraints[Constraint 1]"
-          TopLeft="197,76">
+          TopLeft="208,172">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1558,28 +1586,75 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
           FontInfo="{assembly:Null}"
           Size="244,40"
           Id="2c12b914-c939-40be-9ff0-819aeaa7c989"
-          TopLeft="294,31" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="663,252"
-          Size="663,295"
-          Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate"
-          TopLeft="57,36" />
+          TopLeft="305,127" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\SCR_Dummy"
+          TopLeft="88,25" />
+        <AnnotationLayout
+          Text="Ignore template StagingTemplate.xlsx"
+          ParentId="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate"
+          FontInfo="{assembly:Null}"
+          Size="228,40"
+          Id="4b6e3d84-e78a-404e-9e4e-f61e5690338c"
+          TopLeft="248,63" />
         <EdgeLayout
-          Id="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint]"
-          TopLeft="388.75,331">
+          Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate.PrecedenceConstraints[Constraint 2]"
+          TopLeft="158,67">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,48"
+              EndConnector="14,63"
               Start="0,0"
-              End="0,40.5">
+              End="14,55.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,40.5" />
+                    End="0,27.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.5"
+                    Point2="0,31.5"
+                    Point3="4,31.5" />
+                  <mssgle:LineSegment
+                    End="10,31.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,31.5"
+                    Point2="14,31.5"
+                    Point3="14,35.5" />
+                  <mssgle:LineSegment
+                    End="14,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-1,36.5,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="663,330"
+          Size="663,373"
+          Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate"
+          TopLeft="57,36" />
+        <EdgeLayout
+          Id="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint]"
+          TopLeft="386.75,409">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1591,8 +1666,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="791,710"
-          Size="791,753"
+          PanelSize="791,769"
+          Size="791,812"
           Id="Package\SEQ_StagingTemplate file handler"
           TopLeft="67,32" />
       </GraphLayout>
@@ -1602,7 +1677,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
     design-time-name="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="141,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate\SCR_Validate"
@@ -1642,14 +1717,16 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <AnnotationLayout
           Text="Check first column is &quot;For internal use only. Do not fill in or change&quot;"
           ParentId="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate"
           FontInfo="{assembly:Null}"
-          Size="386,40"
+          Size="386,NaN"
           Id="1b73ccb0-c907-4571-a1c6-ca875f0f16f9"
           TopLeft="340,149" />
       </GraphLayout>
