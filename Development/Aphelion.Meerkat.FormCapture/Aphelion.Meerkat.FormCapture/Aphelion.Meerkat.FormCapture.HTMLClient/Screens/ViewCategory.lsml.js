@@ -2,11 +2,44 @@
 
 myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     // Write code here.
-    var x = contentItem.data;
+    
+    var type = contentItem.data.QuestionType.Code;
+    var x = element;
+
+    contentItem.children[2].isVisible = false;
+    contentItem.children[3].isVisible = false;
+    contentItem.children[4].isVisible = false;
+    switch (type) {
+        case "TR":
+            {
+                contentItem.children[2].isVisible = true;
+                break;
+            }
+        case "TF", "BOOL":
+            {
+                contentItem.children[3].isVisible = true;
+                break;
+            }
+        case "MCQ", "RB":
+            {
+                contentItem.children[4].isVisible = true;
+                break;
+            }
+    }
+
+    
     };
 myapp.ViewCategory.QuestionType_postRender = function (element, contentItem) {
     // Write code here.
+    var type = contentItem.data.QuestionType.Code;
+    var x = element;
+    switch (type) {
+        case "TR":
+            {
 
+                break;
+            }
+    }
     /*
     //Capture example
     contentItem.dataBind("value", function (newValue) {
