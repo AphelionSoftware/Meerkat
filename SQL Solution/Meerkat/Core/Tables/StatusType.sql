@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [Core].[StatusType] (
-    [ID]             INT             NOT NULL,
+    [ID]             INT             IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)    NOT NULL,
     [Name]           VARCHAR (255)   NOT NULL,
     [Value]          DECIMAL (20, 2) NOT NULL,

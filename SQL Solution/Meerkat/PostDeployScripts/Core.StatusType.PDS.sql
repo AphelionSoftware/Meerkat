@@ -9,6 +9,8 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+SET IDENTITY_INSERT Core.StatusType ON 
+
 INSERT  INTO [Core].StatusType
         ( [Core].[StatusType].[ID] ,
           [Core].[StatusType].[Code] ,
@@ -48,3 +50,6 @@ INSERT  INTO [Core].StatusType
                              WHERE  [Core].[StatusType].[Code] = '-' )
 
 GO
+
+
+SET IDENTITY_INSERT Core.StatusType OFF
