@@ -11,8 +11,8 @@ Regenerate SSIS packages
 <# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
-    <Connection Name="MeerkatStaging" ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
-    <Connection Name="Meerkat" ConnectionString="Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+    <Connection Name="MeerkatBIML" ConnectionString="Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
   </Connections>
   <Packages>
   <!--only generate for destination tables that have a corresponding staging table-->
@@ -21,23 +21,38 @@ Regenerate SSIS packages
       <Tasks>
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
-            <OleDbSource Name="OLE_SRC_Staging_<#=table.Name#>" ConnectionName="MeerkatStaging">
+            <OleDbSource Name="OLE_SRC_Staging_<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
               <DirectInput>
                 SELECT *
                 FROM [Staging].[<#=table.Name#>]
               </DirectInput>
             </OleDbSource>
-            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
-            <# foreach (DataRow FKColumn in FKColumns.Rows) { #>
-            <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="Meerkat" NoMatchBehavior="FailComponent">
+            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
+            <# string IsNullable ="" ;
+               foreach (DataRow FKColumn in FKColumns.Rows) { 
+                 IsNullable = "" + FKColumn["IsNullable"];
+               if(IsNullable=="1") { #>
+            <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="IgnoreFailure">
               <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
               <Inputs>
                 <Column SourceColumn="<#=FKColumn["SourceLookupColumn"]#>" TargetColumn="BusinessKey" />
               </Inputs>
               <Outputs>
                 <Column SourceColumn="<#=FKColumn["ForeignTableColumn"]#>" TargetColumn="<#=FKColumn["ForeignKeyColumn"]#>" />
-                </Outputs>
+              </Outputs>
             </Lookup>
+              <# } else
+                 { #>
+            <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="FailComponent">
+              <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
+              <Inputs>
+                <Column SourceColumn="<#=FKColumn["SourceLookupColumn"]#>" TargetColumn="BusinessKey" />
+              </Inputs>
+              <Outputs>
+                <Column SourceColumn="<#=FKColumn["ForeignTableColumn"]#>" TargetColumn="<#=FKColumn["ForeignKeyColumn"]#>" />
+              </Outputs>
+            </Lookup>
+              <# } #>
             <# } #>
             <# foreach (var PrimaryKey in table.Keys[0].Columns) { #>
             <ConditionalSplit Name="CSPL_<#=PrimaryKey.Column#>">
@@ -47,11 +62,11 @@ Regenerate SSIS packages
                 </OutputPath>
               </OutputPaths>
             </ConditionalSplit>
-            <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="Meerkat">
+            <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
               <InputPath OutputPathName="CSPL_<#=PrimaryKey.Column#>.Insert" />
               <ExternalTableOutput Table="<#=table.SchemaQualifiedName#>" />
             </OleDbDestination>
-            <OleDbCommand Name="CMD_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="Meerkat">
+            <OleDbCommand Name="CMD_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
               <InputPath OutputPathName="CSPL_<#=PrimaryKey.Column#>.Default" />
               <# DataTable UpdColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT C.name AS ColumnName, CASE WHEN C.name = 'sys_ModifiedBy' THEN 'USER_NAME()' WHEN C.name = 'sys_ModifiedOn' THEN 'GETDATE()' ELSE '?' END AS ColumnValue FROM sys.tables AS T JOIN sys.columns AS C ON C.object_id = T.object_id JOIN sys.indexes AS I ON I.object_id = T.object_id LEFT JOIN sys.index_columns AS IC ON T.object_id = IC.object_id AND I.index_id = IC.index_id AND C.column_id = IC.column_id WHERE T.name = '"+ table.Name + "' AND I.is_primary_key = 1 AND IC.column_id IS NULL AND C.name NOT IN ('sys_CreatedBy','sys_CreatedOn','Active','IndicatorValueGroup','MilestoneValueGroup','Geog') AND C.is_computed = 0"); #>
               <# string upd ="UPDATE " +table.SchemaQualifiedName+ "SET ";
