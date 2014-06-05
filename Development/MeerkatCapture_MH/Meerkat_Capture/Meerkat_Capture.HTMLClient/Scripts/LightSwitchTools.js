@@ -3,6 +3,21 @@
 
 (function (lightswitchTools, undefined) {
     "use strict";
+    //Set Plurals
+    function pluralName(name) {
+        if (name == "Person") {
+            return "People";
+        }
+        var pluralled = name + "s";
+
+        if (name.charAt(name.length - 1).toLocaleLowerCase() === 'y') {
+            //activity
+            //activities
+            pluralled = name.substring(0, name.length - 1) + "ies";
+        }
+
+        return pluralled;
+    }
 
     lightswitchTools.setCommonAddScreenValues = function(screen) {
         var name = screen.details.getModel().properties[0].name;
@@ -86,6 +101,7 @@
             thisObject.sys_CreatedOn = "1999/01/01";
             thisObject.sys_ModifiedBy = "NA";
             thisObject.sys_ModifiedOn = "1999/01/01";
+            thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
 
             var activeTypeDropDown = screen.findContentItem("ActiveType");
 
