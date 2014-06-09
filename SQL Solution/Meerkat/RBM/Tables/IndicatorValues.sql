@@ -4,7 +4,7 @@
     [ActualLabel]         VARCHAR (50)     NOT NULL,
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
-    [BusinessKey]         NVARCHAR(4000)    NOT NULL,
+    [BusinessKey]         NVARCHAR (4000)  NOT NULL,
     [Notes]               VARCHAR (MAX)    NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
@@ -15,8 +15,7 @@
     [sys_CreatedOn]       DATETIME         CONSTRAINT [DF_IndicatorValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255)    CONSTRAINT [DF_IndicatorValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]      DATETIME         CONSTRAINT [DF_IndicatorValues_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [IndicatorValueGroup] UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
-    [GroupVersion]        INT              DEFAULT ((0)) NOT NULL,
+    [IndicatorValueGroup] UNIQUEIDENTIFIER CONSTRAINT [DF__Indicator__Indic__51BA1E3A] DEFAULT (newid()) NOT NULL,
     [AgeBand_ID]          INT              NULL,
     [CommunityType_ID]    INT              NULL,
     [Donor_ID]            INT              NULL,
@@ -44,6 +43,8 @@
     CONSTRAINT [FK_IndicatorValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [UQ_IDS] UNIQUE NONCLUSTERED ([Indicator_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC)
 );
+
+
 
 
 

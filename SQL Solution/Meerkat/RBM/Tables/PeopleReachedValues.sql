@@ -26,8 +26,8 @@
     [Institution_ID]         INT            NULL,
     [ResultArea_ID]          INT            NULL,
     [StrategicElement_ID]    INT            NULL,
+    [NumberReached]          INT            NOT NULL,
     CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC),
-    CONSTRAINT [CK_PeopleReachedValues] CHECK ((((((case when [PeopleReachedValues].[ProjectID] IS NOT NULL then (1) else (0) end+case when [PeopleReachedValues].[Output_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Activity_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [PeopleReachedValues].[Programme_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_PeopleReachedValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]),
     CONSTRAINT [FK_PeopleReachedValues_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -50,6 +50,8 @@
     CONSTRAINT [FK_PeopleReachedValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID])
 );
+
+
 
 
 

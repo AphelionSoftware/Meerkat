@@ -12,7 +12,7 @@
     [ReportingDate]    DATE            NULL,
     [Output_ID]        INT             NULL,
     [Outcome_ID]       INT             NULL,
-    [BusinessKey]      NVARCHAR (4000)  NOT NULL,
+    [BusinessKey]      NVARCHAR (4000) NOT NULL,
     [Notes]            NVARCHAR (MAX)  NULL,
     [Code]             VARCHAR (50)    NOT NULL,
     [IndicatorType_ID] INT             NOT NULL,
@@ -40,9 +40,10 @@
     CONSTRAINT [FK_Indicator_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Indicator_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
-    CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID]),
-    CONSTRAINT [UQ_Indicator_Code] UNIQUE NONCLUSTERED ([Code] ASC)
+    CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

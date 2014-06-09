@@ -95,6 +95,11 @@
         Association="FK_FormResponse_Form"
         FromEnd="FormResponse"
         ToEnd="Form" />
+      <NavigationProperty
+        Name="Responses"
+        Association="FK_Response_FormResponse"
+        FromEnd="FormResponse"
+        ToEnd="Response" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -188,7 +193,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Response_FormResponse"
+      Association="FK_Response_FormResponse">
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+      <AssociationSetEnd
+        Name="Response"
+        EntitySet="Responses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Response_FormResponse">
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Response"
+      Multiplicity="Many"
+      EntityType="Response" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -250,5 +280,26 @@
           PropertyName="Form_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Response_FormResponse">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Response_FormResponse" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_FormResponse]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_FormResponse]/Members[Response]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

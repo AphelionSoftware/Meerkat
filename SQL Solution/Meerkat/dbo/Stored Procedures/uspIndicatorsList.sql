@@ -1,17 +1,21 @@
 ﻿CREATE PROC [dbo].[uspIndicatorsList]
-
+--declare
 @MDXKey varchar(255),
 @DataVersion_ID varchar(255)
 
-as
+--set @MDXKey = '[Sector].[Sector].&[123]'
+--set @DataVersion_ID = 0
 
 --ALTER VIEw [dwPOA].[FactIndicatorValues]
---as
+as
 
 DECLARE @Outcome_ID int =0 
 ,@Output_ID int = 0
 ,@SubOutput_ID int = 0
 ,@Indicator_ID int = 0
+,@SubSector_ID int = 0
+,@Sector_ID int = 0
+,@Project_ID int = 0
 
 IF CHARINDEX('Outcome', @MDXKey ) > 0 
 SET @Outcome_ID  = dbo.fn_StripMDXKey(@MDXKey)
@@ -24,11 +28,18 @@ SET @Output_ID  = dbo.fn_StripMDXKey(@MDXKey)
 ELSE
 IF CHARINDEX('Indicator', @MDXKey ) > 0 
 SET @Indicator_ID  = dbo.fn_StripMDXKey(@MDXKey)
+IF CHARINDEX('Sub Sector', @MDXKey ) > 0 
+SET @SubSector_ID  = dbo.fn_StripMDXKey(@MDXKey)
+
+IF NOT CHARINDEX('Sub Sector', @MDXKey ) > 0 and  CHARINDEX('Sector', @MDXKey ) > 0
+SET @Sector_ID  = dbo.fn_StripMDXKey(@MDXKey)
+
+
 
 
 IF ISNUMERIC(@MDXKey) = 1 SET @Outcome_ID = @MDXKey
 
-
+--select @Indicator_ID, @SubOutput_ID,@Project_ID, @Outcome_ID, @Output_ID , @SubOutput_ID, @Sector_ID
 SELECT  
 DENSE_RANK() OVER (order by I.Code) %2 RN,
 @MDXKey Original,
@@ -146,6 +157,15 @@ on i.Outcome_ID = om.Outcome_ID
 OR o.Outcome_ID = om.Outcome_ID
 
 
+LEFT OUTER JOIN app.Project P
+ON i.ProjectID = P.ProjectID
+LEFT OUTER JOIN app.SubSector SS
+on P.SubSector_ID = SS.SubSector_ID
+LEFT OUTER JOIN app.Sector S
+ON SS.Sector_ID = S.Sector_ID
+
+
+
 LEFT JOIN Core.DimDate DDStart
 on rc.StartDateID = DDStart.DateID
 
@@ -160,7 +180,8 @@ Where
 AND (i.Output_ID  = @Output_ID OR @Output_ID = 0)
 AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0) 
 AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is null)
-
+AND (SS.SubSector_ID  = @SubSector_ID OR @SubSector_ID = 0 )
+AND (S.Sector_ID  = @Sector_ID OR @Sector_ID = 0 )
 
 
 ----------------------------------------------------------------------------------------------

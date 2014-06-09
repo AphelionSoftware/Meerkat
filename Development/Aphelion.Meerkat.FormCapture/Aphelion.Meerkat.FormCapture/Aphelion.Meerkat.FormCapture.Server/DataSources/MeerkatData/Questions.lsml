@@ -147,6 +147,11 @@
         Association="FK_Question_PotentialResponse"
         FromEnd="Question"
         ToEnd="PotentialResponse" />
+      <NavigationProperty
+        Name="Responses"
+        Association="FK_Response_Question"
+        FromEnd="Question"
+        ToEnd="Response" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -265,7 +270,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Response_Question"
+      Association="FK_Response_Question">
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+      <AssociationSetEnd
+        Name="Response"
+        EntitySet="Responses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Response_Question">
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="One"
+      EntityType="Question">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Response"
+      Multiplicity="Many"
+      EntityType="Response" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -373,6 +403,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[PotentialResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Response_Question">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Response_Question" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_Question]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_Question]/Members[Response]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Question_ID" />

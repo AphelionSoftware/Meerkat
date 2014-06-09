@@ -15,15 +15,23 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
                 contentItem.children[2].isVisible = true;
                 break;
             }
-        case "TF", "BOOL":
+        case "TF":
+        case "BOOL":
             {
                 contentItem.children[3].isVisible = true;
                 break;
             }
-        case "MCQ", "RB":
+        case "RB":
+        case "MCQ" :
             {
                 contentItem.children[4].isVisible = true;
                 break;
+            }
+        
+       
+        default:
+            {
+                alert ("Unknown question type: " + type);
             }
     }
 
