@@ -14,6 +14,25 @@ Regenerate SSIS packages
   <Packages>
   <# foreach (var table in tables) { #>
     <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+      <Annotations>
+        <Annotation>
+          Excel Driver Setup
+          USE [master]
+          GO
+          sp_configure 'show advanced options', 1
+          GO
+          RECONFIGURE WITH OverRide
+          GO
+          sp_configure 'Ad Hoc Distributed Queries', 1
+          GO
+          RECONFIGURE WITH OVERRIDE
+          GO
+          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'AllowInProcess' ,  1
+          GO
+          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'DynamicParameters' ,  1
+          GO
+        </Annotation>
+      </Annotations>
       <Tasks>
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
           <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]</DirectInput>
