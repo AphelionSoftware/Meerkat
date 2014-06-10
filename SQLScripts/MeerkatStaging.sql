@@ -584,7 +584,7 @@ CREATE TABLE [Staging].[AgeBand]
 	[Name] varchar(255) NULL,
 	[Code] varchar(50) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
-	[ProjectBusinessKey] nvarchar(4000) NOT NULL
+	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
