@@ -11,12 +11,44 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="210_ClearMeerkatData"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{883938EA-5D96-4AFB-8B74-1442DC5107BF}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{E7B2BD2F-E453-4B3A-ACBD-F9D5290CA6F9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DCAE7F5D-5BE3-4EE6-994E-07C5CE43302C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="bitDeleteData">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Check staging data"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{286a13e4-5125-45c2-a7f9-326a3d24aabe}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Check staging data"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{15E93C59-B687-4A64-9A3B-8D372DF396D4}"
+          SQLTask:SqlStatementSource="IF EXISTS ( SELECT sysobjects.Name&#xA;                 , sysindexes.Rows&#xA;            FROM sysobjects&#xA;            JOIN sysindexes&#xA;                ON sysobjects.id = sysindexes.id&#xA;            WHERE type = 'U'&#xA;              AND sysindexes.IndId &lt; 2&#xA;              AND sysindexes.Rows &gt; 0&#xA;          )&#xA;    SELECT CAST(1 AS BIT) AS DeleteData&#xA;ELSE&#xA;    SELECT CAST(0 AS BIT) AS DeleteData"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::bitDeleteData" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\SQL_Delete data"
       DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
@@ -35,6 +67,18 @@
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C56D1860-7BEE-46AA-80FA-C6B8E4D65FCC}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::bitDeleteData]"
+      DTS:From="Package\SQL_Check staging data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL_Delete data" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -46,18 +90,53 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="158,42"
           Id="Package\SQL_Delete data"
-          TopLeft="456,63" />
+          TopLeft="484,173" />
         <AnnotationLayout
-          Text="Data must be deleted in order of dependency&#xD;&#xA;Keep default records based on created date"
+          Text="Data must be deleted in order of dependency&#xA;Keep default records based on created date &lt; 9 May 2014"
           ParentId="Package"
           FontInfo="{assembly:Null}"
-          Size="270,60"
+          Size="336,56"
           Id="79c9ccef-4fea-4035-a09a-cb724a28265e"
-          TopLeft="637,50" />
+          TopLeft="648,167" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\SQL_Check staging data"
+          TopLeft="462,75" />
+        <AnnotationLayout
+          Text="Check that there is data in staging to be loaded"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="280,60"
+          Id="163897b2-f580-4075-9f5e-db23641de0ba"
+          TopLeft="663,69" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="560.75,117">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,16.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
