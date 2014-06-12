@@ -13,6 +13,7 @@ GO
 
 sp_addrolemember [db_ddladmin], [CareETL]
 sp_addrolemember [db_datawriter], [CareETL]
+sp_addrolemember [db_datareader], [CareETL]
 
 GRANT EXECUTE ON sp_ssis_addlogentry TO [CareETL]
 
