@@ -459,7 +459,8 @@ CREATE TABLE [Staging].[Organization]
 (
 
 	[Organization_ID] int NULL,
-	[Name] nvarchar(50) NOT NULL,
+	[ShortName] nvarchar(50) NOT NULL,
+    [LongName] nvarchar(500) NULL,
 	[Code] varchar(50) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ParentOrganization_ID] int NULL,
