@@ -3,7 +3,8 @@
 
 
 myapp.BrowseIndicators.ShowAdministrationHome_postRender = function (element, contentItem) {
-    $(element).addClass("customHomeIcon");
+    //$(element).addClass("customHomeIcon");
+    msls.application.lightswitchTools.homeIcon(element);
 };
 
 myapp.BrowseIndicators.EditIndicator_canExecute = function (screen) {
