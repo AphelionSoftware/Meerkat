@@ -105,3 +105,16 @@ myapp.AddEditIndicatorValue.UsePopulation_execute = function (screen) {
     screen.IndicatorValue.ActualLabel = screen.TotalPop;
 
 };
+myapp.AddEditIndicatorValue.IndicatorValue_ActualValue_postRender = function (element, contentItem) {
+    // Write code here.
+    //contentItem.screen
+};
+myapp.AddEditIndicatorValue.DataVersion_ID_postRender = function (element, contentItem) {
+    // Write code here.
+
+};
+myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
+    // Write code here.
+    contentItem.screen.PreviousDataVersion = contentItem.value + 1;
+
+};
