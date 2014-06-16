@@ -2,7 +2,8 @@
 /// <reference path="LightSwitchTools.js" />
 
 myapp.BrowseReportingPeriods.ShowAdministrationHome_postRender = function (element, contentItem) {
-    $(element).addClass("customHomeIcon");
+    //$(element).addClass("customHomeIcon");
+    msls.application.lightswitchTools.homeIcon(element);
 };
 
 myapp.BrowseReportingPeriods.EditReportingPeriod_execute = function (screen) {
