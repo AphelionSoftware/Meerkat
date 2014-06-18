@@ -102,6 +102,8 @@
             thisObject.sys_ModifiedBy = "NA";
             thisObject.sys_ModifiedOn = "1999/01/01";
             thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
+            thisObject.MilestoneValueGroup = "e49397f3-da56-41d9-85b1-868a6caef677";
+            thisObject.GroupVersion = "1";
 
             var activeTypeDropDown = screen.findContentItem("ActiveType");
 

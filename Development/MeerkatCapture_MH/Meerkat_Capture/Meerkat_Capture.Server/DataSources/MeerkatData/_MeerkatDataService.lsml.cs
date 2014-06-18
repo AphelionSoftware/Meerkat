@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using System;
-using System.Linq;
 
 namespace LightSwitchApplication
 {
@@ -228,16 +226,6 @@ namespace LightSwitchApplication
         partial void StatusTypes_Filter(ref Expression<Func<StatusType, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;
-        }
-
-        partial void IndicatorValuesSorted_PreprocessQuery(int? DataVersion_ID, int? IndicatorID, string ReportingPeriod, ref IQueryable<IndicatorValue> query)
-        {
-            //where Timesheets.Person.PersonID == TimesheetPersonID +1\
-            //var c = "IndicatorValues";
-            query = (
-        from c in query
-        where c.DataVersion.DataVersion_ID == c.DataVersionIncrement
-        select c);
         }
     }
 }

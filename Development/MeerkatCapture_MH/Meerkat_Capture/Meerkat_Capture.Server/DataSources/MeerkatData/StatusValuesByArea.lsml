@@ -10,8 +10,8 @@
       <Partial />
     </EntityContainer.Attributes>
     <QueryOperation
-      Name="IndicatorValuesSorted"
-      ReturnType="IndicatorValue*">
+      Name="StatusValuesByArea"
+      ReturnType="StatusValue*">
       <QueryOperation.FilterExpression>
         <QueryFilterExpressionTree>
           <BinaryExpression
@@ -19,14 +19,14 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="DataVersion" />
+                  Member="Project" />
                 <MemberExpression
-                  Member="DataVersion_ID" />
+                  Member="ProjectID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="DataVersion_ID" />
+                Parameter="ProjectID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -34,18 +34,23 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="IndicatorValues" />
+            Member="StatusValues" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="DataVersion_ID"
+        Name="ProjectID"
+        IsOptional="True"
         ParameterType=":Int32?" />
-      <QueryOperationParameter
-        Name="IndicatorID"
-        ParameterType=":Int32?" />
-      <QueryOperationParameter
-        Name="ReportingPeriod"
-        ParameterType=":String?" />
+      <QueryOperation.SortCriteria>
+        <SortCriterion>
+          <ChainExpression>
+            <MemberExpression
+              Member="ReportingPeriod" />
+            <MemberExpression
+              Member="Summary" />
+          </ChainExpression>
+        </SortCriterion>
+      </QueryOperation.SortCriteria>
     </QueryOperation>
   </EntityContainer>
 </ServiceApplication>
