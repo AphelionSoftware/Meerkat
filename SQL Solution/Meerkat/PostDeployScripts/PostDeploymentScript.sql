@@ -44,6 +44,10 @@ GO*/
 
 
 /* Insert Data */
+/*Insert settings*/
+:r .\settings\settings.GlobalSettings.PDS.sql
+
+
 /*Insert Core data*/
 :r .\Core.ActiveType.PDS.sql
 :r .\Core.StatusType.PDS.sql
