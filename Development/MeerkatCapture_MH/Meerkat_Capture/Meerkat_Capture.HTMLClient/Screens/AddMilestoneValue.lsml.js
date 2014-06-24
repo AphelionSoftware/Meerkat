@@ -8,6 +8,7 @@ myapp.AddMilestoneValue.created = function (screen) {
     }
 
     msls.application.lightswitchTools.setCommonAddScreenValues(screen);
+    msls.application.lightswitchTools.configureCaptureForm(screen);
     
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
         myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
