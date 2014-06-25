@@ -2,6 +2,7 @@
     [FormResponse_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Text]            VARCHAR (MAX) NULL,
     [TrueFalse]       BIT           NULL,
+    [isConfidential]       BIT           NULL,
     [Form_ID]         INT           NOT NULL,
     [Active]          INT           CONSTRAINT [DF__FormResponse_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_FormResponse_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,

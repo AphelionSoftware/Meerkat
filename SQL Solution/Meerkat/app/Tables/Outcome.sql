@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [app].[Outcome] (
     [Outcome_ID]       INT            IDENTITY (1, 1) NOT NULL,
+    [Impact_ID]       INT            NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [LongName]        NVARCHAR (500) NOT NULL,
     [BusinessKey]     NVARCHAR (4000) NOT NULL,
@@ -15,6 +16,7 @@
     CONSTRAINT [PK_Outcome] PRIMARY KEY CLUSTERED ([Outcome_ID] ASC),
     CONSTRAINT [FK_Outcome_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_OutCome_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),
+    CONSTRAINT [FK_OutCome_Impact] FOREIGN KEY ([Impact_ID]) REFERENCES [App].[Impact] ([Impact_ID]),
     CONSTRAINT [UQ_OutCome_Code]UNIQUE NONCLUSTERED ([Code] ASC)
 );
 

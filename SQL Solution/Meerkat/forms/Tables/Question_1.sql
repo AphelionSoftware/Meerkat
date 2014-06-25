@@ -13,6 +13,8 @@
     [sys_ModifiedOn]           DATETIME      CONSTRAINT [DF_Question_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [MultipleChoiceResponseID] INT           NULL,
     [Response]                 VARCHAR (MAX) NULL,
+	[IntegerResponse]         INT NULL,
+    [DecimalResponse]         DECIMAL(20,12) NULL,
     [TrueOrFalse]              BIT           NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),

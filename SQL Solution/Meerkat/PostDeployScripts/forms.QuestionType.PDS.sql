@@ -64,12 +64,46 @@ INSERT INTO [forms].[QuestionType]
            ,[Code]
            ,[TextDescription]
            )
-
 SELECT Q.Name, Q.Code, Q.Name
 FROM
 (SELECT 
 	 'True or false' as Name
 	,'BOOL' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [forms].[QuestionType]
+		WHERE Code = q.Code)
+
+		
+
+				
+INSERT INTO [forms].[QuestionType]
+           ([Name]
+           ,[Code]
+           ,[TextDescription]
+           )
+SELECT Q.Name, Q.Code, Q.Name
+FROM
+(SELECT 
+	 'Integer' as Name
+	,'INT' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [forms].[QuestionType]
+		WHERE Code = q.Code)
+
+
+				
+INSERT INTO [forms].[QuestionType]
+           ([Name]
+           ,[Code]
+           ,[TextDescription]
+           )
+SELECT Q.Name, Q.Code, Q.Name
+FROM
+(SELECT 
+	 'Decimal' as Name
+	,'DEC' as Code
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [forms].[QuestionType]

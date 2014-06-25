@@ -4,6 +4,9 @@
 	[Question_ID]	  INT NOT NULL,
 	[PotentialResponse_ID] INT NULL,
     [Response]        VARCHAR (MAX) NULL,
+	[IntegerResponse]         INT NULL,
+    [DecimalResponse]         DECIMAL(20,12) NULL,
+    
     [TrueFalse]       BIT           NULL,
     [Active]          INT           CONSTRAINT [DF_Response_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_Response_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
