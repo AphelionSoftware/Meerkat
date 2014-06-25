@@ -3,7 +3,7 @@
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
    SELECT Title = 'Indicator Details', 
-         Link = '/' + [ProgrammeSiteName] 
+         Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
                 + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
        + '[Sub Sector].[Sub Sector].%26[' 
@@ -19,10 +19,12 @@ INNER JOIN app.Sector do
         ON dso.Sector_ID = do.Sector_ID 
 INNER JOIN [app].[Programme] AS OC 
         ON do.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
 SELECT Title = 'Location Indicator Details', 
-Link = '/' + [ProgrammeSiteName] 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
 + '[Sub Sector].[Sub Sector].%26[' 
@@ -38,6 +40,8 @@ INNER JOIN app.Sector do
         ON dso.Sector_ID = do.Sector_ID 
 INNER JOIN [app].[Programme] AS OC 
         ON do.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 /*UNION ALL 
 SELECT Title = Da.ShortName, 

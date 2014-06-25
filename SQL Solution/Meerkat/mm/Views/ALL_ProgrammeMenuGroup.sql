@@ -15,7 +15,7 @@ AS
     FROM    ( SELECT    dso.Code AS orderBy1 ,
                         1 AS orderby2 ,
                         dso.ShortName AS Title ,
-                        '/' + oc.[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + oc.[ProgrammeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
                         + '[Sub Sector].[Sub Sector].%26['
                         + CAST(dso.SubSector_ID AS VARCHAR(8)) + ']' AS Link ,
@@ -29,6 +29,8 @@ AS
               FROM      [app].[SubSector] AS dso
                         INNER JOIN app.Sector AS do ON dso.Sector_ID = do.Sector_ID
                         INNER JOIN [app].[Programme] AS OC ON do.Programme_ID = oc.Programme_ID
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     dso.Active = 1
                         AND do.Active = 1
                         AND oc.Active = 1
@@ -36,7 +38,7 @@ AS
               SELECT    do.ShortName AS orderBy1 ,
                         1 AS orderby2 ,
                         'Indicators: ' + do.ShortName + ' ' AS Title ,
-                        '/' + [dom].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + [dom].[ProgrammeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
                         + '[Sector].[Sector].%26['
                         + CAST(do.Sector_ID AS VARCHAR(8)) + ']' AS Link ,
@@ -49,13 +51,15 @@ AS
                         dom.Programme_ID
               FROM      app.Sector AS do
                         INNER JOIN [app].[Programme] AS dom ON do.Programme_ID = dom.Programme_ID
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     do.Active = 1
                         AND dom.Active = 1
               UNION ALL
 			 SELECT    '10002' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Programme Level Status' AS Title ,
-                        '/' + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Dashboards/Template%20Pages/Programme%20Status%20Report.aspx?qsProgramme=' + substring([O].[ProgrammeSiteName],8,1) AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
@@ -65,13 +69,15 @@ AS
                         20 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
 
               UNION ALL
               SELECT    '10003' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Programme Level Indicators' AS Title ,
-                        '/' + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=[Programme].[Programme].%26['
                         + CAST(O.Programme_ID AS VARCHAR(8)) + ']' AS Link ,
                         ( SELECT    [OMC_7].[ID]
@@ -82,12 +88,14 @@ AS
                         70 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
               UNION ALL
               SELECT    '10006' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Programme Documents' AS Title ,
-                        '/' + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_4
@@ -97,12 +105,14 @@ AS
                         40 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
               UNION ALL
               SELECT    '10008' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Programme Contact Info' AS Title ,
-                        '/' + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/lists/Programme%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
@@ -112,12 +122,14 @@ AS
                         20 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
               UNION ALL
               SELECT    '10009' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'FAQs' AS Title ,
-                        '/' + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Programme Pages' )
@@ -126,19 +138,24 @@ AS
                         10 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
 
               UNION ALL
               SELECT    P.ShortName AS OrderBy1 ,
                         30000 AS OrderBy2 ,
                         P.ShortName AS Title ,
-                        '/' + [O].[ProgrammeSiteName] + '/' + P.ProjectSiteName AS Link ,
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/' + P.ProjectSiteName AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + P.ProjectID AS ID ,
                         [P].[Programme_ID]
               FROM      app.Project P
 			  INNER JOIN [app].[Programme] O
 			  ON P.Programme_ID = o.Programme_ID
+			  
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
                         CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                                       FROM      mm.ALL_ProgrammeMenuCategory
                                       WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'

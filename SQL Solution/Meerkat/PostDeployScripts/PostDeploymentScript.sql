@@ -44,9 +44,6 @@ GO*/
 
 
 /* Insert Data */
-/*Insert settings*/
-:r .\settings\settings.GlobalSettings.PDS.sql
-
 
 /*Insert Core data*/
 :r .\Core.ActiveType.PDS.sql
@@ -56,6 +53,11 @@ GO*/
 :r .\Core.ReportingPeriod.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql
+
+/*Insert settings*/
+:r .\settings\settings.GlobalSettings.PDS.sql
+
+
 
 /*Insert Forms data*/
 :r .\forms.QuestionType.PDS.sql								

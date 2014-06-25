@@ -1,7 +1,7 @@
 ﻿CREATE VIEW [mm].[ALL_OutcomeMenuLink] 
 AS 
    SELECT Title = 'Indicator Details', 
-         Link = '/' + [OutcomeSiteName] 
+         Link = ISNULL(GS.Value, '/') + [OutcomeSiteName] 
                 + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
        + '[Sub Output].[Sub Output].%26[' 
@@ -17,10 +17,12 @@ INNER JOIN app.Output do
         ON dso.Output_ID = do.Output_ID 
 INNER JOIN [app].[Outcome] AS OC 
         ON do.Outcome_ID = oc.Outcome_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
 UNION ALL 
 SELECT Title = 'Location Indicator Details', 
-Link = '/' + [OutcomeSiteName] 
+Link = ISNULL(GS.Value, '/') + [OutcomeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
 + '[Sub Output].[Sub Output].%26[' 
@@ -36,10 +38,12 @@ INNER JOIN app.Output do
         ON dso.Output_ID = do.Output_ID 
 INNER JOIN [app].[Outcome] AS OC 
         ON do.Outcome_ID = oc.Outcome_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 UNION ALL 
 SELECT Title = Da.ShortName, 
-Link = '/' + [OutcomeSiteName] 
+Link = ISNULL(GS.Value, '/') + [OutcomeSiteName] 
        + 
 '/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsActivity='
 	+ Cast(da.Activity_ID AS VARCHAR(8)) , 
@@ -59,4 +63,7 @@ INNER JOIN app.Project dp
         ON da.ProjectID = dp.ProjectID 
 INNER JOIN [app].[Outcome] AS OC 
         ON dp.Outcome_ID = oc.Outcome_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 WHERE  da.Active = 1 AND dp.Active = 1 AND oc.Active = 1
+
