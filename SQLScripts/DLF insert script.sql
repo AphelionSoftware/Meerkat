@@ -176,8 +176,17 @@ UNION SELECT 1, 'StagingLoad_rpt.DonorReport.dtsx', 'StagingLoad_rpt.DonorReport
 UNION SELECT 1, 'StagingLoad_rpt.DonorReport_Indicator.dtsx', 'StagingLoad_rpt.DonorReport_Indicator.dtsx', getdate(), system_user, getdate(), system_user
 UNION SELECT 1, 'StagingLoad_rpt.DonorReport_Project.dtsx', 'StagingLoad_rpt.DonorReport_Project.dtsx', getdate(), system_user, getdate(), system_user
 UNION SELECT 1, '210_ClearMeerkatData.dtsx', '210_ClearMeerkatData.dtsx', getdate(), system_user, getdate(), system_user
+UNION SELECT 1, 'ExcelLoad_Staging.FrameworkDetail.dtsx', 'ExcelLoad_Staging.FrameworkDetail.dtsx', getdate(), system_user, getdate(), system_user
+UNION SELECT 1, 'ExcelLoad_Staging.Impact.dtsx', 'ExcelLoad_Staging.Impact.dtsx', getdate(), system_user, getdate(), system_user
+UNION SELECT 1, 'StagingLoad_disagg.FrameworkDetail.dtsx', 'StagingLoad_disagg.FrameworkDetail.dtsx', getdate(), system_user, getdate(), system_user
+UNION SELECT 1, 'StagingLoad_app.Impact.dtsx', 'StagingLoad_app.Impact.dtsx', getdate(), system_user, getdate(), system_user
+
 
 select * from Package
+select * from PackageLoad
+select * from PackageLoadStep where PackageLoadID = 1001
+
+
 
 --PackageLoad - insert various package loads
 --excel files to staging db load and staging to db load
@@ -192,6 +201,7 @@ select * from PackageLoad
 
 --PackageLoadID = 1
 --PackageLoadStep - insert all steps for Excel to MeerkatStaging to Meerkat Load
+--delete from PackageLoadStep where PackageLoadID = 1
 --load excel templates
 INSERT INTO PackageLoadStep (PackageLoadID, StepTypeID, PackageID, PackageLoadStepName, PackageLoadStepCode, StepOrder, ContinueOnFailure)
 SELECT 1
@@ -208,11 +218,12 @@ WHERE ApplicationID = 1
 --load from staging to meerkat db in order of dependency
 INSERT INTO PackageLoadStep (PackageLoadID, StepTypeID, PackageID, PackageLoadStepName, PackageLoadStepCode, StepOrder, ContinueOnFailure)
 SELECT 1,2,PackageID,PackageName,PackageName,2,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Programme.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataSource.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataVersion.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Sector.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneType.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataSource.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataVersion.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.LocationType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.OrganizationType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Person.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.ReportingPeriod.dtsx'
@@ -220,7 +231,6 @@ UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE Ap
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.StatusType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.CommunityType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Donor.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.LocationType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Gender.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Group.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Institution.dtsx'
@@ -230,37 +240,39 @@ UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE Ap
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReportType.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Organization.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubSector.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Outcome.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Location.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Project.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomeOrganization.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomePersonRole.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Output.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Impact.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubSector.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Outcome.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.OrganizationPersonRole.dtsx'
 UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.AgeBand.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework_Project.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Project_ResultArea.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputOutputLink.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputPersonRole.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Activity.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutput.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Project.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Project.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.StatusValues.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputPersonRole.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputSubOutputLink.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Indicator.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Milestone.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneLocation.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorLocation.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework_Indicator.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Indicator.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.IndicatorValues.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.MilestoneValues.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Indicator.dtsx'
-UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.PeopleReachedValues.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomeOrganization.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomePersonRole.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Output.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Project.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Activity.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutput.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputOutputLink.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputPersonRole.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Project_ResultArea.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.AgeBand.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Project.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Project.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail_Project.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.StatusValues.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Indicator.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Milestone.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputPersonRole.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputSubOutputLink.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneLocation.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorLocation.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail_Indicator.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Indicator.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.IndicatorValues.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.MilestoneValues.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Indicator.dtsx'
+UNION ALL SELECT 1,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.PeopleReachedValues.dtsx'
 
 
 --form generator
@@ -398,6 +410,8 @@ SELECT 'Excel to MeerkatStaging, clear Meerkat data and load from MeerkatStaging
      , getdate(), system_user, getdate(), system_user
 
 select * from PackageLoad
+select * from PackageLoadStep where PackageLoadID = 1001
+delete from PackageLoadStep where PackageLoadID = 1001
 
 --PackageLoadID = 1001
 --PackageLoadStep - insert all steps for Excel to MeerkatStaging, clear Meerkat data and load Meerkat from MeerkatStaging
@@ -430,11 +444,12 @@ WHERE ApplicationID = 1
 --load from staging to meerkat db in order of dependency
 INSERT INTO PackageLoadStep (PackageLoadID, StepTypeID, PackageID, PackageLoadStepName, PackageLoadStepCode, StepOrder, ContinueOnFailure)
 SELECT 1001,2,PackageID,PackageName,PackageName,3,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Programme.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataSource.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataVersion.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Sector.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneType.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataSource.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.DataVersion.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.LocationType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.OrganizationType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Person.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.ReportingPeriod.dtsx'
@@ -442,7 +457,6 @@ UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.StatusType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.CommunityType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Donor.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.LocationType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Gender.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Group.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Institution.dtsx'
@@ -452,37 +466,41 @@ UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReportType.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,4,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Organization.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubSector.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Outcome.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.Location.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Project.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomeOrganization.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomePersonRole.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Output.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Impact.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,5,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubSector.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Outcome.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_Core.OrganizationPersonRole.dtsx'
 UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,6,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.AgeBand.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework_Project.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Project_ResultArea.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputOutputLink.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputPersonRole.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Activity.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutput.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Project.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Project.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.StatusValues.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputPersonRole.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputSubOutputLink.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Indicator.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Milestone.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneLocation.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorLocation.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Framework_Indicator.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Indicator.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.IndicatorValues.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.MilestoneValues.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Indicator.dtsx'
-UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.PeopleReachedValues.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomeOrganization.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutcomePersonRole.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Output.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,7,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Project.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Activity.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutput.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputOutputLink.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.OutputPersonRole.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.Project_ResultArea.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.AgeBand.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Project.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Project.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,8,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail_Project.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.StatusValues.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Indicator.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.Milestone.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputPersonRole.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,9,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.SubOutputSubOutputLink.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.MilestoneLocation.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_app.IndicatorLocation.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_disagg.FrameworkDetail_Indicator.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.CustomReport_Indicator.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.IndicatorValues.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.MilestoneValues.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,10,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_rpt.DonorReport_Indicator.dtsx'
+UNION ALL SELECT 1001,2,PackageID,PackageName,PackageName,11,0 FROM Package WHERE ApplicationID = 1 AND PackageName = 'StagingLoad_RBM.PeopleReachedValues.dtsx'
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -531,3 +549,5 @@ exec [dbo].[AddSchedule]
     , @bitRunBalancing	= 0--		BIT = 0
 	, @bitRunSchemaCompare = 0--		BIT = 0
 	, @bitRunFKChecks = 0--			BIT = 0
+
+select * from [dbo].[Schedule]
