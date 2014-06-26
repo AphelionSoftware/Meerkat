@@ -18,7 +18,28 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA
 	EXEC (@SQL)
 	END
 
+    GO 
+    
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
+	WHERE TABLES.TABLE_SCHEMA = 'Staging'
+		AND TABLES.TABLE_NAME = 'Impact')
+	DROP TABLE [Staging].[Impact]
     GO  
+
+CREATE TABLE [Staging].[Impact]
+(
+
+	[Impact_ID] int NULL,
+	[ShortName] nvarchar(50) NOT NULL,
+	[LongName] nvarchar(500) NOT NULL,
+	[TextDescription] nvarchar(max) NULL,
+	[BusinessKey] nvarchar(4000) NOT NULL,
+	[Code] varchar(50) NOT NULL,
+	[ImpactSiteName] nvarchar(50) NULL,
+    [DataVersionBusinessKey] nvarchar(4000) NOT NULL
+)
+    GO  
+     
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 	WHERE TABLES.TABLE_SCHEMA = 'Staging'
 		AND TABLES.TABLE_NAME = 'Activity')
@@ -176,7 +197,8 @@ CREATE TABLE [Staging].[Outcome]
 	[ShortName] nvarchar(50) NOT NULL,
 	[TextDescription] nvarchar(max) NULL,
 	[OutcomeSiteName] nvarchar(50) NULL,
-	[DataVersionBusinessKey] nvarchar(4000) NOT NULL
+	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
+    [ImpactBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
@@ -634,32 +656,50 @@ CREATE TABLE [Staging].[Framework]
 	[OrganizationBusinessKey] nvarchar(4000) NULL
 )
     GO  
+
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 	WHERE TABLES.TABLE_SCHEMA = 'Staging'
-		AND TABLES.TABLE_NAME = 'Framework_Indicator')
-	DROP TABLE [Staging].[Framework_Indicator]
+		AND TABLES.TABLE_NAME = 'FrameworkDetail')
+	DROP TABLE [Staging].[FrameworkDetail]
     GO  
 
-CREATE TABLE [Staging].[Framework_Indicator]
+CREATE TABLE [Staging].[FrameworkDetail]
 (
 
-	[Framework_Indicator_ID] int NULL,
+	[FrameworkDetail_ID] int NULL,
+	[Code] varchar(50) NOT NULL,
+	[Name] varchar(255) NOT NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
-	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[FrameworkBusinessKey] nvarchar(4000) NULL
+)
+    GO  
+
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
+	WHERE TABLES.TABLE_SCHEMA = 'Staging'
+		AND TABLES.TABLE_NAME = 'FrameworkDetail_Indicator')
+	DROP TABLE [Staging].[FrameworkDetail_Indicator]
+    GO  
+
+CREATE TABLE [Staging].[FrameworkDetail_Indicator]
+(
+
+	[FrameworkDetail_Indicator_ID] int NULL,
+	[BusinessKey] nvarchar(4000) NOT NULL,
+	[FrameworkDetailBusinessKey] nvarchar(4000) NULL,
 	[IndicatorBusinessKey] nvarchar(4000) NULL
 )
     GO  
 IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES
 	WHERE TABLES.TABLE_SCHEMA = 'Staging'
-		AND TABLES.TABLE_NAME = 'Framework_Project')
-	DROP TABLE [Staging].[Framework_Project]
+		AND TABLES.TABLE_NAME = 'FrameworkDetail_Project')
+	DROP TABLE [Staging].[FrameworkDetail_Project]
     GO  
 
-CREATE TABLE [Staging].[Framework_Project]
+CREATE TABLE [Staging].[FrameworkDetail_Project]
 (
 
-	[Framework_Project_ID] int NULL,
-	[FrameworkBusinessKey] nvarchar(4000) NULL,
+	[FrameworkDetail_Project_ID] int NULL,
+	[FrameworkDetailBusinessKey] nvarchar(4000) NULL,
 	[ProjectBusinessKey] nvarchar(4000) NULL
 )
     GO  
@@ -827,13 +867,14 @@ CREATE TABLE [Staging].[PeopleReachedValues]
 
 	[PeopleReachedValuesID] int NULL,
 	[Notes] nvarchar(max) NULL,
+    [NumberReached] int NOT NULL,
 	[ActivityBusinessKey] nvarchar(4000) NULL,
 	[AgeBandBusinessKey] nvarchar(4000) NULL,
 	[CommunityTypeBusinessKey] nvarchar(4000) NULL,
 	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
 	[DonorBusinessKey] nvarchar(4000) NULL,
 	[FrameworkBusinessKey] nvarchar(4000) NULL,
-	[Framework_IndicatorBusinessKey] nvarchar(4000) NULL,
+	[FrameworkDetail_IndicatorBusinessKey] nvarchar(4000) NULL,
 	[GenderBusinessKey] nvarchar(4000) NULL,
 	[GroupBusinessKey] nvarchar(4000) NULL,
 	[InstitutionBusinessKey] nvarchar(4000) NULL,
