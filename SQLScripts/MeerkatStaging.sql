@@ -807,7 +807,6 @@ CREATE TABLE [Staging].[IndicatorValues]
 	[ActualDate] date NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[Notes] varchar(max) NULL,
-	[GroupVersion] int NOT NULL,
 	[AgeBandBusinessKey] nvarchar(4000) NULL,
 	[CommunityTypeBusinessKey] nvarchar(4000) NULL,
 	[DataVersionBusinessKey] nvarchar(4000) NOT NULL,
