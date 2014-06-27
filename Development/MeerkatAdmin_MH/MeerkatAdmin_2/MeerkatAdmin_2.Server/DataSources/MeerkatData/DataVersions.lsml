@@ -138,6 +138,11 @@
             Value="4000" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Impacts"
+        Association="FK_Impact_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="Impact" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -331,7 +336,32 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Impact_DataVersion"
+      Association="FK_Impact_DataVersion">
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+      <AssociationSetEnd
+        Name="Impact"
+        EntitySet="Impacts" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Impact_DataVersion">
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Impact"
+      Multiplicity="Many"
+      EntityType="Impact" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -405,6 +435,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Impact_DataVersion">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Impact_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Impact_DataVersion]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Impact_DataVersion]/Members[Impact]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_DataVersion">
       <AssociationSetMapping.Attributes>

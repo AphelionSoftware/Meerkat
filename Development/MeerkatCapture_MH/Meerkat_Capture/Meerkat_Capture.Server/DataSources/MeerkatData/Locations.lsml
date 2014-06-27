@@ -170,15 +170,15 @@
         FromEnd="Location"
         ToEnd="LocationType" />
       <NavigationProperty
-        Name="PeopleReachedValues"
-        Association="FK_PeopleReachedValues_Location"
-        FromEnd="Location"
-        ToEnd="PeopleReachedValues" />
-      <NavigationProperty
         Name="Events"
         Association="FK_Event_Location"
         FromEnd="Location"
         ToEnd="c_Event" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Location"
+        FromEnd="Location"
+        ToEnd="PeopleReachedValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -422,16 +422,6 @@
         EntitySet="Locations" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_PeopleReachedValues_Location"
-      Association="FK_PeopleReachedValues_Location">
-      <AssociationSetEnd
-        Name="Location"
-        EntitySet="Locations" />
-      <AssociationSetEnd
-        Name="PeopleReachedValues"
-        EntitySet="PeopleReachedValues" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_Event_Location"
       Association="FK_Event_Location">
       <AssociationSetEnd
@@ -441,7 +431,31 @@
         Name="c_Event"
         EntitySet="Events" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Location"
+      Association="FK_PeopleReachedValues_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Event_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="Many"
+      EntityType="c_Event" />
+  </Association>
   <Association
     Name="FK_PeopleReachedValues_Location">
     <AssociationEnd
@@ -456,20 +470,6 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
-  </Association>
-  <Association
-    Name="FK_Event_Location">
-    <AssociationEnd
-      Name="Location"
-      EntityType="Location">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="c_Event"
-      Multiplicity="Many"
-      EntityType="c_Event" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">

@@ -23,7 +23,7 @@ INSERT  INTO Core.DataVersion
                 '0' ,
                 0 ,
                 'External' ,
-                10 ,
+                0 ,
                 '',
 				'0'
         WHERE   NOT EXISTS ( SELECT 1
@@ -43,7 +43,7 @@ INSERT  INTO Core.DataVersion
                 '1' ,
                 1 ,
                 'Publish' ,
-                20 ,
+                1 ,
                 '',
 				'1'
         WHERE   NOT EXISTS ( SELECT 1
@@ -61,9 +61,9 @@ INSERT  INTO Core.DataVersion
         )
         SELECT  1 ,
                 '2' ,
-                3 ,
+                2 ,
                 'Final Draft' ,
-                30 ,
+                2 ,
                 '',
 				'2'
         WHERE   NOT EXISTS ( SELECT 1
@@ -81,9 +81,9 @@ INSERT  INTO Core.DataVersion
         )
         SELECT  1 ,
                 '3' ,
-                4 ,
+                3 ,
                 'First Draft' ,
-                40 ,
+                3 ,
                 '',
 				'3'
         WHERE   NOT EXISTS ( SELECT 1

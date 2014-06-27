@@ -5,7 +5,7 @@
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="BrowseOrganizations">
+    Name="BrowseImpacts">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
@@ -20,32 +20,82 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="OrganizationList"
+            Name="ImpactList"
             Kind="Group">
             <ContentItem
-              Name="Organization"
+              Name="ImpactsSorted"
               Kind="Collection"
-              DataType="CollectionView$Organization"
-              View="Microsoft.LightSwitch.MobileWeb:List">
+              DataType="CollectionView$Impact">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseOrganizations/Properties[Organizations]" />
+                      Member="BrowseImpacts/Properties[ImpactsSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="RowTemplate"
+                Name="ImpactsSortedTemplate"
                 Kind="Details"
-                DataType="Organization"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                DataType="Impact"
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
+                <ContentItem
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Impact/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Impact/Properties[ShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
               </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <CallExpression
+                        Target="!module/Methods[showAddEditImpact]">
+                        <CallExpression.Attributes>
+                          <AssociatedCollection
+                            Collection="BrowseImpacts/Properties[ImpactsSorted]" />
+                        </CallExpression.Attributes>
+                        <ArgumentExpression
+                          Parameter="Impact">
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="BrowseImpacts/Properties[ImpactsSorted]" />
+                            <MemberExpression
+                              Member="selectedItem" />
+                          </ChainExpression>
+                        </ArgumentExpression>
+                      </CallExpression>
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
@@ -78,25 +128,9 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="AddOrganization"
+                Name="AddImpact"
                 Kind="Command">
                 <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditOrganization]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="BrowseOrganizations/Properties[Organizations]" />
-                            <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditOrganization]/Parameters[Organization]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
                     <ScreenExpressionTree>
@@ -107,26 +141,38 @@
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditImpact]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="BrowseImpacts/Properties[ImpactsSorted]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditImpact]/Parameters[Impact]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="ShowFilter"
+                Name="FilterImpacts"
                 Kind="Command">
-                <ContentItem.Attributes>
-                  <DisplayName
-                    Value="Filter" />
-                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="BrowseOrganizations/Methods[showDialog]">
+                          Target="BrowseImpacts/Methods[showDialog]">
                           <ArgumentExpression
                             Parameter="dialogName">
                             <ConstantExpression
-                              Value="Filter"
+                              Value="FilterImpact"
                               ResultType=":String" />
                           </ArgumentExpression>
                         </CallExpression>
@@ -138,7 +184,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-search"
+                          Value="msls-filter"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -146,31 +192,6 @@
                 </ContentItem.PropertySources>
               </ContentItem>
             </ContentItem.CommandItems>
-            <ContentItem.PropertySources>
-              <ControlPropertySource
-                Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <CallExpression
-                      Target="!module/Methods[showAddEditOrganization]">
-                      <CallExpression.Attributes>
-                        <AssociatedCollection
-                          Collection="BrowseOrganizations/Properties[Organizations]" />
-                      </CallExpression.Attributes>
-                      <ArgumentExpression
-                        Parameter="Organization">
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="BrowseOrganizations/Properties[Organizations]" />
-                          <MemberExpression
-                            Member="selectedItem" />
-                        </ChainExpression>
-                      </ArgumentExpression>
-                    </CallExpression>
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ControlPropertySource>
-            </ContentItem.PropertySources>
           </ContentItem>
           <ContentItem.PropertySources>
             <ControlPropertySource
@@ -190,7 +211,7 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:DialogPages">
           <ContentItem
-            Name="Filter"
+            Name="FilterImpact"
             Kind="Group">
             <ContentItem
               Name="Code1"
@@ -200,25 +221,26 @@
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseOrganizations/Properties[Code]" />
+                      Member="BrowseImpacts/Properties[Code]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="ShortName1"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseImpacts/Properties[ShortName]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
           </ContentItem>
         </ContentItem>
-        <ContentItem.PropertySources>
-          <ControlPropertySource
-            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
-            <ScreenExpressionTree>
-              <ChainExpression>
-                <ConstantExpression
-                  Value="Browse"
-                  ResultType=":String" />
-              </ChainExpression>
-            </ScreenExpressionTree>
-          </ControlPropertySource>
-        </ContentItem.PropertySources>
       </ContentItem>
     </Screen.RootContentItem>
     <Screen.Methods>
@@ -247,61 +269,40 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Organizations"
+        Name="ImpactsSorted"
         PageSize="45"
-        PropertyType="CollectionView$Organization">
+        PropertyType="CollectionView$Impact">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="OrganizationsQuery"
-            ReturnType="Organization*">
+            Name="ImpactsSortedQuery"
+            ReturnType="Impact*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="Contains">
-                  <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="Organization/Properties[Code]" />
-                    </ChainExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <ParameterExpression
-                      Parameter="Code" />
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Organizations]" />
+                  Member="MeerkatData/Members[ImpactsSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseOrganizations/Properties[Organizations]/Query">
+              Target="BrowseImpacts/Properties[ImpactsSorted]/Query">
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseOrganizations/Properties[Code]" />
+                    Member="BrowseImpacts/Properties[Code]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ShortName">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseImpacts/Properties[ShortName]" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -311,14 +312,17 @@
       <ScreenProperty
         Name="Code"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="ShortName"
+        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showBrowseOrganizations">
+      Name="showBrowseImpacts">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="BrowseOrganizations" />
+          TargetScreen="BrowseImpacts" />
       </ApplicationMethod.Attributes>
     </ApplicationMethod>
   </Application.Methods>

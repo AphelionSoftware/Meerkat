@@ -131,11 +131,6 @@
         FromEnd="Project"
         ToEnd="CustomReport_Project" />
       <NavigationProperty
-        Name="Framework_Projects"
-        Association="FK_Framework_Project_Project"
-        FromEnd="Project"
-        ToEnd="Framework_Project" />
-      <NavigationProperty
         Name="Indicators"
         Association="FK_Indicator_Project"
         FromEnd="Project"
@@ -190,20 +185,15 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Projects"
-        Association="FK_Project_Project"
-        FromEnd="Project"
-        ToEnd="Project1" />
-      <NavigationProperty
-        Name="Project1"
-        Association="FK_Project_Project"
-        FromEnd="Project1"
-        ToEnd="Project" />
-      <NavigationProperty
         Name="DonorReport_Projects"
         Association="FK_DonorReport_Project_Project"
         FromEnd="Project"
         ToEnd="DonorReport_Project" />
+      <NavigationProperty
+        Name="FrameworkDetail_Projects"
+        Association="FK_FrameworkDetail_Project_Project"
+        FromEnd="Project"
+        ToEnd="FrameworkDetail_Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -249,20 +239,6 @@
       Name="CustomReport_Project"
       Multiplicity="Many"
       EntityType="CustomReport_Project" />
-  </Association>
-  <Association
-    Name="FK_Framework_Project_Project">
-    <AssociationEnd
-      Name="Project"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Framework_Project"
-      Multiplicity="Many"
-      EntityType="Framework_Project" />
   </Association>
   <Association
     Name="FK_Indicator_Project">
@@ -360,16 +336,6 @@
       <AssociationSetEnd
         Name="CustomReport_Project"
         EntitySet="CustomReport_Projects" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Framework_Project_Project"
-      Association="FK_Framework_Project_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Framework_Project"
-        EntitySet="Framework_Projects" />
     </AssociationSet>
     <AssociationSet
       Name="FK_Indicator_Project"
@@ -492,16 +458,6 @@
       </QueryOperationParameter>
     </QueryOperation>
     <AssociationSet
-      Name="FK_Project_Project"
-      Association="FK_Project_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Project1"
-        EntitySet="Projects" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_DonorReport_Project_Project"
       Association="FK_DonorReport_Project_Project">
       <AssociationSetEnd
@@ -511,22 +467,17 @@
         Name="DonorReport_Project"
         EntitySet="DonorReport_Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_FrameworkDetail_Project_Project"
+      Association="FK_FrameworkDetail_Project_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="FrameworkDetail_Project"
+        EntitySet="FrameworkDetail_Projects" />
+    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_Project_Project">
-    <AssociationEnd
-      Name="Project"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule
-          Action="Restrict" />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project1"
-      Multiplicity="Many"
-      EntityType="Project" />
-  </Association>
   <Association
     Name="FK_DonorReport_Project_Project">
     <AssociationEnd
@@ -540,6 +491,20 @@
       Name="DonorReport_Project"
       Multiplicity="Many"
       EntityType="DonorReport_Project" />
+  </Association>
+  <Association
+    Name="FK_FrameworkDetail_Project_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FrameworkDetail_Project"
+      Multiplicity="Many"
+      EntityType="FrameworkDetail_Project" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -629,11 +594,6 @@
           Nullable="True"
           Type="int"
           PropertyName="Programme_ID" />
-        <SsdlForeignKeyProperty
-          Name="ProjectParentID"
-          Nullable="True"
-          Type="int"
-          PropertyName="ProjectParentID" />
         <SsdlForeignKeyProperty
           Name="Sector_ID"
           Nullable="True"
@@ -731,19 +691,19 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Framework_Project_Project">
+      AssociationSet="FK_FrameworkDetail_Project_Project">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Framework_Project_Project" />
+          Name="FK_FrameworkDetail_Project_Project" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Framework_Project_Project]/Members[Project]">
+          End="MeerkatData/Members[FK_FrameworkDetail_Project_Project]/Members[Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Framework_Project_Project]/Members[Framework_Project]">
+          End="MeerkatData/Members[FK_FrameworkDetail_Project_Project]/Members[FrameworkDetail_Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
@@ -789,27 +749,6 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Project_Project">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Project_Project" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectParentID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

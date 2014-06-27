@@ -120,15 +120,6 @@
         Association="FK_MilestoneValues_Organization"
         FromEnd="Organization"
         ToEnd="MilestoneValues" />
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <NavigationProperty
         Name="Frameworks"
         Association="FK_Framework_Organization"
@@ -139,6 +130,23 @@
         Association="FK_OrganizationPersonRole_Organization"
         FromEnd="Organization"
         ToEnd="OrganizationPersonRole" />
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -397,10 +405,10 @@
           Property="Organization/Properties[Organization_ID]" />
         <SsdlProperty
           MaxLength="50"
-          Name="Name"
+          Name="ShortName"
           Nullable="False"
           Type="nvarchar"
-          Property="Organization/Properties[Name]" />
+          Property="Organization/Properties[ShortName]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
@@ -434,6 +442,12 @@
           Nullable="False"
           Type="datetime"
           Property="Organization/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Organization/Properties[LongName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"

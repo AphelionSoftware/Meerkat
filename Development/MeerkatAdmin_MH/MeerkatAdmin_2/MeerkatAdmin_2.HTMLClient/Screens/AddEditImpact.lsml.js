@@ -1,6 +1,6 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
-myapp.AddEditFramework_Project.created = function (screen) {
-    // Set default values and other configurations.
+myapp.AddEditImpact.created = function (screen) {
+    // Write code here.
     msls.application.lightswitchTools.configureCaptureForm(screen);
 };

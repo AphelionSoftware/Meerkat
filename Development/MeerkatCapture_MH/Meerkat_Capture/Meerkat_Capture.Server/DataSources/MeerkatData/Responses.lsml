@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="StatusType">
+    Name="Response">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,41 +16,51 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="ID"
+        Name="Response_ID"
+        IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
+          <Hidden />
           <Required />
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
+        Name="PotentialResponse_ID"
+        PropertyType=":Int32?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Response1"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
+        Name="IntegerResponse"
+        PropertyType=":Int32?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Value"
-        PropertyType=":Decimal">
+        Name="DecimalResponse"
+        PropertyType=":Decimal?">
         <EntityProperty.Attributes>
-          <Required />
           <DecimalConstraint
             Precision="20"
-            Scale="2" />
+            Scale="12" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TrueFalse"
+        PropertyType=":Boolean?">
+        <EntityProperty.Attributes>
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -97,59 +107,36 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="StatusValues"
-        Association="FK_StatusValues_StatusType"
-        FromEnd="StatusType"
-        ToEnd="StatusValues" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_StatusType_ActiveType"
-        FromEnd="StatusType"
+        Association="FK_Response_ActiveType"
+        FromEnd="Response"
         ToEnd="ActiveType" />
-      <EntityProperty
-        Name="BusinessKey"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="4000" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <NavigationProperty
-        Name="PeopleReachedValues"
-        Association="FK_PeopleReachedValues_StatusType"
-        FromEnd="StatusType"
-        ToEnd="PeopleReachedValues" />
+        Name="FormResponse"
+        Association="FK_Response_FormResponse"
+        FromEnd="Response"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Question"
+        Association="FK_Response_Question"
+        FromEnd="Response"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_StatusValues_StatusType">
-    <AssociationEnd
-      Name="StatusType"
-      EntityType="StatusType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="StatusValues"
-      Multiplicity="Many"
-      EntityType="StatusValue" />
-  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="StatusTypes"
+      Name="Responses"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="StatusType" />
+      EntityType="Response" />
     <QueryOperation
-      Name="StatusTypes_Single"
-      ReturnType="StatusType">
+      Name="Responses_Single"
+      ReturnType="Response">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -162,12 +149,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ID" />
+                  Member="Response_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ID" />
+                Parameter="Response_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -175,21 +162,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusTypes" />
+            Member="Responses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ID"
+        Name="Response_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ID' key property of the entity to retrieve." />
+            Value="The value of the 'Response_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="StatusTypes_SingleOrDefault"
-      ReturnType="StatusType">
+      Name="Responses_SingleOrDefault"
+      ReturnType="Response">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -202,12 +189,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ID" />
+                  Member="Response_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ID" />
+                Parameter="Response_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -215,163 +202,101 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusTypes" />
+            Member="Responses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ID"
+        Name="Response_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ID' key property of the entity to retrieve." />
+            Value="The value of the 'Response_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_StatusValues_StatusType"
-      Association="FK_StatusValues_StatusType">
-      <AssociationSetEnd
-        Name="StatusType"
-        EntitySet="StatusTypes" />
-      <AssociationSetEnd
-        Name="StatusValues"
-        EntitySet="StatusValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_PeopleReachedValues_StatusType"
-      Association="FK_PeopleReachedValues_StatusType">
-      <AssociationSetEnd
-        Name="StatusType"
-        EntitySet="StatusTypes" />
-      <AssociationSetEnd
-        Name="PeopleReachedValues"
-        EntitySet="PeopleReachedValues" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_PeopleReachedValues_StatusType">
-    <AssociationEnd
-      Name="StatusType"
-      EntityType="StatusType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="PeopleReachedValues"
-      Multiplicity="Many"
-      EntityType="PeopleReachedValue" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="StatusTypes">
+      EntitySet="Responses">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="StatusType" />
+          Schema="forms"
+          Table="Response" />
         <SsdlProperty
-          Name="ID"
+          Name="Response_ID"
           Nullable="False"
+          StoreGeneratedPattern="Identity"
           Type="int"
-          Property="StatusType/Properties[ID]" />
+          Property="Response/Properties[Response_ID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
-          Type="varchar"
-          Property="StatusType/Properties[Code]" />
+          Name="PotentialResponse_ID"
+          Nullable="True"
+          Type="int"
+          Property="Response/Properties[PotentialResponse_ID]" />
         <SsdlProperty
-          MaxLength="255"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="StatusType/Properties[Name]" />
+          Name="Response"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Response/Properties[Response1]" />
         <SsdlProperty
-          Name="Value"
-          Nullable="False"
+          Name="IntegerResponse"
+          Nullable="True"
+          Type="int"
+          Property="Response/Properties[IntegerResponse]" />
+        <SsdlProperty
+          Name="DecimalResponse"
+          Nullable="True"
           Precision="20"
-          Scale="2"
+          Scale="12"
           Type="decimal"
-          Property="StatusType/Properties[Value]" />
+          Property="Response/Properties[DecimalResponse]" />
         <SsdlProperty
-          Name="BusinessKey"
-          Nullable="False"
-          Type="nvarchar"
-          Property="StatusType/Properties[BusinessKey]" />
+          Name="TrueFalse"
+          Nullable="True"
+          Type="bit"
+          Property="Response/Properties[TrueFalse]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusType/Properties[sys_CreatedBy]" />
+          Property="Response/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusType/Properties[sys_CreatedOn]" />
+          Property="Response/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusType/Properties[sys_ModifiedBy]" />
+          Property="Response/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusType/Properties[sys_ModifiedOn]" />
+          Property="Response/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="FormResponse_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="FormResponse_ID" />
+        <SsdlForeignKeyProperty
+          Name="Question_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_PeopleReachedValues_StatusType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_PeopleReachedValues_StatusType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PeopleReachedValues_StatusType]/Members[StatusType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PeopleReachedValues_StatusType]/Members[PeopleReachedValues]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="StatusType_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_StatusValues_StatusType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_StatusValues_StatusType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_StatusValues_StatusType]/Members[StatusType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_StatusValues_StatusType]/Members[StatusValues]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="StatusTypeID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

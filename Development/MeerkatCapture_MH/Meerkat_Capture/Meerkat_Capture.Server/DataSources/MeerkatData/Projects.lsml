@@ -152,11 +152,6 @@
         FromEnd="Project"
         ToEnd="AgeBand" />
       <NavigationProperty
-        Name="PeopleReachedValues"
-        Association="FK_PeopleReachedValues_Project"
-        FromEnd="Project"
-        ToEnd="PeopleReachedValues" />
-      <NavigationProperty
         Name="Programme"
         Association="FK_Project_Programme"
         FromEnd="Project"
@@ -185,6 +180,16 @@
         Association="FK_Event_Project"
         FromEnd="Project"
         ToEnd="c_Event" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Project"
+        FromEnd="Project"
+        ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_Project"
+        FromEnd="Project"
+        ToEnd="Form" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -372,6 +377,16 @@
         EntitySet="AgeBands" />
     </AssociationSet>
     <AssociationSet
+      Name="FK_Event_Project"
+      Association="FK_Event_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet
       Name="FK_PeopleReachedValues_Project"
       Association="FK_PeopleReachedValues_Project">
       <AssociationSetEnd
@@ -382,14 +397,14 @@
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_Event_Project"
-      Association="FK_Event_Project">
+      Name="FK_Form_Project"
+      Association="FK_Form_Project">
       <AssociationSetEnd
         Name="Project"
         EntitySet="Projects" />
       <AssociationSetEnd
-        Name="c_Event"
-        EntitySet="Events" />
+        Name="Form"
+        EntitySet="Forms" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -422,6 +437,21 @@
       EntityType="AgeBand" />
   </Association>
   <Association
+    Name="FK_Event_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="Many"
+      EntityType="c_Event" />
+  </Association>
+  <Association
     Name="FK_PeopleReachedValues_Project">
     <AssociationEnd
       Name="Project"
@@ -436,7 +466,7 @@
       EntityType="PeopleReachedValue" />
   </Association>
   <Association
-    Name="FK_Event_Project">
+    Name="FK_Form_Project">
     <AssociationEnd
       Name="Project"
       Multiplicity="One"
@@ -446,9 +476,9 @@
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="c_Event"
+      Name="Form"
       Multiplicity="Many"
-      EntityType="c_Event" />
+      EntityType="Form" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -609,6 +639,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Project_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
