@@ -194,6 +194,16 @@
         Association="FK_FrameworkDetail_Project_Project"
         FromEnd="Project"
         ToEnd="FrameworkDetail_Project" />
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_Project"
+        FromEnd="Project"
+        ToEnd="Project1" />
+      <NavigationProperty
+        Name="Project1"
+        Association="FK_Project_Project"
+        FromEnd="Project1"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -215,7 +225,6 @@
     Name="FK_AgeBand_Project">
     <AssociationEnd
       Name="Project"
-      Multiplicity="One"
       EntityType="Project">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -477,6 +486,16 @@
         Name="FrameworkDetail_Project"
         EntitySet="FrameworkDetail_Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_Project"
+      Association="FK_Project_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Project1"
+        EntitySet="Projects" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_DonorReport_Project_Project">
@@ -505,6 +524,21 @@
       Name="FrameworkDetail_Project"
       Multiplicity="Many"
       EntityType="FrameworkDetail_Project" />
+  </Association>
+  <Association
+    Name="FK_Project_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project1"
+      Multiplicity="Many"
+      EntityType="Project" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -594,6 +628,11 @@
           Nullable="True"
           Type="int"
           PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectParentID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectParentID" />
         <SsdlForeignKeyProperty
           Name="Sector_ID"
           Nullable="True"
@@ -749,6 +788,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectParentID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

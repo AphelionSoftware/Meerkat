@@ -38,12 +38,39 @@
                 Name="LocationSortedTemplate"
                 Kind="Details"
                 DataType="Location"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
+                <ContentItem
+                  Name="LocationType1"
+                  Kind="Details"
+                  DataType="LocationType"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Location/Properties[LocationType]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name2"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="LocationType/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
                 <ContentItem
                   Name="Name"
                   Kind="Value"
@@ -68,9 +95,6 @@
                         <CallExpression.Attributes>
                           <AssociatedCollection
                             Collection="BrowseLocations/Properties[LocationSorted]" />
-                          <CreateNewEntity
-                            EntityType="Location"
-                            TargetParameter="!module/Methods[showAddEditLocation]/Parameters[ParentLocation]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
                           Parameter="Location">
@@ -79,6 +103,17 @@
                               Member="BrowseLocations/Properties[LocationSorted]" />
                             <MemberExpression
                               Member="selectedItem" />
+                          </ChainExpression>
+                        </ArgumentExpression>
+                        <ArgumentExpression
+                          Parameter="ParentLocation">
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="BrowseLocations/Properties[LocationSorted]" />
+                            <MemberExpression
+                              Member="selectedItem" />
+                            <MemberExpression
+                              Member="Location1" />
                           </ChainExpression>
                         </ArgumentExpression>
                       </CallExpression>
@@ -236,6 +271,19 @@
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
+            <ContentItem
+              Name="LocationType"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseLocations/Properties[LocationType]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
           </ContentItem>
         </ContentItem>
         <ContentItem.PropertySources>
@@ -361,7 +409,12 @@
             <CallExpression
               Target="BrowseLocations/Properties[LocationSorted]/Query">
               <ArgumentExpression
-                Parameter="LocationType" />
+                Parameter="LocationType">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseLocations/Properties[LocationType]" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="LocationName" />
               <ArgumentExpression
@@ -414,6 +467,9 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="LocationType"
+        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
