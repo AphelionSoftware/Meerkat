@@ -127,6 +127,14 @@
                     Name="Location"
                     Kind="Details"
                     DataType="Location">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditIndicatorValue/Properties[LocationsSorted]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -154,6 +162,14 @@
                     Name="DataVersion"
                     Kind="Details"
                     DataType="DataVersion">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditIndicatorValue/Properties[DataVersionSorted]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -408,11 +424,6 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
-              <ContentItem
-                Name="PreviousVersions"
-                IsHidden="True"
-                Kind="Group"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout" />
               <ContentItem
                 Name="Rollups"
                 Kind="Group">
@@ -724,6 +735,60 @@
                             </ChainExpression>
                           </ScreenExpressionTree>
                         </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Name="DataVersion4"
+                        Kind="Details"
+                        DataType="DataVersion"
+                        View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[DataVersion]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Name3"
+                          Kind="Value"
+                          DataType=":String">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="DataVersion/Properties[Name]" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        Name="ReportingPeriod"
+                        Kind="Details"
+                        DataType="ReportingPeriod"
+                        View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[ReportingPeriod]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Summary1"
+                          Kind="Value"
+                          DataType=":String">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="ReportingPeriod/Properties[Summary]" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
                       </ContentItem>
                     </ContentItem>
                   </ContentItem>
@@ -1412,11 +1477,9 @@
                 Parameter="ReportPeriod_ID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValuesSorted]" />
+                    Member="AddEditIndicatorValue/Properties[ReportingPeriodsFiltered]" />
                   <MemberExpression
                     Member="selectedItem" />
-                  <MemberExpression
-                    Member="ReportingPeriod" />
                   <MemberExpression
                     Member="ID" />
                 </ChainExpression>
@@ -1433,6 +1496,17 @@
                 <ChainExpression>
                   <MemberExpression
                     Member="AddEditIndicatorValue/Properties[PreviousDataVersion]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Location_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[LocationsSorted]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="Location_ID" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -1552,6 +1626,66 @@
           <Required />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="DataVersionSorted"
+        PageSize="45"
+        PropertyType="CollectionView$DataVersion">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="DataVersionSortedQuery"
+            ReturnType="DataVersion*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[DataVersionSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicatorValue/Properties[DataVersionSorted]/Query">
+              <ArgumentExpression
+                Parameter="Order" />
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="LocationsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Location">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="LocationsSortedQuery"
+            ReturnType="Location*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[LocationsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicatorValue/Properties[LocationsSorted]/Query">
+              <ArgumentExpression
+                Parameter="LocationType_ID" />
+              <ArgumentExpression
+                Parameter="Location" />
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>

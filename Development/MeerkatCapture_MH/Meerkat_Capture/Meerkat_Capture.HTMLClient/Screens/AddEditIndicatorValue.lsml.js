@@ -10,7 +10,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
             screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
             screen.ReportingPeriodsFiltered.load().then(function () {
                 screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
-
+                //screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
             });
         });
     });
@@ -19,8 +19,9 @@ myapp.AddEditIndicatorValue.created = function (screen) {
 
     myapp.activeDataWorkspace.MeerkatData.Indicators_SingleOrDefault(screen.Indicator_ID).execute().then(function (indicator) {
         screen.IndicatorValue.setIndicator(indicator.results[0]);
-    }
-    );
+    });
+
+   
 };
 myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentItem) {
     // Write code here.
@@ -133,6 +134,30 @@ myapp.AddEditIndicatorValue.DataVersion_ID_postRender = function (element, conte
 };*/
 myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
     // Write code here.
-    contentItem.screen.PreviousDataVersion = contentItem.value + 1;
+    contentItem.screen.PreviousDataVersion = contentItem.value + 1; 
 
+};
+myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
+    // Write code here.
+    contentItem.IndicatorValue.ActualLabel = "test";
+    contentItem.IndicatorValue.ActualValue = 100;
+};
+myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
+    // Write code here.
+    function updateVersionRollup() {
+        if (contentItem.screen.DataVersionSorted.selectedItem) {
+            contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+
+        }
+        if (contentItem.screen.ReportingPeriodsFiltered) {
+
+        }
+        contentItem.screen.IndicatorValuesPreviousVersion.load();
+        //
+
+    }
+
+    // Set a dataBind to update the value when the selection change
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
 };
