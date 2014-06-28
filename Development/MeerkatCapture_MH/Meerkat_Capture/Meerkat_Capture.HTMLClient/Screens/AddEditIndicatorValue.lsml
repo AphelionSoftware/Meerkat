@@ -20,13 +20,37 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="LocationDetails"
+            Name="Disaggregation"
             Kind="Group"
             View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
             <ContentItem.Attributes>
               <DisplayName
-                Value="Details" />
+                Value="Disaggregation" />
             </ContentItem.Attributes>
+            <ContentItem
+              Name="IndicatorValue_Indicator"
+              Kind="Details"
+              DataType="Indicator"
+              View="Microsoft.LightSwitch.MobileWeb:Summary">
+              <ContentItem.ChoicesSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditIndicatorValue/Properties[IndicatorsSorted]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.ChoicesSource>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
+                    <MemberExpression
+                      Member="Indicator" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
             <ContentItem
               Name="columns"
               Kind="Details"
@@ -45,7 +69,7 @@
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="left"
+                Name="Filters"
                 Kind="Group">
                 <ContentItem
                   Name="FilterGroup"
@@ -390,245 +414,318 @@
                 Kind="Group"
                 View="Microsoft.LightSwitch.MobileWeb:RowsLayout" />
               <ContentItem
-                Name="LocationValues"
+                Name="Rollups"
                 Kind="Group">
                 <ContentItem
-                  Name="Group1"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  Name="LocationValues"
+                  Kind="Group">
                   <ContentItem
-                    Name="UseSum"
-                    Kind="Command"
-                    View="Microsoft.LightSwitch.MobileWeb:Button">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    Name="Group1"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseSum"
+                      Kind="Command"
+                      View="Microsoft.LightSwitch.MobileWeb:Button">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseSum]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="SumAmount"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
                         <ScreenExpressionTree>
                           <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseSum]" />
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[SumAmount]" />
                           </ChainExpression>
                         </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
+                      </ContentItem.DataSource>
+                    </ContentItem>
                   </ContentItem>
                   <ContentItem
-                    Name="SumAmount"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[SumAmount]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
+                    Name="Group2"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseAvg"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseAvg]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="AvgAmount"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[AvgAmount]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Group3"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseMax"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseMax]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="MaxAmount"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[MaxAmount]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Group4"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseMin"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseMin]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="MinAmount"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[MinAmount]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Group5"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseCount"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseCount]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="CountLocationValues"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[CountLocationValues]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Group6"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UseFullCount"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UseFullCount]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="CountLocations"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[CountLocations]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Group7"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                    <ContentItem
+                      Name="UsePopulation"
+                      Kind="Command">
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AddEditIndicatorValue/Methods[UsePopulation]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                    </ContentItem>
+                    <ContentItem
+                      Name="TotalPopulation"
+                      Kind="Value"
+                      DataType=":Decimal"
+                      View="Microsoft.LightSwitch.MobileWeb:Text">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AddEditIndicatorValue/Properties[TotalPopulation]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
                 <ContentItem
-                  Name="Group2"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  Name="PreviousVersion"
+                  Kind="Group">
                   <ContentItem
-                    Name="UseAvg"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseAvg]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="AvgAmount"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
+                    Name="IndicatorValuesPreviousVersion1"
+                    Kind="Collection"
+                    DataType="CollectionView$IndicatorValue">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
                           <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[AvgAmount]" />
+                            Member="AddEditIndicatorValue/Properties[IndicatorValuesPreviousVersion]" />
                         </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="Group3"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                  <ContentItem
-                    Name="UseMax"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ContentItem
+                      Name="IndicatorValuesPreviousVersion1Template"
+                      Kind="Details"
+                      DataType="IndicatorValue"
+                      View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                      <ContentItem.DataSource>
                         <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseMax]" />
-                          </ChainExpression>
+                          <ChainExpression />
                         </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="MaxAmount"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[MaxAmount]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="Group4"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                  <ContentItem
-                    Name="UseMin"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseMin]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="MinAmount"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[MinAmount]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="Group5"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                  <ContentItem
-                    Name="UseCount"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseCount]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="CountLocationValues"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[CountLocationValues]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="Group6"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                  <ContentItem
-                    Name="UseFullCount"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UseFullCount]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="CountLocations"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[CountLocations]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="Group7"
-                  Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                  <ContentItem
-                    Name="UsePopulation"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditIndicatorValue/Methods[UsePopulation]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                  <ContentItem
-                    Name="TotalPopulation"
-                    Kind="Value"
-                    DataType=":Decimal"
-                    View="Microsoft.LightSwitch.MobileWeb:Text">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="AddEditIndicatorValue/Properties[TotalPopulation]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="UsePreviousVersion"
+                        Kind="Command">
+                        <ContentItem.PropertySources>
+                          <ControlPropertySource
+                            Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <CallExpression
+                                  Target="AddEditIndicatorValue/Methods[UsePreviousVersion]" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ControlPropertySource>
+                        </ContentItem.PropertySources>
+                      </ContentItem>
+                      <ContentItem
+                        Name="ActualValue3"
+                        Kind="Value"
+                        DataType=":Decimal?">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[ActualValue]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Name="ActualLabel3"
+                        Kind="Value"
+                        DataType=":String">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[ActualLabel]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
                   </ContentItem>
                 </ContentItem>
               </ContentItem>
@@ -1083,15 +1180,10 @@
         Name="UseFullCount" />
       <ScreenMethod
         Name="UsePopulation" />
+      <ScreenMethod
+        Name="UsePreviousVersion" />
     </Screen.Methods>
     <Screen.Properties>
-      <ScreenProperty
-        Name="IndicatorValue"
-        PropertyType="IndicatorValue">
-        <ScreenProperty.Attributes>
-          <IsParameter />
-        </ScreenProperty.Attributes>
-      </ScreenProperty>
       <ScreenCollectionProperty
         Name="IndicatorValuesSorted"
         PageSize="45"
@@ -1237,11 +1329,7 @@
                 Parameter="EndDateID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                  <MemberExpression
-                    Member="Indicator" />
-                  <MemberExpression
-                    Member="TargetDate_ID" />
+                    Member="AddEditIndicatorValue/Properties[MaxReportingRangeID]" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -1337,13 +1425,7 @@
                 Parameter="IndicatorID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValuesSorted]" />
-                  <MemberExpression
-                    Member="selectedItem" />
-                  <MemberExpression
-                    Member="Indicator" />
-                  <MemberExpression
-                    Member="IndicatorID" />
+                    Member="AddEditIndicatorValue/Properties[Indicator_ID]" />
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
@@ -1360,6 +1442,13 @@
       <ScreenProperty
         Name="ReportPeriod_ID"
         PropertyType="ReportingPeriod" />
+      <ScreenProperty
+        Name="IndicatorValue"
+        PropertyType="IndicatorValue">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
       <ScreenProperty
         Name="IndicatorID1"
         PropertyType="Indicator" />
@@ -1406,6 +1495,63 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="Indicator_ID"
+        PropertyType=":Int32">
+        <ScreenProperty.Attributes>
+          <Required />
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="IndicatorsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Indicator">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="IndicatorsSortedQuery"
+            ReturnType="Indicator*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[IndicatorsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicatorValue/Properties[IndicatorsSorted]/Query">
+              <ArgumentExpression
+                Parameter="Indicator" />
+              <ArgumentExpression
+                Parameter="Project" />
+              <ArgumentExpression
+                Parameter="SubSector" />
+              <ArgumentExpression
+                Parameter="Sector" />
+              <ArgumentExpression
+                Parameter="IndicatorID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[Indicator_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="MaxReportingRangeID"
+        PropertyType=":Int32">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -1418,6 +1564,9 @@
       <ApplicationMethodParameter
         Name="IndicatorValue"
         ParameterType="IndicatorValue" />
+      <ApplicationMethodParameter
+        Name="Indicator_ID"
+        ParameterType=":Int32" />
     </ApplicationMethod>
   </Application.Methods>
 </Application>

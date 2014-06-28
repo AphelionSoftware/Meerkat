@@ -43,6 +43,12 @@ myapp.AddEditStatusValue.created = function (screen) {
         screen.details.displayName = "Add Project Status Value";
     }
 
+    if (screen.Values.Programme !== undefined || screen.Values.DataType === "Programme") {
+        screen.findContentItem("ProgrammeGroup").isVisible = true;
+        screen.StatusValue.setProgramme(screen.Values.Programme);
+        screen.details.displayName = "Add Programme Status Value";
+    }
+
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
         myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
             screen.MaxReportingRange = reportingPeriod.results[0].EndDateID;

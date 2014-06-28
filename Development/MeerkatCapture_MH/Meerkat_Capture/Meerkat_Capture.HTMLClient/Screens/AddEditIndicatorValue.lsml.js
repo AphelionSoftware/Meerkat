@@ -3,6 +3,24 @@
 myapp.AddEditIndicatorValue.created = function (screen) {
     // Set defaults.
     msls.application.lightswitchTools.configureCaptureForm(screen);
+
+    //This should really be done at the data source level
+    $.getJSON("/api/TodaysReportingPeriod", function (data) {
+        myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+            screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+            screen.ReportingPeriodsFiltered.load().then(function () {
+                screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
+
+            });
+        });
+    });
+
+    //Set the indicator - it's prefiltered by parameter.
+
+    myapp.activeDataWorkspace.MeerkatData.Indicators_SingleOrDefault(screen.Indicator_ID).execute().then(function (indicator) {
+        screen.IndicatorValue.setIndicator(indicator.results[0]);
+    }
+    );
 };
 myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentItem) {
     // Write code here.

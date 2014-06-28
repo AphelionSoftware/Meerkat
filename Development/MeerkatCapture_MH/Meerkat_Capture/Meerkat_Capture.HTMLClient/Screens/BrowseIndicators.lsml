@@ -87,14 +87,14 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAddIndicatorValue]">
+                          Target="!module/Methods[showAddEditIndicatorValue]">
                           <CallExpression.Attributes>
                             <CreateNewEntity
                               EntityType="IndicatorValue"
-                              TargetParameter="!module/Methods[showAddIndicatorValue]/Parameters[IndicatorValue]" />
+                              TargetParameter="!module/Methods[showAddEditIndicatorValue]/Parameters[IndicatorValue]" />
                           </CallExpression.Attributes>
                           <ArgumentExpression
-                            Parameter="IndicatorId">
+                            Parameter="Indicator_ID">
                             <ChainExpression>
                               <MemberExpression
                                 Member="BrowseIndicators/Properties[Indicators]" />
@@ -114,6 +114,47 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowBrowseIndicatorValues"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Show Indicator Values" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showBrowseIndicatorValues]">
+                          <ArgumentExpression
+                            Parameter="IndicatorID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="BrowseIndicators/Properties[Indicators]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="IndicatorID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-list"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -362,27 +403,115 @@
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
                     <BinaryExpression
-                      NodeType="Or">
+                      NodeType="And">
                       <BinaryExpression.Attributes>
                         <ExpressionGroup />
                       </BinaryExpression.Attributes>
                       <BinaryExpression.Left>
                         <BinaryExpression
-                          NodeType="Or">
+                          NodeType="And">
                           <BinaryExpression.Left>
                             <BinaryExpression
-                              NodeType="Equal">
+                              NodeType="And">
                               <BinaryExpression.Left>
-                                <ChainExpression>
-                                  <MemberExpression
-                                    Member="Indicator/Properties[Outcome]" />
-                                  <MemberExpression
-                                    Member="Outcome_ID" />
-                                </ChainExpression>
+                                <BinaryExpression
+                                  NodeType="And">
+                                  <BinaryExpression.Left>
+                                    <BinaryExpression
+                                      NodeType="Or">
+                                      <BinaryExpression.Left>
+                                        <BinaryExpression
+                                          NodeType="Or">
+                                          <BinaryExpression.Left>
+                                            <BinaryExpression
+                                              NodeType="Equal">
+                                              <BinaryExpression.Left>
+                                                <ChainExpression>
+                                                  <MemberExpression
+                                                    Member="Indicator/Properties[Outcome]" />
+                                                  <MemberExpression
+                                                    Member="Outcome_ID" />
+                                                </ChainExpression>
+                                              </BinaryExpression.Left>
+                                              <BinaryExpression.Right>
+                                                <ParameterExpression
+                                                  Parameter="OutcomeID" />
+                                              </BinaryExpression.Right>
+                                            </BinaryExpression>
+                                          </BinaryExpression.Left>
+                                          <BinaryExpression.Right>
+                                            <BinaryExpression
+                                              NodeType="Equal">
+                                              <BinaryExpression.Left>
+                                                <ChainExpression>
+                                                  <MemberExpression
+                                                    Member="Indicator/Properties[Output]" />
+                                                  <MemberExpression
+                                                    Member="Output_ID" />
+                                                </ChainExpression>
+                                              </BinaryExpression.Left>
+                                              <BinaryExpression.Right>
+                                                <ParameterExpression
+                                                  Parameter="Output_ID" />
+                                              </BinaryExpression.Right>
+                                            </BinaryExpression>
+                                          </BinaryExpression.Right>
+                                        </BinaryExpression>
+                                      </BinaryExpression.Left>
+                                      <BinaryExpression.Right>
+                                        <BinaryExpression
+                                          NodeType="Equal">
+                                          <BinaryExpression.Left>
+                                            <ChainExpression>
+                                              <MemberExpression
+                                                Member="Indicator/Properties[SubOutput]" />
+                                              <MemberExpression
+                                                Member="SubOutput_ID" />
+                                            </ChainExpression>
+                                          </BinaryExpression.Left>
+                                          <BinaryExpression.Right>
+                                            <ParameterExpression
+                                              Parameter="SubOutput_ID" />
+                                          </BinaryExpression.Right>
+                                        </BinaryExpression>
+                                      </BinaryExpression.Right>
+                                    </BinaryExpression>
+                                  </BinaryExpression.Left>
+                                  <BinaryExpression.Right>
+                                    <BinaryExpression
+                                      NodeType="Equal">
+                                      <BinaryExpression.Left>
+                                        <ChainExpression>
+                                          <MemberExpression
+                                            Member="Indicator/Properties[Programme]" />
+                                          <MemberExpression
+                                            Member="Programme_ID" />
+                                        </ChainExpression>
+                                      </BinaryExpression.Left>
+                                      <BinaryExpression.Right>
+                                        <ParameterExpression
+                                          Parameter="Programme_ID" />
+                                      </BinaryExpression.Right>
+                                    </BinaryExpression>
+                                  </BinaryExpression.Right>
+                                </BinaryExpression>
                               </BinaryExpression.Left>
                               <BinaryExpression.Right>
-                                <ParameterExpression
-                                  Parameter="OutcomeID" />
+                                <BinaryExpression
+                                  NodeType="Equal">
+                                  <BinaryExpression.Left>
+                                    <ChainExpression>
+                                      <MemberExpression
+                                        Member="Indicator/Properties[Sector]" />
+                                      <MemberExpression
+                                        Member="Sector_ID" />
+                                    </ChainExpression>
+                                  </BinaryExpression.Left>
+                                  <BinaryExpression.Right>
+                                    <ParameterExpression
+                                      Parameter="Sector_ID" />
+                                  </BinaryExpression.Right>
+                                </BinaryExpression>
                               </BinaryExpression.Right>
                             </BinaryExpression>
                           </BinaryExpression.Left>
@@ -392,14 +521,14 @@
                               <BinaryExpression.Left>
                                 <ChainExpression>
                                   <MemberExpression
-                                    Member="Indicator/Properties[Output]" />
+                                    Member="Indicator/Properties[SubSector]" />
                                   <MemberExpression
-                                    Member="Output_ID" />
+                                    Member="SubSector_ID" />
                                 </ChainExpression>
                               </BinaryExpression.Left>
                               <BinaryExpression.Right>
                                 <ParameterExpression
-                                  Parameter="Output_ID" />
+                                  Parameter="SubSector_ID" />
                               </BinaryExpression.Right>
                             </BinaryExpression>
                           </BinaryExpression.Right>
@@ -411,14 +540,14 @@
                           <BinaryExpression.Left>
                             <ChainExpression>
                               <MemberExpression
-                                Member="Indicator/Properties[SubOutput]" />
+                                Member="Indicator/Properties[Project]" />
                               <MemberExpression
-                                Member="SubOutput_ID" />
+                                Member="ProjectID" />
                             </ChainExpression>
                           </BinaryExpression.Left>
                           <BinaryExpression.Right>
                             <ParameterExpression
-                              Parameter="SubOutput_ID" />
+                              Parameter="ProjectID" />
                           </BinaryExpression.Right>
                         </BinaryExpression>
                       </BinaryExpression.Right>
@@ -454,6 +583,22 @@
                 Name="ShortName"
                 IsOptional="True"
                 ParameterType=":String?" />
+              <QueryParameter
+                Name="Programme_ID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="Sector_ID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="SubSector_ID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
+              <QueryParameter
+                Name="ProjectID"
+                IsOptional="True"
+                ParameterType=":Int32?" />
             </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
@@ -510,6 +655,34 @@
                     Member="BrowseIndicators/Properties[ShortName]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Programme_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Programme_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Sector_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Sector_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="SubSector_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[SubSector_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Project_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -541,6 +714,34 @@
       <ScreenProperty
         Name="ShortName"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="Programme_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="Sector_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="SubSector_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="Project_ID"
+        PropertyType=":Int32?">
+        <ScreenProperty.Attributes>
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -558,6 +759,18 @@
         ParameterType=":Int32?" />
       <ApplicationMethodParameter
         Name="Output_ID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="Programme_ID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="Sector_ID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="SubSector_ID"
+        ParameterType=":Int32?" />
+      <ApplicationMethodParameter
+        Name="Project_ID"
         ParameterType=":Int32?" />
     </ApplicationMethod>
   </Application.Methods>
