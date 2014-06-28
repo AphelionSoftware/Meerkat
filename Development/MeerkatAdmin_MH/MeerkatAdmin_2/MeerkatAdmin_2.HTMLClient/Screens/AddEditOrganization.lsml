@@ -97,7 +97,7 @@
                     Name="RowTemplate1"
                     Kind="Details"
                     DataType="OrganizationType"
-                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression />
@@ -160,14 +160,14 @@
               Kind="Group"
               View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="Description1"
+                Name="Name"
                 Kind="Value"
                 DataType=":String?">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <MemberExpression
-                        Member="AddEditOrganization/Properties[Description]" />
+                        Member="AddEditOrganization/Properties[Name]" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
@@ -196,14 +196,14 @@
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="Description2"
+                  Name="Name1"
                   Kind="Value"
-                  DataType=":String?">
+                  DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="OrganizationType/Properties[Description]" />
+                          Member="OrganizationType/Properties[Name]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -292,16 +292,36 @@
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree>
                 <BinaryExpression
-                  NodeType="Contains">
+                  NodeType="Or">
                   <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="OrganizationType/Properties[Description]" />
-                    </ChainExpression>
+                    <BinaryExpression
+                      NodeType="Contains">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="OrganizationType/Properties[Description]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="Description" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
-                    <ParameterExpression
-                      Parameter="Description" />
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="OrganizationType/Properties[Name]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="Name" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Right>
                 </BinaryExpression>
               </QueryFilterExpressionTree>
@@ -317,12 +337,16 @@
                 Name="Description"
                 IsOptional="True"
                 ParameterType=":String?" />
+              <QueryParameter
+                Name="Name"
+                IsOptional="True"
+                ParameterType=":String?" />
             </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
                 <ChainExpression>
                   <MemberExpression
-                    Member="Description" />
+                    Member="Name" />
                 </ChainExpression>
               </SortCriterion>
             </ScreenQueryDefinition.SortCriteria>
@@ -339,12 +363,22 @@
                     Member="AddEditOrganization/Properties[Description]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditOrganization/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
         Name="Description"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="Name"
         PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
