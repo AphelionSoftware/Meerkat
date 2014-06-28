@@ -137,6 +137,11 @@
         Association="FK_SubSector_Sector"
         FromEnd="Sector"
         ToEnd="SubSector" />
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Sector"
+        FromEnd="Sector"
+        ToEnd="PeopleReachedValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -303,7 +308,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Sector"
+      Association="FK_PeopleReachedValues_Sector">
+      <AssociationSetEnd
+        Name="Sector"
+        EntitySet="Sectors" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_Sector">
+    <AssociationEnd
+      Name="Sector"
+      EntityType="Sector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -397,6 +426,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Indicator_Sector]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PeopleReachedValues_Sector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PeopleReachedValues_Sector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Sector]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Sector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PeopleReachedValues_Sector]/Members[PeopleReachedValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Sector_ID" />
