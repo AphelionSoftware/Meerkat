@@ -1,5 +1,7 @@
 ﻿CREATE TABLE [Core].[OrganizationType] (
     [OrganizationType_ID] INT           IDENTITY (1, 1) NOT NULL,
+	 [Code]              VARCHAR (50)      NOT NULL,
+    [Name]              VARCHAR (255)     NOT NULL,
     [Description]         VARCHAR (MAX) NULL,
 	[BusinessKey]		  NVARCHAR(4000) NOT NULL,
     [Active]              INT           CONSTRAINT [DF_OrganizationType_Active] DEFAULT ((1)) NOT NULL,
