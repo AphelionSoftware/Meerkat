@@ -340,6 +340,11 @@
         Association="FK_Response_ActiveType"
         FromEnd="ActiveType"
         ToEnd="Response" />
+      <NavigationProperty
+        Name="PotentialResponses"
+        Association="FK_PotentialResponse_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="PotentialResponse" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -1423,6 +1428,16 @@
         Name="Response"
         EntitySet="Responses" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_PotentialResponse_ActiveType"
+      Association="FK_PotentialResponse_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Age_ActiveType">
@@ -1708,6 +1723,21 @@
       Name="Response"
       Multiplicity="Many"
       EntityType="Response" />
+  </Association>
+  <Association
+    Name="FK_PotentialResponse_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PotentialResponse"
+      Multiplicity="Many"
+      EntityType="PotentialResponse" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -2510,6 +2540,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Person_ActiveType]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PotentialResponse_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PotentialResponse_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PotentialResponse_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PotentialResponse_ActiveType]/Members[PotentialResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

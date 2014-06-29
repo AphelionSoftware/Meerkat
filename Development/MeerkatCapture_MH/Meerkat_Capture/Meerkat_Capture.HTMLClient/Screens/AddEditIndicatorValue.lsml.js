@@ -1,5 +1,46 @@
 ﻿///<reference path="../GeneratedArtifacts/viewModel.js" />
 
+function updateLocationsTotal( element, contentItem)
+{
+    var TotalSum = 0;
+    var TotalCount = 0;
+    var TotalAvg = 0;
+    var TotalPop = 0;
+    var Max = 0;
+    var Min = 0;
+    var Locations = contentItem.screen.IndicatorLocationRollup;
+
+    var Location = Locations.data;
+    Location.forEach(function (singleLocation) {
+        TotalSum = parseFloat(TotalSum) + parseFloat(singleLocation.ActualValue);
+        TotalCount = parseFloat(TotalCount) + 1;
+        if (parseFloat(singleLocation.ActualValue) < Min || Min == 0) {
+            Min = parseFloat(singleLocation.ActualValue);
+        }
+        if (parseFloat(singleLocation.ActualValue) > Max) {
+            Max = parseFloat(singleLocation.ActualValue);
+        }
+        //TotalPop += parseFloat(singleLocation.Location.Population);
+
+    });
+    contentItem.screen.SumAmount = TotalSum;
+    TotalAvg = TotalSum / TotalCount;
+
+    contentItem.screen.AvgAmount = TotalAvg;
+    contentItem.screen.MaxAmount = Max;
+    contentItem.screen.MinAmount = Min;
+    contentItem.screen.CountLocationValues = TotalCount;
+    contentItem.screen.CountLocations = TotalCount;
+
+    if (TotalCount <= 1) {
+        contentItem.screen.findContentItem("LocationValues").isVisible = false;
+    }
+    else {
+
+        contentItem.screen.findContentItem("LocationValues").isVisible = true;
+    }
+}
+
 myapp.AddEditIndicatorValue.created = function (screen) {
     // Set defaults.
     msls.application.lightswitchTools.configureCaptureForm(screen);
@@ -28,36 +69,9 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
 
     function updateTotal() {
         // Compute the total for the invoice
-
-        var TotalSum = 0;
-        var TotalCount = 0;
-        var TotalAvg = 0;
-        var TotalPop = 0;
-        var Max = 0;
-        var Min = 0;
-        var Locations = contentItem.screen.IndicatorLocationRollup;
-
-        var Location = Locations.data;
-        Location.forEach(function (singleLocation) {
-            TotalSum = parseFloat(TotalSum) + parseFloat(singleLocation.ActualValue);
-            TotalCount = parseFloat(TotalCount) + 1;
-            if (parseFloat(singleLocation.ActualValue) < Min || Min == 0) {
-                Min = parseFloat(singleLocation.ActualValue);
-            }
-            if (parseFloat(singleLocation.ActualValue) > Max) {
-                Max = parseFloat(singleLocation.ActualValue);
-            }
-            //TotalPop += parseFloat(singleLocation.Location.Population);
-            
-        });
-        contentItem.screen.SumAmount = TotalSum;
-        TotalAvg = TotalSum / TotalCount;
-
-        contentItem.screen.AvgAmount = TotalAvg;
-        contentItem.screen.MaxAmount = Max;
-        contentItem.screen.MinAmount = Min;
-        contentItem.screen.CountLocationValues = TotalCount;
-        contentItem.screen.CountLocations = TotalCount;
+        updateLocationsTotal(element, contentItem);
+        
+       
        // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
        
     }
@@ -139,8 +153,11 @@ myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
 };
 myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
     // Write code here.
-    contentItem.IndicatorValue.ActualLabel = "test";
-    contentItem.IndicatorValue.ActualValue = 100;
+    if (screen.IndicatorValuesPreviousVersion.data[1]) {
+        screen.IndicatorValue.ActualValue= screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
+        screen.IndicatorValue.ActualLabel = screen.IndicatorValuesPreviousVersion.data[1].ActualLabel;
+        screen.IndicatorValue.ActualDate = screen.IndicatorValuesPreviousVersion.data[1].ActualDate;
+    }
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
     // Write code here.
@@ -152,7 +169,9 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
         if (contentItem.screen.ReportingPeriodsFiltered) {
 
         }
+        updateLocationsTotal(element, contentItem);
         contentItem.screen.IndicatorValuesPreviousVersion.load();
+        contentItem.screen.IndicatorLocationRollup.load();
         //
 
     }
@@ -160,4 +179,23 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+};
+myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender = function (element, contentItem) {
+    // Write code here.
+    // if (contentItem.screen == null)
+    var x = contentItem.data;
+    if (!(contentItem.data.getActualValue()._value)) {
+        contentItem.isVisible = false;
+    }
+
+};
+
+myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, contentItem) {
+    // Write code here.
+    if (contentItem.screen.CountLocations == 0) {
+        //contentItem.isVisible = false;
+    } else {
+        contentItem.isVisible = true;
+    }
 };

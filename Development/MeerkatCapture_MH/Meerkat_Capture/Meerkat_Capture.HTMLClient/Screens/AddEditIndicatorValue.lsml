@@ -676,7 +676,8 @@
                   <ContentItem
                     Name="IndicatorValuesPreviousVersion1"
                     Kind="Collection"
-                    DataType="CollectionView$IndicatorValue">
+                    DataType="CollectionView$IndicatorValue"
+                    View="Microsoft.LightSwitch.MobileWeb:List">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -689,7 +690,7 @@
                       Name="IndicatorValuesPreviousVersion1Template"
                       Kind="Details"
                       DataType="IndicatorValue"
-                      View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                      View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                       <ContentItem.DataSource>
                         <ScreenExpressionTree>
                           <ChainExpression />
@@ -711,7 +712,7 @@
                         </ContentItem.PropertySources>
                       </ContentItem>
                       <ContentItem
-                        Name="ActualValue3"
+                        Name="PreviousActualValue"
                         Kind="Value"
                         DataType=":Decimal?">
                         <ContentItem.DataSource>
@@ -724,7 +725,7 @@
                         </ContentItem.DataSource>
                       </ContentItem>
                       <ContentItem
-                        Name="ActualLabel3"
+                        Name="PreviousActualLabel"
                         Kind="Value"
                         DataType=":String">
                         <ContentItem.DataSource>
@@ -737,7 +738,21 @@
                         </ContentItem.DataSource>
                       </ContentItem>
                       <ContentItem
+                        Name="PreviousActualDate"
+                        Kind="Value"
+                        DataType=":Date?">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[ActualDate]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
                         Name="DataVersion4"
+                        IsHidden="True"
                         Kind="Details"
                         DataType="DataVersion"
                         View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
@@ -765,6 +780,7 @@
                       </ContentItem>
                       <ContentItem
                         Name="ReportingPeriod"
+                        IsHidden="True"
                         Kind="Details"
                         DataType="ReportingPeriod"
                         View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
@@ -786,6 +802,30 @@
                                 <MemberExpression
                                   Member="ReportingPeriod/Properties[Summary]" />
                               </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        Name="Location1"
+                        IsHidden="True"
+                        Kind="Details"
+                        DataType="Location">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="IndicatorValue/Properties[Location]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Location4"
+                          Kind="Details"
+                          DataType="Location">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
                             </ScreenExpressionTree>
                           </ContentItem.DataSource>
                         </ContentItem>
@@ -1103,21 +1143,25 @@
               Name="FormsRollup"
               Kind="Group">
               <ContentItem
-                Name="ResponsesRollups"
+                Name="vw_ResponsesByIndicators_PerIndicator"
                 Kind="Collection"
-                DataType="CollectionView$Response">
+                DataType="CollectionView$vw_ResponsesByIndicator">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Responses By Indicator" />
+                </ContentItem.Attributes>
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <MemberExpression
-                        Member="AddEditIndicatorValue/Properties[ResponsesRollups]" />
+                        Member="AddEditIndicatorValue/Properties[vw_ResponsesByIndicators_PerIndicator]" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ResponsesRollupsTemplate"
+                  Name="vw_ResponsesByIndicators_PerIndicatorTemplate"
                   Kind="Details"
-                  DataType="Response"
+                  DataType="vw_ResponsesByIndicator"
                   View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
@@ -1127,43 +1171,35 @@
                   <ContentItem
                     Name="Question"
                     Kind="Details"
-                    DataType="Question"
-                    View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                    DataType="Question">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
                           <MemberExpression
-                            Member="Response/Properties[Question]" />
+                            Member="vw_ResponsesByIndicator/Properties[Question]" />
                         </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
                     <ContentItem
-                      Name="Name2"
-                      Kind="Value"
-                      DataType=":String">
+                      Name="Question1"
+                      Kind="Details"
+                      DataType="Question">
                       <ContentItem.DataSource>
                         <ScreenExpressionTree>
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="Question/Properties[Name]" />
-                          </ChainExpression>
+                          <ChainExpression />
                         </ScreenExpressionTree>
                       </ContentItem.DataSource>
                     </ContentItem>
                   </ContentItem>
                   <ContentItem
-                    Name="Response1"
+                    Name="Response"
                     Kind="Value"
                     DataType=":String?">
-                    <ContentItem.Attributes>
-                      <DisplayName
-                        Value="Response" />
-                    </ContentItem.Attributes>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
                           <MemberExpression
-                            Member="Response/Properties[Response1]" />
+                            Member="vw_ResponsesByIndicator/Properties[Response]" />
                         </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
@@ -1172,20 +1208,122 @@
                     Name="IntegerResponse"
                     Kind="Value"
                     DataType=":Int32?">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="vw_ResponsesByIndicator/Properties[IntegerResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="DecimalResponse"
+                    Kind="Value"
+                    DataType=":Decimal?">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="vw_ResponsesByIndicator/Properties[DecimalResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="TrueFalse"
+                    Kind="Value"
+                    DataType=":Boolean?">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="vw_ResponsesByIndicator/Properties[TrueFalse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="PotentialResponse"
+                    Kind="Details"
+                    DataType="PotentialResponse">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="vw_ResponsesByIndicator/Properties[PotentialResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="PotentialResponse1"
+                      Kind="Details"
+                      DataType="PotentialResponse">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="sys_ModifiedBy"
+                    Kind="Value"
+                    DataType=":String">
                     <ContentItem.Attributes>
                       <DisplayName
-                        Value="Value" />
+                        Value="Modified By" />
                     </ContentItem.Attributes>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
                           <MemberExpression
-                            Member="Response/Properties[IntegerResponse]" />
+                            Member="vw_ResponsesByIndicator/Properties[sys_ModifiedBy]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="sys_ModifiedOn"
+                    Kind="Value"
+                    DataType=":DateTime">
+                    <ContentItem.Attributes>
+                      <DisplayName
+                        Value="Modified On" />
+                    </ContentItem.Attributes>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="vw_ResponsesByIndicator/Properties[sys_ModifiedOn]" />
                         </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
                   </ContentItem>
                 </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showViewFormResponse]">
+                          <ArgumentExpression
+                            Parameter="FormResponse">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AddEditIndicatorValue/Properties[vw_ResponsesByIndicators_PerIndicator]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="FormResponse" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
             </ContentItem>
           </ContentItem>
@@ -1272,75 +1410,6 @@
           <ChainExpression>
             <CallExpression
               Target="AddEditIndicatorValue/Properties[IndicatorValuesSorted]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenCollectionProperty
-        Name="IndicatorLocationRollup"
-        PageSize="45"
-        PropertyType="CollectionView$IndicatorValue">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="IndicatorLocationRollupQuery"
-            ReturnType="IndicatorValue*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[IndicatorLocationRollup]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="AddEditIndicatorValue/Properties[IndicatorLocationRollup]/Query">
-              <ArgumentExpression
-                Parameter="IndicatorID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                  <MemberExpression
-                    Member="Indicator" />
-                  <MemberExpression
-                    Member="IndicatorID" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="DataVersion_ID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[DataVersion_ID]" />
-                  <MemberExpression
-                    Member="DataVersion_ID" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ParentLocation_ID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                  <MemberExpression
-                    Member="Location" />
-                  <MemberExpression
-                    Member="Location_ID" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ReportingPeriod_ID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
-                  <MemberExpression
-                    Member="ReportingPeriod" />
-                  <MemberExpression
-                    Member="ID" />
-                </ChainExpression>
-              </ArgumentExpression>
-            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -1537,20 +1606,20 @@
         </ScreenProperty.Attributes>
       </ScreenProperty>
       <ScreenCollectionProperty
-        Name="ResponsesRollups"
+        Name="IndicatorLocationRollup"
         PageSize="45"
-        PropertyType="CollectionView$Response">
+        PropertyType="CollectionView$IndicatorValue">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="ResponsesRollupsQuery"
-            ReturnType="Response*">
+            Name="IndicatorLocationRollupQuery"
+            ReturnType="IndicatorValue*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[ResponsesRollups]" />
+                  Member="MeerkatData/Members[IndicatorLocationRollup]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -1558,13 +1627,49 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="AddEditIndicatorValue/Properties[ResponsesRollups]/Query">
+              Target="AddEditIndicatorValue/Properties[IndicatorLocationRollup]/Query">
               <ArgumentExpression
-                Parameter="Response" />
+                Parameter="IndicatorID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="Indicator" />
+                  <MemberExpression
+                    Member="IndicatorID" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
-                Parameter="Question" />
+                Parameter="DataVersion_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[DataVersion_ID]" />
+                  <MemberExpression
+                    Member="DataVersion_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
-                Parameter="Value" />
+                Parameter="ParentLocation_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="Location" />
+                  <MemberExpression
+                    Member="Location_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ReportingPeriod_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValue]" />
+                  <MemberExpression
+                    Member="ReportingPeriod" />
+                  <MemberExpression
+                    Member="ID" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -1682,6 +1787,40 @@
                 Parameter="LocationType_ID" />
               <ArgumentExpression
                 Parameter="Location" />
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="vw_ResponsesByIndicators_PerIndicator"
+        PageSize="45"
+        PropertyType="CollectionView$vw_ResponsesByIndicator">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="vw_ResponsesByIndicators_PerIndicatorQuery"
+            ReturnType="vw_ResponsesByIndicator*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[vw_ResponsesByIndicators_PerIndicator]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicatorValue/Properties[vw_ResponsesByIndicators_PerIndicator]/Query">
+              <ArgumentExpression
+                Parameter="IndicatorID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[Indicator_ID]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>

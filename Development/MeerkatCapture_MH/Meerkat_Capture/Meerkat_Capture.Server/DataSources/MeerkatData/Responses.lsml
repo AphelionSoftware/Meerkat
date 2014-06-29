@@ -26,13 +26,6 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="PotentialResponse_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Response1"
         PropertyType=":String?">
         <EntityProperty.Attributes>
@@ -121,6 +114,16 @@
         Association="FK_Response_Question"
         FromEnd="Response"
         ToEnd="Question" />
+      <NavigationProperty
+        Name="vw_ResponsesByIndicators"
+        Association="vw_ResponsesByIndicator_Response"
+        FromEnd="Response"
+        ToEnd="vw_ResponsesByIndicator" />
+      <NavigationProperty
+        Name="PotentialResponse"
+        Association="FK_Response_PotentialResponse"
+        FromEnd="Response"
+        ToEnd="PotentialResponse" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -214,7 +217,35 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vw_ResponsesByIndicator_Responses"
+      Association="vw_ResponsesByIndicator_Response">
+      <AssociationSetEnd
+        Name="vw_ResponsesByIndicator"
+        EntitySet="vw_ResponsesByIndicators" />
+      <AssociationSetEnd
+        Name="Response"
+        EntitySet="Responses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vw_ResponsesByIndicator_Response">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vw_ResponsesByIndicator"
+      Multiplicity="Many"
+      EntityType="vw_ResponsesByIndicator" />
+    <AssociationEnd
+      Name="Response"
+      Multiplicity="One"
+      EntityType="Response">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -232,11 +263,6 @@
           StoreGeneratedPattern="Identity"
           Type="int"
           Property="Response/Properties[Response_ID]" />
-        <SsdlProperty
-          Name="PotentialResponse_ID"
-          Nullable="True"
-          Type="int"
-          Property="Response/Properties[PotentialResponse_ID]" />
         <SsdlProperty
           Name="Response"
           Nullable="True"
@@ -292,11 +318,37 @@
           Type="int"
           PropertyName="FormResponse_ID" />
         <SsdlForeignKeyProperty
+          Name="PotentialResponse_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="PotentialResponse_ID" />
+        <SsdlForeignKeyProperty
           Name="Question_ID"
           Nullable="False"
           Type="int"
           PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="vw_ResponsesByIndicator_Responses">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vw_ResponsesByIndicator_Responses" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Responses]/Members[vw_ResponsesByIndicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Response_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Responses]/Members[Response]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Response_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

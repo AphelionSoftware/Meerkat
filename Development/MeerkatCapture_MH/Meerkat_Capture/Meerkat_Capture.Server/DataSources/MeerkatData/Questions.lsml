@@ -121,13 +121,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="MultipleChoiceResponseID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Response"
         PropertyType=":String?">
         <EntityProperty.Attributes>
@@ -174,6 +167,21 @@
         Association="FK_Response_Question"
         FromEnd="Question"
         ToEnd="Response" />
+      <NavigationProperty
+        Name="vw_ResponsesByIndicators"
+        Association="vw_ResponsesByIndicator_Question"
+        FromEnd="Question"
+        ToEnd="vw_ResponsesByIndicator" />
+      <NavigationProperty
+        Name="PotentialResponses"
+        Association="FK_PotentialResponse_Question"
+        FromEnd="Question"
+        ToEnd="PotentialResponse" />
+      <NavigationProperty
+        Name="PotentialResponse"
+        Association="FK_Question_PotentialResponse"
+        FromEnd="Question"
+        ToEnd="PotentialResponse" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -302,6 +310,26 @@
         Name="Response"
         EntitySet="Responses" />
     </AssociationSet>
+    <AssociationSet
+      Name="vw_ResponsesByIndicator_Questions"
+      Association="vw_ResponsesByIndicator_Question">
+      <AssociationSetEnd
+        Name="vw_ResponsesByIndicator"
+        EntitySet="vw_ResponsesByIndicators" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_PotentialResponse_Question"
+      Association="FK_PotentialResponse_Question">
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+      <AssociationSetEnd
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Response_Question">
@@ -317,6 +345,39 @@
       Name="Response"
       Multiplicity="Many"
       EntityType="Response" />
+  </Association>
+  <Association
+    Name="vw_ResponsesByIndicator_Question">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vw_ResponsesByIndicator"
+      Multiplicity="Many"
+      EntityType="vw_ResponsesByIndicator" />
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="One"
+      EntityType="Question">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="FK_PotentialResponse_Question">
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="One"
+      EntityType="Question">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PotentialResponse"
+      Multiplicity="Many"
+      EntityType="PotentialResponse" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -390,11 +451,6 @@
           Type="datetime"
           Property="Question/Properties[sys_ModifiedOn]" />
         <SsdlProperty
-          Name="MultipleChoiceResponseID"
-          Nullable="True"
-          Type="int"
-          Property="Question/Properties[MultipleChoiceResponseID]" />
-        <SsdlProperty
           Name="Response"
           Nullable="True"
           Type="varchar(max)"
@@ -421,8 +477,34 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="MultipleChoiceResponseID"
+          Nullable="True"
+          Type="int"
+          PropertyName="MultipleChoiceResponseID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_PotentialResponse_Question">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_PotentialResponse_Question" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[PotentialResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Question_Indicator_Rollup_Question">
       <AssociationSetMapping.Attributes>
@@ -458,6 +540,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Response_Question]/Members[Response]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vw_ResponsesByIndicator_Questions">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vw_ResponsesByIndicator_Questions" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Questions]/Members[vw_ResponsesByIndicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Question_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Questions]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Question_ID" />

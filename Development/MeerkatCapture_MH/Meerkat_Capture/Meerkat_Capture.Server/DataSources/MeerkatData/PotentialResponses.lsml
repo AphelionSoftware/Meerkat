@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Question">
+    Name="PotentialResponse">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,6 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <KeyProperty
+        Name="PotentialResponse_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
         Name="Name"
         PropertyType=":String">
@@ -42,6 +52,14 @@
           <Required />
           <MaxLength />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ResponseOrder"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -87,116 +105,59 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="PotentialResponses"
-        Association="FK_PotentialResponse_Question"
-        FromEnd="Question"
-        ToEnd="PotentialResponse" />
-      <NavigationProperty
-        Name="Question_Indicator_Rollups"
-        Association="FK_Question_Indicator_Rollup_Question"
-        FromEnd="Question"
-        ToEnd="Question_Indicator_Rollup" />
-      <NavigationProperty
-        Name="QuestionType"
-        Association="FK_Question_QuestionType"
-        FromEnd="Question"
-        ToEnd="QuestionType" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_Question_ActiveType"
-        FromEnd="Question"
+        Association="FK_PotentialResponse_ActiveType"
+        FromEnd="PotentialResponse"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="Category"
-        Association="FK_Question_Category"
-        FromEnd="Question"
-        ToEnd="Category" />
-      <KeyProperty
-        Name="Question_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <EntityProperty
-        Name="QuestionOrder"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Response"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="TrueOrFalse"
-        PropertyType=":Boolean?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        Name="Question"
+        Association="FK_PotentialResponse_Question"
+        FromEnd="PotentialResponse"
+        ToEnd="Question" />
       <NavigationProperty
-        Name="PotentialResponse"
+        Name="Questions"
         Association="FK_Question_PotentialResponse"
-        FromEnd="Question"
-        ToEnd="PotentialResponse" />
-      <EntityProperty
-        Name="IntegerResponse"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="DecimalResponse"
-        PropertyType=":Decimal?">
-        <EntityProperty.Attributes>
-          <DecimalConstraint
-            Precision="20"
-            Scale="12" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        FromEnd="PotentialResponse"
+        ToEnd="Question" />
+      <NavigationProperty
+        Name="Responses"
+        Association="FK_Response_PotentialResponse"
+        FromEnd="PotentialResponse"
+        ToEnd="Response" />
+      <NavigationProperty
+        Name="vw_ResponsesByIndicators"
+        Association="vw_ResponsesByIndicator_PotentialResponse"
+        FromEnd="PotentialResponse"
+        ToEnd="vw_ResponsesByIndicator" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_PotentialResponse_Question">
-    <AssociationEnd
-      Name="Question"
-      Multiplicity="One"
-      EntityType="Question">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
+    Name="FK_Question_PotentialResponse">
     <AssociationEnd
       Name="PotentialResponse"
-      Multiplicity="Many"
-      EntityType="PotentialResponse" />
-  </Association>
-  <Association
-    Name="FK_Question_Indicator_Rollup_Question">
-    <AssociationEnd
-      Name="Question"
-      Multiplicity="One"
-      EntityType="Question">
+      EntityType="PotentialResponse">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Question_Indicator_Rollup"
+      Name="Question"
       Multiplicity="Many"
-      EntityType="Question_Indicator_Rollup" />
+      EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_Response_PotentialResponse">
+    <AssociationEnd
+      Name="PotentialResponse"
+      EntityType="PotentialResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Response"
+      Multiplicity="Many"
+      EntityType="Response" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -204,34 +165,34 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Questions"
+      Name="PotentialResponses"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Question" />
+      EntityType="PotentialResponse" />
     <AssociationSet
-      Name="FK_PotentialResponse_Question"
-      Association="FK_PotentialResponse_Question">
-      <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
+      Name="FK_Question_PotentialResponse"
+      Association="FK_Question_PotentialResponse">
       <AssociationSetEnd
         Name="PotentialResponse"
         EntitySet="PotentialResponses" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Question_Indicator_Rollup_Question"
-      Association="FK_Question_Indicator_Rollup_Question">
       <AssociationSetEnd
         Name="Question"
         EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Response_PotentialResponse"
+      Association="FK_Response_PotentialResponse">
       <AssociationSetEnd
-        Name="Question_Indicator_Rollup"
-        EntitySet="Question_Indicator_Rollups" />
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+      <AssociationSetEnd
+        Name="Response"
+        EntitySet="Responses" />
     </AssociationSet>
     <QueryOperation
-      Name="Questions_Single"
-      ReturnType="Question">
+      Name="PotentialResponses_Single"
+      ReturnType="PotentialResponse">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -244,12 +205,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Question_ID" />
+                  Member="PotentialResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Question_ID" />
+                Parameter="PotentialResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -257,21 +218,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Questions" />
+            Member="PotentialResponses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Question_ID"
+        Name="PotentialResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Question_ID' key property of the entity to retrieve." />
+            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Questions_SingleOrDefault"
-      ReturnType="Question">
+      Name="PotentialResponses_SingleOrDefault"
+      ReturnType="PotentialResponse">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -284,12 +245,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Question_ID" />
+                  Member="PotentialResponse_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Question_ID" />
+                Parameter="PotentialResponse_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -297,162 +258,178 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Questions" />
+            Member="PotentialResponses" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Question_ID"
+        Name="PotentialResponse_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Question_ID' key property of the entity to retrieve." />
+            Value="The value of the 'PotentialResponse_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vw_ResponsesByIndicator_PotentialResponses"
+      Association="vw_ResponsesByIndicator_PotentialResponse">
+      <AssociationSetEnd
+        Name="vw_ResponsesByIndicator"
+        EntitySet="vw_ResponsesByIndicators" />
+      <AssociationSetEnd
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vw_ResponsesByIndicator_PotentialResponse">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vw_ResponsesByIndicator"
+      Multiplicity="Many"
+      EntityType="vw_ResponsesByIndicator" />
+    <AssociationEnd
+      Name="PotentialResponse"
+      EntityType="PotentialResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Questions">
+      EntitySet="PotentialResponses">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="forms"
-          Table="Question" />
+          Table="PotentialResponse" />
         <SsdlProperty
-          Name="Question_ID"
+          Name="PotentialResponse_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Question/Properties[Question_ID]" />
+          Property="PotentialResponse/Properties[PotentialResponse_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[Name]" />
+          Property="PotentialResponse/Properties[Name]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[Code]" />
+          Property="PotentialResponse/Properties[Code]" />
         <SsdlProperty
           Name="TextDescription"
           Nullable="False"
           Type="varchar(max)"
-          Property="Question/Properties[TextDescription]" />
+          Property="PotentialResponse/Properties[TextDescription]" />
         <SsdlProperty
-          Name="QuestionOrder"
+          Name="ResponseOrder"
           Nullable="False"
           Type="int"
-          Property="Question/Properties[QuestionOrder]" />
+          Property="PotentialResponse/Properties[ResponseOrder]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[sys_CreatedBy]" />
+          Property="PotentialResponse/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Question/Properties[sys_CreatedOn]" />
+          Property="PotentialResponse/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[sys_ModifiedBy]" />
+          Property="PotentialResponse/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Question/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          Name="Response"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="Question/Properties[Response]" />
-        <SsdlProperty
-          Name="IntegerResponse"
-          Nullable="True"
-          Type="int"
-          Property="Question/Properties[IntegerResponse]" />
-        <SsdlProperty
-          Name="DecimalResponse"
-          Nullable="True"
-          Precision="20"
-          Scale="12"
-          Type="decimal"
-          Property="Question/Properties[DecimalResponse]" />
-        <SsdlProperty
-          Name="TrueOrFalse"
-          Nullable="True"
-          Type="bit"
-          Property="Question/Properties[TrueOrFalse]" />
+          Property="PotentialResponse/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="Category_ID"
+          Name="Question_ID"
           Nullable="False"
           Type="int"
-          PropertyName="Category_ID" />
-        <SsdlForeignKeyProperty
-          Name="MultipleChoiceResponseID"
-          Nullable="True"
-          Type="int"
-          PropertyName="MultipleChoiceResponseID" />
-        <SsdlForeignKeyProperty
-          Name="QuestionType_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="QuestionType_ID" />
+          PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_PotentialResponse_Question">
+      AssociationSet="FK_Question_PotentialResponse">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_PotentialResponse_Question" />
+          Name="FK_Question_PotentialResponse" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[Question]">
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[PotentialResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="PotentialResponse_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[PotentialResponse]">
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="MultipleChoiceResponseID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Question_Indicator_Rollup_Question">
+      AssociationSet="FK_Response_PotentialResponse">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Question_Indicator_Rollup_Question" />
+          Name="FK_Response_PotentialResponse" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Indicator_Rollup_Question]/Members[Question]">
+          End="MeerkatData/Members[FK_Response_PotentialResponse]/Members[PotentialResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="PotentialResponse_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Indicator_Rollup_Question]/Members[Question_Indicator_Rollup]">
+          End="MeerkatData/Members[FK_Response_PotentialResponse]/Members[Response]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="PotentialResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vw_ResponsesByIndicator_PotentialResponses">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vw_ResponsesByIndicator_PotentialResponses" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_PotentialResponses]/Members[vw_ResponsesByIndicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PotentialResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_PotentialResponses]/Members[PotentialResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PotentialResponse_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

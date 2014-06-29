@@ -104,6 +104,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="vw_ResponsesByIndicators"
+        Association="vw_ResponsesByIndicator_FormResponse"
+        FromEnd="FormResponse"
+        ToEnd="vw_ResponsesByIndicator" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -222,7 +227,35 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vw_ResponsesByIndicator_FormResponses"
+      Association="vw_ResponsesByIndicator_FormResponse">
+      <AssociationSetEnd
+        Name="vw_ResponsesByIndicator"
+        EntitySet="vw_ResponsesByIndicators" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vw_ResponsesByIndicator_FormResponse">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vw_ResponsesByIndicator"
+      Multiplicity="Many"
+      EntityType="vw_ResponsesByIndicator" />
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -303,6 +336,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Response_FormResponse]/Members[Response]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vw_ResponsesByIndicator_FormResponses">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vw_ResponsesByIndicator_FormResponses" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_FormResponses]/Members[vw_ResponsesByIndicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_FormResponses]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="FormResponse_ID" />
