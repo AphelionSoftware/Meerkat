@@ -1,10 +1,11 @@
 ﻿CREATE PROC forms.InsertResponse
 
-( @FormResponse_ID			int
- ,@Question_ID				int
- ,@PotentialResponse_ID		int
- ,@Response					varchar(max)
- ,@TrueFalse				bit
+
+( @FormResponse_ID			int 
+ ,@Question_ID				int 
+ ,@PotentialResponse_ID		int = null
+ ,@Response					varchar(max) = null
+ ,@TrueFalse				bit = null
 )
 as 
 INSERT INTO [forms].[Response]
