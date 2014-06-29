@@ -60,7 +60,8 @@ GO*/
 
 
 /*Insert Forms data*/
-:r .\forms.QuestionType.PDS.sql								
+:r .\forms.QuestionType.PDS.sql	
+:r .\forms.RollupType.PDS.sql								
 :r .\disagg.Gender.PDS.sql
 :r .\disagg.Age.PDS.sql								
 :r .\rpt.CustomReportType.PDS.sql								

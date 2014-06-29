@@ -12,7 +12,9 @@ function updateLocationsTotal( element, contentItem)
 
     var Location = Locations.data;
     Location.forEach(function (singleLocation) {
-        TotalSum = parseFloat(TotalSum) + parseFloat(singleLocation.ActualValue);
+        if (singleLocation.ActualValue) {
+            TotalSum = parseFloat(TotalSum) + parseFloat(singleLocation.ActualValue);
+        }
         TotalCount = parseFloat(TotalCount) + 1;
         if (parseFloat(singleLocation.ActualValue) < Min || Min == 0) {
             Min = parseFloat(singleLocation.ActualValue);
@@ -78,6 +80,7 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
 
     contentItem.dataBind("screen.IndicatorLocationRollup.count", updateTotal);
 
+    contentItem.dataBind("screen.DataVersion.value", updateTotal);
 
     contentItem.dataBind("screen.ReportingPeriod1.value", updateTotal);
 };
@@ -180,6 +183,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender = function (element, contentItem) {
     // Write code here.
@@ -198,4 +202,86 @@ myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, conte
     } else {
         contentItem.isVisible = true;
     }
+};
+
+//Updating values from the forms
+myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentItem) {
+    // Write code here.
+
+    function updateFormValue() {
+        // Compute the total for the form value
+        var TotalSum = 0;
+        var TotalCount = 0;
+        var TotalSum = 0;
+        var Min = 0;
+        var Max = 0;
+        
+        var Forms = contentItem.screen.vw_ResponsesByIndicators_PerIndicator;
+
+        var Form = Forms.data;
+        Form.forEach(function (singleForm) {
+            TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.QuestionResponse);
+            TotalCount = parseFloat(TotalCount) + 1;
+            if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
+                Min = parseFloat(singleForm.ActualValue);
+            }
+            if (parseFloat(singleForm.ActualValue) > Max) {
+                Max = parseFloat(singleForm.ActualValue);
+            }
+
+        });
+
+        if (TotalCount > 0) {
+            
+            switch (Form[0].RollupTypeCode) {
+                case "SUM":
+                    contentItem.screen.FormValue = TotalSum;
+                    break;
+
+                case "AVG":
+                    TotalAvg = TotalSum / TotalCount;
+                    contentItem.screen.FormValue = TotalAvg;
+                    break;
+
+                case "MAX":
+                    contentItem.screen.FormValue = Max;
+                    break;
+
+                case "MIN":
+                    contentItem.screen.FormValue = Min;
+                    break;
+
+                case "CNT":
+                    contentItem.screen.FormValue = TotalCount;
+                    break;
+
+
+            }
+        }
+        contentItem.screen.FormCountstring = TotalCount.toString() + " forms filled in.";
+
+
+        if (TotalCount < 1) {
+            contentItem.screen.findContentItem("FormValuesRollup").isVisible = false;
+        }
+        else {
+
+            contentItem.screen.findContentItem("FormValuesRollup").isVisible = true;
+        }
+
+
+        // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
+
+    }
+
+    contentItem.dataBind("screen.IndicatorLocationRollup.count", updateFormValue);
+    contentItem.dataBind("screen.ReportingPeriod1.value", updateFormValue);
+    contentItem.dataBind("screen.DataVersion.value", updateFormValue);
+    contentItem.dataBind("screen.vw_ResponsesByIndicators_PerIndicator.count", updateFormValue);
+    
+
+};
+myapp.AddEditIndicatorValue.UseFormValue_execute = function (screen) {
+    screen.IndicatorValue.ActualValue = screen.FormValue;
+    screen.IndicatorValue.ActualLabel = screen.FormValue;
 };

@@ -108,3 +108,19 @@ FROM
 WHERE NOT EXISTS (
 	SELECT 1 FROM [forms].[QuestionType]
 		WHERE Code = q.Code)
+
+		
+INSERT INTO [forms].[QuestionType]
+           ([Name]
+           ,[Code]
+           ,[TextDescription]
+           )
+SELECT Q.Name, Q.Code, Q.Name
+FROM
+(SELECT 
+	 'Count' as Name
+	,'CNT' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [forms].[QuestionType]
+		WHERE Code = q.Code)
