@@ -11,10 +11,7 @@ myapp.AddEditActivity.Activity_Delete_canExecute = function (screen) {
 
 myapp.AddEditActivity.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    //msls.application.lightswitchTools.setCommonDefaults(screen);
-    msls.application.lightswitchTools.setCodeIsBusinessKey(screen);
-    //msls.application.lightswitchTools.setDescriptionIsName(screen);
-    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
+    msls.application.lightswitchTools.setCommonDefaults(screen);
 };
 
 myapp.AddEditActivity.AddProjectStatusValue_execute = function (screen) {

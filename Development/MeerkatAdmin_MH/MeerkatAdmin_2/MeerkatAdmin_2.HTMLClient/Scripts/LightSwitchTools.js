@@ -209,7 +209,7 @@
         });
     }
 
-    lightswitchTools.setCodeIsBusinessKey = function (screen) {
+    lightswitchTools.setCommonDefaults = function (screen) {
         var name = screen.details.getModel().properties[0].name;
         var thisObject = screen[name];
 
@@ -217,7 +217,7 @@
         var BusinessKeyField = screen.findContentItem("BusinessKey");
         var NameField = screen.findContentItem("Name");
         var ShortNameField = screen.findContentItem("ShortName")
-        var DescriptionField = screen.findContentItem("Description");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
         CodeField.dataBind("value", function () {
             if (CodeField.value !== undefined && CodeField.stringValue.length > 0) {
                 var currentLength = 0;
@@ -227,6 +227,32 @@
 
                 if (currentLength === 0) {
                     BusinessKeyField.stringValue = CodeField.stringValue;
+                }
+            }
+        });
+
+        NameField.dataBind("value", function () {
+            if (NameField.value !== undefined && NameField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (TextDescriptionField.value !== undefined) {
+                    currentLength = TextDescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    TextDescriptionField.stringValue = NameField.stringValue;
+                }
+            }
+        });
+
+        ShortNameField.dataBind("value", function () {
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (TextDescriptionField.value !== undefined) {
+                    currentLength = TextDescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    TextDescriptionField.stringValue = ShortNameField.stringValue;
                 }
             }
         });
