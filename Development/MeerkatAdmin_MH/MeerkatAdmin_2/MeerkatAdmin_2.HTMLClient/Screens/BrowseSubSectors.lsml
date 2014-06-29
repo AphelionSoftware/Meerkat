@@ -5,7 +5,7 @@
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="BrowseProgrammes">
+    Name="BrowseSubSectors">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
@@ -20,26 +20,25 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="ProgrammeList"
+            Name="SubSectorList"
             Kind="Group">
             <ContentItem
-              Name="Programme"
+              Name="SubSector"
               Kind="Collection"
-              DataType="CollectionView$Programme"
+              DataType="CollectionView$SubSector"
               View="Microsoft.LightSwitch.MobileWeb:List">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseProgrammes/Properties[ProgrammeSorted]" />
+                      Member="BrowseSubSectors/Properties[SubSectorSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
                 Name="RowTemplate"
                 Kind="Details"
-                DataType="Programme"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                DataType="SubSector">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
@@ -48,12 +47,12 @@
                 <ContentItem
                   Name="ShortName"
                   Kind="Value"
-                  DataType=":String?">
+                  DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Programme/Properties[ShortName]" />
+                          Member="SubSector/Properties[ShortName]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -65,16 +64,16 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showAddEditProgramme]">
+                        Target="!module/Methods[showAddEditSubSector]">
                         <CallExpression.Attributes>
                           <AssociatedCollection
-                            Collection="BrowseProgrammes/Properties[ProgrammeSorted]" />
+                            Collection="BrowseSubSectors/Properties[SubSectorSorted]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
-                          Parameter="Programme">
+                          Parameter="SubSector">
                           <ChainExpression>
                             <MemberExpression
-                              Member="BrowseProgrammes/Properties[ProgrammeSorted]" />
+                              Member="BrowseSubSectors/Properties[SubSectorSorted]" />
                             <MemberExpression
                               Member="selectedItem" />
                           </ChainExpression>
@@ -112,7 +111,7 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="AddProgramme"
+                Name="AddSubSector"
                 Kind="Command">
                 <ContentItem.PropertySources>
                   <ControlPropertySource
@@ -120,12 +119,12 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAddEditProgramme]">
+                          Target="!module/Methods[showAddEditSubSector]">
                           <CallExpression.Attributes>
                             <AssociatedCollection
-                              Collection="BrowseProgrammes/Properties[ProgrammeSorted]" />
+                              Collection="BrowseSubSectors/Properties[SubSectorSorted]" />
                             <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditProgramme]/Parameters[Programme]" />
+                              TargetParameter="!module/Methods[showAddEditSubSector]/Parameters[SubSector]" />
                           </CallExpression.Attributes>
                         </CallExpression>
                       </ChainExpression>
@@ -144,7 +143,7 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="FilterProgrammes"
+                Name="FilterSubSectors"
                 Kind="Command">
                 <ContentItem.PropertySources>
                   <ControlPropertySource
@@ -152,11 +151,11 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="BrowseProgrammes/Methods[showDialog]">
+                          Target="BrowseSubSectors/Methods[showDialog]">
                           <ArgumentExpression
                             Parameter="dialogName">
                             <ConstantExpression
-                              Value="ShowFilter"
+                              Value="FilterSubSector"
                               ResultType=":String" />
                           </ArgumentExpression>
                         </CallExpression>
@@ -169,130 +168,6 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-filter"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-            </ContentItem.CommandItems>
-            <ContentItem.PropertySources>
-              <ControlPropertySource
-                Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <CallExpression
-                      Target="!module/Methods[showAddEditProgramme]">
-                      <CallExpression.Attributes>
-                        <AssociatedCollection
-                          Collection="BrowseProgrammes/Properties[ProgrammeSorted]" />
-                      </CallExpression.Attributes>
-                      <ArgumentExpression
-                        Parameter="Programme">
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="BrowseProgrammes/Properties[ProgrammeSorted]" />
-                          <MemberExpression
-                            Member="selectedItem" />
-                        </ChainExpression>
-                      </ArgumentExpression>
-                    </CallExpression>
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ControlPropertySource>
-            </ContentItem.PropertySources>
-          </ContentItem>
-          <ContentItem
-            Name="ChildSectors"
-            Kind="Group">
-            <ContentItem
-              Name="SectorSorted"
-              Kind="Collection"
-              DataType="CollectionView$Sector">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseProgrammes/Properties[SectorSorted]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-              <ContentItem
-                Name="SectorSortedTemplate"
-                Kind="Details"
-                DataType="Sector">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression />
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-                <ContentItem
-                  Name="ShortName1"
-                  Kind="Value"
-                  DataType=":String">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Sector/Properties[ShortName]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-              </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="!module/Methods[showAddEditSector]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="BrowseProgrammes/Properties[SectorSorted]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="Sector">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="BrowseProgrammes/Properties[SectorSorted]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
-            </ContentItem>
-            <ContentItem.CommandItems>
-              <ContentItem
-                Name="AddSector"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditSector]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="BrowseProgrammes/Properties[SectorSorted]" />
-                            <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditSector]/Parameters[Sector]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-add"
                           ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -319,30 +194,30 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:DialogPages">
           <ContentItem
-            Name="ShowFilter"
+            Name="FilterSubSector"
             Kind="Group">
             <ContentItem
-              Name="ProgrammeCode"
+              Name="SubSectorCode"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseProgrammes/Properties[ProgrammeCode]" />
+                      Member="BrowseSubSectors/Properties[SubSectorCode]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
             <ContentItem
-              Name="ProgrammeShortName"
+              Name="SubSectorShortName"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseProgrammes/Properties[ProgrammeShortName]" />
+                      Member="BrowseSubSectors/Properties[SubSectorShortName]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
@@ -377,20 +252,20 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="ProgrammeSorted"
+        Name="SubSectorSorted"
         PageSize="45"
-        PropertyType="CollectionView$Programme">
+        PropertyType="CollectionView$SubSector">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="ProgrammeSortedQuery"
-            ReturnType="Programme*">
+            Name="SubSectorSortedQuery"
+            ReturnType="SubSector*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[ProgrammeSorted]" />
+                  Member="MeerkatData/Members[SubSectorSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -398,19 +273,19 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseProgrammes/Properties[ProgrammeSorted]/Query">
+              Target="BrowseSubSectors/Properties[SubSectorSorted]/Query">
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseProgrammes/Properties[ProgrammeCode]" />
+                    Member="BrowseSubSectors/Properties[SubSectorCode]" />
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
                 Parameter="ShortName">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseProgrammes/Properties[ProgrammeShortName]" />
+                    Member="BrowseSubSectors/Properties[SubSectorShortName]" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -418,50 +293,19 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
-        Name="ProgrammeCode"
+        Name="SubSectorCode"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="ProgrammeShortName"
+        Name="SubSectorShortName"
         PropertyType=":String?" />
-      <ScreenCollectionProperty
-        Name="SectorSorted"
-        PageSize="45"
-        PropertyType="CollectionView$Sector">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="SectorSortedQuery"
-            ReturnType="Sector*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[SectorSorted]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseProgrammes/Properties[SectorSorted]/Query">
-              <ArgumentExpression
-                Parameter="ShortName" />
-              <ArgumentExpression
-                Parameter="Code" />
-            </CallExpression>
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showBrowseProgrammes">
+      Name="showBrowseSubSectors">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="BrowseProgrammes" />
+          TargetScreen="BrowseSubSectors" />
       </ApplicationMethod.Attributes>
     </ApplicationMethod>
   </Application.Methods>

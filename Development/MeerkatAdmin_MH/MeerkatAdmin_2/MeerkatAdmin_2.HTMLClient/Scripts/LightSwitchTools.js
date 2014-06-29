@@ -209,6 +209,55 @@
         });
     }
 
+    lightswitchTools.setCommonAddScreenValues = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        var CodeField = screen.findContentItem("Code");
+        var BusinessKeyField = screen.findContentItem("BusinessKey");
+        var NameField = screen.findContentItem("Name");
+        var ShortNameField = screen.findContentItem("ShortName")
+        var DescriptionField = screen.findContentItem("Description");
+        CodeField.dataBind("value", function () {
+            if (CodeField.value !== undefined && CodeField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (BusinessKeyField.value !== undefined) {
+                    currentLength = BusinessKeyField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    BusinessKeyField.stringValue = CodeField.stringValue;
+                }
+            }
+        });
+
+        NameField.dataBind("value", function () {
+            if (NameField.value !== undefined && NameField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (DescriptionField.value !== undefined) {
+                    currentLength = DescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    DescriptionField.stringValue = NameField.stringValue;
+                }
+            }
+        });
+
+        ShortNameField.dataBind("value", function () {
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (DescriptionField.value !== undefined) {
+                    currentLength = DescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    DescriptionField.stringValue = ShortNameField.stringValue;
+                }
+            }
+        });
+    }
+
     lightswitchTools.copyIcon = function (element) {
         $(element).addClass("customCopyIcon");
     }
