@@ -209,7 +209,7 @@
         });
     }
 
-    lightswitchTools.setCommonAddScreenValues = function (screen) {
+    lightswitchTools.setCodeIsBusinessKey = function (screen) {
         var name = screen.details.getModel().properties[0].name;
         var thisObject = screen[name];
 
@@ -230,29 +230,45 @@
                 }
             }
         });
+    }
 
+    lightswitchTools.setDescriptionIsName = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        var NameField = screen.findContentItem("Name");
+        //var ShortNameField = screen.findContentItem("ShortName")
+        var TextDescriptionField = screen.findContentItem("TextDescription");
         NameField.dataBind("value", function () {
             if (NameField.value !== undefined && NameField.stringValue.length > 0) {
                 var currentLength = 0;
-                if (DescriptionField.value !== undefined) {
-                    currentLength = DescriptionField.stringValue.length;
+                if (TextDescriptionField.value !== undefined) {
+                    currentLength = TextDescriptionField.stringValue.length;
                 }
 
                 if (currentLength === 0) {
-                    DescriptionField.stringValue = NameField.stringValue;
+                    TextDescriptionField.stringValue = NameField.stringValue;
                 }
             }
         });
+    }
 
+    lightswitchTools.setDescriptionIsShortName = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        //var NameField = screen.findContentItem("Name");
+        var ShortNameField = screen.findContentItem("ShortName");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
         ShortNameField.dataBind("value", function () {
             if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0) {
                 var currentLength = 0;
-                if (DescriptionField.value !== undefined) {
-                    currentLength = DescriptionField.stringValue.length;
+                if (TextDescriptionField.value !== undefined) {
+                    currentLength = TextDescriptionField.stringValue.length;
                 }
 
                 if (currentLength === 0) {
-                    DescriptionField.stringValue = ShortNameField.stringValue;
+                    TextDescriptionField.stringValue = ShortNameField.stringValue;
                 }
             }
         });
