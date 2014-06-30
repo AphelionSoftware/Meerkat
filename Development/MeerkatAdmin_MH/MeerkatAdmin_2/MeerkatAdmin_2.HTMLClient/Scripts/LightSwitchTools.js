@@ -259,8 +259,14 @@
     }*/
 
     lightswitchTools.setBusinessKeyIsCode = function (screen) {
-        //var name = screen.details.getModel().properties[0].name;
-        //var thisObject = screen[name];
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        /*var object = screen.name;
+
+        if (object === undefined) {
+            object = new myapp.name();
+        }*/
 
         var CodeField = screen.findContentItem("Code");
         var BusinessKeyField = screen.findContentItem("BusinessKey");
@@ -331,14 +337,14 @@
     }
 
     lightswitchTools.setDescriptionIsShortName = function (screen) {
-        //var name = screen.details.getModel().properties[0].name;
-        //var thisObject = screen[name];
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
 
         var ShortNameField = screen.findContentItem("ShortName");
         var DescriptionField = screen.findContentItem("Description");
         var TextDescriptionField = screen.findContentItem("TextDescription");
         ShortNameField.dataBind("value", function () {
-            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && TextDescriptionField != null) {
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && TextDescriptionField !== null) {
                 var currentLength = 0;
                 if (TextDescriptionField.value !== undefined) {
                     currentLength = TextDescriptionField.stringValue.length;
@@ -349,7 +355,7 @@
                 }
             }
 
-            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && DescriptionField != null) {
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && DescriptionField !== null) {
                 var currentLength = 0;
                 if (DescriptionField.value !== undefined) {
                     currentLength = DescriptionField.stringValue.length;
