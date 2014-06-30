@@ -209,7 +209,7 @@
         });
     }
 
-    lightswitchTools.setCommonDefaults = function (screen) {
+    /*lightswitchTools.setCommonDefaults = function (screen) {
         var name = screen.details.getModel().properties[0].name;
         var thisObject = screen[name];
 
@@ -256,17 +256,57 @@
                 }
             }
         });
+    }*/
+
+    lightswitchTools.setBusinessKeyIsCode = function (screen) {
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
+
+        var CodeField = screen.findContentItem("Code");
+        var BusinessKeyField = screen.findContentItem("BusinessKey");
+        CodeField.dataBind("value", function () {
+            if (CodeField.value !== undefined && CodeField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (BusinessKeyField.value !== undefined) {
+                    currentLength = BusinessKeyField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    BusinessKeyField.stringValue = CodeField.stringValue;
+                }
+            }
+        });
+    }
+
+    lightswitchTools.setBusinessKeyIsName = function (screen) {
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
+
+        var NameField = screen.findContentItem("Name");
+        var BusinessKeyField = screen.findContentItem("BusinessKey");
+        NameField.dataBind("value", function () {
+            if (NameField.value !== undefined && NameField.stringValue.length > 0) {
+                var currentLength = 0;
+                if (BusinessKeyField.value !== undefined) {
+                    currentLength = BusinessKeyField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    BusinessKeyField.stringValue = NameField.stringValue;
+                }
+            }
+        });
     }
 
     lightswitchTools.setDescriptionIsName = function (screen) {
-        var name = screen.details.getModel().properties[0].name;
-        var thisObject = screen[name];
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
 
         var NameField = screen.findContentItem("Name");
-        //var ShortNameField = screen.findContentItem("ShortName")
+        var DescriptionField = screen.findContentItem("Description");
         var TextDescriptionField = screen.findContentItem("TextDescription");
         NameField.dataBind("value", function () {
-            if (NameField.value !== undefined && NameField.stringValue.length > 0) {
+            if (NameField.value !== undefined && NameField.stringValue.length > 0 && TextDescriptionField != null) {
                 var currentLength = 0;
                 if (TextDescriptionField.value !== undefined) {
                     currentLength = TextDescriptionField.stringValue.length;
@@ -276,18 +316,29 @@
                     TextDescriptionField.stringValue = NameField.stringValue;
                 }
             }
+
+            if (NameField.value !== undefined && NameField.stringValue.length > 0 && DescriptionField != null) {
+                var currentLength = 0;
+                if (DescriptionField.value !== undefined) {
+                    currentLength = DescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    DescriptionField.stringValue = NameField.stringValue;
+                }
+            }
         });
     }
 
     lightswitchTools.setDescriptionIsShortName = function (screen) {
-        var name = screen.details.getModel().properties[0].name;
-        var thisObject = screen[name];
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
 
-        //var NameField = screen.findContentItem("Name");
         var ShortNameField = screen.findContentItem("ShortName");
+        var DescriptionField = screen.findContentItem("Description");
         var TextDescriptionField = screen.findContentItem("TextDescription");
         ShortNameField.dataBind("value", function () {
-            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0) {
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && TextDescriptionField != null) {
                 var currentLength = 0;
                 if (TextDescriptionField.value !== undefined) {
                     currentLength = TextDescriptionField.stringValue.length;
@@ -295,6 +346,17 @@
 
                 if (currentLength === 0) {
                     TextDescriptionField.stringValue = ShortNameField.stringValue;
+                }
+            }
+
+            if (ShortNameField.value !== undefined && ShortNameField.stringValue.length > 0 && DescriptionField != null) {
+                var currentLength = 0;
+                if (DescriptionField.value !== undefined) {
+                    currentLength = DescriptionField.stringValue.length;
+                }
+
+                if (currentLength === 0) {
+                    DescriptionField.stringValue = ShortNameField.stringValue;
                 }
             }
         });

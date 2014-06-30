@@ -11,6 +11,8 @@ myapp.AddEditOutcome.Outcome_Delete_canExecute = function (screen) {
 
 myapp.AddEditOutcome.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
+    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
 };
 
 myapp.AddEditOutcome.AddOutputStatusValue_execute = function (screen) {

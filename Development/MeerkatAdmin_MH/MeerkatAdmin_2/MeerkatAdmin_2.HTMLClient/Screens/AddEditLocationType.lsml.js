@@ -6,4 +6,6 @@ myapp.AddEditLocationType.Delete_execute = function (screen) {
 
 myapp.AddEditLocationType.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
+    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    msls.application.lightswitchTools.setDescriptionIsName(screen);
 };

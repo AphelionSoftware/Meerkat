@@ -11,6 +11,8 @@ myapp.AddEditMilestone.Milestone_Delete_canExecute = function (screen) {
 
 myapp.AddEditMilestone.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
+    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
     screen.Milestone.IsKeyIndicator = false;
 };
 
