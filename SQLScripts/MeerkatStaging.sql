@@ -308,7 +308,6 @@ CREATE TABLE [Staging].[Project]
 	[ShortName] nvarchar(255) NOT NULL,
 	[LongName] varchar(255) NOT NULL,
 	[TextDescription] varchar(max) NOT NULL,
-	[ProjectParentID] int NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL,
 	[ProjectSiteName] varchar(255) NOT NULL,
 	[OutcomeBusinessKey] nvarchar(4000) NULL,
@@ -516,6 +515,8 @@ CREATE TABLE [Staging].[OrganizationType]
 (
 
 	[OrganizationType_ID] int NULL,
+    [Code]          varchar(50) NOT NULL,
+    [Name]          varchar(255) NOT NULL,
 	[Description] varchar(max) NULL,
 	[BusinessKey] nvarchar(4000) NOT NULL
 )
@@ -881,6 +882,8 @@ CREATE TABLE [Staging].[PeopleReachedValues]
 	[OutcomeBusinessKey] nvarchar(4000) NULL,
 	[OutputBusinessKey] nvarchar(4000) NULL,
 	[ProgrammeBusinessKey] nvarchar(4000) NULL,
+    [SectorBusinessKey] nvarchar(4000) NULL,
+    [SubSectorBusinessKey] nvarchar(4000) NULL,
 	[ProjectBusinessKey] nvarchar(4000) NULL,
 	[ReportingPeriodBusinessKey] nvarchar(4000) NOT NULL,
 	[ResultAreaBusinessKey] nvarchar(4000) NULL,
