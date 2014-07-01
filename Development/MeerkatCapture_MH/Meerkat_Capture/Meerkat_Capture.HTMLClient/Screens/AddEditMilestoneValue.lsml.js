@@ -16,7 +16,7 @@ myapp.AddEditMilestoneValue.created = function (screen) {
 
     //Set the milestone - it's prefiltered by parameter.
 
-    myapp.activeDataWorkspace.MeerkatData.Milestones_SingleOrDefault(screen.Milestone_ID).execute().then(function (milestone) {
+    myapp.activeDataWorkspace.MeerkatData.Milestones_SingleOrDefault(screen.MilestoneID).execute().then(function (milestone) {
         screen.MilestoneValue.setMilestone(milestone.results[0]);
     });
 };

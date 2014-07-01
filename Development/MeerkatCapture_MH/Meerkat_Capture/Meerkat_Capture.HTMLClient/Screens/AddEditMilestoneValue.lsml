@@ -31,7 +31,7 @@
               Name="MilestoneValue_Milestone"
               Kind="Details"
               DataType="Milestone"
-              View="Microsoft.LightSwitch.MobileWeb:DetailsModalPicker">
+              View="Microsoft.LightSwitch.MobileWeb:Summary">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
@@ -42,16 +42,6 @@
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
-              <ContentItem
-                Name="MilestoneValue_MilestoneTemplate"
-                Kind="Details"
-                DataType="Milestone">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression />
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
             </ContentItem>
             <ContentItem
               Name="columns"
@@ -80,6 +70,14 @@
                     Name="ReportingPeriod"
                     Kind="Details"
                     DataType="ReportingPeriod">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditMilestoneValue/Properties[ReportingPeriodsFiltered]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -134,6 +132,14 @@
                     Name="DataVersion"
                     Kind="Details"
                     DataType="DataVersion">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditMilestoneValue/Properties[DataVersionSorted]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -445,7 +451,24 @@
                         </ContentItem.PropertySources>
                       </ContentItem>
                       <ContentItem
-                        Name="ActualLabel1"
+                        Name="PreviousActualValue"
+                        Kind="Value"
+                        DataType=":Decimal?">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Actual Value" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="MilestoneValue/Properties[ActualValue]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Name="PreviousActualLabel"
                         Kind="Value"
                         DataType=":String">
                         <ContentItem.DataSource>
@@ -458,20 +481,7 @@
                         </ContentItem.DataSource>
                       </ContentItem>
                       <ContentItem
-                        Name="ActualValue1"
-                        Kind="Value"
-                        DataType=":Decimal?">
-                        <ContentItem.DataSource>
-                          <ScreenExpressionTree>
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="MilestoneValue/Properties[ActualValue]" />
-                            </ChainExpression>
-                          </ScreenExpressionTree>
-                        </ContentItem.DataSource>
-                      </ContentItem>
-                      <ContentItem
-                        Name="ActualDate1"
+                        Name="PreviousActualDate"
                         Kind="Value"
                         DataType=":Date?">
                         <ContentItem.DataSource>
@@ -1034,6 +1044,13 @@
                 Parameter="SubSector" />
               <ArgumentExpression
                 Parameter="Sector" />
+              <ArgumentExpression
+                Parameter="MilestoneID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditMilestoneValue/Properties[MilestoneID]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
