@@ -10,9 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-USE Meerkat
-GO
-
 SET identity_insert [rpt].CustomReportType on
 
 
