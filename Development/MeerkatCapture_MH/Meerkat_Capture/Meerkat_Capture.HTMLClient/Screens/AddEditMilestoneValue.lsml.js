@@ -6,9 +6,9 @@ myapp.AddEditMilestoneValue.created = function (screen) {
 };
 myapp.AddEditMilestoneValue.Order_postRender = function (element, contentItem) {
     // Write code here.
-    //contentItem.screen.PreviousDataVersion = contentItem.value + 10;
+    contentItem.screen.PreviousDataVersion = contentItem.value + 1;
 };
-myapp.AddEditMilestoneValue.SumAmount_postRender = function (element, contentItem) {
+/*myapp.AddEditMilestoneValue.SumAmount_postRender = function (element, contentItem) {
     // Write code here.
     function updateTotal() {
         // Compute the total for the invoice
@@ -100,4 +100,41 @@ myapp.AddEditMilestoneValue.UseTotal_execute = function (screen) {
     // Write code here.
     screen.MilestoneValue.ActualValue = screen.Total;
     screen.MilestoneValue.ActualLabel = screen.Total;
+};*/
+myapp.AddEditMilestoneValue.UsePreviousVersion_execute = function (screen) {
+    // Write code here.
+    if (screen.MilestoneValuesPreviousVersion.data[1]) {
+        screen.MilestoneValue.ActualValue = screen.MilestoneValuesPreviousVersion.data[1].ActualValue;
+        screen.MilestoneValue.ActualLabel = screen.MilestoneValuesPreviousVersion.data[1].ActualLabel;
+        screen.MilestoneValue.ActualDate = screen.MilestoneValuesPreviousVersion.data[1].ActualDate;
+    }
+};
+myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersion_postRender = function (element, contentItem) {
+    // Write code here.
+    function updateVersionRollup() {
+        if (contentItem.screen.DataVersionSorted.selectedItem) {
+            contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+
+        }
+        if (contentItem.screen.ReportingPeriodsFiltered) {
+
+        }
+        //updateLocationsTotal(element, contentItem);
+        contentItem.screen.IndicatorValuesPreviousVersion.load();
+        //contentItem.screen.IndicatorLocationRollup.load();
+    }
+
+    // Set a dataBind to update the value when the selection change
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
+    //contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
+};
+myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersionTemplate_postRender = function (element, contentItem) {
+    // Write code here.
+    // if (contentItem.screen == null)
+    var x = contentItem.data;
+    if (!(contentItem.data.getActualValue()._value)) {
+        contentItem.isVisible = false;
+    }
 };
