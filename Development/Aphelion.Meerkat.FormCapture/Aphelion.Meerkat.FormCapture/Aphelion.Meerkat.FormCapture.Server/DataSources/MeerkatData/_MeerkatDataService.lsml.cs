@@ -15,6 +15,7 @@ namespace LightSwitchApplication
 
         partial void Questions_Updating(Question entity)
         {
+            /*//Insert a new form response if one doesn't exist
             int FormResponse_ID ;
             using (SqlConnection connection = new SqlConnection())
             {
@@ -29,10 +30,14 @@ namespace LightSwitchApplication
                     command.Parameters.Add(
                         new SqlParameter("@FormID", entity.Category.Form.Form_ID));
 
+                    command.Parameters.Add(
+                                            new SqlParameter("@isConfidential", entity.isConfidential));
+
                     connection.Open();
                     FormResponse_ID = Convert.ToInt32( command.ExecuteScalar().ToString());
                 }
-            } 
+            } */
+            //Doing in SQL proc to save round trips.
         
 
             using (SqlConnection connection = new SqlConnection())
@@ -46,7 +51,10 @@ namespace LightSwitchApplication
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.Add(
-                        new SqlParameter("@FormResponse_ID", FormResponse_ID));
+                        new SqlParameter("@FormID", entity.Category.Form.Form_ID));
+
+                    command.Parameters.Add(
+                        new SqlParameter("@FormResponse_FNVID", entity.FormResponse_FNVID));
                     command.Parameters.Add(
                         new SqlParameter("@Question_ID", entity.Question_ID));
                     if (entity.PotentialResponse == null)
@@ -79,19 +87,57 @@ namespace LightSwitchApplication
                     {
                         command.Parameters.Add(
                             new SqlParameter("@TrueFalse", entity.TrueOrFalse));
-
-
                     }
+
+                    if (entity.IntegerResponse == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@IntegerResponse", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@IntegerResponse", entity.IntegerResponse));
+                    }
+                    if (entity.DecimalResponse == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@DecimalResponse", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@DecimalResponse", entity.DecimalResponse));
+                    }
+
+                    command.Parameters.Add(
+                                            new SqlParameter("@isConfidential", entity.isConfidential));
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }                 
             }
-
-            this.Details.DiscardChanges();
+            entity.DecimalResponse = null;
+            entity.IntegerResponse = null;
+            entity.TrueOrFalse = null;
+            entity.PotentialResponse = null;
+            entity.Response = null;
+            //this.Details.DiscardChanges();
         }
 
         partial void Categories_Updating(Category entity)
         {
+        }
+
+        partial void Categories_Inserting(Category entity)
+        {
+
+        }
+
+        partial void Forms_Updating(Form entity)
+        {
+           //entity.isConfidential = false;
+           this.Details.DiscardChanges();
         }
     }
 }

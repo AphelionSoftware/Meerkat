@@ -24,6 +24,26 @@
             Kind="Group"
             View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
             <ContentItem
+              Name="Form_isConfidential"
+              Kind="Value"
+              DataType=":Boolean"
+              View="Microsoft.LightSwitch.MobileWeb:FlipSwitchControl">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Confidential" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewForm/Properties[Form]" />
+                    <MemberExpression
+                      Member="isConfidential" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
               Name="Categories1"
               Kind="Collection"
               DataType="CollectionView$Category">
@@ -168,21 +188,7 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showViewCategory]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="ViewForm/Properties[Categories]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="Category">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="ViewForm/Properties[Categories]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
+                        Target="ViewForm/Methods[Categories1_ItemTap]" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
@@ -231,6 +237,8 @@
           Name="dialogName"
           ParameterType=":String" />
       </ScreenMethod>
+      <ScreenMethod
+        Name="Categories1_ItemTap" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenProperty
@@ -270,6 +278,13 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="FNV1a"
+        PropertyType=":Int64">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>

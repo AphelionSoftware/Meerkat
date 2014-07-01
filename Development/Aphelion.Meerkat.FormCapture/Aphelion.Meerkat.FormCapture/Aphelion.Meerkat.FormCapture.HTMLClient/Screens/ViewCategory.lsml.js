@@ -3,28 +3,44 @@
 myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     // Write code here.
     
+    //Setting isConfidential
+    contentItem.data.isConfidential = contentItem.screen.isConfidential;
+    contentItem.data.FormResponse_FNVID = contentItem.screen.FNV1a;
+    //Question type
     var type = contentItem.data.QuestionType.Code;
     var x = element;
 
     contentItem.children[2].isVisible = false;
     contentItem.children[3].isVisible = false;
     contentItem.children[4].isVisible = false;
+    contentItem.children[5].isVisible = false;
+    contentItem.children[6].isVisible = false;
     switch (type) {
         case "TR":
             {
                 contentItem.children[2].isVisible = true;
                 break;
             }
+        case "INT":
+            {
+                contentItem.children[3].isVisible = true;
+                break;
+            }
+        case "DEC":
+            {
+                contentItem.children[4].isVisible = true;
+                break;
+            }
         case "TF":
         case "BOOL":
             {
-                contentItem.children[3].isVisible = true;
+                contentItem.children[5].isVisible = true;
                 break;
             }
         case "RB":
         case "MCQ" :
             {
-                contentItem.children[4].isVisible = true;
+                contentItem.children[6].isVisible = true;
                 break;
             }
         
