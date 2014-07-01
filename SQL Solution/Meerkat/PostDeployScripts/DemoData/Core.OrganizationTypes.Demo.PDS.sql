@@ -9,8 +9,6 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-USE [Meerkat]
-GO
 SET IDENTITY_INSERT [Core].[OrganizationType] ON 
 
 GO

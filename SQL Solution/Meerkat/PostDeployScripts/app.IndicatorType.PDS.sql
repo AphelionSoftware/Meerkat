@@ -108,5 +108,73 @@ INSERT  [app].[IndicatorType]
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 6 )
 GO
+
+
+
+INSERT  [app].[IndicatorType]
+        ( [app].[IndicatorType].[IndicatorType_ID] ,
+          [app].[IndicatorType].[Code] ,
+          [app].[IndicatorType].[Name] ,
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
+        )
+        SELECT  7 ,
+                N'PROG' ,
+                N'Programme' ,
+                1,
+				N'PROG'
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   app.IndicatorType
+                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 7 )
+GO
+
+INSERT  [app].[IndicatorType]
+        ( [app].[IndicatorType].[IndicatorType_ID] ,
+          [app].[IndicatorType].[Code] ,
+          [app].[IndicatorType].[Name] ,
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
+        )
+        SELECT  8 ,
+                N'SEC' ,
+                N'Sector' ,
+                1,
+				N'SEC'
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   app.IndicatorType
+                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 8 )
+GO
+INSERT  [app].[IndicatorType]
+        ( [app].[IndicatorType].[IndicatorType_ID] ,
+          [app].[IndicatorType].[Code] ,
+          [app].[IndicatorType].[Name] ,
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
+        )
+        SELECT  9 ,
+                N'SS' ,
+                N'SubSector' ,
+                1,
+				N'SS'
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   app.IndicatorType
+                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 9 )
+GO
+INSERT  [app].[IndicatorType]
+        ( [app].[IndicatorType].[IndicatorType_ID] ,
+          [app].[IndicatorType].[Code] ,
+          [app].[IndicatorType].[Name] ,
+          [app].[IndicatorType].[Active],
+		  [app].[IndicatorType].[BusinessKey]
+        )
+        SELECT  10,
+                N'PRJ' ,
+                N'Project' ,
+                1,
+				N'PRJ'
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   app.IndicatorType
+                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 9 )
+GO
 SET IDENTITY_INSERT [app].[IndicatorType] OFF
 GO

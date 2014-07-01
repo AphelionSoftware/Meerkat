@@ -69,6 +69,8 @@ INSERT INTO [app].[Indicator]
            WHERE NOT EXISTS (SELECT 1 FROM app.Indicator where code = 'IND2.1.1.2')
            
 GO
+
+
            
 INSERT INTO [app].[Indicator]
            ([LongName]
