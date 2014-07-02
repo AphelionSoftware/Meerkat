@@ -10,6 +10,7 @@ function updateLocationsTotal( element, contentItem)
     var Min = 0;
     var Locations = contentItem.screen.IndicatorLocationRollup;
 
+
     var Location = Locations.data;
     Location.forEach(function (singleLocation) {
         if (singleLocation.ActualValue) {

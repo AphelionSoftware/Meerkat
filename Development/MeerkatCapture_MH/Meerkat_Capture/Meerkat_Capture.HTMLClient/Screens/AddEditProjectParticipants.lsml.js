@@ -159,10 +159,10 @@ myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions_postRender = func
 myapp.AddEditProjectParticipants.PeopleReachedPreviousVersionsTemplate_postRender = function (element, contentItem) {
     // Write code here.
     // if (contentItem.screen == null)
-    /*var x = contentItem.data;
+    var x = contentItem.data;
     if (!(contentItem.data.getNumberReached()._value)) {
         contentItem.isVisible = false;
-    }*/
+    }
 };
 myapp.AddEditProjectParticipants.LocationValues_postRender = function (element, contentItem) {
     // Write code here.
