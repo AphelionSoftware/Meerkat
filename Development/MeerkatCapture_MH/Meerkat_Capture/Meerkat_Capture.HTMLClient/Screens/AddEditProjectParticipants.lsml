@@ -28,6 +28,22 @@
                 Value="Details" />
             </ContentItem.Attributes>
             <ContentItem
+              Name="PeopleReachedValue_Project"
+              Kind="Details"
+              DataType="Project"
+              View="Microsoft.LightSwitch.MobileWeb:Summary">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditProjectParticipants/Properties[PeopleReachedValue]" />
+                    <MemberExpression
+                      Member="Project" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
               Name="columns"
               Kind="Details"
               DataType="PeopleReachedValue"
@@ -45,8 +61,164 @@
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="left"
+                Name="Filters"
                 Kind="Group">
+                <ContentItem
+                  Name="ReportingPeriodGroup"
+                  Kind="Group">
+                  <ContentItem
+                    Name="ReportingPeriods"
+                    Kind="Details"
+                    DataType="ReportingPeriod">
+                    <ContentItem.Attributes>
+                      <DisplayName
+                        Value="Reporting Period" />
+                    </ContentItem.Attributes>
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditProjectParticipants/Properties[ReportingPeriodsFiltered]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PeopleReachedValue/Properties[ReportingPeriod]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="ReportingPeriod1"
+                      Kind="Details"
+                      DataType="ReportingPeriod">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="LocationGroup"
+                  Kind="Group">
+                  <ContentItem
+                    Name="Location"
+                    Kind="Details"
+                    DataType="Location">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PeopleReachedValue/Properties[Location]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Location1"
+                      Kind="Details"
+                      DataType="Location"
+                      View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="Code"
+                        Kind="Value"
+                        DataType=":String">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Location/Properties[Code]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Name="Name2"
+                        Kind="Value"
+                        DataType=":String">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Location/Properties[Name]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="SearchLocations"
+                    Kind="Command">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AddEditProjectParticipants/Methods[showDialog]">
+                              <ArgumentExpression
+                                Parameter="dialogName">
+                                <ConstantExpression
+                                  Value="LocationsFilter"
+                                  ResultType=":String" />
+                              </ArgumentExpression>
+                            </CallExpression>
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="DataVersionGroup"
+                  Kind="Group">
+                  <ContentItem
+                    Name="DataVersion"
+                    Kind="Details"
+                    DataType="DataVersion">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PeopleReachedValue/Properties[DataVersion]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="DataVersion1"
+                      Kind="Details"
+                      DataType="DataVersion"
+                      View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="Name3"
+                        Kind="Value"
+                        DataType=":String">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="DataVersion/Properties[Name]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
                 <ContentItem
                   Name="Identifier"
                   Kind="Group">
@@ -167,146 +339,6 @@
                   </ContentItem>
                 </ContentItem>
                 <ContentItem
-                  Name="ReportingPeriods"
-                  Kind="Details"
-                  DataType="ReportingPeriod">
-                  <ContentItem.Attributes>
-                    <DisplayName
-                      Value="Reporting Period" />
-                  </ContentItem.Attributes>
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="PeopleReachedValue/Properties[ReportingPeriod]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                  <ContentItem
-                    Name="ReportingPeriod1"
-                    Kind="Details"
-                    DataType="ReportingPeriod">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression />
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="DataVersion"
-                  Kind="Details"
-                  DataType="DataVersion">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="PeopleReachedValue/Properties[DataVersion]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                  <ContentItem
-                    Name="DataVersion1"
-                    Kind="Details"
-                    DataType="DataVersion"
-                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression />
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                    <ContentItem
-                      Name="Name3"
-                      Kind="Value"
-                      DataType=":String">
-                      <ContentItem.DataSource>
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="DataVersion/Properties[Name]" />
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ContentItem.DataSource>
-                    </ContentItem>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="LocationGroup"
-                  Kind="Group">
-                  <ContentItem
-                    Name="Location"
-                    Kind="Details"
-                    DataType="Location">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="PeopleReachedValue/Properties[Location]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                    <ContentItem
-                      Name="Location1"
-                      Kind="Details"
-                      DataType="Location"
-                      View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
-                      <ContentItem.DataSource>
-                        <ScreenExpressionTree>
-                          <ChainExpression />
-                        </ScreenExpressionTree>
-                      </ContentItem.DataSource>
-                      <ContentItem
-                        Name="Code"
-                        Kind="Value"
-                        DataType=":String">
-                        <ContentItem.DataSource>
-                          <ScreenExpressionTree>
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="Location/Properties[Code]" />
-                            </ChainExpression>
-                          </ScreenExpressionTree>
-                        </ContentItem.DataSource>
-                      </ContentItem>
-                      <ContentItem
-                        Name="Name2"
-                        Kind="Value"
-                        DataType=":String">
-                        <ContentItem.DataSource>
-                          <ScreenExpressionTree>
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="Location/Properties[Name]" />
-                            </ChainExpression>
-                          </ScreenExpressionTree>
-                        </ContentItem.DataSource>
-                      </ContentItem>
-                    </ContentItem>
-                  </ContentItem>
-                  <ContentItem
-                    Name="SearchLocations"
-                    Kind="Command">
-                    <ContentItem.PropertySources>
-                      <ControlPropertySource
-                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                        <ScreenExpressionTree>
-                          <ChainExpression>
-                            <CallExpression
-                              Target="AddEditProjectParticipants/Methods[showDialog]">
-                              <ArgumentExpression
-                                Parameter="dialogName">
-                                <ConstantExpression
-                                  Value="LocationsFilter"
-                                  ResultType=":String" />
-                              </ArgumentExpression>
-                            </CallExpression>
-                          </ChainExpression>
-                        </ScreenExpressionTree>
-                      </ControlPropertySource>
-                    </ContentItem.PropertySources>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
                   Name="NumberReached"
                   Kind="Value"
                   DataType=":Int32">
@@ -364,29 +396,6 @@
                     Value="Disaggregations" />
                 </ContentItem.Attributes>
                 <ContentItem
-                  Name="CommunityType"
-                  Kind="Details"
-                  DataType="CommunityType">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="PeopleReachedValue/Properties[CommunityType]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                  <ContentItem
-                    Name="CommunityType1"
-                    Kind="Details"
-                    DataType="CommunityType">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression />
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
                   Name="AgeBand"
                   Kind="Details"
                   DataType="AgeBand">
@@ -402,6 +411,29 @@
                     Name="AgeBand1"
                     Kind="Details"
                     DataType="AgeBand">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="CommunityType"
+                  Kind="Details"
+                  DataType="CommunityType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PeopleReachedValue/Properties[CommunityType]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="CommunityType1"
+                    Kind="Details"
+                    DataType="CommunityType">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression />
@@ -456,21 +488,21 @@
                   </ContentItem>
                 </ContentItem>
                 <ContentItem
-                  Name="Institution"
+                  Name="Group1"
                   Kind="Details"
-                  DataType="Institution">
+                  DataType="Group">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="PeopleReachedValue/Properties[Institution]" />
+                          Member="PeopleReachedValue/Properties[Group]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="Institution1"
+                    Name="Group2"
                     Kind="Details"
-                    DataType="Institution">
+                    DataType="Group">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
                         <ChainExpression />
@@ -500,6 +532,137 @@
                     </ScreenExpressionTree>
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="Rollups"
+                Kind="Group">
+                <ContentItem
+                  Name="LocationValues"
+                  Kind="Group" />
+                <ContentItem
+                  Name="PreviousVersion"
+                  Kind="Group">
+                  <ContentItem
+                    Name="PeopleReachedPreviousVersions"
+                    Kind="Collection"
+                    DataType="CollectionView$PeopleReachedValue">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditProjectParticipants/Properties[PeopleReachedPreviousVersions]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="PeopleReachedPreviousVersionsTemplate"
+                      Kind="Details"
+                      DataType="PeopleReachedValue"
+                      View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="NumberReached1"
+                        Kind="Value"
+                        DataType=":Int32">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="PeopleReachedValue/Properties[NumberReached]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Name="DataVersion2"
+                        IsHidden="True"
+                        Kind="Details"
+                        DataType="DataVersion"
+                        View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="PeopleReachedValue/Properties[DataVersion]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Name4"
+                          Kind="Value"
+                          DataType=":String">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="DataVersion/Properties[Name]" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        Name="ReportingPeriod"
+                        IsHidden="True"
+                        Kind="Details"
+                        DataType="ReportingPeriod"
+                        View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="PeopleReachedValue/Properties[ReportingPeriod]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Summary"
+                          Kind="Value"
+                          DataType=":String">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="ReportingPeriod/Properties[Summary]" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        Name="Location3"
+                        IsHidden="True"
+                        Kind="Details"
+                        DataType="Location">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="PeopleReachedValue/Properties[Location]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          Name="Location4"
+                          Kind="Details"
+                          DataType="Location">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="FormValues"
+                  Kind="Group" />
               </ContentItem>
             </ContentItem>
           </ContentItem>
@@ -756,6 +919,163 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="ProjectID"
+        PropertyType=":Int32">
+        <ScreenProperty.Attributes>
+          <Required />
+          <IsParameter />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="PreviousDataVersion"
+        PropertyType=":Int32">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="PeopleReachedPreviousVersions"
+        PageSize="45"
+        PropertyType="CollectionView$PeopleReachedValue">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PeopleReachedPreviousVersionsQuery"
+            ReturnType="PeopleReachedValue*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[PeopleReachedPreviousVersions]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditProjectParticipants/Properties[PeopleReachedPreviousVersions]/Query">
+              <ArgumentExpression
+                Parameter="ReportingPeriod_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[ReportingPeriodsFiltered]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[ProjectID]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="DataVersion_Order">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[PreviousDataVersion]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Location_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[LocationsSorted]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="Location_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PeopleReachedLocationRollup"
+        PageSize="45"
+        PropertyType="CollectionView$PeopleReachedValue">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PeopleReachedLocationRollupQuery"
+            ReturnType="PeopleReachedValue*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[PeopleReachedLocationRollup]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditProjectParticipants/Properties[PeopleReachedLocationRollup]/Query">
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[PeopleReachedValue]" />
+                  <MemberExpression
+                    Member="Project" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="DataVersion_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[DataVersion_ID]" />
+                  <MemberExpression
+                    Member="DataVersion_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ParentLocation_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[PeopleReachedValue]" />
+                  <MemberExpression
+                    Member="Location" />
+                  <MemberExpression
+                    Member="Location_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ReportingPeriod_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditProjectParticipants/Properties[PeopleReachedValue]" />
+                  <MemberExpression
+                    Member="ReportingPeriod" />
+                  <MemberExpression
+                    Member="ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="DataVersion_ID"
+        PropertyType="DataVersion" />
+      <ScreenProperty
+        Name="SumAmount"
+        PropertyType=":Decimal">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>
@@ -768,6 +1088,9 @@
       <ApplicationMethodParameter
         Name="PeopleReachedValue"
         ParameterType="PeopleReachedValue" />
+      <ApplicationMethodParameter
+        Name="ProjectID"
+        ParameterType=":Int32" />
     </ApplicationMethod>
   </Application.Methods>
 </Application>
