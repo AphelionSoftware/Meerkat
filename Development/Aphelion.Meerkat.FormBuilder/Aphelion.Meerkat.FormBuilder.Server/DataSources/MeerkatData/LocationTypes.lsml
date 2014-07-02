@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Gender">
+    Name="LocationType">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,18 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <KeyProperty
-        Name="Gender_ID"
+        Name="LocationType_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -43,7 +33,34 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Description"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="4000" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -54,7 +71,6 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -66,7 +82,6 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -77,7 +92,6 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -89,42 +103,33 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="EventRegisters"
-        Association="FK_EventRegister_Gender"
-        FromEnd="Gender"
-        ToEnd="EventRegister">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
+        Name="Locations"
+        Association="FK_Location_LocationType"
+        FromEnd="LocationType"
+        ToEnd="Location" />
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_Gender_ActiveType"
-        FromEnd="Gender"
-        ToEnd="ActiveType">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
+        Association="FK_LocationType_ActiveType"
+        FromEnd="LocationType"
+        ToEnd="ActiveType" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_EventRegister_Gender">
+    Name="FK_Location_LocationType">
     <AssociationEnd
-      Name="Gender"
-      EntityType="Gender">
+      Name="LocationType"
+      EntityType="LocationType">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="EventRegister"
+      Name="Location"
       Multiplicity="Many"
-      EntityType="EventRegister" />
+      EntityType="Location" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -132,24 +137,24 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Genders"
+      Name="LocationTypes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Gender" />
+      EntityType="LocationType" />
     <AssociationSet
-      Name="FK_EventRegister_Gender"
-      Association="FK_EventRegister_Gender">
+      Name="FK_Location_LocationType"
+      Association="FK_Location_LocationType">
       <AssociationSetEnd
-        Name="Gender"
-        EntitySet="Genders" />
+        Name="LocationType"
+        EntitySet="LocationTypes" />
       <AssociationSetEnd
-        Name="EventRegister"
-        EntitySet="EventRegisters" />
+        Name="Location"
+        EntitySet="Locations" />
     </AssociationSet>
     <QueryOperation
-      Name="Genders_Single"
-      ReturnType="Gender">
+      Name="LocationTypes_Single"
+      ReturnType="LocationType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -162,12 +167,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Gender_ID" />
+                  Member="LocationType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Gender_ID" />
+                Parameter="LocationType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -175,21 +180,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Genders" />
+            Member="LocationTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Gender_ID"
+        Name="LocationType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Gender_ID' key property of the entity to retrieve." />
+            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Genders_SingleOrDefault"
-      ReturnType="Gender">
+      Name="LocationTypes_SingleOrDefault"
+      ReturnType="LocationType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -202,12 +207,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Gender_ID" />
+                  Member="LocationType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Gender_ID" />
+                Parameter="LocationType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -215,15 +220,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Genders" />
+            Member="LocationTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Gender_ID"
+        Name="LocationType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Gender_ID' key property of the entity to retrieve." />
+            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -234,51 +239,61 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Genders">
+      EntitySet="LocationTypes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="disagg"
-          Table="Gender" />
+          Schema="Core"
+          Table="LocationType" />
         <SsdlProperty
-          Name="Gender_ID"
+          Name="LocationType_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Gender/Properties[Gender_ID]" />
+          Property="LocationType/Properties[LocationType_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="Gender/Properties[Code]" />
+          Property="LocationType/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="Gender/Properties[Name]" />
+          Property="LocationType/Properties[Name]" />
+        <SsdlProperty
+          Name="Description"
+          Nullable="False"
+          Type="varchar(max)"
+          Property="LocationType/Properties[Description]" />
+        <SsdlProperty
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="LocationType/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Gender/Properties[sys_CreatedBy]" />
+          Property="LocationType/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Gender/Properties[sys_CreatedOn]" />
+          Property="LocationType/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Gender/Properties[sys_ModifiedBy]" />
+          Property="LocationType/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Gender/Properties[sys_ModifiedOn]" />
+          Property="LocationType/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -287,22 +302,22 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_EventRegister_Gender">
+      AssociationSet="FK_Location_LocationType">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_EventRegister_Gender" />
+          Name="FK_Location_LocationType" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_EventRegister_Gender]/Members[Gender]">
+          End="MeerkatData/Members[FK_Location_LocationType]/Members[LocationType]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="LocationType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_EventRegister_Gender]/Members[EventRegister]">
+          End="MeerkatData/Members[FK_Location_LocationType]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="LocationType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

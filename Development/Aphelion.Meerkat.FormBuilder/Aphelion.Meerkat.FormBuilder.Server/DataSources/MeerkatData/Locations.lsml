@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Programme">
+    Name="Location">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,8 +15,18 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
-        Name="Programme_ID"
+        Name="Location_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -27,42 +37,38 @@
       </KeyProperty>
       <EntityProperty
         Name="Code"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="LongName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="500" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="BusinessKey"
         PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength
-            Value="4000" />
           <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ShortName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="TextDescription"
+        Name="AreaKM"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Population"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Density"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength />
@@ -70,12 +76,13 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="ProgrammeSiteName"
-        PropertyType=":String?">
+        Name="BusinessKey"
+        PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
-            Value="50" />
-          <AnsiConstraint />
+            Value="4000" />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -97,6 +104,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -107,6 +115,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -118,43 +127,103 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Indicators"
-        Association="FK_Indicator_Programme"
-        FromEnd="Programme"
-        ToEnd="Indicator" />
+        Name="Events"
+        Association="FK_Event_Location"
+        FromEnd="Location"
+        ToEnd="c_Event">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
-        Name="Sectors"
-        Association="FK_Sector_Programme"
-        FromEnd="Programme"
-        ToEnd="Sector" />
-      <NavigationProperty
-        Name="Projects"
-        Association="FK_Project_Programme"
-        FromEnd="Programme"
-        ToEnd="Project" />
+        Name="FormResponses"
+        Association="FK_FormResponse_Location"
+        FromEnd="Location"
+        ToEnd="FormResponse">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_Programme_ActiveType"
-        FromEnd="Programme"
-        ToEnd="ActiveType" />
+        Association="FK_Location_ActiveType"
+        FromEnd="Location"
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="Locations"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location"
+        ToEnd="Location1">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="Location1"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location1"
+        ToEnd="Location">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="LocationType"
+        Association="FK_Location_LocationType"
+        FromEnd="Location"
+        ToEnd="LocationType" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Indicator_Programme">
+    Name="FK_Event_Location">
     <AssociationEnd
-      Name="Programme"
-      EntityType="Programme">
+      Name="Location"
+      EntityType="Location">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Indicator"
+      Name="c_Event"
       Multiplicity="Many"
-      EntityType="Indicator" />
+      EntityType="c_Event" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Location_ParentLocation">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Location1"
+      Multiplicity="Many"
+      EntityType="Location" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -162,24 +231,44 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Programmes"
+      Name="Locations"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Programme" />
+      EntityType="Location" />
     <AssociationSet
-      Name="FK_Indicator_Programme"
-      Association="FK_Indicator_Programme">
+      Name="FK_Event_Location"
+      Association="FK_Event_Location">
       <AssociationSetEnd
-        Name="Programme"
-        EntitySet="Programmes" />
+        Name="Location"
+        EntitySet="Locations" />
       <AssociationSetEnd
-        Name="Indicator"
-        EntitySet="Indicators" />
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Location"
+      Association="FK_FormResponse_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Location_ParentLocation"
+      Association="FK_Location_ParentLocation">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Location1"
+        EntitySet="Locations" />
     </AssociationSet>
     <QueryOperation
-      Name="Programmes_Single"
-      ReturnType="Programme">
+      Name="Locations_Single"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -192,12 +281,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Programme_ID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Programme_ID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -205,21 +294,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Programmes" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Programme_ID"
+        Name="Location_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Programmes_SingleOrDefault"
-      ReturnType="Programme">
+      Name="Locations_SingleOrDefault"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -232,12 +321,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Programme_ID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Programme_ID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -245,207 +334,168 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Programmes" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Programme_ID"
+        Name="Location_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_Sector_Programme"
-      Association="FK_Sector_Programme">
-      <AssociationSetEnd
-        Name="Programme"
-        EntitySet="Programmes" />
-      <AssociationSetEnd
-        Name="Sector"
-        EntitySet="Sectors" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Project_Programme"
-      Association="FK_Project_Programme">
-      <AssociationSetEnd
-        Name="Programme"
-        EntitySet="Programmes" />
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_Sector_Programme">
-    <AssociationEnd
-      Name="Programme"
-      Multiplicity="One"
-      EntityType="Programme">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Sector"
-      Multiplicity="Many"
-      EntityType="Sector" />
-  </Association>
-  <Association
-    Name="FK_Project_Programme">
-    <AssociationEnd
-      Name="Programme"
-      EntityType="Programme">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project"
-      Multiplicity="Many"
-      EntityType="Project" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Programmes">
+      EntitySet="Locations">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="app"
-          Table="Programme" />
+          Schema="Core"
+          Table="Location" />
         <SsdlProperty
-          Name="Programme_ID"
+          Name="Location_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Programme/Properties[Programme_ID]" />
+          Property="Location/Properties[Location_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
-          Property="Programme/Properties[Code]" />
+          Property="Location/Properties[Code]" />
         <SsdlProperty
-          MaxLength="500"
-          Name="LongName"
-          Nullable="True"
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
           Type="varchar"
-          Property="Programme/Properties[LongName]" />
+          Property="Location/Properties[Name]" />
+        <SsdlProperty
+          Name="AreaKM"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[AreaKM]" />
+        <SsdlProperty
+          Name="Population"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[Population]" />
+        <SsdlProperty
+          Name="Density"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Location/Properties[Density]" />
         <SsdlProperty
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="Programme/Properties[BusinessKey]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="ShortName"
-          Nullable="True"
-          Type="varchar"
-          Property="Programme/Properties[ShortName]" />
-        <SsdlProperty
-          Name="TextDescription"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="Programme/Properties[TextDescription]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="ProgrammeSiteName"
-          Nullable="True"
-          Type="varchar"
-          Property="Programme/Properties[ProgrammeSiteName]" />
+          Property="Location/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Programme/Properties[sys_CreatedBy]" />
+          Property="Location/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Programme/Properties[sys_CreatedOn]" />
+          Property="Location/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Programme/Properties[sys_ModifiedBy]" />
+          Property="Location/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Programme/Properties[sys_ModifiedOn]" />
+          Property="Location/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="LocationType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="LocationType_ID" />
+        <SsdlForeignKeyProperty
+          Name="ParentLocation_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ParentLocation_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Indicator_Programme">
+      AssociationSet="FK_Event_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Indicator_Programme" />
+          Name="FK_Event_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_Programme]/Members[Programme]">
+          End="MeerkatData/Members[FK_Event_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_Programme]/Members[Indicator]">
+          End="MeerkatData/Members[FK_Event_Location]/Members[c_Event]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Project_Programme">
+      AssociationSet="FK_FormResponse_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Project_Programme" />
+          Name="FK_FormResponse_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Programme]/Members[Programme]">
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Programme]/Members[Project]">
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Sector_Programme">
+      AssociationSet="FK_Location_ParentLocation">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Sector_Programme" />
+          Name="FK_Location_ParentLocation" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Sector_Programme]/Members[Programme]">
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Sector_Programme]/Members[Sector]">
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location1]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Programme_ID" />
+              Name="ParentLocation_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

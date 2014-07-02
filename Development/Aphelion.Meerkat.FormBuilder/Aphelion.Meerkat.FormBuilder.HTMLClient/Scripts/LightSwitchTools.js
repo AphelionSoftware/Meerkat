@@ -7,6 +7,9 @@
         if (name == "Person") {
             return "People";
         }
+        if (name.substring(0, 2) == "c_") {
+            name = name.substring(2, name.length);
+        }
         var pluralled = name + "s";
 
         if (name.charAt(name.length - 1).toLocaleLowerCase() === 'y') {
