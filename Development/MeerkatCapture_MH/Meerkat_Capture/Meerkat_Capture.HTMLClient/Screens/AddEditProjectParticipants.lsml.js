@@ -77,7 +77,7 @@ myapp.AddEditProjectParticipants.SumAmount_postRender = function (element, conte
 
     contentItem.dataBind("screen.DataVersion.value", updateTotal);
 
-    contentItem.dataBind("screen.ReportingPeriods.value", updateTotal);
+    contentItem.dataBind("screen.ReportingPeriod1.value", updateTotal);
 };
 
 // Function to compute the total 
