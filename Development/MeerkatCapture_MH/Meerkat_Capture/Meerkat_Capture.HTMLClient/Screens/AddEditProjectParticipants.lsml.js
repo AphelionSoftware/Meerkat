@@ -146,15 +146,33 @@ myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions_postRender = func
         updateLocationTotal(element, contentItem);
         contentItem.screen.PeopleReachedPreviousVersions.load();
         contentItem.screen.PeopleReachedLocationRollup.load();
+
+        if ((contentItem.screen.PeopleReachedPreviousVersions.data.length > 0)) {
+            contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = true;
+        } else {
+            contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = false;
+        }
+        
+
+        
         //
 
     }
+
+    function updateVersionRollupDV() {
+        updateVersionRollup();
+    }
+    
 
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollupDV);
+
+    //Also updating on count. This fires on screen open
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.count", updateVersionRollup);
+
 };
 myapp.AddEditProjectParticipants.PeopleReachedPreviousVersionsTemplate_postRender = function (element, contentItem) {
     // Write code here.
@@ -162,6 +180,8 @@ myapp.AddEditProjectParticipants.PeopleReachedPreviousVersionsTemplate_postRende
     var x = contentItem.data;
     if (!(contentItem.data.getNumberReached()._value)) {
         contentItem.isVisible = false;
+    } else {
+        contentItem.isVisible = true;
     }
 };
 myapp.AddEditProjectParticipants.LocationValues_postRender = function (element, contentItem) {
@@ -175,4 +195,8 @@ myapp.AddEditProjectParticipants.LocationValues_postRender = function (element, 
 myapp.AddEditProjectParticipants.UseFormValue_execute = function (screen) {
     // Write code here.
     screen.PeopleReachedValue.NumberReached = screen.FormValue;
+};
+myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions1_postRender = function (element, contentItem) {
+    // Write code here.
+
 };

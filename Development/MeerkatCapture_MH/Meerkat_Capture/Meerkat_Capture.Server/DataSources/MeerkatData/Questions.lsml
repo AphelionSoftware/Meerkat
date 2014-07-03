@@ -55,22 +55,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="QuestionType_ID"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Category_ID"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="QuestionOrder"
         PropertyType=":Int32">
         <EntityProperty.Attributes>
@@ -197,6 +181,16 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Category"
+        Association="FK_Question_Category"
+        FromEnd="Question"
+        ToEnd="Category" />
+      <NavigationProperty
+        Name="QuestionType"
+        Association="FK_Question_QuestionType"
+        FromEnd="Question"
+        ToEnd="QuestionType" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -429,16 +423,6 @@
           Type="varchar(max)"
           Property="Question/Properties[TextDescription]" />
         <SsdlProperty
-          Name="QuestionType_ID"
-          Nullable="False"
-          Type="int"
-          Property="Question/Properties[QuestionType_ID]" />
-        <SsdlProperty
-          Name="Category_ID"
-          Nullable="False"
-          Type="int"
-          Property="Question/Properties[Category_ID]" />
-        <SsdlProperty
           Name="QuestionOrder"
           Nullable="False"
           Type="int"
@@ -503,10 +487,20 @@
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
+          Name="Category_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Category_ID" />
+        <SsdlForeignKeyProperty
           Name="MultipleChoiceResponseID"
           Nullable="True"
           Type="int"
           PropertyName="MultipleChoiceResponseID" />
+        <SsdlForeignKeyProperty
+          Name="QuestionType_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="QuestionType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping

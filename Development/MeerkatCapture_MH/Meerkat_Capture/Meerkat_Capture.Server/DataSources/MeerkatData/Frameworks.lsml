@@ -121,6 +121,11 @@
         Association="FK_PeopleReachedValues_Framework"
         FromEnd="Framework"
         ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="FrameworkDetails"
+        Association="FK_FrameworkDetail_Framework"
+        FromEnd="Framework"
+        ToEnd="FrameworkDetail" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -272,6 +277,16 @@
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_FrameworkDetail_Framework"
+      Association="FK_FrameworkDetail_Framework">
+      <AssociationSetEnd
+        Name="Framework"
+        EntitySet="Frameworks" />
+      <AssociationSetEnd
+        Name="FrameworkDetail"
+        EntitySet="FrameworkDetails" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_Framework">
@@ -286,6 +301,21 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_FrameworkDetail_Framework">
+    <AssociationEnd
+      Name="Framework"
+      Multiplicity="One"
+      EntityType="Framework">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FrameworkDetail"
+      Multiplicity="Many"
+      EntityType="FrameworkDetail" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -355,6 +385,27 @@
           PropertyName="SourceOrganizationID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FrameworkDetail_Framework">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FrameworkDetail_Framework" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Framework]/Members[Framework]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Framework_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Framework]/Members[FrameworkDetail]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Framework_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Framework">
       <AssociationSetMapping.Attributes>

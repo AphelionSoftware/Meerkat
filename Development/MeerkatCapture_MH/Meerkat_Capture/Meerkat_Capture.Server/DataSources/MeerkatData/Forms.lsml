@@ -119,6 +119,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Categories"
+        Association="FK_Category_Form"
+        FromEnd="Form"
+        ToEnd="Category" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -237,7 +242,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Category_Form"
+      Association="FK_Category_Form">
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+      <AssociationSetEnd
+        Name="Category"
+        EntitySet="Categories" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Category_Form">
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="One"
+      EntityType="Form">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Category"
+      Multiplicity="Many"
+      EntityType="Category" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -311,6 +341,27 @@
           PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Category_Form">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Category_Form" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Category_Form]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Category_Form]/Members[Category]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_FormResponse_Form">
       <AssociationSetMapping.Attributes>

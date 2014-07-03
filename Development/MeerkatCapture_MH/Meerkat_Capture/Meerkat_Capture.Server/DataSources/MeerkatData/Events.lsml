@@ -172,6 +172,11 @@
         Association="FK_Event_Project"
         FromEnd="c_Event"
         ToEnd="Project" />
+      <NavigationProperty
+        Name="EventRegisters"
+        Association="FK_EventRegister_Event"
+        FromEnd="c_Event"
+        ToEnd="EventRegister" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -290,7 +295,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_EventRegister_Event"
+      Association="FK_EventRegister_Event">
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+      <AssociationSetEnd
+        Name="EventRegister"
+        EntitySet="EventRegisters" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_EventRegister_Event">
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="One"
+      EntityType="c_Event">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="EventRegister"
+      Multiplicity="Many"
+      EntityType="EventRegister" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -408,6 +438,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Event_Indicator_Rollup_Event]/Members[Event_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_EventRegister_Event">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_EventRegister_Event" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_Event]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_Event]/Members[EventRegister]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Event_ID" />
