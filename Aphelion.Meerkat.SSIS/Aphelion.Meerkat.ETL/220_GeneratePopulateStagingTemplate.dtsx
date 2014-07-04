@@ -5,37 +5,17 @@
   DTS:CreationName="SSIS.Package.3"
   DTS:CreatorComputerName="SERVER2012"
   DTS:CreatorName="gjs"
-  DTS:DTSID="{C3090B38-9043-45A0-B642-EB5D970BDBEE}"
+  DTS:DTSID="{56A9C039-7299-405A-9ED0-DC1720261119}"
   DTS:ExecutableType="SSIS.Package.3"
   DTS:LastModifiedProductVersion="11.0.3402.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="500_GeneratePopulateStagingTemplate"
-  DTS:VersionBuild="54"
-  DTS:VersionGUID="{9CEB70EF-61EE-4249-B3E6-B633FC80DAE7}"
+  DTS:ObjectName="220_GeneratePopulateStagingTemplate"
+  DTS:VersionBuild="66"
+  DTS:VersionGUID="{D48B82A4-9351-40A8-8D68-E7C89EE62552}"
   DTS:VersionMajor="0">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[MeerkatBIML]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{AB4E5CA4-802E-4E3A-88CA-E1738C6DCA22}"
-      DTS:ObjectName="MeerkatBIML">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{2BFDAE88-8848-4D8E-9574-3B51E10AD1A8}"
-      DTS:ObjectName="MeerkatStagingBIML">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[StagingTemplate]"
       DTS:CreationName="EXCEL"
@@ -263,44 +243,54 @@ SELECT @SQL             AS CreateTable
       DTS:CreationName=""
       DTS:DTSID="{DE6B1AF7-3A26-4DE7-A9ED-A55B12BB4644}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;DECLARE @SQL            NVARCHAR(4000)&#xA;      , @strTableName   VARCHAR(100) = '&quot; +@[User::strTableName]+ &quot;'&#xA;SELECT @SQL = SUBSTRING((SELECT ' ' + JoinStatement AS [text()] &#xA;                         FROM (SELECT CASE WHEN pc.is_nullable = 0&#xA;                                            THEN 'JOIN '&#xA;                                            ELSE 'LEFT JOIN '&#xA;                                        END&#xA;                                        + '[' + rs.name + '].[' + rt.name + '] AS ['+rt.name+'] ON [p].[' + pc.name + '] = ['+rt.name+'].[' + rc.name + ']'   AS JoinStatement&#xA;                                FROM sys.foreign_keys f&#xA;                                JOIN sys.foreign_key_columns fc&#xA;                                    ON f.object_id = fc.constraint_object_id&#xA;                                JOIN sys.tables pt&#xA;                                    ON f.parent_object_id = pt.object_id&#xA;                                JOIN sys.schemas ps&#xA;                                    ON ps.schema_id = pt.schema_id&#xA;                                JOIN sys.columns pc&#xA;                                    ON fc.parent_column_id = pc.column_id&#xA;                                    AND pt.object_id = pc.object_id&#xA;                                JOIN sys.tables rt&#xA;                                    ON f.referenced_object_id = rt.object_id&#xA;                                JOIN sys.schemas rs&#xA;                                    ON rs.schema_id = rt.schema_id&#xA;                                JOIN sys.columns rc&#xA;                                    ON fc.referenced_column_id = rc.column_id&#xA;                                    AND rt.object_id = rc.object_id&#xA;                                WHERE rt.name != 'ActiveType'&#xA;                                  AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName&#xA;                              ) SUB&#xA;                         For XML PATH('')&#xA;                        )&#xA;                        ,2,8000&#xA;                       )&#xA;SELECT @SQL AS JoinStatement&quot;"
+      DTS:Expression="&quot;DECLARE @SQL            NVARCHAR(4000)&#xA;      , @strTableName   VARCHAR(100) = '&quot;+ @[User::strTableName] +&quot;'&#xA;SELECT @SQL = SUBSTRING((SELECT ' ' + JoinClause AS [text()] &#xA;                         FROM (SELECT jointype&#xA;                                        + '[' + rs + '].[' + rt + '] AS ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'] ON [p].[' + pc + '] = ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'].[' + rc + ']'   AS JoinClause&#xA;                                FROM  (SELECT CASE WHEN pc.is_nullable = 0&#xA;                                                    THEN 'JOIN '&#xA;                                                    ELSE 'LEFT JOIN '&#xA;                                                END     AS jointype&#xA;                                            , rs.name   AS rs&#xA;                                            , rt.name   AS rt&#xA;                                            , rc.name   AS rc&#xA;                                            , ps.name   AS ps&#xA;                                            , pt.name   AS pt&#xA;                                            , pc.name   AS pc&#xA;                                            , ROW_NUMBER() OVER (PARTITION BY rt.name ORDER BY pc.name)  AS DupTableRefID&#xA;                                        FROM sys.foreign_keys f&#xA;                                        JOIN sys.foreign_key_columns fc&#xA;                                            ON f.object_id = fc.constraint_object_id&#xA;                                        JOIN sys.tables pt&#xA;                                            ON f.parent_object_id = pt.object_id&#xA;                                        JOIN sys.schemas ps&#xA;                                            ON ps.schema_id = pt.schema_id&#xA;                                        JOIN sys.columns pc&#xA;                                            ON fc.parent_column_id = pc.column_id&#xA;                                            AND pt.object_id = pc.object_id&#xA;                                        JOIN sys.tables rt&#xA;                                            ON f.referenced_object_id = rt.object_id&#xA;                                        JOIN sys.schemas rs&#xA;                                            ON rs.schema_id = rt.schema_id&#xA;                                        JOIN sys.columns rc&#xA;                                            ON fc.referenced_column_id = rc.column_id&#xA;                                            AND rt.object_id = rc.object_id&#xA;                                        WHERE rt.name != 'ActiveType'&#xA;                                          AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName&#xA;                                        )   AS SUB2&#xA;                                  &#xA;                              ) SUB&#xA;                         For XML PATH('')&#xA;                        )&#xA;                        ,2,8000&#xA;                       )&#xA;SELECT @SQL AS JoinClause&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="strSQLJoin">
       <DTS:VariableValue
         DTS:DataType="8">DECLARE @SQL            NVARCHAR(4000)
       , @strTableName   VARCHAR(100) = '[app].[Activity]'
-SELECT @SQL = SUBSTRING((SELECT ' ' + JoinStatement AS [text()] 
-                         FROM (SELECT CASE WHEN pc.is_nullable = 0
-                                            THEN 'JOIN '
-                                            ELSE 'LEFT JOIN '
-                                        END
-                                        + '[' + rs.name + '].[' + rt.name + '] AS ['+rt.name+'] ON [p].[' + pc.name + '] = ['+rt.name+'].[' + rc.name + ']'   AS JoinStatement
-                                FROM sys.foreign_keys f
-                                JOIN sys.foreign_key_columns fc
-                                    ON f.object_id = fc.constraint_object_id
-                                JOIN sys.tables pt
-                                    ON f.parent_object_id = pt.object_id
-                                JOIN sys.schemas ps
-                                    ON ps.schema_id = pt.schema_id
-                                JOIN sys.columns pc
-                                    ON fc.parent_column_id = pc.column_id
-                                    AND pt.object_id = pc.object_id
-                                JOIN sys.tables rt
-                                    ON f.referenced_object_id = rt.object_id
-                                JOIN sys.schemas rs
-                                    ON rs.schema_id = rt.schema_id
-                                JOIN sys.columns rc
-                                    ON fc.referenced_column_id = rc.column_id
-                                    AND rt.object_id = rc.object_id
-                                WHERE rt.name != 'ActiveType'
-                                  AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName
+SELECT @SQL = SUBSTRING((SELECT ' ' + JoinClause AS [text()] 
+                         FROM (SELECT jointype
+                                        + '[' + rs + '].[' + rt + '] AS ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'] ON [p].[' + pc + '] = ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'].[' + rc + ']'   AS JoinClause
+                                FROM  (SELECT CASE WHEN pc.is_nullable = 0
+                                                    THEN 'JOIN '
+                                                    ELSE 'LEFT JOIN '
+                                                END     AS jointype
+                                            , rs.name   AS rs
+                                            , rt.name   AS rt
+                                            , rc.name   AS rc
+                                            , ps.name   AS ps
+                                            , pt.name   AS pt
+                                            , pc.name   AS pc
+                                            , ROW_NUMBER() OVER (PARTITION BY rt.name ORDER BY pc.name)  AS DupTableRefID
+                                        FROM sys.foreign_keys f
+                                        JOIN sys.foreign_key_columns fc
+                                            ON f.object_id = fc.constraint_object_id
+                                        JOIN sys.tables pt
+                                            ON f.parent_object_id = pt.object_id
+                                        JOIN sys.schemas ps
+                                            ON ps.schema_id = pt.schema_id
+                                        JOIN sys.columns pc
+                                            ON fc.parent_column_id = pc.column_id
+                                            AND pt.object_id = pc.object_id
+                                        JOIN sys.tables rt
+                                            ON f.referenced_object_id = rt.object_id
+                                        JOIN sys.schemas rs
+                                            ON rs.schema_id = rt.schema_id
+                                        JOIN sys.columns rc
+                                            ON fc.referenced_column_id = rc.column_id
+                                            AND rt.object_id = rc.object_id
+                                        WHERE rt.name != 'ActiveType'
+                                          AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName
+                                        )   AS SUB2
+                                  
                               ) SUB
                          For XML PATH('')
                         )
                         ,2,8000
                        )
-SELECT @SQL AS JoinStatement</DTS:VariableValue>
+SELECT @SQL AS JoinClause</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -354,60 +344,22 @@ SELECT @SQL AS JoinStatement</DTS:VariableValue>
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\FELC_Table list\SCR_Delete existing temp sheet"
+          DTS:refId="Package\FELC_Table list\SCR_Format excel"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask, Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="Script Task"
-          DTS:DTSID="{AC9906C4-B82D-4244-BBDC-E24FC5C4B4AA}"
+          DTS:DTSID="{a72acd11-d685-4b3c-88c2-491742dc8248}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask, Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="SCR_Delete existing temp sheet"
+          DTS:ObjectName="SCR_Format excel"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <ScriptProject
-              Name="ST_b99127b1183840c890e6dc75f72b9223"
+              Name="ST_7fba59782dbe4dbf81bda916a2271fb9"
               VSTAMajorVersion="3"
               VSTAMinorVersion="0"
               Language="VisualBasic"
               ReadOnlyVariables="User::strExportTemplatePath">
-              <ProjectItem
-                Name="My Project\AssemblyInfo.vb"
-                Encoding="UTF8"><![CDATA[Imports System
-Imports System.Reflection
-Imports System.Runtime.InteropServices
-
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-
-' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("ST_b99127b1183840c890e6dc75f72b9223")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("ST_b99127b1183840c890e6dc75f72b9223")> 
-<Assembly: AssemblyCopyright("Copyright @  2014")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: CLSCompliant(True)> 
-
-<Assembly: ComVisible(False)> 
-
-'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("a630bd7e-07ab-44b0-b3af-5e3c562311c1")> 
-
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-' You can specify all the values or you can default the Build and Revision Numbers 
-' by using the '*' as shown below:
-' <Assembly: AssemblyVersion("1.0.*")>
-
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> ]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.vb"
                 Encoding="UTF8"><![CDATA[#Region "Help:  Introduction to the script task"
@@ -507,14 +459,46 @@ Partial Public Class ScriptMain
                 Wexcel.DisplayAlerts = False
                 sheet.Delete()
                 Wexcel.DisplayAlerts = False
+            Else
+                Wexcel.DisplayAlerts = False
+                'Format header row and insert empty row above
+                Dim rng As Range = sheet.Rows(1)
+                rng.Font.Bold = True
+                rng.Font.Underline = True
+                rng.Insert(XlInsertShiftDirection.xlShiftDown)
 
+                'Populate cell A1
+                Dim cell As Range = sheet.Range("A1")
+                cell.FormulaR1C1 = "For internal use only. Do not fill in or change"
+
+                'Autofit columns
+                rng.EntireColumn.AutoFit()
+
+                Wexcel.DisplayAlerts = False
             End If
+
         Next sheet
 
         Wb.Save()
         Wb.Close()
 
+        Call ReleaseCom(Wb)
+        Call ReleaseCom(wf)
+        Wexcel.Quit()
+        Call ReleaseCom(Wexcel)
+        GC.Collect() : GC.WaitForPendingFinalizers()
+
         Dts.TaskResult = ScriptResults.Success
+    End Sub
+
+    Sub ReleaseCom(ByVal o As Object)
+        Try
+            If Not o Is Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(o)
+        Catch ex As Exception
+            Dts.Events.FireError(9999, "Error Excel Release", ex.Message, "", 1)
+        Finally
+            If Not o Is Nothing Then o = Nothing
+        End Try
     End Sub
 
 #Region "ScriptResults declaration"
@@ -531,6 +515,9 @@ Partial Public Class ScriptMain
 
 End Class]]></ProjectItem>
               <ProjectItem
+                Name="ST_7fba59782dbe4dbf81bda916a2271fb9.vbproj"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{844F36C0-48D3-4C4E-AE88-084F36F66F33}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>My Project</AppDesignerFolder><RootNamespace>ST_b99127b1183840c890e6dc75f72b9223</RootNamespace><AssemblyName>ST_7fba59782dbe4dbf81bda916a2271fb9</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>true</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>false</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><Import Include="Microsoft.VisualBasic" /><Import Include="System" /><Import Include="System.Collections" /><Import Include="System.Data" /><Import Include="System.Diagnostics" /><Import Include="System.Windows.Forms" /></ItemGroup><ItemGroup><AppDesigner Include="My Project\" /><Compile Include="My Project\AssemblyInfo.vb"><SubType>Code</SubType></Compile><EmbeddedResource Include="My Project\Resources.resx"><Generator>VbMyResourcesResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.vb</LastGenOutput><CustomToolNamespace>My.Resources</CustomToolNamespace></EmbeddedResource><Compile Include="My Project\Resources.Designer.vb"><AutoGen>True</AutoGen><DesignTime>True</DesignTime><DependentUpon>Resources.resx</DependentUpon><SubType>Code</SubType></Compile><None Include="My Project\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.vb</LastGenOutput></None><Compile Include="My Project\Settings.Designer.vb"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon><SubType>Code</SubType></Compile><Compile Include="ScriptMain.vb"><SubType>Code</SubType></Compile></ItemGroup><ItemGroup><COMReference Include="Microsoft.Office.Core"><Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid><VersionMajor>2</VersionMajor><VersionMinor>7</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="Microsoft.Office.Interop.Excel"><Guid>{00020813-0000-0000-C000-000000000046}</Guid><VersionMajor>1</VersionMajor><VersionMinor>8</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="VBIDE"><Guid>{0002E157-0000-0000-C000-000000000046}</Guid><VersionMajor>5</VersionMajor><VersionMinor>3</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference></ItemGroup><!-- Include the build rules for a VB project.--><Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="#HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir#\devenv.exe" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST110</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
+              <ProjectItem
                 Name="My Project\Settings.settings"
                 Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
 <SettingsFile xmlns="uri:settings" CurrentProfile="(Default)" GeneratedClassNamespace="$safeprojectname" GeneratedClassName="MySettings">
@@ -540,133 +527,43 @@ End Class]]></ProjectItem>
   <Settings />
 </SettingsFile>]]></ProjectItem>
               <ProjectItem
-                Name="ST_b99127b1183840c890e6dc75f72b9223.vbproj"
-                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{844F36C0-48D3-4C4E-AE88-084F36F66F33}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>My Project</AppDesignerFolder>
-    <RootNamespace>ST_b99127b1183840c890e6dc75f72b9223</RootNamespace>
-    <AssemblyName>ST_b99127b1183840c890e6dc75f72b9223</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>.\bin\Debug\</OutputPath>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <OutputPath>.\bin\Release\</OutputPath>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-  </ItemGroup>
-  <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <AppDesigner Include="My Project\" />
-    <Compile Include="My Project\AssemblyInfo.vb">
-      <SubType>Code</SubType>
-    </Compile>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-    </EmbeddedResource>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ScriptMain.vb">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>7</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <!-- Include the build rules for a VB project.-->
-  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
-        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="#HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir#\devenv.exe" />
-        <Host Name="ScriptTask" />
-        <ProjectClient>
-          <HostIdentifier>SSIS_ST110</HostIdentifier>
-        </ProjectClient>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
-</Project>]]></ProjectItem>
+                Name="My Project\AssemblyInfo.vb"
+                Encoding="UTF8"><![CDATA[Imports System
+Imports System.Reflection
+Imports System.Runtime.InteropServices
+
+' General Information about an assembly is controlled through the following 
+' set of attributes. Change these attribute values to modify the information
+' associated with an assembly.
+
+' Review the values of the assembly attributes
+
+<Assembly: AssemblyTitle("ST_b99127b1183840c890e6dc75f72b9223")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("ST_b99127b1183840c890e6dc75f72b9223")> 
+<Assembly: AssemblyCopyright("Copyright @  2014")> 
+<Assembly: AssemblyTrademark("")> 
+<Assembly: CLSCompliant(True)> 
+
+<Assembly: ComVisible(False)> 
+
+'The following GUID is for the ID of the typelib if this project is exposed to COM
+<Assembly: Guid("a630bd7e-07ab-44b0-b3af-5e3c562311c1")> 
+
+' Version information for an assembly consists of the following four values:
+'
+'      Major Version
+'      Minor Version 
+'      Build Number
+'      Revision
+'
+' You can specify all the values or you can default the Build and Revision Numbers 
+' by using the '*' as shown below:
+' <Assembly: AssemblyVersion("1.0.*")>
+
+<Assembly: AssemblyVersion("1.0.0.0")> 
+<Assembly: AssemblyFileVersion("1.0.0.0")> ]]></ProjectItem>
               <ProjectItem
                 Name="My Project\Settings.Designer.vb"
                 Encoding="UTF8"><![CDATA['------------------------------------------------------------------------------
@@ -712,16 +609,16 @@ End Class]]></ProjectItem>
                 Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
 <c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
 	<msb:PropertyGroup>
-		<msb:Language>msBuild</msb:Language>
 		<msb:CodeName>ST_b99127b1183840c890e6dc75f72b9223</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
 		<msb:DisplayName>ST_b99127b1183840c890e6dc75f72b9223</msb:DisplayName>
 		<msb:ProjectId>{0BC600F8-81C6-49E6-9B00-7A9B7D3ED128}</msb:ProjectId>
 	</msb:PropertyGroup>
 	<msb:ItemGroup>
-		<msb:Project Include="ST_b99127b1183840c890e6dc75f72b9223.vbproj"/>
+		<msb:Project Include="ST_7fba59782dbe4dbf81bda916a2271fb9.vbproj"/>
 		<msb:File Include="My Project\AssemblyInfo.vb"/>
-		<msb:File Include="ScriptMain.vb"/>
 		<msb:File Include="My Project\Resources.resx"/>
+		<msb:File Include="ScriptMain.vb"/>
 		<msb:File Include="My Project\Resources.Designer.vb"/>
 		<msb:File Include="My Project\Settings.settings"/>
 		<msb:File Include="My Project\Settings.Designer.vb"/>
@@ -910,16 +807,16 @@ Namespace My.Resources
     End Class
 End Namespace]]></ProjectItem>
               <BinaryItem
-                Name="ST_b99127b1183840c890e6dc75f72b9223.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                Name="ST_7fba59782dbe4dbf81bda916a2271fb9.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
-ZGUuDQ0KJAAAAAAAAABQRQAATAEDAPS4oVMAAAAAAAAAAOAAAiELAQsAACwAAAAGAAAAAAAAbksA
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAN9YtlMAAAAAAAAAAOAAAiELAQsAADYAAAAGAAAAAAAA7lUA
 AAAgAAAAYAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACgAAAAAgAAAAAAAAIAQIUAABAA
-ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAABRLAABXAAAAAGAAANgDAAAAAAAAAAAAAAAAAAAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAKBVAABLAAAAAGAAANgDAAAAAAAAAAAAAAAAAAAA
 AAAAAIAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAdCsAAAAgAAAALAAAAAIA
-AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAANgDAAAAYAAAAAQAAAAuAAAAAAAAAAAAAAAAAABAAABA
-LnJlbG9jAAAMAAAAAIAAAAACAAAAMgAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABQ
-SwAAAAAAAEgAAAACAAUArCQAAGgmAAABAAAAAAAAAPQjAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAA9DUAAAAgAAAANgAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAANgDAAAAYAAAAAQAAAA4AAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAIAAAAACAAAAPAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAADQ
+VQAAAAAAAEgAAAACAAUA6CUAALgvAAABAAAAAAAAADAlAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKAEAAAoqHgIoBAAACiqmcwYAAAqAAQAABHMHAAAKgAIA
 AARzCAAACoADAAAEcwkAAAqABAAABCoAABMwAQALAAAAAQAAEX4BAAAEbwoAAAoqABMwAQALAAAA
 AgAAEX4CAAAEbwsAAAoqABMwAQALAAAAAwAAEX4DAAAEbwwAAAoqABMwAQALAAAABAAAEX4EAAAE
@@ -931,210 +828,256 @@ fRkAAAoqAB4CKBcAAAoqEzACAC0AAAAMAAARfgYAAAQtIHIBAABw0AcAAAIoFAAACm8eAAAKcx8A
 AAoLB4AGAAAEfgYAAAQqAAAAEzABAAYAAAANAAARfgcAAAQqAAAeAoAHAAAEKkJzFwAACigRAAAK
 gAkAAAQqAAAAHgIoIAAACiobMAEAPwAAAA4AABF+CAAABC0yfgkAAAQoEQAACighAAAKfggAAAQt
 HHMWAAAGgAgAAATeEH4JAAAEKBEAAAooIgAACtx+CAAABCoAARAAAAIAHQAMKQAQAAAAAB4CKCQA
-AAoqGzAQACgBAAAPAAARAm8lAAAKbyYAAApyMwAAcG8nAAAKbygAAApvFQAACgoSBXJrAABwKCkA
-AAoRBSgqAAAKKCsAAAp0DAAAAgwIbxsAAAYGfi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACn4tAAAK
-fi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACm8mAAAGCwhvHAAABg0Ibx0A
-AAZvKAAABhMGKzgRBm8yAAAKdA4AAAITBBEEby4AAAZytQAAcBYoNAAAChYzFQgWbyIAAAYRBG8s
-AAAGCBZvIgAABhEGbzcAAAotv94WEQZ1JgAAASwMEQZ1JgAAAW84AAAK3AdvMwAABgd+LQAACn4t
-AAAKfi0AAApvMQAABgJvJQAAChZvOwAACioBEAAAAgCYAFLqABYAAAAAtAAAAM7K774BAAAAkQAA
-AGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAu
-MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lz
-dGVtLlJlc291cmNlcy5SdW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAEJT
-SkIBAAEAAAAAAAwAAAB2NC4wLjMwMzE5AAAAAAUAbAAAAMwOAAAjfgAAOA8AAFQNAAAjU3RyaW5n
-cwAAAACMHAAAwAAAACNVUwBMHQAAEAAAACNHVUlEAAAAXB0AAAwJAAAjQmxvYgAAAAAAAAACAAAB
-Vz+iCQkPAAAA+iUzABYAAAEAAAA+AAAAGQAAAAwAAAAzAAAAIwAAAAgAAABRAAAAAgAAAIoAAAAe
-AAAADwAAAAgAAAAQAAAAEwAAAAkAAAABAAAABQAAAAEAAAADAAAAAwAAAAIAAAAAACwNAQAAAAAA
-CgBLASEBCgB/AWEBBgCPAYgBCgDnASEBBgBlAogBCgDnAr0CBgAdAwwDBgBKAzUDDgCxA5wDEgAw
-BAcEBgBRBIgBDgCEBG4EDgCdBG4EDgDKBLIEBgD0BOEECgAzBQwFCgBLBRMADgCABWMFBgC1BZUF
-BgDTBYgBBgD3BYgBCgAQBhMABgBUBjUGBgB6BmgGBgChBpAGBgC0BuEEBgAVB4gBBgAtBxoHEgA5
-BwcEFgCSB3IHFgCqB3IHBADNB9oGBgDyB2gGBADaB9oGBAAVCNoGBABFCNoGCgBZCAwFBgCTCIgB
-BACnCNoGBgDLCIgBEgDhCAcEBgBbCZUFBgB2CTUGBgCHCTUGBgCVCTUGBgCtCTUGBgDECTUGBgDV
-CWgGBgDsCTUGBgAUCjUGBgBcCjUGBgCaChoHBgACDJUFBgAiDJUFBgBaDEAMBgBzDGgGBgCQDGgG
-BgCrDGgGBgDGDGgGBgDfDGgGBgD4DGgGBgAVDWgGAAAAAAEAAAAAAAEAAQAAAAAAKQA3AAUAAQAB
-AAAAAABeADcACQABAAIAAAEQAGkANwANAAEAAwAFAQAAcwAAAA0ABQAIAAUBAACBAAAADQAFAA8A
-AAAAAJwAqAANAAYAEQAAARAA2QDkACUACAAVAAEAAAAIAeQAKQAKABgAAgEAABMBAAAtAAoAGgCh
-EAAA0QbaBgAADQAaAKEQAAA4AtoGAAANABoAoRAAAPkG2gYAAA0AGgChEAAACwfaBgAADQAaAKEQ
-AADNB9oGAAANABoAoRAAANoH2gYAAA0AIwChEAAAFQjaBgAADQAnAKEQAABFCNoGAAANACsAoRAA
-AKcI2gYAAA0AMAChEAAAAwnaBgAADQA0AKEQAAASCdoGAAANADQAoRAAABwJ2gYAAA0ANAChEAAA
-LAnaBgAADQA0AKEQAABBCdoGAAANADQAoRAAAEsJ2gYAAA0ANAAxAKoBIAAxANMBLQAxAPUBOgAx
-ABoCRwAhAPYCkAARAC0DnQARAFYDoQARAMkDvwARANEDwwAGBlYE2QBWgF4E3ABWgGYE3ABQIAAA
-AAAGGFsBEwABAFggAAAAAAYYWwETAAEAYCAAAAAAERiWARcAAQCMIAAAAAATCJ0BGwABAKQgAAAA
-ABMIwwEoAAEAvCAAAAAAEwjsATUAAQDUIAAAAAATCAoCQgABAOwgAAAAAEYCUAJjAAEACCEAAAAA
-RgJZAmgAAgAcIQAAAACDAGoCbAACADQhAAAAAEYCcgJxAAIASCEAAAAAEQB7AngAAgBkIQAAAAAB
-AJkCgAADAIAhAAAAAAYYWwETAAQAiCEAAAAAAwitAosABAC8IQAAAAAGGFsBEwAEANAhAAAAAAMY
-WwETAAQA2CEAAAAAFghiA6UABAAUIgAAAAAWCHYDqgAEACgiAAAAABYIggOvAAQAMCIAAAAAERiW
-ARcABQBEIgAAAAAGGFsBEwAFAEwiAAAAABYI3gPGAAUAqCIAAAAABhhbARMABQCwIgAAAAAGAEwE
-EwAFAAAAAAADAAYYBwoXAAUAAAAAAAAAxg3kB6MCBQAAAAAAAADGDf8HwQIGAAAAAAAAAMYNHAjG
-AgcAAAAAAAMABhgkChcACAAAAAAAAADGDTEKcQAIAAAAAAADAAYYPgoXAAkAAAAAAAAAxg1KCtcC
-CQAAAAAAAADGDXEITAIJAAAAAAADAAYYpgoXAAoAAAAAAAAAxg0xCg4HCgAAAAAAAwAGGLkKFwAM
-AAAAAAAAAMYF+getAgwAAAAAAAMABhimChcAHAAAAAAAAADGBSsIywIcAAAAAAADAAYYZAsXAB0A
-AAAAAAAAxg0xCuQHHQAAAAAAAwAGGHALFwAfAAAAAAAAAMYFgwgTAB8AAAAAAAMABhh8CxcAHwAA
-AAAAAADGDVAIcQAfAAAAAAAAAMYNiAtIASAAAAAAAAMABhiWCxcAIQAAAAAAAADGBbYI2wIhAAAA
-AAADAAYYvQsXACQAAAAAAAAAxgWxCBMAJAAAAAEAVwIAAAEAkAIAAAEAkAIAAAEAjgMAIAAAAAAA
-IAAAAAAAIAAAAAAAIAAAAAABAAEAdAoAIAAAAAABIAEAswoAIAAAAAABIAEAxQoRIAIAzgoRIAMA
-2goRIAQA4woRIAUA6goRIAYA8woRIAcABAsRIAgAHgsRIAkAJQsRIAoALwsRIAsAOAsRIAwAPwsR
-IA0ASQsRIA4AUgsRIA8AWAsAIAAAAAAAIAAAAAABIAEAswoAIAAAAAABIAEAdAoRIAEAowsRIAIA
-xQoRIAMArwsLAEwACwBcAAwAPAAMAFgADgBIAA4AZAAQANEAEQDRAAkAWwETAGEAWwHqAHEAWwH5
-ABEAWwETAHkAWwETACQAWwETACwAWwETADQAWwETADwAWwETACQArQKLACwArQKLADQArQKLADwA
-rQKLAIEAWwETAIkAWwETAJEAWwFIAZkAxAWTARkAUAJjABkAWQJoACkA5QWgARkAcgJxAKkAAQaw
-ARkAWwETALEAWwHAAUQA9gKQAEwA3gOLAEwAKwY9AkwAWwETALkAWwFMAikAgwZXAjkAWwFcAkkA
-WwETAMkAqQZ4AskArwZ4AtEAWwETAFEAWwETAFEASweCAukAnAeHAvEAsweMAvkA3gOSAtkAWwFI
-ASkAvAeWAqkAAQadAtsA5AejAgkBjgOoAjMB+getAuMA/wfBAusAHAjGAkMBKwjLAuEAOQiSAnMB
-UAhxACkBYwjQAhMBcQhMAmMBgwgTAOEAigjXAjEBnwgTAJsBsQgTAIsBtgjbAukAvAjiAkEBWwFM
-AkkBWwETAFEBWwETAFkBWwH3AmEBWwFIAWkBWwETAHEBWwFkA4EBWwFIAYkBWwF1BGkBWwH5AJEB
-WwHiApkBWwHiAqkBWwHiArEBWwETALkBWwFIAcEBWwFIAckBWwFIAdEBWwFIAdkBWwFIAeEBWwFI
-AekBWwFIAfEBWwFIAQgALADgAAgAMADlACkAgwBhAS4AawLKCC4AgwJRAi4AiwLhCC4A4wHECC4A
-QwIdCC4A6wBRAi4AewJRAi4AYwJRAi4AcwLhCC4ASwImCC4AUwJFCC4AWwKNCC4AAwKaCEAAKwDl
-AEAAEwDwAEMAEwDwAEMAGwD/AEkAgwBNAWMAGwD/AGMAEwDwAGkAgwByAYAAKwDlAIMAcwDlAIMA
-GwD/AIMAewDlAIkAgwB/AaAAKwDlAKMAwwDIAaMAEwDwAMAAKwDlAMMAEwDwAMMA6wBRAskAEwBv
-AuAAKwDlAOkAEwBvAgABEwDwAAABKwDlAAkBGwHlACABKwDlACABEwDwACMB6wHlACMB4wFRAikB
-MwLlBkABKwDlAEABEwDwAEkBMwLuBmABEwDwAGABKwDlAGMB+wH9AmMBAwIQA2MBCwLlAGMB8wHl
-AGkBMwLIBoABKwDlAIMBCwLlAIMB8wHlAIMB+wH9AoMBAwI6A4kBMwLRBqABKwDlAKMBAwJrA6MB
-EwJvAqMB8wHlAKMBCwLlAKkBMwLaBsABKwDlAMABEwDwAMMB+wH9AsMBCwLlAMMBAwKVA8MB8wHl
-AMkBMwLlBuABKwDlAOMBCwLlAOMBAwI6A+MBGwK/A+MB8wHlAOkBMwLlBgACEwDwAAACKwDlAAMC
-8wHlAAMCAwLNAwMCCwLlAAMCGwK/AwkCMwL5ByMCGwK/AyMC8wHlACMCAwL3AyMCCwLlAEMCCwLl
-AEMC8wHlAEMCAwKVA2MCCwLlAGMC8wHlAGMCAwIQA4MC8wHlAIMCAwIhBIMCCwLlAIMCEwJvAqMC
-CwLlAKMC8wHlAKMCEwJvAqMCAwJLBMMCKwLUBMMCIwJ9BMMC8wHlAOMCKwKOBeMC8wHlAOMCIwIt
-BQMDCwLlAAMDAwLsBQMDEwJvAgMD8wHlACMDIwIWBiMDKwJtBiMD8wHlAGADMwLIBoADMwLRBqAD
-MwLaBuADMwLlBiAEOwLlBiAEMwLuBkAEMwLuBkAEOwLlBoAEMwLlBsAEMwIfB8AEOwIWBwAFMwLb
-B0AFMwLlBoAFMwLwB4AFOwLlBsAFMwL5B+AFMwL5ByAGMwILCCAGOwICCGAGOwLlBmAGMwIUCAsA
-xgYNAMYGDwDGBhEA4wYVAMYGFwAUBxkAxgYbAOMGHQAUBx8AFAchABQHIwAUByUAFAcnABQHKQAU
-BysAFActABQHLwAUBzEAFAczABQHNQAUBzcAFAc5AC4HOwDpBz0AFAc/AOMGQQDjBkMAFAdFABQH
-RwAUBzQBOQE+AUMBmAGcAacBrAG7AbsBQwJjAmoCfQLnAgQAAQAGAAUABwAGAAgACAAPAAkAEAAO
-ABEADwASABAAAAB/AU8AAAA4AlQAAADnAVkAAABEAl4AAAAAA5gAAAAdA7UAAACUA7oAAACOA8sA
-AAB4CvcGAACBCvsGAADaB/8GAAD5BgQHAACPCgkHAAB4CigHAAB4CusHAACRC/cGAgAEAAMAAgAF
-AAUAAgAGAAcAAgAHAAkAAgAPAAsAAgASAA0AAgATAA8AAQAUAA8AAgAXABEAAgAfABMAAgAhABUA
-AQAiABUAAgAbABcAAgAcABkAAgAdABsAAgAkAB0AAgAqAB8AAgAuACEAAQAvACEAdQB1AIgAGAEf
-ASYBLQEqAjECBIAAAAEAAAAAAAAAAAAAAAAA5AAAAAQAAAAAAAAAAAAAAAEACgAAAAAACgAAAAAA
-AAAAAAAACgATAAAAAAAEAAAAAAAAAAAAAAABAIgBAAAAAAsAAAAAAAAAAAAAANAA6AMAAAAACwAA
-AAAAAAAAAAAA0ABTBwAAAAAAAAAAAQAAAMoLAAAFAAQABgAEAAoACQAAABAADACOAgAAEAAZAI4C
-AAAAABsAjgItALYBLQA4AgAAADxNb2R1bGU+AG1zY29ybGliAE1pY3Jvc29mdC5WaXN1YWxCYXNp
-YwBNeUFwcGxpY2F0aW9uAFNUX2I5OTEyN2IxMTgzODQwYzg5MGU2ZGM3NWY3MmI5MjIzLk15AE15
-Q29tcHV0ZXIATXlQcm9qZWN0AE15V2ViU2VydmljZXMAVGhyZWFkU2FmZU9iamVjdFByb3ZpZGVy
-YDEATXlSZXNvdXJjZXMAU1RfYjk5MTI3YjExODM4NDBjODkwZTZkYzc1ZjcyYjkyMjMuTXkuUmVz
-b3VyY2VzAE15U2V0dGluZ3MAU1RfYjk5MTI3YjExODM4NDBjODkwZTZkYzc1ZjcyYjkyMjMAU2Ny
-aXB0TWFpbgBTY3JpcHRSZXN1bHRzAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5BcHBsaWNhdGlvblNl
-cnZpY2VzAEFwcGxpY2F0aW9uQmFzZQAuY3RvcgBNaWNyb3NvZnQuVmlzdWFsQmFzaWMuRGV2aWNl
-cwBDb21wdXRlcgBTeXN0ZW0AT2JqZWN0AC5jY3RvcgBnZXRfQ29tcHV0ZXIAbV9Db21wdXRlck9i
-amVjdFByb3ZpZGVyAGdldF9BcHBsaWNhdGlvbgBtX0FwcE9iamVjdFByb3ZpZGVyAFVzZXIAZ2V0
-X1VzZXIAbV9Vc2VyT2JqZWN0UHJvdmlkZXIAZ2V0X1dlYlNlcnZpY2VzAG1fTXlXZWJTZXJ2aWNl
-c09iamVjdFByb3ZpZGVyAEFwcGxpY2F0aW9uAFdlYlNlcnZpY2VzAEVxdWFscwBvAEdldEhhc2hD
-b2RlAFR5cGUAR2V0VHlwZQBUb1N0cmluZwBDcmVhdGVfX0luc3RhbmNlX18AVABpbnN0YW5jZQBE
-aXNwb3NlX19JbnN0YW5jZV9fAGdldF9HZXRJbnN0YW5jZQBNaWNyb3NvZnQuVmlzdWFsQmFzaWMu
-TXlTZXJ2aWNlcy5JbnRlcm5hbABDb250ZXh0VmFsdWVgMQBtX0NvbnRleHQAR2V0SW5zdGFuY2UA
-U3lzdGVtLlJlc291cmNlcwBSZXNvdXJjZU1hbmFnZXIAX3Jlc01ncgBTeXN0ZW0uR2xvYmFsaXph
-dGlvbgBDdWx0dXJlSW5mbwBfcmVzQ3VsdHVyZQBnZXRfUmVzb3VyY2VNYW5hZ2VyAGdldF9DdWx0
-dXJlAHNldF9DdWx0dXJlAFZhbHVlAEN1bHR1cmUAU3lzdGVtLkNvbmZpZ3VyYXRpb24AQXBwbGlj
-YXRpb25TZXR0aW5nc0Jhc2UAbV9WYWx1ZQBtX1N5bmNPYmplY3QAZ2V0X1ZhbHVlAE1pY3Jvc29m
-dC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5UYXNrcy5TY3Jp
-cHRUYXNrAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVsQmFzZQBNYWluAEVudW0AdmFsdWVfXwBTdWNj
-ZXNzAEZhaWx1cmUAU3lzdGVtLkNvbXBvbmVudE1vZGVsAEVkaXRvckJyb3dzYWJsZUF0dHJpYnV0
-ZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBTeXN0ZW0uQ29kZURvbS5Db21waWxlcgBHZW5lcmF0ZWRD
-b2RlQXR0cmlidXRlAFN5c3RlbS5EaWFnbm9zdGljcwBEZWJ1Z2dlckhpZGRlbkF0dHJpYnV0ZQBN
-aWNyb3NvZnQuVmlzdWFsQmFzaWMuQ29tcGlsZXJTZXJ2aWNlcwBTdGFuZGFyZE1vZHVsZUF0dHJp
-YnV0ZQBIaWRlTW9kdWxlTmFtZUF0dHJpYnV0ZQBTeXN0ZW0uQ29tcG9uZW50TW9kZWwuRGVzaWdu
-AEhlbHBLZXl3b3JkQXR0cmlidXRlAFN5c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMAUnVu
-dGltZUhlbHBlcnMAR2V0T2JqZWN0VmFsdWUAUnVudGltZVR5cGVIYW5kbGUAR2V0VHlwZUZyb21I
-YW5kbGUAQWN0aXZhdG9yAENyZWF0ZUluc3RhbmNlAE15R3JvdXBDb2xsZWN0aW9uQXR0cmlidXRl
-AHNldF9WYWx1ZQBTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2VydmljZXMAQ29tVmlzaWJsZUF0dHJp
-YnV0ZQBTeXN0ZW0uUmVmbGVjdGlvbgBBc3NlbWJseQBnZXRfQXNzZW1ibHkAU3lzdGVtLlRocmVh
-ZGluZwBNb25pdG9yAEVudGVyAEV4aXQARGVidWdnZXJOb25Vc2VyQ29kZUF0dHJpYnV0ZQBXb3Jr
-Ym9vawBNaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwAV29ya3NoZWV0RnVuY3Rpb24AV29y
-a3NoZWV0AEd1aWQAU3lzdGVtLkNvbGxlY3Rpb25zAElFbnVtZXJhdG9yAFNjcmlwdE9iamVjdE1v
-ZGVsAGdldF9EdHMATWljcm9zb2Z0LlNxbFNlcnZlci5NYW5hZ2VkRFRTAE1pY3Jvc29mdC5TcWxT
-ZXJ2ZXIuRHRzLlJ1bnRpbWUAVmFyaWFibGVzAGdldF9WYXJpYWJsZXMAVmFyaWFibGUAZ2V0X0l0
-ZW0AR2V0VHlwZUZyb21DTFNJRABfQXBwbGljYXRpb24AV29ya2Jvb2tzAGdldF9Xb3JrYm9va3MA
-TWlzc2luZwBPcGVuAGdldF9Xb3Jrc2hlZXRGdW5jdGlvbgBTaGVldHMAZ2V0X1dvcmtzaGVldHMA
-R2V0RW51bWVyYXRvcgBnZXRfQ3VycmVudABfV29ya3NoZWV0AGdldF9OYW1lAE9wZXJhdG9ycwBD
-b21wYXJlU3RyaW5nAHNldF9EaXNwbGF5QWxlcnRzAERlbGV0ZQBNb3ZlTmV4dABJRGlzcG9zYWJs
-ZQBEaXNwb3NlAF9Xb3JrYm9vawBTYXZlAENsb3NlAHNldF9UYXNrUmVzdWx0AENMU0NvbXBsaWFu
-dEF0dHJpYnV0ZQBTU0lTU2NyaXB0VGFza0VudHJ5UG9pbnRBdHRyaWJ1dGUAV29ya2Jvb2tFdmVu
-dHMAQXBwRXZlbnRzAEFwcEV2ZW50c19FdmVudABXb3JrYm9va0V2ZW50c19FdmVudABEb2NFdmVu
-dHMARG9jRXZlbnRzX0V2ZW50AENvbXBpbGVyR2VuZXJhdGVkQXR0cmlidXRlAENvQ2xhc3NBdHRy
-aWJ1dGUAR3VpZEF0dHJpYnV0ZQBUeXBlSWRlbnRpZmllckF0dHJpYnV0ZQBJbnRlcmZhY2VUeXBl
-QXR0cmlidXRlAENvbUludGVyZmFjZVR5cGUARGVmYXVsdE1lbWJlckF0dHJpYnV0ZQBDb21FdmVu
-dEludGVyZmFjZUF0dHJpYnV0ZQBfVnRibEdhcDFfNDUARGlzcElkQXR0cmlidXRlAF9WdGJsR2Fw
-Ml81OABnZXRfX0RlZmF1bHQAX1Z0YmxHYXAzXzUAZ2V0X0Rpc3BsYXlBbGVydHMATENJRENvbnZl
-cnNpb25BdHRyaWJ1dGUAUkhTAF9EZWZhdWx0AERpc3BsYXlBbGVydHMAV29ya3NoZWV0cwBJRW51
-bWVyYWJsZQBfVnRibEdhcDFfMTAASW5kZXgAX1Z0YmxHYXAyXzEARmlsZW5hbWUAVXBkYXRlTGlu
-a3MAUmVhZE9ubHkARm9ybWF0AFBhc3N3b3JkAFdyaXRlUmVzUGFzc3dvcmQASWdub3JlUmVhZE9u
-bHlSZWNvbW1lbmRlZABPcmlnaW4ARGVsaW1pdGVyAEVkaXRhYmxlAE5vdGlmeQBDb252ZXJ0ZXIA
-QWRkVG9NcnUATG9jYWwAQ29ycnVwdExvYWQAX1Z0YmxHYXAyXzcAX1Z0YmxHYXAxXzUAX1Z0YmxH
-YXAyXzUAc2V0X05hbWUATmFtZQBfVnRibEdhcDFfMjAAU2F2ZUNoYW5nZXMAUm91dGVXb3JrYm9v
-awBfVnRibEdhcDJfNzQAU1RfYjk5MTI3YjExODM4NDBjODkwZTZkYzc1ZjcyYjkyMjMuUmVzb3Vy
-Y2VzLnJlc291cmNlcwBDb21waWxhdGlvblJlbGF4YXRpb25zQXR0cmlidXRlAFJ1bnRpbWVDb21w
-YXRpYmlsaXR5QXR0cmlidXRlAFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcAVGFyZ2V0RnJhbWV3
-b3JrQXR0cmlidXRlAEFzc2VtYmx5RmlsZVZlcnNpb25BdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1h
-cmtBdHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0
-cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0cmli
-dXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAU1RfYjk5MTI3YjExODM4NDBjODkwZTZkYzc1Zjcy
-YjkyMjMuZGxsAAAxTQB5AC4AUgBlAHMAbwB1AHIAYwBlAHMALgBNAHkAUgBlAHMAbwB1AHIAYwBl
-AHMAADdVAHMAZQByADoAOgBzAHQAcgBFAHgAcABvAHIAdABUAGUAbQBwAGwAYQB0AGUAUABhAHQA
-aAAASTAAMAAwADIANAA1ADAAMAAtADAAMAAwADAALQAwADAAMAAwAC0AQwAwADAAMAAtADAAMAAw
-ADAAMAAwADAAMAAwADAANAA2AAEJdABlAG0AcAAAAHC2B+YpZW5PlA5PDgszfLUACLd6XFYZNOCJ
-CLA/X38R1Qo6AyAAAQMAAAEEAAASDAcGFRIYARIMBAAAEggHBhUSGAESCAQAABIRBwYVEhgBEhEE
-AAASFAcGFRIYARIUBAgAEgwECAASCAQIABIRBAgAEhQEIAECHAMgAAgEIAASFQMgAA4CHgAHEAEB
-HgAeAAcwAQEBEB4AAhMABCAAEwAHBhUSGQETAAQoABMAAwYSHQMGEiEEAAASHQQAABIhBQABARIh
-BAgAEh0ECAASIQMGEiACBhwEAAASIAQIABIgCImEXc2AgMyRAgYIAwYRKAQAAAAABAEAAAAFIAEB
-ETUIAQABAAAAAAAFIAIBDg4YAQAKTXlUZW1wbGF0ZQgxMC4wLjAuMAAABhUSGAESDAYVEhgBEggG
-FRIYARIRBhUSGAESFAQHARIMBAcBEggEBwESEQQHARIUBCABAQ4TAQAOTXkuQXBwbGljYXRpb24A
-ABABAAtNeS5Db21wdXRlcgAADAEAB015LlVzZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAABAABHBwD
-BwECAwcBCAYAARIVEVEEBwESFQMHAQ4FEAEAHgAECgEeAAQHAR4AByAEAQ4ODg5hAQA0U3lzdGVt
-LldlYi5TZXJ2aWNlcy5Qcm90b2NvbHMuU29hcEh0dHBDbGllbnRQcm90b2NvbBJDcmVhdGVfX0lu
-c3RhbmNlX18TRGlzcG9zZV9fSW5zdGFuY2VfXwAAAAYVEhgBEwAGFRIZARMABAoBEwAFIAEBEwAI
-BwMTABMAEwAEIAEBAgUBAAAAAAQgABJhBiACAQ4SYQYHAhIdEh0EBwESIQgBAAIAAAAAAAQAAQEc
-BAcBEiAEIAASdQQgABJ5BSABEn0cAyAAHAYAARIVEW0FAAEcEhUEIAASQAQGEoCFEyAPEiwOHBwc
-HBwcHBwcHBwcHBwEIAASNAQgABJEBCAAEnEGAAMIDg4CAyAAAgYgAwEcHBwEIAEBCA8HBw4SLBIw
-EjQSOBFtEnEFIAEBEhUSAQANU3lzdGVtLk9iamVjdAAAKQEAJDAwMDIwOERBLTAwMDAtMDAwMC1D
-MDAwLTAwMDAwMDAwMDA0NgAAKQEAJDAwMDIwOEQ1LTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0
-NgAABiABARGAvSkBACQwMDAyMDg0NS0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAACkBACQw
-MDAyMDhEOC0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAAA0BAAhfRGVmYXVsdAAAKQEAJDAw
-MDIwOERCLTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAAKQEAJDAwMDIwOEQ3LTAwMDAtMDAw
-MC1DMDAwLTAwMDAwMDAwMDA0NgAAKQEAJDAwMDI0NDEyLTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAw
-MDA0NgAAKQEAJDAwMDI0NDEzLTAwMDAtMDAwMC1DMDAwLTAwMDAwMDAwMDA0NgAAByACARIVEhVW
-AQAoTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLkFwcEV2ZW50cyhNaWNyb3NvZnQuT2Zm
-aWNlLkludGVyb3AuRXhjZWwuQXBwRXZlbnRzAABYAQAkMDAwMjA4MTMtMDAwMC0wMDAwLWMwMDAt
-MDAwMDAwMDAwMDQ2Lk1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNlbC5BcHBFdmVudHNfRXZl
-bnQAAGABAC1NaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwuV29ya2Jvb2tFdmVudHMtTWlj
-cm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLldvcmtib29rRXZlbnRzAABdAQAkMDAwMjA4MTMt
-MDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDQ2M01pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNl
-bC5Xb3JrYm9va0V2ZW50c19FdmVudAAAKQEAJDAwMDI0NDExLTAwMDAtMDAwMC1DMDAwLTAwMDAw
-MDAwMDA0NgAAVgEAKE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNlbC5Eb2NFdmVudHMoTWlj
-cm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLkRvY0V2ZW50cwAAWAEAJDAwMDIwODEzLTAwMDAt
-MDAwMC1jMDAwLTAwMDAwMDAwMDA0Ni5NaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwuRG9j
-RXZlbnRzX0V2ZW50AAABHAgBADwCAAAAAAgBAKAFAAAAAAgBAO4BAAAAAAETCAEAAAAAAAAACAEA
-VwEAAAAAAygADgMoAAIEKAASQAQoABI0BCgAEkQFIAESLBwBGwgBAA8AAAAAAAgBAIMHAAAAAAUo
-ARIsHICrLAAAgKVTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2VydmljZXMuQ3VzdG9tTWFyc2hhbGVy
-cy5FbnVtZXJhdG9yVG9FbnVtVmFyaWFudE1hcnNoYWxlciwgQ3VzdG9tTWFyc2hhbGVycywgVmVy
-c2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFk
-NTBhM2EACAEA/P///wAABCABHBwBGgQoARwcCAEAdQAAAAAACAEAbgAAAAAACAEAAwAAAAAACAEA
-FQEAAAAACAEAGwEAAAAACAEACAAAAAAAHgEAAQBUAhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dzAUcB
-ABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuMAEAVA4URnJhbWV3b3JrRGlzcGxheU5hbWUQLk5F
-VCBGcmFtZXdvcmsgNAwBAAcxLjAuMC4wAAApAQAkYTYzMGJkN2UtMDdhYi00NGIwLWIzYWYtNWUz
-YzU2MjMxMWMxAAAFAQABAAAWAQARQ29weXJpZ2h0IEAgIDIwMTQAACgBACNTVF9iOTkxMjdiMTE4
-Mzg0MGM4OTBlNmRjNzVmNzJiOTIyMwAAAAA8SwAAAAAAAAAAAABeSwAAACAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAUEsAAAAAAAAAAAAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAA
-AAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAoqGzAQAOsBAAAPAAARAm8lAAAKbyYAAApyMwAAcG8nAAAKbygAAApvFQAACgoSB3JrAABwKCkA
+AAoRBygqAAAKKCsAAAp0DAAAAgwIbyoAAAYGfi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACn4tAAAK
+fi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACn4tAAAKfi0AAAp+LQAACm83AAAGCwhvKwAABg0IbywA
+AAZvOQAABhMIONAAAAARCG8yAAAKdA4AAAITBBEEbz8AAAZytQAAcBYoNAAAChYzGggWbzEAAAYR
+BG89AAAGCBZvMQAABjiTAAAACBZvMQAABhEEb0QAAAYXjCYAAAF+LQAACm8eAAAGdA8AAAITBhEG
+byMAAAYXjCgAAAFvRwAABhEGbyMAAAYXjCgAAAFvSgAABhEGIOfv//+MFQAAAn4tAAAKbygAAAYm
+EQRyvwAAcH4tAAAKb0IAAAYTBREFcsUAAHBvJgAABhEGbyEAAAZvHAAABiYIFm8xAAAGEQhvQQAA
+Cjok////3hYRCHUqAAABLAwRCHUqAAABb0IAAArcB29OAAAGB34tAAAKfi0AAAp+LQAACm9MAAAG
+AgdvGgAABgIJbxoAAAYIbzMAAAYCCG8aAAAGKEYAAAooRwAACgJvJQAAChZvSAAACioAARAAAAIA
+mADwiAEWAAAAABswBgBOAAAAEAAAEQMsDAMoEQAACihJAAAKJt48JShKAAAKCgJvJQAACm9LAAAK
+IA8nAAByJQEAcAZvTAAACnJNAQBwF29NAAAKJihOAAAK3gcDLAMUEAHcKgAAARwAAAAAAAAREQA1
+LQAAAQIAAABGRgAHAAAAALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJlc291cmNlcy5SZXNvdXJj
+ZVJlYWRlciwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJs
+aWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJjZXMuUnVudGltZVJlc291
+cmNlU2V0AgAAAAAAAAAAAAAAUEFEUEFEULQAAABCU0pCAQABAAAAAAAMAAAAdjQuMC4zMDMxOQAA
+AAAFAGwAAABsEwAAI34AANgTAAD8DwAAI1N0cmluZ3MAAAAA1CMAAFABAAAjVVMAJCUAABAAAAAj
+R1VJRAAAADQlAACECgAAI0Jsb2IAAAAAAAAAAgAAAVc/ogkJDwAAAPolMwAWAAABAAAARwAAABwA
+AAAPAAAATgAAADoAAAAJAAAAZAAAAAQAAACsAAAANAAAABAAAAAKAAAAGAAAAB8AAAAJAAAAAQAA
+AAUAAAABAAAAAwAAAAMAAAACAAAAAADRDwEAAAAAAAoASwEhAQoAfwFhAQYAjwGIAQoA5wEhAQYA
+ZQKIAQoA5wK9AgYAHQMMAwYASgM1Aw4AsQOcAxIAMAQHBAYAXASIAQ4AjwR5BA4AqAR5BA4A1QS9
+BAYA/wTsBAoAPgUXBQoAVgUTAA4AiwVuBQYAwAWgBQYA3gWIAQYAAgaIAQoAGwYTAAYAXwZABgYA
+hQZzBgYArAabBgYAvwbsBAYAJgeIAQYAPgcrBxIASgcHBBYAoweDBxYAuweDBwQA3gflBgYAAwhz
+BgQA6wflBgQAJgjlBgQAVgjlBgoAaggXBQYApAiIAQQAIAflBgYAxQiIAQQAtwjlBgYAPgmIAQQA
+UgnlBgYAbAmIAQYAnwmIAQYAqQlABgoAwgkXBRIA3gkHBAYAJQqIARIAOwoHBAYAtQqgBQYA0ApA
+BgYA4QpABgYA7wpABgYABwtABgYAHgtABgYALwtzBgYARgtABgYAYQsrBwYAegtABgYAbAxABgYA
+gw6gBQYAow6gBQYA2w7BDgYA9A5zBgYAEQ9zBgYALA9zBgYARw9zBgYAYA9zBgYAeQ9zBgYAlg9z
+BgAAAAABAAAAAAABAAEAAAAAACkANwAFAAEAAQAAAAAAXgA3AAkAAQACAAABEABpADcADQABAAMA
+BQEAAHMAAAANAAUACAAFAQAAgQAAAA0ABQAPAAAAAACcAKgADQAGABEAAAEQANkA5AAlAAgAFQAB
+AAAACAHkACkACgAYAAIBAAATAQAALQAKABsAoRAAANwG5QYAAA0AGwChEAAAOALlBgAADQAbAKEQ
+AAAEB+UGAAANABsAoRAAABYH5QYAAA0AGwChEAAAIAflBgAADQAbAKEQAADeB+UGAAANACkAoRAA
+AOsH5QYAAA0ANAChEAAAJgjlBgAADQA4AKEQAABWCOUGAAANADwAoRAAALcI5QYAAA0ARQABAQAA
+5AjlBi0ADQBLAKEQAABSCeUGAAAQAEsAoRAAAF0K5QYAABAATwChEAAAbArlBgAAEABPAKEQAAB8
+CuUGAAAQAE8AoRAAAIwK5QYAABAATwChEAAAlgrlBgAAEABPAKEQAACrCuUGAAAQAE8AMQCqASAA
+MQDTAS0AMQD1AToAMQAaAkcAIQD2ApAAEQAtA50AEQBWA6EAEQDJA78AEQDRA8MABgZhBN4AVoBp
+BOEAVoBxBOEABgZhBN4AVoD8DWwJVoAIDmwJUCAAAAAABhhbARMAAQBYIAAAAAAGGFsBEwABAGAg
+AAAAABEYlgEXAAEAjCAAAAAAEwidARsAAQCkIAAAAAATCMMBKAABALwgAAAAABMI7AE1AAEA1CAA
+AAAAEwgKAkIAAQDsIAAAAABGAlACYwABAAghAAAAAEYCWQJoAAIAHCEAAAAAgwBqAmwAAgA0IQAA
+AABGAnICcQACAEghAAAAABEAewJ4AAIAZCEAAAAAAQCZAoAAAwCAIQAAAAAGGFsBEwAEAIghAAAA
+AAMIrQKLAAQAvCEAAAAABhhbARMABADQIQAAAAADGFsBEwAEANghAAAAABYIYgOlAAQAFCIAAAAA
+Fgh2A6oABAAoIgAAAAAWCIIDrwAEADAiAAAAABEYlgEXAAUARCIAAAAABhhbARMABQBMIgAAAAAW
+CN4DxgAFAKgiAAAAAAYYWwETAAUAsCIAAAAABgBMBBMABQC4JAAAAAAGAFEE2QAFAAAAAAADAAYY
+bQsXAAYAAAAAAIAAxgUtCZcCBgAAAAAAAwAGGIoLFwAHAAAAAACAAMYNqgjhAgcAAAAAAIAAxg2s
+C/cCCgAAAAAAAwAGGL8LFwANAAAAAACAAMYNHAncAg0AAAAAAAMABhjLCxcADgAAAAAAgADGDbwI
+5wIOAAAAAAADAAYY1wsXAA8AAAAAAIAAxg3kC5cCDwAAAAAAgADGDQwJ2QAQAAAAAAADAAYY9AsX
+ABEAAAAAAIAAxgX7COECEQAAAAAAAwAGGDQMFwAUAAAAAAAAAMYN9QeoAhQAAAAAAAAAxg0QCMYC
+FQAAAAAAAADGDS0IywIWAAAAAAADAAYYQQwXABcAAAAAAAAAxg2qCHEAFwAAAAAAAwAGGE4MFwAY
+AAAAAAAAAMYNWgzzAhgAAAAAAAAAxg2CCFECGAAAAAAAAwAGGIgMFwAZAAAAAAAAAMYFZwkTABkA
+AAAAAAMABhivDBcAGQAAAAAAAADGDaoITwgZAAAAAAADAAYYwgwXABsAAAAAAAAAxgULCLICGwAA
+AAAAAwAGGK8MFwArAAAAAAAAAMYFPAjQAisAAAAAAAMABhhtDRcALAAAAAAAAADGDaoIIwksAAAA
+AAADAAYYeQ0XAC4AAAAAAAAAxgWUCBMALgAAAAAAAwAGGIUNFwAuAAAAAAAAAMYNYQhxAC4AAAAA
+AAAAxg2RDU0BLwAAAAAAAwAGGJoNFwAwAAAAAAAAAMYNAgnsAjAAAAAAAAMABhizDRcAMwAAAAAA
+AADGDZsI3AIzAAAAAAADAAYYeQ0XADQAAAAAAIAAxg3JDZcCNAAAAAAAgADGDc0I2QA1AAAAAAAD
+AAYY0g0XADYAAAAAAIAAxg3fDZcCNgAAAAAAgADGDdYI2QA3AAAAAAADAAYYFw4XADgAAAAAAAAA
+xgVhCfcCOAAAAAAAAwAGGD4OFwA7AAAAAAAAAMYFXAkTADsAAAABAFcCAAABAJACAAABAJACAAAB
+AI4DAAABAFcCACAAAAAAACAAAAAAESABAJcLESACAKALESABAJcLESACAKALASADALkLACAAAAAA
+ACAAAAAAACAAAAAAASABALkLACAAAAAAESABAAEMESACAAcMACAAAAAAACAAAAAAACAAAAAAACAA
+AAAAAQABAIQMACAAAAAAASABALwMACAAAAAAASABAM4MESACANcMESADAOMMESAEAOwMESAFAPMM
+ESAGAPwMESAHAA0NESAIACcNESAJAC4NESAKADgNESALAEENESAMAEgNESANAFINESAOAFsNESAP
+AGENACAAAAAAACAAAAAAASABALwMACAAAAAAASABAIQMACAAAAAAASABAKcNESACAK0NACAAAAAA
+ACAAAAAAASABALkLACAAAAAAASABALkLESABACQOESACAM4MESADADAOCwBYAAsAbAAMAEAADABk
+AA4ATAAOAGAADwDtABEA7QASAO0ACQBbARMAYQBbAe8AcQBbAf4AEQBbARMAeQBbARMAJABbARMA
+LABbARMANABbARMAPABbARMAJACtAosALACtAosANACtAosAPACtAosAgQBbARMAiQBbARMAkQBb
+AU0BmQDPBZgBGQBQAmMAGQBZAmgAKQDwBaUBGQByAnEAqQAMBrUBGQBbARMAsQBbAcUBRAD2ApAA
+TADeA4sATAA2BkICTABbARMAuQBbAVECKQCOBlwCOQBbAWECSQBbARMAyQC0Bn0CyQC6Bn0C0QBb
+ARMAUQBbARMAUQBcB4cC6QCtB4wC8QDEB5EC+QDeA5cC2QBbAU0BKQDNB5sCqQAMBqICUwH1B6gC
+CQGOA60CuwELCLICWwEQCMYCYwEtCMsCywE8CNAC4QBKCJcC+wFhCHEAKQF0CNUCiwGCCFEC6wGU
+CBMAIwKbCNwC8wCqCOECGwG8COcCOwLNCNkAUwLWCNkAQwH7COECEwICCewCMwEMCdkACwEcCdwC
+4wAtCZcC4QA1CfMCUQFKCRMAcwJcCRMAYwJhCfcCmwFnCRMAYQFvCRcAYQF3CRcA6QCQCf4CcQGx
+CRcDeQHOCRwD6QDyCSMDaQH9CXEAgQEJCikDeQETChcAiQFbAVECkQFbARMAmQFbARMAoQFbATgD
+qQFbAU0BsQFbARMAuQFbAaUDyQFbAU0BsQFbAf4A0QFbAUAF4QFbAf4C6QFbAf4C8QFbAf4C+QFb
+ARMAAQJbAU0BCQJbAU0BEQJbAU0BGQJbAU0BIQJbAU0BKQJbAU0BMQJbAU0BOQJbAU0BCAAsAOUA
+CAAwAOoACAA4AHAJCAA8AHUJKQCDAGYBLgADA0IKLgAbA1YCLgAjA1kKLgB7AjwKLgDbApUJLgDr
+AFYCLgATA1YCLgD7AlYCLgALA1kKLgDjAp4JLgDrAr0JLgDzAgUKLgCbAhIKQAArAOoAQAATAPUA
+QwATAPUAQwAbAAQBSQCDAFIBYwAbAAQBYwATAPUAaQCDAIsBgAArAOoAgwBzAOoAgwAbAAQBgwB7
+AOoAiQCDAHcBoAArAOoAowDDAM0BowATAPUAwAArAOoAwwDrAFYCwwATAPUAyQATAHQC4AArAOoA
+6QATAHQCAAErAOoAAAETAPUACQEbAeoAIAETAPUAIAErAOoAIwGDAuoAIwF7AlYCKQHLAsYHQAEr
+AOoAQAETAPUASQHLAtEHYAErAOoAYAETAPUAYwGTAj4DYwGjAuoAYwGLAuoAYwGbAlEDaQHLAtoH
+gAErAOoAgwGLAuoAgwGbAnsDgwGjAuoAgwGTAj4DiQHLAuMHoAErAOoAowGrAnQCowGLAuoAowGb
+AqwDowGjAuoAqQHLAsYHwAErAOoAwAETAPUAwwGTAj4DwwGjAuoAwwGbAtYDwwGLAuoAyQHLAiYI
+4AErAOoA4wGzAioE4wGLAuoA4wGrAnQC4wGbAgAE4wGjAuoA6QHLAgkIAAIrAOoAAAITAPUAAwKL
+AuoAAwKzAioEAwKbAnsDAwKjAuoACQLLAhIIIwKLAuoAIwKbAjgEIwKjAuoAIwKzAioEKQLLAhsI
+QwKLAuoAQwKbAmIEQwKjAuoAQwKzAioESQLLAsYHYwKjAuoAYwKbAtYDYwKLAuoAaQLLAsYHgwKr
+AnQCgwKjAuoAgwKLAuoAgwKbAowEiQLLAjgJowK7ArYEowKLAuoAqQLLAkEJwwKjAuoAwwKbAlED
+wwKLAuoAyQLLAkoJ4wKLAuoA4wKrAnQC4wKbAhYF4wKjAuoA6QLLAloJAwPDAkgFAwOLAuoAAwO7
+Ap8FCQPLAmMJIwPDAvgFIwO7Ak8GIwOLAuoAQwOLAuoAQwObAqgGQwOjAuoAQwOrAnQCYwO7AjMH
+YwOLAuoAYwPDAtIGgAPLAr0HgwObApEHgwOjAuoAgwOLAuoAgwOrAnQCwAPLAsYH4APLAsYHIATL
+AtEHYATLAtoHoATLAuMHwATLAuMHAAXLAuwHQAXLAgkIYAXLAhIIgAXLAhsIwAXLAsYHAAbTAsYH
+AAbLAiYIIAbLAiYIIAbTAsYHYAbLAi8IoAbLAsYH4AbLAl4I4AbTAlUIIAfLAhoJYAfLAsYHoAfT
+AsYHoAfLAi8J4AfLAjgJAAjLAjgJQAjLAkEJgAjLAkoJwAjLAloJ4AjLAloJIAnLAmMJQAnLAmMJ
+gAnTAnoJgAnLAoMJwAnTAsYHwAnLAowJDQC7Bw8AuwcRALsHEwC7BxUAuwcXALsHGQC7BxsAzwcd
+AM8HHwC7ByEAuwcjALsHJQC7BycAuwcpAM8HKwDPBy0AzwcvACQIMwDPBzUAuwc3AM8HOQAkCDsA
+uwc9ALsHPwC7B0EAuwdDALsHRQC7B0cAuwdJALsHSwC7B00AuwdPALsHUQC7B1MAuwdVALsHVwBt
+CFkAKAlbALsHXQAkCF8AJAhhAM8HYwC7B2UAuwdnAM8HaQC7B2sAuwdtALsHbwC7B3EAuwdzALsH
+dQC7BzkBPgFDAUgBnQGhAawBsQHAAcABSAJoAm8CggIDAzIDBAABAAYABQAHAAYACAAIAA8ACQAQ
+AA0AEQASABIAEwATABQAFAAXAAAAfwFPAAAAOAJUAAAA5wFZAAAARAJeAAAAAAOYAAAAHQO1AAAA
+lAO6AAAAjgPLAAAAEgz1BwAAGwz7BwAAtwgACAAAKAwFCAAAEgw4CAAAlgw8CAAA6wdACAAABAdF
+CAAApAxKCAAAEgxnCAAAEgwqCQAAvw04CAAAIAdTCQAAxA37BwAA7Q0FCAAA8g0FCAIABAADAAIA
+BQAFAAIABgAHAAIABwAJAAIADwALAAIAEgANAAEAFAAPAAIAEwAPAAIAFwARAAEAHwATAAIAHgAT
+AAIAIQAVAAIAIwAXAAIAJQAZAAEAJgAZAAIALgAbAAIAMAAdAAEAMQAdAAIAKgAfAAIAKwAhAAIA
+LAAjAAIANQAlAAIAOwAnAAIAPwApAAEAQAApAAIAQgArAAIARAAtAAIARgAvAAEARwAvAAIASQAx
+AAEASgAxAHUAdQCIAB0BJAErATIBLwI2AgSAAAABAAAAAAAAAAAAAAAAAK0PAAAEAAAAAAAAAAAA
+AAABAAoAAAAAAAoAAAAAAAAAAAAAAAoAEwAAAAAABAAAAAAAAAAAAAAAAQCIAQAAAAALAAAAAAAA
+AAAAAADQAOgDAAAAAAsAAAAAAAAAAAAAANAAZAcAAAAAAAAAAAEAAABLDgAABQAEAAYABAAKAAkA
+AAAQAAwAjgIAABAAGQCOAgAAAAAbAI4CLQC7AS0APQIAAAAAADxNb2R1bGU+AG1zY29ybGliAE1p
+Y3Jvc29mdC5WaXN1YWxCYXNpYwBNeUFwcGxpY2F0aW9uAFNUX2I5OTEyN2IxMTgzODQwYzg5MGU2
+ZGM3NWY3MmI5MjIzLk15AE15Q29tcHV0ZXIATXlQcm9qZWN0AE15V2ViU2VydmljZXMAVGhyZWFk
+U2FmZU9iamVjdFByb3ZpZGVyYDEATXlSZXNvdXJjZXMAU1RfYjk5MTI3YjExODM4NDBjODkwZTZk
+Yzc1ZjcyYjkyMjMuTXkuUmVzb3VyY2VzAE15U2V0dGluZ3MAU1RfYjk5MTI3YjExODM4NDBjODkw
+ZTZkYzc1ZjcyYjkyMjMAU2NyaXB0TWFpbgBTY3JpcHRSZXN1bHRzAE1pY3Jvc29mdC5WaXN1YWxC
+YXNpYy5BcHBsaWNhdGlvblNlcnZpY2VzAEFwcGxpY2F0aW9uQmFzZQAuY3RvcgBNaWNyb3NvZnQu
+VmlzdWFsQmFzaWMuRGV2aWNlcwBDb21wdXRlcgBTeXN0ZW0AT2JqZWN0AC5jY3RvcgBnZXRfQ29t
+cHV0ZXIAbV9Db21wdXRlck9iamVjdFByb3ZpZGVyAGdldF9BcHBsaWNhdGlvbgBtX0FwcE9iamVj
+dFByb3ZpZGVyAFVzZXIAZ2V0X1VzZXIAbV9Vc2VyT2JqZWN0UHJvdmlkZXIAZ2V0X1dlYlNlcnZp
+Y2VzAG1fTXlXZWJTZXJ2aWNlc09iamVjdFByb3ZpZGVyAEFwcGxpY2F0aW9uAFdlYlNlcnZpY2Vz
+AEVxdWFscwBvAEdldEhhc2hDb2RlAFR5cGUAR2V0VHlwZQBUb1N0cmluZwBDcmVhdGVfX0luc3Rh
+bmNlX18AVABpbnN0YW5jZQBEaXNwb3NlX19JbnN0YW5jZV9fAGdldF9HZXRJbnN0YW5jZQBNaWNy
+b3NvZnQuVmlzdWFsQmFzaWMuTXlTZXJ2aWNlcy5JbnRlcm5hbABDb250ZXh0VmFsdWVgMQBtX0Nv
+bnRleHQAR2V0SW5zdGFuY2UAU3lzdGVtLlJlc291cmNlcwBSZXNvdXJjZU1hbmFnZXIAX3Jlc01n
+cgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBDdWx0dXJlSW5mbwBfcmVzQ3VsdHVyZQBnZXRfUmVzb3Vy
+Y2VNYW5hZ2VyAGdldF9DdWx0dXJlAHNldF9DdWx0dXJlAFZhbHVlAEN1bHR1cmUAU3lzdGVtLkNv
+bmZpZ3VyYXRpb24AQXBwbGljYXRpb25TZXR0aW5nc0Jhc2UAbV9WYWx1ZQBtX1N5bmNPYmplY3QA
+Z2V0X1ZhbHVlAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNyb3NvZnQuU3FsU2Vy
+dmVyLkR0cy5UYXNrcy5TY3JpcHRUYXNrAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVsQmFzZQBNYWlu
+AFJlbGVhc2VDb20ARW51bQB2YWx1ZV9fAFN1Y2Nlc3MARmFpbHVyZQBTeXN0ZW0uQ29tcG9uZW50
+TW9kZWwARWRpdG9yQnJvd3NhYmxlQXR0cmlidXRlAEVkaXRvckJyb3dzYWJsZVN0YXRlAFN5c3Rl
+bS5Db2RlRG9tLkNvbXBpbGVyAEdlbmVyYXRlZENvZGVBdHRyaWJ1dGUAU3lzdGVtLkRpYWdub3N0
+aWNzAERlYnVnZ2VySGlkZGVuQXR0cmlidXRlAE1pY3Jvc29mdC5WaXN1YWxCYXNpYy5Db21waWxl
+clNlcnZpY2VzAFN0YW5kYXJkTW9kdWxlQXR0cmlidXRlAEhpZGVNb2R1bGVOYW1lQXR0cmlidXRl
+AFN5c3RlbS5Db21wb25lbnRNb2RlbC5EZXNpZ24ASGVscEtleXdvcmRBdHRyaWJ1dGUAU3lzdGVt
+LlJ1bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBSdW50aW1lSGVscGVycwBHZXRPYmplY3RWYWx1ZQBS
+dW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBBY3RpdmF0b3IAQ3JlYXRlSW5zdGFu
+Y2UATXlHcm91cENvbGxlY3Rpb25BdHRyaWJ1dGUAc2V0X1ZhbHVlAFN5c3RlbS5SdW50aW1lLklu
+dGVyb3BTZXJ2aWNlcwBDb21WaXNpYmxlQXR0cmlidXRlAFN5c3RlbS5SZWZsZWN0aW9uAEFzc2Vt
+Ymx5AGdldF9Bc3NlbWJseQBTeXN0ZW0uVGhyZWFkaW5nAE1vbml0b3IARW50ZXIARXhpdABEZWJ1
+Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAFdvcmtib29rAE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJv
+cC5FeGNlbABXb3Jrc2hlZXRGdW5jdGlvbgBXb3Jrc2hlZXQAUmFuZ2UAR3VpZABTeXN0ZW0uQ29s
+bGVjdGlvbnMASUVudW1lcmF0b3IAU2NyaXB0T2JqZWN0TW9kZWwAZ2V0X0R0cwBNaWNyb3NvZnQu
+U3FsU2VydmVyLk1hbmFnZWREVFMATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZQBWYXJp
+YWJsZXMAZ2V0X1ZhcmlhYmxlcwBWYXJpYWJsZQBnZXRfSXRlbQBHZXRUeXBlRnJvbUNMU0lEAF9B
+cHBsaWNhdGlvbgBXb3JrYm9va3MAZ2V0X1dvcmtib29rcwBNaXNzaW5nAE9wZW4AZ2V0X1dvcmtz
+aGVldEZ1bmN0aW9uAFNoZWV0cwBnZXRfV29ya3NoZWV0cwBHZXRFbnVtZXJhdG9yAGdldF9DdXJy
+ZW50AF9Xb3Jrc2hlZXQAZ2V0X05hbWUAT3BlcmF0b3JzAENvbXBhcmVTdHJpbmcAc2V0X0Rpc3Bs
+YXlBbGVydHMARGVsZXRlAGdldF9Sb3dzAEludDMyAGdldF9fRGVmYXVsdABGb250AGdldF9Gb250
+AEJvb2xlYW4Ac2V0X0JvbGQAc2V0X1VuZGVybGluZQBYbEluc2VydFNoaWZ0RGlyZWN0aW9uAElu
+c2VydABnZXRfUmFuZ2UAc2V0X0Zvcm11bGFSMUMxAGdldF9FbnRpcmVDb2x1bW4AQXV0b0ZpdABN
+b3ZlTmV4dABJRGlzcG9zYWJsZQBEaXNwb3NlAF9Xb3JrYm9vawBTYXZlAENsb3NlAFF1aXQAR0MA
+Q29sbGVjdABXYWl0Rm9yUGVuZGluZ0ZpbmFsaXplcnMAc2V0X1Rhc2tSZXN1bHQARXhjZXB0aW9u
+AE1hcnNoYWwAUmVsZWFzZUNvbU9iamVjdABQcm9qZWN0RGF0YQBTZXRQcm9qZWN0RXJyb3IARXZl
+bnRzT2JqZWN0V3JhcHBlcgBnZXRfRXZlbnRzAGdldF9NZXNzYWdlAEZpcmVFcnJvcgBDbGVhclBy
+b2plY3RFcnJvcgBDTFNDb21wbGlhbnRBdHRyaWJ1dGUAU1NJU1NjcmlwdFRhc2tFbnRyeVBvaW50
+QXR0cmlidXRlAFdvcmtib29rRXZlbnRzAERvY0V2ZW50c19FdmVudABBcHBFdmVudHNfRXZlbnQA
+QXBwRXZlbnRzAFdvcmtib29rRXZlbnRzX0V2ZW50AERvY0V2ZW50cwBDb21waWxlckdlbmVyYXRl
+ZEF0dHJpYnV0ZQBDb0NsYXNzQXR0cmlidXRlAEd1aWRBdHRyaWJ1dGUAVHlwZUlkZW50aWZpZXJB
+dHRyaWJ1dGUASW50ZXJmYWNlVHlwZUF0dHJpYnV0ZQBDb21JbnRlcmZhY2VUeXBlAERlZmF1bHRN
+ZW1iZXJBdHRyaWJ1dGUAQ29tRXZlbnRJbnRlcmZhY2VBdHRyaWJ1dGUASUVudW1lcmFibGUAX1Z0
+YmxHYXAxXzE1AERpc3BJZEF0dHJpYnV0ZQBfVnRibEdhcDJfMjkAUm93SW5kZXgAQ29sdW1uSW5k
+ZXgAc2V0X19EZWZhdWx0AFBhcmFtAF9WdGJsR2FwM183AF9WdGJsR2FwNF84AF9WdGJsR2FwNV8x
+MABnZXRfRm9ybXVsYVIxQzEAX1Z0YmxHYXA2XzE1AFNoaWZ0AENvcHlPcmlnaW4AX0RlZmF1bHQA
+RW50aXJlQ29sdW1uAEZvcm11bGFSMUMxAF9WdGJsR2FwMV80NQBfVnRibEdhcDJfNTgAX1Z0YmxH
+YXAzXzUAZ2V0X0Rpc3BsYXlBbGVydHMATENJRENvbnZlcnNpb25BdHRyaWJ1dGUAUkhTAF9WdGJs
+R2FwNF8xMDkARGlzcGxheUFsZXJ0cwBXb3Jrc2hlZXRzAF9WdGJsR2FwMV8xMABJbmRleABfVnRi
+bEdhcDJfMQBGaWxlbmFtZQBVcGRhdGVMaW5rcwBSZWFkT25seQBGb3JtYXQAUGFzc3dvcmQAV3Jp
+dGVSZXNQYXNzd29yZABJZ25vcmVSZWFkT25seVJlY29tbWVuZGVkAE9yaWdpbgBEZWxpbWl0ZXIA
+RWRpdGFibGUATm90aWZ5AENvbnZlcnRlcgBBZGRUb01ydQBMb2NhbABDb3JydXB0TG9hZABfVnRi
+bEdhcDJfNwBfVnRibEdhcDFfNQBfVnRibEdhcDJfNQBzZXRfTmFtZQBfVnRibEdhcDNfODAAQ2Vs
+bDEAQ2VsbDIAX1Z0YmxHYXA0XzEATmFtZQBSb3dzAGdldF9Cb2xkAF9WdGJsR2FwMl8yMgBnZXRf
+VW5kZXJsaW5lAEJvbGQAVW5kZXJsaW5lAHhsU2hpZnREb3duAHhsU2hpZnRUb1JpZ2h0AF9WdGJs
+R2FwMV8yMABTYXZlQ2hhbmdlcwBSb3V0ZVdvcmtib29rAF9WdGJsR2FwMl83NABTVF9iOTkxMjdi
+MTE4Mzg0MGM4OTBlNmRjNzVmNzJiOTIyMy5SZXNvdXJjZXMucmVzb3VyY2VzAENvbXBpbGF0aW9u
+UmVsYXhhdGlvbnNBdHRyaWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUAU3lzdGVt
+LlJ1bnRpbWUuVmVyc2lvbmluZwBUYXJnZXRGcmFtZXdvcmtBdHRyaWJ1dGUAQXNzZW1ibHlGaWxl
+VmVyc2lvbkF0dHJpYnV0ZQBBc3NlbWJseVRyYWRlbWFya0F0dHJpYnV0ZQBBc3NlbWJseUNvcHly
+aWdodEF0dHJpYnV0ZQBBc3NlbWJseVByb2R1Y3RBdHRyaWJ1dGUAQXNzZW1ibHlDb21wYW55QXR0
+cmlidXRlAEFzc2VtYmx5RGVzY3JpcHRpb25BdHRyaWJ1dGUAQXNzZW1ibHlUaXRsZUF0dHJpYnV0
+ZQBTVF83ZmJhNTk3ODJkYmU0ZGJmODFiZGE5MTZhMjI3MWZiOQBTVF83ZmJhNTk3ODJkYmU0ZGJm
+ODFiZGE5MTZhMjI3MWZiOS5kbGwAAAAAADFNAHkALgBSAGUAcwBvAHUAcgBjAGUAcwAuAE0AeQBS
+AGUAcwBvAHUAcgBjAGUAcwAAN1UAcwBlAHIAOgA6AHMAdAByAEUAeABwAG8AcgB0AFQAZQBtAHAA
+bABhAHQAZQBQAGEAdABoAABJMAAwADAAMgA0ADUAMAAwAC0AMAAwADAAMAAtADAAMAAwADAALQBD
+ADAAMAAwAC0AMAAwADAAMAAwADAAMAAwADAAMAA0ADYAAQl0AGUAbQBwAAAFQQAxAABfRgBvAHIA
+IABpAG4AdABlAHIAbgBhAGwAIAB1AHMAZQAgAG8AbgBsAHkALgAgAEQAbwAgAG4AbwB0ACAAZgBp
+AGwAbAAgAGkAbgAgAG8AcgAgAGMAaABhAG4AZwBlAAAnRQByAHIAbwByACAARQB4AGMAZQBsACAA
+UgBlAGwAZQBhAHMAZQAAAQAAQYLL7RiLIEi2FP3elR3IWQAIt3pcVhk04IkIsD9ffxHVCjoDIAAB
+AwAAAQQAABIMBwYVEhgBEgwEAAASCAcGFRIYARIIBAAAEhEHBhUSGAESEQQAABIUBwYVEhgBEhQE
+CAASDAQIABIIBAgAEhEECAASFAQgAQIcAyAACAQgABIVAyAADgIeAAcQAQEeAB4ABzABAQEQHgAC
+EwAEIAATAAcGFRIZARMABCgAEwADBhIdAwYSIQQAABIdBAAAEiEFAAEBEiEECAASHQQIABIhAwYS
+IAIGHAQAABIgBAgAEiAIiYRdzYCAzJEEIAEBHAIGCAMGESgEAAAAAAQBAAAABSABARE1CAEAAQAA
+AAAABSACAQ4OGAEACk15VGVtcGxhdGUIMTAuMC4wLjAAAAYVEhgBEgwGFRIYARIIBhUSGAESEQYV
+EhgBEhQEBwESDAQHARIIBAcBEhEEBwESFAQgAQEOEwEADk15LkFwcGxpY2F0aW9uAAAQAQALTXku
+Q29tcHV0ZXIAABMBAA5NeS5XZWJTZXJ2aWNlcwAADAEAB015LlVzZXIAAAQAARwcAwcBAgMHAQgG
+AAESFRFRBAcBEhUDBwEOBRABAB4ABAoBHgAEBwEeAAcgBAEODg4OYQEANFN5c3RlbS5XZWIuU2Vy
+dmljZXMuUHJvdG9jb2xzLlNvYXBIdHRwQ2xpZW50UHJvdG9jb2wSQ3JlYXRlX19JbnN0YW5jZV9f
+E0Rpc3Bvc2VfX0luc3RhbmNlX18AAAAGFRIYARMABhUSGQETAAQKARMABSABARMACAcDEwATABMA
+BCABAQIFAQAAAAAEIAASYQYgAgEOEmEGBwISHRIdBAcBEiEIAQACAAAAAAAEAAEBHAQHARIgBCAA
+EnUEIAASeQUgARJ9HAMgABwGAAESFRFtBQABHBIVBCAAEkQEBhKAhRMgDxIsDhwcHBwcHBwcHBwc
+HBwcBCAAEjQEIAASSAQgABJxBgADCA4OAgQgABI8BSACHBwcBCAAElAGIAISPBwcAyAAAgYgAwEc
+HBwEIAEBCBMHCQ4SLBIwEjQSOBI8EjwRbRJxBAABCBwGAAEBEoC1BSAAEoDBCCAFAggODg4IBQcB
+EoC1BSABARIVEgEADVN5c3RlbS5PYmplY3QAACkBACQwMDAyMDhEQS0wMDAwLTAwMDAtQzAwMC0w
+MDAwMDAwMDAwNDYAACkBACQwMDAyMDhENS0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAAAYg
+AQERgOEpAQAkMDAwMjA4NDUtMDAwMC0wMDAwLUMwMDAtMDAwMDAwMDAwMDQ2AAApAQAkMDAwMjA4
+RDgtMDAwMC0wMDAwLUMwMDAtMDAwMDAwMDAwMDQ2AAApAQAkMDAwMjA4NDYtMDAwMC0wMDAwLUMw
+MDAtMDAwMDAwMDAwMDQ2AAANAQAIX0RlZmF1bHQAACkBACQwMDAyMDhEQi0wMDAwLTAwMDAtQzAw
+MC0wMDAwMDAwMDAwNDYAACkBACQwMDAyMDhENy0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYA
+ACkBACQwMDAyMDg0RC0wMDAwLTAwMDAtQzAwMC0wMDAwMDAwMDAwNDYAAF8BACQwMDAyMDgxMy0w
+MDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwNDY1TWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2Vs
+LlhsSW5zZXJ0U2hpZnREaXJlY3Rpb24AACkBACQwMDAyNDQxMi0wMDAwLTAwMDAtQzAwMC0wMDAw
+MDAwMDAwNDYAAAcgAgESFRIVVgEAKE1pY3Jvc29mdC5PZmZpY2UuSW50ZXJvcC5FeGNlbC5Eb2NF
+dmVudHMoTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLkRvY0V2ZW50cwAAWAEAJDAwMDIw
+ODEzLTAwMDAtMDAwMC1jMDAwLTAwMDAwMDAwMDA0Ni5NaWNyb3NvZnQuT2ZmaWNlLkludGVyb3Au
+RXhjZWwuRG9jRXZlbnRzX0V2ZW50AABWAQAoTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2Vs
+LkFwcEV2ZW50cyhNaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwuQXBwRXZlbnRzAABYAQAk
+MDAwMjA4MTMtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDQ2Lk1pY3Jvc29mdC5PZmZpY2UuSW50
+ZXJvcC5FeGNlbC5BcHBFdmVudHNfRXZlbnQAACkBACQwMDAyNDQxMy0wMDAwLTAwMDAtQzAwMC0w
+MDAwMDAwMDAwNDYAAGABAC1NaWNyb3NvZnQuT2ZmaWNlLkludGVyb3AuRXhjZWwuV29ya2Jvb2tF
+dmVudHMtTWljcm9zb2Z0Lk9mZmljZS5JbnRlcm9wLkV4Y2VsLldvcmtib29rRXZlbnRzAABdAQAk
+MDAwMjA4MTMtMDAwMC0wMDAwLWMwMDAtMDAwMDAwMDAwMDQ2M01pY3Jvc29mdC5PZmZpY2UuSW50
+ZXJvcC5FeGNlbC5Xb3JrYm9va0V2ZW50c19FdmVudAAAKQEAJDAwMDI0NDExLTAwMDAtMDAwMC1D
+MDAwLTAwMDAwMDAwMDA0NgAAARsIAQDtAAAAAAAIAQAAAAAAAAABHAgBAPYAAAAAAAgBAJIAAAAA
+AAgBAAgBAAAAAAgBAPwAAAAAAAUoAhwcHAQoABI8BCgAElADKAAcCAEAPAIAAAAACAEAoAUAAAAA
+CAEA7gEAAAAAARMIAQBXAQAAAAAIAQAuAQAAAAADKAAOAygAAgQoABJEBCgAEjQEKAASSAUgARIs
+HAgBAA8AAAAAAAgBAIMHAAAAAAUoARIsHICrLAAAgKVTeXN0ZW0uUnVudGltZS5JbnRlcm9wU2Vy
+dmljZXMuQ3VzdG9tTWFyc2hhbGVycy5FbnVtZXJhdG9yVG9FbnVtVmFyaWFudE1hcnNoYWxlciwg
+Q3VzdG9tTWFyc2hhbGVycywgVmVyc2lvbj0yLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1Ymxp
+Y0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EACAEA/P///wAABCABHBwBGgQoARwcCAEAdQAAAAAA
+CAEAbgAAAAAACAEAxQAAAAAACAEAAgEAAAAABigCEjwcHAgBAGAAAAAAAAgBAGoAAAAAAAMGEVQE
+5+///wS/7///CAEAAwAAAAAACAEAFQEAAAAACAEAGwEAAAAACAEACAAAAAAAHgEAAQBUAhZXcmFw
+Tm9uRXhjZXB0aW9uVGhyb3dzAUcBABouTkVURnJhbWV3b3JrLFZlcnNpb249djQuMAEAVA4URnJh
+bWV3b3JrRGlzcGxheU5hbWUQLk5FVCBGcmFtZXdvcmsgNAwBAAcxLjAuMC4wAAApAQAkYTYzMGJk
+N2UtMDdhYi00NGIwLWIzYWYtNWUzYzU2MjMxMWMxAAAFAQABAAAWAQARQ29weXJpZ2h0IEAgIDIw
+MTQAACgBACNTVF9iOTkxMjdiMTE4Mzg0MGM4OTBlNmRjNzVmNzJiOTIyMwAAAADIVQAAAAAAAAAA
+AADeVQAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0FUAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29y
+ZWUuZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAABgAAIAAAAAA
+AAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgAAABYYAAAgAMAAAAAAAAA
+AAAAgAM0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAAAL0E7/4AAAEAAAABAAAA
+AAAAAAEAAAAAAD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAAAQBWAGEAcgBGAGkAbABl
+AEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAAAAAAAACwBOACAAABAFMA
+dAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAALwCAAABADAAMAAwADAAMAA0AGIAMAAAAHAAJAAB
+AEYAaQBsAGUARABlAHMAYwByAGkAcAB0AGkAbwBuAAAAAABTAFQAXwBiADkAOQAxADIANwBiADEA
+MQA4ADMAOAA0ADAAYwA4ADkAMABlADYAZABjADcANQBmADcAMgBiADkAMgAyADMAAAAwAAgAAQBG
+AGkAbABlAFYAZQByAHMAaQBvAG4AAAAAADEALgAwAC4AMAAuADAAAABwACgAAQBJAG4AdABlAHIA
+bgBhAGwATgBhAG0AZQAAAFMAVABfADcAZgBiAGEANQA5ADcAOAAyAGQAYgBlADQAZABiAGYAOAAx
+AGIAZABhADkAMQA2AGEAMgAyADcAMQBmAGIAOQAuAGQAbABsAAAASAASAAEATABlAGcAYQBsAEMA
+bwBwAHkAcgBpAGcAaAB0AAAAQwBvAHAAeQByAGkAZwBoAHQAIABAACAAIAAyADAAMQA0AAAAeAAo
+AAEATwByAGkAZwBpAG4AYQBsAEYAaQBsAGUAbgBhAG0AZQAAAFMAVABfADcAZgBiAGEANQA5ADcA
+OAAyAGQAYgBlADQAZABiAGYAOAAxAGIAZABhADkAMQA2AGEAMgAyADcAMQBmAGIAOQAuAGQAbABs
+AAAAaAAkAAEAUAByAG8AZAB1AGMAdABOAGEAbQBlAAAAAABTAFQAXwBiADkAOQAxADIANwBiADEA
+MQA4ADMAOAA0ADAAYwA4ADkAMABlADYAZABjADcANQBmADcAMgBiADkAMgAyADMAAAA0AAgAAQBQ
+AHIAbwBkAHUAYwB0AFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAOAAIAAEAQQBzAHMA
+ZQBtAGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAwAAADwNQAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAQAAAAGAAA
-gAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAASAAAAFhgAACAAwAA
-AAAAAAAAAACAAzQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAAAAAAvQTv/gAAAQAA
-AAEAAAAAAAAAAQAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQAAAABAFYAYQByAEYA
-aQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBuAAAAAAAAALAE4AIA
-AAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAvAIAAAEAMAAwADAAMAAwADQAYgAwAAAA
-cAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AAAAAAFMAVABfAGIAOQA5ADEAMgA3
-AGIAMQAxADgAMwA4ADQAMABjADgAOQAwAGUANgBkAGMANwA1AGYANwAyAGIAOQAyADIAMwAAADAA
-CAABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAAAAAAMQAuADAALgAwAC4AMAAAAHAAKAABAEkAbgB0
-AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBUAF8AYgA5ADkAMQAyADcAYgAxADEAOAAzADgANAAwAGMA
-OAA5ADAAZQA2AGQAYwA3ADUAZgA3ADIAYgA5ADIAMgAzAC4AZABsAGwAAABIABIAAQBMAGUAZwBh
-AGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIAaQBnAGgAdAAgAEAAIAAgADIAMAAxADQA
-AAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBpAGwAZQBuAGEAbQBlAAAAUwBUAF8AYgA5ADkAMQAy
-ADcAYgAxADEAOAAzADgANAAwAGMAOAA5ADAAZQA2AGQAYwA3ADUAZgA3ADIAYgA5ADIAMgAzAC4A
-ZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0AE4AYQBtAGUAAAAAAFMAVABfAGIAOQA5ADEAMgA3
-AGIAMQAxADgAMwA4ADQAMABjADgAOQAwAGUANgBkAGMANwA1AGYANwAyAGIAOQAyADIAMwAAADQA
-CAABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAA4AAgAAQBB
-AHMAcwBlAG0AYgBsAHkAIABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgAwAC4AMAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAADAAAAHA7AAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1142,8 +1085,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
             </ScriptProject>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -1219,13 +1161,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\FELC_Table list\SQL_Get Join statement"
+          DTS:refId="Package\FELC_Table list\SQL_Get Join clause"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="Execute SQL Task"
           DTS:DTSID="{ccd1d83d-a30e-45da-9623-9e947e4e0b44}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="SQL_Get Join statement"
+          DTS:ObjectName="SQL_Get Join clause"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
@@ -1236,19 +1178,19 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
               SQLTask:SqlStatementSource="User::strSQLJoin"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
-                SQLTask:ResultName="JoinStatement"
+                SQLTask:ResultName="JoinClause"
                 SQLTask:DtsVariableName="User::strJoin" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\FELC_Table list\SQL_OPENROWSET"
+          DTS:refId="Package\FELC_Table list\SQL_OPENROWSET insert data"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="Execute SQL Task"
           DTS:DTSID="{6f06b0ff-cf3b-49b0-9ceb-74a206ca06b0}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="SQL_OPENROWSET"
+          DTS:ObjectName="SQL_OPENROWSET insert data"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
@@ -1260,13 +1202,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\FELC_Table list\SYS_Copy staging template"
+          DTS:refId="Package\FELC_Table list\SYS_Copy staging excel template"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="File System Task"
           DTS:DTSID="{FE2D7379-57D1-420E-8EDE-02B884DAADCC}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="SYS_Copy staging template"
+          DTS:ObjectName="SYS_Copy staging excel template"
           DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
@@ -1285,26 +1227,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
           DTS:DTSID="{8A964E5D-E862-4361-865B-24E307171F71}"
-          DTS:From="Package\FELC_Table list\SYS_Copy staging template"
+          DTS:From="Package\FELC_Table list\SYS_Copy staging excel template"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\FELC_Table list\SQL_Get Create Table statement,Excel columns,Select" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint 1]"
           DTS:CreationName=""
-          DTS:DTSID="{54B31839-4E44-4AC9-A72B-894C94C545C8}"
-          DTS:From="Package\FELC_Table list\SCR_Delete existing temp sheet"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\FELC_Table list\SQL_Get Join statement" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint 2]"
-          DTS:CreationName=""
-          DTS:DTSID="{E30AF8AE-45CE-4066-A039-3896ADFCEDCA}"
+          DTS:DTSID="{7D41D927-DCE5-41AC-B23F-014C7ABE99DA}"
           DTS:From="Package\FELC_Table list\SQL_Create excel sheet"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
-          DTS:To="Package\FELC_Table list\SCR_Delete existing temp sheet" />
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\FELC_Table list\SQL_Get Join clause" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint 3]"
           DTS:CreationName=""
@@ -1322,15 +1256,23 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           DTS:From="Package\FELC_Table list\SQL_Check for staging table"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 4"
-          DTS:To="Package\FELC_Table list\SYS_Copy staging template" />
+          DTS:To="Package\FELC_Table list\SYS_Copy staging excel template" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint 5]"
           DTS:CreationName=""
           DTS:DTSID="{62197C3B-92FB-4AFF-BB5F-247B3CA5D3D7}"
-          DTS:From="Package\FELC_Table list\SQL_Get Join statement"
+          DTS:From="Package\FELC_Table list\SQL_Get Join clause"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 5"
-          DTS:To="Package\FELC_Table list\SQL_OPENROWSET" />
+          DTS:To="Package\FELC_Table list\SQL_OPENROWSET insert data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{70FBB256-A783-4564-968A-820053704FE7}"
+          DTS:From="Package\FELC_Table list\SQL_OPENROWSET insert data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\FELC_Table list\SCR_Format excel" />
       </DTS:PrecedenceConstraints>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
@@ -1367,7 +1309,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{B8F7D022-C655-45D3-94E2-57C05FE0D111}"
-          SQLTask:SqlStatementSource="SELECT '[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']'    AS TableName&#xA;     , '[' + TABLE_NAME + ']'                           AS StagingTableName&#xA;     , TABLE_NAME                                       AS ExcelTableName&#xA;FROM INFORMATION_SCHEMA.TABLES&#xA;WHERE TABLE_TYPE = 'BASE TABLE'&#xA;  AND TABLE_NAME NOT IN ('__RefactorLog','sysdiagrams')&#xA; AND TABLE_NAME = 'Activity'"
+          SQLTask:SqlStatementSource="SELECT '[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']'    AS TableName&#xA;     , '[' + TABLE_NAME + ']'                           AS StagingTableName&#xA;     , TABLE_NAME                                       AS ExcelTableName&#xA;FROM INFORMATION_SCHEMA.TABLES&#xA;WHERE TABLE_TYPE = 'BASE TABLE'&#xA;  AND TABLE_NAME NOT IN ('__RefactorLog','sysdiagrams')&#xA;-- AND TABLE_NAME = 'SubOutputSubOutputLink'"
           SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="0"
@@ -1399,10 +1341,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="229,42"
-          Id="Package\FELC_Table list\SCR_Delete existing temp sheet"
-          TopLeft="78,324" />
-        <NodeLayout
           Size="212,42"
           Id="Package\FELC_Table list\SQL_Check for staging table"
           TopLeft="81,24" />
@@ -1415,35 +1353,43 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           Id="Package\FELC_Table list\SQL_Get Create Table statement,Excel columns,Select"
           TopLeft="53,173" />
         <NodeLayout
-          Size="208,42"
-          Id="Package\FELC_Table list\SYS_Copy staging template"
+          Size="174,42"
+          Id="Package\FELC_Table list\SQL_Get Join clause"
+          TopLeft="99,323" />
+        <NodeLayout
+          Size="226,42"
+          Id="Package\FELC_Table list\SQL_OPENROWSET insert data"
+          TopLeft="75,409" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\FELC_Table list\SYS_Copy staging excel template"
           TopLeft="83,99" />
         <EdgeLayout
-          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint 2]"
-          TopLeft="188,285">
+          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint]"
+          TopLeft="200.5,141">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-32.3333333333333,39"
+              EndConnector="19.5,32"
               Start="0,0"
-              End="-32.3333333333333,31.5">
+              End="19.5,24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,19.2376409366869" />
+                    End="0,12" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,19.2376409366869"
-                    Point2="0,23.2376409366869"
-                    Point3="-4,23.2376409366869" />
+                    Point1="0,12"
+                    Point2="0,16"
+                    Point3="4,16" />
                   <mssgle:LineSegment
-                    End="-28.3333333333333,23.2376409366869" />
+                    End="15.5,16" />
                   <mssgle:CubicBezierSegment
-                    Point1="-28.3333333333333,23.2376409366869"
-                    Point2="-32.3333333333333,23.2376409366869"
-                    Point3="-32.3333333333333,27.2376409366869" />
+                    Point1="15.5,16"
+                    Point2="19.5,16"
+                    Point3="19.5,20" />
                   <mssgle:LineSegment
-                    End="-32.3333333333333,31.5" />
+                    End="19.5,24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1492,50 +1438,50 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,33"
+              EndConnector="13.5,33"
               Start="0,0"
-              End="0,25.5">
+              End="13.5,25.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.5" />
+                    End="0,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.5"
+                    Point2="0,16.5"
+                    Point3="4,16.5" />
+                  <mssgle:LineSegment
+                    End="9.5,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.5,16.5"
+                    Point2="13.5,16.5"
+                    Point3="13.5,20.5" />
+                  <mssgle:LineSegment
+                    End="13.5,25.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-8,4.75,16,16"
+              BoundingBox="-1.25,21.5,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint]"
-          TopLeft="187,141">
+          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint 5]"
+          TopLeft="187,365">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="33,32"
+              EndConnector="0,44"
               Start="0,0"
-              End="33,24.5">
+              End="0,36.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12"
-                    Point2="0,16"
-                    Point3="4,16" />
-                  <mssgle:LineSegment
-                    End="29,16" />
-                  <mssgle:CubicBezierSegment
-                    Point1="29,16"
-                    Point2="33,16"
-                    Point3="33,20" />
-                  <mssgle:LineSegment
-                    End="33,24.5" />
+                    End="0,36.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1545,73 +1491,45 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="192,42"
-          Id="Package\FELC_Table list\SQL_Get Join statement"
-          TopLeft="87,401" />
+          Size="164,42"
+          Id="Package\FELC_Table list\SCR_Format excel"
+          TopLeft="407,406" />
+        <EdgeLayout
+          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint 6]"
+          TopLeft="301,428.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106,0"
+              Start="0,0"
+              End="98.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="98.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\FELC_Table list.PrecedenceConstraints[Constraint 1]"
-          TopLeft="192.5,366">
+          TopLeft="187,285">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-9.5,35"
+              EndConnector="0,38"
               Start="0,0"
-              End="-9.5,27.5">
+              End="0,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,13.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13.5"
-                    Point2="0,17.5"
-                    Point3="-4,17.5" />
-                  <mssgle:LineSegment
-                    End="-5.5,17.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-5.5,17.5"
-                    Point2="-9.5,17.5"
-                    Point3="-9.5,21.5" />
-                  <mssgle:LineSegment
-                    End="-9.5,27.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="172,42"
-          Id="Package\FELC_Table list\SQL_OPENROWSET"
-          TopLeft="429,26" />
-        <EdgeLayout
-          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint 5]"
-          TopLeft="213.666666666667,401">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="301.333333333333,-333"
-              Start="0,0"
-              End="301.333333333333,-325.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-130.851239669421" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-130.851239669421"
-                    Point2="0,-134.851239669421"
-                    Point3="4,-134.851239669421" />
-                  <mssgle:LineSegment
-                    End="297.333333333333,-134.851239669421" />
-                  <mssgle:CubicBezierSegment
-                    Point1="297.333333333333,-134.851239669421"
-                    Point2="301.333333333333,-134.851239669421"
-                    Point3="301.333333333333,-138.851239669421" />
-                  <mssgle:LineSegment
-                    End="301.333333333333,-325.5" />
+                    End="0,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1623,28 +1541,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="669,498"
-          Size="669,541"
+          PanelSize="669,506"
+          Size="669,549"
           Id="Package\FELC_Table list"
-          TopLeft="66,98" />
+          TopLeft="68,97" />
         <NodeLayout
           Size="163,42"
           Id="Package\SQL_Get table list"
           TopLeft="321,30" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="401.5,72">
+          TopLeft="402.5,72">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,26"
+              EndConnector="0,25"
               Start="0,0"
-              End="0,18.5">
+              End="0,17.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,18.5" />
+                    End="0,17.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
