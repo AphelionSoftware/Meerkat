@@ -196,7 +196,80 @@ myapp.AddEditProjectParticipants.UseFormValue_execute = function (screen) {
     // Write code here.
     screen.PeopleReachedValue.NumberReached = screen.FormValue;
 };
-myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions1_postRender = function (element, contentItem) {
+/*myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions1_postRender = function (element, contentItem) {
     // Write code here.
 
+};*/
+myapp.AddEditProjectParticipants.FormValue_postRender = function (element, contentItem) {
+    // Write code here.
+    function updateFormsValue() {
+        // Compute the total for the form value
+        var TotalSum = 0;
+        var TotalCount = 0;
+        var TotalSum = 0;
+        var Min = 0;
+        var Max = 0;
+
+        var Forms = contentItem.screen.EventRegisterSortedTemplate;
+
+        var Form = Forms.count;
+        Form.forEach(function (singleForm) {
+            TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.EventRegister_ID);
+            TotalCount = parseFloat(TotalCount) + 1;
+            if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
+                Min = parseFloat(singleForm.ActualValue);
+            }
+            if (parseFloat(singleForm.ActualValue) > Max) {
+                Max = parseFloat(singleForm.ActualValue);
+            }
+
+        });
+
+        if (TotalCount > 0) {
+
+            switch (Form[0].RollupTypeCode) {
+                case "SUM":
+                    contentItem.screen.FormValue = TotalSum;
+                    break;
+
+                case "AVG":
+                    TotalAvg = TotalSum / TotalCount;
+                    contentItem.screen.FormValue = TotalAvg;
+                    break;
+
+                case "MAX":
+                    contentItem.screen.FormValue = Max;
+                    break;
+
+                case "MIN":
+                    contentItem.screen.FormValue = Min;
+                    break;
+
+                case "CNT":
+                    contentItem.screen.FormValue = TotalCount;
+                    break;
+
+
+            }
+        }
+        contentItem.screen.FormCountstring = TotalCount.toString() + " attendees";
+
+
+        if (TotalCount < 1) {
+            contentItem.screen.findContentItem("FormValues").isVisible = false;
+        }
+        else {
+
+            contentItem.screen.findContentItem("FormValues").isVisible = true;
+        }
+
+
+        // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
+
+    }
+
+    contentItem.dataBind("screen.PeopleReachedLocationRollup.count", updateFormsValue);
+    contentItem.dataBind("screen.ReportingPeriod1.value", updateFormsValue);
+    contentItem.dataBind("screen.DataVersion.value", updateFormsValue);
+    contentItem.dataBind("screen.EventRegisterSortedTemplate.count", updateFormsValue);
 };
