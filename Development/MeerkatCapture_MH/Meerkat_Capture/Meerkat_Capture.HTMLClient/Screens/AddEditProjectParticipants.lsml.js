@@ -166,7 +166,7 @@ myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions_postRender = func
 
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.ReportingPeriod1.value", updateVersionRollup);
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollupDV);
 
@@ -203,73 +203,28 @@ myapp.AddEditProjectParticipants.UseFormValue_execute = function (screen) {
 myapp.AddEditProjectParticipants.FormValue_postRender = function (element, contentItem) {
     // Write code here.
     function updateFormsValue() {
-        // Compute the total for the form value
-        var TotalSum = 0;
-        var TotalCount = 0;
-        var TotalSum = 0;
-        var Min = 0;
-        var Max = 0;
-
-        var Forms = contentItem.screen.EventRegisterSortedTemplate;
-
+        var Forms = contentItem.screen.EventRegistersSorted;
         var Form = Forms.count;
-        Form.forEach(function (singleForm) {
-            TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.EventRegister_ID);
-            TotalCount = parseFloat(TotalCount) + 1;
-            if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
-                Min = parseFloat(singleForm.ActualValue);
-            }
-            if (parseFloat(singleForm.ActualValue) > Max) {
-                Max = parseFloat(singleForm.ActualValue);
-            }
-
-        });
-
-        if (TotalCount > 0) {
-
-            switch (Form[0].RollupTypeCode) {
-                case "SUM":
-                    contentItem.screen.FormValue = TotalSum;
-                    break;
-
-                case "AVG":
-                    TotalAvg = TotalSum / TotalCount;
-                    contentItem.screen.FormValue = TotalAvg;
-                    break;
-
-                case "MAX":
-                    contentItem.screen.FormValue = Max;
-                    break;
-
-                case "MIN":
-                    contentItem.screen.FormValue = Min;
-                    break;
-
-                case "CNT":
-                    contentItem.screen.FormValue = TotalCount;
-                    break;
-
-
-            }
-        }
-        contentItem.screen.FormCountstring = TotalCount.toString() + " attendees";
-
-
-        if (TotalCount < 1) {
+        
+        if (Form < 1) {
             contentItem.screen.findContentItem("FormValues").isVisible = false;
         }
+        else if (Form == 1) {
+            contentItem.screen.FormCountString = Form.toString() + " attendee";
+            contentItem.screen.findContentItem("FormValues").isVisible = true;
+        }
         else {
-
+            contentItem.screen.FormCountString = Form.toString() + " attendees";
             contentItem.screen.findContentItem("FormValues").isVisible = true;
         }
 
 
-        // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
+        contentItem.screen.FormValue = Form;
 
     }
 
-    contentItem.dataBind("screen.PeopleReachedLocationRollup.count", updateFormsValue);
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateFormsValue);
     contentItem.dataBind("screen.ReportingPeriod1.value", updateFormsValue);
-    contentItem.dataBind("screen.DataVersion.value", updateFormsValue);
-    contentItem.dataBind("screen.EventRegisterSortedTemplate.count", updateFormsValue);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateFormsValue);
+    contentItem.dataBind("screen.EventRegistersSorted.count", updateFormsValue);
 };

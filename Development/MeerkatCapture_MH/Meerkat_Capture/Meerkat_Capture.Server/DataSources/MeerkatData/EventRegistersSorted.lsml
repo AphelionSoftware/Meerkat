@@ -24,38 +24,60 @@
                     NodeType="And">
                     <BinaryExpression.Left>
                       <BinaryExpression
-                        NodeType="Equal">
+                        NodeType="And">
                         <BinaryExpression.Left>
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="ActiveType" />
-                            <MemberExpression
-                              Member="ID" />
-                          </ChainExpression>
+                          <BinaryExpression
+                            NodeType="Equal">
+                            <BinaryExpression.Left>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="ActiveType" />
+                                <MemberExpression
+                                  Member="ID" />
+                              </ChainExpression>
+                            </BinaryExpression.Left>
+                            <BinaryExpression.Right>
+                              <ConstantExpression
+                                Value="1"
+                                ResultType=":Int32" />
+                            </BinaryExpression.Right>
+                          </BinaryExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
-                          <ConstantExpression
-                            Value="1"
-                            ResultType=":Int32" />
+                          <BinaryExpression
+                            NodeType="Equal">
+                            <BinaryExpression.Left>
+                              <ChainExpression>
+                                <MemberExpression
+                                  Member="c_Event" />
+                                <MemberExpression
+                                  Member="Project" />
+                                <MemberExpression
+                                  Member="ProjectID" />
+                              </ChainExpression>
+                            </BinaryExpression.Left>
+                            <BinaryExpression.Right>
+                              <ParameterExpression
+                                Parameter="ProjectID" />
+                            </BinaryExpression.Right>
+                          </BinaryExpression>
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <BinaryExpression
-                        NodeType="Equal">
+                        NodeType="GreaterThanOrEqual">
                         <BinaryExpression.Left>
                           <ChainExpression>
                             <MemberExpression
                               Member="c_Event" />
                             <MemberExpression
-                              Member="Project" />
-                            <MemberExpression
-                              Member="ProjectID" />
+                              Member="EventDate_ID" />
                           </ChainExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
                           <ParameterExpression
-                            Parameter="ProjectID" />
+                            Parameter="ReportingPeriodStartID" />
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Right>
@@ -63,7 +85,7 @@
                 </BinaryExpression.Left>
                 <BinaryExpression.Right>
                   <BinaryExpression
-                    NodeType="GreaterThanOrEqual">
+                    NodeType="LessThanOrEqual">
                     <BinaryExpression.Left>
                       <ChainExpression>
                         <MemberExpression
@@ -74,7 +96,7 @@
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <ParameterExpression
-                        Parameter="ReportingPeriodStartID" />
+                        Parameter="ReportingPeriodEndID" />
                     </BinaryExpression.Right>
                   </BinaryExpression>
                 </BinaryExpression.Right>
@@ -82,18 +104,49 @@
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <BinaryExpression
-                NodeType="LessThanOrEqual">
+                NodeType="Or">
+                <BinaryExpression.Attributes>
+                  <ExpressionGroup />
+                </BinaryExpression.Attributes>
                 <BinaryExpression.Left>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="c_Event" />
-                    <MemberExpression
-                      Member="EventDate_ID" />
-                  </ChainExpression>
+                  <BinaryExpression
+                    NodeType="Equal">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="c_Event" />
+                        <MemberExpression
+                          Member="Location" />
+                        <MemberExpression
+                          Member="Location_ID" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="Location_ID" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
                 </BinaryExpression.Left>
                 <BinaryExpression.Right>
-                  <ParameterExpression
-                    Parameter="ReportingPeriodEndID" />
+                  <BinaryExpression
+                    NodeType="Equal">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="c_Event" />
+                        <MemberExpression
+                          Member="Location" />
+                        <MemberExpression
+                          Member="Location1" />
+                        <MemberExpression
+                          Member="Location_ID" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="ParentLocation_ID" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
                 </BinaryExpression.Right>
               </BinaryExpression>
             </BinaryExpression.Right>
@@ -114,6 +167,12 @@
         ParameterType=":Int32?" />
       <QueryOperationParameter
         Name="ReportingPeriodEndID"
+        ParameterType=":Int32?" />
+      <QueryOperationParameter
+        Name="Location_ID"
+        ParameterType=":Int32?" />
+      <QueryOperationParameter
+        Name="ParentLocation_ID"
         ParameterType=":Int32?" />
     </QueryOperation>
   </EntityContainer>
