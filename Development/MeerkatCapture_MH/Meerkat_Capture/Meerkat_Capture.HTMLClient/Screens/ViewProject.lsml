@@ -5,7 +5,7 @@
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="ViewMilestone">
+    Name="ViewProject">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
@@ -20,70 +20,44 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="Group"
-            Kind="Group">
+            Name="PeopleReachedValues"
+            Kind="Group"
+            View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
             <ContentItem.Attributes>
               <DisplayName
-                Value="Milestone Values" />
+                Value="Project Participants Reached Values" />
             </ContentItem.Attributes>
             <ContentItem
-              Name="MilestoneValues1"
+              Name="PeopleReachedValues1"
               Kind="Collection"
-              DataType="CollectionView$MilestoneValue"
+              DataType="CollectionView$PeopleReachedValue"
               View="Microsoft.LightSwitch.MobileWeb:Table">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="ViewMilestone/Properties[MilestoneValues]" />
+                      Member="ViewProject/Properties[PeopleReachedValues]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="RowTemplate8"
+                Name="RowTemplate5"
                 Kind="Details"
-                DataType="MilestoneValue"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                DataType="PeopleReachedValue">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ActualLabel"
+                  Name="NumberReached"
                   Kind="Value"
-                  DataType=":String">
+                  DataType=":Int32">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="MilestoneValue/Properties[ActualLabel]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="ActualValue"
-                  Kind="Value"
-                  DataType=":Decimal?">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="MilestoneValue/Properties[ActualValue]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="ActualDate"
-                  Kind="Value"
-                  DataType=":Date?">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="MilestoneValue/Properties[ActualDate]" />
+                          Member="PeopleReachedValue/Properties[NumberReached]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -91,62 +65,66 @@
                 <ContentItem
                   Name="DataVersion"
                   Kind="Details"
-                  DataType="DataVersion"
-                  View="Microsoft.LightSwitch.MobileWeb:Summary">
+                  DataType="DataVersion">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="MilestoneValue/Properties[DataVersion]" />
+                          Member="PeopleReachedValue/Properties[DataVersion]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                   <ContentItem
-                    Name="Name"
-                    Kind="Value"
-                    DataType=":String">
+                    Name="DataVersion1"
+                    Kind="Details"
+                    DataType="DataVersion">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="DataVersion/Properties[Name]" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                  <ContentItem
-                    Name="Code1"
-                    Kind="Value"
-                    DataType=":String">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="DataVersion/Properties[Code]" />
-                        </ChainExpression>
+                        <ChainExpression />
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
                   </ContentItem>
                 </ContentItem>
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="Top"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
               </ContentItem>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="AddMilestoneValue"
+                Name="AddPeopleReachedValue"
                 Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Add Project Participants Reached" />
+                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditProjectParticipants]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="ViewProject/Properties[PeopleReachedValues]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditProjectParticipants]/Parameters[PeopleReachedValue]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="ProjectID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewProject/Properties[PeopleReachedValues]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="Project" />
+                              <MemberExpression
+                                Member="ProjectID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
                     <ScreenExpressionTree>
@@ -157,84 +135,11 @@
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditMilestoneValue]">
-                          <CallExpression.Attributes>
-                            <AssociatedCollection
-                              Collection="ViewMilestone/Properties[MilestoneValues]" />
-                            <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditMilestoneValue]/Parameters[MilestoneValue]" />
-                          </CallExpression.Attributes>
-                          <ArgumentExpression
-                            Parameter="MilestoneID">
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="ViewMilestone/Properties[MilestoneValues]" />
-                              <MemberExpression
-                                Member="selectedItem" />
-                              <MemberExpression
-                                Member="Milestone" />
-                              <MemberExpression
-                                Member="MilestoneID" />
-                            </ChainExpression>
-                          </ArgumentExpression>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="ShowViewMilestoneValue"
-                IsHidden="True"
+                Name="Home"
                 Kind="Command">
-                <ContentItem.Attributes>
-                  <DisplayName
-                    Value="View Milestone Value" />
-                </ContentItem.Attributes>
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showViewMilestoneValue]">
-                          <ArgumentExpression
-                            Parameter="MilestoneValue">
-                            <ChainExpression>
-                              <MemberExpression
-                                Member="ViewMilestone/Properties[MilestoneValues]" />
-                              <MemberExpression
-                                Member="selectedItem" />
-                            </ChainExpression>
-                          </ArgumentExpression>
-                        </CallExpression>
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-document"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
-                Name="ShowHome"
-                Kind="Command">
-                <ContentItem.Attributes>
-                  <DisplayName
-                    Value="Home" />
-                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
@@ -268,11 +173,24 @@
                 Value="Details" />
             </ContentItem.Attributes>
             <ContentItem
-              Name="Group1"
-              Kind="Group"
+              Name="columns"
+              Kind="Details"
+              DataType="Project"
               View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="columns" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="ViewProject/Properties[Project]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
               <ContentItem
-                Name="main"
+                Name="left"
                 Kind="Group">
                 <ContentItem
                   Name="Code"
@@ -282,9 +200,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ViewMilestone/Properties[Milestone]" />
-                        <MemberExpression
-                          Member="Code" />
+                          Member="Project/Properties[Code]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -297,20 +213,41 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ViewMilestone/Properties[Milestone]" />
+                          Member="Project/Properties[ShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
                         <MemberExpression
-                          Member="ShortName" />
+                          Member="Project/Properties[LongName]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="200"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="0"
+                          Value="400"
                           ResultType=":Double" />
                       </ChainExpression>
                     </ScreenExpressionTree>
@@ -318,38 +255,56 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="Group2"
+                Name="right"
                 Kind="Group">
                 <ContentItem
-                  Name="Milestone_LongName"
+                  Name="TextDescription"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ViewMilestone/Properties[Milestone]" />
-                        <MemberExpression
-                          Member="LongName" />
+                          Member="Project/Properties[TextDescription]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
                 <ContentItem
-                  Name="Milestone_TextDescription"
+                  Name="ProjectStartDate"
                   Kind="Value"
-                  DataType=":String?">
+                  DataType=":DateTime">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ViewMilestone/Properties[Milestone]" />
-                        <MemberExpression
-                          Member="TextDescription" />
+                          Member="Project/Properties[ProjectStartDate]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MinWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="200"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="400"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
             </ContentItem>
           </ContentItem>
@@ -370,18 +325,6 @@
           Name="Popups"
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
-        <ContentItem.PropertySources>
-          <ControlPropertySource
-            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
-            <ScreenExpressionTree>
-              <ChainExpression>
-                <ConstantExpression
-                  Value="Browse"
-                  ResultType=":String" />
-              </ChainExpression>
-            </ScreenExpressionTree>
-          </ControlPropertySource>
-        </ContentItem.PropertySources>
       </ContentItem>
     </Screen.RootContentItem>
     <Screen.Methods>
@@ -407,79 +350,42 @@
           Name="dialogName"
           ParameterType=":String" />
       </ScreenMethod>
-      <ScreenMethod
-        Name="AddMilestoneValue" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenProperty
-        Name="Milestone"
-        PropertyType="Milestone">
+        Name="Project"
+        PropertyType="Project">
         <ScreenProperty.Attributes>
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
       <ScreenCollectionProperty
-        Name="MilestoneValues"
+        Name="PeopleReachedValues"
         PageSize="15"
-        PropertyType="CollectionView$MilestoneValue">
+        PropertyType="CollectionView$PeopleReachedValue">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="MilestoneValuesQuery"
-            ReturnType="MilestoneValue*">
+            Name="PeopleReachedValuesQuery"
+            ReturnType="PeopleReachedValue*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="Equal">
-                  <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="MilestoneValue/Properties[GroupVersion]" />
-                    </ChainExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <ConstantExpression
-                      Value="0"
-                      ResultType=":Int32" />
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <ChainExpression>
                   <MemberExpression
-                    Member="ViewMilestone/Properties[Milestone]" />
+                    Member="ViewProject/Properties[Project]" />
                   <MemberExpression
-                    Member="MilestoneValues" />
+                    Member="PeopleReachedValues" />
                 </ChainExpression>
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ActualLabel" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ActualValue" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ActualDate" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="ViewMilestone/Properties[MilestoneValues]/Query" />
+              Target="ViewProject/Properties[PeopleReachedValues]/Query" />
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -487,14 +393,14 @@
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showViewMilestone">
+      Name="showViewProject">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="ViewMilestone" />
+          TargetScreen="ViewProject" />
       </ApplicationMethod.Attributes>
       <ApplicationMethodParameter
-        Name="Milestone"
-        ParameterType="Milestone" />
+        Name="Project"
+        ParameterType="Project" />
     </ApplicationMethod>
   </Application.Methods>
 </Application>
