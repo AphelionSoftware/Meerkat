@@ -3,7 +3,7 @@
 
 myapp.AddEditDataSource.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    msls.application.lightswitchTools.setBusinessKeyIsName(screen);
+    //msls.application.lightswitchTools.setBusinessKeyIsName(screen);
 };
 myapp.AddEditDataSource.DataSource_Delete_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);
