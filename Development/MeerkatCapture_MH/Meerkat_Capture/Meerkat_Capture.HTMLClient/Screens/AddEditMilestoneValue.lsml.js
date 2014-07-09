@@ -154,3 +154,8 @@ myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersionTemplate_postRender = 
         contentItem.isVisible = false;
     }
 };
+myapp.AddEditMilestoneValue.SelectedLocationsTap_execute = function (screen) {
+    // Write code here.
+    screen.MilestoneValue.Location = screen.LocationsSorted.selectedItem;
+    screen.closePopup();
+};
