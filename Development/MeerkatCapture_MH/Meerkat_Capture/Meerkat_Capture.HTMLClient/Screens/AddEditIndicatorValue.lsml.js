@@ -46,7 +46,15 @@ function updateLocationsTotal( element, contentItem)
 
 myapp.AddEditIndicatorValue.created = function (screen) {
     // Set defaults.
-    msls.application.lightswitchTools.configureCaptureForm(screen);
+    //msls.application.lightswitchTools.configureCaptureForm(screen);
+    //done here as the screen name may not match the value expected by the code in LightSwitchTools.js
+    var thisObject = screen.IndicatorValue;
+
+    thisObject.sys_CreatedBy = "NA";
+    thisObject.sys_CreatedOn = "1999/01/01";
+    thisObject.sys_ModifiedBy = "NA";
+    thisObject.sys_ModifiedOn = "1999/01/01";
+    thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
 
     //This should really be done at the data source level
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
@@ -285,4 +293,9 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
 myapp.AddEditIndicatorValue.UseFormValue_execute = function (screen) {
     screen.IndicatorValue.ActualValue = screen.FormValue;
     screen.IndicatorValue.ActualLabel = screen.FormValue;
+};
+myapp.AddEditIndicatorValue.SelectedLocationTap_execute = function (screen) {
+    // Write code here.
+    screen.IndicatorValue.Location = screen.LocationsSorted.selectedItem;
+    screen.closePopup();
 };

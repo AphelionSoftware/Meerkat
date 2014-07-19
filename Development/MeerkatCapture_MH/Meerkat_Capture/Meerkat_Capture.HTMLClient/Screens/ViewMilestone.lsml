@@ -29,7 +29,8 @@
             <ContentItem
               Name="MilestoneValues1"
               Kind="Collection"
-              DataType="CollectionView$MilestoneValue">
+              DataType="CollectionView$MilestoneValue"
+              View="Microsoft.LightSwitch.MobileWeb:Table">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
@@ -87,6 +88,46 @@
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
+                <ContentItem
+                  Name="DataVersion"
+                  Kind="Details"
+                  DataType="DataVersion"
+                  View="Microsoft.LightSwitch.MobileWeb:Summary">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="MilestoneValue/Properties[DataVersion]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="DataVersion/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Code1"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="DataVersion/Properties[Code]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
@@ -121,7 +162,27 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="ViewMilestone/Methods[AddMilestoneValue]" />
+                          Target="!module/Methods[showAddEditMilestoneValue]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="ViewMilestone/Properties[MilestoneValues]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditMilestoneValue]/Parameters[MilestoneValue]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="MilestoneID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewMilestone/Properties[MilestoneValues]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="Milestone" />
+                              <MemberExpression
+                                Member="MilestoneID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -129,6 +190,7 @@
               </ContentItem>
               <ContentItem
                 Name="ShowViewMilestoneValue"
+                IsHidden="True"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
@@ -206,50 +268,89 @@
                 Value="Details" />
             </ContentItem.Attributes>
             <ContentItem
-              Name="main"
-              Kind="Group">
+              Name="Group1"
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="Code"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="ViewMilestone/Properties[Milestone]" />
-                      <MemberExpression
-                        Member="Code" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="main"
+                Kind="Group">
+                <ContentItem
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewMilestone/Properties[Milestone]" />
+                        <MemberExpression
+                          Member="Code" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewMilestone/Properties[Milestone]" />
+                        <MemberExpression
+                          Member="ShortName" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="0"
+                          ResultType=":Double" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="ShortName"
-                Kind="Value"
-                DataType=":String">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="ViewMilestone/Properties[Milestone]" />
-                      <MemberExpression
-                        Member="ShortName" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                Name="Group2"
+                Kind="Group">
+                <ContentItem
+                  Name="Milestone_LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewMilestone/Properties[Milestone]" />
+                        <MemberExpression
+                          Member="LongName" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Milestone_TextDescription"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="ViewMilestone/Properties[Milestone]" />
+                        <MemberExpression
+                          Member="TextDescription" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[MaxWidth]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <ConstantExpression
-                        Value="0"
-                        ResultType=":Double" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
           </ContentItem>
           <ContentItem.PropertySources>

@@ -2,7 +2,7 @@
 
 myapp.AddEditOrganization.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    //msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
 };
 
 myapp.AddEditOrganization.SearchOrganizationTypesTap_execute = function (screen) {

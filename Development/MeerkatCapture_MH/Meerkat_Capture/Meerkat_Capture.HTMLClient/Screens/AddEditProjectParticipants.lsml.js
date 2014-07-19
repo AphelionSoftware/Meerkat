@@ -228,3 +228,8 @@ myapp.AddEditProjectParticipants.FormValue_postRender = function (element, conte
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateFormsValue);
     contentItem.dataBind("screen.EventRegistersSorted.count", updateFormsValue);
 };
+myapp.AddEditProjectParticipants.SelectedLocationsTap_execute = function (screen) {
+    // Write code here.
+    screen.PeopleReachedValue.Location = screen.LocationsSorted.selectedItem;
+    screen.closePopup();
+};

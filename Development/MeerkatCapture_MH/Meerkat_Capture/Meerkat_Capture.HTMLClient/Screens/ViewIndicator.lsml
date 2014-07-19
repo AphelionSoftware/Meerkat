@@ -178,31 +178,6 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="!module/Methods[showViewIndicatorValue]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="ViewIndicator/Properties[IndicatorValues]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="IndicatorValue">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="ViewIndicator/Properties[IndicatorValues]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
@@ -224,7 +199,27 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="ViewIndicator/Methods[AddIndicatorValue]" />
+                          Target="!module/Methods[showAddEditIndicatorValue]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="ViewIndicator/Properties[IndicatorValues]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditIndicatorValue]/Parameters[IndicatorValue]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="Indicator_ID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewIndicator/Properties[IndicatorValues]" />
+                              <MemberExpression
+                                Member="selectedItem" />
+                              <MemberExpression
+                                Member="Indicator" />
+                              <MemberExpression
+                                Member="IndicatorID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -232,6 +227,7 @@
               </ContentItem>
               <ContentItem
                 Name="ShowViewIndicatorValue"
+                IsHidden="True"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
@@ -513,7 +509,7 @@
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
                     <ConstantExpression
-                      Value="0"
+                      Value="1"
                       ResultType=":Int32" />
                   </BinaryExpression.Right>
                 </BinaryExpression>
