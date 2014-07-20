@@ -50,6 +50,19 @@ myapp.AddEditIndicatorValue.created = function (screen) {
     //done here as the screen name may not match the value expected by the code in LightSwitchTools.js
     var thisObject = screen.IndicatorValue;
 
+
+    myapp.activeDataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Active'").execute().then(function (x) {
+        //thisObject.setActiveType(x.results[x]);
+        // MGS 2013/09/32
+        //x.results[x] will always be undefined. Instead we want the single result that should return, position 0
+        thisObject.setActiveType(x.results[0]);
+    }, function (x) {
+        msls.showMessageBox(x, {
+            title: "Default value for ActiveType failed"
+        });
+    });
+
+
     thisObject.sys_CreatedBy = "NA";
     thisObject.sys_CreatedOn = "1999/01/01";
     thisObject.sys_ModifiedBy = "NA";
