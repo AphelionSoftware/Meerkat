@@ -381,6 +381,90 @@
                     </ContentItem.PropertySources>
                   </ContentItem>
                 </ContentItem>
+                <ContentItem
+                  Name="Programme"
+                  IsHidden="True"
+                  Kind="Group"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout" />
+                <ContentItem
+                  Name="Sector"
+                  IsHidden="True"
+                  Kind="Group"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  <ContentItem
+                    Name="Indicator_Sector"
+                    Kind="Details"
+                    DataType="Sector">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditIndicator/Properties[SectorSorted]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AddEditIndicator/Properties[Indicator]" />
+                          <MemberExpression
+                            Member="Sector" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Sector1"
+                      Kind="Details"
+                      DataType="Sector"
+                      View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="ShortName8"
+                        Kind="Value"
+                        DataType=":String">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="Sector/Properties[ShortName]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="ShowSearchSectors"
+                    Kind="Command">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AddEditIndicator/Methods[showDialog]">
+                              <ArgumentExpression
+                                Parameter="dialogName">
+                                <ConstantExpression
+                                  Value="SearchSectors"
+                                  ResultType=":String" />
+                              </ArgumentExpression>
+                            </CallExpression>
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="Subsector"
+                  IsHidden="True"
+                  Kind="Group" />
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
@@ -1441,6 +1525,44 @@
               </ContentItem.PropertySources>
             </ContentItem>
           </ContentItem>
+          <ContentItem
+            Name="SearchSectors"
+            Kind="Group">
+            <ContentItem
+              Name="SectorName"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Sector Name" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditIndicator/Properties[ShortName3]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="SectorCode"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Sector Code" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditIndicator/Properties[Code5]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+          </ContentItem>
         </ContentItem>
         <ContentItem.PropertySources>
           <ControlPropertySource
@@ -2112,6 +2234,53 @@
         PropertyType=":String?" />
       <ScreenProperty
         Name="Name1"
+        PropertyType=":String?" />
+      <ScreenCollectionProperty
+        Name="SectorSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Sector">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="SectorSortedQuery"
+            ReturnType="Sector*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[SectorSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicator/Properties[SectorSorted]/Query">
+              <ArgumentExpression
+                Parameter="ShortName">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicator/Properties[ShortName3]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Code">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicator/Properties[Code5]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="ShortName3"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="Code5"
         PropertyType=":String?" />
     </Screen.Properties>
   </Screen>

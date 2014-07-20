@@ -34,6 +34,21 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
                     target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
+            case "PROG":
+                {
+                    target = contentItem.screen.findContentItem("Programme");
+                    break;
+                }
+            case "SEC":
+                {
+                    target = contentItem.screen.findContentItem("Sector");
+                    break;
+                }
+            case "SS":
+                {
+                    target = contentItem.screen.findContentItem("SubSector");
+                    break;
+                }
             default:
                 {
                     console.log(newValue.Code);
