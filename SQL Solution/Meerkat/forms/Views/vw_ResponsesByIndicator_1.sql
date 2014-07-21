@@ -6,7 +6,7 @@ SELECT [Response_ID]
       ,R.[PotentialResponse_ID]
       ,[QuestionResponse] = 
 		CASE 
-			WHEN QT.Code = 'CTN' THEN 1 
+			WHEN QT.Code = 'CNT' THEN 1 
 			WHEN QT.Code = 'INT' THEN CAST( R.IntegerResponse as INT)
 			WHEN QT.Code = 'DEC' THEN R.DecimalResponse
 			WHEN QT.Code = 'BOOL' THEN R.TrueFalse
@@ -28,7 +28,7 @@ SELECT [Response_ID]
   INNER JOIN forms.Question_Indicator_Rollup QIR
   oN R.Question_ID = QIR.Question_ID
   INNER JOIN forms.RollupType RT
-  ON QIR.Question_Indicator_RollupID = RT.RollupType_ID
+  ON QIR.RollupType_ID = RT.RollupType_ID
   INNER JOIN app.Indicator I
   ON QIR.Indicator_ID = I.IndicatorID
   INNER JOIN forms.Question Q

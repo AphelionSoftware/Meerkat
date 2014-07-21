@@ -1,5 +1,13 @@
 ﻿///<reference path="../GeneratedArtifacts/viewModel.js" />
 
+function updatePreviousVersion(element, contentItem) {
+    if (contentItem.screen.DataVersionSorted.selectedItem) {
+        contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+    }
+
+    contentItem.screen.IndicatorValuesPreviousVersion.load();
+}
+
 function updateLocationsTotal( element, contentItem)
 {
     var TotalSum = 0;
@@ -88,6 +96,9 @@ myapp.AddEditIndicatorValue.created = function (screen) {
 
    
 };
+
+
+//Location ROllup
 myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentItem) {
     // Write code here.
 
@@ -109,15 +120,8 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
 
 
 
-// Function to compute the total for the invoice 
 
 function fnSumAmount(Locations) {
-
-    // Start with 0
-
-    
-
-    // Return TotalAmountOfinvoices
 
     return TotalSum;
 
@@ -187,17 +191,37 @@ myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
     // Write code here.
     function updateVersionRollup() {
+        
+        
         if (contentItem.screen.DataVersionSorted.selectedItem) {
-            contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+            //Value currently doesn't update?
+            screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+            updateLocationsTotal(element, contentItem);
+
+            contentItem.screen.IndicatorValuesPreviousVersion.load().then(function (promise) {
+                if (contentItem.screen.IndicatorValuesPreviousVersion.data.length > 0) {
+                    contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
+                } else {
+                    contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
+
+                }
+            });
+
+
+            contentItem.screen.IndicatorLocationRollup.load();
 
         }
         if (contentItem.screen.ReportingPeriodsFiltered) {
 
         }
-        updateLocationsTotal(element, contentItem);
-        contentItem.screen.IndicatorValuesPreviousVersion.load();
-        contentItem.screen.IndicatorLocationRollup.load();
-        //
+
+        
+
+        //contentItem.dataBind("contentItem.screen.PreviousDataVersion.value", uvr);
+
+
+
+        
 
     }
 
@@ -205,7 +229,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
+    //contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender = function (element, contentItem) {
     // Write code here.
@@ -213,6 +237,10 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender =
     var x = contentItem.data;
     if (!(contentItem.data.getActualValue()._value)) {
         contentItem.isVisible = false;
+        //contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
+    } else {
+        contentItem.isVisible = true;
+
     }
 
 };
@@ -223,6 +251,7 @@ myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, conte
         //contentItem.isVisible = false;
     } else {
         contentItem.isVisible = true;
+       // contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
     }
 };
 
@@ -234,6 +263,8 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
         // Compute the total for the form value
         var TotalSum = 0;
         var TotalCount = 0;
+
+        var TotalNulls = 0;
         var TotalSum = 0;
         var Min = 0;
         var Max = 0;
@@ -242,8 +273,12 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
 
         var Form = Forms.data;
         Form.forEach(function (singleForm) {
-            TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.QuestionResponse);
-            TotalCount = parseFloat(TotalCount) + 1;
+            if (singleForm.QuestionResponse != null) {
+                TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.QuestionResponse);
+            } else {
+                TotalNulls++;
+            }
+            TotalCount++;
             if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
                 Min = parseFloat(singleForm.ActualValue);
             }
