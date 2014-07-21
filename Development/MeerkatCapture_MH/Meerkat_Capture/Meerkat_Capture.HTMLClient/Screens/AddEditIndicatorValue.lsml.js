@@ -1,5 +1,12 @@
 ﻿///<reference path="../GeneratedArtifacts/viewModel.js" />
 
+function updateAll(element, contentItem)
+{
+    updatePreviousVersion(element, contentItem);
+    updateLocationsTotal(element, contentItem);
+
+}
+
 function updatePreviousVersion(element, contentItem) {
     if (contentItem.screen.DataVersionSorted.selectedItem) {
         contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
@@ -78,15 +85,25 @@ myapp.AddEditIndicatorValue.created = function (screen) {
     thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
 
     //This should really be done at the data source level
-    $.getJSON("/api/TodaysReportingPeriod", function (data) {
-        myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
-            screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
-            screen.ReportingPeriodsFiltered.load().then(function () {
-                screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
-                //screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
+    //function setDefaultReportingPeriod(screen) {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+                //screen.ReportingPeriodsFiltered.load().then(function () {
+                    //screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
+                    //Disabled for now til we get it to load the location rollusp correctly
+                    //screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
+                //});
+                
+               
+
+                });
             });
-        });
-    });
+    //}
+    //screen.contentItem.dataBind("screen.ReportingPeriodsFiltered.count", setDefaultReportingPeriod(screen));
+
+
+    
 
     //Set the indicator - it's prefiltered by parameter.
 
@@ -104,18 +121,34 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
 
     function updateTotal() {
         // Compute the total for the invoice
-        updateLocationsTotal(element, contentItem);
-        
-       
-       // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
-       
+
+        if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem)
+        contentItem.screen.IndicatorLocationRollup.load().then(function (promise) {
+            updateLocationsTotal(element, contentItem);
+
+        });
+
     }
+
+
+    function updateTotal_LS() {
+        if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem) {
+            updateAll(element, contentItem);
+        }
+    }
+
 
     contentItem.dataBind("screen.IndicatorLocationRollup.count", updateTotal);
 
-    contentItem.dataBind("screen.DataVersion.value", updateTotal);
+    //Actually messy, as we have multiple bindings.
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateTotal_LS);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
 
-    contentItem.dataBind("screen.ReportingPeriod1.value", updateTotal);
+
+    //contentItem.dataBind("screen.DataVersion.value", updateTotal);
+
+    //contentItem.dataBind("screen.ReportingPeriod1.value", updateTotal);
 };
 
 
@@ -196,8 +229,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
         if (contentItem.screen.DataVersionSorted.selectedItem) {
             //Value currently doesn't update?
             screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
-            updateLocationsTotal(element, contentItem);
-
+            
             contentItem.screen.IndicatorValuesPreviousVersion.load().then(function (promise) {
                 if (contentItem.screen.IndicatorValuesPreviousVersion.data.length > 0) {
                     contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
@@ -208,27 +240,18 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
             });
 
 
-            contentItem.screen.IndicatorLocationRollup.load();
+            contentItem.screen.IndicatorLocationRollup.load().then(function (promise) {
+               // updateLocationsTotal(element, contentItem);
+            });
 
         }
-        if (contentItem.screen.ReportingPeriodsFiltered) {
-
-        }
-
         
-
-        //contentItem.dataBind("contentItem.screen.PreviousDataVersion.value", uvr);
-
-
-
-        
-
     }
 
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+    //contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
     //contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender = function (element, contentItem) {
