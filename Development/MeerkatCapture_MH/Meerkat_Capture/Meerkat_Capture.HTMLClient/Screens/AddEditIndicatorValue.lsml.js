@@ -2,8 +2,122 @@
 
 function updateAll(element, contentItem)
 {
-    updatePreviousVersion(element, contentItem);
-    updateLocationsTotal(element, contentItem);
+    //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
+    if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+                contentItem.screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
+
+            });
+        });
+
+    }
+
+    if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem && contentItem.screen.ReportingPeriodsFiltered.selectedItem) {
+
+        updatePreviousVersion(element, contentItem);
+        updateLocationsTotal(element, contentItem);
+        updateFormValues(element, contentItem);
+        setBizKey(element, contentItem);
+    } else 
+    {
+        //If the basic filters aren't in place, hide the rollup fields
+        contentItem.screen.findContentItem("LocationValues").isVisible = false;
+        contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
+        contentItem.screen.findContentItem("FormValuesRollup").isVisible = false;
+
+    }
+
+}
+
+//Set good defaults for business key
+function setBizKey(element, contentItem) {
+    var bizKey = contentItem.screen.ReportingPeriodsFiltered.selectedItem.Summary + " | " +
+        contentItem.screen.LocationsSorted.selectedItem.Name + " | " +
+        contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID;
+
+    contentItem.screen.findContentItem("BusinessKey").value = bizKey;
+}
+
+
+
+function updateFormValues(element, contentItem) {
+
+    //Only show form values when we are at First Draft
+    if (contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID != 3) {
+        contentItem.screen.findContentItem("FormValuesRollup").isVisible = false;
+        return;
+    }
+
+
+    // Compute the total for the form value
+    var TotalSum = 0;
+    var TotalCount = 0;
+
+    var TotalNulls = 0;
+    var TotalSum = 0;
+    var Min = 0;
+    var Max = 0;
+
+    var Forms = contentItem.screen.vw_ResponsesByIndicators_PerIndicator;
+
+    var Form = Forms.data;
+    Form.forEach(function (singleForm) {
+        if (singleForm.QuestionResponse != null) {
+            TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.QuestionResponse);
+        } else {
+            TotalNulls++;
+        }
+        TotalCount++;
+        if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
+            Min = parseFloat(singleForm.ActualValue);
+        }
+        if (parseFloat(singleForm.ActualValue) > Max) {
+            Max = parseFloat(singleForm.ActualValue);
+        }
+
+    });
+
+    if (TotalCount > 0) {
+
+        switch (Form[0].RollupTypeCode) {
+            case "SUM":
+                contentItem.screen.FormValue = TotalSum;
+                break;
+
+            case "AVG":
+                TotalAvg = TotalSum / TotalCount;
+                contentItem.screen.FormValue = TotalAvg;
+                break;
+
+            case "MAX":
+                contentItem.screen.FormValue = Max;
+                break;
+
+            case "MIN":
+                contentItem.screen.FormValue = Min;
+                break;
+
+            case "CNT":
+                contentItem.screen.FormValue = TotalCount;
+                break;
+
+
+        }
+    }
+    contentItem.screen.FormCountstring = TotalCount.toString() + " forms filled in.";
+
+
+    if (TotalCount < 1) {
+        contentItem.screen.findContentItem("FormValuesRollup").isVisible = false;
+    }
+    else {
+
+        contentItem.screen.findContentItem("FormValuesRollup").isVisible = true;
+    }
+
+
 
 }
 
@@ -13,6 +127,8 @@ function updatePreviousVersion(element, contentItem) {
     }
 
     contentItem.screen.IndicatorValuesPreviousVersion.load();
+
+    contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
 }
 
 function updateLocationsTotal( element, contentItem)
@@ -27,6 +143,10 @@ function updateLocationsTotal( element, contentItem)
 
 
     var Location = Locations.data;
+    if (Locations.data.length <= 1) {
+        contentItem.screen.findContentItem("LocationValues").isVisible = false;
+        return;
+    }
     Location.forEach(function (singleLocation) {
         if (singleLocation.ActualValue) {
             TotalSum = parseFloat(TotalSum) + parseFloat(singleLocation.ActualValue);
@@ -90,18 +210,34 @@ myapp.AddEditIndicatorValue.created = function (screen) {
             myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
                 screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
                 //screen.ReportingPeriodsFiltered.load().then(function () {
-                    //screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
-                    //Disabled for now til we get it to load the location rollusp correctly
-                    //screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
-                //});
-                
-               
+                //Disabled for now til we get it to load the location rollusp correctly
+
+                screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
+                //Need to do this for the rollups
+                contentItem.screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
 
                 });
             });
     //}
-    //screen.contentItem.dataBind("screen.ReportingPeriodsFiltered.count", setDefaultReportingPeriod(screen));
 
+
+    //Default Actual label to actual value 
+    var actualValueField = screen.findContentItem("ActualValue");
+    var actualLabelField = screen.findContentItem("ActualLabel");
+    actualValueField.dataBind("value", function () {
+        if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
+            var currentLength = 0;
+            if (actualLabelField.value !== undefined) {
+                currentLength = actualLabelField.stringValue.length;
+            }
+
+            if (currentLength === 0) {
+                actualLabelField.stringValue = actualValueField.stringValue;
+            }
+        }
+    });
+
+    
 
     
 
@@ -138,12 +274,12 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
     }
 
 
-    contentItem.dataBind("screen.IndicatorLocationRollup.count", updateTotal);
+    contentItem.dataBind("screen.IndicatorLocationRollup.count", updateTotal_LS);
 
     //Actually messy, as we have multiple bindings.
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateTotal_LS);
-    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
-    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal_LS);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal_LS);
 
 
     //contentItem.dataBind("screen.DataVersion.value", updateTotal);
@@ -248,9 +384,15 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = functio
         
     }
 
+
+    function updateTotal() {
+        if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem) {
+            updateAll(element, contentItem);
+        }
+    }
     // Set a dataBind to update the value when the selection change
-    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
     //contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
     //contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
 };
@@ -271,7 +413,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender =
 myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, contentItem) {
     // Write code here.
     if (contentItem.screen.CountLocations == 0) {
-        //contentItem.isVisible = false;
+        contentItem.isVisible = false;
     } else {
         contentItem.isVisible = true;
        // contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
@@ -283,75 +425,7 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
     // Write code here.
 
     function updateFormValue() {
-        // Compute the total for the form value
-        var TotalSum = 0;
-        var TotalCount = 0;
-
-        var TotalNulls = 0;
-        var TotalSum = 0;
-        var Min = 0;
-        var Max = 0;
-        
-        var Forms = contentItem.screen.vw_ResponsesByIndicators_PerIndicator;
-
-        var Form = Forms.data;
-        Form.forEach(function (singleForm) {
-            if (singleForm.QuestionResponse != null) {
-                TotalSum = parseFloat(TotalSum) + parseFloat(singleForm.QuestionResponse);
-            } else {
-                TotalNulls++;
-            }
-            TotalCount++;
-            if (parseFloat(singleForm.ActualValue) < Min || Min == 0) {
-                Min = parseFloat(singleForm.ActualValue);
-            }
-            if (parseFloat(singleForm.ActualValue) > Max) {
-                Max = parseFloat(singleForm.ActualValue);
-            }
-
-        });
-
-        if (TotalCount > 0) {
-            
-            switch (Form[0].RollupTypeCode) {
-                case "SUM":
-                    contentItem.screen.FormValue = TotalSum;
-                    break;
-
-                case "AVG":
-                    TotalAvg = TotalSum / TotalCount;
-                    contentItem.screen.FormValue = TotalAvg;
-                    break;
-
-                case "MAX":
-                    contentItem.screen.FormValue = Max;
-                    break;
-
-                case "MIN":
-                    contentItem.screen.FormValue = Min;
-                    break;
-
-                case "CNT":
-                    contentItem.screen.FormValue = TotalCount;
-                    break;
-
-
-            }
-        }
-        contentItem.screen.FormCountstring = TotalCount.toString() + " forms filled in.";
-
-
-        if (TotalCount < 1) {
-            contentItem.screen.findContentItem("FormValuesRollup").isVisible = false;
-        }
-        else {
-
-            contentItem.screen.findContentItem("FormValuesRollup").isVisible = true;
-        }
-
-
-        // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
-
+        updateAll(element, contentItem);
     }
 
     contentItem.dataBind("screen.IndicatorLocationRollup.count", updateFormValue);
@@ -369,4 +443,20 @@ myapp.AddEditIndicatorValue.SelectedLocationTap_execute = function (screen) {
     // Write code here.
     screen.IndicatorValue.Location = screen.LocationsSorted.selectedItem;
     screen.closePopup();
+};
+myapp.AddEditIndicatorValue.ReportingPeriod1_postRender = function (element, contentItem) {
+    // Write code here.
+    /*function setDefaultReportingPeriod() {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+                //screen.ReportingPeriodsFiltered.load().then(function () {
+                    screen.IndicatorValue.setReportingPeriod(reportingPeriod.results[0]);
+                    screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
+                //});
+            });
+        });
+    }
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.count", setDefaultReportingPeriod());
+    */
 };
