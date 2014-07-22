@@ -31,6 +31,7 @@ function updateAllPP(element, contentItem) {
 function updateVersionRollup(element, contentItem) {
 
     screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+    contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
 
     contentItem.screen.PeopleReachedPreviousVersions.load();
     //contentItem.screen.PeopleReachedLocationRollup.load();
