@@ -1,5 +1,43 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
+function updateAll(element, contentItem) {
+    //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
+    if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+                contentItem.screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
+
+            });
+        });
+
+    }
+
+    if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem && contentItem.screen.ReportingPeriodsFiltered.selectedItem) {
+        setBizKey(element, contentItem);
+        updatePreviousVersion(element, contentItem)
+    } else {
+        //If the basic filters aren't in place, hide the rollup fields
+
+    }
+
+}
+
+
+//Set good defaults for business key
+function setBizKey(element, contentItem) {
+    var bizKey = contentItem.screen.ReportingPeriodsFiltered.selectedItem.Summary + " | " +
+        contentItem.screen.LocationsSorted.selectedItem.Name + " | " +
+        contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID;
+
+    contentItem.screen.findContentItem("BusinessKey").value = bizKey;
+}
+
+function updatePreviousVersion(element, contentItem) {
+    contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+    contentItem.screen.MilestoneValuesPreviousVersion.load();
+}
+
 myapp.AddEditMilestoneValue.created = function (screen) {
     // Write code here.
     msls.application.lightswitchTools.configureCaptureForm(screen);
@@ -19,104 +57,30 @@ myapp.AddEditMilestoneValue.created = function (screen) {
     myapp.activeDataWorkspace.MeerkatData.Milestones_SingleOrDefault(screen.MilestoneID).execute().then(function (milestone) {
         screen.MilestoneValue.setMilestone(milestone.results[0]);
     });
+
+    //Default Actual label to actual value 
+    var actualValueField = screen.findContentItem("ActualValue");
+    var actualLabelField = screen.findContentItem("ActualLabel");
+    actualValueField.dataBind("value", function () {
+        if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
+            var currentLength = 0;
+            if (actualLabelField.value !== undefined) {
+                currentLength = actualLabelField.stringValue.length;
+            }
+
+            if (currentLength === 0) {
+                actualLabelField.stringValue = actualValueField.stringValue;
+            }
+        }
+    });
+
+
 };
 myapp.AddEditMilestoneValue.Order_postRender = function (element, contentItem) {
     // Write code here.
     contentItem.screen.PreviousDataVersion = contentItem.value + 1;
 };
-/*myapp.AddEditMilestoneValue.SumAmount_postRender = function (element, contentItem) {
-    // Write code here.
-    function updateTotal() {
-        // Compute the total for the invoice
 
-        var TotalSum = 0;
-        var TotalCount = 0;
-        var TotalAvg = 0;
-        var Total = 0;
-        var Max = 0;
-        var Min = 0;
-        var Versions = contentItem.screen.MilestoneValuesPreviousVersion;
-
-        var Version = Versions.data;
-        Version.forEach(function (singleVersion) {
-            TotalSum = parseFloat(TotalSum) + parseFloat(singleVersion.ActualValue);
-            TotalCount = parseFloat(TotalCount) + 1;
-            if (parseFloat(singleVersion.ActualValue) < Min || Min == 0) {
-                Min = parseFloat(singleVersion.ActualValue);
-            }
-            if (parseFloat(singleVersion.ActualValue) > Max) {
-                Max = parseFloat(singleVersion.ActualValue);
-            }
-            //Total += parseFloat(singleVersion.Version.Population);
-
-        });
-        contentItem.screen.SumAmount = TotalSum;
-        TotalAvg = TotalSum / TotalCount;
-
-        contentItem.screen.AvgAmount = TotalAvg;
-        contentItem.screen.MaxAmount = Max;
-        contentItem.screen.MinAmount = Min;
-        contentItem.screen.CountVersionValues = TotalCount;
-        contentItem.screen.CountVersions = TotalCount;
-        // contentItem.screen.MilestoneValue.ActualValue = TotalSum;
-
-    }
-
-    contentItem.dataBind("screen.MilestoneValuesPreviousVersion.count", updateTotal);
-
-
-    contentItem.dataBind("screen.ReportingPeriod1.value", updateTotal);
-};
-
-// Function to compute the total for the invoice 
-
-function fnSumAmount(Locations) {
-
-    // Start with 0
-
-
-
-    // Return TotalAmountOfinvoices
-
-    return TotalSum;
-
-}
-
-myapp.AddEditMilestoneValue.UseSum_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.SumAmount;
-    screen.MilestoneValue.ActualLabel = screen.SumAmount;
-};
-myapp.AddEditMilestoneValue.UseAvg_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.AvgAmount;
-    screen.MilestoneValue.ActualLabel = screen.AvgAmount;
-};
-myapp.AddEditMilestoneValue.UseMax_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.MaxAmount;
-    screen.MilestoneValue.ActualLabel = screen.MaxAmount;
-};
-myapp.AddEditMilestoneValue.UseMin_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.MinAmount;
-    screen.MilestoneValue.ActualLabel = screen.MinAmount;
-};
-myapp.AddEditMilestoneValue.UseCount_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.CountVersionValues;
-    screen.MilestoneValue.ActualLabel = screen.CountVersionValues;
-};
-myapp.AddEditMilestoneValue.UseFullCount_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.CountVersions;
-    screen.MilestoneValue.ActualLabel = screen.CountVersions;
-};
-myapp.AddEditMilestoneValue.UseTotal_execute = function (screen) {
-    // Write code here.
-    screen.MilestoneValue.ActualValue = screen.Total;
-    screen.MilestoneValue.ActualLabel = screen.Total;
-};*/
 myapp.AddEditMilestoneValue.UsePreviousVersion_execute = function (screen) {
     // Write code here.
     if (screen.MilestoneValuesPreviousVersion.data[1]) {
@@ -128,22 +92,20 @@ myapp.AddEditMilestoneValue.UsePreviousVersion_execute = function (screen) {
 myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersion_postRender = function (element, contentItem) {
     // Write code here.
     function updateVersionRollup() {
-        if (contentItem.screen.DataVersionSorted.selectedItem) {
+        /*if (contentItem.screen.DataVersionSorted.selectedItem) {
             contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
-
         }
-        if (contentItem.screen.ReportingPeriodsFiltered) {
-
-        }
+        
         //updateLocationsTotal(element, contentItem);
         contentItem.screen.MilestoneValuesPreviousVersion.load();
-        //contentItem.screen.IndicatorLocationRollup.load();
+        //contentItem.screen.IndicatorLocationRollup.load();*/
+        updateAll(element, contentItem);
     }
 
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateVersionRollup);
-    //contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
     contentItem.dataBind("screen.DataVersion.value", updateVersionRollup);
 };
 myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersionTemplate_postRender = function (element, contentItem) {
@@ -152,6 +114,9 @@ myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersionTemplate_postRender = 
     var x = contentItem.data;
     if (!(contentItem.data.getActualValue()._value)) {
         contentItem.isVisible = false;
+    } else {
+        contentItem.isVisible = true;
+
     }
 };
 myapp.AddEditMilestoneValue.SelectedLocationsTap_execute = function (screen) {
