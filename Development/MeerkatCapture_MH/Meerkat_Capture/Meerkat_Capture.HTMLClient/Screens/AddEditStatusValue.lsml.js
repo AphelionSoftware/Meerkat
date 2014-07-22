@@ -16,38 +16,101 @@ myapp.AddEditStatusValue.created = function (screen) {
     if (screen.Values.Outcome !== undefined || screen.Values.DataType === "Outcome") {
         screen.details.displayName = "Add Outcome Status Value";
         screen.findContentItem("OutcomeGroup").isVisible = true;
-        screen.StatusValue.setOutcome(screen.Values.Outcome);
+        if (screen.Values.Outcome !== undefined) {
+            screen.StatusValue.setOutcome(screen.Values.Outcome);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Outcomes_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setOutcome(Item.results[0]);
+            })
+        }
     }
 
     if (screen.Values.Output !== undefined || screen.Values.DataType === "Output") {
         screen.details.displayName = "Add Output Status Value";
         screen.findContentItem("OutputGroup").isVisible = true;
-        screen.StatusValue.setOutput(screen.Values.Output);
+        if (screen.Values.Output !== undefined) {
+            screen.StatusValue.setOutput(screen.Values.Output);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Outputs_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setOutput(Item.results[0]);
+            })
+        }
     }
 
     if (screen.Values.SubOutput !== undefined || screen.Values.DataType === "SubOutput") {
         screen.details.displayName = "Add SubOutput Status Value";
         screen.findContentItem("SubOutputGroup").isVisible = true;
-        screen.StatusValue.setSubOutput(screen.Values.SubOutput);
+        
+        if (screen.Values.SubOutput !== undefined) {
+            screen.StatusValue.setSubOutput(screen.Values.SubOutput);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.SubOutputs_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setSubOutput(Item.results[0]);
+            })
+        }
     }
 
     if (screen.Values.Activity !== undefined || screen.Values.DataType === "Activity") {
         screen.findContentItem("ActivityGroup").isVisible = true;
-        screen.StatusValue.setActivity(screen.Values.Activity);
+        if (screen.Values.Activity !== undefined) {
+            screen.StatusValue.setActivity(screen.Values.Activity);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Activitys_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setActivity(Item.results[0]);
+            })
+        }
         screen.details.displayName = "Add Activity Status Value";
     }
 
     if (screen.Values.Project !== undefined || screen.Values.DataType === "Project") {
         screen.findContentItem("ProjectGroup").isVisible = true;
-        screen.StatusValue.setProject(screen.Values.Project);
+        if (screen.Values.Project !== undefined) {
+            screen.StatusValue.setProject(screen.Values.Project);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setProject(Item.results[0]);
+            })
+        }
         screen.details.displayName = "Add Project Status Value";
     }
 
     if (screen.Values.Programme !== undefined || screen.Values.DataType === "Programme") {
         screen.findContentItem("ProgrammeGroup").isVisible = true;
-        screen.StatusValue.setProgramme(screen.Values.Programme);
+        if (screen.Values.Programme !== undefined) {
+            screen.StatusValue.setProgramme(screen.Values.Programme);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Programmes_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setProgramme(Item.results[0]);
+            })
+        }
         screen.details.displayName = "Add Programme Status Value";
     }
+
+
+    if (screen.Values.Sector !== undefined || screen.Values.DataType === "Sector") {
+        screen.findContentItem("SectorGroup").isVisible = true;
+        if (screen.Values.Sector !== undefined) {
+            screen.StatusValue.setSector(screen.Values.Sector);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.Sectors_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setSector(Item.results[0]);
+            })
+        }
+        screen.details.displayName = "Add Sector Status Value";
+    }
+
+    if (screen.Values.SubSector !== undefined || screen.Values.DataType === "SubSector") {
+        screen.findContentItem("SubSectorGroup").isVisible = true;
+        if (screen.Values.SubSector !== undefined) {
+            screen.StatusValue.setSubSector(screen.Values.SubSector);
+        } else {
+            myapp.activeDataWorkspace.MeerkatData.SubSectors_SingleOrDefault(screen.ItemID).execute().then(function (Item) {
+                screen.StatusValue.setSubSector(Item.results[0]);
+            })
+        }
+        screen.details.displayName = "Add SubSector Status Value";
+    }
+
 
     $.getJSON("/api/TodaysReportingPeriod", function (data) {
         myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
@@ -135,4 +198,17 @@ myapp.AddEditStatusValue.SearchDataVersionsTap_execute = function (screen) {
 myapp.AddEditStatusValue.SearchLocationsTap_execute = function (screen) {
     screen.StatusValue.Location = screen.Locations.selectedItem;
     screen.closePopup();
+};
+
+
+
+//Default version to publish as status values will mostly go straight to publish
+myapp.AddEditStatusValue.StatusValue_DataVersion_postRender = function (element, contentItem) {
+    myapp.activeDataWorkspace.MeerkatData.DataVersions_SingleOrDefault(1).execute().then(function (Item) {
+        contentItem.screen.StatusValue.setDataVersion(Item.results[0]);
+        contentItem.screen.DataVersions.selectedItem = Item.results[0];
+        
+
+    });
+
 };

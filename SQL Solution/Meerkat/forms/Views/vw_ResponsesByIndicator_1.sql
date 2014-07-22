@@ -1,4 +1,5 @@
-﻿CREATE VIEW forms.vw_ResponsesByIndicator
+﻿
+CREATE VIEW [forms].[vw_ResponsesByIndicator]
 AS
 SELECT [Response_ID]
       ,R.[FormResponse_ID]
@@ -13,6 +14,7 @@ SELECT [Response_ID]
 			WHEN QT.Code = 'TR' THEN R.Response
 			WHEN QT.Code = 'RB' OR QT.Code = 'MCQ' THEN PR.Code
 			END
+			, QT.Code
 	  ,R.Response
       ,R.[IntegerResponse]
       ,R.[DecimalResponse]

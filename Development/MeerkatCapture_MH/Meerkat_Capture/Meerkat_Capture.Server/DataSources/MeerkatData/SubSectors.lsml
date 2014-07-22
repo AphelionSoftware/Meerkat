@@ -165,6 +165,11 @@
           <Hidden />
         </NavigationProperty.Attributes>
       </NavigationProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_SubSector"
+        FromEnd="SubSector"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -316,6 +321,16 @@
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_SubSector"
+      Association="FK_StatusValues_SubSector">
+      <AssociationSetEnd
+        Name="SubSector"
+        EntitySet="SubSectors" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_SubSector">
@@ -330,6 +345,20 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_SubSector">
+    <AssociationEnd
+      Name="SubSector"
+      EntityType="SubSector">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -466,6 +495,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Project_SubSector]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="SubSector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_SubSector">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_SubSector" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_SubSector]/Members[SubSector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="SubSector_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_SubSector]/Members[StatusValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="SubSector_ID" />

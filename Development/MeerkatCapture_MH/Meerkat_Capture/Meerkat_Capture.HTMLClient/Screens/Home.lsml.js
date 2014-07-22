@@ -12,7 +12,12 @@ myapp.Home.VersionNumber_render = function (element, contentItem) {
 
 function addStatusValue(screen, type) {
 
+
+
+    var data = {};
+    data.DataType = type;
     if (type == "Outcome") {
+        /*
         screen.getOutcomes().then(function (outcomes) {
             var data = {};
 
@@ -26,49 +31,58 @@ function addStatusValue(screen, type) {
             data.Type = type;
 
             myapp.showAddEditStatusValue(undefined, data, {});
-        });
+        });*/
+        
+        myapp.showAddEditStatusValue(undefined, data, screen.Outcomes.selectedItem.Outcome_ID);
+
     } else if (type == "Programme") {
-        screen.getProgrammeSorted().then(function (Programmes) {
-            var data = {};
-
-            if (Programmes.selectedItem !== undefined) {
-                data.Programme = Programmes.selectedItem;
-            }
-            else {
-                data.DataType = "Programme";
-            }
-
-            data.Type = type;
-
-            myapp.showAddEditStatusValue(undefined, data, {});
-        });
-    }
+        myapp.showAddEditStatusValue(undefined, data, screen.ProgrammeSorted.selectedItem.Outcome_ID);
+    }  else if (type == "Project") {
+    myapp.showAddEditStatusValue(undefined, data, screen.ProgrammeSorted.selectedItem.Outcome_ID);
+}
 }
 
 myapp.Home.AddOutputStatusValue_execute = function (screen) {
     addStatusValue(screen, "Output");
 };
 
+myapp.Home.AddSectorStatusValue_execute = function (screen) {
+    addStatusValue(screen, "Sector");
+};
 
 
 myapp.Home.AddProjectStatusValue_execute = function (screen) {
     addStatusValue(screen, "Project");
 };
 myapp.Home.ShowOutcomeIndicators_Tap_canExecute = function (screen) {
-    // Write code here.
+   
 
 };
 myapp.Home.AddProgrammeStatus_execute = function (screen) {
-    // Write code here.
+   
     myapp.Home.AddProjectStatusValue_execute = function (screen) {
         addStatusValue(screen, "Programme");
     };
 };
 myapp.Home.AddOutcomeStatusValue_Tap_execute = function (screen) {
-    // Write code here.
+   
     addStatusValue(screen, "Outcome");
 };
 myapp.Home.AddProgrammeStatus_Tap_execute = function (screen) {
-    // Write code here.
+   
     addStatusValue(screen, "Programme");
+};
+myapp.Home.created = function (screen) {
+   
+    //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
+    if (screen.ReportingPeriodsFiltered.selectedItem == null) {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.ReportingPeriodEndDateID = reportingPeriod.results[0].EndDateID;
+                screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
+
+            });
+        });
+
+    }
 };
