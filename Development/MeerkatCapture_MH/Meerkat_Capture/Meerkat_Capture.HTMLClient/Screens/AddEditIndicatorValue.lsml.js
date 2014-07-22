@@ -16,8 +16,8 @@ function updateAllInd(element, contentItem)
 
     if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem && contentItem.screen.ReportingPeriodsFiltered.selectedItem) {
 
-        updatePreviousVersion(element, contentItem);
-        updateLocationsTotal(element, contentItem);
+        updatePreviousVersionIndicator(element, contentItem);
+        updateLocationsTotalIndicator(element, contentItem);
         updateFormValues(element, contentItem);
         setBizKey(element, contentItem);
     } else 
@@ -121,7 +121,7 @@ function updateFormValues(element, contentItem) {
 
 }
 
-function updatePreviousVersion(element, contentItem) {
+function updatePreviousVersionIndicator(element, contentItem) {
     if (contentItem.screen.DataVersionSorted.selectedItem) {
         contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
     }
@@ -131,7 +131,7 @@ function updatePreviousVersion(element, contentItem) {
     contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
 }
 
-function updateLocationsTotal( element, contentItem)
+function updateLocationsTotalIndicator( element, contentItem)
 {
     var TotalSum = 0;
     var TotalCount = 0;

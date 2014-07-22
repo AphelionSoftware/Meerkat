@@ -1,4 +1,5 @@
-﻿CREATE VIEW rpt.ProjectStatusScorecard
+﻿
+CREATE VIEW [rpt].[ProjectStatusScorecard]
 as
 SELECT [StatusValuesID]
       ,[ReportingPeriodID]
@@ -13,8 +14,13 @@ SELECT [StatusValuesID]
 on sv.StatusTypeID = st.ID
 inner join app.Project Pr
 ON sv.ProjectID = Pr.ProjectID
-inner join app.Sector S
+left outer join app.SubSector SS
+ON pr.SubSector_ID = SS.SubSector_ID
+left join app.Sector S
 on Pr.Sector_ID = S.Sector_ID
+OR SS.Sector_ID = S.Sector_ID
 inner join app.Programme p
 on s.Programme_ID = p.Programme_ID
+or PR.Programme_ID = P.Programme_ID
+
  where    [DataVersionID] = 1
