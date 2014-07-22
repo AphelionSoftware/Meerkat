@@ -1,6 +1,6 @@
 ﻿///<reference path="../GeneratedArtifacts/viewModel.js" />
 
-function updateAll(element, contentItem)
+function updateAllInd(element, contentItem)
 {
     //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
     if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
@@ -269,7 +269,7 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
 
     function updateTotal_LS() {
         if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem) {
-            updateAll(element, contentItem);
+            updateAllInd(element, contentItem);
         }
     }
 
@@ -358,38 +358,9 @@ myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
     }
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
-    // Write code here.
-    function updateVersionRollup() {
-        
-        
-        if (contentItem.screen.DataVersionSorted.selectedItem) {
-            //Value currently doesn't update?
-            screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
-            
-            contentItem.screen.IndicatorValuesPreviousVersion.load().then(function (promise) {
-                if (contentItem.screen.IndicatorValuesPreviousVersion.data.length > 0) {
-                    contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
-                } else {
-                    contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
-
-                }
-            });
-
-
-            contentItem.screen.IndicatorLocationRollup.load().then(function (promise) {
-               // updateLocationsTotal(element, contentItem);
-            });
-
-        }
-        
-    }
-
-
-    function updateTotal() {
-        if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem) {
-            updateAll(element, contentItem);
-        }
-    }
+        function updateTotal() {
+            updateAllInd(element, contentItem);
+         }
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
@@ -413,7 +384,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender =
 myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, contentItem) {
     // Write code here.
     if (contentItem.screen.CountLocations == 0) {
-        contentItem.isVisible = false;
+        //contentItem.isVisible = false;
     } else {
         contentItem.isVisible = true;
        // contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
@@ -425,7 +396,7 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
     // Write code here.
 
     function updateFormValue() {
-        updateAll(element, contentItem);
+        updateAllInd(element, contentItem);
     }
 
     contentItem.dataBind("screen.IndicatorLocationRollup.count", updateFormValue);

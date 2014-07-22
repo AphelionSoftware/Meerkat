@@ -1,6 +1,6 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 
-function updateAll(element, contentItem) {
+function updateAllM(element, contentItem) {
     //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
     if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
         $.getJSON("/api/TodaysReportingPeriod", function (data) {
@@ -99,7 +99,7 @@ myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersion_postRender = function
         //updateLocationsTotal(element, contentItem);
         contentItem.screen.MilestoneValuesPreviousVersion.load();
         //contentItem.screen.IndicatorLocationRollup.load();*/
-        updateAll(element, contentItem);
+        updateAllM(element, contentItem);
     }
 
     // Set a dataBind to update the value when the selection change

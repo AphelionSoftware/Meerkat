@@ -1,4 +1,73 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+
+/// <reference path="../Scripts/LightSwitchTools.js" />
+
+
+function updateAllPP(element, contentItem) {
+    //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
+    if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
+        $.getJSON("/api/TodaysReportingPeriod", function (data) {
+            myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+                screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+                contentItem.screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
+
+            });
+        });
+
+    }
+
+    if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem && contentItem.screen.ReportingPeriodsFiltered.selectedItem) {
+
+        updateLocationTotal(element, contentItem);
+        updateFormsValue(element, contentItem);
+        updateVersionRollup(element, contentItem)
+    } else {
+        //If the basic filters aren't in place, hide the rollup fields
+
+    }
+
+}
+
+function updateVersionRollup(element, contentItem) {
+    if (contentItem.screen.DataVersionSorted.selectedItem) {
+        screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+
+    }
+    
+    contentItem.screen.PeopleReachedPreviousVersions.load();
+    //contentItem.screen.PeopleReachedLocationRollup.load();
+
+    if ((contentItem.screen.PeopleReachedPreviousVersions.data.length > 0)) {
+        contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = true;
+    } else {
+        contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = false;
+    }
+
+}
+
+function updateFormsValue(element, contentItem) {
+    var Forms = contentItem.screen.EventRegistersSorted;
+    var Form = Forms.count;
+
+    if (Form < 1) {
+        contentItem.screen.findContentItem("FormValues").isVisible = false;
+    }
+    else if (Form == 1) {
+        contentItem.screen.FormCountString = Form.toString() + " attendee";
+        contentItem.screen.findContentItem("FormValues").isVisible = true;
+    }
+    else {
+        contentItem.screen.FormCountString = Form.toString() + " attendees";
+        contentItem.screen.findContentItem("FormValues").isVisible = true;
+    }
+
+
+    contentItem.screen.FormValue = Form;
+
+}
+
+
+
 function updateLocationTotal(element, contentItem) {
     var TotalSum = 0;
     var TotalCount = 0;
@@ -6,6 +75,9 @@ function updateLocationTotal(element, contentItem) {
     var TotalPop = 0;
     var Max = 0;
     var Min = 0;
+
+    contentItem.screen.PeopleReachedLocationRollup.load();
+
     var Locations = contentItem.screen.PeopleReachedLocationRollup;
 
     var Location = Locations.data;
@@ -56,7 +128,7 @@ myapp.AddEditProjectParticipants.created = function (screen) {
         });
     });
 
-    //Set the indicator - it's prefiltered by parameter.
+    //Set the project - it's prefiltered by parameter.
 
     myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(screen.ProjectID).execute().then(function (project) {
         screen.PeopleReachedValue.setProject(project.results[0]);
@@ -66,7 +138,7 @@ myapp.AddEditProjectParticipants.SumAmount_postRender = function (element, conte
     // Write code here.
     function updateTotal() {
         // Compute the total for the invoice
-        updateLocationTotal(element, contentItem);
+        updateAllPP(element, contentItem);
 
 
         // contentItem.screen.IndicatorValue.ActualValue = TotalSum;
@@ -74,6 +146,9 @@ myapp.AddEditProjectParticipants.SumAmount_postRender = function (element, conte
     }
 
     contentItem.dataBind("screen.PeopleReachedLocationRollup.count", updateTotal);
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateTotal);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
 
     contentItem.dataBind("screen.DataVersion.value", updateTotal);
 
@@ -135,44 +210,22 @@ myapp.AddEditProjectParticipants.UsePreviousVersion_execute = function (screen) 
 };
 myapp.AddEditProjectParticipants.PeopleReachedPreviousVersions_postRender = function (element, contentItem) {
     // Write code here.
-    function updateVersionRollup() {
-        if (contentItem.screen.DataVersionSorted.selectedItem) {
-            contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+    
 
-        }
-        if (contentItem.screen.ReportingPeriodsFiltered) {
-
-        }
-        updateLocationTotal(element, contentItem);
-        contentItem.screen.PeopleReachedPreviousVersions.load();
-        contentItem.screen.PeopleReachedLocationRollup.load();
-
-        if ((contentItem.screen.PeopleReachedPreviousVersions.data.length > 0)) {
-            contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = true;
-        } else {
-            contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = false;
-        }
-        
-
-        
-        //
-
-    }
-
-    function updateVersionRollupDV() {
-        updateVersionRollup();
+    /*function updateVersionRollupDV() {
+        updateAllPP(element, contentItem);
     }
     
 
     // Set a dataBind to update the value when the selection change
-    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollup);
-    contentItem.dataBind("screen.ReportingPeriod1.value", updateVersionRollup);
-    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollup);
+    contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollupDV);
+    contentItem.dataBind("screen.ReportingPeriod1.value", updateVersionRollupDV);
+    contentItem.dataBind("screen.LocationsSorted.selectedItem", updateVersionRollupDV);
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateVersionRollupDV);
 
     //Also updating on count. This fires on screen open
     contentItem.dataBind("screen.ReportingPeriodsFiltered.count", updateVersionRollup);
-
+    */
 };
 myapp.AddEditProjectParticipants.PeopleReachedPreviousVersionsTemplate_postRender = function (element, contentItem) {
     // Write code here.
@@ -187,7 +240,7 @@ myapp.AddEditProjectParticipants.PeopleReachedPreviousVersionsTemplate_postRende
 myapp.AddEditProjectParticipants.LocationValues_postRender = function (element, contentItem) {
     // Write code here.
     if (contentItem.screen.CountLocations == 0) {
-        //contentItem.isVisible = false;
+        contentItem.isVisible = false;
     } else {
         contentItem.isVisible = true;
     }
@@ -203,26 +256,10 @@ myapp.AddEditProjectParticipants.UseFormValue_execute = function (screen) {
 myapp.AddEditProjectParticipants.FormValue_postRender = function (element, contentItem) {
     // Write code here.
     function updateFormsValue() {
-        var Forms = contentItem.screen.EventRegistersSorted;
-        var Form = Forms.count;
-        
-        if (Form < 1) {
-            contentItem.screen.findContentItem("FormValues").isVisible = false;
-        }
-        else if (Form == 1) {
-            contentItem.screen.FormCountString = Form.toString() + " attendee";
-            contentItem.screen.findContentItem("FormValues").isVisible = true;
-        }
-        else {
-            contentItem.screen.FormCountString = Form.toString() + " attendees";
-            contentItem.screen.findContentItem("FormValues").isVisible = true;
-        }
-
-
-        contentItem.screen.FormValue = Form;
-
+        updateAllPP(element, contentItem);
     }
 
+    contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateFormsValue);
     contentItem.dataBind("screen.LocationsSorted.selectedItem", updateFormsValue);
     contentItem.dataBind("screen.ReportingPeriod1.value", updateFormsValue);
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateFormsValue);

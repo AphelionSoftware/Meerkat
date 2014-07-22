@@ -2,7 +2,7 @@
 /// <reference path="../Scripts/LightSwitchTools.js" />
 
 
-function updateAll(element, contentItem) {
+function updateAllMA(element, contentItem) {
     //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
     if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
         $.getJSON("/api/TodaysReportingPeriod", function (data) {
