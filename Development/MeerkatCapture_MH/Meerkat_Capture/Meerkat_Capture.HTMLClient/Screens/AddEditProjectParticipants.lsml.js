@@ -29,11 +29,9 @@ function updateAllPP(element, contentItem) {
 }
 
 function updateVersionRollup(element, contentItem) {
-    if (contentItem.screen.DataVersionSorted.selectedItem) {
-        screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
 
-    }
-    
+    screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+
     contentItem.screen.PeopleReachedPreviousVersions.load();
     //contentItem.screen.PeopleReachedLocationRollup.load();
 
