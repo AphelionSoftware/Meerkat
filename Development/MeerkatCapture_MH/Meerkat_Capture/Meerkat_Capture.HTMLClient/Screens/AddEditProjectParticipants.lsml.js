@@ -23,7 +23,9 @@ function updateAllPP(element, contentItem) {
         updateVersionRollup(element, contentItem)
     } else {
         //If the basic filters aren't in place, hide the rollup fields
-
+        contentItem.screen.findContentItem("PeopleReachedPreviousVersions").isVisible = false;
+        contentItem.screen.findContentItem("FormValues").isVisible = false;
+        contentItem.screen.findContentItem("LocationValues").isVisible = false;
     }
 
 }

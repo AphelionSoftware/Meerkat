@@ -86,3 +86,18 @@ myapp.Home.created = function (screen) {
 
     }
 };
+myapp.Home.StatusValuesSorted_postRender = function (element, contentItem) {
+    // Write code here.
+ 
+};
+myapp.Home.StatusValuesSortedTemplate_postRender = function (element, contentItem) {
+    if (contentItem.value.StatusType.Code == "-") {
+        $(element).css("background", "#fc8d59");
+    } else if (contentItem.value.StatusType.Code == "=") {
+        $(element).css("background", "#ffffbf");
+    } else if (contentItem.value.StatusType.Code == "+") {
+        $(element).css("background", "#91cf60");
+    }
+    
+
+};
