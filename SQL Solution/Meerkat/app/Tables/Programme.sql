@@ -17,3 +17,13 @@
 
 
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'Indicator', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Programme', @level2type = N'COLUMN', @level2name = N'ShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Programme', @level2type = N'COLUMN', @level2name = N'ShortName';
+

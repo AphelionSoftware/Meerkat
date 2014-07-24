@@ -8,7 +8,7 @@
     [Sector_ID]         INT            NULL,
     [SubSector_ID]      INT            NULL,
     [ProjectID]         INT            NULL,
-    [StatusTypeID]      INT            NOT NULL,
+    [StatusTypeID]      INT            NULL,
     [ReportingPeriodID] INT            NOT NULL,
     [LocationID]        INT            NOT NULL,
     [DataVersionID]     INT            NOT NULL,
@@ -34,6 +34,8 @@
     CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_StatusValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
