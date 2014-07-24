@@ -42,7 +42,7 @@ myapp.AddEditMilestoneValue.created = function (screen) {
     // Write code here.
     msls.application.lightswitchTools.configureCaptureForm(screen);
 
-    $.getJSON("/api/TodaysReportingPeriod", function (data) {
+    /*$.getJSON("/api/TodaysReportingPeriod", function (data) {
         myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
             screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
             screen.ReportingPeriodsFiltered.load().then(function () {
@@ -50,7 +50,7 @@ myapp.AddEditMilestoneValue.created = function (screen) {
                 //screen.PreviousDataVersion = screen.DataVersionSorted.selectedItem.DataVersion_ID;
             });
         });
-    });
+    });*/
 
     //Set the milestone - it's prefiltered by parameter.
 
@@ -59,7 +59,7 @@ myapp.AddEditMilestoneValue.created = function (screen) {
     });
 
     //Default Actual label to actual value 
-    var actualValueField = screen.findContentItem("ActualValue");
+    /*var actualValueField = screen.findContentItem("ActualValue");
     var actualLabelField = screen.findContentItem("ActualLabel");
     actualValueField.dataBind("value", function () {
         if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
@@ -72,7 +72,7 @@ myapp.AddEditMilestoneValue.created = function (screen) {
                 actualLabelField.stringValue = actualValueField.stringValue;
             }
         }
-    });
+    });*/
 
 
 };
