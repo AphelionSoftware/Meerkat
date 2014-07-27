@@ -58,7 +58,9 @@ function calendarbyUrl(contentItem, url) {
     
     d3.json(url, 
     function (error, jsonData) {
-
+        if (jsonData == undefined) {
+            return;
+        }
         var data = d3.nest()
           .key(function (d) {
 
@@ -71,7 +73,7 @@ function calendarbyUrl(contentItem, url) {
             .sortValues(function (a, b) { return parseFloat(a.Value) - parseFloat(b.Value) })
             .map(jsonData.value)
         ;
-        var people =
+        var blocks =
                         d3.nest()
                         .key(function (d) {
                             var dt = new Date(d.c_Date);
@@ -93,7 +95,7 @@ function calendarbyUrl(contentItem, url) {
 
         /*Creating the base blocks*/
         var svg = d3.select(contentItem).selectAll("svg")
-            .data(d3.keys(people))
+            .data(d3.keys(blocks))
           .enter().append("svg")
             .attr("width", width)
             .attr("height", height)
@@ -134,17 +136,21 @@ function calendarbyUrl(contentItem, url) {
         // .datum(format);
         ;
 
+
         rect.append("title")
             .text(function (d) {
                 //return "Some title";
                 var val;
-                    val = people[d.substring(13, d.length).trim()].find(
+                    val = blocks[d.substring(13, d.length).trim()].find(
                             function (element, index, array) {
                                 return cmpDate(element.c_Date, d.substring(0, 10).trim());
                             }
                             );
+                    if (val && val.Label)
+                        return val.Label;
+                else
                 if (val && val.Value && val.c_Date)
-                    return val.Value + " hours on " + ShortYear(val.c_Date);
+                    return val.Value + " weight on " + ShortYear(val.c_Date);
                 else return d;
 
                 //return d;
@@ -161,10 +167,10 @@ function calendarbyUrl(contentItem, url) {
 
 
         rect.filter(function (d) {
-            if (d3.keys(people).indexOf(d.substring(13, d.length).trim()) > -1) {
+            if (d3.keys(blocks).indexOf(d.substring(13, d.length).trim()) > -1) {
                 var vals;
                 
-                vals = d3.values(people)[d3.keys(people).indexOf(d.substring(13, d.length).trim())];
+                vals = d3.values(blocks)[d3.keys(blocks).indexOf(d.substring(13, d.length).trim())];
                 if (vals.find(
                     function (element, index, array) {
                             return cmpDate(element.c_Date, d.substring(0, 10).trim());
@@ -181,7 +187,7 @@ function calendarbyUrl(contentItem, url) {
         .attr('style', function (d) {
             
                 return "fill:" +
-                   colorScalar(people[d.substring(13, d.length).trim()].find(
+                   colorScalar(blocks[d.substring(13, d.length).trim()].find(
                                            function (element, index, array) {
                                                return element.c_Date.substring(0,10).trim() == d.substring(0, 10).trim();
                                            }
@@ -195,7 +201,7 @@ function calendarbyUrl(contentItem, url) {
         //Creating the key
 
 
-        var bottom = d3.keys(people).length * height;
+        //var bottom = d3.keys(people).length * height;
 
         //d3.select("body").append("p")
 
@@ -211,7 +217,7 @@ function calendarbyUrl(contentItem, url) {
 
 
 
-        var rectKey = svgKey.selectAll(".client")
+        /*var rectKey = svgKey.selectAll(".client")
             .data(d3.keys(domain))
           .enter().append("rect")
           .attr("class", "Client")
@@ -228,7 +234,7 @@ function calendarbyUrl(contentItem, url) {
                                 colorScalar(d)
             }
                             )
-        ;
+        ;*/
 
         var text = svgKey.selectAll(".txt")
             .data(d3.keys(domain))

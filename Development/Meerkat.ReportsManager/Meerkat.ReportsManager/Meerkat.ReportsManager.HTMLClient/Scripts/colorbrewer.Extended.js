@@ -1,14 +1,37 @@
 // This product includes color specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/).
 // JavaScript specs as packaged in the D3 library (d3js.org). Please see license at http://colorbrewer.org/export/LICENSE.txt
-var colorbrewer = {YlGn: {
-3: ["#f7fcb9","#addd8e","#31a354"],
-4: ["#ffffcc","#c2e699","#78c679","#238443"],
-5: ["#ffffcc","#c2e699","#78c679","#31a354","#006837"],
-6: ["#ffffcc","#d9f0a3","#addd8e","#78c679","#31a354","#006837"],
-7: ["#ffffcc","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#005a32"],
-8: ["#ffffe5","#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#005a32"],
-9: ["#ffffe5","#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#006837","#004529"]
-},YlGnBu: {
+
+var cubeHelix = {
+    WhtBlk :{
+        16: ["#ffffff","#ffdff1","#ffc6cb","#ffb896","#e6b661","#b2bb3a","#75c02b","#3abf34","#0eb350"/*For top Green use this*/,"#009b73","#00798d","#0a5394","#1e2f82","#29145b","#20052a","#000000"	]
+    }
+        ,WhtBlk :{
+            45: ["#ffffff","#fff4fd","#ffe9f9","#ffdff1","#ffd5e6","#ffcdd8","#ffc5c9","#ffc0b8","#ffbba5","#ffb892","#fcb680","#f0b66e","#e2b65d","#d2b74e","#bfb941","#acbb37","#97bd30","#82bf2c","#6cc02b","#58c12c","#44c031","#32be38","#22bb41","#14b64b","#09b057","#00a862","#009f6e","#009579","#008a83","#007d8b","#007190","#016394","#085694","#0f4991","#163d8c","#1d3184","#222779","#261d6c","#29155d","#280e4d","#26093c","#20052b","#18021b","#0d010d","#000000"]			
+        }
+        ,GrnBlu :{
+            26: ["#ffffff","#ffdff1","#ffc6cb","#ffb896","#e6b661","#b2bb3a","#75c02b","#3abf34","#0eb350"/*For top Green use this*/,"#009579","#008a83","#007d8b","#007190","#016394","#085694","#0f4991","#163d8c","#1d3184","#222779","#261d6c","#29155d","#280e4d","#26093c","#20052b","#18021b","#0d010d","#000000"]
+        }
+};
+
+
+var colorbrewer = {
+    WtYlGn: {
+        4: ["#ffffff","#f7fcb9", "#addd8e", "#31a354"],
+        5: ["#ffffff","#ffffcc", "#c2e699", "#78c679", "#238443"],
+        6: ["#ffffff","#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"],
+        7: ["#ffffff","#ffffcc", "#d9f0a3", "#addd8e", "#78c679", "#31a354", "#006837"],
+        8: ["#ffffff","#ffffcc", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#005a32"],
+        9: ["#ffffff","#ffffe5", "#f7fcb9", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#005a32"],
+       10: ["#ffffff","#ffffe5", "#f7fcb9", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#239943", "#008237", "#004529"]
+    }, YlGn: {
+        3: ["#f7fcb9", "#addd8e", "#31a354"],
+        4: ["#ffffcc", "#c2e699", "#78c679", "#238443"],
+        5: ["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"],
+        6: ["#ffffcc", "#d9f0a3", "#addd8e", "#78c679", "#31a354", "#006837"],
+        7: ["#ffffcc", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#005a32"],
+        8: ["#ffffe5", "#f7fcb9", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#005a32"],
+        9: ["#ffffe5", "#f7fcb9", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#006837", "#004529"]
+    }, YlGnBu: {
 3: ["#edf8b1","#7fcdbb","#2c7fb8"],
 4: ["#ffffcc","#a1dab4","#41b6c4","#225ea8"],
 5: ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"],
