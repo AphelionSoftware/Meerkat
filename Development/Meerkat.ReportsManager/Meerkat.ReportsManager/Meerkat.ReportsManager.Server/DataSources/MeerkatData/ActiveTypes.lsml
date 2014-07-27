@@ -51,6 +51,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -72,6 +73,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -150,6 +152,11 @@
         Association="FK_CustomReport_Calendar_ActiveType"
         FromEnd="ActiveType"
         ToEnd="CustomReport_Calendar" />
+      <NavigationProperty
+        Name="CustomReport_ResponsiblePersons"
+        Association="FK_CustomReport_ResponsiblePerson_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="CustomReport_ResponsiblePerson" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -553,6 +560,16 @@
         Name="CustomReport_Calendar"
         EntitySet="CustomReport_Calendars" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_CustomReport_ResponsiblePerson_ActiveType"
+      Association="FK_CustomReport_ResponsiblePerson_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="CustomReport_ResponsiblePerson"
+        EntitySet="CustomReport_ResponsiblePersons" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_CustomReport_Calendar_ActiveType">
@@ -568,6 +585,21 @@
       Name="CustomReport_Calendar"
       Multiplicity="Many"
       EntityType="CustomReport_Calendar" />
+  </Association>
+  <Association
+    Name="FK_CustomReport_ResponsiblePerson_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_ResponsiblePerson"
+      Multiplicity="Many"
+      EntityType="CustomReport_ResponsiblePerson" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -698,6 +730,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_CustomReport_Project_ActiveType]/Members[CustomReport_Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_ResponsiblePerson_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_ResponsiblePerson_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_ActiveType]/Members[CustomReport_ResponsiblePerson]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

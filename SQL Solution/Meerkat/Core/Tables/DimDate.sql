@@ -19,6 +19,7 @@
     [StandardDate]    VARCHAR (10)  NULL,
     [IsPublicHoliday] BIT           DEFAULT ((0)) NULL,
     [HolidayText]     VARCHAR (50)  NULL,
+    [IsWorkDay] BIT           DEFAULT ((1)) NULL,
     [Active]          INT           CONSTRAINT [DF_DimDate_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255) CONSTRAINT [DF_DimDate_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_DimDate_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

@@ -5,12 +5,12 @@
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="BrowseCustomReportTypes">
+    Name="BrowsePeople">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
       <DisplayName
-        Value="ReportTypes" />
+        Value="People" />
     </Screen.Attributes>
     <Screen.RootContentItem>
       <ContentItem
@@ -22,29 +22,29 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="CustomReportTypeList"
+            Name="PersonList"
             Kind="Group">
             <ContentItem
-              Name="CustomReportTypes"
+              Name="People"
               Kind="Collection"
-              DataType="CollectionView$CustomReportType"
+              DataType="CollectionView$Person"
               View="Microsoft.LightSwitch.MobileWeb:TileList">
               <ContentItem.Attributes>
                 <DisplayName
-                  Value="CustomReportTypes" />
+                  Value="People" />
               </ContentItem.Attributes>
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseCustomReportTypes/Properties[CustomReportTypes]" />
+                      Member="BrowsePeople/Properties[People]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
                 Name="rows"
                 Kind="Details"
-                DataType="CustomReportType"
+                DataType="Person"
                 View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                 <ContentItem.Attributes>
                   <DisplayName
@@ -56,14 +56,14 @@
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="Code"
+                  Name="Title"
                   Kind="Value"
-                  DataType=":String">
+                  DataType=":String?">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="CustomReportType/Properties[Code]" />
+                          Member="Person/Properties[Title]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -88,7 +88,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="CustomReportType/Properties[Name]" />
+                          Member="Person/Properties[Name]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -106,14 +106,14 @@
                   </ContentItem.PropertySources>
                 </ContentItem>
                 <ContentItem
-                  Name="BusinessKey"
+                  Name="ContactDetails"
                   Kind="Value"
-                  DataType=":String">
+                  DataType=":String?">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="CustomReportType/Properties[BusinessKey]" />
+                          Member="Person/Properties[ContactDetails]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -149,16 +149,16 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showViewCustomReportType]">
+                        Target="!module/Methods[showAddEditPerson]">
                         <CallExpression.Attributes>
                           <AssociatedCollection
-                            Collection="BrowseCustomReportTypes/Properties[CustomReportTypes]" />
+                            Collection="BrowsePeople/Properties[People]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
-                          Parameter="CustomReportType">
+                          Parameter="Person">
                           <ChainExpression>
                             <MemberExpression
-                              Member="BrowseCustomReportTypes/Properties[CustomReportTypes]" />
+                              Member="BrowsePeople/Properties[People]" />
                             <MemberExpression
                               Member="selectedItem" />
                           </ChainExpression>
@@ -167,11 +167,21 @@
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="msls-edit"
+                        ResultType=":String" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
               </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="AddCustomReportType"
+                Name="AddPerson"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
@@ -183,12 +193,12 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAddEditCustomReportType]">
+                          Target="!module/Methods[showAddEditPerson]">
                           <CallExpression.Attributes>
                             <AssociatedCollection
-                              Collection="BrowseCustomReportTypes/Properties[CustomReportTypes]" />
+                              Collection="BrowsePeople/Properties[People]" />
                             <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditCustomReportType]/Parameters[CustomReportType]" />
+                              TargetParameter="!module/Methods[showAddEditPerson]/Parameters[Person]" />
                           </CallExpression.Attributes>
                         </CallExpression>
                       </ChainExpression>
@@ -207,7 +217,7 @@
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="SearchCustomReportTypes"
+                Name="SearchPeople"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
@@ -219,7 +229,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="BrowseCustomReportTypes/Properties[CustomReportTypes]" />
+                          Member="BrowsePeople/Properties[People]" />
                         <CallExpression
                           Target="showSearch" />
                       </ChainExpression>
@@ -284,20 +294,20 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="CustomReportTypes"
+        Name="People"
         PageSize="45"
-        PropertyType="CollectionView$CustomReportType">
+        PropertyType="CollectionView$Person">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="CustomReportTypesQuery"
-            ReturnType="CustomReportType*">
+            Name="PeopleQuery"
+            ReturnType="Person*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[CustomReportTypes]" />
+                  Member="MeerkatData/Members[People]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -305,7 +315,7 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseCustomReportTypes/Properties[CustomReportTypes]/Query" />
+              Target="BrowsePeople/Properties[People]/Query" />
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -313,10 +323,10 @@
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showBrowseCustomReportTypes">
+      Name="showBrowsePeople">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="BrowseCustomReportTypes" />
+          TargetScreen="BrowsePeople" />
       </ApplicationMethod.Attributes>
     </ApplicationMethod>
   </Application.Methods>

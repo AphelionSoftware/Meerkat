@@ -119,5 +119,10 @@ IF ( SELECT COUNT(1)
 
         PRINT 'Updated Table [Shared.DimDate]';
 
+
+		UPDATE core.DimDate
+		SET IsWorkDay = 0
+		WHERE USDayOfWeek in (6,7)
+
     END
 GO
