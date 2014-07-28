@@ -2,6 +2,7 @@
 AS
 select 
 	CR.Name CustomReportName
+	, CR.Name + ' by ' + P.Name as  Name
 	, DD.[Date]
 	, DD.DateID
 	, P.Name PersonName
@@ -12,7 +13,7 @@ select
 		WHEN DD.[Date] < CRC.ReportDueDate THEN 'Deadline'
 		WHEN DD.[Date] = CRC.ReportDueDate THEN 'Due'
 		END
-, HighlightLevel = CASE 
+, Value = CASE 
 		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 1 
 		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 2
 		WHEN DD.[Date] < CRC.ReportDueDate THEN 4

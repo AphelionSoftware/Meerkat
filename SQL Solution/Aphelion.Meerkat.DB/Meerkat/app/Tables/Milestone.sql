@@ -11,7 +11,7 @@
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
     [ProjectID]       INT             NULL,
-    [BusinessKey]     NVARCHAR (400)  NOT NULL,
+    [BusinessKey]     NVARCHAR (4000) NOT NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
@@ -38,8 +38,8 @@
 
 
 
-
-
+GO
+EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
 
