@@ -1,20 +1,28 @@
 ﻿CREATE VIEW rpt.vwAllReportsByPeople
 AS
-select 
-	CR.Name CustomReportName
+select TOP 2147483647 
+	CR.Name + ' work by ' + P.Name AS Name 
+	, CR.Name CustomReportName
 	, CRC.ReportDueDate
 	, CRRP.isPrimary
 	, DD.[Date]
 	, DD.DateID
 	, P.Name PersonName
-	, CR.Name + ' due by ' + P.Name + ' on ' + convert(varchar(255),ReportDueDate, 102) As Label
+	, CR.Name + ' due by ' + P.Name + ' on ' + convert(varchar(255),ReportDueDate, 102) + ' , in ' +
+	CASE 
+		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 'Notice' 
+		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 'Warning'
+		WHEN DD.[Date] < CRC.ReportDueDate THEN 'Deadline'
+		WHEN DD.[Date] = CRC.ReportDueDate THEN 'Due'
+		END + ' period'
+	 As Label
 	, HighlightType = CASE 
 		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 'Notice' 
 		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 'Warning'
 		WHEN DD.[Date] < CRC.ReportDueDate THEN 'Deadline'
 		WHEN DD.[Date] = CRC.ReportDueDate THEN 'Due'
 		END
-, HighlightLevel = CASE 
+, Value = CASE 
 		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 1 
 		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 2
 		WHEN DD.[Date] < CRC.ReportDueDate THEN 4
@@ -35,3 +43,4 @@ LEFT JOIN rpt.CustomReport_ResponsiblePerson CRRP
 INNER JOIN Core.DimDate DD
 ON DD.Date BETWEEN CRC.ReportNoticeStartDate  AND CRC.ReportDueDate
 WHERE Year(ReportDueDate) >= year(getdate())
+ORDER BY P.Name, CR.Name, DateID

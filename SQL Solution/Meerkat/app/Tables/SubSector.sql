@@ -19,10 +19,16 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'Indicator', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ShortName';
 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
 
