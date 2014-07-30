@@ -1,693 +1,224 @@
-﻿<?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
-  DTS:refId="Package"
-  DTS:CreationDate="5/26/2014 12:23:59 PM"
-  DTS:CreationName="SSIS.Package.3"
-  DTS:CreatorComputerName="SERVER2012"
-  DTS:CreatorName="gjs"
-  DTS:DTSID="{EF1C2DF2-CC0E-4BFE-A339-1FDB4D3AE65D}"
-  DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3402.0"
-  DTS:LocaleID="1033"
-  DTS:ObjectName="ExcelLoad_Staging_StrategicElement"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{2A3CEEE8-B894-4BE7-A16B-38661AE60A2E}"
-  DTS:VersionMajor="0">
-  <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="07/30/2014 17:58:01" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-M6700" DTS:CreatorName="administrator" DTS:DTSID="{2BA25315-4962-498C-8FBA-4256B0D231A8}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="7177" DTS:ObjectName="ExcelLoad_Staging_StrategicElement" DTS:ProtectionLevel="0" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{95E1E408-55B2-421B-BA0B-D4244A5762CB}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{4B986270-8412-4D51-90B4-8B4AEF235501}"
-      DTS:ObjectName="MeerkatStagingBIML">
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{35D255FA-4707-423D-9B4F-21CB10919084}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
       <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
-  <DTS:Variables />
   <DTS:Executables>
-    <DTS:Executable
-      DTS:refId="Package\DFT_Load Staging_StrategicElement"
-      DTS:CreationName="SSIS.Pipeline.3"
-      DTS:DTSID="{772D51F1-1C5C-4964-8FD3-8C53DCE17EC3}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="DFT_Load Staging_StrategicElement"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{3DE1AA03-4F0D-4426-ADDB-6AB6FC4A5F97}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_StrategicElement" DTS:refId="Package\SQL_Truncate Staging_StrategicElement" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:ObjectData>
-        <pipeline
-          BLOBTempStoragePath=""
-          bufferTempStoragePath=""
-          version="1">
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[StrategicElement]&#xA;    /*&#xA;    'Excel 12.0;Database=&quot;@[$Project::strStagingTemplatePath]Staging.StrategicElement.xlsx'&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{DACD2E74-DD43-4DB3-BEAC-9881F3799469}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_StrategicElement" DTS:refId="Package\DFT_Load Staging_StrategicElement" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
           <components>
-            <component
-              refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx"
-              componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              name="DCNV_Staging_StrategicElement_xlsx"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]"
-                  name="OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[StrategicElement_ID]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="StrategicElement_ID"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[Code]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Code"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[Name]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Name"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[BusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="BusinessKey"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output]"
-                  exclusionGroup="1"
-                  name="Output"
-                  synchronousInputId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]"
-                      name="StrategicElement_ID"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="50"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]"
-                      name="Code"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]"
-                      name="Name"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="4000"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      name="BusinessKey"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Error"
-                  synchronousInputId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement"
-              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
-              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              name="OLE_DST_Staging_StrategicElement"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Staging].[StrategicElement]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_StrategicElement_xlsx" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
               <connections>
-                <connection
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
+                <connection connectionManagerID="{35D255FA-4707-423D-9B4F-21CB10919084}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Connections[OleDbConnection]">
+                </connection>
               </connections>
-              <inputs>
-                <input
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]"
-                  errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[StrategicElement_ID]"
-                      cachedDataType="i4"
-                      cachedName="StrategicElement_ID"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[StrategicElement_ID]"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[Code]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="50"
-                      cachedName="Code"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Code]"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[Name]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="255"
-                      cachedName="Name"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Name]"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[BusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="4000"
-                      cachedName="BusinessKey"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[BusinessKey]"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[StrategicElement_ID]"
-                      dataType="i4"
-                      name="StrategicElement_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Code]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      name="Code" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      name="Name" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[BusinessKey]"
-                      dataType="wstr"
-                      length="4000"
-                      name="BusinessKey" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
               <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Error"
-                  synchronousInputId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]">
+                <output name="Output" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="StrategicElement_ID" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[StrategicElement_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Code" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Name" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Name]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
                   <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[StrategicElement_ID]" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" name="StrategicElement_ID" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[BusinessKey]" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Code]" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Name]" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
                   </outputColumns>
-                  <externalMetadataColumns />
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[StrategicElement_ID]" name="StrategicElement_ID" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[StrategicElement_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[BusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Code]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Name]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
                 </output>
               </outputs>
-            </component>
-            <component
-              refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx"
-              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              name="OLE_SRC_Staging_StrategicElement_xlsx"
-              usesDispositions="true"
-              validateExternalMetadata="False"
-              version="7">
               <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset"></property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT *
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
                 FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
-                               , 'Excel 12.0;Database=E:\Aphelion\Aphelion\Meerkat\StagingTemplates\InProcess\Staging.StrategicElement.xlsx'
+                               , 'Excel 12.0;Database=D:\Dropbox (PW South Africa)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.StrategicElement.xlsx'
                                , 'select * from [Sheet1$A2:XFD]'
-                               )</property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">2</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
+                               )
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
               </properties>
-              <connections>
-                <connection
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output]"
-                  name="Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[StrategicElement_ID]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]"
-                      name="StrategicElement_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[BusinessKey]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      name="BusinessKey"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Code]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]"
-                      name="Code"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Name]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]"
-                      name="Name"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[StrategicElement_ID]"
-                      dataType="wstr"
-                      length="255"
-                      name="StrategicElement_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[BusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      name="BusinessKey" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Code]"
-                      dataType="wstr"
-                      length="255"
-                      name="Code" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].ExternalColumns[Name]"
-                      dataType="wstr"
-                      length="255"
-                      name="Name" />
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_StrategicElement_xlsx" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]">
+                  <externalMetadataColumns>
                   </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error]"
-                  isErrorOut="true"
-                  name="Error">
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="StrategicElement_ID" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[StrategicElement_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="BusinessKey" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Code" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Name" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx].Columns[Name]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
                   <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[StrategicElement_ID]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[StrategicElement_ID]"
-                      name="StrategicElement_ID" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[BusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[BusinessKey]"
-                      name="BusinessKey" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Code]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Code]"
-                      name="Code" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Name]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[Name]"
-                      name="Name" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" name="StrategicElement_ID" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="4000" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
-                  <externalMetadataColumns />
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
                 </output>
               </outputs>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_StrategicElement" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{35D255FA-4707-423D-9B4F-21CB10919084}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="StrategicElement_ID" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[StrategicElement_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="4000" name="BusinessKey" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="Code" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="Name" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Name]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="StrategicElement_ID" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[StrategicElement_ID]" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[StrategicElement_ID]" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[StrategicElement_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="4000" cachedName="BusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[BusinessKey]" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="Code" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Code]" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="Name" externalMetadataColumnId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].ExternalColumns[Name]" lineageId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output].Columns[Name]" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement].Columns[Name]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[StrategicElement]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
             </component>
           </components>
           <paths>
-            <path
-              refId="Package\DFT_Load Staging_StrategicElement.Paths[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]"
-              endId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]"
-              name="DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement"
-              startId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output]" />
-            <path
-              refId="Package\DFT_Load Staging_StrategicElement.Paths[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]"
-              endId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]"
-              name="OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx"
-              startId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output]" />
+            <path endId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Inputs[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]" name="OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx" refId="Package\DFT_Load Staging_StrategicElement.Paths[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]" startId="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement.Inputs[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]" name="DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement" refId="Package\DFT_Load Staging_StrategicElement.Paths[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]" startId="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx.Outputs[Output]">
+            </path>
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\SQL_Truncate Staging_StrategicElement"
-      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-      DTS:DTSID="{8561DF02-068F-4E7C-8DBF-BF9CFA0B832D}"
-      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="SQL_Truncate Staging_StrategicElement"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{4B986270-8412-4D51-90B4-8B4AEF235501}"
-          SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[StrategicElement]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_StrategicElement_To_DFT_Load Staging_StrategicElement]"
-      DTS:CreationName=""
-      DTS:DTSID="{D09793B9-12D7-4109-A78D-29135718D724}"
-      DTS:From="Package\SQL_Truncate Staging_StrategicElement"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint_SQL_Truncate Staging_StrategicElement_To_DFT_Load Staging_StrategicElement"
-      DTS:To="Package\DFT_Load Staging_StrategicElement" />
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{0C35516F-02C8-4122-9E6C-359543FAE943}" DTS:From="Package\SQL_Truncate Staging_StrategicElement" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_StrategicElement_To_DFT_Load Staging_StrategicElement" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_StrategicElement_To_DFT_Load Staging_StrategicElement]" DTS:To="Package\DFT_Load Staging_StrategicElement">
+    </DTS:PrecedenceConstraint>
   </DTS:PrecedenceConstraints>
-  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
-<Objects
-  Version="sql11">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
-  <Package
-    design-time-name="Package">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="250,42"
-          Id="Package\DFT_Load Staging_StrategicElement"
-          TopLeft="15,107.5" />
-        <NodeLayout
-          Size="269,42"
-          Id="Package\SQL_Truncate Staging_StrategicElement"
-          TopLeft="5.5,5.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_StrategicElement_To_DFT_Load Staging_StrategicElement]"
-          TopLeft="140,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </Package>
-  <TaskHost
-    design-time-name="Package\DFT_Load Staging_StrategicElement">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="250,42"
-          Id="Package\DFT_Load Staging_StrategicElement\OLE_DST_Staging_StrategicElement"
-          TopLeft="17,209.5" />
-        <NodeLayout
-          Size="273,42"
-          Id="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="256,42"
-          Id="Package\DFT_Load Staging_StrategicElement\DCNV_Staging_StrategicElement_xlsx"
-          TopLeft="14,107.5" />
-        <EdgeLayout
-          Id="Package\DFT_Load Staging_StrategicElement.Paths[OLE_SRC_Staging_StrategicElement_xlsx_Output_DCNV_Staging_StrategicElement_xlsx]"
-          TopLeft="142,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\DFT_Load Staging_StrategicElement.Paths[DCNV_Staging_StrategicElement_xlsx_Output_OLE_DST_Staging_StrategicElement]"
-          TopLeft="142,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\DFT_Load Staging_StrategicElement\OLE_SRC_Staging_StrategicElement_xlsx">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-</Objects>]]></DTS:DesignTimeProperties>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
 </DTS:Executable>

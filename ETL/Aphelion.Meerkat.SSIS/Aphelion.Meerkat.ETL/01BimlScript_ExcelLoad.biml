@@ -6,14 +6,28 @@ Regenerate SSIS packages
 <#@ import namespace="Varigence.Hadron.CoreLowerer.SchemaManagement" #>
 <# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var tables = connection.GenerateTableNodes(); #>
-<# string SourceDir = "D:\\Dropbox (PW South Africa)\\Clients\\Meerkat\\CARE Somalia\\Data\\StagingTemplates\\InProcess"; #>
+<# string SourceDir = "D:\\Dropbox (PW South Africa)\\Clients\\Meerkat\\CARE Somalia\\Data\\StagingTemplates\\InProcess\\"; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
-    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
   </Connections>
+  <PackageProjects>
+    <PackageProject Name="Aphelion.Meerkat.ETL">
+      <Parameters>
+        <Parameter Name="strStagingTemplatePath" DataType="String"><#=SourceDir#></Parameter>
+      </Parameters>
+      <Packages>
+	  <# foreach (var table in tables) { #>
+        <Package PackageName="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" />
+		<# } #>
+      </Packages>
+	   
+    </PackageProject>
+  </PackageProjects>
+
   <Packages>
   <# foreach (var table in tables) { #>
-    <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+    <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="DontSaveSensitive">
       <Annotations>
         <Annotation>
           Excel Driver Setup
@@ -35,9 +49,13 @@ Regenerate SSIS packages
       </Annotations>
       <Tasks>
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
-          <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]</DirectInput>
+          <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]
+		  /*
+		  'Excel 12.0;Database="@[$Project::strStagingTemplatePath]<#=table.SchemaName#>.<#=table.Name#>.xlsx'
+		  */
+		  </DirectInput>
         </ExecuteSQL>
-        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+		        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
             <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStagingBIML" ValidateExternalMetadata="0">
               <DirectInput>
