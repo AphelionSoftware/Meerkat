@@ -222,7 +222,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
 
 
     //Default Actual label to actual value 
-    /*var actualValueField = screen.findContentItem("ActualValue");
+    var actualValueField = screen.findContentItem("ActualValue");
     var actualLabelField = screen.findContentItem("ActualLabel");
     actualValueField.dataBind("value", function () {
         if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
@@ -235,7 +235,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
                 actualLabelField.stringValue = actualValueField.stringValue;
             }
         }
-    });*/
+    });
 
     
 
