@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="07/30/2014 17:57:45" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-M6700" DTS:CreatorName="administrator" DTS:DTSID="{73E77C9D-BD5E-483C-9B70-967C9A3BD14F}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="7177" DTS:ObjectName="ExcelLoad_Staging_DonorReport_Indicator" DTS:ProtectionLevel="0" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{9CE9E059-1F7D-425E-AE99-7259B3F55A24}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{DC54A768-50FB-44D3-9842-18E5F78A5CDF}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{D3B6AE59-B061-44A7-99A0-287366E5BF30}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_DonorReport_Indicator" DTS:refId="Package\SQL_Truncate Staging_DonorReport_Indicator" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[DonorReport_Indicator]&#xA;    /*&#xA;    'Excel 12.0;Database=&quot;@[$Project::strStagingTemplatePath]Staging.DonorReport_Indicator.xlsx'&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{E3DD2D2D-5294-4A30-87A7-061AE1C763D0}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_DonorReport_Indicator" DTS:refId="Package\DFT_Load Staging_DonorReport_Indicator" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_DonorReport_Indicator_xlsx" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
+              <connections>
+                <connection connectionManagerID="{DC54A768-50FB-44D3-9842-18E5F78A5CDF}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="DonorReport_Indicator_ID" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="DonorReportBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[DonorReportBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="IndicatorBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[DonorReport_Indicator_ID]" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" name="DonorReport_Indicator_ID" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[DonorReportBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" name="DonorReportBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" name="IndicatorBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[DonorReport_Indicator_ID]" name="DonorReport_Indicator_ID" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[DonorReport_Indicator_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[DonorReportBusinessKey]" name="DonorReportBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[DonorReportBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[IndicatorBusinessKey]" name="IndicatorBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[IndicatorBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database=D:\Dropbox (PW South Africa)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.DonorReport_Indicator.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_DonorReport_Indicator_xlsx" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="DonorReport_Indicator_ID" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx].Columns[DonorReport_Indicator_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="DonorReportBusinessKey" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx].Columns[DonorReportBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="IndicatorBusinessKey" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx].Columns[IndicatorBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" name="DonorReport_Indicator_ID" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="4000" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" name="DonorReportBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="4000" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" name="IndicatorBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_DonorReport_Indicator" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{DC54A768-50FB-44D3-9842-18E5F78A5CDF}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="DonorReport_Indicator_ID" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="4000" name="DonorReportBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[DonorReportBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="4000" name="IndicatorBusinessKey" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[IndicatorBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReport_Indicator_ID" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReport_Indicator_ID]" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].Columns[DonorReport_Indicator_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="4000" cachedName="DonorReportBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[DonorReportBusinessKey]" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[DonorReportBusinessKey]" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].Columns[DonorReportBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="4000" cachedName="IndicatorBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].ExternalColumns[IndicatorBusinessKey]" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output].Columns[IndicatorBusinessKey]" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator].Columns[IndicatorBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[DonorReport_Indicator]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Inputs[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx]" name="OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx" refId="Package\DFT_Load Staging_DonorReport_Indicator.Paths[OLE_SRC_Staging_DonorReport_Indicator_xlsx_Output_DCNV_Staging_DonorReport_Indicator_xlsx]" startId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_DonorReport_Indicator\OLE_DST_Staging_DonorReport_Indicator.Inputs[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator]" name="DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator" refId="Package\DFT_Load Staging_DonorReport_Indicator.Paths[DCNV_Staging_DonorReport_Indicator_xlsx_Output_OLE_DST_Staging_DonorReport_Indicator]" startId="Package\DFT_Load Staging_DonorReport_Indicator\DCNV_Staging_DonorReport_Indicator_xlsx.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{FDF0774D-7202-4A88-9C8B-E55D95B453DE}" DTS:From="Package\SQL_Truncate Staging_DonorReport_Indicator" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_DonorReport_Indicator_To_DFT_Load Staging_DonorReport_Indicator" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_DonorReport_Indicator_To_DFT_Load Staging_DonorReport_Indicator]" DTS:To="Package\DFT_Load Staging_DonorReport_Indicator">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+</DTS:Executable>
