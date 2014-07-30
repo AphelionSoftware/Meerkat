@@ -7,11 +7,12 @@
   DTS:CreatorName="gjs"
   DTS:DTSID="{22559007-59D8-40CC-8947-6AC6F7727440}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3402.0"
+  DTS:LastModifiedProductVersion="11.0.3393.0"
   DTS:LocaleID="1033"
   DTS:ObjectName="400_GenerateAttendanceRegister"
-  DTS:VersionBuild="72"
-  DTS:VersionGUID="{91EE2ADE-7E78-450B-B4A5-E6D21D34CA15}"
+  DTS:ProtectionLevel="2"
+  DTS:VersionBuild="74"
+  DTS:VersionGUID="{09B3F5A8-5E6B-4090-A583-129229AEDFD7}"
   DTS:VersionMajor="0">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
@@ -38,6 +39,15 @@
       DTS:ObjectName="intEventID">
       <DTS:VariableValue
         DTS:DataType="3">6</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D087DCAD-7A29-4E45-B7F4-2C01AFCDA0FD}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="intFormID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -147,18 +157,18 @@
       DTS:ObjectName="strSQL">
       <DTS:VariableValue
         DTS:DataType="8">SELECT F.TextDescription + '- ' + F.Code Column1, '' AS Column2, 0 AS CategoryOrder, 0 AS QuestionOrder, 0 AS LayoutOrder
-FROM forms.Form F WHERE F.Form_ID = 6
+FROM forms.Form F WHERE F.Form_ID = 0
 UNION ALL
 SELECT C.Code + ': ' + C.Name, '', C.CategoryOrder, 0, 1
 FROM forms.Form F
 JOIN forms.Category C ON F.Form_ID = C.Form_ID
-WHERE F.Form_ID = 6
+WHERE F.Form_ID = 0
 UNION ALL
 SELECT Q.Code, Q.TextDescription, C.CategoryOrder, Q.QuestionOrder, 2
 FROM forms.Form F
 JOIN forms.Category C ON F.Form_ID = C.Form_ID
 JOIN forms.Question Q ON C.Category_ID = Q.Category_ID
-WHERE F.Form_ID = 6
+WHERE F.Form_ID = 0
 UNION ALL
 SELECT ''
      , 'Codes for ' + Q.Code + ':' + STUFF((SELECT ', ' + SP.Code + ' = ' + SP.Name
@@ -173,7 +183,7 @@ FROM forms.Form F
 JOIN forms.Category C ON F.Form_ID = C.Form_ID
 JOIN forms.Question Q ON C.Category_ID = Q.Category_ID
 JOIN forms.PotentialResponse P ON Q.Question_ID = P.Question_ID
-WHERE F.Form_ID = 6
+WHERE F.Form_ID = 0
 GROUP BY P.Question_ID, Q.Code, C.CategoryOrder, Q.QuestionOrder
 ORDER BY CategoryOrder, QuestionOrder, LayoutOrder</DTS:VariableValue>
     </DTS:Variable>
