@@ -2,7 +2,7 @@
 /// <reference path="LightSwitchTools.js" />
 
 myapp.AddEditMilestone.Milestone_Delete_execute = function (screen) {
-    msls.application.lightswitchTools.deleteEntity(screen.Milestone);
+    msls.application.lightswitchTools.deleteEntity(screen);
 };
 
 myapp.AddEditMilestone.Milestone_Delete_canExecute = function (screen) {

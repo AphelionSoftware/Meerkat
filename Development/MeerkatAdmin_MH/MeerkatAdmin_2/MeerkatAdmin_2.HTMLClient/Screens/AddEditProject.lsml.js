@@ -30,3 +30,18 @@ myapp.AddEditProject.SearchOutcomesTap_execute = function (screen) {
     screen.Project.Outcome = screen.Outcomes.selectedItem;
     screen.closePopup();
 };
+myapp.AddEditProject.SearchProgrammesTap_execute = function (screen) {
+    // Write code here.
+    screen.Project.Programme = screen.Programmes.selectedItem;
+    screen.closePopup();
+};
+myapp.AddEditProject.SearchSectorsTap_execute = function (screen) {
+    // Write code here.
+    screen.Project.Sector = screen.Sectors.selectedItem;
+    screen.closePopup();
+};
+myapp.AddEditProject.SearchSubSectorsTap_execute = function (screen) {
+    // Write code here.
+    screen.Project.SubSector = screen.SubSectors.selectedItem;
+    screen.closePopup();
+};
