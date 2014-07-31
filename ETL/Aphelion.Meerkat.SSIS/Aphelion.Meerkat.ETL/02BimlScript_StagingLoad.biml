@@ -6,16 +6,19 @@ Regenerate SSIS packages
 <# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\SQL2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestSchema = DestConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
-<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
-<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%'").Rows.OfType<System.Data.DataRow>
+	().Select(r => r[0].ToString()); #>
+
+	<Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatBIML" ConnectionString="Data Source=.\SQL2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+
   </Connections>
   <Packages>
   <!--only generate for destination tables that have a corresponding staging table-->
   <# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) { #>
-    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="DontSaveSensitive">
+    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithPassword">
       <Tasks>
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
