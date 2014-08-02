@@ -263,7 +263,7 @@ function calendarbyUrl(contentItem, url) {
             }
                             )
         ;
-
+        /*
         var text = svgKey.selectAll(".txt")
             .data(d3.keys(domain))
           .enter().append("text")
@@ -281,7 +281,7 @@ function calendarbyUrl(contentItem, url) {
                 }
             )
         ;
-
+        */
         rect.append("title")
         .text(function (d) { return d; });
 
