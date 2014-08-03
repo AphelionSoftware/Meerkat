@@ -3,17 +3,16 @@ as
 SELECT 
 	[PeopleReachedValues].[PeopleReachedValuesID] 
 	,CASE
-		 WHEN [Activity].[BusinessKey]  IS NOT NULL THEN 'Activity'
-		 WHEN [Outcome].[BusinessKey]  IS NOT NULL THEN 'Outcome'
-		 WHEN [Output].[BusinessKey]  IS NOT NULL THEN 'Output'
-		 WHEN [Programme].[BusinessKey]  IS NOT NULL THEN 'Programme'
-		 WHEN [Project].[BusinessKey]  IS NOT NULL THEN 'Project'
-		 WHEN [Sector].[BusinessKey]  IS NOT NULL THEN 'Sector'
-		 WHEN [StatusType].[BusinessKey]  IS NOT NULL THEN 'StatusType'
-		 WHEN [StrategicElement].[BusinessKey]  IS NOT NULL THEN 'StrategicElement'
-		 WHEN [SubOutput].[BusinessKey]  IS NOT NULL THEN 'SubOutput'
-		 WHEN [SubSector].[BusinessKey]  IS NOT NULL THEN 'SubSector'
+		 WHEN [Activity].[BusinessKey]  IS NOT NULL THEN 'ACT'
+		 WHEN [Outcome].[BusinessKey]  IS NOT NULL THEN 'OM'
+		 WHEN [Output].[BusinessKey]  IS NOT NULL THEN 'OT{'
+		 WHEN [Programme].[BusinessKey]  IS NOT NULL THEN 'PROG'
+		 WHEN [Project].[BusinessKey]  IS NOT NULL THEN 'PRJ'
+		 WHEN [Sector].[BusinessKey]  IS NOT NULL THEN 'SEC'
+		 WHEN [SubOutput].[BusinessKey]  IS NOT NULL THEN 'SO'
+		 WHEN [SubSector].[BusinessKey]  IS NOT NULL THEN 'SS'
 	END AS KeyType
+	,[LocationType].Code AS LocationTypeCode
 	, COALESCE([Activity].[BusinessKey] 
 , [Outcome].[BusinessKey] 
 , [Output].[BusinessKey] 
@@ -39,10 +38,10 @@ SELECT
 	, [Gender].[Name] AS Gender_Name
 	, [Group].[Name] AS Group_Name
 	, [Institution].[Name] AS Institution_Name
-	, [Location].[Name] AS Location_Name
+	, UPPER([Location].[Name]) AS Location_Name
 	, [ResultArea].[Name] AS ResultArea_Name
 	, [StrategicElement].[Name] AS StrategicElement_Name
-
+	, NumberReached
 FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
 
  LEFT JOIN [app].[Activity] 
@@ -75,9 +74,6 @@ FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
  LEFT JOIN [disagg].[Institution] 
 	ON PeopleReachedValues.Institution_ID = 
 	Institution.Institution_ID
- LEFT JOIN [Core].[Location] 
-	ON PeopleReachedValues.Location_ID = 
-	Location.Location_ID
  LEFT JOIN [app].[Outcome] 
 	ON PeopleReachedValues.Outcome_ID = 
 	Outcome.Outcome_ID
@@ -114,3 +110,9 @@ FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
 
 JOIN [core].ReportingPeriod RP
 	ON PeopleReachedValues.ReportingPeriod_ID = RP.ID
+
+JOIN [Core].[Location] 
+	ON PeopleReachedValues.Location_ID = 	Location.Location_ID
+
+JOIN [Core].[LocationType] 
+	ON [Location].LocationType_ID = [LocationType].[LocationType_ID]
