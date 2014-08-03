@@ -17,12 +17,34 @@ function mapCharts(mapElement, url, mapURL) {
             return;
         }
         var data = crossfilter(jsonData.value);
+
+        var domain = d3.nest()
+            .key(function (d) { return d.Location_Name; })
+            .rollup(function(d) { 
+                return d3.sum(d, function(g) {return g.NumberReached; });
+            })
+            .map(jsonData.value);
+
+        var min = 0, max = 0;
+
+        max = d3.max(d3.values(domain));
+        min = d3.min(d3.values(domain));
+        /*Setting up colors*/
+        var color2 = d3.scale.ordinal()
+            .domain(domain)
+            .range(colorbrewer.Paired[20]);
+
+
         var locations = data.dimension(function (d) {
             return d["Location_Name"];
         });
 
+        
         var numberReached = locations.group().reduceSum(function (d) {
             if (d["NumberReached"]) {
+                /*if (d["NumberReached"] < min) min = d["NumberReached"];
+                if (d["NumberReached"] > max) max = d["NumberReached"];
+                */
                 return d["NumberReached"];
             } else {
                 return 0;
@@ -96,7 +118,7 @@ function mapCharts(mapElement, url, mapURL) {
                     .dimension(locations)
                     .group(numberReached)
                     .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-                    .colorDomain([0, 200])
+                    .colorDomain([min, max])
                     .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#aaa'; })
                     .overlayGeoJson(locJSON.features, "location", function (d) {
                         if (d.properties.Location_Name) {
@@ -115,7 +137,7 @@ function mapCharts(mapElement, url, mapURL) {
                         }
                     })
                     .title(function (d) {
-                        return "Location: " /*+ d.key + "\nTotal Amount Raised: " + numberFormat(d.value ? d.value : 0) + "M"*/;
+                        return "Location: " + d.key  + numberFormat(d.value ? d.value : 0) ;
                     });
             dc.renderAll();
         });
