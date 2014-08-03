@@ -38,7 +38,8 @@ SELECT
 	, [Gender].[Name] AS Gender_Name
 	, [Group].[Name] AS Group_Name
 	, [Institution].[Name] AS Institution_Name
-	, UPPER([Location].[Name]) AS Location_Name
+	, [Location].[Name] AS Location_Name
+	, [Location].[BusinessKey] AS Location_BusinessKey
 	, [ResultArea].[Name] AS ResultArea_Name
 	, [StrategicElement].[Name] AS StrategicElement_Name
 	, NumberReached
@@ -116,3 +117,4 @@ JOIN [Core].[Location]
 
 JOIN [Core].[LocationType] 
 	ON [Location].LocationType_ID = [LocationType].[LocationType_ID]
+ 
