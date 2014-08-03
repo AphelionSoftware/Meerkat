@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="07/31/2014 12:51:09" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="CARER02" DTS:CreatorName="spinstall" DTS:DTSID="{7B9F0B99-1AE8-4AE1-8296-A991003293EB}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="1033" DTS:ObjectName="ExcelLoad_Staging_Impact" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{99137E46-DDD4-4C88-8C6F-10AA6A02427C}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{31AADA9C-ACDF-44C0-9D91-97161AEBED7F}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{030502F1-272A-4040-9660-C9AD2B95840B}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_Impact" DTS:refId="Package\SQL_Truncate Staging_Impact" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[Impact]&#xA;    /*&#xA;    'Excel 12.0;Database=&quot;@[$Project::strStagingTemplatePath]Staging.Impact.xlsx'&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{1D008A80-707B-4048-99AA-E9E8079827BA}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_Impact" DTS:refId="Package\DFT_Load Staging_Impact" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_Impact_xlsx" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
+              <connections>
+                <connection connectionManagerID="{31AADA9C-ACDF-44C0-9D91-97161AEBED7F}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="Impact_ID" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[Impact_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Code" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ImpactSiteName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[ImpactSiteName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="LongName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[LongName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ShortName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[ShortName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="TextDescription" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[TextDescription]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="DataVersionBusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[DataVersionBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[Impact_ID]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" name="Impact_ID" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[BusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[Code]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[ImpactSiteName]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" name="ImpactSiteName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[LongName]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[ShortName]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[TextDescription]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].ExternalColumns[DataVersionBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" name="DataVersionBusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[Impact_ID]" name="Impact_ID" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[Impact_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[BusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[Code]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ImpactSiteName]" name="ImpactSiteName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ImpactSiteName]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[LongName]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ShortName]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[TextDescription]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[DataVersionBusinessKey]" name="DataVersionBusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[DataVersionBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database=C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Impact.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_Impact_xlsx" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Impact_ID" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[Impact_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="BusinessKey" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Code" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ImpactSiteName" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[ImpactSiteName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="LongName" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[LongName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ShortName" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[ShortName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="TextDescription" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[TextDescription]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="DataVersionBusinessKey" lineageId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx].Columns[DataVersionBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" name="Impact_ID" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="4000" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[Code]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" name="ImpactSiteName" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="500" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="nText" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="4000" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" name="DataVersionBusinessKey" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_Impact" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{31AADA9C-ACDF-44C0-9D91-97161AEBED7F}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Impact_ID" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[Impact_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="4000" name="BusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="Code" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="50" name="ImpactSiteName" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[ImpactSiteName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="500" name="LongName" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[LongName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="50" name="ShortName" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[ShortName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="nText" name="TextDescription" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[TextDescription]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="4000" name="DataVersionBusinessKey" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[DataVersionBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="Impact_ID" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[Impact_ID]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Impact_ID]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[Impact_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="4000" cachedName="BusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[BusinessKey]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="Code" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[Code]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="50" cachedName="ImpactSiteName" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[ImpactSiteName]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ImpactSiteName]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[ImpactSiteName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="500" cachedName="LongName" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[LongName]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[LongName]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[LongName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="50" cachedName="ShortName" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[ShortName]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[ShortName]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[ShortName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="nText" cachedName="TextDescription" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[TextDescription]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[TextDescription]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[TextDescription]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="4000" cachedName="DataVersionBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].ExternalColumns[DataVersionBusinessKey]" lineageId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output].Columns[DataVersionBusinessKey]" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact].Columns[DataVersionBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[Impact]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Inputs[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx]" name="OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx" refId="Package\DFT_Load Staging_Impact.Paths[OLE_SRC_Staging_Impact_xlsx_Output_DCNV_Staging_Impact_xlsx]" startId="Package\DFT_Load Staging_Impact\OLE_SRC_Staging_Impact_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_Impact\OLE_DST_Staging_Impact.Inputs[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact]" name="DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact" refId="Package\DFT_Load Staging_Impact.Paths[DCNV_Staging_Impact_xlsx_Output_OLE_DST_Staging_Impact]" startId="Package\DFT_Load Staging_Impact\DCNV_Staging_Impact_xlsx.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{F149DAFB-6A2B-445C-95F8-C04E16001E72}" DTS:From="Package\SQL_Truncate Staging_Impact" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_Impact_To_DFT_Load Staging_Impact" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_Impact_To_DFT_Load Staging_Impact]" DTS:To="Package\DFT_Load Staging_Impact">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+</DTS:Executable>
