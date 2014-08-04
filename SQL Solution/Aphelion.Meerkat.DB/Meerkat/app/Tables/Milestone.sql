@@ -11,7 +11,7 @@
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
     [ProjectID]       INT             NULL,
-    [BusinessKey]     NVARCHAR (4000) NOT NULL,
+    [BusinessKey]     NVARCHAR (400)  NOT NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
@@ -32,6 +32,8 @@
     CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

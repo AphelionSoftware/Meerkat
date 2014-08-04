@@ -1,982 +1,314 @@
-﻿<?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
-  DTS:refId="Package"
-  DTS:CreationDate="7/31/2014 12:51:12 PM"
-  DTS:CreationName="SSIS.Package.3"
-  DTS:CreatorComputerName="CARER02"
-  DTS:CreatorName="spinstall"
-  DTS:DTSID="{8C609481-B154-40EF-A51B-389D5BE23E1C}"
-  DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.2100.60"
-  DTS:LocaleID="1033"
-  DTS:ObjectName="ExcelLoad_Staging_Location"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{2F17793C-E7BF-430D-B55E-BD78F13297A7}"
-  DTS:VersionMajor="0">
-  <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="08/04/2014 08:56:45" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-M6700" DTS:CreatorName="administrator" DTS:DTSID="{04201984-7DF9-4B0F-A062-B3962EF005B9}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="7177" DTS:ObjectName="ExcelLoad_Staging_Location" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{4410E302-75E6-440A-A5CF-CB1A33E9F3CB}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{E0075F53-8656-4017-BFB9-C82C3462FC86}"
-      DTS:ObjectName="MeerkatStagingBIML">
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{0B41B4F8-BD6E-417E-ACFF-C6B6A0F13665}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
       <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
-  <DTS:Variables />
   <DTS:Executables>
-    <DTS:Executable
-      DTS:refId="Package\DFT_Load Staging_Location"
-      DTS:CreationName="SSIS.Pipeline.3"
-      DTS:DTSID="{328A6259-45CC-4AA6-A299-42BC6FEC58BE}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="DFT_Load Staging_Location"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{03A6D951-441D-4547-AE1A-2D68EF3EBD39}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_Location" DTS:refId="Package\SQL_Truncate Staging_Location" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:ObjectData>
-        <pipeline
-          BLOBTempStoragePath=""
-          bufferTempStoragePath=""
-          version="1">
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[Location]&#xA;    /*&#xA;     SELECT *&#xA;                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                               , 'Excel 12.0;Database=C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Location.xlsx'&#xA;                               , 'select * from [Sheet1$A2:XFD]'&#xA;                               )&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{51157DC8-E326-4865-8AD5-860BDF0CC1EC}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_Location" DTS:refId="Package\DFT_Load Staging_Location" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
           <components>
-            <component
-              refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx"
-              componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              name="DCNV_Staging_Location_xlsx"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]"
-                  name="OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Location_ID]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Location_ID"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[AreaKM]"
-                      cachedDataType="r8"
-                      cachedName="AreaKM"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[BusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="BusinessKey"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Code]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Code"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Density]"
-                      cachedDataType="r8"
-                      cachedName="Density"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Name]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Name"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[ParentLocation_ID]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="ParentLocation_ID"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Population]"
-                      cachedDataType="r8"
-                      cachedName="Population"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[LocationTypeBusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="LocationTypeBusinessKey"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output]"
-                  exclusionGroup="1"
-                  name="Output"
-                  synchronousInputId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]"
-                      name="Location_ID"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]"
-                      dataType="numeric"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]"
-                      name="AreaKM"
-                      precision="18"
-                      scale="2"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="4000"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      name="BusinessKey"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="50"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]"
-                      name="Code"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Density]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="400"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Density]"
-                      name="Density"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]"
-                      name="Name"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]"
-                      name="ParentLocation_ID"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]"
-                      dataType="numeric"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]"
-                      name="Population"
-                      precision="18"
-                      scale="2"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="4000"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]"
-                      name="LocationTypeBusinessKey"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Error"
-                  synchronousInputId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location"
-              componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
-              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              name="OLE_DST_Staging_Location"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Staging].[Location]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_Location_xlsx" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
               <connections>
-                <connection
-                  refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
+                <connection connectionManagerID="{0B41B4F8-BD6E-417E-ACFF-C6B6A0F13665}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Connections[OleDbConnection]">
+                </connection>
               </connections>
-              <inputs>
-                <input
-                  refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]"
-                  errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Location_ID]"
-                      cachedDataType="i4"
-                      cachedName="Location_ID"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Location_ID]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[AreaKM]"
-                      cachedDataType="numeric"
-                      cachedName="AreaKM"
-                      cachedPrecision="18"
-                      cachedScale="2"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[AreaKM]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[BusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="4000"
-                      cachedName="BusinessKey"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[BusinessKey]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Code]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="50"
-                      cachedName="Code"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Code]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Name]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="255"
-                      cachedName="Name"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Name]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[ParentLocation_ID]"
-                      cachedDataType="i4"
-                      cachedName="ParentLocation_ID"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[ParentLocation_ID]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Population]"
-                      cachedDataType="numeric"
-                      cachedName="Population"
-                      cachedPrecision="18"
-                      cachedScale="2"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Population]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]" />
-                    <inputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[LocationTypeBusinessKey]"
-                      cachedDataType="wstr"
-                      cachedLength="4000"
-                      cachedName="LocationTypeBusinessKey"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[LocationTypeBusinessKey]"
-                      lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Location_ID]"
-                      dataType="i4"
-                      name="Location_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[AreaKM]"
-                      dataType="numeric"
-                      name="AreaKM"
-                      precision="18"
-                      scale="2" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[BusinessKey]"
-                      dataType="nText"
-                      name="BusinessKey" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Code]"
-                      codePage="1252"
-                      dataType="str"
-                      length="50"
-                      name="Code" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Density]"
-                      codePage="1252"
-                      dataType="text"
-                      name="Density" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      name="Name" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[ParentLocation_ID]"
-                      dataType="i4"
-                      name="ParentLocation_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Population]"
-                      dataType="numeric"
-                      name="Population"
-                      precision="18"
-                      scale="2" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[LocationTypeBusinessKey]"
-                      dataType="nText"
-                      name="LocationTypeBusinessKey" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
               <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Error"
-                  synchronousInputId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]">
+                <output name="Output" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="Location_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Location_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="r8" name="AreaKM" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[AreaKM]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Code" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="r8" name="Density" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Density]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Name" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Name]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ParentLocation_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[ParentLocation_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="r8" name="Population" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Population]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="LocationTypeBusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[LocationTypeBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
                   <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Location_ID]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" name="Location_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="r8" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[AreaKM]" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" name="AreaKM" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[BusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Code]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="r8" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Density]" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]" name="Density" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Name]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[ParentLocation_ID]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" name="ParentLocation_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="r8" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Population]" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]" name="Population" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[LocationTypeBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" name="LocationTypeBusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
                   </outputColumns>
-                  <externalMetadataColumns />
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Location_ID]" name="Location_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Location_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="r8" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[AreaKM]" name="AreaKM" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[AreaKM]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[BusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Code]">
+                    </outputColumn>
+                    <outputColumn dataType="r8" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Density]" name="Density" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Density]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Name]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ParentLocation_ID]" name="ParentLocation_ID" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ParentLocation_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="r8" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Population]" name="Population" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Population]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[LocationTypeBusinessKey]" name="LocationTypeBusinessKey" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[LocationTypeBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
                 </output>
               </outputs>
-            </component>
-            <component
-              refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx"
-              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              name="OLE_SRC_Staging_Location_xlsx"
-              usesDispositions="true"
-              validateExternalMetadata="False"
-              version="7">
               <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset"></property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
                 SELECT *
                 FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
-                               , 'Excel 12.0;Database=C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Location.xlsx'
+                               , 'Excel 12.0;Database=C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Location.xlsx'
                                , 'select * from [Sheet1$A2:XFD]'
                                )
               </property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">2</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
               </properties>
-              <connections>
-                <connection
-                  refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output]"
-                  name="Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Location_ID]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]"
-                      name="Location_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[AreaKM]"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]"
-                      name="AreaKM"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[BusinessKey]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]"
-                      name="BusinessKey"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Code]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]"
-                      name="Code"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Density]"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]"
-                      name="Density"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Name]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]"
-                      name="Name"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[ParentLocation_ID]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]"
-                      name="ParentLocation_ID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Population]"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]"
-                      name="Population"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[LocationTypeBusinessKey]"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]"
-                      name="LocationTypeBusinessKey"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Location_ID]"
-                      dataType="wstr"
-                      length="255"
-                      name="Location_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[AreaKM]"
-                      dataType="r8"
-                      name="AreaKM" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[BusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      name="BusinessKey" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Code]"
-                      dataType="wstr"
-                      length="255"
-                      name="Code" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Density]"
-                      dataType="r8"
-                      name="Density" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Name]"
-                      dataType="wstr"
-                      length="255"
-                      name="Name" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[ParentLocation_ID]"
-                      dataType="wstr"
-                      length="255"
-                      name="ParentLocation_ID" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[Population]"
-                      dataType="r8"
-                      name="Population" />
-                    <externalMetadataColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].ExternalColumns[LocationTypeBusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      name="LocationTypeBusinessKey" />
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_Location_xlsx" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]">
+                  <externalMetadataColumns>
                   </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error]"
-                  isErrorOut="true"
-                  name="Error">
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Location_ID" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Location_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="r8" cachedName="AreaKM" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[AreaKM]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="BusinessKey" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Code" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="r8" cachedName="Density" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Density]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Name" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Name]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ParentLocation_ID" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[ParentLocation_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="r8" cachedName="Population" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[Population]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="LocationTypeBusinessKey" lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx].Columns[LocationTypeBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
                   <outputColumns>
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Location_ID]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Location_ID]"
-                      name="Location_ID" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[AreaKM]"
-                      dataType="r8"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[AreaKM]"
-                      name="AreaKM" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[BusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[BusinessKey]"
-                      name="BusinessKey" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Code]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Code]"
-                      name="Code" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Density]"
-                      dataType="r8"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Density]"
-                      name="Density" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Name]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Name]"
-                      name="Name" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ParentLocation_ID]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ParentLocation_ID]"
-                      name="ParentLocation_ID" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Population]"
-                      dataType="r8"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[Population]"
-                      name="Population" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[LocationTypeBusinessKey]"
-                      dataType="wstr"
-                      length="255"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[LocationTypeBusinessKey]"
-                      name="LocationTypeBusinessKey" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" name="Location_ID" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="numeric" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" name="AreaKM" precision="18" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" scale="2" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Code]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="text" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Density]" name="Density" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Density]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Density]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]" name="Name" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Name]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" name="ParentLocation_ID" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="numeric" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]" name="Population" precision="18" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]" scale="2" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[Population]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" name="LocationTypeBusinessKey" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
-                  <externalMetadataColumns />
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
                 </output>
               </outputs>
             </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_Location" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{0B41B4F8-BD6E-417E-ACFF-C6B6A0F13665}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Location_ID" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Location_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="numeric" name="AreaKM" precision="18" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[AreaKM]" scale="2">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="BusinessKey" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="Code" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="text" name="Density" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Density]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="Name" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Name]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ParentLocation_ID" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[ParentLocation_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="numeric" name="Population" precision="18" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Population]" scale="2">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="LocationTypeBusinessKey" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[LocationTypeBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="Location_ID" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Location_ID]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Location_ID]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Location_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="numeric" cachedName="AreaKM" cachedPrecision="18" cachedScale="2" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[AreaKM]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[AreaKM]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[AreaKM]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="BusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[BusinessKey]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="Code" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Code]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="text" cachedName="Density" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Density]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Density]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Density]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="Name" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Name]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Name]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Name]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ParentLocation_ID" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[ParentLocation_ID]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[ParentLocation_ID]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[ParentLocation_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="numeric" cachedName="Population" cachedPrecision="18" cachedScale="2" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[Population]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[Population]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[Population]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="LocationTypeBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].ExternalColumns[LocationTypeBusinessKey]" lineageId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output].Columns[LocationTypeBusinessKey]" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location].Columns[LocationTypeBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[Location]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
           </components>
           <paths>
-            <path
-              refId="Package\DFT_Load Staging_Location.Paths[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]"
-              endId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]"
-              name="DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location"
-              startId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output]" />
-            <path
-              refId="Package\DFT_Load Staging_Location.Paths[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]"
-              endId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]"
-              name="OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx"
-              startId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output]" />
+            <path endId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Inputs[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]" name="OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx" refId="Package\DFT_Load Staging_Location.Paths[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]" startId="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location.Inputs[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]" name="DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location" refId="Package\DFT_Load Staging_Location.Paths[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]" startId="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx.Outputs[Output]">
+            </path>
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\SQL_Truncate Staging_Location"
-      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-      DTS:DTSID="{9B0B26DD-375F-49A5-B5E7-ADC38E8E33FA}"
-      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="SQL_Truncate Staging_Location"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{E0075F53-8656-4017-BFB9-C82C3462FC86}"
-          SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[Location]&#xA;    /*&#xA;    'Excel 12.0;Database=&quot;@[$Project::strStagingTemplatePath]Staging.Location.xlsx'&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_Location_To_DFT_Load Staging_Location]"
-      DTS:CreationName=""
-      DTS:DTSID="{AB4E81DE-2164-4DBC-8A88-763A563A4417}"
-      DTS:From="Package\SQL_Truncate Staging_Location"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint_SQL_Truncate Staging_Location_To_DFT_Load Staging_Location"
-      DTS:To="Package\DFT_Load Staging_Location" />
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{80574B10-541B-4DB0-9AE7-52DBA2B514E7}" DTS:From="Package\SQL_Truncate Staging_Location" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_Location_To_DFT_Load Staging_Location" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_Location_To_DFT_Load Staging_Location]" DTS:To="Package\DFT_Load Staging_Location">
+    </DTS:PrecedenceConstraint>
   </DTS:PrecedenceConstraints>
-  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
-<Objects
-  Version="sql11">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
-  <Package
-    design-time-name="Package">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="209.6,41.6"
-          Id="Package\DFT_Load Staging_Location"
-          TopLeft="15,107.5" />
-        <NodeLayout
-          Size="228.8,41.6"
-          Id="Package\SQL_Truncate Staging_Location"
-          TopLeft="5.50000000000001,5.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_Location_To_DFT_Load Staging_Location]"
-          TopLeft="120,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </Package>
-  <TaskHost
-    design-time-name="Package\DFT_Load Staging_Location">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="208.8,41.6"
-          Id="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location"
-          TopLeft="17.5,209.5" />
-        <NodeLayout
-          Size="232.8,41.6"
-          Id="Package\DFT_Load Staging_Location\OLE_SRC_Staging_Location_xlsx"
-          TopLeft="5.50000000000001,5.5" />
-        <NodeLayout
-          Size="216,41.6"
-          Id="Package\DFT_Load Staging_Location\DCNV_Staging_Location_xlsx"
-          TopLeft="14,107.5" />
-        <EdgeLayout
-          Id="Package\DFT_Load Staging_Location.Paths[OLE_SRC_Staging_Location_xlsx_Output_DCNV_Staging_Location_xlsx]"
-          TopLeft="122,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\DFT_Load Staging_Location.Paths[DCNV_Staging_Location_xlsx_Output_OLE_DST_Staging_Location]"
-          TopLeft="122,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\DFT_Load Staging_Location\OLE_DST_Staging_Location">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-</Objects>]]></DTS:DesignTimeProperties>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
 </DTS:Executable>
