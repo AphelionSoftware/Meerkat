@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="LocationType">
+    Name="Group">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,8 +15,18 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
-        Name="LocationType_ID"
+        Name="Group_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -33,25 +43,7 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Description"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
-          <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -61,6 +53,15 @@
           <Required />
           <MaxLength
             Value="400" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Active"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -71,6 +72,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -92,6 +94,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -106,30 +109,49 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Locations"
-        Association="FK_Location_LocationType"
-        FromEnd="LocationType"
-        ToEnd="Location" />
+        Name="Forms"
+        Association="FK_Form_Group"
+        FromEnd="Group"
+        ToEnd="Form" />
       <NavigationProperty
-        Name="ActiveType"
-        Association="FK_LocationType_ActiveType"
-        FromEnd="LocationType"
-        ToEnd="ActiveType" />
+        Name="FormResponses"
+        Association="FK_FormResponse_Group"
+        FromEnd="Group"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Group"
+        FromEnd="Group"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Location_LocationType">
+    Name="FK_Form_Group">
     <AssociationEnd
-      Name="LocationType"
-      EntityType="LocationType">
+      Name="Group"
+      EntityType="Group">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Location"
+      Name="Form"
       Multiplicity="Many"
-      EntityType="Location" />
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Group">
+    <AssociationEnd
+      Name="Group"
+      EntityType="Group">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -137,24 +159,34 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="LocationTypes"
+      Name="Groups"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="LocationType" />
+      EntityType="Group" />
     <AssociationSet
-      Name="FK_Location_LocationType"
-      Association="FK_Location_LocationType">
+      Name="FK_Form_Group"
+      Association="FK_Form_Group">
       <AssociationSetEnd
-        Name="LocationType"
-        EntitySet="LocationTypes" />
+        Name="Group"
+        EntitySet="Groups" />
       <AssociationSetEnd
-        Name="Location"
-        EntitySet="Locations" />
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Group"
+      Association="FK_FormResponse_Group">
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
     </AssociationSet>
     <QueryOperation
-      Name="LocationTypes_Single"
-      ReturnType="LocationType">
+      Name="Groups_Single"
+      ReturnType="Group">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -167,12 +199,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="LocationType_ID" />
+                  Member="Group_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="LocationType_ID" />
+                Parameter="Group_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -180,21 +212,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="LocationTypes" />
+            Member="Groups" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="LocationType_ID"
+        Name="Group_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Group_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="LocationTypes_SingleOrDefault"
-      ReturnType="LocationType">
+      Name="Groups_SingleOrDefault"
+      ReturnType="Group">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -207,12 +239,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="LocationType_ID" />
+                  Member="Group_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="LocationType_ID" />
+                Parameter="Group_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -220,105 +252,166 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="LocationTypes" />
+            Member="Groups" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="LocationType_ID"
+        Name="Group_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Group_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Question_Group"
+      Association="FK_Question_Group">
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Question_Group">
+    <AssociationEnd
+      Name="Group"
+      EntityType="Group">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="LocationTypes">
+      EntitySet="Groups">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="LocationType" />
+          Schema="disagg"
+          Table="Group" />
         <SsdlProperty
-          Name="LocationType_ID"
+          Name="Group_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="LocationType/Properties[LocationType_ID]" />
+          Property="Group/Properties[Group_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[Code]" />
+          Property="Group/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[Name]" />
-        <SsdlProperty
-          Name="Description"
-          Nullable="False"
-          Type="varchar(max)"
-          Property="LocationType/Properties[Description]" />
+          Property="Group/Properties[Name]" />
         <SsdlProperty
           MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="LocationType/Properties[BusinessKey]" />
+          Property="Group/Properties[BusinessKey]" />
+        <SsdlProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          Property="Group/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[sys_CreatedBy]" />
+          Property="Group/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="LocationType/Properties[sys_CreatedOn]" />
+          Property="Group/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[sys_ModifiedBy]" />
+          Property="Group/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="LocationType/Properties[sys_ModifiedOn]" />
-        <SsdlForeignKeyProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          PropertyName="Active" />
+          Property="Group/Properties[sys_ModifiedOn]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Location_LocationType">
+      AssociationSet="FK_Form_Group">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Location_LocationType" />
+          Name="FK_Form_Group" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Location_LocationType]/Members[LocationType]">
+          End="MeerkatData/Members[FK_Form_Group]/Members[Group]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="LocationType_ID" />
+              Name="Group_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Location_LocationType]/Members[Location]">
+          End="MeerkatData/Members[FK_Form_Group]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="LocationType_ID" />
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Group">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Group" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Group]/Members[Group]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Group]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Group">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Group" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Group]/Members[Group]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Group]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
