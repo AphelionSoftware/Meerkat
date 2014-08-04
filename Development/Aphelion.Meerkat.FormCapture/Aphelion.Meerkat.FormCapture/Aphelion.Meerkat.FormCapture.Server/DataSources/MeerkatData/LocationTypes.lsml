@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Project">
+    Name="LocationType">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="ProjectID"
+        Name="LocationType_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -36,16 +36,7 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="ShortName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="LongName"
+        Name="Name"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
@@ -55,7 +46,7 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="TextDescription"
+        Name="Description"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
@@ -64,31 +55,12 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Outcome_ID"
-        PropertyType=":Int32?">
+        Name="BusinessKey"
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Sector_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="SubSector_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
+          <Required />
+          <MaxLength
+            Value="4000" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -142,64 +114,25 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Forms"
-        Association="FK_Form_Project"
-        FromEnd="Project"
-        ToEnd="Form" />
-      <EntityProperty
-        Name="ProjectSiteName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="BusinessKey"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="4000" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ProjectStartDate"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <Required />
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ProjectStartDate_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        Name="Locations"
+        Association="FK_Location_LocationType"
+        FromEnd="LocationType"
+        ToEnd="Location" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Form_Project">
+    Name="FK_Location_LocationType">
     <AssociationEnd
-      Name="Project"
-      Multiplicity="One"
-      EntityType="Project">
+      Name="LocationType"
+      EntityType="LocationType">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Form"
+      Name="Location"
       Multiplicity="Many"
-      EntityType="Form" />
+      EntityType="Location" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -207,24 +140,24 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Projects"
+      Name="LocationTypes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Project" />
+      EntityType="LocationType" />
     <AssociationSet
-      Name="FK_Form_Project"
-      Association="FK_Form_Project">
+      Name="FK_Location_LocationType"
+      Association="FK_Location_LocationType">
       <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
+        Name="LocationType"
+        EntitySet="LocationTypes" />
       <AssociationSetEnd
-        Name="Form"
-        EntitySet="Forms" />
+        Name="Location"
+        EntitySet="Locations" />
     </AssociationSet>
     <QueryOperation
-      Name="Projects_Single"
-      ReturnType="Project">
+      Name="LocationTypes_Single"
+      ReturnType="LocationType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -237,12 +170,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ProjectID" />
+                  Member="LocationType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ProjectID" />
+                Parameter="LocationType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -250,21 +183,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Projects" />
+            Member="LocationTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ProjectID"
+        Name="LocationType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ProjectID' key property of the entity to retrieve." />
+            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Projects_SingleOrDefault"
-      ReturnType="Project">
+      Name="LocationTypes_SingleOrDefault"
+      ReturnType="LocationType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -277,12 +210,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ProjectID" />
+                  Member="LocationType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ProjectID" />
+                Parameter="LocationType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -290,15 +223,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Projects" />
+            Member="LocationTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ProjectID"
+        Name="LocationType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ProjectID' key property of the entity to retrieve." />
+            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -309,128 +242,85 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Projects">
+      EntitySet="LocationTypes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="app"
-          Table="Project" />
+          Schema="Core"
+          Table="LocationType" />
         <SsdlProperty
-          Name="ProjectID"
+          Name="LocationType_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Project/Properties[ProjectID]" />
+          Property="LocationType/Properties[LocationType_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="Project/Properties[Code]" />
+          Property="LocationType/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
-          Name="ShortName"
-          Nullable="False"
-          Type="nvarchar"
-          Property="Project/Properties[ShortName]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="LongName"
+          Name="Name"
           Nullable="False"
           Type="varchar"
-          Property="Project/Properties[LongName]" />
+          Property="LocationType/Properties[Name]" />
         <SsdlProperty
-          Name="TextDescription"
+          Name="Description"
           Nullable="False"
           Type="varchar(max)"
-          Property="Project/Properties[TextDescription]" />
-        <SsdlProperty
-          Name="Outcome_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Outcome_ID]" />
-        <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Programme_ID]" />
-        <SsdlProperty
-          Name="Sector_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Sector_ID]" />
-        <SsdlProperty
-          Name="SubSector_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[SubSector_ID]" />
+          Property="LocationType/Properties[Description]" />
         <SsdlProperty
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="Project/Properties[BusinessKey]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="ProjectSiteName"
-          Nullable="False"
-          Type="varchar"
-          Property="Project/Properties[ProjectSiteName]" />
+          Property="LocationType/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Active"
           Nullable="False"
           Type="int"
-          Property="Project/Properties[Active]" />
+          Property="LocationType/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Project/Properties[sys_CreatedBy]" />
+          Property="LocationType/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Project/Properties[sys_CreatedOn]" />
+          Property="LocationType/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Project/Properties[sys_ModifiedBy]" />
+          Property="LocationType/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Project/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          Name="ProjectStartDate"
-          Nullable="False"
-          Type="datetime"
-          Property="Project/Properties[ProjectStartDate]" />
-        <SsdlProperty
-          Name="ProjectStartDate_ID"
-          Nullable="True"
-          StoreGeneratedPattern="Computed"
-          Type="int"
-          Property="Project/Properties[ProjectStartDate_ID]" />
+          Property="LocationType/Properties[sys_ModifiedOn]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Form_Project">
+      AssociationSet="FK_Location_LocationType">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Form_Project" />
+          Name="FK_Location_LocationType" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Project]/Members[Project]">
+          End="MeerkatData/Members[FK_Location_LocationType]/Members[LocationType]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ProjectID" />
+              Name="LocationType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Project]/Members[Form]">
+          End="MeerkatData/Members[FK_Location_LocationType]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ProjectID" />
+              Name="LocationType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

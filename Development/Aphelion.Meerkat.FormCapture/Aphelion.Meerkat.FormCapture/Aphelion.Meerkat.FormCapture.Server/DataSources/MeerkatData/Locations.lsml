@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Question">
+    Name="Location">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="Question_ID"
+        Name="Location_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -25,16 +25,6 @@
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <EntityProperty
         Name="Code"
         PropertyType=":String">
@@ -46,20 +36,50 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="TextDescription"
+        Name="Name"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="AreaKM"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Population"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Density"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="QuestionOrder"
-        PropertyType=":Int32">
+        Name="BusinessKey"
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
-          <NotSearchable />
+          <MaxLength
+            Value="4000" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -113,98 +133,93 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="PotentialResponses"
-        Association="FK_PotentialResponse_Question"
-        FromEnd="Question"
-        ToEnd="PotentialResponse" />
+        Name="Forms"
+        Association="FK_Form_Location"
+        FromEnd="Location"
+        ToEnd="Form" />
       <NavigationProperty
-        Name="Category"
-        Association="FK_Question_Category"
-        FromEnd="Question"
-        ToEnd="Category" />
+        Name="FormResponses"
+        Association="FK_FormResponse_Location"
+        FromEnd="Location"
+        ToEnd="FormResponse" />
       <NavigationProperty
-        Name="QuestionType"
-        Association="FK_Question_QuestionType"
-        FromEnd="Question"
-        ToEnd="QuestionType" />
-      <EntityProperty
-        Name="Response"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="TrueOrFalse"
-        PropertyType=":Boolean?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        Name="LocationType"
+        Association="FK_Location_LocationType"
+        FromEnd="Location"
+        ToEnd="LocationType" />
       <NavigationProperty
-        Name="PotentialResponse"
-        Association="FK_Question_PotentialResponse"
-        FromEnd="Question"
-        ToEnd="PotentialResponse" />
+        Name="Locations"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location"
+        ToEnd="Location1" />
       <NavigationProperty
-        Name="Responses"
-        Association="FK_Response_Question"
-        FromEnd="Question"
-        ToEnd="Response" />
-      <EntityProperty
-        Name="IntegerResponse"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="DecimalResponse"
-        PropertyType=":Decimal?">
-        <EntityProperty.Attributes>
-          <DecimalConstraint
-            Precision="20"
-            Scale="12" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="isConfidential"
-        PropertyType=":Boolean">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="FormResponse_FNVID"
-        PropertyType=":Int64?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="Location"
-        Association="FK_Question_Location"
-        FromEnd="Question"
+        Name="Location1"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location1"
         ToEnd="Location" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Location"
+        FromEnd="Location"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_PotentialResponse_Question">
+    Name="FK_Form_Location">
     <AssociationEnd
-      Name="Question"
-      Multiplicity="One"
-      EntityType="Question">
+      Name="Location"
+      EntityType="Location">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="PotentialResponse"
+      Name="Form"
       Multiplicity="Many"
-      EntityType="PotentialResponse" />
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Location_ParentLocation">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Location1"
+      Multiplicity="Many"
+      EntityType="Location" />
+  </Association>
+  <Association
+    Name="FK_Question_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -212,24 +227,54 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Questions"
+      Name="Locations"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Question" />
+      EntityType="Location" />
     <AssociationSet
-      Name="FK_PotentialResponse_Question"
-      Association="FK_PotentialResponse_Question">
+      Name="FK_Form_Location"
+      Association="FK_Form_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Location"
+      Association="FK_FormResponse_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Location_ParentLocation"
+      Association="FK_Location_ParentLocation">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Location1"
+        EntitySet="Locations" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Location"
+      Association="FK_Question_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
       <AssociationSetEnd
         Name="Question"
         EntitySet="Questions" />
-      <AssociationSetEnd
-        Name="PotentialResponse"
-        EntitySet="PotentialResponses" />
     </AssociationSet>
     <QueryOperation
-      Name="Questions_Single"
-      ReturnType="Question">
+      Name="Locations_Single"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -242,12 +287,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Question_ID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Question_ID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -255,21 +300,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Questions" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Question_ID"
+        Name="Location_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Question_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Questions_SingleOrDefault"
-      ReturnType="Question">
+      Name="Locations_SingleOrDefault"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -282,12 +327,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Question_ID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Question_ID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -295,202 +340,189 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Questions" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Question_ID"
+        Name="Location_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Question_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_Response_Question"
-      Association="FK_Response_Question">
-      <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
-      <AssociationSetEnd
-        Name="Response"
-        EntitySet="Responses" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_Response_Question">
-    <AssociationEnd
-      Name="Question"
-      Multiplicity="One"
-      EntityType="Question">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Response"
-      Multiplicity="Many"
-      EntityType="Response" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Questions">
+      EntitySet="Locations">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="forms"
-          Table="Question" />
+          Schema="Core"
+          Table="Location" />
         <SsdlProperty
-          Name="Question_ID"
+          Name="Location_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Question/Properties[Question_ID]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="Question/Properties[Name]" />
+          Property="Location/Properties[Location_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[Code]" />
+          Property="Location/Properties[Code]" />
         <SsdlProperty
-          Name="TextDescription"
+          MaxLength="255"
+          Name="Name"
           Nullable="False"
+          Type="varchar"
+          Property="Location/Properties[Name]" />
+        <SsdlProperty
+          Name="AreaKM"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[AreaKM]" />
+        <SsdlProperty
+          Name="Population"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[Population]" />
+        <SsdlProperty
+          Name="Density"
+          Nullable="True"
           Type="varchar(max)"
-          Property="Question/Properties[TextDescription]" />
+          Property="Location/Properties[Density]" />
         <SsdlProperty
-          Name="QuestionOrder"
+          Name="BusinessKey"
           Nullable="False"
-          Type="int"
-          Property="Question/Properties[QuestionOrder]" />
+          Type="nvarchar"
+          Property="Location/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Active"
           Nullable="False"
           Type="int"
-          Property="Question/Properties[Active]" />
+          Property="Location/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[sys_CreatedBy]" />
+          Property="Location/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Question/Properties[sys_CreatedOn]" />
+          Property="Location/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Question/Properties[sys_ModifiedBy]" />
+          Property="Location/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Question/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          Name="Response"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="Question/Properties[Response]" />
-        <SsdlProperty
-          Name="IntegerResponse"
-          Nullable="True"
-          Type="int"
-          Property="Question/Properties[IntegerResponse]" />
-        <SsdlProperty
-          Name="DecimalResponse"
-          Nullable="True"
-          Precision="20"
-          Scale="12"
-          Type="decimal"
-          Property="Question/Properties[DecimalResponse]" />
-        <SsdlProperty
-          Name="TrueOrFalse"
-          Nullable="True"
-          Type="bit"
-          Property="Question/Properties[TrueOrFalse]" />
-        <SsdlProperty
-          Name="isConfidential"
-          Nullable="False"
-          Type="bit"
-          Property="Question/Properties[isConfidential]" />
-        <SsdlProperty
-          Name="FormResponse_FNVID"
-          Nullable="True"
-          Type="bigint"
-          Property="Question/Properties[FormResponse_FNVID]" />
+          Property="Location/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
-          Name="Category_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="Category_ID" />
-        <SsdlForeignKeyProperty
-          Name="Location_ID"
+          Name="LocationType_ID"
           Nullable="True"
           Type="int"
-          PropertyName="Location_ID" />
+          PropertyName="LocationType_ID" />
         <SsdlForeignKeyProperty
-          Name="MultipleChoiceResponseID"
+          Name="ParentLocation_ID"
           Nullable="True"
           Type="int"
-          PropertyName="MultipleChoiceResponseID" />
-        <SsdlForeignKeyProperty
-          Name="QuestionType_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="QuestionType_ID" />
+          PropertyName="ParentLocation_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_PotentialResponse_Question">
+      AssociationSet="FK_Form_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_PotentialResponse_Question" />
+          Name="FK_Form_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[Question]">
+          End="MeerkatData/Members[FK_Form_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_PotentialResponse_Question]/Members[PotentialResponse]">
+          End="MeerkatData/Members[FK_Form_Location]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Response_Question">
+      AssociationSet="FK_FormResponse_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Response_Question" />
+          Name="FK_FormResponse_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_Question]/Members[Question]">
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Response_Question]/Members[Response]">
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Question_ID" />
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Location_ParentLocation">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Location_ParentLocation" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location1]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ParentLocation_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Location]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

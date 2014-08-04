@@ -113,6 +113,9 @@ namespace LightSwitchApplication
                     command.Parameters.Add(
                                             new SqlParameter("@isConfidential", entity.isConfidential));
 
+                    command.Parameters.Add(
+                                                                new SqlParameter("@Location_ID", entity.Location.Location_ID));
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }                 
