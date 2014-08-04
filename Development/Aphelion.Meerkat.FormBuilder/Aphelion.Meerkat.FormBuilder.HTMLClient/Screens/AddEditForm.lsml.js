@@ -4,4 +4,5 @@
 myapp.AddEditForm.created = function (screen) {
     // Set Active Types
     msls.application.lightswitchTools.configureCaptureForm(screen);
+    screen.Form.isConfidential = false;
 };

@@ -8,10 +8,52 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     contentItem.data.FormResponse_FNVID = contentItem.screen.FNV1a;
     myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(contentItem.screen.Location_ID).execute().then(
         function (x) {
-            var loc = x.results[0];
-            contentItem.data.setLocation(loc);
+            var res = x.results[0];
+            contentItem.data.setLocation(res);
         }
-    )
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.Ages_SingleOrDefault(contentItem.screen.Age_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setAge(res);
+        }
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.AgeBands_SingleOrDefault(contentItem.screen.AgeBand_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setAgeBand(res);
+        }
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.CommunityTypes_SingleOrDefault(contentItem.screen.CommunityType_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setCommunityType(res);
+        }
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.Genders_SingleOrDefault(contentItem.screen.Gender_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setGender(res);
+        }
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.Groups_SingleOrDefault(contentItem.screen.Group_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setGroup(res);
+        }
+    );
+
+    myapp.activeDataWorkspace.MeerkatData.Institutions_SingleOrDefault(contentItem.screen.Institution_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setInstitution(res);
+        }
+    );
     //Question type
     var type = contentItem.data.QuestionType.Code;
     var x = element;

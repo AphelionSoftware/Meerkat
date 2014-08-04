@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Sector">
+    Name="Age">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="Sector_ID"
+        Name="Age_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -26,48 +26,11 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="LongName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="500" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="BusinessKey"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="400" />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ShortName"
-        PropertyType=":String">
+        Name="Active"
+        PropertyType=":Int32">
         <EntityProperty.Attributes>
           <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="TextDescription"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -113,46 +76,89 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="ActiveType"
-        Association="FK_Sector_ActiveType"
-        FromEnd="Sector"
-        ToEnd="ActiveType" />
+        Name="AgeBands"
+        Association="FK_AgeBand_Age"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
       <NavigationProperty
-        Name="SubSectors"
-        Association="FK_SubSector_Sector"
-        FromEnd="Sector"
-        ToEnd="SubSector" />
+        Name="AgeBands1"
+        Association="FK_AgeBand_Age1"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
       <NavigationProperty
-        Name="Programme"
-        Association="FK_Sector_Programme"
-        FromEnd="Sector"
-        ToEnd="Programme" />
+        Name="Forms"
+        Association="FK_Form_Age"
+        FromEnd="Age"
+        ToEnd="Form" />
       <NavigationProperty
-        Name="Indicators"
-        Association="FK_Indicator_Sector"
-        FromEnd="Sector"
-        ToEnd="Indicator" />
+        Name="FormResponses"
+        Association="FK_FormResponse_Age"
+        FromEnd="Age"
+        ToEnd="FormResponse" />
       <NavigationProperty
-        Name="Projects"
-        Association="FK_Project_Sector"
-        FromEnd="Sector"
-        ToEnd="Project" />
+        Name="Questions"
+        Association="FK_Question_Age"
+        FromEnd="Age"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_SubSector_Sector">
+    Name="FK_AgeBand_Age">
     <AssociationEnd
-      Name="Sector"
+      Name="Age"
       Multiplicity="One"
-      EntityType="Sector">
+      EntityType="Age">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="SubSector"
+      Name="AgeBand"
       Multiplicity="Many"
-      EntityType="SubSector" />
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_AgeBand_Age1">
+    <AssociationEnd
+      Name="Age"
+      Multiplicity="One"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_Form_Age">
+    <AssociationEnd
+      Name="Age"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Age">
+    <AssociationEnd
+      Name="Age"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -160,24 +166,54 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Sectors"
+      Name="Ages"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Sector" />
+      EntityType="Age" />
     <AssociationSet
-      Name="FK_SubSector_Sector"
-      Association="FK_SubSector_Sector">
+      Name="FK_AgeBand_Age"
+      Association="FK_AgeBand_Age">
       <AssociationSetEnd
-        Name="Sector"
-        EntitySet="Sectors" />
+        Name="Age"
+        EntitySet="Ages" />
       <AssociationSetEnd
-        Name="SubSector"
-        EntitySet="SubSectors" />
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_AgeBand_Age1"
+      Association="FK_AgeBand_Age1">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Age"
+      Association="FK_Form_Age">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Age"
+      Association="FK_FormResponse_Age">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
     </AssociationSet>
     <QueryOperation
-      Name="Sectors_Single"
-      ReturnType="Sector">
+      Name="Ages_Single"
+      ReturnType="Age">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -190,12 +226,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Sector_ID" />
+                  Member="Age_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Sector_ID" />
+                Parameter="Age_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -203,21 +239,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Sectors" />
+            Member="Ages" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Sector_ID"
+        Name="Age_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Sector_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Age_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Sectors_SingleOrDefault"
-      ReturnType="Sector">
+      Name="Ages_SingleOrDefault"
+      ReturnType="Age">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -230,12 +266,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Sector_ID" />
+                  Member="Age_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Sector_ID" />
+                Parameter="Age_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -243,66 +279,42 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Sectors" />
+            Member="Ages" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Sector_ID"
+        Name="Age_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Sector_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Age_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <AssociationSet
-      Name="FK_Indicator_Sector"
-      Association="FK_Indicator_Sector">
+      Name="FK_Question_Age"
+      Association="FK_Question_Age">
       <AssociationSetEnd
-        Name="Sector"
-        EntitySet="Sectors" />
+        Name="Age"
+        EntitySet="Ages" />
       <AssociationSetEnd
-        Name="Indicator"
-        EntitySet="Indicators" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Project_Sector"
-      Association="FK_Project_Sector">
-      <AssociationSetEnd
-        Name="Sector"
-        EntitySet="Sectors" />
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
+        Name="Question"
+        EntitySet="Questions" />
     </AssociationSet>
   </EntityContainer>
   <Association
-    Name="FK_Indicator_Sector">
+    Name="FK_Question_Age">
     <AssociationEnd
-      Name="Sector"
-      EntityType="Sector">
+      Name="Age"
+      EntityType="Age">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Indicator"
+      Name="Question"
       Multiplicity="Many"
-      EntityType="Indicator" />
-  </Association>
-  <Association
-    Name="FK_Project_Sector">
-    <AssociationEnd
-      Name="Sector"
-      EntityType="Sector">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project"
-      Multiplicity="Many"
-      EntityType="Project" />
+      EntityType="Question" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -310,139 +322,147 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Sectors">
+      EntitySet="Ages">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="app"
-          Table="Sector" />
+          Schema="disagg"
+          Table="Age" />
         <SsdlProperty
-          Name="Sector_ID"
+          Name="Age_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Sector/Properties[Sector_ID]" />
+          Property="Age/Properties[Age_ID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="True"
-          Type="varchar"
-          Property="Sector/Properties[Code]" />
-        <SsdlProperty
-          MaxLength="500"
-          Name="LongName"
-          Nullable="True"
-          Type="varchar"
-          Property="Sector/Properties[LongName]" />
-        <SsdlProperty
-          MaxLength="400"
-          Name="BusinessKey"
+          Name="Active"
           Nullable="False"
-          Type="nvarchar"
-          Property="Sector/Properties[BusinessKey]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="ShortName"
-          Nullable="False"
-          Type="varchar"
-          Property="Sector/Properties[ShortName]" />
-        <SsdlProperty
-          Name="TextDescription"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="Sector/Properties[TextDescription]" />
+          Type="int"
+          Property="Age/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Sector/Properties[sys_CreatedBy]" />
+          Property="Age/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Sector/Properties[sys_CreatedOn]" />
+          Property="Age/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Sector/Properties[sys_ModifiedBy]" />
+          Property="Age/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Sector/Properties[sys_ModifiedOn]" />
-        <SsdlForeignKeyProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="Programme_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="Programme_ID" />
+          Property="Age/Properties[sys_ModifiedOn]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Indicator_Sector">
+      AssociationSet="FK_AgeBand_Age">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Indicator_Sector" />
+          Name="FK_AgeBand_Age" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Sector]">
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[Age]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="Age_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_Sector]/Members[Indicator]">
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[AgeBand]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="AgeBandMin_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Project_Sector">
+      AssociationSet="FK_AgeBand_Age1">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Project_Sector" />
+          Name="FK_AgeBand_Age1" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Sector]/Members[Sector]">
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[Age]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="Age_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Sector]/Members[Project]">
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[AgeBand]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="AgeBandMax_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_SubSector_Sector">
+      AssociationSet="FK_Form_Age">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_SubSector_Sector" />
+          Name="FK_Form_Age" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubSector_Sector]/Members[Sector]">
+          End="MeerkatData/Members[FK_Form_Age]/Members[Age]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="Age_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_SubSector_Sector]/Members[SubSector]">
+          End="MeerkatData/Members[FK_Form_Age]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Sector_ID" />
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Age">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Age" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Age]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Age]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Age">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Age" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Age]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Age]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

@@ -162,7 +162,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="4000" />
+            Value="400" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -184,6 +184,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="AgeBands"
+        Association="FK_AgeBand_Project"
+        FromEnd="Project"
+        ToEnd="AgeBand" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -302,7 +307,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_AgeBand_Project"
+      Association="FK_AgeBand_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_AgeBand_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -364,6 +393,7 @@
           Type="int"
           Property="Project/Properties[SubSector_ID]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -414,6 +444,27 @@
           Property="Project/Properties[ProjectStartDate_ID]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Form_Project">
       <AssociationSetMapping.Attributes>

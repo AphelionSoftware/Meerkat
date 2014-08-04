@@ -14,6 +14,7 @@ myapp.AddEditQuestion.created = function (screen) {
         });
     });
 
+    screen.Question.isConfidential = false;
     //
     /*screen.details.dataWorkspace.MeerkatData.Questions.filter("Category_ID = " + screen.Question.Category.Category_ID).orderByDescending("QuestionOrder")
     .execute().then(function (x) {
