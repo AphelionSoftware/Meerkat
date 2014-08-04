@@ -11,14 +11,14 @@
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
     [ProjectID]       INT             NULL,
-    [BusinessKey]     NVARCHAR (4000)  NOT NULL,
+    [BusinessKey]     NVARCHAR (400)  NOT NULL,
     [Notes]           NVARCHAR (MAX)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
-    [Activity_ID]      INT             NULL,
+    [Activity_ID]     INT             NULL,
     [ShortName]       VARCHAR (50)    NOT NULL,
-	[BaselineDateID]  AS (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
-	[TargetDateID]  AS (CONVERT([int],CONVERT([varchar](8),[TargetDate],(112)))),
+    [BaselineDateID]  AS              (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
+    [TargetDateID]    AS              (CONVERT([int],CONVERT([varchar](8),[TargetDate],(112)))),
     [UnitOfMeasure]   VARCHAR (50)    NOT NULL,
     [Active]          INT             CONSTRAINT [DF_Milestone_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]   VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -34,4 +34,12 @@
 );
 
 
+
+
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
 

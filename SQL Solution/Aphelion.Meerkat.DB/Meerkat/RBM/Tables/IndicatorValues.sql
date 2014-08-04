@@ -4,7 +4,7 @@
     [ActualLabel]         VARCHAR (50)     NOT NULL,
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
-    [BusinessKey]         NVARCHAR (4000)  NOT NULL,
+    [BusinessKey]         NVARCHAR (400)   NOT NULL,
     [Notes]               VARCHAR (MAX)    NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
@@ -43,6 +43,8 @@
     CONSTRAINT [FK_IndicatorValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [UQ_IDS] UNIQUE NONCLUSTERED ([Indicator_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC)
 );
+
+
 
 
 

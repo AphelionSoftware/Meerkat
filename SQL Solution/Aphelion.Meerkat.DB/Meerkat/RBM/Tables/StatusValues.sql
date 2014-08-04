@@ -3,7 +3,9 @@
     [Output_ID]         INT            NULL,
     [Outcome_ID]        INT            NULL,
     [Activity_ID]       INT            NULL,
+    [Milestone_ID]      INT            NULL,
     [SubOutput_ID]      INT            NULL,
+    [Indicator_ID]      INT            NULL,
     [Programme_ID]      INT            NULL,
     [Sector_ID]         INT            NULL,
     [SubSector_ID]      INT            NULL,
@@ -23,7 +25,9 @@
     CONSTRAINT [FK_StatusValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_StatusValues_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]),
     CONSTRAINT [FK_StatusValues_DataVersion] FOREIGN KEY ([DataVersionID]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),
+    CONSTRAINT [FK_StatusValues_Indicator] FOREIGN KEY ([Indicator_ID]) REFERENCES [app].[Indicator] ([IndicatorID]),
     CONSTRAINT [FK_StatusValues_Location] FOREIGN KEY ([LocationID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_StatusValues_Milestone] FOREIGN KEY ([Milestone_ID]) REFERENCES [app].[Milestone] ([MilestoneID]),
     CONSTRAINT [FK_StatusValues_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
     CONSTRAINT [FK_StatusValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [FK_StatusValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
@@ -48,7 +52,35 @@
 
 
 
+
+
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [StatusValues_UniqueRows]
     ON [RBM].[StatusValues]([Output_ID] ASC, [Outcome_ID] ASC, [Activity_ID] ASC, [SubOutput_ID] ASC, [Programme_ID] ASC, [ProjectID] ASC, [ReportingPeriodID] ASC, [LocationID] ASC, [DataVersionID] ASC);
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship'', @value=N''IndicatorProgram[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''StatusValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalJoin01', @value = N'LEFT JOIN app.Indicator I
+	ON [StatusValues].Indicator_ID = I.IndicatorID
+
+LEFT JOIN app.SubSector SS
+	ON [StatusValues].SubSector_ID = SS.SubSector_ID
+
+LEFT JOIN app.Sector S
+	ON [StatusValues].Sector_ID = S.Sector_ID
+
+LEFT JOIN app.Programme P
+	ON [StatusValues].Programme_ID = P.Programme_ID
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey) as HierarchyBusinessKey', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
 

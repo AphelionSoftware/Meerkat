@@ -2,8 +2,8 @@
     [Output_ID]       INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [LongName]        NVARCHAR (500) NOT NULL,
-    [BusinessKey]     NVARCHAR (4000) NOT NULL,
-    [Outcome_ID]       INT            NOT NULL,
+    [BusinessKey]     NVARCHAR (400) NOT NULL,
+    [Outcome_ID]      INT            NOT NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
     [TextDescription] VARCHAR (MAX)  NULL,
     [Active]          INT            CONSTRAINT [DF_Output_Active] DEFAULT ((1)) NOT NULL,
@@ -14,9 +14,12 @@
     CONSTRAINT [PK_Output_] PRIMARY KEY CLUSTERED ([Output_ID] ASC),
     CONSTRAINT [FK_Output_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Output_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
+    CONSTRAINT [UQ_Output_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_Output_Code] UNIQUE NONCLUSTERED ([Code] ASC),
     CONSTRAINT [UQ_Output_ShortName] UNIQUE NONCLUSTERED ([ShortName] ASC)
 );
+
+
 
 
 

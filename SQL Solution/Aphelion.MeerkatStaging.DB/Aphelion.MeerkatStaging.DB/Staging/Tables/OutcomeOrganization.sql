@@ -1,8 +1,10 @@
 ﻿CREATE TABLE [Staging].[OutcomeOrganization] (
-    [OutcomeOrganization_ID]  INT             NULL,
-    [OrganizationBusinessKey] NVARCHAR (4000) NULL,
-    [OutcomeBusinessKey]      NVARCHAR (4000) NULL
+    [OutcomeOrganization_ID]  INT            NULL,
+    [OrganizationBusinessKey] NVARCHAR (400) NULL,
+    [OutcomeBusinessKey]      NVARCHAR (400) NULL
 );
+
+
 
 
 

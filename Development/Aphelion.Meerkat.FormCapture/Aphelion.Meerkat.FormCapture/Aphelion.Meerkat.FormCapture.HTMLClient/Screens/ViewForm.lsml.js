@@ -38,7 +38,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
         myapp.activeDataWorkspace.MeerkatData.saveChanges();
         myapp.applyChanges().then(
             function () {
-                myapp.showViewCategory(screen.Categories.selectedItem,screen.Form.isConfidential,screen.FNV1a, 
+                myapp.showViewCategory(screen.Categories.selectedItem,screen.Form.isConfidential,screen.FNV1a, screen.LocationsSorted.selectedItem.Location_ID,
                     {
                         afterClosed: function (addEditScreen, navigationAction) {
                             // If the user commits the change,

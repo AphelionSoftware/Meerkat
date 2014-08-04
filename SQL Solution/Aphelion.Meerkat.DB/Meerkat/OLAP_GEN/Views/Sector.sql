@@ -7,7 +7,7 @@ SELECT
 	[Sector_6798140682959160272].[BusinessKey] AS [SectorBusinessKey]
 	,[Sector_6798140682959160272].[Code] AS [SectorCode]
 	,[Sector_6798140682959160272].[LongName] AS [SectorLongName]
-	,[Sector_6798140682959160272].[Programme_ID] AS [SectorProgramme_ID]
+	,COALESCE([Sector_6798140682959160272].[Programme_ID] , [Programme_7818958432026254290].[Programme_ID] ) AS [SectorProgramme_ID]
 	,[Sector_6798140682959160272].[Sector_ID] AS [Sector_ID]
 	,[Sector_6798140682959160272].[ShortName] AS [SectorShortName]
 	,[Sector_6798140682959160272].[TextDescription] AS [SectorTextDescription]
