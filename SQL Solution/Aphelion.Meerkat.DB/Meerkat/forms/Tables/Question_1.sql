@@ -18,19 +18,12 @@
     [TrueOrFalse]              BIT              NULL,
     [isConfidential]           BIT              CONSTRAINT [DF_Question_isConfidential] DEFAULT ((0)) NOT NULL,
     [FormResponse_FNVID]       BIGINT           NULL,
+    [Location_ID]              INT              NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Category] FOREIGN KEY ([Category_ID]) REFERENCES [forms].[Category] ([Category_ID]),
+    CONSTRAINT [FK_Question_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [FK_Question_PotentialResponse] FOREIGN KEY ([MultipleChoiceResponseID]) REFERENCES [forms].[PotentialResponse] ([PotentialResponse_ID]),
     CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
-
-
-
-
-
-
-
-
-

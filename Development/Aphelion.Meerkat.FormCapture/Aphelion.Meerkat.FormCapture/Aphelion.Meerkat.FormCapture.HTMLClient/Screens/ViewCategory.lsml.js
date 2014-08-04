@@ -6,6 +6,12 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     //Setting isConfidential
     contentItem.data.isConfidential = contentItem.screen.isConfidential;
     contentItem.data.FormResponse_FNVID = contentItem.screen.FNV1a;
+    myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(contentItem.screen.Location_ID).execute().then(
+        function (x) {
+            var loc = x.results[0];
+            contentItem.data.setLocation(loc);
+        }
+    )
     //Question type
     var type = contentItem.data.QuestionType.Code;
     var x = element;

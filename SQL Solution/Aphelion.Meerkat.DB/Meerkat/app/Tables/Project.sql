@@ -1,22 +1,22 @@
 ﻿CREATE TABLE [app].[Project] (
-    [ProjectID]           INT             IDENTITY (1, 1) NOT NULL,
-    [Code]                VARCHAR (50)    NOT NULL,
-    [ShortName]           NVARCHAR (255)  NOT NULL,
-    [LongName]            VARCHAR (255)   NOT NULL,
-    [TextDescription]     VARCHAR (MAX)   NOT NULL,
-    [Outcome_ID]          INT             NULL,
-    [Programme_ID]        INT             NULL,
-    [Sector_ID]           INT             NULL,
-    [SubSector_ID]        INT             NULL,
-    [BusinessKey]         NVARCHAR (4000) NOT NULL,
-    [ProjectSiteName]     VARCHAR (255)   CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
-    [Active]              INT             CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
-    [sys_CreatedBy]       VARCHAR (255)   CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_CreatedOn]       DATETIME        CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
-    [sys_ModifiedBy]      VARCHAR (255)   CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_ModifiedOn]      DATETIME        CONSTRAINT [DF_Project_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [ProjectStartDate]    DATETIME        DEFAULT (getdate()) NOT NULL,
-    [ProjectStartDate_ID] AS              (CONVERT([int],CONVERT([varchar](8),[ProjectStartDate],(112)))),
+    [ProjectID]           INT            IDENTITY (1, 1) NOT NULL,
+    [Code]                VARCHAR (50)   NOT NULL,
+    [ShortName]           NVARCHAR (255) NOT NULL,
+    [LongName]            VARCHAR (255)  NOT NULL,
+    [TextDescription]     VARCHAR (MAX)  NOT NULL,
+    [Outcome_ID]          INT            NULL,
+    [Programme_ID]        INT            NULL,
+    [Sector_ID]           INT            NULL,
+    [SubSector_ID]        INT            NULL,
+    [BusinessKey]         NVARCHAR (400) NOT NULL,
+    [ProjectSiteName]     VARCHAR (255)  CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
+    [Active]              INT            CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
+    [sys_CreatedBy]       VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_CreatedOn]       DATETIME       CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
+    [sys_ModifiedBy]      VARCHAR (255)  CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_ModifiedOn]      DATETIME       CONSTRAINT [DF_Project_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [ProjectStartDate]    DATETIME       DEFAULT (getdate()) NOT NULL,
+    [ProjectStartDate_ID] AS             (CONVERT([int],CONVERT([varchar](8),[ProjectStartDate],(112)))),
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
     CONSTRAINT [CK_Project] CHECK ((((case when [Outcome_ID] IS NOT NULL then (1) else (0) end+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [Sector_ID] IS NOT NULL then (1) else (0) end)+case when [SubSector_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -43,4 +43,12 @@
 
 
 
+
+
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project';
 
