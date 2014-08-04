@@ -11,11 +11,23 @@
     [sys_ModifiedBy]     VARCHAR (255) CONSTRAINT [DF_FormResponse_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]     DATETIME      CONSTRAINT [DF_FormResponse_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [FormResponse_FNVID] BIGINT        DEFAULT ((0)) NOT NULL,
+    [Age_ID]             INT           NULL,
+    [AgeBand_ID]         INT           NULL,
+    [CommunityType_ID]   INT           NULL,
+    [Gender_ID]          INT           NULL,
+    [Group_ID]           INT           NULL,
+    [Institution_ID]     INT           NULL,
     CONSTRAINT [PK_FormResponse_3] PRIMARY KEY CLUSTERED ([FormResponse_ID] ASC),
-    CONSTRAINT [FK_FormResponse_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [FK_FormResponse_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
+    CONSTRAINT [FK_FormResponse_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
+    CONSTRAINT [FK_FormResponse_CommunityType] FOREIGN KEY ([CommunityType_ID]) REFERENCES [disagg].[CommunityType] ([CommunityType_ID]),
     CONSTRAINT [FK_FormResponse_Form] FOREIGN KEY ([Form_ID]) REFERENCES [forms].[Form] ([Form_ID]),
-    CONSTRAINT [FK_FormResponse_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID])
+    CONSTRAINT [FK_FormResponse_Gender] FOREIGN KEY ([Gender_ID]) REFERENCES [disagg].[Gender] ([Gender_ID]),
+    CONSTRAINT [FK_FormResponse_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
+    CONSTRAINT [FK_FormResponse_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID])
 );
+
+
 
 
 

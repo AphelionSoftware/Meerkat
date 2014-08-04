@@ -110,11 +110,94 @@ namespace LightSwitchApplication
                             new SqlParameter("@DecimalResponse", entity.DecimalResponse));
                     }
 
-                    command.Parameters.Add(
-                                            new SqlParameter("@isConfidential", entity.isConfidential));
+                    if (entity.isConfidential == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@isConfidential", 0));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@isConfidential", entity.isConfidential));
+                    }
 
-                    command.Parameters.Add(
-                                                                new SqlParameter("@Location_ID", entity.Location.Location_ID));
+                    if (entity.Location == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Location_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Location_ID", entity.Location.Location_ID));
+                    }
+
+                    if (entity.Age == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Age_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Age_ID", entity.Age.Age_ID));
+                    }
+
+                    if (entity.AgeBand == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@AgeBand_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@AgeBand_ID", entity.AgeBand.AgeBand_ID));
+                    }
+
+                    if (entity.CommunityType == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@CommunityType_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@CommunityType_ID", entity.CommunityType.CommunityType_ID));
+                    }
+
+                    if (entity.Gender == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Gender_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Gender_ID", entity.Gender.Gender_ID));
+                    }
+
+                    if (entity.Group == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Group_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Group_ID", entity.Group.Group_ID));
+                    }
+
+                    if (entity.Institution == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Institution_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Institution_ID", entity.Institution.Institution_ID));
+                    }
+
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -125,7 +208,7 @@ namespace LightSwitchApplication
             entity.TrueOrFalse = null;
             entity.PotentialResponse = null;
             entity.Response = null;
-            //this.Details.DiscardChanges();
+            this.Details.DiscardChanges();
         }
 
         partial void Categories_Updating(Category entity)
@@ -139,7 +222,6 @@ namespace LightSwitchApplication
 
         partial void Forms_Updating(Form entity)
         {
-           //entity.isConfidential = false;
            this.Details.DiscardChanges();
         }
     }

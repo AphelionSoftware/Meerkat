@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="LocationType">
+    Name="AgeBand">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,8 +15,17 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
-        Name="LocationType_ID"
+        Name="AgeBand_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -26,32 +35,22 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
+        Name="TextDescription"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
+          <MaxLength />
+          <AnsiConstraint />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Description"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
-          <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -61,6 +60,15 @@
           <Required />
           <MaxLength
             Value="400" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Active"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -71,6 +79,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -92,6 +101,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -106,30 +116,64 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Locations"
-        Association="FK_Location_LocationType"
-        FromEnd="LocationType"
-        ToEnd="Location" />
+        Name="Age"
+        Association="FK_AgeBand_Age"
+        FromEnd="AgeBand"
+        ToEnd="Age" />
       <NavigationProperty
-        Name="ActiveType"
-        Association="FK_LocationType_ActiveType"
-        FromEnd="LocationType"
-        ToEnd="ActiveType" />
+        Name="Age1"
+        Association="FK_AgeBand_Age1"
+        FromEnd="AgeBand"
+        ToEnd="Age" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_AgeBand_Project"
+        FromEnd="AgeBand"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Location_LocationType">
+    Name="FK_Form_AgeBand">
     <AssociationEnd
-      Name="LocationType"
-      EntityType="LocationType">
+      Name="AgeBand"
+      EntityType="AgeBand">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Location"
+      Name="Form"
       Multiplicity="Many"
-      EntityType="Location" />
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -137,24 +181,34 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="LocationTypes"
+      Name="AgeBands"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="LocationType" />
+      EntityType="AgeBand" />
     <AssociationSet
-      Name="FK_Location_LocationType"
-      Association="FK_Location_LocationType">
+      Name="FK_Form_AgeBand"
+      Association="FK_Form_AgeBand">
       <AssociationSetEnd
-        Name="LocationType"
-        EntitySet="LocationTypes" />
+        Name="AgeBand"
+        EntitySet="AgeBands" />
       <AssociationSetEnd
-        Name="Location"
-        EntitySet="Locations" />
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_AgeBand"
+      Association="FK_FormResponse_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
     </AssociationSet>
     <QueryOperation
-      Name="LocationTypes_Single"
-      ReturnType="LocationType">
+      Name="AgeBands_Single"
+      ReturnType="AgeBand">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -167,12 +221,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="LocationType_ID" />
+                  Member="AgeBand_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="LocationType_ID" />
+                Parameter="AgeBand_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -180,21 +234,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="LocationTypes" />
+            Member="AgeBands" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="LocationType_ID"
+        Name="AgeBand_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'AgeBand_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="LocationTypes_SingleOrDefault"
-      ReturnType="LocationType">
+      Name="AgeBands_SingleOrDefault"
+      ReturnType="AgeBand">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -207,12 +261,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="LocationType_ID" />
+                  Member="AgeBand_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="LocationType_ID" />
+                Parameter="AgeBand_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -220,105 +274,186 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="LocationTypes" />
+            Member="AgeBands" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="LocationType_ID"
+        Name="AgeBand_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'LocationType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'AgeBand_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Question_AgeBand"
+      Association="FK_Question_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Question_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="LocationTypes">
+      EntitySet="AgeBands">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="LocationType" />
+          Schema="disagg"
+          Table="AgeBand" />
         <SsdlProperty
-          Name="LocationType_ID"
+          Name="AgeBand_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="LocationType/Properties[LocationType_ID]" />
+          Property="AgeBand/Properties[AgeBand_ID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
-          Type="varchar"
-          Property="LocationType/Properties[Code]" />
+          Name="TextDescription"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="AgeBand/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
-          Property="LocationType/Properties[Name]" />
+          Property="AgeBand/Properties[Name]" />
         <SsdlProperty
-          Name="Description"
-          Nullable="False"
-          Type="varchar(max)"
-          Property="LocationType/Properties[Description]" />
+          MaxLength="50"
+          Name="Code"
+          Nullable="True"
+          Type="varchar"
+          Property="AgeBand/Properties[Code]" />
         <SsdlProperty
           MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="LocationType/Properties[BusinessKey]" />
+          Property="AgeBand/Properties[BusinessKey]" />
+        <SsdlProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          Property="AgeBand/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[sys_CreatedBy]" />
+          Property="AgeBand/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="LocationType/Properties[sys_CreatedOn]" />
+          Property="AgeBand/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="LocationType/Properties[sys_ModifiedBy]" />
+          Property="AgeBand/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="LocationType/Properties[sys_ModifiedOn]" />
+          Property="AgeBand/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
-          Name="Active"
+          Name="AgeBandMin_ID"
           Nullable="False"
           Type="int"
-          PropertyName="Active" />
+          PropertyName="AgeBandMin_ID" />
+        <SsdlForeignKeyProperty
+          Name="AgeBandMax_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="AgeBandMax_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Location_LocationType">
+      AssociationSet="FK_Form_AgeBand">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Location_LocationType" />
+          Name="FK_Form_AgeBand" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Location_LocationType]/Members[LocationType]">
+          End="MeerkatData/Members[FK_Form_AgeBand]/Members[AgeBand]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="LocationType_ID" />
+              Name="AgeBand_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Location_LocationType]/Members[Location]">
+          End="MeerkatData/Members[FK_Form_AgeBand]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="LocationType_ID" />
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_AgeBand]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_AgeBand]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
