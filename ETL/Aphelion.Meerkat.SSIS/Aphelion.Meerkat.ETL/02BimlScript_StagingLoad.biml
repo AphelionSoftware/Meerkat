@@ -2,8 +2,8 @@
 Update Connection strings
 Regenerate SSIS packages
 -->
-<# var SourceConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
-<# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# var SourceConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestSchema = DestConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
 <# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  

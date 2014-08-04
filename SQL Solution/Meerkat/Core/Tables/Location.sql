@@ -5,7 +5,7 @@
     [AreaKM]            DECIMAL (18, 2)   NULL,
     [Population]        DECIMAL (18, 2)   NULL,
     [Density]           VARCHAR (MAX)     NULL,
-    [BusinessKey]       NVARCHAR (4000)   NOT NULL,
+    [BusinessKey]       NVARCHAR (400)    NOT NULL,
     [LocationType_ID]   INT               NULL,
     [ParentLocation_ID] INT               NULL,
     [Geog]              [sys].[geography] NULL,
@@ -21,6 +21,8 @@
     CONSTRAINT [UQ_Location_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([ParentLocation_ID] ASC, [Code] ASC)
 );
+
+
 
 
 
