@@ -371,7 +371,7 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender =
     // Write code here.
     // if (contentItem.screen == null)
     var x = contentItem.data;
-    if (!(contentItem.data.getActualValue()._value) && (contentItem.screen.PreviousDataVersion - contentItem.value.Order_postRender != 1)) {
+    if (!(contentItem.data.getActualValue()._value)) {
         contentItem.isVisible = false;
         //contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
     } else {
