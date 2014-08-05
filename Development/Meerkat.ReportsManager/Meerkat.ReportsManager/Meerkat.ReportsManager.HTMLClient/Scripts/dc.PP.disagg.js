@@ -253,7 +253,7 @@ dcLSWrapper.prototype.barCharts = function (arrbarCharts) {
                 })
                 .renderTitle(true)
                 .xAxisLabel("Date")
-                .yAxisLabel("Number Reached ");
+                .yAxisLabel("");
 
         barChart.xAxis().ticks(d3.keys(domain).length);
         barChart.elasticY(true);
