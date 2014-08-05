@@ -35,7 +35,7 @@ function fnv_1a(v) {
 }
 
 myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
-    // Write code here.
+
     try {
         myapp.activeDataWorkspace.MeerkatData.saveChanges();
         myapp.applyChanges().then(
@@ -71,7 +71,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                                 screen.CompletedCategories++;
                                 myapp.applyChanges().then( 
                                     function(){
-                                        
+                                        screen.strCategoryToHide = screen.Categories.selectedItem.Name;
                                         if (screen.CompletedCategories == screen.Categories.count) {
                                             //ANd here we have finished the form, so back to home screen
                                             myapp.navigateHome();
@@ -97,7 +97,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
     }
 };
 myapp.ViewForm.created = function (screen) {
-    // Write code here.
+
     var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
@@ -107,6 +107,51 @@ myapp.ViewForm.created = function (screen) {
     screen.CompletedCategories = 0;
 };
 myapp.ViewForm.RowTemplate_postRender = function (element, contentItem) {
-    // Write code here.
+    contentItem.dataBind("screen.strCategoryToHide", 
+        function () {
+            var x = $(element)[0];
+            if (contentItem.screen.strCategoryToHide && x.innerText == contentItem.screen.strCategoryToHide)
+            {
+               
+                $(element).css("background", "#808080");
+
+            }
+        })
+
+};
+myapp.ViewForm.Form_Age_postRender = function (element, contentItem) {
+    if (!contentItem.screen.Form.ShowAge) {
+        contentItem.isVisible = false;
+    }
+};
+myapp.ViewForm.Form_AgeBand_postRender = function (element, contentItem) {
+    if (!contentItem.screen.Form.ShowAgeBand) {
+        contentItem.isVisible = false;
+    }
+};
+myapp.ViewForm.Form_CommunityType_postRender = function (element, contentItem) {
+    
+    if (!contentItem.screen.Form.ShowCommunityType) {
+        contentItem.isVisible = false;
+    }
+};
+myapp.ViewForm.Form_Gender_postRender = function (element, contentItem) {
+    if (!contentItem.screen.Form.ShowGender) {
+        contentItem.isVisible = false;
+    }
+};
+myapp.ViewForm.Form_Group_postRender = function (element, contentItem) {
+    if (!contentItem.screen.Form.ShowGroup) {
+        contentItem.isVisible = false;
+    }
+
+};
+myapp.ViewForm.Form_Institution_postRender = function (element, contentItem) {
+    if (!contentItem.screen.Form.ShowInstitution) {
+        contentItem.isVisible = false;
+    }
+};
+myapp.ViewForm.Categories1_postRender = function (element, contentItem) {
+
 
 };
