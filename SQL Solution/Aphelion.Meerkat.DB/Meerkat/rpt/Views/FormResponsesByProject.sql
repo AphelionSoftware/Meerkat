@@ -1,14 +1,11 @@
 ﻿CREATE VIEW rpt.FormResponsesByProject
 AS
 
+
 select 
 	LT.Code AS LocationTypeCode
 	,L.Name LocationName
-	,L.BusinessKey LocationBusinessKey
-	,Src.ProjectBusinessKey
-	,Src.ProjectID
 	,Src.ProjectName
-	, RP.ReportingPeriod
 	, RP.Summary ReportPeriod
 	, F.Name FormName
 from forms.FormResponse FR
@@ -35,3 +32,9 @@ OUTER APPLY (
 		WHERE C.Form_ID = F.Form_ID
 			)  
 		Src
+		
+		
+		
+GO
+
+
