@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="CustomReport">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="CustomReport_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_CustomReport_ActiveType"
+        FromEnd="CustomReport"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="CustomReport_Indicators"
+        Association="FK_CustomReport_Indicator_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_Indicator" />
+      <NavigationProperty
+        Name="CustomReport_Projects"
+        Association="FK_CustomReport_Project_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_Project" />
+      <NavigationProperty
+        Name="CustomReport_Calendars"
+        Association="FK_CustomReport_Calendar_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_Calendar" />
+      <NavigationProperty
+        Name="CustomReportType"
+        Association="FK_CustomReport_CustomReportType"
+        FromEnd="CustomReport"
+        ToEnd="CustomReportType" />
+      <NavigationProperty
+        Name="CustomReport_ResponsiblePersons"
+        Association="FK_CustomReport_ResponsiblePerson_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="CustomReport_ResponsiblePerson" />
+      <NavigationProperty
+        Name="vwAllReportsByPeoples"
+        Association="vwAllReportsByPeople_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="vwAllReportsByPeople" />
+      <NavigationProperty
+        Name="vwEachReports"
+        Association="vwEachReport_CustomReport"
+        FromEnd="CustomReport"
+        ToEnd="vwEachReport" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="FK_CustomReport_Indicator_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Indicator"
+      Multiplicity="Many"
+      EntityType="CustomReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_CustomReport_Project_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Project"
+      Multiplicity="Many"
+      EntityType="CustomReport_Project" />
+  </Association>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      Name="CustomReports"
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="CustomReport" />
+    <AssociationSet
+      Name="FK_CustomReport_Indicator_CustomReport"
+      Association="FK_CustomReport_Indicator_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_Indicator"
+        EntitySet="CustomReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_CustomReport_Project_CustomReport"
+      Association="FK_CustomReport_Project_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_Project"
+        EntitySet="CustomReport_Projects" />
+    </AssociationSet>
+    <QueryOperation
+      Name="CustomReports_Single"
+      ReturnType="CustomReport">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="CustomReport_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="CustomReport_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="CustomReports" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="CustomReport_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'CustomReport_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="CustomReports_SingleOrDefault"
+      ReturnType="CustomReport">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="CustomReport_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="CustomReport_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="CustomReports" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="CustomReport_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'CustomReport_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Name="FK_CustomReport_Calendar_CustomReport"
+      Association="FK_CustomReport_Calendar_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_Calendar"
+        EntitySet="CustomReport_Calendars" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_CustomReport_ResponsiblePerson_CustomReport"
+      Association="FK_CustomReport_ResponsiblePerson_CustomReport">
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+      <AssociationSetEnd
+        Name="CustomReport_ResponsiblePerson"
+        EntitySet="CustomReport_ResponsiblePersons" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwAllReportsByPeople_CustomReports"
+      Association="vwAllReportsByPeople_CustomReport">
+      <AssociationSetEnd
+        Name="vwAllReportsByPeople"
+        EntitySet="vwAllReportsByPeoples" />
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwEachReport_CustomReports"
+      Association="vwEachReport_CustomReport">
+      <AssociationSetEnd
+        Name="vwEachReport"
+        EntitySet="vwEachReports" />
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association
+    Name="FK_CustomReport_Calendar_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Calendar"
+      Multiplicity="Many"
+      EntityType="CustomReport_Calendar" />
+  </Association>
+  <Association
+    Name="FK_CustomReport_ResponsiblePerson_CustomReport">
+    <AssociationEnd
+      Name="CustomReport"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_ResponsiblePerson"
+      Multiplicity="Many"
+      EntityType="CustomReport_ResponsiblePerson" />
+  </Association>
+  <Association
+    Name="vwAllReportsByPeople_CustomReport">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwAllReportsByPeople"
+      Multiplicity="Many"
+      EntityType="vwAllReportsByPeople" />
+    <AssociationEnd
+      Name="CustomReport"
+      Multiplicity="One"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="vwEachReport_CustomReport">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwEachReport"
+      Multiplicity="Many"
+      EntityType="vwEachReport" />
+    <AssociationEnd
+      Name="CustomReport"
+      Multiplicity="One"
+      EntityType="CustomReport">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <DataService
+    Name="MeerkatDataDataService">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="CustomReports">
+      <EntitySetMapping.Attributes>
+        <SsdlEntitySet
+          Schema="rpt"
+          Table="CustomReport" />
+        <SsdlProperty
+          Name="CustomReport_ID"
+          Nullable="False"
+          StoreGeneratedPattern="Identity"
+          Type="int"
+          Property="CustomReport/Properties[CustomReport_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="CustomReport/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
+          Type="varchar"
+          Property="CustomReport/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="CustomReport/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_CreatedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="CustomReport/Properties[sys_CreatedBy]" />
+        <SsdlProperty
+          Name="sys_CreatedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="CustomReport/Properties[sys_CreatedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_ModifiedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="CustomReport/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="CustomReport/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="CustomReportType_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="CustomReportType_ID" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_Calendar_CustomReport">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_Calendar_CustomReport" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Calendar_CustomReport]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Calendar_CustomReport]/Members[CustomReport_Calendar]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_Indicator_CustomReport">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_Indicator_CustomReport" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Indicator_CustomReport]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Indicator_CustomReport]/Members[CustomReport_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_Project_CustomReport">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_Project_CustomReport" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Project_CustomReport]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_Project_CustomReport]/Members[CustomReport_Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_ResponsiblePerson_CustomReport">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_ResponsiblePerson_CustomReport" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_CustomReport]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_CustomReport]/Members[CustomReport_ResponsiblePerson]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwAllReportsByPeople_CustomReports">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwAllReportsByPeople_CustomReports" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwAllReportsByPeople_CustomReports]/Members[vwAllReportsByPeople]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwAllReportsByPeople_CustomReports]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwEachReport_CustomReports">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwEachReport_CustomReports" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachReport_CustomReports]/Members[vwEachReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachReport_CustomReports]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReport_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>

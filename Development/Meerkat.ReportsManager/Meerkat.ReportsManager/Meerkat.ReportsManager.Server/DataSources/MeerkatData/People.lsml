@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="Person">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <KeyProperty
+        Name="Person_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="Title"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ContactDetails"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Category"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="UserDetails"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Person_ActiveType"
+        FromEnd="Person"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="CustomReport_ResponsiblePersons"
+        Association="FK_CustomReport_ResponsiblePerson_ResponsiblePerson"
+        FromEnd="Person"
+        ToEnd="CustomReport_ResponsiblePerson" />
+      <NavigationProperty
+        Name="vwAllReportsByPeoples"
+        Association="vwAllReportsByPeople_Person"
+        FromEnd="Person"
+        ToEnd="vwAllReportsByPeople" />
+      <NavigationProperty
+        Name="vwEachPersonsReports"
+        Association="vwEachPersonsReport_Person"
+        FromEnd="Person"
+        ToEnd="vwEachPersonsReport" />
+      <NavigationProperty
+        Name="vwEachReports"
+        Association="vwEachReport_Person"
+        FromEnd="Person"
+        ToEnd="vwEachReport" />
+    </EntityType.Properties>
+  </EntityType>
+  <EntityContainer
+    Name="MeerkatData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      Name="People"
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="Person" />
+    <QueryOperation
+      Name="People_Single"
+      ReturnType="Person">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Person_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Person_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="People" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Person_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Person_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="People_SingleOrDefault"
+      ReturnType="Person">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Person_ID" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Person_ID" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="People" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Person_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Person_ID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Name="FK_CustomReport_ResponsiblePerson_ResponsiblePerson"
+      Association="FK_CustomReport_ResponsiblePerson_ResponsiblePerson">
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+      <AssociationSetEnd
+        Name="CustomReport_ResponsiblePerson"
+        EntitySet="CustomReport_ResponsiblePersons" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwAllReportsByPeople_People"
+      Association="vwAllReportsByPeople_Person">
+      <AssociationSetEnd
+        Name="vwAllReportsByPeople"
+        EntitySet="vwAllReportsByPeoples" />
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwEachPersonsReport_People"
+      Association="vwEachPersonsReport_Person">
+      <AssociationSetEnd
+        Name="vwEachPersonsReport"
+        EntitySet="vwEachPersonsReports" />
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwEachReport_People"
+      Association="vwEachReport_Person">
+      <AssociationSetEnd
+        Name="vwEachReport"
+        EntitySet="vwEachReports" />
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association
+    Name="FK_CustomReport_ResponsiblePerson_ResponsiblePerson">
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_ResponsiblePerson"
+      Multiplicity="Many"
+      EntityType="CustomReport_ResponsiblePerson" />
+  </Association>
+  <Association
+    Name="vwAllReportsByPeople_Person">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwAllReportsByPeople"
+      Multiplicity="Many"
+      EntityType="vwAllReportsByPeople" />
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="vwEachPersonsReport_Person">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwEachPersonsReport"
+      Multiplicity="Many"
+      EntityType="vwEachPersonsReport" />
+    <AssociationEnd
+      Name="Person"
+      Multiplicity="One"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="vwEachReport_Person">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwEachReport"
+      Multiplicity="Many"
+      EntityType="vwEachReport" />
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <DataService
+    Name="MeerkatDataDataService">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="People">
+      <EntitySetMapping.Attributes>
+        <SsdlEntitySet
+          Schema="Core"
+          Table="Person" />
+        <SsdlProperty
+          Name="Person_ID"
+          Nullable="False"
+          StoreGeneratedPattern="Identity"
+          Type="int"
+          Property="Person/Properties[Person_ID]" />
+        <SsdlProperty
+          Name="Title"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Person/Properties[Title]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Name"
+          Nullable="False"
+          Type="varchar"
+          Property="Person/Properties[Name]" />
+        <SsdlProperty
+          Name="ContactDetails"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Person/Properties[ContactDetails]" />
+        <SsdlProperty
+          Name="Category"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Person/Properties[Category]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Person/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="UserDetails"
+          Nullable="True"
+          Type="varchar"
+          Property="Person/Properties[UserDetails]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_CreatedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Person/Properties[sys_CreatedBy]" />
+        <SsdlProperty
+          Name="sys_CreatedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Person/Properties[sys_CreatedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="sys_ModifiedBy"
+          Nullable="False"
+          Type="varchar"
+          Property="Person/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Person/Properties[sys_ModifiedOn]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_ResponsiblePerson_ResponsiblePerson">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_ResponsiblePerson_ResponsiblePerson" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_ResponsiblePerson]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_ResponsiblePerson]/Members[CustomReport_ResponsiblePerson]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ResponsiblePerson_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwAllReportsByPeople_People">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwAllReportsByPeople_People" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwAllReportsByPeople_People]/Members[vwAllReportsByPeople]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwAllReportsByPeople_People]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwEachPersonsReport_People">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwEachPersonsReport_People" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachPersonsReport_People]/Members[vwEachPersonsReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachPersonsReport_People]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwEachReport_People">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwEachReport_People" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachReport_People]/Members[vwEachReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEachReport_People]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>
