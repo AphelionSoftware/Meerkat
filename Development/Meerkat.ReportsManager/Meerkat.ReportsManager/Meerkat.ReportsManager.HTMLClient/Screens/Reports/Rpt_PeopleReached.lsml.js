@@ -54,3 +54,8 @@ myapp.Rpt_PeopleReached.CARE_render = function (element, contentItem) {
     $(div).appendTo($(element));
     chartWrapper.addRowChart('ShortNameDiv', 'ShortName', 600, 400);
 };
+myapp.Rpt_PeopleReached.LoadingStatus_render = function (element, contentItem) {
+    div = $("<div class='LoadingStatus' id='LoadingStatus' style='font-size:20px'></div>");
+    $(div).appendTo($(element));
+    chartWrapper.statusDiv = div;
+};

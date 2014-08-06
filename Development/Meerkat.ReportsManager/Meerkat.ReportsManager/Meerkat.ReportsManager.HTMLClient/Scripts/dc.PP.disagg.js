@@ -1,5 +1,6 @@
 ﻿/// <reference path="dc.js" />
 /// <reference path="d3.js" />
+/// <reference path="d3.geo.projection.js" />
 
 
 dcLSWrapper = function () {
@@ -22,6 +23,8 @@ dcLSWrapper.prototype.url = "";
 dcLSWrapper.prototype.mapUrl = ""
 dcLSWrapper.prototype.mapID = "";
 dcLSWrapper.prototype.numberField = "";
+dcLSWrapper.prototype.statusDiv = new Object;
+
 //Region methods
 
 
@@ -88,7 +91,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
        .translate([width / 2, height]);*/
 
         // Create a unit projection.
-        var projection = d3.geo.mercator()
+        var projection = d3.geo.mollweide()
             .scale(1)
             .translate([0, 0]);
 
@@ -135,6 +138,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
                 .colors(d3.scale.quantize().range(["#F2F9FF","#D8EDFF", "#C4E4FF", "#B2DCFF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0070CC", "#0061B5", "#005499", "#00467F"]))
                 .colorDomain([0, max])
                 .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
+                
                 .overlayGeoJson(locJSON.features, "location", function (d) {
                     if (d.properties.Location_Name) {
                         return d.properties.Location_Name;
@@ -154,6 +158,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
                 .title(function (d) {
                     return "Location: " + d.key + numberFormat(d.value ? d.value : 0);
                 });
+
         dc.renderAll();
     });
 }
@@ -182,15 +187,16 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
 
         max = d3.max(d3.values(domain));
         //min = d3.min(d3.values(domain));
-
+        //overriding the set heiht
+        var height = d3.values(domain).length * 40;
 
         var rowChart = dc.rowChart("#" + x.divID);
         var scale = d3.scale.linear()
             .domain([0, max])
-            .ticks(5);
+            .ticks(4);
         rowChart
                  .width(x.width)
-                .height(x.height)
+                .height(/*x.height*/ height)
                 .dimension(disaggDim)
                 .group(disaggGroup)
                 .transitionDuration(500)
@@ -230,9 +236,7 @@ dcLSWrapper.prototype.barCharts = function (arrbarCharts) {
 
 
         var barChart = dc.barChart("#" + x.divID);
-        var scale = d3.scale.linear()
-            .domain([0, max])
-            .ticks(5);
+
         barChart
                  .width(x.width)
                 .height(x.height)
@@ -274,14 +278,28 @@ dcLSWrapper.prototype.setupPage = function () {
     var mapID = this.mapID;
     var arrRowCharts = this.arrRowCharts;
     var arrBarCharts = this.arrBarCharts;
+    var statusDiv = this.statusDiv;
+    $(statusDiv)[0].innerText = "Retrieving data - please wait";
+
     var obj = this;
+    
+
     d3.json(this.url,
     function (error, jsonData) {
+
+
+        $(statusDiv)[0].innerText = "Rendering";
         obj.rootData = jsonData;
         obj.data = crossfilter(obj.rootData.value);
         obj.mapCharts(mapID, mapUrl);
         obj.rowCharts(arrRowCharts);
         obj.barCharts(arrBarCharts);
+
+
+
+        $(statusDiv)[0].innerText = "";
+
+        //$(statusDiv)[0].visible = false;
     });
 
 }

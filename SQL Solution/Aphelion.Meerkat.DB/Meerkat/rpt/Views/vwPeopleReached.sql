@@ -1,11 +1,12 @@
-﻿CREATE view Rpt.vwPeopleReached
+﻿
+CREATE view [rpt].[vwPeopleReached]
 as
 SELECT 
 	[PeopleReachedValues].[PeopleReachedValuesID] 
 	,CASE
 		 WHEN [Activity].[BusinessKey]  IS NOT NULL THEN 'ACT'
 		 WHEN [Outcome].[BusinessKey]  IS NOT NULL THEN 'OM'
-		 WHEN [Output].[BusinessKey]  IS NOT NULL THEN 'OT{'
+		 WHEN [Output].[BusinessKey]  IS NOT NULL THEN 'OTP'
 		 WHEN [Programme].[BusinessKey]  IS NOT NULL THEN 'PROG'
 		 WHEN [Project].[BusinessKey]  IS NOT NULL THEN 'PRJ'
 		 WHEN [Sector].[BusinessKey]  IS NOT NULL THEN 'SEC'
