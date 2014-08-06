@@ -191,9 +191,14 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
         var height = d3.values(domain).length * 40;
 
         var rowChart = dc.rowChart("#" + x.divID);
-        var scale = d3.scale.linear()
-            .domain([0, max])
-            .ticks(4);
+        var scale = d3.scale.linear();
+                    
+        scale.domain([0, max])
+                    .ticks(5)
+        ;
+        scale.range([0, x.width]);
+        var xScale = scale.copy();
+
         rowChart
                  .width(x.width)
                 .height(/*x.height*/ height)
@@ -201,7 +206,9 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
                 .group(disaggGroup)
                 .transitionDuration(500)
                 .colors("#1f77b4")
-        /*.x(scale)*/
+        .x(scale)
+        .xAxis()
+        .ticks(5)
         ;
 
 
