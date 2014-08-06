@@ -34,19 +34,24 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
                     target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
-            case "PROG":
+            case "Programme":
                 {
-                    target = contentItem.screen.findContentItem("Programme");
+                    target = contentItem.screen.findContentItem("ProgrammeGroup");
                     break;
                 }
-            case "SEC":
+            case "Sector":
                 {
-                    target = contentItem.screen.findContentItem("Sector");
+                    target = contentItem.screen.findContentItem("SectorGroup");
                     break;
                 }
-            case "SS":
+            case "SubSector":
                 {
-                    target = contentItem.screen.findContentItem("SubSector");
+                    target = contentItem.screen.findContentItem("SubsectorGroup");
+                    break;
+                }
+            case "Project":
+                {
+                    target = contentItem.screen.findContentItem("ProjectGroup");
                     break;
                 }
             default:
