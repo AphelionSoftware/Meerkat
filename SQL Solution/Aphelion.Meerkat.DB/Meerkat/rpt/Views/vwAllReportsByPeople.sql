@@ -23,10 +23,10 @@ select TOP 2147483647
 		WHEN DD.[Date] = CRC.ReportDueDate THEN 'Due'
 		END
 , Value = CASE 
-		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 1 
-		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 2
-		WHEN DD.[Date] < CRC.ReportDueDate THEN 4
-		WHEN DD.[Date] = CRC.ReportDueDate THEN 8
+		WHEN DD.[Date] < CRC.ReportWarningStartDate THEN 2 
+		WHEN DD.[Date] < CRC.ReportDeadlineStartDate THEN 4
+		WHEN DD.[Date] < CRC.ReportDueDate THEN 8
+		WHEN DD.[Date] = CRC.ReportDueDate THEN 32 /*Massively higher*/
 		END
 , CR.CustomReport_ID
 , CRC.CustomReport_Calendar_ID
