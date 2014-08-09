@@ -1,0 +1,584 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="08/09/2014 11:16:27" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-VAIOPRO" DTS:CreatorName="MarkGStacey" DTS:DTSID="{E0065481-E854-4E03-A150-40BE671136E2}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="1033" DTS:ObjectName="ExcelLoad_Staging_Indicator" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{2FE95759-CAD6-4D1B-A146-087913F1FB96}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{7C83E2CC-9BA9-4938-B6AB-6260CCEE89AB}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{9384937A-3726-4029-9178-AAFC2786E8E4}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_Indicator" DTS:refId="Package\SQL_Truncate Staging_Indicator" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[Indicator]&#xA;    /*&#xA;     SELECT *&#xA;                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                               , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Indicator.xlsx'&#xA;                               , 'select * from [Sheet1$A2:XFD]'&#xA;                               )&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{9A212063-1D4D-435E-A0CB-EE46D1AFE5C2}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_Indicator" DTS:refId="Package\DFT_Load Staging_Indicator" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_Indicator_xlsx" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
+              <connections>
+                <connection connectionManagerID="{7C83E2CC-9BA9-4938-B6AB-6260CCEE89AB}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="IndicatorID" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="r8" name="Baseline" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Baseline]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="BaselineDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BaselineDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BaselineString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BaselineString]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Code" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="LongName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[LongName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Notes" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Notes]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="ReleaseDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ReleaseDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ReportingDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ReportingDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ShortName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ShortName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="r8" name="Target" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Target]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="TargetDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TargetDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="TargetString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TargetString]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="TextDescription" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TextDescription]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="UnitOfMeasure" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[UnitOfMeasure]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="IndicatorTypeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorTypeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="OutcomeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[OutcomeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="OutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[OutputBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ProgrammeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ProgrammeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ProjectBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ProjectBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="SectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SectorBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="SubOutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SubOutputBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="SubSectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SubSectorBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorID]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" name="IndicatorID" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="r8" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Baseline]" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" name="Baseline" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BaselineDate]" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" name="BaselineDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BaselineString]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" name="BaselineString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[BusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Code]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[LongName]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Notes]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" name="Notes" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ReleaseDate]" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" name="ReleaseDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ReportingDate]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" name="ReportingDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ShortName]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="r8" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[Target]" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" name="Target" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TargetDate]" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" name="TargetDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TargetString]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" name="TargetString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[TextDescription]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[UnitOfMeasure]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" name="UnitOfMeasure" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[IndicatorTypeBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" name="IndicatorTypeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[OutcomeBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" name="OutcomeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[OutputBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" name="OutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ProgrammeBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" name="ProgrammeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[ProjectBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" name="ProjectBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SectorBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" name="SectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SubOutputBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" name="SubOutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].ExternalColumns[SubSectorBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" name="SubSectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[IndicatorID]" name="IndicatorID" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[IndicatorID]">
+                    </outputColumn>
+                    <outputColumn dataType="r8" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Baseline]" name="Baseline" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Baseline]">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BaselineDate]" name="BaselineDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BaselineDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BaselineString]" name="BaselineString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BaselineString]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[BusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Code]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[LongName]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Notes]" name="Notes" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Notes]">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ReleaseDate]" name="ReleaseDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ReleaseDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ReportingDate]" name="ReportingDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ReportingDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ShortName]">
+                    </outputColumn>
+                    <outputColumn dataType="r8" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Target]" name="Target" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[Target]">
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TargetDate]" name="TargetDate" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TargetDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TargetString]" name="TargetString" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TargetString]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[TextDescription]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[UnitOfMeasure]" name="UnitOfMeasure" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[UnitOfMeasure]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[IndicatorTypeBusinessKey]" name="IndicatorTypeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[IndicatorTypeBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[OutcomeBusinessKey]" name="OutcomeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[OutcomeBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[OutputBusinessKey]" name="OutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[OutputBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ProgrammeBusinessKey]" name="ProgrammeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ProgrammeBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ProjectBusinessKey]" name="ProjectBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ProjectBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SectorBusinessKey]" name="SectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SectorBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SubOutputBusinessKey]" name="SubOutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SubOutputBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SubSectorBusinessKey]" name="SubSectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[SubSectorBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Indicator.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_Indicator_xlsx" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="IndicatorID" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="r8" cachedName="Baseline" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[Baseline]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp" cachedName="BaselineDate" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[BaselineDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="BaselineString" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[BaselineString]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="BusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Code" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="LongName" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[LongName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Notes" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[Notes]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp" cachedName="ReleaseDate" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[ReleaseDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ReportingDate" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[ReportingDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ShortName" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[ShortName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="r8" cachedName="Target" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[Target]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp" cachedName="TargetDate" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[TargetDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="TargetString" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[TargetString]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="TextDescription" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[TextDescription]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="UnitOfMeasure" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[UnitOfMeasure]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="IndicatorTypeBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[IndicatorTypeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="OutcomeBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[OutcomeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="OutputBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[OutputBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ProgrammeBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[ProgrammeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ProjectBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[ProjectBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="SectorBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[SectorBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="SubOutputBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[SubOutputBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="SubSectorBusinessKey" lineageId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx].Columns[SubSectorBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" name="IndicatorID" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="numeric" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" name="Baseline" precision="20" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" scale="5" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" name="BaselineDate" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="text" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" name="BaselineString" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" name="BusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" name="Code" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="500" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" name="LongName" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="nText" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" name="Notes" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbDate" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" name="ReleaseDate" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbDate" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" name="ReportingDate" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" name="ShortName" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="numeric" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" name="Target" precision="20" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" scale="5" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" name="TargetDate" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="text" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" name="TargetString" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="text" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" name="TextDescription" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="50" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" name="UnitOfMeasure" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" name="IndicatorTypeBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" name="OutcomeBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" name="OutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" name="ProgrammeBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" name="ProjectBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" name="SectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" name="SubOutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" name="SubSectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_Indicator" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{7C83E2CC-9BA9-4938-B6AB-6260CCEE89AB}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="IndicatorID" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[IndicatorID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="numeric" name="Baseline" precision="20" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Baseline]" scale="5">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="BaselineDate" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BaselineDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="text" name="BaselineString" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BaselineString]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="BusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="Code" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Code]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="500" name="LongName" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[LongName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="nText" name="Notes" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Notes]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbDate" name="ReleaseDate" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ReleaseDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbDate" name="ReportingDate" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ReportingDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="ShortName" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ShortName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="numeric" name="Target" precision="20" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Target]" scale="5">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="TargetDate" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TargetDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="text" name="TargetString" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TargetString]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="text" name="TextDescription" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TextDescription]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="50" name="UnitOfMeasure" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[UnitOfMeasure]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="IndicatorTypeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[IndicatorTypeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="OutcomeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[OutcomeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="OutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[OutputBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ProgrammeBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ProgrammeBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ProjectBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ProjectBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="SectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SectorBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="SubOutputBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SubOutputBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="SubSectorBusinessKey" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SubSectorBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="IndicatorID" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[IndicatorID]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorID]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="numeric" cachedName="Baseline" cachedPrecision="20" cachedScale="5" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Baseline]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Baseline]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[Baseline]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp" cachedName="BaselineDate" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BaselineDate]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineDate]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[BaselineDate]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="text" cachedName="BaselineString" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BaselineString]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BaselineString]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[BaselineString]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="BusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[BusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[BusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[BusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="Code" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Code]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Code]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[Code]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="500" cachedName="LongName" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[LongName]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[LongName]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[LongName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="nText" cachedName="Notes" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Notes]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Notes]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[Notes]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbDate" cachedName="ReleaseDate" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ReleaseDate]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReleaseDate]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[ReleaseDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbDate" cachedName="ReportingDate" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ReportingDate]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ReportingDate]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[ReportingDate]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="ShortName" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ShortName]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ShortName]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[ShortName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="numeric" cachedName="Target" cachedPrecision="20" cachedScale="5" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[Target]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[Target]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[Target]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp" cachedName="TargetDate" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TargetDate]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetDate]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[TargetDate]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="text" cachedName="TargetString" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TargetString]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TargetString]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[TargetString]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="text" cachedName="TextDescription" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[TextDescription]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[TextDescription]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[TextDescription]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="50" cachedName="UnitOfMeasure" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[UnitOfMeasure]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[UnitOfMeasure]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[UnitOfMeasure]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="IndicatorTypeBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[IndicatorTypeBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[IndicatorTypeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[IndicatorTypeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="OutcomeBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[OutcomeBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutcomeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[OutcomeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="OutputBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[OutputBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[OutputBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[OutputBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ProgrammeBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ProgrammeBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProgrammeBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[ProgrammeBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ProjectBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[ProjectBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[ProjectBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[ProjectBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="SectorBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SectorBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SectorBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[SectorBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="SubOutputBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SubOutputBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubOutputBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[SubOutputBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="SubSectorBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].ExternalColumns[SubSectorBusinessKey]" lineageId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output].Columns[SubSectorBusinessKey]" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator].Columns[SubSectorBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[Indicator]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Inputs[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx]" name="OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx" refId="Package\DFT_Load Staging_Indicator.Paths[OLE_SRC_Staging_Indicator_xlsx_Output_DCNV_Staging_Indicator_xlsx]" startId="Package\DFT_Load Staging_Indicator\OLE_SRC_Staging_Indicator_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_Indicator\OLE_DST_Staging_Indicator.Inputs[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator]" name="DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator" refId="Package\DFT_Load Staging_Indicator.Paths[DCNV_Staging_Indicator_xlsx_Output_OLE_DST_Staging_Indicator]" startId="Package\DFT_Load Staging_Indicator\DCNV_Staging_Indicator_xlsx.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{81E40DF5-41F1-4AB8-A16B-9038D380B399}" DTS:From="Package\SQL_Truncate Staging_Indicator" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_Indicator_To_DFT_Load Staging_Indicator" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_Indicator_To_DFT_Load Staging_Indicator]" DTS:To="Package\DFT_Load Staging_Indicator">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+</DTS:Executable>

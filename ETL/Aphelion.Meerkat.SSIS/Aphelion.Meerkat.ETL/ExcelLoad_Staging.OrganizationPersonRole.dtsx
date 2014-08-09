@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="08/09/2014 11:16:35" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-VAIOPRO" DTS:CreatorName="MarkGStacey" DTS:DTSID="{3F588876-D125-4FB5-9B99-4009C826D3D5}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="1033" DTS:ObjectName="ExcelLoad_Staging_OrganizationPersonRole" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{70CE20C0-676C-4B4E-9F60-740BA9976421}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="OLEDB" DTS:DTSID="{87522FBB-FE55-4698-BE9F-207FA6EE7FF1}" DTS:ObjectName="MeerkatStagingBIML" DTS:refId="Package.ConnectionManagers[MeerkatStagingBIML]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{C7B029A4-3250-4D91-90D3-93CE6A4A8428}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate Staging_OrganizationPersonRole" DTS:refId="Package\SQL_Truncate Staging_OrganizationPersonRole" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatStagingBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Staging].[OrganizationPersonRole]&#xA;    /*&#xA;     SELECT *&#xA;                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                               , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.OrganizationPersonRole.xlsx'&#xA;                               , 'select * from [Sheet1$A2:XFD]'&#xA;                               )&#xA;    */&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{8967D96A-69D3-4B57-AAEB-A9A163B53296}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:ObjectName="DFT_Load Staging_OrganizationPersonRole" DTS:refId="Package\DFT_Load Staging_OrganizationPersonRole" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_OrganizationPersonRole_xlsx" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx" usesDispositions="true" validateExternalMetadata="False" version="7">
+              <connections>
+                <connection connectionManagerID="{87522FBB-FE55-4698-BE9F-207FA6EE7FF1}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="OrganizationPersonRole_ID" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[OrganizationPersonRole_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="EndDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[EndDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="StartDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[StartDate]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="OrganizationBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[OrganizationBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PersonBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[PersonBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="RoleBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[RoleBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[OrganizationPersonRole_ID]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" name="OrganizationPersonRole_ID" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[EndDate]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" name="EndDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[StartDate]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" name="StartDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[OrganizationBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" name="OrganizationBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[PersonBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" name="PersonBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].ExternalColumns[RoleBusinessKey]" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" name="RoleBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[OrganizationPersonRole_ID]" name="OrganizationPersonRole_ID" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[OrganizationPersonRole_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[EndDate]" name="EndDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[EndDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[StartDate]" name="StartDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[StartDate]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[OrganizationBusinessKey]" name="OrganizationBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[OrganizationBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[PersonBusinessKey]" name="PersonBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[PersonBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="255" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[RoleBusinessKey]" name="RoleBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[RoleBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.OrganizationPersonRole.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DCNV_Staging_OrganizationPersonRole_xlsx" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="OrganizationPersonRole_ID" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[OrganizationPersonRole_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="EndDate" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[EndDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="StartDate" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[StartDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="OrganizationBusinessKey" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[OrganizationBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PersonBusinessKey" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[PersonBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="RoleBusinessKey" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx].Columns[RoleBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output]" synchronousInputId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" name="OrganizationPersonRole_ID" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp2" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" name="EndDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" scale="7" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="dbTimeStamp2" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" name="StartDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" scale="7" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" name="OrganizationBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" name="PersonBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="400" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" name="RoleBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Staging_OrganizationPersonRole" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{87522FBB-FE55-4698-BE9F-207FA6EE7FF1}:external" connectionManagerRefId="Package.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="OrganizationPersonRole_ID" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[OrganizationPersonRole_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp2" name="EndDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[EndDate]" scale="7">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp2" name="StartDate" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[StartDate]" scale="7">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="OrganizationBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[OrganizationBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="PersonBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[PersonBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="RoleBusinessKey" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[RoleBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="OrganizationPersonRole_ID" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[OrganizationPersonRole_ID]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationPersonRole_ID]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[OrganizationPersonRole_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp2" cachedName="EndDate" cachedScale="7" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[EndDate]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[EndDate]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[EndDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="dbTimeStamp2" cachedName="StartDate" cachedScale="7" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[StartDate]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[StartDate]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[StartDate]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="OrganizationBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[OrganizationBusinessKey]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[OrganizationBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[OrganizationBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="PersonBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[PersonBusinessKey]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[PersonBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[PersonBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="RoleBusinessKey" externalMetadataColumnId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].ExternalColumns[RoleBusinessKey]" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output].Columns[RoleBusinessKey]" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole].Columns[RoleBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Outputs[Error]" synchronousInputId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Staging].[OrganizationPersonRole]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Inputs[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx]" name="OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx" refId="Package\DFT_Load Staging_OrganizationPersonRole.Paths[OLE_SRC_Staging_OrganizationPersonRole_xlsx_Output_DCNV_Staging_OrganizationPersonRole_xlsx]" startId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_SRC_Staging_OrganizationPersonRole_xlsx.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load Staging_OrganizationPersonRole\OLE_DST_Staging_OrganizationPersonRole.Inputs[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole]" name="DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole" refId="Package\DFT_Load Staging_OrganizationPersonRole.Paths[DCNV_Staging_OrganizationPersonRole_xlsx_Output_OLE_DST_Staging_OrganizationPersonRole]" startId="Package\DFT_Load Staging_OrganizationPersonRole\DCNV_Staging_OrganizationPersonRole_xlsx.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{64311281-38E3-42CF-A518-7A5490ACD094}" DTS:From="Package\SQL_Truncate Staging_OrganizationPersonRole" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate Staging_OrganizationPersonRole_To_DFT_Load Staging_OrganizationPersonRole" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate Staging_OrganizationPersonRole_To_DFT_Load Staging_OrganizationPersonRole]" DTS:To="Package\DFT_Load Staging_OrganizationPersonRole">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+</DTS:Executable>

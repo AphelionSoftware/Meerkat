@@ -4,18 +4,28 @@ Regenerate SSIS packages
 -->
 <# var SourceConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# var ErrorConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatErrors;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestSchema = DestConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
-<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' AND TABLE_NAME = 'Activity'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
+<# var ErrorSchema = ErrorConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
+<# var ErrorTables = ErrorConnection.GenerateTableNodes(); #>
+<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' ").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+    <Connection Name="MeerkatErrorsBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatErrors;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
   </Connections>
   <Packages>
   <!--only generate for destination tables that have a corresponding staging table-->
-  <# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) { #>
+  <# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) { 
+	var errTable = ErrorSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).First();
+  #>
     <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+	<Variables>
+		<Variable Name="intQueueID" DataType="Int32" >0</Variable>
+		<Variable Name="strPackageName" DataType="String" EvaluateAsExpression="true">@[System::PackageName]</Variable>
+	</Variables>
       <Tasks>
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
@@ -65,10 +75,25 @@ Regenerate SSIS packages
               <ExternalTableOutput Table="<#=table.SchemaQualifiedName#>" />
 			  <ErrorHandling ErrorRowDisposition="RedirectRow" TruncationRowDisposition="RedirectRow" />
             </OleDbDestination>
-            <OleDbDestination Name="OLE_DST_Error<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML" MaximumInsertCommitSize="1">
+            <OleDbDestination Name="OLE_DST_Singleton_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML" MaximumInsertCommitSize="1">
               <InputPath OutputPathName="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>.Error" />
               <ExternalTableOutput Table="<#=table.SchemaQualifiedName#>" />
+			  <ErrorHandling ErrorRowDisposition="RedirectRow" TruncationRowDisposition="RedirectRow" />
             </OleDbDestination>
+
+			<DerivedColumns Name="DC_AddErrorDetails">
+			<InputPath OutputPathName="OLE_DST_Singleton_<#=table.SchemaName#>_<#=table.Name#>.Error" />
+              	<Columns>
+					<Column Name="PackageName" DataType="AnsiString" Length="50" >@[System::PackageName]</Column>
+					<Column Name="QueueID" DataType="Int32" >@[User::intQueueID]</Column>
+				</Columns>
+			</DerivedColumns>
+
+			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML" >
+              <InputPath OutputPathName="DC_AddErrorDetails.Output" />
+              <ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
+            </OleDbDestination>
+            
             <OleDbCommand Name="CMD_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
               <InputPath OutputPathName="CSPL_<#=PrimaryKey.Column#>.Default" />
               <# DataTable UpdColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT C.name AS ColumnName, CASE WHEN C.name = 'sys_ModifiedBy' THEN 'USER_NAME()' WHEN C.name = 'sys_ModifiedOn' THEN 'GETDATE()' ELSE '?' END AS ColumnValue FROM sys.tables AS T JOIN sys.columns AS C ON C.object_id = T.object_id JOIN sys.indexes AS I ON I.object_id = T.object_id LEFT JOIN sys.index_columns AS IC ON T.object_id = IC.object_id AND I.index_id = IC.index_id AND C.column_id = IC.column_id WHERE T.name = '"+ table.Name + "' AND I.is_primary_key = 1 AND IC.column_id IS NULL AND C.name NOT IN ('sys_CreatedBy','sys_CreatedOn','Active','IndicatorValueGroup','MilestoneValueGroup','Geog') AND C.is_computed = 0"); #>
