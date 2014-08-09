@@ -6,7 +6,7 @@ Regenerate SSIS packages
 <# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestSchema = DestConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
-<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
+<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' AND TABLE_NAME = 'Activity'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
@@ -62,6 +62,11 @@ Regenerate SSIS packages
             </ConditionalSplit>
             <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
               <InputPath OutputPathName="CSPL_<#=PrimaryKey.Column#>.Insert" />
+              <ExternalTableOutput Table="<#=table.SchemaQualifiedName#>" />
+			  <ErrorHandling ErrorRowDisposition="RedirectRow" TruncationRowDisposition="RedirectRow" />
+            </OleDbDestination>
+            <OleDbDestination Name="OLE_DST_Error<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML" MaximumInsertCommitSize="1">
+              <InputPath OutputPathName="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>.Error" />
               <ExternalTableOutput Table="<#=table.SchemaQualifiedName#>" />
             </OleDbDestination>
             <OleDbCommand Name="CMD_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
