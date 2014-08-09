@@ -5,16 +5,21 @@
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
 <# var ErrorSchema = ErrorConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var ErrorTables = ErrorConnection.GenerateTableNodes(); #>
-<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' AND TABLE_NAME = 'Activity'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
+<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%'   AND TABLE_NAME NOT LIKE 'Donor%'   ").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
 <# var strLookup = ""; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatErrorsBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatErrors;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
-	<ExcelConnection Name="ExcelOleDbConnection" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\CARE Somalia\Data\StagingTemplates\FileErrors\Errors.Activity.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;" >	
+	<ExcelConnection Name="ExcelCountConnection" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\CARE Somalia\Data\StagingTemplates\Templates\Errors.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;" >	
 	<Expressions>
-		<Expression PropertyName="ExcelOleDbConnection.ConnectionString">@[User::ErrorFileConnection]</Expression>
+		<Expression PropertyName="ExcelCountConnection.ConnectionString">@[User::ErrorFileConnection]</Expression>
+	</Expressions>
+	</ExcelConnection>
+	  	<ExcelConnection Name="ExcelIndividualConnection" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\CARE Somalia\Data\StagingTemplates\FileErrors\Errors.Activity.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;" >	
+	<Expressions>
+		<Expression PropertyName="ExcelIndividualConnection.ConnectionString">@[User::ErrorIndividualConnection]</Expression>
 	</Expressions>
 	</ExcelConnection>
   </Connections>
@@ -33,8 +38,10 @@
 
   <Packages>
   <!--only generate for destination tables that have a corresponding staging table-->
+	  <!-- These are both pretty big bugs - FrameworkDetails_INdicatorLocation contains FrameworkDetails. An equality still needs to eb debugged-->
   <# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) { 
 	var errTable = ErrorSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).First();
+	
   #>
     <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
 	<Variables>
@@ -47,10 +54,23 @@
 		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors" </Variable>
 		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Errors.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorFileConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorFileDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
+		<Variable Name="ErrorIndividualDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Staging.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="ErrorIndividualConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorIndividualDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
 
 	</Variables>
       <Tasks>
+		  <ExecuteSQL Name="SQL_Truncate_<#=errTable.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML">
+          <DirectInput>TRUNCATE TABLE [<#=errTable.SchemaName#>].[<#=table.Name#>]
+		
+		  </DirectInput>
+        </ExecuteSQL>
+		  <!--- Initial data flow to load data into DW tables-->
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+		<PrecedenceConstraints>
+					<Inputs>
+			<Input OutputPathName="SQL_Truncate_<#=errTable.SchemaName#>_<#=table.Name#>.Output"> </Input>
+			</Inputs>
+			</PrecedenceConstraints>
           <Transformations>
             <OleDbSource Name="OLE_SRC_Staging_<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
               <DirectInput>
@@ -58,13 +78,14 @@
                 FROM [Staging].[<#=table.Name#>]
               </DirectInput>
             </OleDbSource>
+			  <# strLookup ="OLE_SRC_Staging_" + table.Name + ".Output";#> 
             <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
             <# string IsNullable ="" ;
                foreach (DataRow FKColumn in FKColumns.Rows) { 
-					strLookup = "LKP_" + FKColumn["ForeignKeyColumn"];
 					IsNullable = "" + FKColumn["IsNullable"];
                if(IsNullable=="1") { #>
             <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="IgnoreFailure">
+			<InputPath OutputPathName="<#=strLookup#>" />
               <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
               <Inputs>
                 <Column SourceColumn="<#=FKColumn["SourceLookupColumn"]#>" TargetColumn="BusinessKey" />
@@ -76,6 +97,7 @@
               <# } else
                  { #>
             <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="RedirectRowsToErrorOutput">
+			<InputPath OutputPathName="<#=strLookup#>" />
               <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
               <Inputs>
                 <Column SourceColumn="<#=FKColumn["SourceLookupColumn"]#>" TargetColumn="BusinessKey" />
@@ -84,7 +106,6 @@
                 <Column SourceColumn="<#=FKColumn["ForeignTableColumn"]#>" TargetColumn="<#=FKColumn["ForeignKeyColumn"]#>" />
               </Outputs>
             </Lookup>
-				  
 				  <DerivedColumns Name="DC_AddErrorDetails_<#=FKColumn["ForeignKeyColumn"]#>">
 				<InputPath OutputPathName="LKP_<#=FKColumn["ForeignKeyColumn"]#>.Error" />
               	<Columns>
@@ -102,10 +123,16 @@
 				<ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
             </OleDbDestination>
               <# } #>
+				  <# 
+					strLookup = "LKP_" + FKColumn["ForeignKeyColumn"] + ".Match";
+					  #>
+				  <!-- end lookup for each-->
             <# } #>
-            <# foreach (var PrimaryKey in table.Keys[0].Columns) { #>
+				<!-- Why are we using a foreach ? -->
+            <# var PrimaryKey = table.Keys[0].Columns[0] ;#>
+				
             <ConditionalSplit Name="CSPL_<#=PrimaryKey.Column#>">
-			<InputPath OutputPathName="<#=strLookup#>.Match" />
+			<InputPath OutputPathName="<#=strLookup#>" />
               <OutputPaths>
                 <OutputPath Name="Insert">
                   <Expression>ISNULL(<#=PrimaryKey.Column#>)</Expression>
@@ -163,7 +190,7 @@
               <# } #>
               </Parameters>
             </OleDbCommand>
-            <# } #>
+
           </Transformations>
         </Dataflow>
 
@@ -177,6 +204,9 @@
 			  <VariableInput VariableName="User.FileSource" />
               <VariableOutput VariableName="User.FileDestination" />
 			  </FileSystem>
+		  
+		  <!-- Loading individual errors -->
+		  <!--
 		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
 			<PrecedenceConstraints>
 			<Inputs>
@@ -185,8 +215,37 @@
 				</Input>
 			</Inputs>
 			</PrecedenceConstraints>
+			  <Transformations>
+				<OleDbSource Name="OLE_SRC_Errors_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML">
+				  <DirectInput>
+					SELECT *
+					FROM [Errors].[<#=table.Name#>]
+				  </DirectInput>
+				</OleDbSource>
+				  <DataConversion Name="DC_ExcelErrors">
+	            <Columns>
+                <#foreach (var column in errTable.Columns){#>
+                    <Column SourceColumn="<#=column.Name#>" TargetColumn="<#=column.Name#>" DataType="String" Length="255" />
+                <#}#>
+              </Columns>
+            </DataConversion>
+				  
+				<ExcelDestination Name="OLE_DEST_Excel_IndividualErrors" ConnectionName="ExcelIndividualConnection" UseFastLoadIfAvailable="false" MaximumInsertCommitSize="2147483647" ValidateExternalMetadata="false">
+                    <ErrorHandling ErrorRowDisposition="IgnoreFailure" TruncationRowDisposition="IgnoreFailure">
+                        <Inputs>
+                            <Input ErrorRowDisposition="FailComponent" TruncationRowDisposition="IgnoreFailure" InputName="Destination Input" />
+                        </Inputs>
+                    </ErrorHandling>
+                    <ExternalTableOutput Table="Sheet1$A2:XFD"/>
+			<Columns>
+                <#foreach (var column in errTable.Columns){#>
+                    <Column SourceColumn="OLE_SRC_Errors_<#=table.Name#>.<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+                <#}#>
+              </Columns>
+                </ExcelDestination>
+				  </Transformations>
 		  </Dataflow>
-		  
+		  -->
 		  
 		  <FileSystem Operation="CopyFile" Name="FSCopyErrorFile" OverwriteDestination="true">
 			  		  <PrecedenceConstraints>
@@ -197,7 +256,7 @@
 			  <VariableInput VariableName="User.ErrorFileSource" />
               <VariableOutput VariableName="User.ErrorFileDestination" />
 			  </FileSystem>
-		
+		<!-- data flow to load data into summary error fils -->
 		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>">
 				<PrecedenceConstraints>
 					<Inputs>
@@ -206,22 +265,44 @@
 					</Inputs>
 				</PrecedenceConstraints>
 				<Transformations>
+				 <#  if (table.Columns.Where(column => column.Name == "BusinessKey").Count() > 0) { #>
 				<OleDbSource Name="OLE_SRC_Errors_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML">
 				  <DirectInput>
 					SELECT [QueueID]
-						 ,[ErrorCode] AS PackageErrorCode
-						 ,[ErrorColumn] PackageErrorColumn
+						,[BusinessKey]
+						 ,[SSISErrorCode] AS PackageErrorCode
+						 ,[SSISErrorColumn] PackageErrorColumn
 						,[ErrorType]
 						,[PackageName]
+						
 							  ,Count(*) As [Count]
 					FROM [Errors].[<#=table.Name#>]
 					  GROUP BY [QueueID]
-						  ,[ErrorCode]
-						  ,[ErrorColumn]
+						,[BusinessKey]
+						  ,[SSISErrorCode]
+						  ,[SSISErrorColumn]
 						  ,[ErrorType]
 						  ,[PackageName]
 				  </DirectInput>
 				</OleDbSource>
+
+				<# } else { #>
+				<OleDbSource Name="OLE_SRC_Errors_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML">
+				  <DirectInput>
+					SELECT [QueueID]
+						 ,[SSISErrorCode] AS PackageErrorCode
+						 ,[SSISErrorColumn] PackageErrorColumn
+						,[ErrorType]
+						,[PackageName]  ,Count(*) As [Count]
+					FROM [Errors].[<#=table.Name#>]
+					  GROUP BY [QueueID]
+						  ,[SSISErrorCode]
+						  ,[SSISErrorColumn]
+						  ,[ErrorType]
+						  ,[PackageName] 
+				  </DirectInput>
+				</OleDbSource>
+				<# } #> 
 					<DataConversion Name="DC_ExcelErrors">
   
               <Columns>
@@ -231,11 +312,15 @@
                 <Column SourceColumn="PackageErrorColumn" TargetColumn="PackageErrorColumn" DataType="String" Length="255" />
                 <Column SourceColumn="ErrorType" TargetColumn="ErrorType" DataType="String" Length="255" />
                 <Column SourceColumn="PackageName" TargetColumn="PackageName" DataType="String" Length="255" />
+				
+				 <#  if (table.Columns.Where(column => column.Name == "BusinessKey").Count() > 0 ) { #>
+					 <Column SourceColumn="BusinessKey" TargetColumn="BusinessKey" DataType="String" Length="255" />
+				<# } #> 
                 <Column SourceColumn="Count" TargetColumn="Count" DataType="String" Length="255" />
                  
               </Columns>
             </DataConversion>
-				<ExcelDestination Name="EXCEL" ConnectionName="ExcelOleDbConnection" UseFastLoadIfAvailable="false" MaximumInsertCommitSize="2147483647" ValidateExternalMetadata="false">
+				<ExcelDestination Name="OLE_DEST_Excel_Summary" ConnectionName="ExcelCountConnection" UseFastLoadIfAvailable="false" MaximumInsertCommitSize="2147483647" ValidateExternalMetadata="false">
                     <ErrorHandling ErrorRowDisposition="IgnoreFailure" TruncationRowDisposition="IgnoreFailure">
                         <Inputs>
                             <Input ErrorRowDisposition="FailComponent" TruncationRowDisposition="IgnoreFailure" InputName="Destination Input" />
