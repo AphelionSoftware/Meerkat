@@ -1,7 +1,3 @@
-<!--
-Update Connection strings
-Regenerate SSIS packages
--->
 <# var SourceConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var DestConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var ErrorConnection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatErrors;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
@@ -9,22 +5,49 @@ Regenerate SSIS packages
 <# var DestTables = DestConnection.GenerateTableNodes(); #>
 <# var ErrorSchema = ErrorConnection.ImportDB("", "", ImportOptions.ExcludeViews); #>
 <# var ErrorTables = ErrorConnection.GenerateTableNodes(); #>
-<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' ").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
+<# var tableNamesToImport = ExternalDataAccess.GetDataTable(SourceConnection.ConnectionString, "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE 'CustomReport%' AND TABLE_NAME NOT LIKE 'Donor%' AND TABLE_NAME = 'Activity'").Rows.OfType<System.Data.DataRow>().Select(r => r[0].ToString()); #>  
+<# var strLookup = ""; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
     <Connection Name="MeerkatErrorsBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatErrors;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+	<ExcelConnection Name="ExcelOleDbConnection" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\CARE Somalia\Data\StagingTemplates\FileErrors\Errors.Activity.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;" >	
+	<Expressions>
+		<Expression PropertyName="ExcelOleDbConnection.ConnectionString">@[User::ErrorFileConnection]</Expression>
+	</Expressions>
+	</ExcelConnection>
   </Connections>
+	 <PackageProjects>
+    <PackageProject Name="Aphelion.Meerkat.ETL">
+      <Parameters>
+        <Parameter Name="strStagingTemplatePath" DataType="String">D:\Dropbox (PW South Africa)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates</Parameter>
+      </Parameters>
+		<Packages>
+		<# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) {   #>
+        <Package PackageName="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" />
+		<# } #>
+      </Packages>
+    </PackageProject>
+  </PackageProjects>
+
   <Packages>
   <!--only generate for destination tables that have a corresponding staging table-->
   <# foreach (var table in DestSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).OrderBy(item => item.Name)) { 
 	var errTable = ErrorSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).First();
   #>
-    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
 	<Variables>
 		<Variable Name="intQueueID" DataType="Int32" >0</Variable>
+		<Variable Name="intErrorCount" DataType="Int32" >0</Variable>
 		<Variable Name="strPackageName" DataType="String" EvaluateAsExpression="true">@[System::PackageName]</Variable>
+		<Variable Name="FileName" DataType="String">Staging.<#=table.Name#>.xlsx</Variable>
+        <Variable Name="FileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\" + @[User::FileName]</Variable>
+        <Variable Name="ErrorFileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\Errors.xlsx" </Variable>
+		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors" </Variable>
+		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Errors.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="ErrorFileConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorFileDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
+
 	</Variables>
       <Tasks>
         <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
@@ -38,7 +61,8 @@ Regenerate SSIS packages
             <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
             <# string IsNullable ="" ;
                foreach (DataRow FKColumn in FKColumns.Rows) { 
-                 IsNullable = "" + FKColumn["IsNullable"];
+					strLookup = "LKP_" + FKColumn["ForeignKeyColumn"];
+					IsNullable = "" + FKColumn["IsNullable"];
                if(IsNullable=="1") { #>
             <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="IgnoreFailure">
               <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
@@ -51,7 +75,7 @@ Regenerate SSIS packages
             </Lookup>
               <# } else
                  { #>
-            <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="FailComponent">
+            <Lookup Name="LKP_<#=FKColumn["ForeignKeyColumn"]#>" OleDbConnectionName="MeerkatBIML" NoMatchBehavior="RedirectRowsToErrorOutput">
               <DirectInput>SELECT BusinessKey, <#=FKColumn["ForeignTableColumn"]#> FROM <#=FKColumn["ForeignTable"]#></DirectInput>
               <Inputs>
                 <Column SourceColumn="<#=FKColumn["SourceLookupColumn"]#>" TargetColumn="BusinessKey" />
@@ -60,10 +84,28 @@ Regenerate SSIS packages
                 <Column SourceColumn="<#=FKColumn["ForeignTableColumn"]#>" TargetColumn="<#=FKColumn["ForeignKeyColumn"]#>" />
               </Outputs>
             </Lookup>
+				  
+				  <DerivedColumns Name="DC_AddErrorDetails_<#=FKColumn["ForeignKeyColumn"]#>">
+				<InputPath OutputPathName="LKP_<#=FKColumn["ForeignKeyColumn"]#>.Error" />
+              	<Columns>
+					<Column Name="PackageName" DataType="AnsiString" Length="255" >(DT_STR, 255, 1252)@[System::PackageName]</Column>
+					<Column Name="QueueID" DataType="Int32" >@[User::intQueueID]</Column>
+					<Column Name="ErrorType" DataType="AnsiString" Length="255" >(DT_STR, 255, 1252)("Failed Lookup <#=FKColumn["ForeignKeyColumn"]#>")</Column>
+				</Columns>
+			</DerivedColumns>
+			<RowCount Name="RC_CountErrors_<#=FKColumn["ForeignKeyColumn"]#>" VariableName="User.intErrorCount">
+				 <InputPath OutputPathName="DC_AddErrorDetails_<#=FKColumn["ForeignKeyColumn"]#>.Output" />
+            </RowCount>
+				  
+			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>_<#=FKColumn["ForeignKeyColumn"]#>" ConnectionName="MeerkatErrorsBIML" MaximumInsertCommitSize="200"  TableLock="false">
+				  <InputPath OutputPathName="RC_CountErrors_<#=FKColumn["ForeignKeyColumn"]#>.Output" />
+				<ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
+            </OleDbDestination>
               <# } #>
             <# } #>
             <# foreach (var PrimaryKey in table.Keys[0].Columns) { #>
             <ConditionalSplit Name="CSPL_<#=PrimaryKey.Column#>">
+			<InputPath OutputPathName="<#=strLookup#>.Match" />
               <OutputPaths>
                 <OutputPath Name="Insert">
                   <Expression>ISNULL(<#=PrimaryKey.Column#>)</Expression>
@@ -84,13 +126,20 @@ Regenerate SSIS packages
 			<DerivedColumns Name="DC_AddErrorDetails">
 			<InputPath OutputPathName="OLE_DST_Singleton_<#=table.SchemaName#>_<#=table.Name#>.Error" />
               	<Columns>
-					<Column Name="PackageName" DataType="AnsiString" Length="50" >@[System::PackageName]</Column>
+					<Column Name="PackageName" DataType="AnsiString" Length="255" >(DT_STR, 255, 1252)@[System::PackageName]</Column>
 					<Column Name="QueueID" DataType="Int32" >@[User::intQueueID]</Column>
+					<Column Name="ErrorType" DataType="AnsiString" Length="255" >(DT_STR, 255, 1252)("Insert")</Column>
 				</Columns>
 			</DerivedColumns>
+				
+				
+			<RowCount Name="RC_CountErrors" VariableName="User.intErrorCount">
+                        <InputPath OutputPathName="DC_AddErrorDetails.Output" />
+            </RowCount>
 
-			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML" >
-              <InputPath OutputPathName="DC_AddErrorDetails.Output" />
+
+			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML" MaximumInsertCommitSize="200" TableLock="false">
+              <InputPath OutputPathName="RC_CountErrors.Output" />
               <ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
             </OleDbDestination>
             
@@ -117,6 +166,87 @@ Regenerate SSIS packages
             <# } #>
           </Transformations>
         </Dataflow>
+
+
+		  <FileSystem Operation="CopyFile" Name="FSCopyTemplateFile" OverwriteDestination="true">
+			  		  <PrecedenceConstraints>
+			<Inputs>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			</Inputs>
+			</PrecedenceConstraints>
+			  <VariableInput VariableName="User.FileSource" />
+              <VariableOutput VariableName="User.FileDestination" />
+			  </FileSystem>
+		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
+			<PrecedenceConstraints>
+			<Inputs>
+				<Input OutputPathName="FSCopyTemplateFile.Output" EvaluationOperation="Constraint">    
+					
+				</Input>
+			</Inputs>
+			</PrecedenceConstraints>
+		  </Dataflow>
+		  
+		  
+		  <FileSystem Operation="CopyFile" Name="FSCopyErrorFile" OverwriteDestination="true">
+			  		  <PrecedenceConstraints>
+			<Inputs>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			</Inputs>
+			</PrecedenceConstraints>
+			  <VariableInput VariableName="User.ErrorFileSource" />
+              <VariableOutput VariableName="User.ErrorFileDestination" />
+			  </FileSystem>
+		
+		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>">
+				<PrecedenceConstraints>
+					<Inputs>
+					<Input OutputPathName="FSCopyErrorFile.Output" EvaluationOperation="Constraint">    
+					</Input>
+					</Inputs>
+				</PrecedenceConstraints>
+				<Transformations>
+				<OleDbSource Name="OLE_SRC_Errors_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML">
+				  <DirectInput>
+					SELECT [QueueID]
+						 ,[ErrorCode] AS PackageErrorCode
+						 ,[ErrorColumn] PackageErrorColumn
+						,[ErrorType]
+						,[PackageName]
+							  ,Count(*) As [Count]
+					FROM [Errors].[<#=table.Name#>]
+					  GROUP BY [QueueID]
+						  ,[ErrorCode]
+						  ,[ErrorColumn]
+						  ,[ErrorType]
+						  ,[PackageName]
+				  </DirectInput>
+				</OleDbSource>
+					<DataConversion Name="DC_ExcelErrors">
+  
+              <Columns>
+
+                <Column SourceColumn="QueueID" TargetColumn="QueueID" DataType="String" Length="255" />
+                <Column SourceColumn="PackageErrorCode" TargetColumn="PackageErrorCode" DataType="String" Length="255" />
+                <Column SourceColumn="PackageErrorColumn" TargetColumn="PackageErrorColumn" DataType="String" Length="255" />
+                <Column SourceColumn="ErrorType" TargetColumn="ErrorType" DataType="String" Length="255" />
+                <Column SourceColumn="PackageName" TargetColumn="PackageName" DataType="String" Length="255" />
+                <Column SourceColumn="Count" TargetColumn="Count" DataType="String" Length="255" />
+                 
+              </Columns>
+            </DataConversion>
+				<ExcelDestination Name="EXCEL" ConnectionName="ExcelOleDbConnection" UseFastLoadIfAvailable="false" MaximumInsertCommitSize="2147483647" ValidateExternalMetadata="false">
+                    <ErrorHandling ErrorRowDisposition="IgnoreFailure" TruncationRowDisposition="IgnoreFailure">
+                        <Inputs>
+                            <Input ErrorRowDisposition="FailComponent" TruncationRowDisposition="IgnoreFailure" InputName="Destination Input" />
+                        </Inputs>
+                    </ErrorHandling>
+                    <ExternalTableOutput Table="[Sheet1$]"/>
+
+                </ExcelDestination>
+
+					</Transformations>
+		  </Dataflow>
       </Tasks>
     </Package>
   <# } #>
