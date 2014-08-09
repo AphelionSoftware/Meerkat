@@ -2,12 +2,12 @@
 Update Connection strings and path to excel source files
 Regenerate SSIS packages
 -->
-<# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var tables = connection.GenerateTableNodes(); #>
 <# string SourceDir = "C:\\Dropbox\\CARE Somalia\\Data\\StagingTemplates\\InProcess\\"; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
-    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
   </Connections>
   <PackageProjects>
     <PackageProject Name="Aphelion.Meerkat.ETL">
@@ -49,7 +49,11 @@ Regenerate SSIS packages
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
           <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]
 		  /*
-		  'Excel 12.0;Database="@[$Project::strStagingTemplatePath]<#=table.SchemaName#>.<#=table.Name#>.xlsx'
+		   SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database=<#=SourceDir#><#=table.SchemaName#>.<#=table.Name#>.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
 		  */
 		  </DirectInput>
         </ExecuteSQL>
