@@ -1,3 +1,0 @@
-﻿CREATE LOGIN [PWLAB\mneAdmin]
-    FROM WINDOWS WITH DEFAULT_LANGUAGE = [us_english];
-

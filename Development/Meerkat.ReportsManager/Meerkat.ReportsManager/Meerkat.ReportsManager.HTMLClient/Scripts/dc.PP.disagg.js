@@ -24,11 +24,11 @@ dcLSWrapper.prototype.mapUrl = ""
 dcLSWrapper.prototype.mapID = "";
 dcLSWrapper.prototype.numberField = "";
 dcLSWrapper.prototype.statusDiv = new Object;
-
+dcLSWrapper.prototype.rollupField = "";
 //Region methods
 
 
-dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
+dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl, rollupField) {
 
     
     var numberFormat = d3.format(".2f");
@@ -39,7 +39,14 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
     var domain = d3.nest()
         .key(function (d) { return d.Location_Name; })
         .rollup(function (d) {
-            return d3.sum(d, function (g) { return g.NumberReached; });
+            return d3.sum(d, function (g) {
+                if (rollupField != "") {
+                    ///TODO:
+                    return g[rollupField];
+                } else {
+                    return 1;
+                }
+            });
         })
         .map(this.rootData.value);
 
@@ -58,14 +65,15 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
     });
 
 
-    var numberReached = locations.group().reduceSum(function (d) {
-        if (d["NumberReached"]) {
+    var numberGroup = locations.group().reduceSum(function (d) {
+        if (this.rol)
+        if (d[rollupField]) {
             /*if (d["NumberReached"] < min) min = d["NumberReached"];
             if (d["NumberReached"] > max) max = d["NumberReached"];
             */
-            return d["NumberReached"];
+            return d[rollupField];
         } else {
-            return 0;
+            return 1;
         }
     });
 
@@ -134,7 +142,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
                 .height(height)
                  .projection(projection)
                 .dimension(locations)
-                .group(numberReached)
+                .group(numberGroup)
                 .colors(d3.scale.quantize().range(["#F2F9FF","#D8EDFF", "#C4E4FF", "#B2DCFF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0070CC", "#0061B5", "#005499", "#00467F"]))
                 .colorDomain([0, max])
                 .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
@@ -163,7 +171,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl) {
     });
 }
 
-dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
+dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
     for (i = 0; i < arrRowCharts.length; i++) {
         var x = arrRowCharts[i];
 
@@ -174,12 +182,23 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
 
         //Need to define by number reached....
         var disaggGroup = disaggDim.group().reduceSum(function (d) {
-            return d.NumberReached;
+            ///TODO:
+            if (d[rollupField]) {
+                return d[rollupField];
+            } else {
+                return 1;
+            }
         });
         var domain = d3.nest()
         .key(function (d) { return d[x.colID]; })
         .rollup(function (d) {
-            return d3.sum(d, function (g) { return g.NumberReached; });
+            return d3.sum(d, function (g) { ///TODO:
+                if (d[rollupField]) {
+                    return d[rollupField];
+                } else {
+                    return 1;
+                }
+            });
         })
         .map(this.rootData.value);
 
@@ -191,14 +210,9 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
         var height = d3.values(domain).length * 40;
 
         var rowChart = dc.rowChart("#" + x.divID);
-        var scale = d3.scale.linear();
-                    
-        scale.domain([0, max])
-                    .ticks(5)
-        ;
-        scale.range([0, x.width]);
-        var xScale = scale.copy();
-
+        var scale = d3.scale.linear()
+            .domain([0, max])
+            .ticks(4);
         rowChart
                  .width(x.width)
                 .height(/*x.height*/ height)
@@ -206,9 +220,7 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts) {
                 .group(disaggGroup)
                 .transitionDuration(500)
                 .colors("#1f77b4")
-        .x(scale)
-        .xAxis()
-        .ticks(5)
+        /*.x(scale)*/
         ;
 
 
@@ -227,12 +239,23 @@ dcLSWrapper.prototype.barCharts = function (arrbarCharts) {
 
         //Need to define by number reached....
         var disaggGroup = disaggDim.group().reduceSum(function (d) {
-            return d.NumberReached;
+            ///TODO:
+            if (d[rollupField]) {
+                return d[rollupField];
+            } else {
+                return 1;
+            }
         });
         var domain = d3.nest()
         .key(function (d) { return d[x.colID]; })
         .rollup(function (d) {
-            return d3.sum(d, function (g) { return g.NumberReached; });
+            return d3.sum(d, function (g) { ///TODO:
+                if (d[rollupField]) {
+                    return d[rollupField];
+                } else {
+                    return 1;
+                }
+            });
         })
         .map(this.rootData.value);
 
@@ -286,6 +309,7 @@ dcLSWrapper.prototype.setupPage = function () {
     var arrRowCharts = this.arrRowCharts;
     var arrBarCharts = this.arrBarCharts;
     var statusDiv = this.statusDiv;
+    var rollupField = this.rollupField;
     $(statusDiv)[0].innerText = "Retrieving data - please wait";
 
     var obj = this;
@@ -298,7 +322,7 @@ dcLSWrapper.prototype.setupPage = function () {
         $(statusDiv)[0].innerText = "Rendering";
         obj.rootData = jsonData;
         obj.data = crossfilter(obj.rootData.value);
-        obj.mapCharts(mapID, mapUrl);
+        obj.mapCharts(mapID, mapUrl, rollupField);
         obj.rowCharts(arrRowCharts);
         obj.barCharts(arrBarCharts);
 
