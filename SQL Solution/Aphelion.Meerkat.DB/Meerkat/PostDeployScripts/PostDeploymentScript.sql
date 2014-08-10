@@ -72,8 +72,8 @@ GO*/
 									
 
 /*Insert CARE Data */
---:r .\CareData\PostDeploymentScript.CARE.PDS.sql	
-:r .\InternalTest\PostDeploymentScript.InternalTest.PDS.sql	
+:r .\CareData\PostDeploymentScript.CARE.PDS.sql	
+--:r .\InternalTest\PostDeploymentScript.InternalTest.PDS.sql	
 
 
 /*end Insert data*/

@@ -20,7 +20,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  1 ,
-                N'OM' ,
+                N'Outcome' ,
                 N'Outcome' ,
                 1,
 				N'Outcome'
@@ -36,7 +36,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  2 ,
-                N'OTP' ,
+                N'Output' ,
                 N'Output' ,
                 1,
 				N'Output'
@@ -52,7 +52,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  3 ,
-                N'SO' ,
+                N'SubOutput' ,
                 N'SubOutput' ,
                 1,
 				N'SubOutput'
@@ -68,7 +68,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  4 ,
-                N'ACT' ,
+                N'Activity' ,
                 N'Activity' ,
                 1,
 				N'Activity'
@@ -84,7 +84,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  5 ,
-                N'M' ,
+                N'Milestone' ,
                 N'Milestone' ,
                 1,
 				N'Milestone'
@@ -174,7 +174,7 @@ INSERT  [app].[IndicatorType]
 				N'PRJ'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.IndicatorType
-                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 10 )
+                             WHERE  [app].[IndicatorType].[IndicatorType_ID] = 9 )
 GO
 SET IDENTITY_INSERT [app].[IndicatorType] OFF
 GO
