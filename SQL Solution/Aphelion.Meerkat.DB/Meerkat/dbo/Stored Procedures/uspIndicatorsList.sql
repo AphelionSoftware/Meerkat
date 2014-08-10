@@ -36,7 +36,6 @@ SET @Sector_ID  = dbo.fn_StripMDXKey(@MDXKey)
 
 
 
-
 IF ISNUMERIC(@MDXKey) = 1 SET @Outcome_ID = @MDXKey
 
 --select @Indicator_ID, @SubOutput_ID,@Project_ID, @Outcome_ID, @Output_ID , @SubOutput_ID, @Sector_ID
@@ -163,7 +162,8 @@ LEFT OUTER JOIN app.SubSector SS
 on P.SubSector_ID = SS.SubSector_ID
 LEFT OUTER JOIN app.Sector S
 ON SS.Sector_ID = S.Sector_ID
-
+		OR S.Sector_ID = P.Sector_ID
+		OR S.Sector_ID = I.Sector_ID
 
 
 LEFT JOIN Core.DimDate DDStart
