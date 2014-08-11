@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="StatusValue">
+    Name="ProjectType">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,13 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <NavigationProperty
-        Name="StatusType"
-        Association="FK_StatusValues_StatusType"
-        FromEnd="StatusValues"
-        ToEnd="StatusType" />
       <KeyProperty
-        Name="StatusValuesID"
+        Name="ProjectType_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -31,10 +26,32 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Notes"
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
           <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -85,121 +102,63 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="ActiveType"
-        Association="FK_StatusValues_ActiveType"
-        FromEnd="StatusValues"
-        ToEnd="ActiveType">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Activity"
-        Association="FK_StatusValues_Activity"
-        FromEnd="StatusValues"
-        ToEnd="Activity">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Outcome"
-        Association="FK_StatusValues_Outcome"
-        FromEnd="StatusValues"
-        ToEnd="Outcome">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Output"
-        Association="FK_StatusValues_Output"
-        FromEnd="StatusValues"
-        ToEnd="Output">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="ReportingPeriod"
-        Association="FK_StatusValues_ReportingPeriod"
-        FromEnd="StatusValues"
-        ToEnd="ReportingPeriod">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="SubOutput"
-        Association="FK_StatusValues_SubOutput"
-        FromEnd="StatusValues"
-        ToEnd="SubOutput">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="DataVersion"
-        Association="FK_StatusValues_DataVersion"
-        FromEnd="StatusValues"
-        ToEnd="DataVersion">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Location"
-        Association="FK_StatusValues_Location"
-        FromEnd="StatusValues"
-        ToEnd="Location">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Project"
-        Association="FK_StatusValues_Project"
-        FromEnd="StatusValues"
+        Name="Projects"
+        Association="FK_Project_ProjectType"
+        FromEnd="ProjectType"
         ToEnd="Project">
         <NavigationProperty.Attributes>
           <Hidden />
         </NavigationProperty.Attributes>
       </NavigationProperty>
       <NavigationProperty
-        Name="Programme"
-        Association="FK_StatusValues_Programme"
-        FromEnd="StatusValues"
-        ToEnd="Programme">
+        Name="ActiveType"
+        Association="FK_ProjectType_ActiveType"
+        FromEnd="ProjectType"
+        ToEnd="ActiveType">
         <NavigationProperty.Attributes>
           <Hidden />
         </NavigationProperty.Attributes>
       </NavigationProperty>
-      <NavigationProperty
-        Name="Sector"
-        Association="FK_StatusValues_Sector"
-        FromEnd="StatusValues"
-        ToEnd="Sector" />
-      <NavigationProperty
-        Name="SubSector"
-        Association="FK_StatusValues_SubSector"
-        FromEnd="StatusValues"
-        ToEnd="SubSector" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_Project_ProjectType">
+    <AssociationEnd
+      Name="ProjectType"
+      EntityType="ProjectType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="Many"
+      EntityType="Project" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="StatusValues"
+      Name="ProjectTypes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="StatusValue" />
+      EntityType="ProjectType" />
+    <AssociationSet
+      Name="FK_Project_ProjectType"
+      Association="FK_Project_ProjectType">
+      <AssociationSetEnd
+        Name="ProjectType"
+        EntitySet="ProjectTypes" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
     <QueryOperation
-      Name="StatusValues_Single"
-      ReturnType="StatusValue">
+      Name="ProjectTypes_Single"
+      ReturnType="ProjectType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -212,12 +171,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StatusValuesID" />
+                  Member="ProjectType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StatusValuesID" />
+                Parameter="ProjectType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -225,21 +184,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusValues" />
+            Member="ProjectTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StatusValuesID"
+        Name="ProjectType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StatusValuesID' key property of the entity to retrieve." />
+            Value="The value of the 'ProjectType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="StatusValues_SingleOrDefault"
-      ReturnType="StatusValue">
+      Name="ProjectTypes_SingleOrDefault"
+      ReturnType="ProjectType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -252,12 +211,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="StatusValuesID" />
+                  Member="ProjectType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="StatusValuesID" />
+                Parameter="ProjectType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -265,15 +224,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="StatusValues" />
+            Member="ProjectTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="StatusValuesID"
+        Name="ProjectType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'StatusValuesID' key property of the entity to retrieve." />
+            Value="The value of the 'ProjectType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -284,110 +243,84 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="StatusValues">
+      EntitySet="ProjectTypes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="RBM"
-          Table="StatusValues" />
+          Schema="app"
+          Table="ProjectType" />
         <SsdlProperty
-          Name="StatusValuesID"
+          Name="ProjectType_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="StatusValue/Properties[StatusValuesID]" />
+          Property="ProjectType/Properties[ProjectType_ID]" />
         <SsdlProperty
-          Name="Notes"
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="ProjectType/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Name"
           Nullable="True"
-          Type="nvarchar(max)"
-          Property="StatusValue/Properties[Notes]" />
+          Type="varchar"
+          Property="ProjectType/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="ProjectType/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusValue/Properties[sys_CreatedBy]" />
+          Property="ProjectType/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusValue/Properties[sys_CreatedOn]" />
+          Property="ProjectType/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="StatusValue/Properties[sys_ModifiedBy]" />
+          Property="ProjectType/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="StatusValue/Properties[sys_ModifiedOn]" />
+          Property="ProjectType/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="Activity_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Activity_ID" />
-        <SsdlForeignKeyProperty
-          Name="DataVersionID"
-          Nullable="False"
-          Type="int"
-          PropertyName="DataVersionID" />
-        <SsdlForeignKeyProperty
-          Name="LocationID"
-          Nullable="False"
-          Type="int"
-          PropertyName="LocationID" />
-        <SsdlForeignKeyProperty
-          Name="Outcome_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Outcome_ID" />
-        <SsdlForeignKeyProperty
-          Name="Output_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Output_ID" />
-        <SsdlForeignKeyProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Programme_ID" />
-        <SsdlForeignKeyProperty
-          Name="ProjectID"
-          Nullable="True"
-          Type="int"
-          PropertyName="ProjectID" />
-        <SsdlForeignKeyProperty
-          Name="ReportingPeriodID"
-          Nullable="False"
-          Type="int"
-          PropertyName="ReportingPeriodID" />
-        <SsdlForeignKeyProperty
-          Name="Sector_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Sector_ID" />
-        <SsdlForeignKeyProperty
-          Name="StatusTypeID"
-          Nullable="True"
-          Type="int"
-          PropertyName="StatusTypeID" />
-        <SsdlForeignKeyProperty
-          Name="SubOutput_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="SubOutput_ID" />
-        <SsdlForeignKeyProperty
-          Name="SubSector_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_ProjectType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_ProjectType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ProjectType]/Members[ProjectType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ProjectType]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>
