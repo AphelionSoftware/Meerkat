@@ -14,8 +14,10 @@ myapp.AddEditMilestone.created = function (screen) {
         screen.Milestone = new myapp.Milestone();
     }
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    //msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
-    //msls.application.lightswitchTools.setDescriptionIsShortName(screen);
+    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
+    msls.application.lightswitchTools.setBaselineString(screen);
+    msls.application.lightswitchTools.setTargetString(screen);
     screen.Milestone.IsKeyIndicator = false;
 };
 
