@@ -66,7 +66,7 @@ dcLSWrapper.prototype.mapChartsByData = function (mapElement, mapData, rollupFie
 
 
     var numberGroup = locations.group().reduceSum(function (d) {
-        if (this.rol)
+        if (rollupField)
             if (d[rollupField]) {
                 /*if (d["NumberReached"] < min) min = d["NumberReached"];
                 if (d["NumberReached"] > max) max = d["NumberReached"];
@@ -210,7 +210,7 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl, rollupField) {
 
 
     var numberGroup = locations.group().reduceSum(function (d) {
-        if (this.rol)
+        if (rollupField)
             if (d[rollupField]) {
                 /*if (d["NumberReached"] < min) min = d["NumberReached"];
                 if (d["NumberReached"] > max) max = d["NumberReached"];
@@ -362,7 +362,8 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
                 .transitionDuration(500)
                 .colors("#1f77b4")
                 .elasticX(true)
-        .x(d3.scale.linear().domain([0, max]))
+           
+        .x(d3.scale.linear().domain([0, max]).nice())
             .xAxis()
             .ticks(5)
         ;
