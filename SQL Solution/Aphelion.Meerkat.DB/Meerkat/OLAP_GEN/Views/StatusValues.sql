@@ -5,21 +5,21 @@ AS
 
 SELECT 
 	[StatusValues].[StatusValuesID] 
-	,[StatusValues].[Output_ID] 
-	,[StatusValues].[Outcome_ID] 
 	,[StatusValues].[Activity_ID] 
-	,[StatusValues].[Milestone_ID] 
-	,[StatusValues].[SubOutput_ID] 
-	,[StatusValues].[Indicator_ID] 
-	,[StatusValues].[Programme_ID] 
-	,[StatusValues].[Sector_ID] 
-	,[StatusValues].[SubSector_ID] 
-	,[StatusValues].[ProjectID] 
-	,[StatusValues].[StatusTypeID] 
-	,[StatusValues].[ReportingPeriodID] 
-	,[StatusValues].[LocationID] 
 	,[StatusValues].[DataVersionID] 
+	,[StatusValues].[Indicator_ID] 
+	,[StatusValues].[LocationID] 
+	,[StatusValues].[Milestone_ID] 
 	,[StatusValues].[Notes] 
+	,[StatusValues].[Outcome_ID] 
+	,[StatusValues].[Output_ID] 
+	,[StatusValues].[Programme_ID] 
+	,[StatusValues].[ProjectID] 
+	,[StatusValues].[ReportingPeriodID] 
+	,[StatusValues].[Sector_ID] 
+	,[StatusValues].[StatusTypeID] 
+	,[StatusValues].[SubOutput_ID] 
+	,[StatusValues].[SubSector_ID] 
 
 	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey) as HierarchyBusinessKey 
 FROM [RBM].[StatusValues] [StatusValues]
@@ -221,4 +221,8 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Indicator_ID', @
 
 GO
 EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
 

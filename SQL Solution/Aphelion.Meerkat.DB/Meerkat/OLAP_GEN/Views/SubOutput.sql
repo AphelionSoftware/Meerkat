@@ -25,12 +25,6 @@ SELECT
 	,[Outcome_338184695230449155].[OutcomeSiteName] AS [OutcomeSiteName]
 	,[Outcome_338184695230449155].[ShortName] AS [OutcomeShortName]
 	,[Outcome_338184695230449155].[TextDescription] AS [OutcomeTextDescription]
-	,COALESCE([DataVersion_374732923098508447].[BusinessKey] , [DataVersion_546882727351285821].[BusinessKey] ) AS [DataVersionBusinessKey]
-	,COALESCE([DataVersion_374732923098508447].[Code] , [DataVersion_546882727351285821].[Code] ) AS [DataVersionCode]
-	,COALESCE([DataVersion_374732923098508447].[DataVersion_ID] , [DataVersion_546882727351285821].[DataVersion_ID] ) AS [DataVersion_ID]
-	,COALESCE([DataVersion_374732923098508447].[Description] , [DataVersion_546882727351285821].[Description] ) AS [DataVersionDescription]
-	,COALESCE([DataVersion_374732923098508447].[Name] , [DataVersion_546882727351285821].[Name] ) AS [DataVersionName]
-	,COALESCE([DataVersion_374732923098508447].[Order] , [DataVersion_546882727351285821].[Order] ) AS [DataVersionOrder]
 	,[Impact_5534662334148680481].[BusinessKey] AS [ImpactBusinessKey]
 	,[Impact_5534662334148680481].[Code] AS [ImpactCode]
 	,[Impact_5534662334148680481].[DataVersion] AS [ImpactDataVersion]
@@ -44,16 +38,8 @@ FROM [app].[SubOutput] AS [SubOutput_8975960090630895435]
     
     JOIN [app].[Outcome] AS [Outcome_338184695230449155] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_374732923098508447] 
-    
-        ON  [Outcome_338184695230449155].[DataVersion] = [DataVersion_374732923098508447].[DataVersion_ID]
-
     LEFT JOIN [app].[Impact] AS [Impact_5534662334148680481] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_546882727351285821] 
-    
-        ON  [Impact_5534662334148680481].[DataVersion] = [DataVersion_546882727351285821].[DataVersion_ID]
-
     ON  [Outcome_338184695230449155].[Impact_ID] = [Impact_5534662334148680481].[Impact_ID]
         
 
@@ -173,99 +159,99 @@ EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Order', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Name', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Description', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'DataVersion_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Code', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
 
 
 GO

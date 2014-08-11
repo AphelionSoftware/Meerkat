@@ -102,3 +102,34 @@ INNER JOIN app.SubSector SS
 		ON S.Programme_ID = P.Programme_ID
 		ON SS.Sector_ID = S.Sector_ID
 		ON I.SubSector_ID = SS.SubSector_ID
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'SubsectorShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'SubsectorShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'SectorShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'SectorShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'ProgrammeShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'ProgrammeShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'IndicatorShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'4', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'IndicatorShortName';
+

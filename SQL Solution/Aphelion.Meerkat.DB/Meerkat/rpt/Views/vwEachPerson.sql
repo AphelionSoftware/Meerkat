@@ -1,5 +1,4 @@
 ﻿
-
 CREATE VIEW [rpt].[vwEachPerson] AS
 
 SELECT TOP 2147483647 
@@ -16,7 +15,7 @@ OUTER APPLY (
 		[Date]
 		, DateID 
 		
-		, Label = CASE WHEN COUNT(*) = 1 THEN Max(Label) ELSE CAST(Count(*) as varchar(8)) + ' reports due with total weight ' + cast(sum(value) as varchar(255)) END
+		, Label = CASE WHEN COUNT(*) = 1 THEN Max(Label) ELSE CAST(Count(*) as varchar(8)) + ' reports due' END
 		, Sum(Value) as Value
 	FROM rpt.vwAllReportsByPeople Rpt
 	WHERE Rpt.Person_ID = P.Person_ID

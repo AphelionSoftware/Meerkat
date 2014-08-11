@@ -5,24 +5,23 @@ AS
 
 SELECT 
 	[IndicatorValues].[IndicatorValues_ID] 
-	,[IndicatorValues].[Indicator_ID] 
+	,[IndicatorValues].[ActualDate] 
 	,[IndicatorValues].[ActualLabel] 
 	,[IndicatorValues].[ActualValue] 
-	,[IndicatorValues].[ActualDate] 
-	,[IndicatorValues].[BusinessKey] 
-	,[IndicatorValues].[Notes] 
-	,[IndicatorValues].[DataVersion_ID] 
-	,[IndicatorValues].[Location_ID] 
-	,[IndicatorValues].[ReportPeriodID] 
-	,[IndicatorValues].[Organization_ID] 
-	,[IndicatorValues].[IndicatorValueGroup] 
 	,[IndicatorValues].[AgeBand_ID] 
+	,[IndicatorValues].[BusinessKey] 
 	,[IndicatorValues].[CommunityType_ID] 
 	,[IndicatorValues].[Donor_ID] 
 	,[IndicatorValues].[Framework_ID] 
 	,[IndicatorValues].[Gender_ID] 
 	,[IndicatorValues].[Group_ID] 
+	,[IndicatorValues].[Indicator_ID] 
+	,[IndicatorValues].[IndicatorValueGroup] 
 	,[IndicatorValues].[Institution_ID] 
+	,[IndicatorValues].[Location_ID] 
+	,[IndicatorValues].[Notes] 
+	,[IndicatorValues].[Organization_ID] 
+	,[IndicatorValues].[ReportPeriodID] 
 	,[IndicatorValues].[ResultArea_ID] 
 	,[IndicatorValues].[StrategicElement_ID] 
 
@@ -184,15 +183,15 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Location_ID', @l
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'IndicatorValues', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'RBM', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'DataVersion_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
+
+
+
+GO
+
 
 
 GO
@@ -269,4 +268,32 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Indicator_ID', @
 
 GO
 EXECUTE sp_addextendedproperty @name = N'XMLATableType', @value = N'MeasureGroup', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'false', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 

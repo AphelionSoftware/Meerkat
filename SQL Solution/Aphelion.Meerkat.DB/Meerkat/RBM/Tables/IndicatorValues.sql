@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[IndicatorValues] (
+CREATE TABLE [RBM].[IndicatorValues] (
     [IndicatorValues_ID]  INT              IDENTITY (1, 1) NOT NULL,
     [Indicator_ID]        INT              NOT NULL,
     [ActualLabel]         VARCHAR (50)     NOT NULL,
@@ -53,4 +53,32 @@
 
 
 
+
+
 GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'0', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+

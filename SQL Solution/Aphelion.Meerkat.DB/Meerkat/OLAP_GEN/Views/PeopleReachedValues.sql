@@ -5,19 +5,7 @@ AS
 
 SELECT 
 	[PeopleReachedValues].[PeopleReachedValuesID] 
-	,[PeopleReachedValues].[Outcome_ID] 
-	,[PeopleReachedValues].[Output_ID] 
-	,[PeopleReachedValues].[SubOutput_ID] 
-	,[PeopleReachedValues].[Programme_ID] 
-	,[PeopleReachedValues].[Sector_ID] 
-	,[PeopleReachedValues].[SubSector_ID] 
-	,[PeopleReachedValues].[ProjectID] 
 	,[PeopleReachedValues].[Activity_ID] 
-	,[PeopleReachedValues].[StatusType_ID] 
-	,[PeopleReachedValues].[ReportingPeriod_ID] 
-	,[PeopleReachedValues].[Location_ID] 
-	,[PeopleReachedValues].[DataVersion_ID] 
-	,[PeopleReachedValues].[Notes] 
 	,[PeopleReachedValues].[AgeBand_ID] 
 	,[PeopleReachedValues].[CommunityType_ID] 
 	,[PeopleReachedValues].[Donor_ID] 
@@ -26,11 +14,32 @@ SELECT
 	,[PeopleReachedValues].[Gender_ID] 
 	,[PeopleReachedValues].[Group_ID] 
 	,[PeopleReachedValues].[Institution_ID] 
-	,[PeopleReachedValues].[ResultArea_ID] 
-	,[PeopleReachedValues].[StrategicElement_ID] 
+	,[PeopleReachedValues].[Location_ID] 
+	,[PeopleReachedValues].[Notes] 
 	,[PeopleReachedValues].[NumberReached] 
+	,[PeopleReachedValues].[Outcome_ID] 
+	,[PeopleReachedValues].[Output_ID] 
+	,[PeopleReachedValues].[Programme_ID] 
+	,[PeopleReachedValues].[ProjectID] 
+	,[PeopleReachedValues].[ReportingPeriod_ID] 
+	,[PeopleReachedValues].[ResultArea_ID] 
+	,[PeopleReachedValues].[Sector_ID] 
+	,[PeopleReachedValues].[StatusType_ID] 
+	,[PeopleReachedValues].[StrategicElement_ID] 
+	,[PeopleReachedValues].[SubOutput_ID] 
+	,[PeopleReachedValues].[SubSector_ID] 
 
+	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey) as HierarchyBusinessKey 
 FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
+
+	LEFT JOIN app.SubSector SS
+	ON [PeopleReachedValues].SubSector_ID = SS.SubSector_ID
+
+LEFT JOIN app.Sector S
+	ON [PeopleReachedValues].Sector_ID = S.Sector_ID
+
+LEFT JOIN app.Programme P
+	ON [PeopleReachedValues].Programme_ID = P.Programme_ID
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'PeopleReachedValues', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
@@ -176,15 +185,15 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Notes', @level0t
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'PeopleReachedValues', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'RBM', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'DataVersion_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
+
+
+
+GO
+
 
 
 GO
@@ -321,4 +330,28 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Outcome_ID', @le
 
 GO
 EXECUTE sp_addextendedproperty @name = N'XMLATableType', @value = N'MeasureGroup', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'False', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 

@@ -63,12 +63,6 @@ SELECT
 	,[Outcome_2201295574120571704].[OutcomeSiteName] AS [OutcomeSiteName]
 	,[Outcome_2201295574120571704].[ShortName] AS [OutcomeShortName]
 	,[Outcome_2201295574120571704].[TextDescription] AS [OutcomeTextDescription]
-	,[DataVersion_8890172684218073676].[BusinessKey] AS [DataVersionBusinessKey]
-	,[DataVersion_8890172684218073676].[Code] AS [DataVersionCode]
-	,[DataVersion_8890172684218073676].[DataVersion_ID] AS [DataVersion_ID]
-	,[DataVersion_8890172684218073676].[Description] AS [DataVersionDescription]
-	,[DataVersion_8890172684218073676].[Name] AS [DataVersionName]
-	,[DataVersion_8890172684218073676].[Order] AS [DataVersionOrder]
 	,[Impact_3196485860513688236].[BusinessKey] AS [ImpactBusinessKey]
 	,[Impact_3196485860513688236].[Code] AS [ImpactCode]
 	,[Impact_3196485860513688236].[DataVersion] AS [ImpactDataVersion]
@@ -147,16 +141,8 @@ FROM [disagg].[FrameworkDetail_Indicator] AS [FrameworkDetail_Indicator_85295308
 
     LEFT JOIN [app].[Outcome] AS [Outcome_2201295574120571704] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_8890172684218073676] 
-    
-        ON  [Outcome_2201295574120571704].[DataVersion] = [DataVersion_8890172684218073676].[DataVersion_ID]
-
     LEFT JOIN [app].[Impact] AS [Impact_3196485860513688236] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_2134924383002808064] 
-    
-        ON  [Impact_3196485860513688236].[DataVersion] = [DataVersion_2134924383002808064].[DataVersion_ID]
-
     ON  [Outcome_2201295574120571704].[Impact_ID] = [Impact_3196485860513688236].[Impact_ID]
         
 
@@ -167,16 +153,8 @@ FROM [disagg].[FrameworkDetail_Indicator] AS [FrameworkDetail_Indicator_85295308
     
     JOIN [app].[Outcome] AS [Outcome_4655221779694552046] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_125422908410480886] 
-    
-        ON  [Outcome_4655221779694552046].[DataVersion] = [DataVersion_125422908410480886].[DataVersion_ID]
-
     LEFT JOIN [app].[Impact] AS [Impact_8073458831441045022] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_1309160987366814578] 
-    
-        ON  [Impact_8073458831441045022].[DataVersion] = [DataVersion_1309160987366814578].[DataVersion_ID]
-
     ON  [Outcome_4655221779694552046].[Impact_ID] = [Impact_8073458831441045022].[Impact_ID]
         
 
@@ -194,16 +172,8 @@ FROM [disagg].[FrameworkDetail_Indicator] AS [FrameworkDetail_Indicator_85295308
     
     LEFT JOIN [app].[Outcome] AS [Outcome_4282839494947939475] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_3730419070820009007] 
-    
-        ON  [Outcome_4282839494947939475].[DataVersion] = [DataVersion_3730419070820009007].[DataVersion_ID]
-
     LEFT JOIN [app].[Impact] AS [Impact_3263861759059397489] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_6052289822061431859] 
-    
-        ON  [Impact_3263861759059397489].[DataVersion] = [DataVersion_6052289822061431859].[DataVersion_ID]
-
     ON  [Outcome_4282839494947939475].[Impact_ID] = [Impact_3263861759059397489].[Impact_ID]
         
 
@@ -255,16 +225,8 @@ FROM [disagg].[FrameworkDetail_Indicator] AS [FrameworkDetail_Indicator_85295308
     
     JOIN [app].[Outcome] AS [Outcome_3073460129892100564] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_5128672992740633728] 
-    
-        ON  [Outcome_3073460129892100564].[DataVersion] = [DataVersion_5128672992740633728].[DataVersion_ID]
-
     LEFT JOIN [app].[Impact] AS [Impact_3447911804035233336] 
     
-    JOIN [Core].[DataVersion] AS [DataVersion_6309576001123158428] 
-    
-        ON  [Impact_3447911804035233336].[DataVersion] = [DataVersion_6309576001123158428].[DataVersion_ID]
-
     ON  [Outcome_3073460129892100564].[Impact_ID] = [Impact_3447911804035233336].[Impact_ID]
         
 
@@ -1086,99 +1048,99 @@ EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Order', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionOrder';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Name', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionName';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Description', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionDescription';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'DataVersion_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersion_ID';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Code', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionCode';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'DataVersion', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'DataVersionBusinessKey';
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
 
 
 GO

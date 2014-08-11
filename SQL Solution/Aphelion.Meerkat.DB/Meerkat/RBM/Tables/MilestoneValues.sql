@@ -51,3 +51,29 @@
 
 
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'False', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
