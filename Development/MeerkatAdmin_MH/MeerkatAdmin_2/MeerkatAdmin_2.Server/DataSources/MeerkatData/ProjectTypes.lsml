@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="DataSource">
+    Name="ProjectType">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,18 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <KeyProperty
-        Name="DataSource_ID"
+        Name="ProjectType_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -36,69 +26,32 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="ContactDetails"
-        PropertyType=":String?">
+        Name="Code"
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <Required />
+          <MaxLength
+            Value="50" />
           <AnsiConstraint />
           <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Custodian"
+        Name="Name"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="255" />
           <AnsiConstraint />
-          <Hidden />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Format"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-          <Hidden />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="CollectionMethod"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-          <Hidden />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="MetadataStatus"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
         PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
-            Value="4000" />
-          <Required />
-          <Hidden />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_CreatedOn"
-        PropertyType=":DateTime">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-          <Required />
+            Value="400" />
           <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -106,9 +59,32 @@
         Name="sys_CreatedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="255" />
+          <AnsiConstraint />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_CreatedOn"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
           <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
           <AnsiConstraint />
           <Hidden />
         </EntityProperty.Attributes>
@@ -117,29 +93,27 @@
         Name="sys_ModifiedOn"
         PropertyType=":DateTime">
         <EntityProperty.Attributes>
+          <Required />
           <DateTimeConstraint
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
-          <Required />
-          <Hidden />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="sys_ModifiedBy"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <Required />
-          <AnsiConstraint />
           <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_ProjectType"
+        FromEnd="ProjectType"
+        ToEnd="Project">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
         Name="ActiveType"
-        Association="FK_DataSource_ActiveType"
-        FromEnd="DataSource"
+        Association="FK_ProjectType_ActiveType"
+        FromEnd="ProjectType"
         ToEnd="ActiveType">
         <NavigationProperty.Attributes>
           <Hidden />
@@ -147,20 +121,44 @@
       </NavigationProperty>
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_Project_ProjectType">
+    <AssociationEnd
+      Name="ProjectType"
+      EntityType="ProjectType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="Many"
+      EntityType="Project" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="DataSources"
+      Name="ProjectTypes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="DataSource" />
+      EntityType="ProjectType" />
+    <AssociationSet
+      Name="FK_Project_ProjectType"
+      Association="FK_Project_ProjectType">
+      <AssociationSetEnd
+        Name="ProjectType"
+        EntitySet="ProjectTypes" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
     <QueryOperation
-      Name="DataSources_Single"
-      ReturnType="DataSource">
+      Name="ProjectTypes_Single"
+      ReturnType="ProjectType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -173,12 +171,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="DataSource_ID" />
+                  Member="ProjectType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="DataSource_ID" />
+                Parameter="ProjectType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -186,21 +184,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="DataSources" />
+            Member="ProjectTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="DataSource_ID"
+        Name="ProjectType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'DataSource_ID' key property of the entity to retrieve." />
+            Value="The value of the 'ProjectType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="DataSources_SingleOrDefault"
-      ReturnType="DataSource">
+      Name="ProjectTypes_SingleOrDefault"
+      ReturnType="ProjectType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -213,12 +211,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="DataSource_ID" />
+                  Member="ProjectType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="DataSource_ID" />
+                Parameter="ProjectType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -226,15 +224,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="DataSources" />
+            Member="ProjectTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="DataSource_ID"
+        Name="ProjectType_ID"
         ParameterType=":Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'DataSource_ID' key property of the entity to retrieve." />
+            Value="The value of the 'ProjectType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -245,75 +243,57 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="DataSources">
+      EntitySet="ProjectTypes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Core"
-          Table="DataSource" />
+          Schema="app"
+          Table="ProjectType" />
         <SsdlProperty
-          Name="DataSource_ID"
+          Name="ProjectType_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="DataSource/Properties[DataSource_ID]" />
+          Property="ProjectType/Properties[ProjectType_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="ProjectType/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
-          Property="DataSource/Properties[Name]" />
+          Property="ProjectType/Properties[Name]" />
         <SsdlProperty
-          Name="ContactDetails"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="DataSource/Properties[ContactDetails]" />
-        <SsdlProperty
-          Name="Custodian"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="DataSource/Properties[Custodian]" />
-        <SsdlProperty
-          Name="Format"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="DataSource/Properties[Format]" />
-        <SsdlProperty
-          Name="CollectionMethod"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="DataSource/Properties[CollectionMethod]" />
-        <SsdlProperty
-          Name="MetadataStatus"
-          Nullable="True"
-          Type="varchar(max)"
-          Property="DataSource/Properties[MetadataStatus]" />
-        <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="DataSource/Properties[BusinessKey]" />
+          Property="ProjectType/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="DataSource/Properties[sys_CreatedBy]" />
+          Property="ProjectType/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="DataSource/Properties[sys_CreatedOn]" />
+          Property="ProjectType/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="DataSource/Properties[sys_ModifiedBy]" />
+          Property="ProjectType/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="DataSource/Properties[sys_ModifiedOn]" />
+          Property="ProjectType/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -321,5 +301,26 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_ProjectType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_ProjectType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ProjectType]/Members[ProjectType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_ProjectType]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>
