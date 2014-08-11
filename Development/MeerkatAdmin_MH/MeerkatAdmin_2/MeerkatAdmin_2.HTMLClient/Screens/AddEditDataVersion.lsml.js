@@ -11,6 +11,6 @@ myapp.AddEditDataVersion.DataVersion_delete_canExecute = function (screen) {
 
 myapp.AddEditDataVersion.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    //msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
-    //msls.application.lightswitchTools.setDescriptionIsName(screen);
+    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    msls.application.lightswitchTools.setDescriptionIsName(screen);
 };
