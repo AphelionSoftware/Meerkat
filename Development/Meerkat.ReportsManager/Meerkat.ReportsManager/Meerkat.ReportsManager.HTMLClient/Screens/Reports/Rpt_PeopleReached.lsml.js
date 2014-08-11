@@ -13,6 +13,7 @@ myapp.Rpt_PeopleReached.created = function (screen) {
         chartWrapper.url = myapp.activeDataWorkspace.MeerkatData.vwPeopleReacheds._requestUri + "?$format=json&$filter=LocationTypeCode eq 'DIST'";
     }
     chartWrapper.mapUrl = chartWrapper.url.split("MeerkatData.svc")[0] + "HTMLClient/Maps/DIST.geojson";
+    chartWrapper.rollupField = "NumberReached";
 };
 
 myapp.Rpt_PeopleReached.Map_render = function (element, contentItem) {
