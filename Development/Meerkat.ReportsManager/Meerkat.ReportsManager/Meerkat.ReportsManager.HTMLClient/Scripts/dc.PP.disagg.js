@@ -40,7 +40,7 @@ dcLSWrapper.prototype.mapChartsByData = function (mapElement, mapData, rollupFie
         .key(function (d) { return d.Location_Name; })
         .rollup(function (d) {
             return d3.sum(d, function (g) {
-                if (rollupField != "") {
+                if (g[rollupField]) {
                     ///TODO:
                     return g[rollupField];
                 } else {
@@ -53,6 +53,10 @@ dcLSWrapper.prototype.mapChartsByData = function (mapElement, mapData, rollupFie
     var min = 0, max = 0;
 
     max = d3.max(d3.values(domain));
+    //Setting the max to the next item up
+    //51454 will become 52000
+    var conv = Math.pow(10, Math.ceil(Math.log(max) / Math.LN10) - 1);
+    max = Math.ceil(max / conv) * conv;
     min = d3.min(d3.values(domain));
     /*Setting up colors*/
     var color2 = d3.scale.ordinal()
@@ -197,6 +201,11 @@ dcLSWrapper.prototype.mapCharts = function (mapElement, mapUrl, rollupField) {
     var min = 0, max = 0;
 
     max = d3.max(d3.values(domain));
+    //Setting the max to the next item up
+    //51454 will become 52000
+    var conv = Math.pow(10, Math.ceil(Math.log(max) / Math.LN10) - 1);
+    max = Math.ceil(max / conv) * conv;
+
     min = d3.min(d3.values(domain));
     /*Setting up colors*/
     var color2 = d3.scale.ordinal()
@@ -337,8 +346,8 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
         .key(function (d) { return d[x.colID]; })
         .rollup(function (d) {
             return d3.sum(d, function (g) { ///TODO:
-                if (d[rollupField]) {
-                    return d[rollupField];
+                if (g[rollupField]) {
+                    return g[rollupField];
                 } else {
                     return 1;
                 }
@@ -349,6 +358,11 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
         var min = 0, max = 0;
 
         max = d3.max(d3.values(domain));
+        //Setting the max to the next item up
+        //51454 will become 52000
+        var conv = Math.pow(10, Math.ceil(Math.log(max) / Math.LN10) - 1);
+        max = Math.ceil(max / conv) * conv;
+
         //min = d3.min(d3.values(domain));
         //overriding the set heiht
         var height = d3.values(domain).length * 40;
@@ -395,8 +409,8 @@ dcLSWrapper.prototype.barCharts = function (arrbarCharts, rollupField) {
         .key(function (d) { return d[x.colID]; })
         .rollup(function (d) {
             return d3.sum(d, function (g) { ///TODO:
-                if (d[rollupField]) {
-                    return d[rollupField];
+                if (g[rollupField]) {
+                    return g[rollupField];
                 } else {
                     return 1;
                 }
