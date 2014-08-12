@@ -102,26 +102,9 @@ GO
 EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey) as HierarchyBusinessKey', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
 
 
-GO
-EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'False', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'True', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
-
