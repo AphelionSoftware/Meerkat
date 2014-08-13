@@ -1,4 +1,4 @@
-CREATE TABLE [RBM].[IndicatorValues] (
+﻿CREATE TABLE [RBM].[IndicatorValues] (
     [IndicatorValues_ID]  INT              IDENTITY (1, 1) NOT NULL,
     [Indicator_ID]        INT              NOT NULL,
     [ActualLabel]         VARCHAR (50)     NOT NULL,
@@ -41,8 +41,10 @@ CREATE TABLE [RBM].[IndicatorValues] (
     CONSTRAINT [FK_IndicatorValues_ReportingPeriod] FOREIGN KEY ([ReportPeriodID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [FK_IndicatorValues_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]),
     CONSTRAINT [FK_IndicatorValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
-    CONSTRAINT [UQ_IDS] UNIQUE NONCLUSTERED ([Indicator_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC)
+    CONSTRAINT [UQ_IDS] UNIQUE NONCLUSTERED ([Indicator_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC, [AgeBand_ID] ASC, [CommunityType_ID] ASC, [Donor_ID] ASC, [Framework_ID] ASC, [Gender_ID] ASC, [Group_ID] ASC, [Institution_ID] ASC, [ResultArea_ID] ASC, [StrategicElement_ID] ASC)
 );
+
+
 
 
 
@@ -60,25 +62,37 @@ EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'Ind
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'0', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'false', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'1', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
 
