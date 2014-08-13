@@ -126,7 +126,7 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -255,6 +255,11 @@
         Association="FK_MilestoneValues_Milestone"
         FromEnd="Milestone"
         ToEnd="MilestoneValues" />
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Milestone"
+        FromEnd="Milestone"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -398,7 +403,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_StatusValues_Milestone"
+      Association="FK_StatusValues_Milestone">
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_StatusValues_Milestone">
+    <AssociationEnd
+      Name="Milestone"
+      EntityType="Milestone">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -472,6 +501,7 @@
           Type="date"
           Property="Milestone/Properties[ReportingDate]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -590,6 +620,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_MilestoneValues_Milestone]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Milestone_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Milestone">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Milestone" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Milestone]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Milestone]/Members[StatusValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Milestone_ID" />

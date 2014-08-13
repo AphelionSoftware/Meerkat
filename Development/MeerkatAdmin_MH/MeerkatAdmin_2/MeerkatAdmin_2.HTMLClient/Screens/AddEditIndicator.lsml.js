@@ -34,24 +34,19 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
                     target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
-            case "Programme":
+            case "PROG":
                 {
-                    target = contentItem.screen.findContentItem("ProgrammeGroup");
+                    target = contentItem.screen.findContentItem("Programme");
                     break;
                 }
-            case "Sector":
+            case "SEC":
                 {
-                    target = contentItem.screen.findContentItem("SectorGroup");
+                    target = contentItem.screen.findContentItem("Sector");
                     break;
                 }
-            case "SubSector":
+            case "SS":
                 {
-                    target = contentItem.screen.findContentItem("SubsectorGroup");
-                    break;
-                }
-            case "Project":
-                {
-                    target = contentItem.screen.findContentItem("ProjectGroup");
+                    target = contentItem.screen.findContentItem("SubSector");
                     break;
                 }
             default:
@@ -74,10 +69,8 @@ myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
 
 myapp.AddEditIndicator.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
-    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
-    msls.application.lightswitchTools.setBaselineString(screen);
-    msls.application.lightswitchTools.setTargetString(screen);
+    //msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    //msls.application.lightswitchTools.setDescriptionIsShortName(screen);
     screen.Indicator.IsKeyIndicator = false;
 };
 

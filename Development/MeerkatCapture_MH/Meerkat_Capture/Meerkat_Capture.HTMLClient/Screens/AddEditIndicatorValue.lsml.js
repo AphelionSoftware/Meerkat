@@ -352,7 +352,7 @@ myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
 myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
     // Write code here.
     if (screen.IndicatorValuesPreviousVersion.data[1]) {
-        screen.IndicatorValue.ActualValue = screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
+        screen.IndicatorValue.ActualValue= screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
         screen.IndicatorValue.ActualLabel = screen.IndicatorValuesPreviousVersion.data[1].ActualLabel;
         screen.IndicatorValue.ActualDate = screen.IndicatorValuesPreviousVersion.data[1].ActualDate;
     }

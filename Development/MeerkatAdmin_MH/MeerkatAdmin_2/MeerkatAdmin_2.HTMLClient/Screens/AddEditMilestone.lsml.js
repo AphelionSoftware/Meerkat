@@ -2,7 +2,7 @@
 /// <reference path="LightSwitchTools.js" />
 
 myapp.AddEditMilestone.Milestone_Delete_execute = function (screen) {
-    msls.application.lightswitchTools.deleteEntity(screen);
+    msls.application.lightswitchTools.deleteEntity(screen.Milestone);
 };
 
 myapp.AddEditMilestone.Milestone_Delete_canExecute = function (screen) {
@@ -14,10 +14,8 @@ myapp.AddEditMilestone.created = function (screen) {
         screen.Milestone = new myapp.Milestone();
     }
     msls.application.lightswitchTools.configureCaptureForm(screen);
-    msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
-    msls.application.lightswitchTools.setDescriptionIsShortName(screen);
-    msls.application.lightswitchTools.setBaselineString(screen);
-    msls.application.lightswitchTools.setTargetString(screen);
+    //msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
+    //msls.application.lightswitchTools.setDescriptionIsShortName(screen);
     screen.Milestone.IsKeyIndicator = false;
 };
 
