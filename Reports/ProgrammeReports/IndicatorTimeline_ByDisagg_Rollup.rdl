@@ -890,7 +890,12 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ActualValue.Value)</Value>
+                                  <Value>=switch( Parameters!Rollup.Value ="Avg", Avg(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Sum", Sum(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Max", Max(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Min", Min(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Count", Count(Fields!ActualValue.Value)
+)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>#,0;(#,0)</Format>
@@ -1953,7 +1958,12 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Sum(Fields!ActualValue.Value)</Y>
+                        <Y>=switch( Parameters!Rollup.Value ="Avg", Avg(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Sum", Sum(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Max", Max(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Min", Min(Fields!ActualValue.Value)
+,Parameters!Rollup.Value ="Count", Count(Fields!ActualValue.Value)
+)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style>
@@ -2494,6 +2504,39 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
           <ValueField>Value</ValueField>
           <LabelField>Label</LabelField>
         </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Rollup">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Sum</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Rollup</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>Sum</Value>
+            <Label>Sum</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Avg</Value>
+            <Label>Average</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Max</Value>
+            <Label>Maximum</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Min</Value>
+            <Label>Minimum</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Count</Value>
+            <Label>Count</Label>
+          </ParameterValue>
+        </ParameterValues>
       </ValidValues>
     </ReportParameter>
   </ReportParameters>
