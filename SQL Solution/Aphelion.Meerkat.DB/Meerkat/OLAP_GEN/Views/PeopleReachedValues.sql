@@ -29,7 +29,7 @@ SELECT
 	,[PeopleReachedValues].[SubOutput_ID] 
 	,[PeopleReachedValues].[SubSector_ID] 
 
-	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey) as HierarchyBusinessKey 
+	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, PR.BusinessKey) as HierarchyBusinessKey 
 FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
 
 	LEFT JOIN app.SubSector SS
@@ -40,6 +40,9 @@ LEFT JOIN app.Sector S
 
 LEFT JOIN app.Programme P
 	ON [PeopleReachedValues].Programme_ID = P.Programme_ID
+
+LEFT JOIN app.Project PR
+	ON [PeopleReachedValues].ProjectID = PR.ProjectID
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'PeopleReachedValues', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
@@ -354,4 +357,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'True', @level
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorByProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
 

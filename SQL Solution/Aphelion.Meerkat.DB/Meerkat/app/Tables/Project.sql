@@ -8,7 +8,7 @@
     [Programme_ID]        INT            NULL,
     [Sector_ID]           INT            NULL,
     [SubSector_ID]        INT            NULL,
-    [BusinessKey]         NVARCHAR (400) NOT NULL,
+    [BusinessKey]         NVARCHAR (400) CONSTRAINT [DF_Project_BusinessKey] DEFAULT (N'ShortName') NOT NULL,
     [ProjectSiteName]     VARCHAR (255)  CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
     [Active]              INT            CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]       VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -25,6 +25,8 @@
     CONSTRAINT [FK_Project_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

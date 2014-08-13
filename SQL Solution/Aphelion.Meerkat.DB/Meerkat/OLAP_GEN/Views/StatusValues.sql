@@ -21,7 +21,7 @@ SELECT
 	,[StatusValues].[SubOutput_ID] 
 	,[StatusValues].[SubSector_ID] 
 
-	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey) as HierarchyBusinessKey 
+	,COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey, PR.BusinessKey) as HierarchyBusinessKey 
 FROM [RBM].[StatusValues] [StatusValues]
 
 	LEFT JOIN app.Indicator I
@@ -35,6 +35,9 @@ LEFT JOIN app.Sector S
 
 LEFT JOIN app.Programme P
 	ON [StatusValues].Programme_ID = P.Programme_ID
+
+LEFT JOIN app.Project PR
+	ON [StatusValues].ProjectID = PR.ProjectID
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'StatusValues', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'Notes';
 
@@ -220,9 +223,15 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Indicator_ID', @
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorByProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
 

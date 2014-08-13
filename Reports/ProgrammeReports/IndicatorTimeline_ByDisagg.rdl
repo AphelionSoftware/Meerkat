@@ -24,11 +24,32 @@
           <QueryParameter Name="@DataVersion_ID">
             <Value>=Parameters!DataVersion_ID.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@AgeBand_ID">
+            <Value>=Parameters!AgeBand_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CommunityType_ID">
+            <Value>=Parameters!CommunityType_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Gender_ID">
+            <Value>=Parameters!Gender_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Group_ID">
+            <Value>=Parameters!Group_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Institution_ID">
+            <Value>=Parameters!Institution_ID.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>exec [uspIndicatorTimeline]
+        <CommandText>exec [dbo].[uspIndicatorTimeline_ByDisagg]
 
 @DataVersion_ID 
-, @indicator_id</CommandText>
+, @indicator_id
+,@AgeBand_ID		   
+,@CommunityType_ID	   
+,@Gender_ID			   
+,@Group_ID			   
+,@Institution_ID		   
+</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -143,6 +164,10 @@
         <Field Name="ExtrapolatedTarget">
           <DataField>ExtrapolatedTarget</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Location_ID">
+          <DataField>Location_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -458,6 +483,97 @@
         <Field Name="Outcomesitename">
           <DataField>Outcomesitename</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pAgeBand">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+Select Name, AgeBand_ID		 		FROM 	disagg.AgeBand		</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pCommunityType">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+
+Select Name, CommunityType_ID	 	FROM 	disagg.CommunityType	</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pGender">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+	Select Name, Gender_ID			 	FROM 	disagg.Gender			</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pGroup">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+Select Name, Group_ID			 	FROM 	disagg.[Group]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pInstitution">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -2295,6 +2411,91 @@
       </DefaultValue>
       <Prompt>MDXKey</Prompt>
     </ReportParameter>
+    <ReportParameter Name="AgeBand_ID">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Age Band ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pAgeBand</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="CommunityType_ID">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Community Type ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pCommunityType</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Gender_ID">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Gender ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pGender</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Group_ID">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Group ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pGroup</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Institution_ID">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Institution ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pInstitution</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
     <EmbeddedImage Name="ReportServer">
@@ -2309,6 +2510,5 @@ M//MZv/Mmf/MzP/M////AP//M///Zv//mf//zP///ywAAAAACQAJAAAIIAABCBxI8IHBgw8EIjyocGFC
     </EmbeddedImage>
   </EmbeddedImages>
   <rd:ReportUnitType>Mm</rd:ReportUnitType>
-  <rd:ReportServerUrl>http://mgs-m6700/sites/Meerkat/Outcome2</rd:ReportServerUrl>
   <rd:ReportID>a9add221-fed4-45eb-96f3-d9e31346ada3</rd:ReportID>
 </Report>

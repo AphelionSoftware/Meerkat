@@ -58,14 +58,18 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [StatusValues_UniqueRows]
     ON [RBM].[StatusValues]([Output_ID] ASC, [Outcome_ID] ASC, [Activity_ID] ASC, [SubOutput_ID] ASC, [Programme_ID] ASC, [ProjectID] ASC, [ReportingPeriodID] ASC, [LocationID] ASC, [DataVersionID] ASC);
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalProperties', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship'', @value=N''IndicatorProgram[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''StatusValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship'', @value=N''IndicatorByProgram[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''StatusValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
 ', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
 
 
 GO
@@ -80,13 +84,25 @@ LEFT JOIN app.Sector S
 
 LEFT JOIN app.Programme P
 	ON [StatusValues].Programme_ID = P.Programme_ID
+
+LEFT JOIN app.Project PR
+	ON [StatusValues].ProjectID = PR.ProjectID
+
 ', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
 
 
+
+
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey) as HierarchyBusinessKey', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE(P.BusinessKey, S.BusinessKey, SS.BusinessKey, I.BusinessKey, PR.BusinessKey) as HierarchyBusinessKey', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
 
