@@ -365,7 +365,7 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
 
         //min = d3.min(d3.values(domain));
         //overriding the set heiht
-        var height = d3.values(domain).length * 40;
+        var height = 30 + d3.values(domain).length * 30;
 
         var rowChart = dc.rowChart("#" + x.divID);
         rowChart
