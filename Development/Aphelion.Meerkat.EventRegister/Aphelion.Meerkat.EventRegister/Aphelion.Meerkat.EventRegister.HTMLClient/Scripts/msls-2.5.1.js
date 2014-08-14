@@ -1,13 +1,7 @@
 ﻿/*!
-  Microsoft LightSwitch JavaScript Library v2.0.0 (for VS intellisense)
+  Microsoft LightSwitch JavaScript Library v2.5.1
   Copyright (C) Microsoft Corporation. All rights reserved.
 */
-
-/// <reference path="globalize.js" />
-/// <reference path="winjs-1.0.js" />
-/// <reference path="jquery-1.9.1.js" />
-/// <reference path="datajs-1.1.1.js" />
-/// <reference path="jquery.mobile-1.3.0.js" />
 
 (function (window, undefined) {
 
@@ -21,109 +15,6 @@ var Object = window.Object,
     msls_setTimeout = window.setTimeout,
     msls_clearTimeout = window.clearTimeout;
 
-(function () {
-
-    var isLibrary = !window.msls;
-
-    function isPrimitivePrototype(o) {
-        return (
-            o === Array.prototype ||
-            o === Boolean.prototype ||
-            o === Date.prototype ||
-            o === Error.prototype ||
-            o === Function.prototype ||
-            o === Number.prototype ||
-            o === Object.prototype ||
-            o === RegExp.prototype ||
-            o === String.prototype
-        );
-    }
-
-    function getPropertyDescriptor(o, p) {
-        var descriptor;
-        while (o && !isPrimitivePrototype(o)) {
-            descriptor = Object.getOwnPropertyDescriptor(o, p);
-            if (descriptor) {
-                break;
-            }
-            o = Object.getPrototypeOf(o);
-        }
-        return descriptor;
-    }
-
-    function logMessage(msg) {
-        intellisense.logMessage(msg);
-    }
-
-    function handleStatementCompletion(e) {
-        var targetName = e.targetName, target = e.target,
-            applyFiltering = (isLibrary &&
-               (!!targetName || target) && targetName !== "this"),
-            useParent = (target === null || target === undefined);
-        try {
-            e.items = e.items.filter(function (item) {
-                var object = !useParent ?
-                        target : item.parentObject,
-                    itemName = item.name,
-                    descriptor = getPropertyDescriptor(object, itemName);
-                
-                if (applyFiltering) {
-                    if (itemName === "constructor") {
-                        return false;
-                    }
-                    if (itemName.charCodeAt(0) === /*_*/95) {
-                        return false;
-                    }
-                    if (!isPrimitivePrototype(object.prototype) &&
-                        !!descriptor && !descriptor.enumerable) {
-                        return false;
-                    }
-                }
-
-                var isObjectEnum = (object._$kind === "enum");
-                if (isObjectEnum) {
-                    if (!Object.hasOwnProperty.call(object, itemName)) {
-                        return false;
-                    }
-                }
-
-                var value = !descriptor.get ? item.value : null;
-                if (value !== undefined && value !== null) {
-                    if (value._$kind === "namespace") {
-                        item.glyph = "vs:GlyphGroupNamespace";
-                    } else if (value._$kind === "class") {
-                        item.glyph = "vs:GlyphGroupClass";
-                    } else if (value._$kind === "enum") {
-                        item.glyph = "vs:GlyphGroupEnum";
-                    }
-                }
-                if (!!descriptor && !!descriptor.get) {
-                    item.glyph = "vs:GlyphGroupProperty";
-                }
-                if (object["_$field$" + itemName + "$kind"] === "event") {
-                    item.kind = "property";
-                    item.glyph = "vs:GlyphGroupEvent";
-                }
-                if (isObjectEnum) {
-                    item.glyph = "vs:GlyphGroupEnumMember";
-                }
-
-                return true;
-            });
-        } catch (ex) {
-            logMessage("statementcompletion: ERROR: " + ex.message);
-        }
-    }
-
-    if (!!window.intellisense) {
-        intellisense.addEventListener(
-            "statementcompletion", handleStatementCompletion);
-    }
-
-    Object.getPrototypeOf(msls)._$kind = "namespace";
-
-}());
-
 var msls_isLibrary,
     msls_rootUri,
     msls_appRootUri,
@@ -134,7 +25,9 @@ var msls_isLibrary,
     msls_setProperty,
     msls_expose,
     msls_getUrlParameter,
-    msls_removeUrlParameter;
+    msls_removeUrlParameter,
+    msls_parseUrl,
+    msls_parseUrlHash;
 
 (function () {
     var objectToString = Object.prototype.toString,
@@ -151,7 +44,9 @@ var msls_isLibrary,
     msls_appOptions = {
         enableModalScrollRegions: null,
         showContentBehindDialog: null,
-        transitionAnimationLevel: null
+        transitionAnimationLevel: null,
+        disableUrlScreenParameters: null,
+        defaultMergeOption: null
     };
 
     msls_getUrlParameter =
@@ -288,13 +183,47 @@ var msls_isLibrary,
     function expose(name, o, deprecated) {
         if (externalRoot) {
             msls_setProperty(externalRoot, name, o, deprecated);
-            if (window.intellisense) {
-                if (o && o._$savedDef) {
-                    intellisense.annotate(externalRoot, o._$savedDef);
+        }
+    };
+
+    msls_parseUrl =
+    function parseUrl(url) {
+
+
+        var parsedHash = msls_parseUrlHash($.mobile.path.parseUrl( url).hash);
+
+        return parsedHash;
+    };
+
+    msls_parseUrlHash =
+    function parseUrlHash(hash) {
+        var parsedHash = {};
+
+        if (hash) {
+            var splitHash = hash.split("/");
+
+
+            if (splitHash.length > 1) {
+                parsedHash.screenName = decodeURIComponent(splitHash[1]);
+                parsedHash.screenParameters = [];
+
+                for (var i = 2, len = splitHash.length; i < len; i++) {
+                    parsedHash.screenParameters.push(decodeURIComponent(splitHash[i]));
+                }
+
+                var lastElement = parsedHash.screenParameters.pop();
+
+                if (lastElement.charAt(0) === "[" && lastElement.charAt(lastElement.length - 1) === "]") {
+                    parsedHash.pageId = lastElement.substring(1,lastElement.length - 1);
+                } else {
+                    parsedHash.screenParameters.push(lastElement);
                 }
             }
         }
+
+        return parsedHash;
     };
+
 }());
 
 var msls_dispatch;
@@ -425,13 +354,8 @@ var msls_dataProperty,
     msls_mixIntoExistingClass,
     msls_defineEnum,
     msls_isEnumValueDefined;
-var msls_intellisense_addTypeNameResolver,
-    msls_intellisense_createObject,
-    msls_intellisense_setTypeProvider;
 
 (function () {
-
-    var typeNameResolvers = [];
 
     msls_dataProperty =
     function dataProperty(value) {
@@ -498,20 +422,6 @@ var msls_intellisense_addTypeNameResolver,
     }
 
     function addToNamespaceCore(parent, path, members) {
-        if (window.intellisense) {
-            var current = parent, fragments = path.split(".");
-            for (var i = 0, len = fragments.length; i < len; i++) {
-                var fragment = fragments[i];
-                if (!current[fragment]) {
-                    Object.defineProperty(current, fragment, {
-                        configurable: true, enumerable: true,
-                        writable: false, value: {}
-                    });
-                    current[fragment]._$kind = "namespace";
-                }
-                current = current[fragment];
-            }
-        }
         var standardMembers = processMembers(members),
             ns = WinJS.Namespace.defineWithParent(
                 parent, path, standardMembers);
@@ -542,9 +452,6 @@ var msls_intellisense_addTypeNameResolver,
         }
         defineExtendedMembers(constructor.prototype, instanceMembers);
         defineExtendedMembers(constructor, staticMembers);
-        if (window.intellisense) {
-            constructor._$kind = "class";
-        }
         if (className) {
             var namespaceContent = {};
             namespaceContent[className] = constructor;
@@ -572,19 +479,12 @@ var msls_intellisense_addTypeNameResolver,
     function defineEnum(parent, definition) {
         var enumName = Object.keys(definition)[0],
             enumeration = definition[enumName];
-        if (window.intellisense) {
-            enumeration._$savedDef = definition;
-            enumeration._$kind = "enum";
-        }
         var ns, namespaceContent = {};
         namespaceContent[enumName] = msls_dataProperty(enumeration);
         if (!parent || typeof (parent) === "string") {
             ns = msls_addToInternalNamespace(parent, namespaceContent);
         } else {
             ns = addToNamespaceCore({ _: parent }, "_", namespaceContent);
-        }
-        if (window.intellisense) {
-            intellisense.annotate(ns, definition);
         }
         return enumeration;
     };
@@ -601,144 +501,14 @@ var msls_intellisense_addTypeNameResolver,
         return false;
     };
 
-    msls_intellisense_addTypeNameResolver =
-    function addTypeNameResolver(resolver) {
-        if (window.intellisense) {
-            typeNameResolvers.push(resolver);
-        }
-    };
-
-    msls_intellisense_addTypeNameResolver(
-        function resolvePrimitiveTypeName(type) {
-            var typeName;
-            if (type === Array) {
-                typeName = "Array";
-            } else if (type === Boolean) {
-                typeName = "Boolean";
-            } else if (type === Date) {
-                typeName = "Date";
-            } else if (type === Number) {
-                typeName = "Number";
-            } else if (type === Object) {
-                typeName = "Object";
-            } else if (type === String) {
-                typeName = "String";
-            }
-            return typeName;
-        }
-    );
-
-    msls_intellisense_addTypeNameResolver(
-        function resolveLibraryTypeName(type) {
-            var library = window.msls, typeName;
-            for (typeName in library) {
-                if (library[typeName] === type) {
-                    return "msls." + typeName;
-                }
-            }
-            return null;
-        }
-    );
-
-    function resolveTypeName(type) {
-        var typeName;
-        if (window.intellisense) {
-            for (var i = 0, len = typeNameResolvers.length; i < len; i++) {
-                typeName = typeNameResolvers[i](type);
-                if (typeName) {
-                    break;
-                }
-            }
-        }
-        return typeName;
-    }
-
-    msls_intellisense_createObject =
-    function createObject(info)
-    {
-        if (window.intellisense) {
-            var iClass = "_$class",
-                ins = info,
-                p;
-            if (msls_isFunction(info)) {
-                ins = new info();
-            } else if (info && info[iClass]) {
-                ins = new info[iClass]();
-                for (p in info) {
-                    if (p !== iClass) {
-                        ins[p] = msls_intellisense_createObject(info[p]);
-                    }
-                }
-            }
-            return ins;
-        } else {
-            return null;
-        }
-    };
-
-    msls_intellisense_setTypeProvider =
-    function setTypeProvider(proto, name, provider) {
-        if (!window.intellisense) {
-            return;
-        }
-        var descriptor = Object.getOwnPropertyDescriptor(proto, name),
-            getCore = descriptor ? descriptor.get : null;
-        if (getCore) {
-            descriptor.get = function () {
-                /// <returns type="Object" />
-                var result = getCore.call(this), type;
-                if (result === null ||
-                    result === undefined ||
-                    result._$isExceptionObject) {
-                    type = provider(this);
-                    if (type) {
-                        result = new type();
-                    }
-                }
-                return result;
-            };
-            Object.defineProperty(proto, name, descriptor);
-        }
-        intellisense.addEventListener("statementcompletionhint", function (e) {
-            var item = e.completionItem,
-                parentObject = item.parentObject;
-            if (parentObject instanceof proto.constructor &&
-                item.name === name) {
-                var type = provider(parentObject), typeName;
-                if (type && (typeName = resolveTypeName(type))) {
-                    e.symbolHelp.symbolType = typeName;
-                    e.symbolHelp.symbolDisplayType = typeName;
-                }
-            }
-        });
-    };
-
     msls_expose("_addToNamespace", function addToNamespace(path, members) {
-        /// <summary>
-        /// Adds a set of members to a namespace.
-        /// </summary>
-        /// <param name="path" type="String">
-        /// A dot-delimited string representing a namespace.
-        /// </param>
-        /// <param name="members" type="Object">
-        /// An object that provides property values or property descriptors.
-        /// </param>
         var ns = addToNamespaceCore(window, path, members);
-        if (window.intellisense && path === "msls.application") {
-            ns = (function () {
-                /// <returns>
-                /// Represents the active LightSwitch application.
-                /// </returns>
-                return ns;
-            }());
-        }
         return ns;
     });
 
 }());
 
 var msls_event,
-    msls_intellisense_setEventDetailType,
     msls_dispatchEventOverride;
 
 (function () {
@@ -750,79 +520,19 @@ var msls_event,
             eventMixin = winJSUtilities.eventMixin;
         if (!target.addEventListener) {
             target.addEventListener = eventMixin.addEventListener;
-            if (window.intellisense) {
-                target.addEventListener =
-                    function (type, listener) {
-                        /// <summary>
-                        /// Adds an event listener.
-                        /// </summary>
-                        /// <param name="type" type="String">
-                        /// The type (name) of the event.
-                        /// </param>
-                        /// <param name="listener" type="Function">
-                        /// A function to invoke when the event is raised.
-                        /// <br/>Signature: listener(eventArgs)
-                        /// </param>
-                        var me = this;
-                        eventMixin.addEventListener.apply(me, arguments);
-                        msls_setTimeout(function () {
-                            var detail = me["_$event$" + type + "$detailType"];
-                            if (detail) {
-                                detail = new detail();
-                            }
-                            me.dispatchEvent(type, detail);
-                        }, 0);
-                    };
-            }
         }
         if (!target.dispatchEvent) {
             Object.defineProperty(target, "dispatchEvent", {
                 configurable: true, enumerable: !msls_isLibrary,
                 writable: true, value: eventMixin.dispatchEvent
             });
-            if (window.intellisense) {
-                intellisense.annotate(target.dispatchEvent,
-                    function (type, details) {
-                        /// <summary>
-                        /// Raises an event of a specific type,
-                        /// optionally with additional details.
-                        /// </summary>
-                        /// <param name="type" type="String">
-                        /// The type (name) of the event.
-                        /// </param>
-                        /// <param name="details" optional="true">
-                        /// An object that is included as the "detail"
-                        /// property on the raised event object.
-                        /// </param>
-                    }
-                );
-            }
         }
         if (!target.removeEventListener) {
             target.removeEventListener = eventMixin.removeEventListener;
-            if (window.intellisense) {
-                intellisense.annotate(target.removeEventListener,
-                    function (type, listener) {
-                        /// <summary>
-                        /// Removes an event listener.
-                        /// </summary>
-                        /// <param name="type" type="String">
-                        /// The type (name) of the event.
-                        /// </param>
-                        /// <param name="listener" type="Function">
-                        /// The event listener that should be removed.
-                        /// <br/>Signature: listener(eventArgs)
-                        /// </param>
-                    }
-                );
-            }
         }
         if (!descriptor.noProperty) {
             Object.defineProperties(target,
                 winJSUtilities.createEventProperties(eventName));
-            if (window.intellisense) {
-                target["_$field$on" + eventName + "$kind"] = "event";
-            }
         }
     }
 
@@ -830,14 +540,6 @@ var msls_event,
     function createEvent(noProperty) {
         return { noProperty: noProperty, defineOn: defineEventOn };
     };
-
-    msls_intellisense_setEventDetailType =
-    function setEventDetailType(target, type, detailType) {
-        if (window.intellisense) {
-            target["_$event$" + type + "$detailType"] = detailType;
-        }
-    };
-
 
     function defineDispatchEventOverrideOn(target, propertyName) {
         var descriptor = this,
@@ -850,9 +552,6 @@ var msls_event,
                     this, type, details, baseDispatchEvent);
             }
         });
-        if (window.intellisense) {
-            intellisense.annotate(target.dispatchEvent, baseDispatchEvent);
-        }
     }
 
     msls_dispatchEventOverride =
@@ -1100,18 +799,57 @@ var msls_getValues;
 
 }());
 
+(function () {
+
+    var timeOut = 500;
+
+    function addRequest(callback) {
+
+        var me = this,
+            previousPromise = me._promise,
+            promise = me._promise = new WinJS.Promise(function (complete) {
+                msls_setTimeout(function () {
+                    if (me._promise !== promise) {
+                        complete();
+                        return;
+                    }
+
+                    if (previousPromise) {
+                        previousPromise.then(function () {
+                            if (me._promise !== promise) {
+                                complete();
+                                return;
+                            }
+
+                            callback();
+                            me._promise = null;
+                        });
+                    } else {
+                        callback();
+                        me._promise = null;
+                    }
+
+                }, me.timeOut);
+            });
+
+        return promise;
+    }
+
+
+    msls_defineClass(msls, "DelayedRequest", function DelayedRequest() {
+    }, null, {
+        timeOut: timeOut,
+        addRequest: addRequest
+    });
+
+}());
+
 var msls_Sequence,
     msls_iterate;
 
 (function () {
 
     msls_defineClass(msls, "Sequence", function Sequence() {
-        /// <summary>
-        /// Represents a sequence.
-        /// </summary>
-        /// <field name="array" type="Array" elementType="Object">
-        /// Gets an array that represents this sequence.
-        /// </field>
     }, null, {
         array: msls_accessorProperty(
             function array_get() {
@@ -1119,39 +857,17 @@ var msls_Sequence,
                 this.each(function () {
                     array.push(this);
                 });
-                if (window.intellisense) {
-                    if (!array.length) {
-                        array = null;
-                    }
-                }
                 return array;
             }
         ),
         each: function each(callback) {
-            /// <summary>
-            /// Iterates this sequence and invokes a callback for each item.
-            /// </summary>
-            /// <param name="callback" type="Function">
-            /// A callback function whose "this" value and single parameter
-            /// are set to the current item.<br/>The function can optionally
-            /// return false to terminate the current iteration loop.
-            /// <br/>Signature: [Boolean] item.callback(item)
-            /// </param>
             var iterator = this._iterator ? this._iterator() : null, item;
-            var hasItems = false;
             if (iterator) {
                 while (iterator.next()) {
-                    hasItems = true;
                     item = iterator.item();
                     if (callback.call(item, item) === false) {
                         break;
                     }
-                }
-            }
-            if (window.intellisense) {
-                if (!hasItems) {
-                    item = new this._$fieldDoc$array.elementCtor();
-                    callback.call(item, item);
                 }
             }
         }
@@ -1159,12 +875,6 @@ var msls_Sequence,
     msls_Sequence = msls.Sequence;
 
     msls_defineClass(msls_Sequence, "Array", function Sequence_Array(array) {
-        /// <summary>
-        /// Represents a sequence over an array.
-        /// </summary>
-        /// <param name="array" type="Array">
-        /// An array.
-        /// </param>
         msls_Sequence.call(this);
         msls_setProperty(this, "_array", array);
     }, msls_Sequence, {
@@ -1186,23 +896,7 @@ var msls_Sequence,
 
     msls_iterate =
     function iterate(array) {
-        /// <summary>
-        /// Creates a sequence over an array.
-        /// </summary>
-        /// <param name="array" type="Array">
-        /// A source array.
-        /// </param>
-        /// <returns type="msls.Sequence">
-        /// A sequence over an array.
-        /// </returns>
         var s = new msls_Sequence.Array(array);
-        if (window.intellisense) {
-            if (!!array._$doc && !!array._$doc.elementCtor) {
-                s._$fieldDoc$array.elementCtor = array._$doc.elementCtor;
-            } else if (array.length > 0) {
-                s._$fieldDoc$array.elementCtor = array[0].constructor;
-            }
-        }
         return s;
     };
 
@@ -1280,27 +974,10 @@ var msls_changeEventType = "change",
     }
 
     function addChangeListener(propertyName, listener) {
-        /// <summary>
-        /// Adds a change event listener.
-        /// </summary>
-        /// <param name="propertyName" type="String" mayBeNull="true">
-        /// A property name, or null for the global change event.
-        /// </param>
-        /// <param name="listener" type="Function">
-        /// A function to invoke when the change event is raised.
-        /// <br/>Signature: listener(eventArgs)
-        /// </param>
-        msls_intellisense_setEventDetailType(this, getChangeEventType(propertyName), String);
         this.addEventListener(getChangeEventType(propertyName), listener);
     }
 
     function dispatchChange(propertyName) {
-        /// <summary>
-        ///  Raises a change event for a property.
-        /// </summary>
-        /// <param name="propertyName" type="String">
-        /// A property name.
-        /// </param>
         var isInitiator = !changesToDispatch,
             dependentsBag = this._dependents,
             dependents = (dependentsBag ?
@@ -1335,16 +1012,6 @@ var msls_changeEventType = "change",
     }
 
     function removeChangeListener(propertyName, listener) {
-        /// <summary>
-        /// Removes a change event listener.
-        /// </summary>
-        /// <param name="propertyName" type="String" mayBeNull="true">
-        /// A property name, or null for the global change event.
-        /// </param>
-        /// <param name="listener" type="Function">
-        /// The event listener that should be removed.
-        /// <br/>Signature: listener(eventArgs)
-        /// </param>
         this.removeEventListener(getChangeEventType(propertyName), listener);
     }
 
@@ -1355,7 +1022,6 @@ var msls_changeEventType = "change",
             msls_mixIntoExistingClass(constructor, {
                 change: msls_event()
             });
-            msls_intellisense_setEventDetailType(prototype, "change", String);
         }
         if (!prototype.addChangeListener) {
             prototype.addChangeListener = addChangeListener;
@@ -1740,22 +1406,6 @@ var msls_promiseOperation;
     }
 
     msls_promiseOperation = function promiseOperation(init, independent) {
-        /// <summary>
-        /// Initiates a new operation and returns a promise object.
-        /// </summary>
-        /// <param name="init" type="Function">
-        /// A function that initiates the operation.
-        /// <br/>Signature: init(operation)
-        /// </param>
-        /// <param name="independent" type="Boolean" optional="true">
-        /// Specifies that the new operation should run independent of any
-        /// ambient operation, that is, the ambient operation will not be
-        /// registered as dependent on the newly initiated operation.
-        /// </param>
-        /// <returns>
-        /// An object that promises to complete the
-        /// operation at some point in the future.
-        /// </returns>
         var operation,
             currentAmbientOperation = ambientOperation(),
             shouldBeNested = !!currentAmbientOperation && !independent,
@@ -1865,58 +1515,20 @@ var msls_promiseOperation;
 
         operation = {
             promise: function promise() {
-                /// <summary>
-                /// Gets the promise object for this operation.
-                /// </summary>
-                /// <returns type="WinJS.Promise" />
                 return promiseObject;
             },
             code: function code(operationCode, rethrowErrors) {
-                /// <summary>
-                /// Creates a function that calls the
-                /// specified code as operation code.
-                /// </summary>
-                /// <param name="operationCode" type="Function">
-                /// A function representing code
-                /// to be called as operation code.
-                /// <br/>Signature: operationCode()
-                /// </param>
-                /// <param name="rethrowErrors" type="Boolean" optional="true">
-                /// Indicates if thrown errors should be propagated to calling
-                /// code instead of being set as the error for this operation.
-                /// This is relevant for ambient or sequenced operations only.
-                /// </param>
-                /// <returns type="Function" />
                 return makeOperationCode(operationCode, null, rethrowErrors);
             },
             interleave: function interleave() {
-                /// <summary>
-                /// Specifies that after completing this operation's current
-                /// code block, the application-wide operation code queue can
-                /// continue processing unrelated operation code. The calling
-                /// code recognizes that any future operation code of its own
-                /// may be called after arbitrary state changes have occurred.
-                /// </summary>
                 if (ambientOperation() === operation) {
                     pendingInterleave = true;
                 }
             },
             error: function error(value) {
-                /// <summary>
-                /// Ends this operation with an error value.
-                /// </summary>
-                /// <param name="value">
-                /// An error value.
-                /// </param>
                 endOperation(value, null);
             },
             complete: function complete(value) {
-                /// <summary>
-                /// Ends this operation sucessfully with an optional value.
-                /// </summary>
-                /// <param name="value" optional="true">
-                /// A value.
-                /// </param>
                 endOperation(null, value);
             }
         };
@@ -1940,9 +1552,6 @@ var msls_promiseOperation;
             } else {
                 reportError = e; reportComplete = c;
                 immediateInit = !!currentAmbientOperation;
-                if (window.intellisense) {
-                    immediateInit = true;
-                }
                 makeOperationCode(init, immediateInit)
                     .call(operation, operation);
                 init = null;
@@ -1972,46 +1581,6 @@ var msls_promiseOperation;
             return;
         }
 
-        if (window.intellisense) {
-            WinJS.Class.mix(proto.constructor, {
-                _$annotate: function (errorCtor, resultCtor, noNewOnCtors) {
-                    this._$errorCtor = errorCtor;
-                    this._$resultCtor = resultCtor;
-                    this._$noNewOnCtors = noNewOnCtors;
-                }
-            });
-        }
-
-        function invokeOrQueueCallbacks(promiseObject, c, e) {
-            var errorCtor = promiseObject._$errorCtor || Object,
-                resultCtor = promiseObject._$resultCtor,
-                noNewOnCtors = promiseObject._$noNewOnCtors;
-            function invokeCallbacks() {
-                if (c && resultCtor) {
-                    if (noNewOnCtors) {
-                        c(resultCtor());
-                    } else {
-                        c(new resultCtor());
-                    }
-                }
-                if (e) {
-                    if (noNewOnCtors) {
-                        e(errorCtor());
-                    } else {
-                        e(new errorCtor());
-                    }
-                }
-            }
-            if (window.intellisense) {
-                if (promiseObject._done === WinJS.Promise.prototype._done &&
-                    promiseObject._then === WinJS.Promise.prototype._then) {
-                    msls_setTimeout(invokeCallbacks, 0);
-                } else {
-                    invokeCallbacks();
-                }
-            }
-        }
-
         WinJS.Class.mix(proto.constructor, {
             done: function done(c, e, p) {
                 var currentAmbientOperation = ambientOperation();
@@ -2025,7 +1594,6 @@ var msls_promiseOperation;
                     this._done = proto._done;
                 }
 
-                invokeOrQueueCallbacks(this, c, e);
 
 
                 this._done(c, e, p);
@@ -2043,7 +1611,6 @@ var msls_promiseOperation;
                     this._then = proto._then;
                 }
 
-                invokeOrQueueCallbacks(this, c, e);
 
 
                 return promiseThen(this, this._then(c, e, p));
@@ -2061,10 +1628,6 @@ var msls_promiseOperation;
             }
         });
 
-        if (window.intellisense) {
-            intellisense.annotate(proto.done, proto._done);
-            intellisense.annotate(proto.then, proto._then);
-        }
     }
     extendPromise(WinJS.Promise.prototype);
     extendPromise(WinJS.Promise.wrapError(null));
@@ -2080,10 +1643,6 @@ var msls_promiseOperation;
 
     msls_defineClass(msls, "WhereSequence", function WhereSequence(source, predicate) {
         msls_Sequence.call(this);
-        if (window.intellisense) {
-            this._$fieldDoc$array.elementCtor =
-                source._$fieldDoc$array.elementCtor;
-        }
         msls_setProperty(this, "_source", source);
         msls_setProperty(this, "_predicate", predicate);
     }, msls_Sequence, {
@@ -2113,35 +1672,11 @@ var msls_promiseOperation;
 
     msls_mixIntoExistingClass(msls_Sequence, {
         all: function all(predicate) {
-            /// <summary>
-            /// Determines whether this sequence only
-            /// contains items that satisfy a condition.
-            /// </summary>
-            /// <param name="predicate" type="Function">
-            /// A function to test each item for a condition.
-            /// <br/>Signature: Boolean item.predicate(item)
-            /// </param>
-            /// <returns type="Boolean">
-            /// True if this sequence only contains items
-            /// that satisfy the condition; otherwise, false.
-            /// </returns>
             return !this.any(function (item) {
                 return !predicate.call(item, item);
             });
         },
         any: function any(predicate) {
-            /// <summary>
-            /// Determines whether this sequence contains any
-            /// items that optionally satisfy a condition.
-            /// </summary>
-            /// <param name="predicate" type="Function" optional="true">
-            /// A function to test each item for a condition.
-            /// <br/>Signature: Boolean item.predicate(item)
-            /// </param>
-            /// <returns type="Boolean">
-            /// True if this sequence contains any items that
-            /// satisfy the condition, if any; otherwise, false.
-            /// </returns>
             var result = false;
             this.each(function (item) {
                 if (!predicate || predicate.call(item, item)) {
@@ -2153,18 +1688,6 @@ var msls_promiseOperation;
             return result;
         },
         first: function first(predicate) {
-            /// <summary>
-            /// Gets the first item in this sequence
-            /// that optionally satisfies a condition.
-            /// </summary>
-            /// <param name="predicate" type="Function" optional="true">
-            /// A function to test each item for a condition.
-            /// <br/>Signature: Boolean item.predicate(item)
-            /// </param>
-            /// <returns>
-            /// The first item in this sequence that satisfies
-            /// the condition, if any; otherwise, undefined.
-            /// </returns>
             var result;
             this.each(function (item) {
                 if (!predicate || predicate.call(item, item)) {
@@ -2176,16 +1699,6 @@ var msls_promiseOperation;
             return result;
         },
         sum: function sum(predicate) {
-            /// <summary>
-            /// Gets a sum over the items in this sequence.
-            /// </summary>
-            /// <param name="predicate" type="Function" optional="true">
-            /// A function that returns a number for each item.
-            /// <br/>Signature: Number item.predicate(item)
-            /// </param>
-            /// <returns type="Number">
-            /// The sum over the items in this sequence.
-            /// </returns>
             var result = 0;
             this.each(function (item) {
                 result += (!predicate ? item : predicate.call(item, item));
@@ -2193,22 +1706,6 @@ var msls_promiseOperation;
             return result;
         },
         where: function where(predicate) {
-            /// <summary>
-            /// Filters this sequence based on a predicate.
-            /// </summary>
-            /// <param name="predicate" type="Function">
-            /// A function to test each item for a condition.
-            /// <br/>Signature: Boolean item.predicate(item)
-            /// </param>
-            /// <returns type="msls.Sequence">
-            /// A new sequence that is filtered based on the predicate.
-            /// </returns>
-            if (window.intellisense) {
-                var me = this;
-                msls_setTimeout(function () {
-                    me.each(predicate);
-                }, 0);
-            }
             return new _WhereSequence(this, predicate);
         }
     });
@@ -2233,36 +1730,311 @@ var msls_resourcesReady,
     msls_getString,
     msls_getResourceString;
 
-msls_resourcesReady =
-function resourcesReady() {
-};
+(function () {
 
-msls_getString =
-function getString(resourceId) {
-    /// <summary>
-    /// Retrieves the resource string that has the specified resource id.
-    /// </summary>
-    /// <param name="resourceId" type="String">
-    /// A resource id of form /ResourceFileName/StringName e.g. client/resource_key
-    /// The resource filename does not include the extension or the language qaulifier.
-    /// </param>
-    /// <returns>
-    /// An object that can contain these properties:
-    /// <br />
-    /// value: The value of the requested string. This property is always present.
-    /// If the requested string is not found then it is set to resourceId.
-    /// <br />
-    /// empty: A value that specifies whether the requested string wasn't found.
-    /// If it is true, the string wasn't found.
-    /// This property is only present when the resource is not found.
-    /// <br />
-    /// lang: The language in which the string was found. This is always in upper case e.g EN-US.
-    /// This property is only present when the resource is found.
-    /// </returns>
-};
+    var supportedLanguages = {},
+        preferredLanguage,
+        preferredNeutralLanguage,
+        defaultLanguage,
+        defaultNeutralLanguage,
+        languages,
+        readyPromise,
+        libFile = "msls",
+        files = [libFile, "client", "service"],
+        f,
+        resources = {},
+        resourceIdRE = /^\/([^\/]+)\/([^\/]+)$/,
+        globalizeScriptLocation;
 
-msls_getResourceString = function getResourceString(key) {
-};
+    function readGlobalProperty(globalProperty, defaultValue) {
+        var value = window[globalProperty];
+        if (!value) {
+            value = defaultValue;
+        } else {
+            window[globalProperty] = null;
+        }
+        return value;
+    }
+
+    function getNeutralLanguage(regionalLang) {
+        return regionalLang.split("-", 1)[0];
+    }
+
+    function addToActiveLanguages(language) {
+        if (supportedLanguages[language]) {
+            languages.push(language);
+        }
+    }
+
+
+
+    languages = readGlobalProperty("__msls_supportedLanguages", "EN-US");
+    languages = languages.toUpperCase();
+    languages = languages.split(";");
+    $.each(languages, function (index, item) {
+        item = $.trim(item);
+        if (item) {
+            supportedLanguages[item] = true;
+        }
+    });
+
+    languages = [];
+
+    preferredLanguage = msls_getClientParameter("preferredLanguage");
+    preferredLanguage = preferredLanguage ? $.trim(preferredLanguage.toUpperCase()) : null;
+    if (preferredLanguage) {
+        addToActiveLanguages(preferredLanguage);
+        preferredNeutralLanguage = getNeutralLanguage(preferredLanguage);
+        if (preferredNeutralLanguage !== preferredLanguage) {
+            addToActiveLanguages(preferredNeutralLanguage);
+        }
+    }
+
+    defaultLanguage = readGlobalProperty("__msls_defaultLanguage", "EN-US");
+    defaultLanguage = $.trim(defaultLanguage.toUpperCase());
+    if (defaultLanguage !== preferredLanguage &&
+        defaultLanguage !== preferredNeutralLanguage) {
+        addToActiveLanguages(defaultLanguage);
+        defaultNeutralLanguage = getNeutralLanguage(defaultLanguage);
+        if (defaultNeutralLanguage !== defaultLanguage &&
+            defaultNeutralLanguage !== preferredNeutralLanguage) {
+            addToActiveLanguages(defaultNeutralLanguage);
+        }
+    }
+
+    msls_mark(msls_codeMarkers.loadResourcesStart);
+    readyPromise = new WinJS.Promise(function (complete, error) {
+        var loading = 0,
+            lang, i, j,
+            lastAttemptMade = false,
+            errorMessage = "";
+
+        function loadCompleted() {
+            var found = false,
+                langName,
+                isEnglishActive = false;
+            loading--;
+            if (!loading) {
+                if (!lastAttemptMade) {
+                    for (i = 0; i < languages.length; i++) {
+                        langName = languages[i];
+                        isEnglishActive = langName === "EN-US";
+                        if (libFile in resources[langName]) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!lastAttemptMade && !found) {
+                    lastAttemptMade = true;
+                    loading++;
+                    if (!isEnglishActive) {
+                        languages.push("EN-US");
+                        resources["EN-US"] = {};
+                    }
+                    loadLocalizationResources("EN-US", libFile);
+                } else {
+                    msls_mark(msls_codeMarkers.loadResourcesEnd);
+                    if (errorMessage) {
+                        error(errorMessage);
+                    } else {
+                        complete();
+                    }
+                }
+            }
+        }
+
+        function endsWith(value, pattern) {
+            return value.length >= pattern.length && value.substr(value.length - pattern.length) === pattern;
+        }
+
+        function getCultureInfoUri(language) {
+
+            if (!globalizeScriptLocation) {
+                globalizeScriptLocation = "//ajax.aspnetcdn.com/ajax/globalize/0.1.1/cultures";
+                $("script[type='text/javascript']").each(function () {
+                    var src = $(this).attr("src"),
+                        srcLower = src ? src.toLowerCase() : "";
+                    if (endsWith(srcLower, "globalize.min.js") || endsWith(srcLower, "globalize.js")) {
+                        var index = src.lastIndexOf("/");
+                        if (index >= 0) {
+                            globalizeScriptLocation = src.substr(0, index) + "/cultures";
+                        } else {
+                            globalizeScriptLocation = "cultures";
+                        }
+                        return false;
+                    }
+                    return;
+                });
+            }
+            return globalizeScriptLocation + "/globalize.culture." + language + ".js";
+        }
+
+        function loadCultureInfo(language, cultureError) {
+
+            function cultureInfoFailed() {
+                if (cultureError) {
+                    cultureError();
+                }
+            }
+
+            loading++;
+            var uri = getCultureInfoUri(language);
+            $.ajax({
+                url: uri,
+                dataType: "script",
+                cache: true,
+                error: function () {
+                    cultureInfoFailed();
+                    loadCompleted();
+                },
+                success: function () {
+                    var cultureName;
+                    language = language.toUpperCase();
+                    for (cultureName in Globalize.cultures) {
+                        if (cultureName.toUpperCase() === language) {
+                            Globalize.culture(cultureName);
+                            break;
+                        }
+                    }
+                    if (Globalize.culture().name.toUpperCase() !== language) {
+                        cultureInfoFailed();
+                    }
+                    loadCompleted();
+                }
+            });
+        }
+
+        function loadResources(fileName, callback) {
+            var uri = msls_rootUri + "/Content/Resources/" + fileName;
+            $.ajax({
+                url: uri,
+                dataType: "text",
+                cache: true,
+                error: function () {
+                    loadCompleted();
+                },
+                success: function (result) {
+                    try {
+                        result = $.parseJSON(result);
+                        if (!(result instanceof Object)) {
+                            throw "Invalid JSON.";
+                        }
+                        callback(result);
+                    } catch (e) {
+                        errorOccurred(msls_stringFormat(
+                            "Failed to parse the resources JSON string. Failure reason: {0}", (e || "")));
+                    }
+                    finally {
+                        loadCompleted();
+                    }
+                }
+            });
+
+            function errorOccurred(reason) {
+                errorMessage += msls_stringFormat(
+                    "Failed to load resources from {0}. {1}", uri, reason) + "\n";
+            }
+
+        }
+
+        function makeHandler(langValue, fValue) {
+            return function (r) {
+                resources[langValue][fValue] = r;
+            };
+        }
+
+        function loadLocalizationResources(langValue, fValue) {
+            loadResources(fValue + ".lang-" + langValue + ".resjson", makeHandler(langValue, fValue));
+        }
+
+
+        if (!!preferredLanguage && preferredLanguage !== "EN") {
+            loadCultureInfo(preferredLanguage, function tryPreferredNeutral() {
+                if (!!preferredNeutralLanguage && preferredNeutralLanguage !== "EN" && preferredNeutralLanguage !== preferredLanguage) {
+                    loadCultureInfo(preferredNeutralLanguage);
+                }
+            });
+        }
+
+
+        loading += languages.length * files.length;
+        for (i = 0; i < languages.length; i++) {
+            lang = languages[i];
+            resources[lang] = {};
+            for (j = 0; j < files.length; j++) {
+                f = files[j];
+                loadLocalizationResources(lang, f);
+            }
+        }
+
+        if (!loading) {
+            loading++;
+            loadCompleted();
+        }
+    });
+
+    msls_resourcesReady =
+    function resourcesReady() {
+        return readyPromise;
+    };
+
+    msls_getString =
+    function getString(resourceId) {
+        var value = resourceId,
+            r = resourceIdRE.exec(resourceId),
+            file,
+            key,
+            i,
+            lang,
+            s1,
+            s2;
+
+        if (r === null) {
+            return { value: value, empty: true };
+        }
+
+        file = r[1].toLowerCase();
+        key = r[2];
+
+        for (i = 0; i < languages.length; i++) {
+            lang = languages[i];
+            if (file in (s1 = resources[lang]) &&
+                key in (s2 = s1[file])) {
+                value = s2[key];
+                if (!!value && typeof (value) === "string") {
+                    return { value: value, lang: lang };
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return { value: value, empty: true };
+
+    };
+
+    msls_getResourceString = function getResourceString(key) {
+
+        var r = msls_getString("/msls/" + key),
+            s = r.value,
+            args;
+
+
+        if (!r.empty && arguments.length > 1) {
+            args = Array.prototype.slice.call(arguments, 0);
+            args[0] = s;
+            s = msls_stringFormat.apply(null, args);
+        }
+
+        return s;
+    };
+
+    WinJS.Namespace.define("WinJS.Resources", {
+        getString: msls_getString
+    });
+
+}());
 
 var msls_throw,
     msls_throwError,
@@ -2332,23 +2104,138 @@ var msls_throw,
 
 }());
 
-msls_defineClass(msls, "ModelService", function ModelService() {
-}, null, {
-    load: function load() {
-    },
-    tryLookupById: function tryLookupById(modelId) {
-    },
-    _resolveReferenceProperties: function _resolveReferenceProperties(item, recursive) {
+(function () {
+    var _rawLoadPromise;
 
-    },
-    _registerModelItem: function _registerModelItem(item, recursive) {
-
+    function createLoadPromise(ajaxFunction) {
+        return new WinJS.Promise(
+            function initLoad(complete, error) {
+                ajaxFunction({
+                    url: msls_rootUri + "/Content/Resources/Generated/model.json",
+                    cache: true,
+                    dataType: "text",
+                    error: function (request, reason, e) {
+                        error({
+                            reason: reason,
+                            e: e
+                        });
+                    },
+                    success: complete
+                });
+            }
+        );
     }
-});
 
-msls_addToInternalNamespace("services", {
-    modelService: new msls.ModelService()
-});
+    msls_mark(msls_codeMarkers.loadModelStart);
+    _rawLoadPromise = createLoadPromise($.ajax);
+
+    msls_defineClass(msls, "ModelService", function ModelService() {
+        this.isLoaded = false;
+        msls_setProperty(this, "_itemDictionary", {});
+    }, null, {
+        load: function load() {
+            var me = this;
+
+            if (!me._loadPromise) {
+                msls_setProperty(this, "_loadPromise", new WinJS.Promise(
+                    function initLoad(complete, error) {
+                        var fileLoader = !me._ajaxFunction ? _rawLoadPromise : createLoadPromise(me._ajaxFunction);
+                        function reportModelLoadError(failure) {
+                            msls_mark(msls_codeMarkers.loadModelEnd);
+                            error(msls_getResourceString(
+                                "model_failed_server_1args", failure.reason + " - " + (failure.e || "")));
+                        }
+
+                        function parseAndProcessModel(result) {
+                            msls_mark(msls_codeMarkers.loadModelEnd);
+                            msls_mark(msls_codeMarkers.parseModelStart);
+                            try {
+                                result = $.parseJSON(result);
+                                if (!(result instanceof Object)) {
+                                    throw msls_getResourceString(
+                                        "model_invalid_json");
+                                }
+                                me.model = result;
+
+                            } catch (e) {
+                                error(msls_getResourceString(
+                                    "model_failed_parse_1args", (e || "")));
+                                return;
+                            }
+                            msls_mark(msls_codeMarkers.parseModelEnd);
+                            msls_mark(msls_codeMarkers.processModelStart);
+                            try {
+                                me._registerModelItem(me.model, true);
+                                me._resolveReferenceProperties(me.model, true);
+                            } catch (e) {
+                                error(e);
+                                return;
+                            }
+                            msls_mark(msls_codeMarkers.processModelEnd);
+                            me.isLoaded = true;
+                            complete(me.model);
+                        }
+
+                        fileLoader.then(parseAndProcessModel, reportModelLoadError);
+                    }
+                ));
+            }
+            return me._loadPromise;
+        },
+        tryLookupById: function tryLookupById(modelId) {
+            var item;
+            if (modelId) {
+                item = this._itemDictionary[modelId];
+                if (item) {
+                    return item;
+                }
+            }
+            return null;
+        },
+        _registerModelItem: function _registerModelItem(item, recursive) {
+            var propertyName;
+            if (item && item.id) {
+                this._itemDictionary[item.id] = item;
+            }
+            if (recursive) {
+                if (item && (item instanceof Object)) {
+                    for (propertyName in item) {
+                        this._registerModelItem(item[propertyName], recursive);
+                    }
+                }
+            }
+        },
+        _resolveReferenceProperties: function _resolveReferenceProperties(item, recursive) {
+            var propertyName,
+                value,
+                referenceId;
+
+            if (item && (item instanceof Object)) {
+                for (propertyName in item) {
+                    value = item[propertyName];
+                    if ((value instanceof Object) && "__id" in value) {
+                        referenceId = value.__id;
+                        if ((item[propertyName] = this.tryLookupById(referenceId)) === null) {
+                            throwModelError(msls_getResourceString("model_reference_error_1args", referenceId));
+                        }
+                    } else if (recursive) {
+                        this._resolveReferenceProperties(value, recursive);
+                    }
+                }
+            }
+        }
+
+    });
+
+    function throwModelError(message) {
+        msls_throwError("ModelError", message);
+    }
+
+    msls_addToInternalNamespace("services", {
+        modelService: new msls.ModelService()
+    });
+
+}());
 
 var msls_builtIn_extensionName = "Microsoft.LightSwitch.Extensions",
     msls_getAttribute,
@@ -2376,7 +2263,8 @@ var msls_builtIn_extensionName = "Microsoft.LightSwitch.Extensions",
     msls_isEntityType,
     msls_isKeyProperty,
     msls_isApplicationDefinition,
-    msls_isGroupControl;
+    msls_isGroupControl,
+    msls_sharePointListModelAttribute = ":@SharePointList";
 
 (function () {
 
@@ -2618,54 +2506,15 @@ var msls_CollectionChangeAction,
 (function () {
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies how a collection is changed.
-        /// </field>
         CollectionChangeAction: {
-            /// <field type="String">
-            /// Specifies that the entire collection has changed.
-            /// </field>
             refresh: "refresh",
-            /// <field type="String">
-            /// Specifies that items were added to the collection.
-            /// </field>
             add: "add",
-            /// <field type="String">
-            /// Specifies that items were removed from the collection.
-            /// </field>
             remove: "remove"
         }
     });
     msls_CollectionChangeAction = msls.CollectionChangeAction;
 
     msls_defineClass(msls, "CollectionChange", function CollectionChange(action, items, oldStartingIndex, newStartingIndex) {
-        /// <summary>
-        /// Provides data for the collection change event.
-        /// </summary>
-        /// <param name="action" type="String">
-        /// The action (from msls.CollectionChangeAction) that caused the event.
-        /// </param>
-        /// <param name="items" type="Array" optional="true">
-        /// The array of items affected by the action.
-        /// </param>
-        /// <param name="oldStartingIndex" type="Number" optional="true">
-        /// The index at which the items were removed, if applicable.
-        /// </param>
-        /// <param name="newStartingIndex" type="Number" optional="true">
-        /// The index at which the items were added, if applicable.
-        /// </param>
-        /// <field name="action" type="String">
-        /// Gets the description of the action that caused the event.
-        /// </field>
-        /// <field name="items" type="Array" elementType="Object">
-        /// Gets the array of items affected by the action.
-        /// </field>
-        /// <field name="oldStartingIndex" type="Number">
-        /// Gets the index at which the items were removed, if applicable.
-        /// </field>
-        /// <field name="newStartingIndex" type="Number">
-        /// Gets the index at which the items were added, if applicable.
-        /// </field>
         this.action = action;
         this.items = items;
         this.oldStartingIndex = oldStartingIndex;
@@ -2697,12 +2546,6 @@ var msls_defineClassWithDetails,
                 detailsConstructor, baseDetailsCls),
             _PropertySet = msls_defineClass(detailsCls, "PropertySet",
                 function PropertySet(details) {
-                    /// <summary>
-                    /// Represents a set of property objects.
-                    /// </summary>
-                    /// <param name="details">
-                    /// The details object that owns this property set.
-                    /// </param>
                     msls_setProperty(this, "_details", details);
                 },
                 baseCls ? baseCls.Details.PropertySet : null
@@ -2725,49 +2568,15 @@ var msls_defineClassWithDetails,
 
     msls_defineClassWithDetails(msls, "ObjectWithDetails",
         function ObjectWithDetails() {
-            /// <summary>
-            /// Represents an object with details.
-            /// </summary>
-            /// <field name="details" type="msls.ObjectWithDetails.Details">
-            /// Gets the details for this object.
-            /// </field>
-            /// <field name="onchange" type="Function">
-            /// Gets or sets a handler for the change event, which is called any
-            /// time the value of an observable property on this object changes.
-            /// </field>
             this.details = new this.constructor.Details(this);
         },
         function ObjectWithDetails_Details(owner) {
-            /// <summary>
-            /// Represents the details for an object with details.
-            /// </summary>
-            /// <param name="owner" type="msls.ObjectWithDetails">
-            /// The object that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.ObjectWithDetails">
-            /// Gets the object that owns this details object.
-            /// </field>
-            /// <field name="properties" type="msls.ObjectWithDetails.Details.PropertySet">
-            /// Gets the set of property objects for the owner's properties.
-            /// </field>
-            /// <field name="onchange" type="Function">
-            /// Gets or sets a handler for the change event, which is called any
-            /// time the value of an observable property on this object changes.
-            /// </field>
             this.owner = owner;
         },
         null,
         null,
         {
             getModel: function getModel() {
-                /// <summary>
-                /// Gets the model item describing the
-                /// object that owns this details object.
-                /// </summary>
-                /// <returns type="Object">
-                /// The model item describing the object
-                /// that owns this details object.
-                /// </returns>
                 var model = this._model;
                 if (!model) {
                     if (this._findModel) {
@@ -2784,24 +2593,12 @@ var msls_defineClassWithDetails,
     );
     msls_ObjectWithDetails = msls.ObjectWithDetails;
     msls_ObjectWithDetails_Details = msls_ObjectWithDetails.Details;
-    msls_intellisense_setTypeProvider(
-        msls_ObjectWithDetails_Details.prototype, "owner",
-        function (o) {
-            return o.owner.constructor;
-        }
-    );
 
     msls_makeObservable(msls_ObjectWithDetails);
     msls_makeObservable(msls_ObjectWithDetails_Details);
 
     msls_mixIntoExistingClass(msls_ObjectWithDetails_Details.PropertySet, {
         all: function all() {
-            /// <summary>
-            /// Gets all the property objects in this set.
-            /// </summary>
-            /// <returns type="Array">
-            /// All the property objects in this set.
-            /// </returns>
             var result = [], name;
             for (name in this) {
                 if (name.charCodeAt(0) === /*_*/95) {
@@ -2817,31 +2614,6 @@ var msls_defineClassWithDetails,
 
     msls_defineClass(msls_ObjectWithDetails_Details, "Property",
         function ObjectWithDetails_Details_Property(details, entry) {
-            /// <summary>
-            /// Represents a property object.
-            /// </summary>
-            /// <param name="details" type="msls.ObjectWithDetails.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.ObjectWithDetails">
-            /// Gets the object that owns this property.
-            /// </field>
-            /// <field name="name" type="String">
-            /// Gets the name of this property.
-            /// </field>
-            /// <field name="isReadOnly" type="Boolean">
-            /// Gets a value indicating if this property is read-only.
-            /// </field>
-            /// <field name="value" type="Object">
-            /// Gets or sets the value of this property.
-            /// </field>
-            /// <field name="onchange" type="Function">
-            /// Gets or sets a handler for the change event, which is called any
-            /// time the value of an observable property on this object changes.
-            /// </field>
             this.owner = details ? details.owner : null;
             msls_setProperty(this, "_details", details);
             msls_setProperty(this, "_entry", entry);
@@ -2849,32 +2621,18 @@ var msls_defineClassWithDetails,
         null, {
             name: msls_accessorProperty(
                 function name_get() {
-                    /// <returns type="String" />
                     return this._entry.name;
                 }
             ),
             isReadOnly: msls_accessorProperty(
                 function isReadOnly_get() {
-                    /// <returns type="Boolean" />
                     return !this._entry.set;
                 }
             ),
             getPropertyType: function getPropertyType() {
-                /// <summary>
-                /// Gets the type of this property.
-                /// </summary>
-                /// <returns type="Function">
-                /// The type of this property.
-                /// </returns>
                 return this._entry.type || Object;
             },
             getModel: function getModel() {
-                /// <summary>
-                /// Gets the model item describing this property.
-                /// </summary>
-                /// <returns type="Object">
-                /// The model item describing this property.
-                /// </returns>
                 var model = this._entry.model;
                 if (!model) {
                     if (this._findModel) {
@@ -2889,12 +2647,6 @@ var msls_defineClassWithDetails,
     );
     msls_ObjectWithDetails_Details_Property =
         msls_ObjectWithDetails_Details.Property;
-    msls_intellisense_setTypeProvider(
-        msls_ObjectWithDetails_Details_Property.prototype, "owner",
-        function (o) {
-            return o.owner.constructor;
-        }
-    );
 
     msls_makeObservable(msls_ObjectWithDetails_Details_Property);
 
@@ -2953,12 +2705,6 @@ var msls_defineClassWithDetails,
             setCore = descriptor.set;
 
             descriptor.set = function setValue(value) {
-                /// <summary>
-                /// Sets the value of a property.
-                /// </summary>
-                /// <param name="value">
-                /// The new value of the property.
-                /// </param>
                 var me = this, promise, initError;
                 promise = msls_promiseOperation(
                     function initSetValue(operation) {
@@ -2987,17 +2733,7 @@ var msls_defineClassWithDetails,
             getCore = descriptor.get;
 
             mixinContent[getValueName].value = function getValue() {
-                /// <summary>
-                /// Asynchronously gets the value of a property.
-                /// </summary>
-                /// <returns type="WinJS.Promise">
-                /// A fulfilled promise object whose value is the
-                /// current value of the synchronous property.
-                /// </returns>
                 var promise = WinJS.Promise.as(getCore.call(this));
-                if (window.intellisense) {
-                    promise._$annotate(null, descriptor.type);
-                }
                 return promise;
             };
         } else {
@@ -3015,11 +2751,6 @@ var msls_defineClassWithDetails,
         }
 
         msls_mixIntoExistingClass(cls, mixinContent);
-        if (isAsyncProperty) {
-            msls_intellisense_setTypeProvider(target, propertyName, function (o) {
-                return descriptor.type;
-            });
-        }
 
         if (_PropertySet && _Details) {
             mixinContent = {};
@@ -3059,33 +2790,10 @@ var msls_BusinessObject,
 
     msls_defineClassWithDetails(msls, "BusinessObject",
         function BusinessObject() {
-            /// <summary>
-            /// Represents a business object.
-            /// </summary>
-            /// <field name="details" type="msls.BusinessObject.Details">
-            /// Gets the details for this business object.
-            /// </field>
             msls_ObjectWithDetails.call(this);
         },
         function BusinessObject_Details(owner) {
-            /// <summary>
-            /// Represents the details for a business object.
-            /// </summary>
-            /// <param name="owner" type="msls.BusinessObject">
-            /// The business object that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.BusinessObject">
-            /// Gets the business object that owns this details object.
-            /// </field>
-            /// <field name="properties" type="msls.BusinessObject.Details.PropertySet">
-            /// Gets the set of property objects for the owner's properties.
-            /// </field>
             msls_ObjectWithDetails_Details.call(this, owner);
-            if (window.intellisense) {
-                if (!owner) {
-                    this.owner = null;
-                }
-            }
         },
         msls_ObjectWithDetails
     );
@@ -3094,24 +2802,7 @@ var msls_BusinessObject,
 
     msls_defineClass(msls_BusinessObject_Details, "Property",
         function BusinessObject_Details_Property(details, entry) {
-            /// <summary>
-            /// Represents a business property object.
-            /// </summary>
-            /// <param name="details" type="msls.BusinessObject.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.BusinessObject">
-            /// Gets the business object that owns this property.
-            /// </field>
             msls_ObjectWithDetails_Details_Property.call(this, details, entry);
-            if (window.intellisense) {
-                if (!details) {
-                    this.owner = null;
-                }
-            }
         },
         msls_ObjectWithDetails_Details_Property,
         {
@@ -3129,57 +2820,28 @@ var msls_BusinessObject,
 
 }());
 
+var msls_SortOrder,
+    msls_OrderBy;
+
 (function () {
 
-    function createEntryPoint(entryPoint, callContext) {
-        var valueProperty = "__" + entryPoint, args;
-        return {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return this[valueProperty];
-            },
-            set: function (value) {
-                var me = this;
-                msls_setProperty(me, valueProperty, value);
-                setTimeout(function () {
-                    if (!me[valueProperty]) {
-                        return;
-                    }
-                    if (!args) {
-                        args = callContext.map(function (item) {
-                            return msls_intellisense_createObject(item);
-                        });
-                    }
-                    me[valueProperty].apply(null, args);
-                }, 0);
-            }
-        };
-    }
-
-    function addEntryPoints(constructor, entryPoints) {
-        /// <summary>
-        /// Adds user code entry points to a constructor function.
-        /// </summary>
-        /// <param name="entryPoints" type="Object">
-        /// An object representing one or more user code entry points, where
-        /// each key is the name of an entry point and each value is an array
-        /// of argument objects and/or types passed to the user code function
-        /// for the purposes of providing appropriate intellisense information.
-        /// </param>
-        var properties = {};
-        for (var entryPoint in entryPoints) {
-            properties[entryPoint] = createEntryPoint(
-                entryPoint, entryPoints[entryPoint]);
-            properties["_$field$" + entryPoint + "$kind"] = {
-                value: "event"
-            };
+    msls_defineEnum(msls, {
+        SortOrder: {
+            ascending: 0,
+            descending: 1
         }
-        Object.defineProperties(constructor, properties);
-        intellisense.annotate(constructor, entryPoints);
-    }
+    });
 
-    msls_expose("_addEntryPoints", addEntryPoints);
+    msls_SortOrder = msls.SortOrder;
+
+    msls_defineClass(msls, "OrderBy", function OrderBy(sortDirection, key, index, only) {
+        this.sortDirection = sortDirection;
+        this.key = key;
+        this.index = index;
+        this.only = typeof only !== "undefined" ? only : false;
+    });
+
+    msls_OrderBy = msls.OrderBy;
 
 }());
 
@@ -3188,21 +2850,6 @@ var msls_ValidationResult;
 (function () {
 
     msls_defineClass(msls, "ValidationResult", function ValidationResult(property, message) {
-        /// <summary>
-        /// Represents a validation result.
-        /// </summary>
-        /// <param name="property" type="msls.BusinessObject.Details.Property">
-        /// A property to associate with the validation result.
-        /// </param>
-        /// <param name="message" type="String">
-        /// A message describing the validation error.
-        /// </param>
-        /// <field name="property" type="msls.BusinessObject.Details.Property">
-        /// Gets the property on which the validation error occurred.
-        /// </field>
-        /// <field name="message" type="String">
-        /// Gets a message describing the validation error.
-        /// </field>
         this.property = property;
         this.message = message;
     });
@@ -3237,59 +2884,14 @@ var msls_initEntity,
 
     msls_defineClassWithDetails(msls, "Entity",
         function Entity(entitySet) {
-            /// <summary>
-            /// Represents an entity.
-            /// </summary>
-            /// <param name="entitySet" type="msls.EntitySet" optional="true">
-            /// An entity set that should contain this entity.
-            /// </param>
-            /// <field name="details" type="msls.Entity.Details">
-            /// Gets the details for this entity.
-            /// </field>
             msls_BusinessObject.call(this);
             msls_initEntity(this, entitySet);
         },
         function Entity_Details(owner) {
-            /// <summary>
-            /// Represents the details for an entity.
-            /// </summary>
-            /// <param name="owner" type="msls.Entity">
-            /// The entity that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.Entity">
-            /// Gets the entity that owns this details object.
-            /// </field>
-            /// <field name="entity" type="msls.Entity">
-            /// Gets the entity that owns this details object.
-            /// </field>
-            /// <field name="entitySet" type="msls.EntitySet">
-            /// Gets the entity set that contains the entity.
-            /// </field>
-            /// <field name="entityState" type="String">
-            /// Gets the state (from msls.EntityState) of the entity.
-            /// </field>
-            /// <field name="hasEdits" type="Boolean">
-            /// Gets a value indicating if the entity has edits (it is
-            /// added and has been edited or it is modified or deleted).
-            /// </field>
-            /// <field name="properties" type="msls.Entity.Details.PropertySet">
-            /// Gets the set of property objects for the entity.
-            /// </field>
             msls_BusinessObject_Details.call(this, owner);
-            if (window.intellisense) {
-                if (!owner) {
-                    this.owner = null;
-                }
-            }
             msls_initEntityDetails(this, owner);
         },
         msls_BusinessObject
-    );
-    msls_intellisense_setTypeProvider(
-        msls.Entity.Details.prototype, "entity",
-        function (o) {
-            return o.entity.constructor;
-        }
     );
 
     msls_defineClass(msls, "Link",
@@ -3314,26 +2916,8 @@ var msls_initEntity,
     );
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies how entities being loaded into the data workspace are
-        /// merged with entities already in the data workspace.
-        /// </field>
         MergeOption: {
-            /// <field type="String">
-            /// Entities that do not exist in the data workspace are added to
-            /// the data workspace. If an entity is already in the data
-            /// workspace, the current and original values of the entity's
-            /// properties are not overwritten with data source values. This is
-            /// the default merge option.
-            /// </field>
             appendOnly: "appendOnly",
-            /// <field type="String">
-            /// Entities that do not exist in the data workspace are added to
-            /// the data workspace. If an entity is already in the data
-            /// workspace and its entity state is unchanged, the current and
-            /// original values of the entity's properties are overwritten with
-            /// data source values.
-            /// </field>
             unchangedOnly: "unchangedOnly",
         }
     });
@@ -3341,176 +2925,38 @@ var msls_initEntity,
 
     msls_defineClass(msls, "EntitySet",
         function EntitySet(dataService, entry) {
-            /// <summary>
-            /// Represents an entity set.
-            /// </summary>
-            /// <param name="dataService" type="msls.DataService">
-            /// The data service that owns this entity set.
-            /// </param>
-            /// <param name="entry">
-            /// An entity set property entry.
-            /// </param>
-            /// <field name="dataService" type="msls.DataService">
-            /// Gets the data service that owns this entity set.
-            /// </field>
-            /// <field name="name" type="String">
-            /// Gets the name of this entity set.
-            /// </field>
-            /// <field name="canInsert" type="Boolean">
-            /// Gets a value indicating if entities
-            /// can be added to this entity set.
-            /// </field>
-            /// <field name="canUpdate" type="Boolean">
-            /// Gets a value indicating if entities
-            /// in this entity set can be modified.
-            /// </field>
-            /// <field name="canDelete" type="Boolean">
-            /// Gets a value indicating if entities
-            /// in this entity set can be deleted.
-            /// </field>
             msls_initEntitySet(this, dataService, entry);
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        msls.EntitySet.prototype, "dataService",
-        function (o) {
-            return o.dataService.constructor;
         }
     );
 
     msls_defineClass(msls, "DataServiceQuery",
         function DataServiceQuery(source, rootUri, queryParameters) {
-            /// <summary>
-            /// Represents a data service query.
-            /// </summary>
-            /// <param name="source">
-            /// A source queryable object.
-            /// </param>
-            /// <param name="rootUri" type="String" optional="true">
-            /// The root request URI if this is a root data service
-            /// query, for example a collection navigation query.
-            /// </param>
-            /// <param name="queryParameters" type="String" optional="true">
-            /// The query parameters, if query has parameters, for example
-            /// a screen query based a query operation with parameters.
-            /// </param>
             msls_initDataServiceQuery(this, source, rootUri, queryParameters);
         }
     );
 
     msls_defineClassWithDetails(msls, "DataService",
         function DataService(dataWorkspace) {
-            /// <summary>
-            /// Represents a data service.
-            /// </summary>
-            /// <param name="dataWorkspace" type="msls.DataWorkspace" optional="true">
-            /// The data workspace that owns this data service.
-            /// </param>
-            /// <field name="details" type="msls.DataService.Details">
-            /// Gets the details for this data service.
-            /// </field>
             msls_ObjectWithDetails.call(this);
             msls_initDataService(this, dataWorkspace);
         },
         function DataService_Details(owner) {
-            /// <summary>
-            /// Represents the details for a data service.
-            /// </summary>
-            /// <param name="owner" type="msls.DataService">
-            /// The data service that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.DataService">
-            /// Gets the data service that owns this details object.
-            /// </field>
-            /// <field name="dataService" type="msls.DataService">
-            /// Gets the data service that owns this details object.
-            /// </field>
-            /// <field name="dataWorkspace" type="msls.DataWorkspace">
-            /// Gets the data workspace that manages the data service, if any.
-            /// </field>
-            /// <field name="hasChanges" type="Boolean">
-            /// Gets a value indicating if the data service has changes
-            /// (there are entities pending addition, modification or deletion).
-            /// </field>
-            /// <field name="properties" type="msls.DataService.Details.PropertySet">
-            /// Gets the set of property objects for the data service.
-            /// </field>
-            /// <field name="oncontentchange" type="Function">
-            /// Gets or sets a handler for the contentchange event, which is
-            /// called any time any entity owned by the data service changes.
-            /// </field>
             msls_ObjectWithDetails_Details.call(this, owner);
-            if (window.intellisense) {
-                if (!owner) {
-                    this.owner = null;
-                }
-            }
             msls_initDataServiceDetails(this, owner);
         },
         msls_ObjectWithDetails
     );
-    msls_intellisense_setTypeProvider(
-        msls.DataService.Details.prototype, "dataService",
-        function (o) {
-            return o.dataService.constructor;
-        }
-    );
 
     msls_defineClassWithDetails(msls, "DataWorkspace",
         function DataWorkspace() {
-            /// <summary>
-            /// Represents a data workspace.
-            /// </summary>
-            /// <field name="details" type="msls.DataWorkspace.Details">
-            /// Gets the details for this data workspace.
-            /// </field>
             msls_ObjectWithDetails.call(this);
             msls_initDataWorkspace(this);
         },
         function DataWorkspace_Details(owner) {
-            /// <summary>
-            /// Represents the details for a data workspace.
-            /// </summary>
-            /// <param name="owner" type="msls.DataWorkspace">
-            /// The data workspace that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.DataWorkspace">
-            /// Gets the data workspace that owns this details object.
-            /// </field>
-            /// <field name="dataWorkspace" type="msls.DataWorkspace">
-            /// Gets the data workspace that owns this details object.
-            /// </field>
-            /// <field name="hasChanges" type="Boolean">
-            /// Gets a value indicating if the data workspace has changes
-            /// (there are entities pending addition, modification or deletion).
-            /// </field>
-            /// <field name="hasNestedChangeSets" type="Boolean">
-            /// Gets a value indicating if the data
-            /// workspace has any nested change sets.
-            /// </field>
-            /// <field name="properties" type="msls.DataWorkspace.Details.PropertySet">
-            /// Gets the set of property objects for the data workspace.
-            /// </field>
-            /// <field name="oncontentchange" type="Function">
-            /// Gets or sets a handler for the contentchange event, which is
-            /// called any time any entity owned by any data service owned by
-            /// this data workspace changes.
-            /// </field>
             msls_ObjectWithDetails_Details.call(this, owner);
-            if (window.intellisense) {
-                if (!owner) {
-                    this.owner = null;
-                }
-            }
             msls_initDataWorkspaceDetails(this, owner);
         },
         msls_ObjectWithDetails
-    );
-    msls_intellisense_setTypeProvider(
-        msls.DataWorkspace.Details.prototype, "dataWorkspace",
-        function (o) {
-            return o.dataWorkspace.constructor;
-        }
     );
 
     msls_expose("MergeOption", msls_MergeOption);
@@ -3558,29 +3004,11 @@ var msls_Entity_applyNestedChanges,
         static_loadedEntityData;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the state of an entity.
-        /// </field>
         EntityState: {
-            /// <field type="String">
-            /// The entity is unchanged.
-            /// </field>
             unchanged: "unchanged",
-            /// <field type="String">
-            /// The entity is added.
-            /// </field>
             added: "added",
-            /// <field type="String">
-            /// The entity is modified.
-            /// </field>
             modified: "modified",
-            /// <field type="String">
-            /// The entity is deleted.
-            /// </field>
             deleted: "deleted",
-            /// <field type="String">
-            /// The entity is discarded.
-            /// </field>
             discarded: "discarded"
         }
     });
@@ -3599,27 +3027,7 @@ var msls_Entity_applyNestedChanges,
 
     msls_defineClass(_EntityDetails, "Property",
         function Entity_Details_Property(details, entry) {
-            /// <summary>
-            /// Represents an entity property object.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.Entity">
-            /// Gets the entity that owns this property.
-            /// </field>
-            /// <field name="entity" type="msls.Entity">
-            /// Gets the entity that owns this property.
-            /// </field>
             msls_BusinessObject_Details_Property.call(this, details, entry);
-            if (window.intellisense) {
-                if (!details) {
-                    this.owner = null;
-                }
-            }
             this.entity = this.owner;
         },
         msls_BusinessObject_Details_Property, {
@@ -3630,18 +3038,6 @@ var msls_Entity_applyNestedChanges,
         }
     );
     _EntityProperty = _EntityDetails.Property;
-    msls_intellisense_setTypeProvider(
-        _EntityProperty.prototype, "entity",
-        function (o) {
-            return o.entity.constructor;
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        _EntityProperty.prototype, "value",
-        function (o) {
-            return o.getPropertyType();
-        }
-    );
 
     function getIsEditedName(serviceName) {
         return "__" + serviceName + "_IsEdited";
@@ -3677,7 +3073,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function getIsEdited() {
-        /// <returns type="Boolean" />
         var details = this._details,
             entry = this._entry,
             data = details._, navigationPropertyData;
@@ -3693,7 +3088,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function getIsChanged() {
-        /// <returns type="Boolean" />
         if (this._details.entityState === _EntityState.added) {
             return false;
         }
@@ -3738,13 +3132,6 @@ var msls_Entity_applyNestedChanges,
         } else {
             if (!data.value) {
                 data.value = new _EntityCollection(details, data);
-                if (window.intellisense) {
-                    var fieldDoc = details.entity["_$fieldDoc$" + entry.name],
-                        collection = data.value;
-                    if (fieldDoc.elementCtor) {
-                        collection._$fieldDoc$array.elementCtor = fieldDoc.elementCtor;
-                    }
-                }
             }
         }
         return data.value;
@@ -3886,7 +3273,9 @@ var msls_Entity_applyNestedChanges,
         }
 
 
-        if (mergeOption === msls_MergeOption.appendOnly) {
+        if (!owner) {
+            attachLink = true;
+        } else if (mergeOption === msls_MergeOption.appendOnly) {
             ensureOwnerPropertyStatus();
             if (!ownerPropertyIsLoaded) {
                 attachLink = true;
@@ -3940,7 +3329,7 @@ var msls_Entity_applyNestedChanges,
         }
 
         if (attachLink) {
-            if (dependent) {
+            if (!!dependent && !!owner) {
                 linkSet.attachLink(
                     ownerAssociationEnd.name, owner,
                     dependentAssociationEnd.name, dependent);
@@ -4010,12 +3399,9 @@ var msls_Entity_applyNestedChanges,
 
         if (sourcePropertyIsReferenceProperty) {
             referenceTargetEntity = targetEntities[0];
-            if (!!referenceTargetEntity || sourceEntityIsLinkOwner) {
-                loadLink(sourceEntity, sourcePropertyEntry, sourcePropertyData,
-                    referenceTargetEntity, sourceEntityIsLinkOwner,
-                    mergeOption, isVirtual);
-            }
-
+            loadLink(sourceEntity, sourcePropertyEntry, sourcePropertyData,
+                referenceTargetEntity, sourceEntityIsLinkOwner,
+                mergeOption, isVirtual);
         } else {
             targetEntities.forEach(function (targetEntity) {
                 var linkAttached = loadLink(
@@ -4118,58 +3504,61 @@ var msls_Entity_applyNestedChanges,
         details, entityData, entry,
         navigationPropertyData, isVirtual) {
 
-        var fromKeyProperties,
-            toKeyProperties,
-            toKeyPropertyName,
-            fromKeyProperty,
-            fromKeyPropertyName,
-            fromKeyPropertyType,
-            keyValue,
-            primitiveType,
-            filters = [],
-            targetEntitySet = getNavigationPropertyTargetEntitySet(
-                details, navigationPropertyData),
-            keyBasedQuery;
-
         if (navigationPropertyData.query) {
             navigationPropertyData.query = null;
         }
 
-        msls_iterate(navigationPropertyData.associationSet.ends).each(function () {
-            if (this.name === navigationPropertyData.model.fromEnd.name) {
-                fromKeyProperties = this.properties;
-            } else {
-                toKeyProperties = this.properties;
-            }
-        });
+        var keyBasedQuery;
 
-        if (Array.isArray(toKeyProperties) &&
-            Array.isArray(fromKeyProperties) &&
-            toKeyProperties.length === fromKeyProperties.length) {
+        if (isVirtual || details.entitySet.dataService.details.getModel().dataProvider !== "AstoriaDataProvider" || !isCollectionNavigationProperty(entry)) {
+            var fromKeyProperties,
+                toKeyProperties,
+                toKeyPropertyName,
+                fromKeyProperty,
+                fromKeyPropertyName,
+                fromKeyPropertyType,
+                keyValue,
+                primitiveType,
+                filters = [],
+                targetEntitySet = getNavigationPropertyTargetEntitySet(
+                    details, navigationPropertyData);
 
-            toKeyProperties.forEach(function (toKeyProperty, index) {
-                toKeyPropertyName = getNavigationStoragePropertyName(
-                    toKeyProperty, isVirtual);
-                fromKeyProperty = fromKeyProperties[index];
-                fromKeyPropertyName = getNavigationStoragePropertyName(
-                    fromKeyProperty, isVirtual);
-                fromKeyPropertyType = getNavigationStoragePropertyType(
-                    fromKeyProperty, isVirtual,
-                    details, fromKeyPropertyName,
-                    toKeyPropertyName, targetEntitySet);
-
-                if (fromKeyPropertyType) {
-                    keyValue = entityData[fromKeyPropertyName];
-
-                    primitiveType = msls_getUnderlyingTypes(fromKeyPropertyType).primitiveType;
-
-                    filters.push(toKeyPropertyName + " eq " + msls_toODataString(keyValue, primitiveType.id));
+            msls_iterate(navigationPropertyData.associationSet.ends).each(function () {
+                if (this.name === navigationPropertyData.model.fromEnd.name) {
+                    fromKeyProperties = this.properties;
+                } else {
+                    toKeyProperties = this.properties;
                 }
             });
-        }
 
-        if (filters.length > 0 && filters.length === toKeyProperties.length) {
-            keyBasedQuery = targetEntitySet.filter(filters.join(" and "));
+            if (Array.isArray(toKeyProperties) &&
+                Array.isArray(fromKeyProperties) &&
+                toKeyProperties.length === fromKeyProperties.length) {
+
+                toKeyProperties.forEach(function (toKeyProperty, index) {
+                    toKeyPropertyName = getNavigationStoragePropertyName(
+                        toKeyProperty, isVirtual);
+                    fromKeyProperty = fromKeyProperties[index];
+                    fromKeyPropertyName = getNavigationStoragePropertyName(
+                        fromKeyProperty, isVirtual);
+                    fromKeyPropertyType = getNavigationStoragePropertyType(
+                        fromKeyProperty, isVirtual,
+                        details, fromKeyPropertyName,
+                        toKeyPropertyName, targetEntitySet);
+
+                    if (fromKeyPropertyType) {
+                        keyValue = entityData[fromKeyPropertyName];
+
+                        primitiveType = msls_getUnderlyingTypes(fromKeyPropertyType).primitiveType;
+
+                        filters.push(toKeyPropertyName + " eq " + msls_toODataString(keyValue, primitiveType.id));
+                    }
+                });
+            }
+
+            if (filters.length > 0 && filters.length === toKeyProperties.length) {
+                keyBasedQuery = targetEntitySet.filter(filters.join(" and "));
+            }
         }
 
         if (keyBasedQuery) {
@@ -4212,7 +3601,7 @@ var msls_Entity_applyNestedChanges,
 
         if (!data) {
             dataService = details.entitySet.dataService;
-            dataServiceDetails = dataService.details,
+            dataServiceDetails = dataService.details;
             entryData = entry.data;
 
             if (!entryData) {
@@ -4275,6 +3664,10 @@ var msls_Entity_applyNestedChanges,
             }
         }
 
+        if (!data.query && details.entityState !== _EntityState.added && details.entityState !== _EntityState.discarded) {
+            refreshNavigationPropertyQuery(details, details._, entry, data, isVirtual);
+        }
+
         return data;
     }
 
@@ -4298,26 +3691,6 @@ var msls_Entity_applyNestedChanges,
 
     msls_defineClass(_EntityDetails, "TrackedProperty",
         function Entity_Details_TrackedProperty(details, entry) {
-            /// <summary>
-            /// Represents a tracked entity property object.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="isEdited" type="Boolean">
-            /// Gets a value indicating if this property has been edited. This
-            /// is true for properties of added entities that have been edited.
-            /// </field>
-            /// <field name="isChanged" type="Boolean">
-            /// Gets a value indicating if this property has been changed.
-            /// This value is always false for properties of added entities.
-            /// </field>
-            /// <field name="originalValue" type="Object">
-            /// Gets the original value of this property.
-            /// </field>
             _EntityProperty.call(this, details, entry);
         },
         _EntityProperty, {
@@ -4327,30 +3700,14 @@ var msls_Entity_applyNestedChanges,
         }
     );
     _TrackedProperty = _EntityDetails.TrackedProperty;
-    msls_intellisense_setTypeProvider(
-        _TrackedProperty.prototype, "originalValue",
-        function (o) {
-            return o.getPropertyType();
-        }
-    );
 
     msls_defineClass(_EntityDetails, "StorageProperty",
         function Entity_Details_StorageProperty(details, entry) {
-            /// <summary>
-            /// Represents an entity storage property object.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
             _TrackedProperty.call(this, details, entry);
         },
         _TrackedProperty, {
             isReadOnly: msls_observableProperty(null,
                 function isReadOnly_get() {
-                    /// <returns type="Boolean" />
                     var propDef = this.getModel();
 
                     if (propDef.isReadOnly) {
@@ -4392,7 +3749,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function isLoaded_get() {
-        /// <returns type="Boolean" />
         var details = this._details;
         return getIsLoaded(details,
             getNavigationPropertyData(
@@ -4401,14 +3757,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function load() {
-        /// <summary>
-        /// Asynchronously loads the value of this property and returns
-        /// a promise that will be fulfilled when the value of this property
-        /// is loaded.
-        /// </summary>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the value of this property is loaded.
-        /// </returns>
         var me = this,
             details = me._details,
             entry = me._entry,
@@ -4461,22 +3809,6 @@ var msls_Entity_applyNestedChanges,
                     onQueryLoadDone(null, operation);
                 }
             });
-            if (window.intellisense) {
-                loadPromise._$annotate(function () {
-                    /// <returns type="String" />
-                }, function () {
-                    var result = new (me.getPropertyType())(),
-                        fieldDoc, collection;
-                    if (result instanceof msls.EntityCollection) {
-                        fieldDoc = details.entity["_$fieldDoc$" + entry.name];
-                        collection = result;
-                        if (fieldDoc.elementCtor) {
-                            collection._$fieldDoc$array.elementCtor = fieldDoc.elementCtor;
-                        }
-                    }
-                    return result;
-                }, true);
-            }
 
             if (operationDone) {
                 data.loadPromise = null;
@@ -4488,27 +3820,6 @@ var msls_Entity_applyNestedChanges,
 
     msls_defineClass(_EntityDetails, "ReferenceProperty",
         function Entity_Details_ReferenceProperty(details, entry) {
-            /// <summary>
-            /// Represents an entity reference property object.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="isLoaded" type="Boolean">
-            /// Gets a value indicating if this property has been loaded.
-            /// </field>
-            /// <field name="loadError" type="String">
-            /// Gets the last load error, or null if no error occurred.
-            /// </field>
-            /// <field name="originalValue" type="msls.Entity">
-            /// Gets the original value of this property.
-            /// </field>
-            /// <field name="value" type="msls.Entity">
-            /// Gets or sets the value of this property.
-            /// </field>
             _TrackedProperty.call(this, details, entry);
         },
         _TrackedProperty, {
@@ -4517,7 +3828,6 @@ var msls_Entity_applyNestedChanges,
 
             isReadOnly: msls_observableProperty(null,
             function isReadOnly_get() {
-                /// <returns type="Boolean" />
                 var details = this._details,
                     entry = this._entry,
                     data = getNavigationPropertyData(details, entry),
@@ -4556,19 +3866,6 @@ var msls_Entity_applyNestedChanges,
         }
     );
     _ReferenceProperty = _EntityDetails.ReferenceProperty;
-    if (window.intellisense) {
-        msls_mixIntoExistingClass(_ReferenceProperty, {
-            getPropertyType:
-                function getPropertyType() {
-                    return !!this._entry && !!this._entry.type ?
-                        this._entry.type : msls.Entity;
-                }
-        });
-        intellisense.annotate(
-            _ReferenceProperty.prototype.getPropertyType,
-            _TrackedProperty.prototype.getPropertyType
-        );
-    }
 
     msls_Entity_getNavigationPropertyTargetEntitySet =
     function getNavigationPropertyTargetEntitySetInternal(property) {
@@ -4631,19 +3928,6 @@ var msls_Entity_applyNestedChanges,
 
     msls_defineClass(msls, "EntityCollection",
         function EntityCollection(details, data) {
-            /// <summary>
-            /// Represents a local collection of entities.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object for the entity
-            /// that owns this entity collection.
-            /// </param>
-            /// <param name="data">
-            /// An object that provides property data.
-            /// </param>
-            /// <field name="oncollectionchange" type="Function">
-            /// Gets or sets a handler for the collection change event.
-            /// </field>
             msls_Sequence.call(this);
             msls_setProperty(this, "_details", details);
             msls_setProperty(this, "_data", data);
@@ -4664,59 +3948,14 @@ var msls_Entity_applyNestedChanges,
         }
     );
     _EntityCollection = msls.EntityCollection;
-    msls_intellisense_addTypeNameResolver(
-        function resolveEntityCollectionTypeName(type) {
-            if (type === _EntityCollection) {
-                return "msls.EntityCollection";
-            }
-            return null;
-        }
-    );
-    msls_intellisense_setEventDetailType(
-        _EntityCollection.prototype, "collectionchange",
-        msls.CollectionChange);
 
     function getQuery() {
-        /// <returns type="msls.DataServiceQuery" />
         var data = getNavigationPropertyData(this._details, this._entry);
-        if (window.intellisense) {
-            var fieldDoc = this._details.entity["_$fieldDoc$" + this._entry.name];
-            if (fieldDoc.elementCtor) {
-                data.query = new msls.DataServiceQuery({
-                    _entitySet: {
-                        getEntityType: function () {
-                            return fieldDoc.elementCtor;
-                        }
-                    }
-                });
-            }
-        }
         return data.query;
     }
 
     msls_defineClass(_EntityDetails, "CollectionProperty",
         function Entity_Details_CollectionProperty(details, entry) {
-            /// <summary>
-            /// Represents an entity collection property object.
-            /// </summary>
-            /// <param name="details" type="msls.Entity.Details">
-            /// The details object that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="isLoaded" type="Boolean">
-            /// Gets a value indicating if this property has been loaded.
-            /// </field>
-            /// <field name="loadError" type="String">
-            /// Gets the last load error, or null if no error occurred.
-            /// </field>
-            /// <field name="query" type="msls.DataServiceQuery">
-            /// Gets the query that produces the value of this property.
-            /// </field>
-            /// <field name="value" type="msls.EntityCollection" elementType="msls.Entity">
-            /// Gets the value of this property.
-            /// </field>
             _EntityProperty.call(this, details, entry);
         },
         _EntityProperty, {
@@ -4729,16 +3968,6 @@ var msls_Entity_applyNestedChanges,
         }
     );
     _CollectionProperty = _EntityDetails.CollectionProperty;
-    if (window.intellisense) {
-        msls_mixIntoExistingClass(_CollectionProperty, {
-            value: msls_accessorProperty(
-                function value_get() {
-                    /// <returns type="msls.EntityCollection" />
-                    return getEntityPropertyValue.apply(this, arguments);
-                }
-            )
-        });
-    }
 
     msls_Entity_getEntityCollection =
     function getEntityCollection(collectionProperty) {
@@ -4910,9 +4139,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function discardChanges() {
-        /// <summary>
-        /// Discards any changes made to the entity.
-        /// </summary>
         var details = this,
             entity = details.entity,
             entityState = details.entityState,
@@ -4996,18 +4222,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function refresh(navigationPropertyNames) {
-        /// <summary>
-        /// Updates the entity with values from the data source if the entity
-        /// is not changed.
-        /// </summary>
-        /// <param name="navigationPropertyNames" type="Array" optional="true">
-        /// An array of names of navigation properties to be included. An empty
-        /// array means no properties will be included. If not specified, all
-        /// reference properties are included.
-        /// </param>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the update is completed.
-        /// </returns>
 
         var details = this,
             properties = details.properties.all(),
@@ -5075,13 +4289,11 @@ var msls_Entity_applyNestedChanges,
     msls_mixIntoExistingClass(_EntityDetails, {
         entityState: msls_observableProperty(null,
             function entityState_get() {
-                /// <returns type="String" />
                 return this._.__entityState || _EntityState.unchanged;
             }
         ),
         hasEdits: msls_observableProperty(null,
             function hasEdits_get() {
-                /// <returns type="Boolean" />
                 return !!this._.__hasEdits;
             }
         ),
@@ -5281,9 +4493,6 @@ var msls_Entity_applyNestedChanges,
     };
 
     function deleteEntity() {
-        /// <summary>
-        /// Deletes this entity.
-        /// </summary>
         var details = this.details,
             entitySet = details.entitySet,
             dataServiceDetails = entitySet.dataService.details,
@@ -5330,9 +4539,6 @@ var msls_Entity_applyNestedChanges,
                 dataServiceDetails.dispatchChange("hasChanges");
             }
             dataServiceDetails.dispatchEvent("contentchange", entity);
-            if (window.intellisense) {
-                return;
-            }
             if (entityClass.created) {
                 entityClass.created.call(null, entity);
             }
@@ -5341,15 +4547,6 @@ var msls_Entity_applyNestedChanges,
 
     function makeEntityDetails(entityClass) {
         function EntityDetails(owner) {
-            /// <summary>
-            /// Represents the details for an entity.
-            /// </summary>
-            /// <param name="owner">
-            /// The entity that owns this details object.
-            /// </param>
-            /// <field name="properties">
-            /// Gets the set of property objects for the entity.
-            /// </field>
             _EntityDetails.call(this, owner);
         }
         return EntityDetails;
@@ -5465,7 +4662,8 @@ var msls_Entity_applyNestedChanges,
 
         var entityState = details.entityState,
             data = getNavigationPropertyData(details, entry),
-            valueEntityState;
+            sharePointListAttribute,
+            valueEntityState, entitySetModel, isDocEntity;
 
         if (entityState === _EntityState.deleted ||
             entityState === _EntityState.discarded) {
@@ -5481,9 +4679,13 @@ var msls_Entity_applyNestedChanges,
             }
         }
 
-        if (getIsLoaded(details, data)) {
+        entitySetModel = details.entitySet._model;
+        sharePointListAttribute = msls_getAttribute(entitySetModel, msls_sharePointListModelAttribute);
+        isDocEntity = !!sharePointListAttribute && sharePointListAttribute.type === "DocumentLibrary";
+
+        if (getIsLoaded(details, data) || isDocEntity) {
             setReferencePropertyValueCore(
-                details, entry, entityState, data, value, isVirtual);
+                details, entry, entityState, data, value, isVirtual, isDocEntity);
             operation.complete();
         } else {
             details.properties[entry.name].load().then(function () {
@@ -5527,7 +4729,7 @@ var msls_Entity_applyNestedChanges,
     function setReferencePropertyValueCore(
         details, entry,
         entityState, data,
-        value, isVirtual) {
+        value, isVirtual, noPreloading) {
 
         var model = data.model,
             fromEndName = model.fromEnd.name,
@@ -5617,18 +4819,6 @@ var msls_Entity_applyNestedChanges,
     }
 
     function defineEntity(constructor, properties) {
-        /// <summary>
-        /// Classifies a constructor function as an entity class.
-        /// </summary>
-        /// <param name="constructor" type="Function">
-        /// A constructor function.
-        /// </param>
-        /// <param name="properties" type="Array">
-        /// An array of property descriptors.
-        /// </param>
-        /// <returns type="Function">
-        /// The constructor function classified as an entity class.
-        /// </returns>
         var entityClass = constructor,
             details = makeEntityDetails(constructor),
             mixInContent = {};
@@ -5684,16 +4874,6 @@ var msls_Entity_applyNestedChanges,
                 entry.get = function () {
                     return entry.getValue(this.details);
                 };
-                if (window.intellisense && entry.async) {
-                    intellisense.annotate(entry.get, function () {
-                        /// <summary>
-                        /// Asynchronously gets the value of a property.
-                        /// </summary>
-                        /// <returns type="WinJS.Promise">
-                        /// An object that promises to provide the value.
-                        /// </returns>
-                    });
-                }
                 if (entry.setValue) {
                     if (entry.async) {
                         entry.set = function (value, operation) {
@@ -5707,9 +4887,6 @@ var msls_Entity_applyNestedChanges,
                 }
             });
             msls_mixIntoExistingClass(entityClass, mixInContent);
-        }
-        if (window.intellisense && intellisense.progress) {
-            intellisense.progress();
         }
         return entityClass;
     }
@@ -6675,21 +5852,9 @@ var msls_relativeDates_now;
 
     var relativeDatesMembers = {
         now: function now() {
-            /// <summary>
-            /// Returns the current date and time.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the current date and time on this computer.
-            /// </returns>
             return msls_relativeDates_now();
         },
         today: function today() {
-            /// <summary>
-            /// Returns the current date.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the current date on this computer.
-            /// </returns>
             var result = this.now();
             result.setHours(0);
             result.setMinutes(0);
@@ -6699,12 +5864,6 @@ var msls_relativeDates_now;
             return result;
         },
         endOfDay: function endOfDay() {
-            /// <summary>
-            /// Returns the date and time for the end of the current day.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the last moment in time of the current day.
-            /// </returns>
             var result = this.now();
             result.setHours(23);
             result.setMinutes(59);
@@ -6714,26 +5873,12 @@ var msls_relativeDates_now;
             return result;
         },
         startOfWeek: function startOfWeek() {
-            /// <summary>
-            /// Returns the date and time for the start of this week.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the first moment in time
-            /// of the start of this week.
-            /// </returns>
             var result = this.today();
             addDays(result, 0 - result.getDay());
 
             return result;
         },
         endOfWeek: function endOfWeek() {
-            /// <summary>
-            /// Returns the date and time for the end of this week.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the last moment in time
-            /// of the end of this week.
-            /// </returns>
             var result = this.startOfWeek();
             addDays(result, 7);
             addMilliseconds(result, -1);
@@ -6741,26 +5886,12 @@ var msls_relativeDates_now;
             return result;
         },
         startOfMonth: function startOfMonth() {
-            /// <summary>
-            /// Returns the date and time for the start of this month.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the first moment in time
-            /// of the start of this month.
-            /// </returns>
             var result = this.today();
             result.setDate(1);
 
             return result;
         },
         endOfMonth: function endOfMonth() {
-            /// <summary>
-            /// Returns the date and time for the end of this month.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the last moment in time
-            /// of the end of this month.
-            /// </returns>
             var result = this.startOfMonth();
             result.setMonth(result.getMonth() + 1);
             addMilliseconds(result, -1);
@@ -6768,13 +5899,6 @@ var msls_relativeDates_now;
             return result;
         },
         startOfQuarter: function startOfQuarter() {
-            /// <summary>
-            /// Returns the date and time for the start of this quarter.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the first moment in time
-            /// of the start of this quarter.
-            /// </returns>
             var result = this.startOfMonth(),
                 month = result.getMonth();
             result.setMonth(month - month % monthsPerQuarter);
@@ -6782,13 +5906,6 @@ var msls_relativeDates_now;
             return result;
         },
         endOfQuarter: function endOfQuarter() {
-            /// <summary>
-            /// Returns the date and time for the end of this quarter.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the last moment in time
-            /// of the end of this quarter.
-            /// </returns>
             var result = this.startOfMonth(),
                 month = result.getMonth();
             result.setMonth(month - month % monthsPerQuarter + monthsPerQuarter);
@@ -6797,26 +5914,12 @@ var msls_relativeDates_now;
             return result;
         },
         startOfYear: function startOfYear() {
-            /// <summary>
-            /// Returns the date and time for the start of this year.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the first moment in time
-            /// of the start of this year.
-            /// </returns>
             var result = this.today();
             result.setMonth(0, 1);
 
             return result;
         },
         endOfYear: function endOfYear() {
-            /// <summary>
-            /// Returns the date and time for the end of this year.
-            /// </summary>
-            /// <returns type="Date">
-            /// A Date that is set to the last moment in time
-            /// of the end of this year.
-            /// </returns>
             var result = this.startOfYear();
             result.setFullYear(result.getFullYear() + 1);
             addMilliseconds(result, -1);
@@ -6828,14 +5931,6 @@ var msls_relativeDates_now;
     msls_addToInternalNamespace("relativeDates", relativeDatesMembers);
     msls_addToInternalNamespace("relativeDateTimeOffsetDates", relativeDatesMembers);
 
-    if (window.intellisense) {
-        (function () {
-            /// <returns>
-            /// Contains the implementation of globally-defined relative dates.
-            /// </returns>
-            return msls.relativeDates;
-        }());
-    }
 
     msls_expose("relativeDates", msls.relativeDates);
     msls_expose("relativeDateTimeOffsetDates", msls.relativeDates);
@@ -7212,134 +6307,70 @@ var msls_DataService_cancelNestedChanges,
     msls_setProperty(msls, "queryable", {
 
         filter: function filter(expression) {
-            /// <summary>
-            /// Filters results using an expression defined
-            /// by the OData $filter system query option.
-            /// </summary>
-            /// <param name="expression" type="String">
-            /// An OData filter expression.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_filter", expression);
             return q;
         },
 
-        orderBy: function orderBy(propertyName) {
-            /// <summary>
-            /// Orders results by a property in ascending order.
-            /// </summary>
-            /// <param name="propertyName" type="String">
-            /// A property name.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
+        orderBy: function orderBy(propertyName, only) {
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_orderBy", propertyName);
+            msls_setProperty(q, "_orderByOnly", only);
             return q;
         },
 
-        orderByDescending: function orderByDescending(propertyName) {
-            /// <summary>
-            /// Orders results by a property in descending order.
-            /// </summary>
-            /// <param name="propertyName" type="String">
-            /// A property name.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
+        orderByDescending: function orderByDescending(propertyName, only) {
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_orderBy", propertyName + " desc");
+            msls_setProperty(q, "_orderByOnly", only);
             return q;
         },
 
         thenBy: function thenBy(propertyName) {
-            /// <summary>
-            /// Further orders results by a property in ascending order.
-            /// </summary>
-            /// <param name="propertyName" type="String">
-            /// A property name.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_orderBy", propertyName);
             return q;
         },
 
         thenByDescending: function thenByDescending(propertyName) {
-            /// <summary>
-            /// Further orders results by a property in descending order.
-            /// </summary>
-            /// <param name="propertyName" type="String">
-            /// A property name.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_orderBy", propertyName + " desc");
             return q;
         },
 
         expand: function expand(expression) {
-            /// <summary>
-            /// Expands results by including additional navigation properties using
-            /// an expression defined by the OData $expand system query option.
-            /// </summary>
-            /// <param name="expression" type="String">
-            /// An OData expand expression (a comma-separated
-            /// list of names of navigation properties).
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_expand", expression);
             return q;
         },
 
         skip: function skip(count) {
-            /// <summary>
-            /// Bypasses a specified number of results.
-            /// </summary>
-            /// <param name="count" type="Number">
-            /// The number of results to skip.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_skip", count);
             return q;
         },
 
         top: function top(count) {
-            /// <summary>
-            /// Restricts results by a specified number.
-            /// </summary>
-            /// <param name="count" type="Number">
-            /// The number of results to return.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_take", count);
             return q;
         },
 
         includeTotalCount: function includeTotalCount() {
-            /// <summary>
-            /// Requests that the total result count as if the skip and top
-            /// operators were not applied is returned in addition to the results.
-            /// </summary>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "_includeTotalCount", true);
             return q;
         },
 
         merge: function merge(mergeOption) {
-            /// <summary>
-            /// Specifies the merge option for the returned query and any
-            /// queries built from it.
-            /// </summary>
-            /// <param name="mergeOption" type="String">
-            /// The merge option (from msls.MergeOption) for the new query.
-            /// </param>
-            /// <returns type="msls.DataServiceQuery" />
             var q = new _DataServiceQuery(this);
             msls_setProperty(q, "__mergeOption", mergeOption);
+            return q;
+        },
+
+        search: function search(searchTerm) {
+            var q = new _DataServiceQuery(this);
+            msls_setProperty(q, "_search", searchTerm);
             return q;
         }
 
@@ -7665,7 +6696,7 @@ var msls_DataService_cancelNestedChanges,
                             results.push(result);
                         });
 
-                        if (results.length > 0) {
+                        if (!!entitySet && results.length > 0) {
                             queryExpandTree = getQueryExpandsTree(query);
                             fixInclusionInQueryResult(results, serverResults, queryExpandTree, mergeOption);
                         }
@@ -7706,7 +6737,7 @@ var msls_DataService_cancelNestedChanges,
                 );
             }
 
-            if (useJsonLight) {
+            if (!!entitySet && useJsonLight) {
                 ensureMetadata(entitySet.dataService.details).then(
                     function (metadata) {
                         loadData(metadata);
@@ -7720,24 +6751,6 @@ var msls_DataService_cancelNestedChanges,
 
             operation.interleave();
         });
-        if (window.intellisense) {
-            promise._$annotate(function () {
-                /// <returns type="String" />
-            }, function () {
-                function QueryResultType() {
-                    /// <field name="totalCount" type="Number">
-                    /// Gets the total number of results, if requested.
-                    /// </field>
-                    /// <field name="results" type="Array">
-                    /// Gets the array of results.
-                    /// </field>
-                }
-                var qr = new QueryResultType();
-                qr._$fieldDoc$results.elementCtor =
-                    query._entitySet.getEntityType();
-                return qr;
-            }, true);
-        }
         return promise;
     }
 
@@ -7748,18 +6761,11 @@ var msls_DataService_cancelNestedChanges,
     };
 
     function getMergeOption(queryableObjectMergeOption) {
-        return queryableObjectMergeOption || msls.MergeOption.appendOnly;
+        return queryableObjectMergeOption || msls_appOptions.defaultMergeOption || msls.MergeOption.unchangedOnly;
     }
 
     msls_mixIntoExistingClass(_DataServiceQuery, {
         execute: function execute() {
-            /// <summary>
-            /// Asynchronously executes this query and returns a promise
-            /// that is fulfilled when the query has been executed.
-            /// </summary>
-            /// <returns type="WinJS.Promise">
-            /// A promise that is fulfilled when the query has been executed.
-            /// </returns>
             var me = this,
                 current = me,
                 afterQueryExecuted;
@@ -7801,7 +6807,9 @@ var msls_DataService_cancelNestedChanges,
                     skip,
                     take,
                     includeTotalCount,
+                    search,
                     orderBys = [],
+                    exclusiveOrderBy = false,
                     expands = [],
                     options = [];
                 do {
@@ -7820,10 +6828,19 @@ var msls_DataService_cancelNestedChanges,
                         }
                     }
                     if (typeof current._orderBy === "string") {
-                        orderBys.unshift(current._orderBy);
+                        if (!exclusiveOrderBy) {
+                            if (current._orderByOnly) {
+                                exclusiveOrderBy = true;
+                                orderBys = [];
+                            }
+                            orderBys.unshift(current._orderBy);
+                        }
                     }
                     if (typeof current._expand === "string") {
                         expands.push(current._expand.replace(/\./g, "/"));
+                    }
+                    if (typeof current._search === "string" && !!current._search && !search) {
+                        search = current._search;
                     }
                     if (typeof skip !== "number" &&
                         msls_DataServiceQuery_isValidSkipTop(current._skip)) {
@@ -7873,6 +6890,13 @@ var msls_DataService_cancelNestedChanges,
                 if (includeTotalCount) {
                     options.push("$inlinecount=allpages");
                 }
+                if (typeof search === "string") {
+                    if (!!this._entitySet && !!this._entitySet._model && !!this._entitySet._model.entityType) {
+                        if (!msls_getAttribute(this._entitySet._model.entityType, ":@NotSearchable")) {
+                            options.push("_search=" + encodeURIComponent(search));
+                        }
+                    }
+                }
                 if (options.length > 0) {
                     requestUri += "?" + options.join("&");
                 }
@@ -7898,7 +6922,7 @@ var msls_DataService_cancelNestedChanges,
     msls_initDataServiceQuery =
     function initDataServiceQuery(dataServiceQuery, source, rootUri, queryParameters) {
         msls_setProperty(dataServiceQuery, "_source", source);
-        msls_setProperty(dataServiceQuery, "_entitySet", source._entitySet);
+        msls_setProperty(dataServiceQuery, "_entitySet", source ? source._entitySet : null);
         msls_setProperty(dataServiceQuery, "_rootUri", rootUri);
         msls_setProperty(dataServiceQuery, "_queryParameters", queryParameters);
     };
@@ -7908,19 +6932,16 @@ var msls_DataService_cancelNestedChanges,
     msls_mixIntoExistingClass(_EntitySet, {
         canInsert: msls_accessorProperty(
             function canInsert_get() {
-                /// <returns type="Boolean" />
                 return !!this._model.canInsert;
             }
         ),
         canUpdate: msls_accessorProperty(
             function canUpdate_get() {
-                /// <returns type="Boolean" />
                 return !!this._model.canUpdate;
             }
         ),
         canDelete: msls_accessorProperty(
             function canDelete_get() {
-                /// <returns type="Boolean" />
                 return !!this._model.canDelete;
             }
         ),
@@ -7930,40 +6951,15 @@ var msls_DataService_cancelNestedChanges,
             }
         ),
         getModel: function getModel() {
-            /// <summary>
-            /// Gets the model for this entity set.
-            /// </summary>
-            /// <returns type="Object">
-            /// The model for this entity set.
-            /// </returns>
             return this._model;
         },
         getEntityType: function getEntityType() {
-            /// <summary>
-            /// Gets the type of entity represented by this entity set.
-            /// </summary>
-            /// <returns type="Function">
-            /// The type of entity represented by this entity set.
-            /// </returns>
             return this._entityType;
         },
         load: function load() {
-            /// <summary>
-            /// Asynchronously loads this entity set and returns a promise
-            /// that is fulfilled when the entity set has been loaded.
-            /// </summary>
-            /// <returns type="WinJS.Promise">
-            /// A promise that is fulfilled when the entity set has been loaded.
-            /// </returns>
             return executeQuery(this);
         },
         addNew: function addNew() {
-            /// <summary>
-            /// Adds a new entity to this entity set.
-            /// </summary>
-            /// <returns type="msls.Entity">
-            /// The new entity.
-            /// </returns>
             return new (this.getEntityType())(this);
         }
     });
@@ -8380,13 +7376,6 @@ var msls_DataService_cancelNestedChanges,
     }
 
     function saveChanges() {
-        /// <summary>
-        /// Asynchronously saves the changes to this data service and returns
-        /// a promise that is fulfilled when the changes have been saved.
-        /// </summary>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the changes have been saved.
-        /// </returns>
         var me = this,
             promise,
             initError;
@@ -8398,9 +7387,6 @@ var msls_DataService_cancelNestedChanges,
                 throw e;
             }
         });
-        if (window.intellisense) {
-            promise._$annotate(Array);
-        }
         if (initError) {
             throw initError;
         }
@@ -8419,13 +7405,6 @@ var msls_DataService_cancelNestedChanges,
     };
 
     function getChanges() {
-        /// <summary>
-        /// Gets the entities tracked by this data service that
-        /// have been added, modified or marked for deletion.
-        /// </summary>
-        /// <returns type="Array" elementType="msls.Entity">
-        /// The entities that have been added, modified or marked for deletion.
-        /// </returns>
         var changes = [];
         $.each(this.properties.all(), function () {
             var entitySet = this.value;
@@ -8436,18 +7415,10 @@ var msls_DataService_cancelNestedChanges,
                 }
             });
         });
-        if (window.intellisense) {
-            if (!changes.length) {
-                changes = null;
-            }
-        }
         return changes;
     }
 
     function discardChanges() {
-        /// <summary>
-        /// Discards the changes to all entities tracked by this data service.
-        /// </summary>
         $.each(this.getChanges(), function () {
             this.details.discardChanges();
         });
@@ -8524,8 +7495,6 @@ var msls_DataService_cancelNestedChanges,
             }
         )
     });
-    msls_intellisense_setEventDetailType(
-        _DataServiceDetails.prototype, "contentchange", Object);
 
     msls_initDataServiceDetails =
     function initDataServiceDetails(dataServiceDetails, owner) {
@@ -8567,30 +7536,7 @@ var msls_DataService_cancelNestedChanges,
 
     msls_defineClass(_DataServiceDetails, "EntitySetProperty",
         function DataService_Details_EntitySetProperty(details, entry) {
-            /// <summary>
-            /// Represents an entity set property object.
-            /// </summary>
-            /// <param name="details" type="msls.DataService.Details">
-            /// The data service details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.DataService">
-            /// Gets the data service that owns this property.
-            /// </field>
-            /// <field name="dataService" type="msls.DataService">
-            /// Gets the data service that owns this property.
-            /// </field>
-            /// <field name="value" type="msls.EntitySet">
-            /// Gets the value of this property.
-            /// </field>
             msls_ObjectWithDetails_Details_Property.call(this, details, entry);
-            if (window.intellisense) {
-                if (!details) {
-                    this.owner = null;
-                }
-            }
             this.dataService = this.owner;
         }, msls_ObjectWithDetails_Details_Property, {
             value: msls_accessorProperty(getEntitySetPropertyValue),
@@ -8603,24 +7549,9 @@ var msls_DataService_cancelNestedChanges,
         }
     );
     _EntitySetProperty = _DataServiceDetails.EntitySetProperty;
-    msls_intellisense_setTypeProvider(
-        _EntitySetProperty.prototype, "dataService",
-        function (o) {
-            return o.dataService.constructor;
-        }
-    );
 
     function makeDataServiceDetails(dataServiceClass) {
         function DataServiceDetails(owner) {
-            /// <summary>
-            /// Represents the details for a data service.
-            /// </summary>
-            /// <param name="owner">
-            /// The data service that owns this details object.
-            /// </param>
-            /// <field name="properties">
-            /// Gets the set of property objects for the data service.
-            /// </field>
             _DataServiceDetails.call(this, owner);
         }
         return DataServiceDetails;
@@ -8628,24 +7559,6 @@ var msls_DataService_cancelNestedChanges,
 
     function defineDataService(constructor,
         baseServiceUri, entitySets, operations) {
-        /// <summary>
-        /// Classifies a constructor function as a data service.
-        /// </summary>
-        /// <param name="constructor" type="Function">
-        /// A constructor function.
-        /// </param>
-        /// <param name="baseServiceUri" type="String">
-        /// Base URI of the service to connect to.
-        /// </param>
-        /// <param name="entitySets" type="Array">
-        /// An array of entity set descriptors.
-        /// </param>
-        /// <param name="operations" type="Array">
-        /// An array of operation descriptors.
-        /// </param>
-        /// <returns type="Function">
-        /// The constructor function classified as a data service.
-        /// </returns>
         var dataServiceClass = constructor,
             details = makeDataServiceDetails(constructor),
             mixInContent = {};
@@ -8662,7 +7575,6 @@ var msls_DataService_cancelNestedChanges,
                 var entryName = entry.name;
                 entry.serviceName = entryName;
                 entry.get = function entitySet_get() {
-                    /// <returns type="msls.EntitySet" />
                     return this.details.properties[entryName].value;
                 };
                 mixInContent[entryName] = msls_propertyWithDetails(
@@ -8729,19 +7641,6 @@ var msls_DataService_cancelNestedChanges,
 
     msls_toODataString =
     function toODataString(parameter, dataType) {
-        /// <summary>
-        /// Converts a query parameter value to
-        /// its OData string representation.
-        /// </summary>
-        /// <param name="parameter">
-        /// A parameter value.
-        /// </param>
-        /// <param name="dataType" type="String">
-        /// The identifier of a LightSwitch modeled data type.
-        /// </param>
-        /// <returns type="String">
-        /// The OData string representation of the parameter value.
-        /// </returns>
         if (parameter === undefined || parameter === null) {
             return "null";
         }
@@ -8968,13 +7867,6 @@ var msls_DataService_cancelNestedChanges,
     }
 
     function getNestedChanges() {
-        /// <summary>
-        /// Gets the entities tracked by this nested change set
-        /// that have been added, modified or marked for deletion.
-        /// </summary>
-        /// <returns type="Array" elementType="msls.Entity">
-        /// The entities that have been added, modified or marked for deletion.
-        /// </returns>
         var allChanges = this._owner.getChanges(),
             changeSetIndex = this._owner._nestedChangeSets.indexOf(this),
             nestedChanges = [];
@@ -8988,11 +7880,6 @@ var msls_DataService_cancelNestedChanges,
                 entityData = entityData.__parent;
             }
         });
-        if (window.intellisense) {
-            if (!nestedChanges.length) {
-                nestedChanges = null;
-            }
-        }
         return nestedChanges;
     }
 
@@ -9004,9 +7891,6 @@ var msls_DataService_cancelNestedChanges,
     }
 
     function applyNestedChanges() {
-        /// <summary>
-        /// Applies all the changes in this nested change set and leaves it active.
-        /// </summary>
         throwIfNotLast(this);
         var newChangesCount = applyNestedChangesCore(this),
             dataWorkspaceDetails = this._owner,
@@ -9019,17 +7903,11 @@ var msls_DataService_cancelNestedChanges,
     }
 
     function commitNestedChanges() {
-        /// <summary>
-        /// Commits all the changes in this nested change set and closes it.
-        /// </summary>
         throwIfNotLast(this);
         closeChanges(this, applyNestedChangesCore(this));
     }
 
     function cancelNestedChanges() {
-        /// <summary>
-        /// Cancels all the changes in this nested change set and closes it.
-        /// </summary>
         throwIfNotLast(this);
         $.each(this._owner._dataServices, function (serviceName, service) {
             msls_DataService_cancelNestedChanges(service.details);
@@ -9039,19 +7917,6 @@ var msls_DataService_cancelNestedChanges,
 
     msls_defineClass(_DataWorkspace, "NestedChangeSet",
         function DataWorkspace_NestedChangeSet(owner) {
-            /// <summary>
-            /// Represents a nested change set.
-            /// </summary>
-            /// <param name="owner" type="msls.DataWorkspace.Details">
-            /// The data workspace details that owns this nested change set.
-            /// </param>
-            /// <field name="hasNestedChanges" type="Boolean">
-            /// Gets a value indicating if this nested change set has changes.
-            /// </field>
-            /// <field name="onchange" type="Function">
-            /// Gets or sets a handler for the change event, which is called any
-            /// time the value of an observable property on this object changes.
-            /// </field>
             msls_setProperty(this, "_owner", owner);
         }, null, {
             _changeCount: 0,
@@ -9078,22 +7943,10 @@ var msls_DataService_cancelNestedChanges,
     }
 
     function getChanges() {
-        /// <summary>
-        /// Gets the entities tracked by this data workspace
-        /// that have been added, modified or marked for deletion.
-        /// </summary>
-        /// <returns type="Array" elementType="msls.Entity">
-        /// The entities that have been added, modified or marked for deletion.
-        /// </returns>
         var changes = [];
         $.each(this._dataServices, function () {
             changes = changes.concat(this.details.getChanges());
         });
-        if (window.intellisense) {
-            if (!changes.length) {
-                changes = null;
-            }
-        }
         return changes;
     }
 
@@ -9124,8 +7977,6 @@ var msls_DataService_cancelNestedChanges,
 
         contentchange: msls_event()
     });
-    msls_intellisense_setEventDetailType(
-        _DataWorkspaceDetails.prototype, "contentchange", Object);
 
     msls_initDataWorkspaceDetails =
     function initDataWorkspaceDetails(dataWorkspaceDetails, owner) {
@@ -9160,30 +8011,7 @@ var msls_DataService_cancelNestedChanges,
 
     msls_defineClass(_DataWorkspaceDetails, "DataServiceProperty",
         function DataWorkspace_Details_DataServiceProperty(details, entry) {
-            /// <summary>
-            /// Represents a data service property object.
-            /// </summary>
-            /// <param name="details" type="msls.DataWorkspace.Details">
-            /// The data workspace details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.DataWorkspace">
-            /// Gets the data workspace that owns this property.
-            /// </field>
-            /// <field name="dataWorkspace" type="msls.DataWorkspace">
-            /// Gets the data workspace that owns this property.
-            /// </field>
-            /// <field name="value" type="msls.DataService">
-            /// Gets the value of this property.
-            /// </field>
             msls_ObjectWithDetails_Details_Property.call(this, details, entry);
-            if (window.intellisense) {
-                if (!details) {
-                    this.owner = null;
-                }
-            }
             this.dataWorkspace = this.owner;
         }, msls_ObjectWithDetails_Details_Property, {
             value: msls_accessorProperty(getDataServicePropertyValue),
@@ -9196,49 +8024,15 @@ var msls_DataService_cancelNestedChanges,
         }
     );
     _DataServiceProperty = _DataWorkspaceDetails.DataServiceProperty;
-    msls_intellisense_setTypeProvider(
-        _DataServiceProperty.prototype, "dataWorkspace",
-        function (o) {
-            return o.dataWorkspace.constructor;
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        _DataServiceProperty.prototype, "value",
-        function (o) {
-            return !!o._entry && !!o._entry.type ?
-                o._entry.type : msls.DataService;
-        }
-    );
 
     function makeDataWorkspaceDetails(dataWorkspaceClass) {
         function DataWorkspaceDetails(owner) {
-            /// <summary>
-            /// Represents the details for a data workspace.
-            /// </summary>
-            /// <param name="owner">
-            /// The data workspace that owns this details object.
-            /// </param>
-            /// <field name="properties">
-            /// Gets the set of property objects for the data workspace.
-            /// </field>
             _DataWorkspaceDetails.call(this, owner);
         }
         return DataWorkspaceDetails;
     }
 
     function defineDataWorkspace(constructor, dataServices) {
-        /// <summary>
-        /// Classifies a constructor function as a data workspace.
-        /// </summary>
-        /// <param name="constructor" type="Function">
-        /// A constructor function.
-        /// </param>
-        /// <param name="dataServices" type="Array">
-        /// An array of data service descriptors.
-        /// </param>
-        /// <returns type="Function">
-        /// The constructor function classified as a data workspace.
-        /// </returns>
         var dataWorkspaceClass = constructor,
             details = makeDataWorkspaceDetails(constructor),
             mixInContent = {};
@@ -9807,6 +8601,16 @@ var msls_makeDataServiceQueryLoader;
                 }
 
                 if (me.canLoadNext && !!query) {
+
+                    if (me._orderBy) {
+                        if (me._orderBy.sortDirection === msls_SortOrder.ascending) {
+                            query = query.orderBy(me._orderBy.key, me._orderBy.only);
+                        } else if (me._orderBy.sortDirection === msls_SortOrder.descending) {
+                            query = query.orderByDescending(me._orderBy.key, me._orderBy.only);
+                        } else {
+                        }
+                    }
+
                     takeCount = me._pageSize;
                     if (!me._disablePaging) {
                         query = query.skip(skipCount).top(takeCount);
@@ -9814,6 +8618,13 @@ var msls_makeDataServiceQueryLoader;
                     if (mergeOption) {
                         query = query.merge(mergeOption);
                     }
+                    if (typeof me._search === "string" && !!me._search) {
+                        query = query.search(me._search);
+                    }
+                    if (typeof me._itemLimit === "number" && me._itemLimit > 0) {
+                        query = query.top(me._itemLimit);
+                    }
+
                     me._activeQuery = query;
 
                     executeQuery(me)._thenEx(function (error, result) {
@@ -9853,15 +8664,23 @@ var msls_makeDataServiceQueryLoader;
             _isFirstPage: true,
             _serverCount: 0,
             _skipCount: 0,
+            _orderBy: null,
+            _search: null,
+            _itemLimit: null,
             canLoadNext: msls_accessorProperty(
                 function canLoadNext_get() {
                     var me = this;
                     return me._isFirstPage ||
-                        (!!me._baseQuery && me._skipCount < me._serverCount);
+                        (!me._itemLimit && !!me._baseQuery && me._skipCount < me._serverCount);
                 }
             ),
             loadNext: loadNext,
-            reset: reset
+            reset: reset,
+            setOrderBy: function setOrderBy(orderBy)
+            {
+                var me = this;
+                me._orderBy = orderBy;
+            }
         });
     };
 
@@ -10311,50 +9130,20 @@ var msls_modal,
 
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the buttons to show in a message box.
-        /// </field>
         MessageBoxButtons: {
-            /// <field type="Number">
-            /// Specifies the "OK" button.
-            /// </field>
             ok: msls_modal_DialogButtons.ok,
-            /// <field type="Number">
-            /// Specifies the "OK" and "Cancel" buttons.
-            /// </field>
             okCancel: msls_modal_DialogButtons.okCancel,
-            /// <field type="Number">
-            /// Specifies the "Yes" and "No" buttons.
-            /// </field>
             yesNo: msls_modal_DialogButtons.yesNo,
-            /// <field type="Number">
-            /// Specifies the "Yes", "No" and "Cancel" buttons.
-            /// </field>
             yesNoCancel: msls_modal_DialogButtons.yesNoCancel
         }
     });
     _MessageBoxButtons = msls.MessageBoxButtons;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the button in a message box that was invoked.
-        /// </field>
         MessageBoxResult: {
-            /// <field type="Number">
-            /// Specifies that the "OK" button was invoked.
-            /// </field>
             ok: msls_modal_DialogResult.ok,
-            /// <field type="Number">
-            /// Specifies that the "Yes" button was invoked.
-            /// </field>
             yes: msls_modal_DialogResult.yes,
-            /// <field type="Number">
-            /// Specifies that the "No" button was invoked.
-            /// </field>
             no: msls_modal_DialogResult.no,
-            /// <field type="Number">
-            /// Specifies that the "Cancel" button was invoked.
-            /// </field>
             cancel: msls_modal_DialogResult.cancel
         }
     });
@@ -10363,27 +9152,6 @@ var msls_modal,
     msls_expose("MessageBoxButtons", msls.MessageBoxButtons);
     msls_expose("MessageBoxResult", msls.MessageBoxResult);
     msls_expose("showMessageBox", function showMessageBox(message, options) {
-        /// <summary>
-        /// Shows a message box.
-        /// </summary>
-        /// <param name="message" type="String">
-        /// The message to be shown.
-        /// </param>
-        /// <param name="options" optional="true">
-        /// A set of additional options for the message box:
-        /// <br/>- title: a title for the message box (default: none)
-        /// <br/>- buttons: an msls.MessageBoxButtons value specifying
-        ///                 which buttons should be shown (default: ok)
-        /// <br/>- defaultResult: an msls.MessageBoxResult value specifying
-        ///     the result that will be returned when user closes the message
-        ///     box not using a message box's buttons.(default: ok for ok
-        ///     buttons, cancel for okCancel buttons, no for yesNo buttons,
-        ///     cancel for yesNoCancel buttons).
-        /// </param>
-        /// <returns type="WinJS.Promise">
-        /// A promise object that is resolved with a msls.MessageBoxResult
-        /// value after the message box has been closed.
-        /// </returns>
         options = options || {};
         
         var buttons = options.buttons || _MessageBoxButtons.ok,
@@ -10631,18 +9399,8 @@ var msls_BoundaryOption,
     msls_NavigateBackOption = msls.NavigateBackOption;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the action that was taken
-        /// when navigating back from a screen.
-        /// </field>
         NavigateBackAction: {
-            /// <field type="String">
-            /// Specifies that the previous screen was canceled.
-            /// </field>
             cancel: "cancel",
-            /// <field type="String">
-            /// Specifies that the previous screen was committed.
-            /// </field>
             commit: "commit"
         }
     });
@@ -11060,128 +9818,19 @@ var msls_initScreen,
 
     msls_defineClassWithDetails(msls, "Screen",
         function Screen(dataWorkspace, modelId, screenParameters) {
-            /// <summary>
-            /// Represents a screen.
-            /// </summary>
-            /// <param name="dataWorkspace" type="msls.DataWorkspace">
-            /// A data workspace.
-            /// </param>
-            /// <param name="modelId" type="String">
-            /// The identifier of the model item that defines this screen.
-            /// </param>
-            /// <param name="screenParameters" type="Array" optional="true">
-            /// An object containing parameters to the screen.
-            /// </param>
-            /// <field name="details" type="msls.Screen.Details">
-            /// Gets the details for this screen.
-            /// </field>
             msls_BusinessObject.call(this);
             msls_initScreen(this, dataWorkspace, modelId, screenParameters);
         },
         function Screen_Details(owner) {
-            /// <summary>
-            /// Represents the details for a screen.
-            /// </summary>
-            /// <param name="owner" type="msls.Screen">
-            /// The screen that owns this details object.
-            /// </param>
-            /// <field name="owner" type="msls.Screen">
-            /// Gets the screen that owns this details object.
-            /// </field>
-            /// <field name="screen" type="msls.Screen">
-            /// Gets the screen that owns this details object.
-            /// </field>
-            /// <field name="displayName" type="String">
-            /// Gets or sets the display name for the screen.
-            /// </field>
-            /// <field name="description" type="String">
-            /// Gets or sets the description for the screen.
-            /// </field>
-            /// <field name="dataWorkspace" type="msls.DataWorkspace">
-            /// Gets the data workspace that provides the screen's data.
-            /// </field>
-            /// <field name="saveChangesTo" type="Array" elementType="msls.DataService">
-            /// Gets the array of editable data services for the screen.
-            /// </field>
-            /// <field name="rootContentItem" type="msls.ContentItem">
-            /// Gets the root content item for the screen.
-            /// </field>
-            /// <field name="pages" type="Array" elementType="msls.ContentItem">
-            /// Gets the root content items for the screen's tabs and popups.
-            /// </field>
-            /// <field name="startPage" type="msls.ContentItem">
-            /// Gets the root content item for the screen's start page.
-            /// </field>
-            /// <field name="serverErrors" type="Array" elementType="msls.ValidationResult">
-            /// Gets the server validation errors that
-            /// occurred when the screen was last saved.
-            /// </field>
-            /// <field name="properties" type="msls.Screen.Details.PropertySet">
-            /// Gets the set of property objects for the screen.
-            /// </field>
             msls_BusinessObject_Details.call(this, owner);
-            if (window.intellisense) {
-                if (!owner) {
-                    this.owner = null;
-                }
-            }
             msls_initScreenDetails(this, owner);
         },
         msls_BusinessObject
     );
-    msls_intellisense_setTypeProvider(
-        msls.Screen.Details.prototype, "screen",
-        function (o) {
-            return o.screen.constructor;
-        }
-    );
 
     msls_defineClass(msls, "VisualCollection",
         function VisualCollection(screenDetails, loader) {
-            /// <summary>
-            /// Represents a collection of data that is shown by a screen.
-            /// </summary>
-            /// <param name="screenDetails" type="msls.Screen.Details">
-            /// The screen details object that owns the screen
-            /// collection property whose value is this collection.
-            /// </param>
-            /// <param name="loader">
-            /// An object that is used to load data into the collection.
-            /// </param>
-            /// <field name="screen" type="msls.Screen">
-            /// Gets the screen that owns this collection.
-            /// </field>
-            /// <field name="state" type="String">
-            /// Gets the current state (from msls.VisualCollection.State)
-            /// of this collection.
-            /// </field>
-            /// <field name="isLoaded" type="Boolean">
-            /// Gets a value indicating if this collection
-            /// has loaded one or more pages of data.
-            /// </field>
-            /// <field name="canLoadMore" type="Boolean">
-            /// Gets a value indicating if this collection
-            /// believes that it can load more pages of data.
-            /// </field>
-            /// <field name="loadError" type="String">
-            /// Gets the last load error that occurred, or null if no error occurred.
-            /// </field>
-            /// <field name="selectedItem" type="msls.Entity">
-            /// Gets or sets the currently selected item.
-            /// </field>
-            /// <field name="count" type="Number">
-            /// Gets the number of items that are currently in this collection.
-            /// </field>
-            /// <field name="data" type="Array">
-            /// Gets the items that are currently in this collection.
-            /// </field>
             msls_initVisualCollection(this, screenDetails, loader);
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        msls.VisualCollection.prototype, "screen",
-        function (o) {
-            return o._$screenClass || o.screen.constructor;
         }
     );
 
@@ -11210,164 +9859,60 @@ var msls_AttachedLabelPosition,
         validationResultsPropertyName = "validationResults";
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the position of an attached label for a content item.
-        /// </field>
         AttachedLabelPosition: {
-            /// <field type="String">
-            /// Specifies that the attached label is positioned left of the
-            /// content and is aligned left in the space where it appears.
-            /// </field>
             leftAligned: "LeftAligned",
-            /// <field type="String">
-            /// Specifies that the attached label is positioned left of the
-            /// content and is aligned right in the space where it appears.
-            /// </field>
             rightAligned: "RightAligned",
-            /// <field type="String">
-            /// Specifies that the attached label
-            /// is positioned above the content.
-            /// </field>
             topAligned: "Top",
-            /// <field type="String">
-            /// Specifies that the attached label is hidden and the space
-            /// where the attached label would be shown is still consumed.
-            /// </field>
             hidden: "Hidden",
-            /// <field type="String">
-            /// Specifies that the attached label is not
-            /// visible and does not consume any space.
-            /// </field>
             none: "None"
         }
     });
     msls_AttachedLabelPosition = msls.AttachedLabelPosition;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the horizontal alignment of a content item.
-        /// </field>
         HorizontalAlignment: {
-            /// <field type="String">
-            /// Specifies that the content item is left aligned.
-            /// </field>
             left: "Left",
-            /// <field type="String">
-            /// Specifies that the content item is right aligned.
-            /// </field>
             right: "Right"
         }
     });
     msls_HorizontalAlignment = msls.HorizontalAlignment;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies how the width of a content item is calculated.
-        /// </field>
         WidthSizingMode: {
-            /// <field type="String">
-            /// Specifies that the content item width is based on the
-            /// available width provided by its parent content item.
-            /// </field>
             stretchToContainer: "StretchToContainer",
-            /// <field type="String">
-            /// Specifies that the content item width is
-            /// based on the desired width of its content.
-            /// </field>
             fitToContent: "FitToContent",
-            /// <field type="String">
-            /// Specifies that the content item width is fixed.
-            /// </field>
             fixedSize: "FixedSize"
         }
     });
     msls_WidthSizingMode = msls.WidthSizingMode;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies how the height of a content item is calculated.
-        /// </field>
         HeightSizingMode: {
-            /// <field type="String">
-            /// Specifies that the content item height is based on the
-            /// available height provided by its parent content item.
-            /// </field>
             stretchToContainer: "StretchToContainer",
-            /// <field type="String">
-            /// Specifies that the content item height is
-            /// based on the desired height of its content.
-            /// </field>
             fitToContent: "FitToContent",
-            /// <field type="String">
-            /// Specifies that the content item height is fixed.
-            /// </field>
             fixedSize: "FixedSize"
         }
     });
     msls_HeightSizingMode = msls.HeightSizingMode;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the kind of a content item.
-        /// </field>
         ContentItemKind: {
-            /// <field type="String">
-            /// Specifies a content item that binds to a visual collection.
-            /// </field>
             collection: "Collection",
-            /// <field type="String">
-            /// Specifies a content item that binds
-            /// to a command that invokes a method.
-            /// </field>
             command: "Command",
-            /// <field type="String">
-            /// Specifies a content item that binds to a
-            /// value such as a number, date or string.
-            /// </field>
             value: "Value",
-            /// <field type="String">
-            /// Specifies a content item that binds
-            /// to an object such as an entity.
-            /// </field>
             details: "Details",
-            /// <field type="String">
-            /// Specifies a content item that contains other content items.
-            /// </field>
             group: "Group",
-            /// <field type="String">
-            /// Specifies the root content item of a screen.
-            /// </field>
             screen: "Screen",
-            /// <field type="String">
-            /// Specifies the root content item of a tab on a screen.
-            /// </field>
             tab: "Tab",
-            /// <field type="String">
-            /// Specifies the root content item of a popup on a screen.
-            /// </field>
             popup: "Popup"
         }
     });
     msls_ContentItemKind = msls.ContentItemKind;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the kind of page represented by a content item.
-        /// </field>
         PageKind: {
-            /// <field type="String">
-            /// Specifies that the content item does not represent a page.
-            /// </field>
             none: "None",
-            /// <field type="String">
-            /// Specifies that the content item represents
-            /// a tab that appears in the screen tabs bar.
-            /// </field>
             tab: "Tab",
-            /// <field type="String">
-            /// Specifies that the content item represents a pop-up
-            /// that is shown using a "nested" boundary option.
-            /// </field>
             popup: "Popup",
         }
     });
@@ -11578,38 +10123,7 @@ var msls_AttachedLabelPosition,
     }
 
     function findItem(contentItemName) {
-        /// <summary>
-        /// Recursively searches for a content
-        /// item starting from this content item.
-        /// </summary>
-        /// <param name="contentItemName" type="String">
-        /// The unique name of a content item.
-        /// </param>
-        /// <returns type="msls.ContentItem">
-        /// The content item with the specified name,
-        /// if found; otherwise, a falsy value.
-        /// </returns>
 
-        if (window.intellisense) {
-            if (!!contentItemName && !!this._$name && !!this.screen && !!this.screen._$contentItems) {
-                if (this._$name === contentItemName) {
-                    return this;
-                }
-                var item = this.screen._$contentItems[contentItemName];
-                if (item) {
-                    var parentName = item._$parentName,
-                        parentItem;
-                    while (parentName) {
-                        if (parentName === this._$name) {
-                            return msls_intellisense_createObject(item);
-                        }
-                        parentItem = this.screen._$contentItems[parentName];
-                        parentName = parentItem ? parentItem._$parentName : null;
-                    }
-                }
-            }
-            return null;
-        }
         var index = 0,
             result,
             isClone = this._isClone,
@@ -11684,27 +10198,10 @@ var msls_AttachedLabelPosition,
     }
 
     function validate(recursive) {
-        /// <summary>
-        /// Runs defined validation rules on the value property and
-        /// updates the value of the "validationResults" property.
-        /// </summary>
-        /// <param name="recursive" type="Boolean" optional="true">
-        /// Indicates if child content items should also be validated. If true,
-        /// the "validationResults" property on child content items are updated.
-        /// </param>
         _validate(this, recursive, true);
     }
 
     function hasValidationErrors(recursive) {
-        /// <summary>
-        /// Indicates if this content item currently has validation errors.
-        /// </summary>
-        /// <param name="recursive" type="Boolean" optional="true">
-        /// Indicates if child content items should also be checked.
-        /// </param>
-        /// <returns type="Boolean">
-        /// True if there are validation errors; otherwise, false.
-        /// </returns>
         if (this.validationResults.length) {
             return true;
         }
@@ -11718,15 +10215,6 @@ var msls_AttachedLabelPosition,
     }
 
     function dataBind(bindingPath, callback) {
-        /// <summary>
-        /// Binds to a source identified by a binding path like "value.unitPrice".
-        /// </summary>
-        /// <param name="bindingPath" type="String">
-        /// A dot-delimited binding path describing the path to the source.
-        /// </param>
-        /// <param name="callback">
-        /// A function that is called when the source changes.
-        /// </param>
         if (!callback || !$.isFunction(callback)) {
             throw msls_getResourceString("databinding_invalid_callback");
         }
@@ -12295,134 +10783,6 @@ var msls_AttachedLabelPosition,
 
 
     msls_defineClass(msls, "ContentItem", function ContentItem(screenObject, model) {
-            /// <summary>
-            /// Represents the view model for an item of
-            /// content that is visualized by a screen.
-            /// </summary>
-            /// <param name="screenObject" type="msls.Screen">
-            /// The screen that owns this content item.
-            /// </param>
-            /// <param name="model">
-            /// The modeled definition of this content item.
-            /// </param>
-            ///
-            /// <field name="application">
-            /// Gets the application object.
-            /// </field>
-            /// <field name="screen" type="msls.Screen">
-            /// Gets the screen that produced this content item.
-            /// </field>
-            /// <field name="parent" type="msls.ContentItem">
-            /// Gets the parent content item that owns this content item.
-            /// </field>
-            /// <field name="model" type="Object">
-            /// Gets the model item describing this content item.
-            /// </field>
-            /// <field name="name" type="String">
-            /// Gets the name of this content item.
-            /// </field>
-            /// <field name="kind" type="String">
-            /// Gets the kind (from msls.ContentItemKind) of this content item.
-            /// </field>
-            /// <field name="pageKind" type="String">
-            /// Gets the page kind (from msls.PageKind) of this content item.
-            /// </field>
-            /// <field name="displayName" type="String">
-            /// Gets or sets the display name for this content item.
-            /// </field>
-            /// <field name="description" type="String">
-            /// Gets or sets the description for this content item.
-            /// </field>
-            /// <field name="data" type="Object">
-            /// Gets the source data object from which the
-            /// "details" and "value" properties are bound.
-            /// </field>
-            /// <field name="bindingPath" type="String">
-            /// Gets the binding path that produces the "value" property.
-            /// </field>
-            /// <field name="valueModel" type="Object">
-            /// Gets the model item describing the value of this content item.
-            /// </field>
-            /// <field name="maxLength" type="Number">
-            /// Gets the maximum length of the value for this content item, if
-            /// the value's data type supports the concept of maximum length.
-            /// </field>
-            /// <field name="choiceList" type="Array" elementType="Object">
-            /// Gets the list of static choices for the
-            /// value of this content item, if applicable.
-            /// </field>
-            /// <field name="choicesSource" type="msls.VisualCollection">
-            /// Gets or sets a visual collection that provides a dynamic
-            /// set of choices for the value of this content item.
-            /// </field>
-            /// <field name="value" type="Object">
-            /// Gets or sets the value that this content item represents.
-            /// </field>
-            /// <field name="stringValue" type="String">
-            /// Gets or sets the string representation of the "value" property.
-            /// </field>
-            /// <field name="details" type="msls.BusinessObject.Details.Property">
-            /// Gets the details property object for the value that this
-            /// content item represents, using a binding path that is
-            /// derived from the "bindingPath" property.
-            /// </field>
-            /// <field name="validationResults" type="Array" elementType="msls.ValidationResult">
-            /// Gets or sets the current set of validation results for this content item.  Includes
-            /// any results that were explicitly set into this property, plus any that were added by
-            /// automatic validation or by calling the validate() method. Note that the validation results
-            /// will not be displayed until the user modifies the property in the UI or tries to save.
-            /// <br/>
-            /// Example usage: 'screen.findContentItem("OrderDate").validationResults = [new msls.ValidationResult(screen.Order.details.properties.OrderDate, "Invalid date")];'
-            /// </field>
-            /// <field name="controlModel" type="Object">
-            /// Gets the model item describing the control
-            /// that is visualizing this content item.
-            /// </field>
-            /// <field name="properties" type="Object">
-            /// Gets the set of control specific properties used to
-            /// configure the visualization of this content item.
-            /// </field>
-            /// <field name="horizontalAlignment" type="String">
-            /// Gets the horizontal alignment (from msls.HorizontalAlignment)
-            /// of this content item.
-            /// </field>
-            /// <field name="widthSizingMode" type="String">
-            /// Gets the width sizing mode (from msls.WidthSizingMode)
-            /// for this content item.
-            /// </field>
-            /// <field name="heightSizingMode" type="String">
-            /// Gets the height sizing mode (from msls.HeightSizingMode)
-            /// for this content item.
-            /// </field>
-            /// <field name="isVisible" type="Boolean">
-            /// Gets or sets a value indicating if the
-            /// control for this content item should be visible.
-            /// </field>
-            /// <field name="isLoading" type="Boolean">
-            /// Gets a value indicating if the control for this
-            /// content item should be shown in the loading state.
-            /// </field>
-            /// <field name="isEnabled" type="Boolean">
-            /// Gets a value indicating if the control
-            /// for this content item should be enabled.
-            /// </field>
-            /// <field name="isReadOnly" type="Boolean">
-            /// Gets a value indicating if the control
-            /// for this content item should be read only.
-            /// </field>
-            /// <field name="displayError" type="String">
-            /// Gets the display error that occurred for the control, if any.
-            /// </field>
-            /// <field name="commandItems" type="Array" elementType="msls.ContentItem">
-            /// Gets the command content items owned by this content item.
-            /// </field>
-            /// <field name="children" type="Array" elementType="msls.ContentItem">
-            /// Gets the child content items owned by this content item.
-            /// </field>
-            /// <field name="onchange" type="Function">
-            /// Gets or sets a handler for the change event, which is called any
-            /// time the value of an observable property on this object changes.
-            /// </field>
 
 
 
@@ -12456,7 +10816,6 @@ var msls_AttachedLabelPosition,
             pageKind: msls_accessorProperty(_pageKind_get),
             properties: msls_accessorProperty(
                 function properties_get() {
-                    /// <returns type="Object" />
                     return this._dictionary.values;
                 }
             ),
@@ -12550,14 +10909,6 @@ var msls_AttachedLabelPosition,
             dataBind: dataBind,
 
             handleViewDispose: function handleViewDispose(handler) {
-                /// <summary>
-                /// Sets a handler for the view dispose event.
-                /// </summary>
-                /// <param name="handler" type="Function">
-                /// A function that is called when the
-                /// view for this content item is disposed.
-                /// <br/>Signature: handler()
-                /// </param>
                 if (handler !== null && !$.isFunction(handler)) {
                     throw msls_getResourceString("view_dispose_invalid_handler");
                 }
@@ -12577,37 +10928,6 @@ var msls_AttachedLabelPosition,
             _parseChoiceList: virtual_parseChoiceList,
 
             _onDispose: _onDispose
-        }
-    );
-    if (window.intellisense) {
-        msls_mixIntoExistingClass(msls.ContentItem, {
-            parent: msls_accessorProperty( function () {
-                if (!!this._$parentName && !!this.screen && !!this.screen._$contentItems) {
-                    var item = this.screen._$contentItems[this._$parentName];
-                    if (item) {
-                        return msls_intellisense_createObject(item);
-                    }
-                }
-                return null;
-            })
-        });
-    }
-    msls_intellisense_setTypeProvider(
-        msls.ContentItem.prototype, "screen",
-        function (o) {
-            return o.screen.constructor;
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        msls.ContentItem.prototype, "data",
-        function (o) {
-            return o.data.constructor;
-        }
-    );
-    msls_intellisense_setTypeProvider(
-        msls.ContentItem.prototype, "value",
-        function (o) {
-            return o.value.constructor;
         }
     );
 
@@ -12796,21 +11116,6 @@ var msls_createScreen;
     }
 
     function defineScreen(constructor, properties, methods) {
-        /// <summary>
-        /// Classifies a constructor function as a screen class.
-        /// </summary>
-        /// <param name="constructor" type="Function">
-        /// A constructor function.
-        /// </param>
-        /// <param name="properties" type="Array">
-        /// An array of property descriptors.
-        /// </param>
-        /// <param name="methods" type="Array">
-        /// An array of method descriptors.
-        /// </param>
-        /// <returns type="Function">
-        /// The constructor function classified as a screen class.
-        /// </returns>
         var screenClass = constructor,
             details = makeScreenDetails(constructor),
             mixInContent = {};
@@ -12858,16 +11163,6 @@ var msls_createScreen;
                 entry.get = function () {
                     return entry.getValue(this.details);
                 };
-                if (window.intellisense && entry.async) {
-                    intellisense.annotate(entry.get, function () {
-                        /// <summary>
-                        /// Asynchronously gets the value of a property.
-                        /// </summary>
-                        /// <returns type="WinJS.Promise">
-                        /// An object that promises to provide the value.
-                        /// </returns>
-                    });
-                }
                 if (entry.setValue) {
                     entry.set = function (value) {
                         entry.setValue(this.details, value);
@@ -12881,9 +11176,6 @@ var msls_createScreen;
                     mixInContent[entry.name] = entry;
                 } else {
                     mixInContent[entry.name] = function screenMethod() {
-                        /// <summary>
-                        /// Executes a screen method.
-                        /// </summary>
                         var userCode = screenClass[entry.name + "_execute"],
                             result;
                         if (msls_isFunction(userCode)) {
@@ -12904,9 +11196,6 @@ var msls_createScreen;
         }
         msls_mixIntoExistingClass(screenClass, mixInContent);
 
-        if (window.intellisense && intellisense.progress) {
-            intellisense.progress();
-        }
         return screenClass;
     }
 
@@ -12922,6 +11211,43 @@ var msls_createScreen;
 
         return screenObject;
     };
+
+    function _getQueryString(parameterValue, parameterProperty)
+    {
+        if (parameterValue === undefined || parameterValue === null) {
+            return "null";
+        }
+
+        var oDataQueryString = "";
+        var propertyType = parameterProperty.propertyType;
+        if (msls_isEntityType(propertyType)) {
+            var keyProperties = [];
+            propertyType.properties.forEach(function (entityProperty) {
+                if (msls_isKeyProperty(entityProperty)) {
+                        keyProperties.push({ key: entityProperty.name, value: msls_toODataString(parameterValue[entityProperty.name], entityProperty.propertyType.id) });
+                }
+            });
+
+            if (keyProperties.length === 1) {
+                oDataQueryString =  keyProperties.pop().value;
+            } else if (keyProperties.length > 1) {
+                var parameterId = "";
+                keyProperties.forEach(function (keyProperty) {
+                    if (parameterId !== "") {
+                        parameterId = parameterId + ",";
+                    }
+
+                    parameterId = parameterId + keyProperty.key + "=" + keyProperty.value;
+
+                });
+                oDataQueryString = parameterId;
+            }
+        } else {
+            oDataQueryString = msls_convertToString(parameterValue, parameterProperty);
+        }
+
+        return oDataQueryString;
+    }
 
     msls_initScreen =
     function initScreen(screen, dataWorkspace, modelId, screenParameters) {
@@ -12947,6 +11273,7 @@ var msls_createScreen;
             screen.details.description = msls_getLocalizedString(model.description);
         }
 
+        var dataUrl = "";
         if (screenParameters && model.properties) {
             parameterProperties = msls_iterate(model.properties)
                 .where(function (p) {
@@ -12985,8 +11312,15 @@ var msls_createScreen;
                         data._value = parameterValue;
                         data._isLoaded = true;
                     }
+
+                    if (dataUrl !== "") {
+                        dataUrl = dataUrl + "/";
+                    }
+                    dataUrl = dataUrl + encodeURIComponent(_getQueryString(parameterValue, parameterProperties[index]));
                 }
             });
+            msls_setProperty(screenDetails, "_dataUrl", dataUrl);
+
         }
     };
 
@@ -12995,9 +11329,6 @@ var msls_createScreen;
         screenDetails.screen = owner;
         msls_setProperty(screenDetails, "_model", null);
         screenDetails.serverErrors = [];
-        if (window.intellisense) {
-            screenDetails.serverErrors = null;
-        }
 
         msls_setProperty(screenDetails, "_propertyData", {});
         $.each(screenDetails.properties.all(),function () {
@@ -13007,63 +11338,17 @@ var msls_createScreen;
 
     msls_mixIntoExistingClass(_Screen, {
         showTab: function showTab(tabName, options) {
-            /// <summary>
-            /// Shows a tab.
-            /// </summary>
-            /// <param name="tabName" type="String">
-            /// The name of the tab to show.
-            /// </param>
-            /// <param name="options" optional="true">
-            /// An object that specifies options for showing the tab.
-            /// </param>
-            /// <returns type="WinJS.Promise">
-            /// A promise object that is fulfilled after the tab has been shown.
-            /// </returns>
             var beforeShown = options ? options.beforeShown : null;
             return msls.shell.showTab(tabName, null, beforeShown);
         },
         showPopup: function showPopup(popupName) {
-            /// <summary>
-            /// Shows a popup.
-            /// </summary>
-            /// <param name="popupName" type="String">
-            /// The name of the popup to show.
-            /// </param>
-            /// <returns type="WinJS.Promise">
-            /// A promise object that is fulfilled after the popup has been shown.
-            /// </returns>
             return msls.shell.showPopup(popupName);
         },
         closePopup: function closePopup() {
-            /// <summary>
-            /// Closes the currently open popup, if any.
-            /// </summary>
-            /// <returns type="WinJS.Promise">
-            /// A promise object that is fulfilled after the popup has been closed.
-            /// </returns>
             return msls.shell.closePopup();
         },
         findContentItem: function findContentItem(contentItemName) {
-            /// <summary>
-            /// Finds a content item in this screen's content item tree.
-            /// </summary>
-            /// <param name="contentItemName" type="String">
-            /// The unique name of a content item in the content item tree.
-            /// </param>
-            /// <returns type="msls.ContentItem">
-            /// The content item with the specified
-            /// name, if found; otherwise, undefined.
-            /// </returns>
 
-            if (window.intellisense) {
-                if (this._$contentItems) {
-                    var item = this._$contentItems[contentItemName];
-                    if (item) {
-                        return msls_intellisense_createObject(item);
-                    }
-                }
-                return null;
-            }
             return this.details.rootContentItem.findItem(contentItemName);
         }
     });
@@ -13091,9 +11376,6 @@ var msls_createScreen;
                 var me = this,
                     attributes;
 
-                if (window.intellisense) {
-                    return null;
-                }
                 if (!me._saveChangesToValue) {
                     attributes = msls_getAttributes(me.getModel(), ":@SaveChangesTo");
                     msls_setProperty(me, "_saveChangesToValue", []);
@@ -13112,7 +11394,6 @@ var msls_createScreen;
         ),
         startPage: msls_accessorProperty(
             function startPage_get() {
-                /// <returns type="msls.ContentItem" />
                 var attribute;
 
                 if (!this._startPageValue) {
@@ -13127,12 +11408,6 @@ var msls_createScreen;
             }
         ),
         validate: function validate() {
-            /// <summary>
-            /// Locally validates changes to the editable data services.
-            /// </summary>
-            /// <returns type="Array" elementType="msls.ValidationResult">
-            /// An array of validation results.
-            /// </returns>
             var results = [],
                 dataService;
 
@@ -13175,11 +11450,6 @@ var msls_createScreen;
                 }
             }
 
-            if (window.intellisense) {
-                if (!pages.length) {
-                    pages = null;
-                }
-            }
             return pages;
         }),
         _findModel: function findModel() {
@@ -13199,18 +11469,6 @@ var msls_createScreen;
 
     function makeScreenDetails(screenClass) {
         function ScreenDetails(owner) {
-            /// <summary>
-            /// Represents the details for a screen.
-            /// </summary>
-            /// <param name="owner">
-            /// The screen that owns this details object.
-            /// </param>
-            /// <field name="dataWorkspace" type="msls.application.DataWorkspace">
-            /// Gets the data workspace that provides the screen's data.
-            /// </field>
-            /// <field name="properties">
-            /// Gets the set of property objects for the screen.
-            /// </field>
             _ScreenDetails.call(this, owner);
         }
         return ScreenDetails;
@@ -13330,6 +11588,7 @@ var msls_createShellCommandViewModel;
 
 var msls_shell,
     msls_shell_activeNavigationUnitChangedNotification = "activeNavigationUnitChanged",
+    msls_shell_NavigationComplete = "mslsnavigationcomplete",
     msls_dispatchApplicationSaveChangesEvent,
     msls_shellCommandStartNotification = "shellCommandStart",
     msls_shellCommandCompleteNotification = "shellCommandComplete";
@@ -13361,11 +11620,20 @@ var msls_shell,
         });
     }
 
+    function getEntityFromTypeAndQuery(entityTypeName, queryString, dataWorkspace) {
+
+        var entitySet = msls_EntitySet_getEntitySetForEntityType(dataWorkspace, window.msls.application[entityTypeName]);
+
+        return new msls.DataServiceQuery({
+            _entitySet: entitySet
+        }, entitySet._rootUri + queryString).execute();
+    }
+
     function getEntityInfo(uniqueEntity) {
 
         var defaultScreenAttribute,
             entitySocialScreenName,
-            _ScreenType,
+            screenDefinition,
             dataService,
             entitySet,
             entitySetModel,
@@ -13431,22 +11699,93 @@ var msls_shell,
             return null;
         }
         entitySocialScreenName = defaultScreenAttribute.value.name;
-        _ScreenType = window.msls.application[entitySocialScreenName];
+        screenDefinition = msls.services.modelService.tryLookupById(entitySocialScreenName);
         return {
             entityQuery: new msls.DataServiceQuery({
                 _entitySet: entitySet
             }, entitySet._rootUri + queryString),
-            screenType: _ScreenType,
+            screenDefinition: screenDefinition,
             dataWorkspace: dataWorkspace
         };
+    }
+
+    function showScreenWithParameterQueryStrings(screenName, screenParameterQueries, requestedPageId) {
+        var me = this;
+        var dataWorkspaceTypeName = "DataWorkspace";
+
+        var dataWorkspace = me.activeNavigationUnit ? me.activeNavigationUnit.screen.details.dataWorkspace : new window.msls.application[dataWorkspaceTypeName]();
+
+        var screenDefinition = msls.services.modelService.tryLookupById(screenName);
+
+        if (!screenDefinition) {
+            throw msls_getResourceString("shell_invalid_1args", screenName);
+        }
+
+        return _resolveScreenArgumentsFromUrlScreenParameters(screenDefinition, screenParameterQueries, dataWorkspace).then(function (result) {
+                if (me.activeNavigationUnit) {
+                    return me.showScreen(screenName, result.arguments, null, null, null, null, requestedPageId);
+                } else {
+                    var loadOptions = {
+                        boundaryOption: msls_BoundaryOption.save,
+                        requestedPageId: requestedPageId,
+                        screenArguments: result.arguments,
+                        screenDefinition: screenDefinition,
+                        dataWorkspace: dataWorkspace
+                    };
+
+                    msls_notify(shellShowHomeScreenNotification, 1);
+                    return me._startNavigationOperation(null, function (operation) {
+                        var homeUnit = _prepareNavigationUnit(me, loadOptions);
+                        _resolveWhenPromiseComplete(operation,
+                            _navigateView(me, homeUnit, false));
+                    });
+                }
+        });
+    }
+
+    function _resolveScreenArgumentsFromUrlScreenParameters(screenDefinition, screenArgumentsAsQueries, dataWorkspace) {
+
+        return new WinJS.Promise(function (complete, error) {
+            var promises = [];
+
+            if (screenDefinition.properties) {
+                var parameterProperties = msls_iterate(screenDefinition.properties)
+                    .where(function (p) {
+                        return !!msls_getAttribute(p, ":@IsParameter");
+                    })
+                    .array;
+
+                parameterProperties.forEach(function (screenProperty, index) {
+                    if (screenArgumentsAsQueries && screenArgumentsAsQueries[index]) {
+                        if (screenArgumentsAsQueries[index] === "null") {
+                            promises.push({ results: [], totalCount: 0 });
+                        } else if (msls_isEntityType(screenProperty.propertyType)) {
+                            var queryExpression = "(" + screenArgumentsAsQueries[index] + ")";
+
+                            promises.push(getEntityFromTypeAndQuery(screenDefinition.properties[index].elementType.name, queryExpression, dataWorkspace));
+
+                        } else {
+                            var convertResult = msls_convertFromString(screenArgumentsAsQueries[index], screenProperty);
+                            promises.push({ results: [convertResult.value], totalCount: 1 });
+                        }
+                    }
+                });
+            }
+
+            WinJS.Promise.join(promises).then(function (result) {
+                var screenArguments = [];
+                result.forEach(function ( queryResult) {
+                    screenArguments.push(queryResult.results[0]);
+                });
+                complete( { arguments: screenArguments, dataWorkspace: dataWorkspace });
+            });
+        });
     }
 
     function showDetailsScreen(shell, uniqueEntity) {
 
         var promise = null,
-            _ScreenType,
             resultEntity,
-            entityDetailScreen,
             entityInfo;
 
 
@@ -13454,22 +11793,21 @@ var msls_shell,
             entityInfo = getEntityInfo(uniqueEntity);
 
             if (entityInfo) {
-                _ScreenType = entityInfo.screenType;
-
                 promise = entityInfo.entityQuery.execute().then(function (result) {
                     resultEntity = result.results[0];
                     if (resultEntity) {
-                        entityDetailScreen = new _ScreenType([resultEntity], entityInfo.dataWorkspace);
-
                         msls_notify(shellShowHomeScreenNotification, 1);
                         return shell._startNavigationOperation(null, function (operation) {
                             var homeUnit = _prepareNavigationUnit(shell, {
-                                screen: entityDetailScreen,
-                                boundaryOption: msls_BoundaryOption.save
+                                boundaryOption: msls_BoundaryOption.save,
+                                screenArguments: [resultEntity],
+                                screenDefinition: entityInfo.screenDefinition,
+                                dataWorkspace: entityInfo.dataWorkspace
                             });
                             _resolveWhenPromiseComplete(operation,
                                 _navigateView(shell, homeUnit, false));
                         });
+
                     } else {
                         msls_notify(shellShowHomeScreenNotification, 2);
                         return showHomeScreen(shell);
@@ -13524,6 +11862,13 @@ var msls_shell,
             msls_getResourceString("shell_cancelNested_btn"),
             "cancel");
 
+        me.homeCommand = msls_createShellCommandViewModel(
+            "navigateHome",
+            this,
+            null,
+            msls_getResourceString("shell_home_btn"),
+            "home");
+
         me.backCommand = msls_createShellCommandViewModel(
             "navigateBack",
             this,
@@ -13546,6 +11891,13 @@ var msls_shell,
             "logout");
 
         applicationDefinition = applicationDefinition || _getApplicationDefinition();
+
+        me.logoPath = msls_rootUri + applicationDefinition.logo;
+
+        me.beforeFirstPageNavigationUnit = new msls.NavigationUnit(me);
+        me.beforeFirstPageNavigationUnit.boundaryOption = msls_BoundaryOption.none;
+        me.beforeFirstPageNavigationUnit.index = -1;
+
         if (homeScreenId) {
             me._homeScreen = msls.services.modelService.tryLookupById(homeScreenId);
         }
@@ -13556,13 +11908,11 @@ var msls_shell,
             return WinJS.Promise.wrapError(
                 msls_getResourceString("shellViewModel_noHomeScreen"));
         }
-        me.logoPath = msls_rootUri + applicationDefinition.logo;
 
-        me.beforeFirstPageNavigationUnit = new msls.NavigationUnit(me);
-        me.beforeFirstPageNavigationUnit.boundaryOption = msls_BoundaryOption.none;
-        me.beforeFirstPageNavigationUnit.index = -1;
-
-        if (uniqueEntity) {
+        var parsedHash = msls_parseUrl(window.location);
+        if (parsedHash.screenName) {
+            return me.showScreenWithParameterQueryStrings(parsedHash.screenName, parsedHash.screenParameters, parsedHash.pageId);
+        } else if (uniqueEntity) {
             return showDetailsScreen(me, uniqueEntity);
         } else {
             msls_notify(shellShowHomeScreenNotification, 0);
@@ -13589,7 +11939,7 @@ var msls_shell,
         }
     }
 
-    function showScreen(screenIdOrDefinition, screenArguments, pageName, popup, beforeShown, afterClosed) {
+    function showScreen(screenIdOrDefinition, screenArguments, pageName, popup, beforeShown, afterClosed, requestedPageId) {
 
 
         var modelService = msls.services.modelService,
@@ -13620,7 +11970,8 @@ var msls_shell,
             boundaryOption: boundaryOption,
             popup: popup,
             beforeShown: beforeShown,
-            afterClosed: afterClosed
+            afterClosed: afterClosed,
+            requestedPageId: requestedPageId
         };
         return _showScreenOrPageCore(this, loadOptions);
     }
@@ -13841,6 +12192,10 @@ var msls_shell,
         return result;
     }
 
+    function getHomeScreen() {
+        return this._homeScreen;
+    }
+
     function hasNavigationMenu() {
         return "navigationItems" in _getApplicationDefinition();
     }
@@ -13852,10 +12207,25 @@ var msls_shell,
 
     function navigateHome() {
 
-        return this.activeNavigationUnit.index > 0 ? this.navigateBack(this.activeNavigationUnit.index) : _createDeferredResolution();
+
+
+        var loadOptions = {
+            screenId: null,
+            screenDefinition: this._homeScreen,
+            pageName: null,
+            screenArguments: null,
+            boundaryOption: msls_BoundaryOption.save,
+            popup: false,
+            beforeShown: null,
+            afterClosed: null,
+            requestedPageId: null
+        };
+
+        return _showScreenOrPageCore(this, loadOptions);
     }
+
     navigateHome.canExecute = function () {
-        return this.canNavigateHome;
+        return true;
     };
 
     function navigateBack(distance) {
@@ -14085,6 +12455,7 @@ var msls_shell,
         screenObject,
         pageModelId,
         pageModel,
+        dataWorkspace = options.dataWorkspace,
         boundaryOption = options.boundaryOption;
 
         msls_mark(msls_codeMarkers.loadScreenStart);
@@ -14093,7 +12464,9 @@ var msls_shell,
             screenObject = options.screen;
         } else {
 
-            var dataWorkspace = me.activeNavigationUnit ? me.activeNavigationUnit.screen.details.dataWorkspace : null;
+            if (!dataWorkspace) {
+                dataWorkspace = me.activeNavigationUnit ? me.activeNavigationUnit.screen.details.dataWorkspace : null;
+            }
 
             _ScreenType = window.msls.application[options.screenDefinition.name];
 
@@ -14128,6 +12501,7 @@ var msls_shell,
 
             unit.contentItemTree = contentItemTree;
             unit.pageName = contentItemTree.name;
+            unit.requestedPageId = loadOptions.requestedPageId;
         } else {
             unit = new msls.NavigationUnit(me);
             var currentIndex = me.activeNavigationUnit ?
@@ -14142,6 +12516,7 @@ var msls_shell,
             unit.screen = screenObject;
             unit.contentItemTree = contentItemTree;
             unit.pageName = contentItemTree.name;
+            unit.requestedPageId = loadOptions.requestedPageId;
             unit.task = task;
             if (boundaryOption === msls_BoundaryOption.none) {
                 if (me.activeNavigationUnit) {
@@ -14185,6 +12560,7 @@ var msls_shell,
         screenDefinition: null,
         screen: null,
         pageName: null,
+        dataWorkspace: null,
         prepend: false,
         screenArguments: []
     };
@@ -14792,6 +13168,7 @@ var msls_shell,
                 me.finishNavigation()._thenEx(function (error) {
                     if (!error) {
                         msls_notify(msls_shell_activeNavigationUnitChangedNotification, me);
+                        me.shellView.completeNavigation(navigationUnit);
                     }
                 });
 
@@ -14903,10 +13280,6 @@ var msls_shell,
         var activeNavUnit;
         return !!(activeNavUnit = shellViewModel.activeNavigationUnit) &&
             activeNavUnit.task.home;
-    }
-
-    function _computeCanNavigateHome() {
-        return !isOnHomeScreen(this);
     }
 
     function _cleanUpNavigationStack(me) {
@@ -15092,7 +13465,6 @@ var msls_shell,
             canDiscardChanges: msls_computedProperty(_computeCanDiscardChanges),
             canApplyNestedChanges: msls_computedProperty(_computeCanApplyNestedChanges),
             canCancelNestedChanges: msls_computedProperty(_computeCanCancelNestedChanges),
-            canNavigateHome: msls_computedProperty(_computeCanNavigateHome),
 
             applyChanges: applyChanges,
             commitChanges: commitChanges,
@@ -15103,6 +13475,7 @@ var msls_shell,
             cancelNestedChanges: cancelNestedChanges,
 
             showScreen: showScreen,
+            showScreenWithParameterQueryStrings: showScreenWithParameterQueryStrings,
             showTab: showTab,
             showPopup: showPopup,
             closePopup: closePopup,
@@ -15113,6 +13486,7 @@ var msls_shell,
             openNavigationMenu: openNavigationMenu,
             hasNavigationMenu: hasNavigationMenu,
             getNavigationMenu: getNavigationMenu,
+            getHomeScreen: getHomeScreen,
 
             _requestNavigateBack: _requestNavigateBack,
             synchronizeAfterBrowserNavigation: synchronizeAfterBrowserNavigation,
@@ -15148,13 +13522,6 @@ var msls_shell,
     msls_shell = msls.shell;
 
     msls_expose("showProgress", function showProgress(promise) {
-        /// <summary>
-        /// Shows a progress indicator that visually blocks usage of
-        /// the application until a promise is resolved or rejected.
-        /// </summary>
-        /// <param name="promise" type="WinJS.Promise">
-        /// A promise object.
-        /// </param>
         if (promise) {
             msls_shell.shellView.showProgress(promise);
         }
@@ -15384,15 +13751,16 @@ var msls_createScreenLoaderArguments;
 
 
             var me = this,
-                propertyModel, queryModel, source, descriptors = [], sourceBinding;
+                propertyModel, queryModel, source, descriptors = [], sourceBinding,
+                entryData, associationEnds, fromEndName, bindingInfo;
 
             _ScreenCollectionPropertyLoader.call(me, screenDetails, entry);
 
             if (!!(propertyModel = getPropertyModel(me._screenDetails, me._entry)) &&
                 !!(queryModel = propertyModel.query) &&
                 !!(source = queryModel.source)) {
-                var info = msls_parseScreenRelativeExpression(source);
-                descriptors.push({ binding: info.lastObjectBindingPath });
+                bindingInfo = msls_parseScreenRelativeExpression(source);
+                descriptors.push({ binding: bindingInfo.lastObjectBindingPath });
             }
 
             sourceBinding = msls_createBoundArguments(screenDetails.screen, descriptors);
@@ -15404,6 +13772,36 @@ var msls_createScreenLoaderArguments;
             msls_addLifetimeDependency(me, sourceBinding);
 
             resetScreenNavigationPropertyLoader(me);
+
+            if (!!me._collectionProperty) {
+                entryData = me._collectionProperty._entry.data;
+                associationEnds = entryData.associationSet.ends;
+                fromEndName = entryData.model.fromEnd.name;
+                associationEnds.forEach(function associationEndsIterator(associationEnd) {
+                    if (associationEnd.name === fromEndName && !!associationEnd.properties) {
+                        associationEnd.properties.forEach(function propertiesIterator(propertyInfo) {
+                            if (!!propertyInfo.entityProperty) {
+                                var bindingDescriptor = [],
+                                    propertyName = propertyInfo.entityProperty.name,
+                                    binding;
+
+                                bindingDescriptor.push({ binding: bindingInfo.lastObjectBindingPath + "." + propertyName });
+                                binding = msls_createBoundArguments(screenDetails.screen, bindingDescriptor);
+                                binding.addChangeListener(null, function () {
+                                    var dataPropertyName = "__" + me._collectionProperty.name,
+                                        dataProperty = me._collectionProperty._details[dataPropertyName];
+
+                                    dataProperty.query = null;
+
+                                    handleArgumentsChanged(me);
+                                });
+                            }
+                        });
+
+                        return;
+                    }
+                });
+            }
         },
         _ScreenCollectionPropertyLoader, {
             _baseQuery: msls_accessorProperty(
@@ -15528,38 +13926,12 @@ var msls_createScreenLoaderArguments;
 
     msls_defineClass(_ScreenDetails, "Property",
         function Screen_Details_Property(details, entry) {
-            /// <summary>
-            /// Represents a screen property object.
-            /// </summary>
-            /// <param name="details" type="msls.Screen.Details">
-            /// The screen details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="owner" type="msls.Screen">
-            /// Gets the screen that owns this property.
-            /// </field>
-            /// <field name="screen" type="msls.Screen">
-            /// Gets the screen that owns this property.
-            /// </field>
             msls_BusinessObject_Details_Property.call(this, details, entry);
-            if (window.intellisense) {
-                if (!details) {
-                    this.owner = null;
-                }
-            }
             this.screen = this.owner;
         },
         msls_BusinessObject_Details_Property
     );
     _ScreenProperty = _ScreenDetails.Property;
-    msls_intellisense_setTypeProvider(
-        _ScreenProperty.prototype, "screen",
-        function (o) {
-            return o.screen.constructor;
-        }
-    );
 
     function getScreenPropertyValue() {
         return this._entry.get.call(this._details.owner);
@@ -15571,15 +13943,6 @@ var msls_createScreenLoaderArguments;
 
     msls_defineClass(_ScreenDetails, "LocalProperty",
         function Screen_Details_LocalProperty(details, entry) {
-            /// <summary>
-            /// Represents a local screen property object.
-            /// </summary>
-            /// <param name="details" type="msls.Screen.Details">
-            /// The screen details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
             _ScreenProperty.call(this, details, entry);
         },
         _ScreenProperty, {
@@ -15590,33 +13953,9 @@ var msls_createScreenLoaderArguments;
         }
     );
     _LocalProperty = _ScreenDetails.LocalProperty;
-    msls_intellisense_setTypeProvider(
-        _LocalProperty.prototype, "value",
-        function (o) {
-            return o.getPropertyType();
-        }
-    );
 
     msls_defineClass(_ScreenDetails, "RemoteProperty",
         function Screen_Details_RemoteProperty(details, entry) {
-            /// <summary>
-            /// Represents a remote screen property object.
-            /// </summary>
-            /// <param name="details" type="msls.Screen.Details">
-            /// The screen details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="isLoaded" type="Boolean">
-            /// Gets a value indicating if this property has been loaded.
-            /// </field>
-            /// <field name="loadError" type="String">
-            /// Gets the last load error, or null if no error occurred.
-            /// </field>
-            /// <field name="value" type="Object">
-            /// Gets the value of this property.
-            /// </field>
             _ScreenProperty.call(this, details, entry);
         },
         _ScreenProperty, {
@@ -15633,21 +13972,11 @@ var msls_createScreenLoaderArguments;
         }
     );
     _RemoteProperty = _ScreenDetails.RemoteProperty;
-    msls_intellisense_setTypeProvider(
-        _RemoteProperty.prototype, "value",
-        function (o) {
-            return o.getPropertyType();
-        }
-    );
 
     function loadRemoteProperty(
         me,
         data,
         initLoad) {
-        /// <param name="me" type="msls.Screen.Details.RemoteProperty" />
-        /// <param name="data" />
-        /// <param name="initLoad" type="Function" />
-        /// <returns type="WinJS.Promise" />
         var loadPromise = data._loadPromise;
 
         if (!loadPromise) {
@@ -15689,26 +14018,10 @@ var msls_createScreenLoaderArguments;
 
     msls_defineClass(_ScreenDetails, "ReferenceProperty",
         function Screen_Details_ReferenceProperty(details, entry) {
-            /// <summary>
-            /// Represents a screen reference property object.
-            /// </summary>
-            /// <param name="details" type="msls.Screen.Details">
-            /// The screen details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
             _RemoteProperty.call(this, details, entry);
         },
         _RemoteProperty, {
             load: function load() {
-                /// <summary>
-                /// Asynchronously loads the value of this property and returns
-                /// a promise that is fulfilled when the value has been loaded.
-                /// </summary>
-                /// <returns type="WinJS.Promise">
-                /// A promise that is fulfilled when the value has been loaded.
-                /// </returns>
                 var me = this,
                     details = me._details,
                     propertyName = me.name,
@@ -15749,9 +14062,6 @@ var msls_createScreenLoaderArguments;
                         operation.interleave();
                     }
                 );
-                if (window.intellisense) {
-                    loadPromise._$annotate(String, me.getPropertyType());
-                }
                 return loadPromise;
             }
         }
@@ -15770,10 +14080,6 @@ var msls_createScreenLoaderArguments;
         if (!value) {
             loader = createCollectionLoader(details, entry);
             value = data._value = new entry.type(details, loader);
-            if (window.intellisense) {
-                var collection = value;
-                collection._$fieldDoc$data.elementCtor = value._$entry.elementType;
-            }
 
             msls_addLifetimeDependency(value, loader);
             msls_addLifetimeDependency(details, value);
@@ -15784,37 +14090,17 @@ var msls_createScreenLoaderArguments;
 
     msls_defineClass(_ScreenDetails, "CollectionProperty",
         function Screen_Details_CollectionProperty(details, entry) {
-            /// <summary>
-            /// Represents a screen collection property object.
-            /// </summary>
-            /// <param name="details" type="msls.Screen.Details">
-            /// The screen details that owns this property.
-            /// </param>
-            /// <param name="entry">
-            /// The entry that describes this property.
-            /// </param>
-            /// <field name="value" type="msls.VisualCollection">
-            /// Gets the value of this property.
-            /// </field>
             _RemoteProperty.call(this, details, entry);
         },
         _RemoteProperty, {
             isReadOnly: msls_accessorProperty(
                 function isReadOnly_get() {
-                    /// <returns type="Boolean" />
                     return msls_EntitySet_isEntitySetReadOnly(
                             this._details.dataWorkspace,
                             this._entry.elementType);
                 }
             ),
             load: function load() {
-                /// <summary>
-                /// Asynchronously loads the value of this property and returns
-                /// a promise that is fulfilled when the value has been loaded.
-                /// </summary>
-                /// <returns type="WinJS.Promise">
-                /// A promise that is fulfilled when the value has been loaded.
-                /// </returns>
                 var me = this,
                     details = me._details,
                     data = details._propertyData[me.name],
@@ -15848,34 +14134,11 @@ var msls_createScreenLoaderArguments;
                         }
                     }
                 );
-                if (window.intellisense) {
-                    loadPromise._$annotate(function () {
-                        /// <returns type="String" />
-                    }, function () {
-                        var result = new (me._entry.type)(),
-                            fieldDoc, collection;
-                        if (result instanceof msls.VisualCollection) {
-                            collection = result;
-                            collection._$fieldDoc$data.elementCtor = collection._$entry.elementType;
-                        }
-                        return result;
-                    }, true);
-                }
                 return loadPromise;
             }
         }
     );
     _CollectionProperty = _ScreenDetails.CollectionProperty;
-    if (window.intellisense) {
-        msls_mixIntoExistingClass(_CollectionProperty, {
-            value: msls_accessorProperty(
-                function value_get() {
-                    /// <returns type="msls.VisualCollection" />
-                    return getScreenPropertyValue.apply(this, arguments);
-                }
-            )
-        });
-    }
 
     function createCollectionLoader(screenDetails, entry) {
         if (entry.getNavigationProperty) {
@@ -15894,21 +14157,9 @@ var msls_createScreenLoaderArguments;
         _VisualCollectionState;
 
     msls_defineEnum(_VisualCollection, {
-        /// <field>
-        /// Specifies the state of a visual collection.
-        /// </field>
         State: {
-            /// <field type="String">
-            /// Specifies that the collection is not currently loading data.
-            /// </field>
             idle: "idle",
-            /// <field type="String">
-            /// Specifies that the visual collection is currently loading data.
-            /// </field>
             loading: "loading",
-            /// <field type="String">
-            /// Specifies that the visual collection is currently loading more data.
-            /// </field>
             loadingMore: "loadingMore"
         }
     });
@@ -15918,14 +14169,11 @@ var msls_createScreenLoaderArguments;
         var me = visualCollection;
 
         me.screen = screenDetails ? screenDetails.owner : null;
-        if (window.intellisense) {
-            if (!me.screen && !!me._$screenClass) {
-                me.screen = new me._$screenClass();
-            }
-        }
         msls_setProperty(me, "_loader", loader);
         msls_setProperty(me, "_data", []);
         msls_setProperty(me, "_deferredEvents", []);
+        msls_setProperty(me, "_search", null);
+        msls_setProperty(me, "_enableSearch", false);
 
         loader.subscribe(function (action, item) {
             onLoaderCollectionChange(me, action, item);
@@ -16057,9 +14305,6 @@ var msls_createScreenLoaderArguments;
 
             resetAndLoadNext(me);
         }, independent);
-        if (window.intellisense) {
-            loadPromise._$annotate(String, Number);
-        }
 
         if (operationInitialized && !me._loadOperation) {
             me._loadPromise = null;
@@ -16071,31 +14316,10 @@ var msls_createScreenLoaderArguments;
     }
 
     function load(independent) {
-        /// <summary>
-        /// Asynchronously loads the first page of items into this collection and
-        /// returns a promise that will be fulfilled when the first page is loaded.
-        /// </summary>
-        /// <param name="independent" type="Boolean" optional="true">
-        /// Specifies that the load operation should run independent of any
-        /// ambient operation, that is, the ambient operation will not be
-        /// registered as dependent on the newly initiated load operation.
-        /// </param>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the first page is loaded.
-        /// </returns>
         return loadCore(this, independent);
     }
 
     function refresh() {
-        /// <summary>
-        /// Asynchronously loads the first page of items into this collection and
-        /// returns a promise that will be fulfilled when the first page is loaded.
-        /// Existing results will be refreshed on the first page and subsequent
-        /// pages unless load() is called again.
-        /// </summary>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the first page is loaded.
-        /// </returns>
         return loadCore(this, false, msls_MergeOption.unchangedOnly);
     }
 
@@ -16165,18 +14389,6 @@ var msls_createScreenLoaderArguments;
     }
 
     function loadMore(independent) {
-        /// <summary>
-        /// Asynchronously loads an additional page of items into this collection
-        /// and returns a promise that will be fulfilled when the page is loaded.
-        /// </summary>
-        /// <param name="independent" type="Boolean" optional="true">
-        /// Specifies that the load operation should run independent of any
-        /// ambient operation, that is, the ambient operation will not be
-        /// registered as dependent on the newly initiated load operation.
-        /// </param>
-        /// <returns type="WinJS.Promise">
-        /// A promise that is fulfilled when the additional page of items is loaded.
-        /// </returns>
         var me = this,
             loadMorePromise = me._loadMorePromise,
             eventsPublished, operationInitialized;
@@ -16234,23 +14446,6 @@ var msls_createScreenLoaderArguments;
             });
             operation.interleave();
         }, independent);
-        if (window.intellisense) {
-            loadMorePromise._$annotate(function () {
-                /// <returns type="String" />
-            }, function () {
-                function LoadMoreResult() {
-                    /// <field name="startIndex" type="Number">
-                    /// Gets the starting index in the collection of the loaded items.
-                    /// </field>
-                    /// <field name="items" type="Array">
-                    /// Gets the array of loaded items.
-                    /// </field>
-                }
-                var result = new LoadMoreResult();
-                result._$fieldDoc$items.elementCtor = me._$entry.elementType;
-                return result;
-            }, true);
-        }
 
         if (operationInitialized && !me._loadMoreOperation) {
             me._loadMorePromise = null;
@@ -16310,17 +14505,8 @@ var msls_createScreenLoaderArguments;
     }
 
     function addNew() {
-        /// <summary>
-        /// Adds a new item to this visual collection.
-        /// </summary>
-        /// <returns type="msls.Entity" />
         var newItem = this._loader.addNewItem();
         this.selectedItem = newItem;
-        if (window.intellisense) {
-            if (!!this._$entry && !!this._$entry.elementType) {
-                newItem = new this._$entry.elementType();
-            }
-        }
         return newItem;
     }
     addNew.canExecute = function addNew_canExecute() {
@@ -16334,9 +14520,6 @@ var msls_createScreenLoaderArguments;
     };
 
     function deleteSelected() {
-        /// <summary>
-        /// Deletes the currently selected item.
-        /// </summary>
         var selectedItem = this.selectedItem;
         if (selectedItem) {
             this._loader.deleteItem(selectedItem);
@@ -16355,6 +14538,45 @@ var msls_createScreenLoaderArguments;
             (entityDetails.entityState === _EntityState.added || !!entitySet.canDelete);
     };
 
+    function showSearch() {
+        this.enableSearch = true;
+    }
+    showSearch.canExecute = function showSearch_canExecute() {
+        if (!!this.screen && !!this.screen.details && !!this.screen.details.dataWorkspace && !!this._loader && !!this._loader._entry && !!this._loader._entry.elementType) {
+            var modelItem = msls_EntitySet_getEntitySetForEntityType(this.screen.details.dataWorkspace, this._loader._entry.elementType)._model.entityType;
+            if (!!modelItem && !!msls_getAttribute(modelItem, ":@NotSearchable")) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    function getDefaultViewScreen(entity) {
+        var entitySetModel = entity.details.entitySet.getModel();
+        return msls_getAttribute(entitySetModel.entityType, ":@DefaultScreen");
+    }
+
+    function viewSelected() {
+
+        var selectedItem = this.selectedItem,
+            defaultScreenAttribute = getDefaultViewScreen(selectedItem);
+
+        return msls_promiseOperation(function initFinishNavigation(operation) {
+            if (!!defaultScreenAttribute) {
+                msls_shell.showScreen(defaultScreenAttribute.value.id, [selectedItem]);
+                operation.complete();
+            }
+
+            operation.error("Navigation to default screen failed. No default screen exists for selected item.");
+        });
+    }
+    viewSelected.canExecute = function viewSelected_canExecute() {
+        var selectedItem = this.selectedItem;
+
+        return !!selectedItem && !!getDefaultViewScreen(selectedItem);
+    };
+
     msls_mixIntoExistingClass(_VisualCollection, {
         _deferEvents: false,
         _isLoaded: false,
@@ -16363,27 +14585,46 @@ var msls_createScreenLoaderArguments;
         canLoadMore: msls_observableProperty(
             null,
             function canLoadMore_get() {
-                /// <returns type="Boolean" />
                 return !this._loadPromise && this._loader.canLoadNext;
             }
         ),
         data: msls_accessorProperty(
             function data_get() {
-                if (window.intellisense) {
-                    return null;
-                }
                 return this._data.slice(0);
             }
         ),
         count: msls_observableProperty(null,
             function count_get() {
-                /// <returns type="Number" />
                 return this._data.length;
+            }
+        ),
+        search: msls_observableProperty(null,
+            function search_get() {
+                return this._search;
+            },
+            function search_set(value) {
+                if (this._search !== value) {
+                    this._search = value;
+                    this._loader._search = value;
+                    onLoaderInvalidated(this);
+                }
+            }
+        ),
+        enableSearch: msls_observableProperty(null,
+            function enableSearch_get() {
+                return this._enableSearch;
+            },
+            function enableSearch_set(value) {
+                if (!value) {
+                    this.search = null;
+                }
+                var fieldName = "_enableSearch";
+                this[fieldName] = value;
+                publishEvent(this, "change", "enableSearch");
             }
         ),
         isLoaded: msls_observableProperty(null,
             function isLoaded_get() {
-                /// <returns type="Boolean" />
                 return this._isLoaded;
             }
         ),
@@ -16400,7 +14641,6 @@ var msls_createScreenLoaderArguments;
         ),
         loadError: msls_observableProperty(null,
             function loadError_get() {
-                /// <returns type="String" />
                 return this._loadError;
             }
         ),
@@ -16411,6 +14651,8 @@ var msls_createScreenLoaderArguments;
         refresh: refresh,
         addNew: addNew,
         deleteSelected: deleteSelected,
+        showSearch: showSearch,
+        viewSelected: viewSelected,
         _onDispose:  function _onDispose() {
             var me = this,
                 loader = me._loader;
@@ -16421,26 +14663,18 @@ var msls_createScreenLoaderArguments;
             me.screen = null;
             me._data = [];
         },
+        setOrderBy: function setOrderBy(orderBy) {
+            var me = this,
+                loader = me._loader;
+            loader.setOrderBy(orderBy);
+        },
 
         collectionchange: msls_event()
     });
-    msls_intellisense_setTypeProvider(
-        _VisualCollection.prototype, "selectedItem",
-        function (o) {
-            return o._$entry ? o._$entry.elementType : null;
-        }
-    );
 
     msls_makeVisualCollection =
     function makeVisualCollection(screenClass, entry) {
         var visualCollectionClass = _VisualCollection;
-        visualCollectionClass = function VisualCollection(screenDetails, loader) {
-            _VisualCollection.call(this, screenDetails, loader);
-        };
-        msls_defineClass(null, null, visualCollectionClass, _VisualCollection, {
-            _$screenClass: screenClass,
-            _$entry: entry
-        });
         return visualCollectionClass;
     };
 
@@ -16540,6 +14774,7 @@ var
 
     msls_background_page = "msls-background-page",
     msls_control_header = "msls-control-header",
+    msls_control_search = "msls-control-search",
     msls_dialog = "msls-dialog",
     msls_id_animation_timekeeper = "msls-id-animation-timekeeper",
     msls_logo = "msls-logo",
@@ -16582,17 +14817,8 @@ var msls_application,
         isPhoneDevice;
 
     msls_defineEnum(msls, {
-        /// <field>
-        /// Specifies the level of animation that occurs during transitions.
-        /// </field>
         TransitionAnimationLevel: {
-            /// <field type="String">
-            /// Use full transition animations.
-            /// </field>
             full: "Full",
-            /// <field type="String">
-            /// Use simpler transition animations that are less processor or power intensive.
-            /// </field>
             simple: "Simple"
         }
     });
@@ -16619,35 +14845,8 @@ var msls_application,
         (isAndroidDevice || !!navigator.userAgent.match(/Opera/)) ?
         msls_TransitionAnimationLevel.simple : msls_TransitionAnimationLevel.full;
 
-    if (window.intellisense) {
-        intellisense.annotate(msls_appOptions, {
-            /// <field type="Boolean">
-            /// Indicates whether to use an independent scroll region inside of modal views
-            /// such as dialogs and pickers.<br/>
-            /// If not enabled, these modal views will expand to their full size, allowing
-            /// the end user to scroll the main browser window to see their full
-            /// content, which works better with some devices.
-            /// </field>
-            enableModalScrollRegions: null,
-            /// <field type="Boolean">
-            /// Indicates whether the background screen behind a dialog should be visible.<br/>
-            /// This has no effect on a small device because a dialog always uses the whole display.
-            /// Hiding the background screen on a larger device may improve performance.
-            /// </field>
-            showContentBehindDialog: null,
-            /// <field type="String">
-            /// Specifies the level of animation that occurs during transitions.<br/>
-            /// A simple animation can be used on some devices to improve the performance.
-            /// </field>
-            transitionAnimationLevel: null
-        });
-    }
 
     function navigateHome() {
-        /// <summary>
-        /// Asynchronously navigates forward to the home screen.
-        /// </summary>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.navigateHome();
     }
     navigateHome.canExecute = function navigateHome_canExecute() {
@@ -16655,26 +14854,6 @@ var msls_application,
     };
 
     function showScreen(screenId, parameters, options) {
-        /// <summary>
-        /// Asynchronously navigates forward to a specific screen.
-        /// </summary>
-        /// <param name="screenId">
-        /// The modeled name of a screen or the
-        /// model item that defines a screen.
-        /// </param>
-        /// <param name="parameters" type="Array" optional="true">
-        /// An array of screen parameters, if applicable.
-        /// </param>
-        /// <param name="options" optional="true">
-        /// An object that provides one or more of the following options:
-        /// <br/>- beforeShown: a function that is called after boundary
-        ///          behavior has been applied but before the screen is shown.
-        /// <br/>+ Signature: beforeShown(screen)
-        /// <br/>- afterClosed: a function that is called after boundary
-        ///          behavior has been applied and the screen has been closed.
-        /// <br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
-        /// </param>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.showScreen(
             screenId, parameters, null, false,
             options ? options.beforeShown : null,
@@ -16682,47 +14861,24 @@ var msls_application,
     }
 
     function applyChanges() {
-        /// <summary>
-        /// Asynchronously applies any pending changes by merging
-        /// nested changes into the parent change set or saving
-        /// top-level changes, and stays on the current page.
-        /// </summary>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.applyChanges();
     }
 
     function commitChanges() {
-        /// <summary>
-        /// Asynchronously commits any pending changes by merging
-        /// nested changes into the parent change set or saving
-        /// top-level changes, then navigates back to the previous page.
-        /// </summary>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.commitChanges();
     }
 
     function cancelChanges() {
-        /// <summary>
-        /// Asynchronously cancels any pending changes
-        /// then navigates back to the previous page.
-        /// </summary>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.cancelChanges();
     }
 
     function navigateBack() {
-        /// <summary>
-        /// Prompts the user to commit or cancel any pending changes, or to stay on the
-        /// current page, then if not the latter, navigates back to the previous page.
-        /// </summary>
-        /// <returns type="WinJS.Promise" />
         return msls_shell.navigateBack();
     }
 
     msls_addToInternalNamespace("application", {
         activeDataWorkspace: msls_accessorProperty(
             function activeDataWorkspace_get() {
-                /// <returns type="msls.application.DataWorkspace" />
                 var unit = msls_shell.activeNavigationUnit;
                 if (!unit) {
                     unit = msls_shell.navigationStack[0];
@@ -16746,19 +14902,6 @@ var msls_application,
                 }
                 WinJS.Utilities.eventMixin.addEventListener
                     .call(me, "savechanges", value);
-                if (window.intellisense) {
-                    msls_setTimeout(function () {
-                        WinJS.Utilities.eventMixin.dispatchEvent
-                            .call(me, "savechanges", {
-                                /// <field type="WinJS.Promise">
-                                /// Gets or sets the promise object that
-                                /// represents the saving of changes to
-                                /// the active data workspace.
-                                /// </field>
-                                promise: null
-                            });
-                    }, 0);
-                }
             }
         ),
         commitChanges: commitChanges,
@@ -16766,48 +14909,6 @@ var msls_application,
         navigateBack: navigateBack
     });
     msls_application = msls.application;
-    if (window.intellisense) {
-        intellisense.annotate(msls_application, {
-            /// <field type="msls.application.DataWorkspace">
-            /// Gets the active data workspace.
-            /// </field>
-            activeDataWorkspace: null,
-            /// <field type="String">
-            /// Gets the root URI for the entire LightSwitch application. This
-            /// is one level above the URI of the active client, and represents
-            /// the location of the LightSwitch data service .svc files.
-            /// </field>
-            rootUri: null,
-            /// <field>
-            /// Gets options that affect the LightSwitch application.<br/>
-            /// Options must be set in default.htm, before calling msls._run.
-            /// </field>
-            options: msls_appOptions,
-            /// <field type="Function">
-            /// Gets or sets a handler for the save event, which is called when
-            /// the application wants to save changes to the data workspace.
-            /// <br/><br/>
-            /// The handler should use the active data workspace to access and
-            /// save changes to each data service that has changes, in an
-            /// appropriate order and with appropriate error handling. The
-            /// promise objects produced by the save operations should be
-            /// combined into a single promise object and set as the value of
-            /// the "promise" property on the event detail object. If errors
-            /// occur while saving one or more data services, the combined
-            /// promise error object should be an array that concatenates all
-            /// of the server errors returned by each individual data service.
-            /// <br/><br/>
-            /// If the "promise" property is not set, the LightSwitch runtime
-            /// will apply default behavior as follows. If there are no changes
-            /// to any data services, nothing will happen. If there are changes
-            /// to a single data service, these changes will be saved. In all
-            /// other cases, an error message will be shown to the user stating
-            /// that changes to multiple data services cannot be saved.
-            /// </field>
-            onsavechanges: null
-        });
-        msls_application._$field$onsavechanges$kind = "event";
-    }
 
     msls_dispatchApplicationSaveChangesEvent =
     function dispatchApplicationSaveChangesEvent() {
@@ -16831,13 +14932,6 @@ var msls_application,
     });
 
     function run(homeScreenId) {
-        /// <summary>
-        /// Asynchronously runs the LightSwitch application.
-        /// </summary>
-        /// <param name="homeScreenId" type="String" optional="true">
-        /// The modeled name of an alternative home screen.
-        /// </param>
-        /// <returns type="WinJS.Promise" />
         msls_flushSuspendedCodeMarkers();
         if (!!window.performance && !!window.performance.timing.domContentLoadedEventStart) {
             msls_mark(msls_codeMarkers.applicationDomLoaded, new Date(window.performance.timing.domContentLoadedEventStart));
@@ -16893,17 +14987,6 @@ var msls_application,
     }
 
     msls_expose("application", Object.create(msls_application));
-    msls_intellisense_addTypeNameResolver(
-        function resolveApplicationTypeName(type) {
-            var application = window.msls.application, typeName;
-            for (typeName in application) {
-                if (application[typeName] === type) {
-                    return "msls.application." + typeName;
-                }
-            }
-            return null;
-        }
-    );
 
     msls_expose("_run", run);
     msls_expose("TransitionAnimationLevel", msls_TransitionAnimationLevel);
@@ -16914,9 +14997,7 @@ var msls_templateStrings = {
 "taskHeaderTemplate":
     '<div class="msls-header-area">' +
         '<div class="titles-bar">' +
-            '<div class="msls-logo-back-area">' +
-               ' LOGO-BACK-PLACEHOLDER' +
-            '</div>' +
+           ' LOGO-BACK-PLACEHOLDER' +
             '<div class="msls-buttons-row msls-screen-buttons">' +
                ' BUTTONS-PLACEHOLDER' +
            ' LOGOUT-PLACEHOLDER' +
@@ -16931,18 +15012,20 @@ var msls_templateStrings = {
     '</div>',
 
 "screenLogoTemplate":
-    '<div class="msls-logo">' +
-        '<a href="HOMESCREEN-PLACEHOLDER" target="_top">' +
-            '<img src="Content/Images/user-logo.png" />' +
-        '</a>' +
+    '<div class="msls-logo-back-area">' +
+        '<div class="msls-logo">' +
+            '<a href="HOMESCREEN-PLACEHOLDER" target="_top">' +
+                '<img src="Content/Images/user-logo.png" />' +
+            '</a>' +
+        '</div>' +
     '</div>',
 
-"screenBackTemplate":
+"screenHomeTemplate":
     '<div class="msls-back-button-contain">' +
-        '<div class="subControl msls-back-button msls-large-icon" control="ShellButton" tabindex="0" data-icon="msls-back"' +
-           ' data-iconpos="notext" data-role="button" data-ls-content="content:{data.shell.backCommand.displayName}"' +
+        '<div class="subControl msls-home-button msls-large-icon" control="ShellButton" tabindex="0" data-icon="msls-home"' +
+           ' data-iconpos="notext" data-role="button" data-ls-content="content:{data.shell.homeCommand.displayName}"' +
            ' data-ls-isenabled="isEnabled:{tap.canExecute}"' +
-           ' data-ls-tap="tap:{data.shell.backCommand.command}">' +
+           ' data-ls-tap="tap:{data.shell.homeCommand.command}">' +
         '</div>' +
     '</div>',
 
@@ -17047,7 +15130,7 @@ var msls_templateStrings = {
 "screenFooterTemplate":
     '<div class="msls-footer" data-role="footer" data-position="fixed" data-track-persistent-toolbars="false"' +
        ' data-update-page-padding="false"' +
-       ' data-tap-toggle-blacklist="a, button, input, select, textarea, .ui-header-fixed, .ui-footer-fixed, .ui-popup, li, tr">' +
+       ' data-tap-toggle="false" >' +
     '</div>',
 
 "dialogFooterTemplate":
@@ -17108,7 +15191,11 @@ var SP,
     var hostUrl = msls_getClientParameter("SPHostUrl"),
         appWebUrl = msls_getClientParameter("SPAppWebUrl"),
         serverUrl, chromeColors = msls_getClientParameter("SPChromeColors"),
+        cachedIcons = [],
+        pendingIconRequests = [],
         chromeBackgroundColor, chromeLinkFontColor,
+        sharePointLayoutsRelativeUrl = "/_layouts/15/",
+        sharePointImagesUrl = hostUrl + sharePointLayoutsRelativeUrl + "images/",
         scriptBase, suffix, promise,
         queryPromise;
 
@@ -17127,7 +15214,7 @@ var SP,
         chromeLinkFontColor = chromeColors.substring(10, 16);
     }
 
-    scriptBase = appWebUrl + "/_layouts/15/";
+    scriptBase = appWebUrl + sharePointLayoutsRelativeUrl;
     $("script[type='text/javascript']").each(function () {
         var src = $(this).attr("src"),
             srcLower = src ? src.toLowerCase() : "";
@@ -17180,33 +15267,163 @@ var SP,
             msls_sharepoint.context = context;
             msls_sharepoint.hostWeb = new SP.AppContextSite(context, hostUrl).get_web();
             msls_sharepoint.appWeb = new SP.AppContextSite(context, appWebUrl).get_web();
+            msls_sharepoint.executor = new SP.RequestExecutor(appWebUrl);
         })
         .always(function () {
             msls_mark(msls_codeMarkers.loadSharePointEnd);
         });
 
-    var gifIconExtensions = {
-        doc: true,
-        ppt: true,
-        xls: true,
-        eml: true,
-        dot: true,
-        txt: true,
-        htm: true,
-        jpg: true,
-        png: true,
-        gif: true,
-        zip: true,
-        xps: true
-    };
-    var pngIconExtensions = {
-        docx: true,
-        pptx: true,
-        xlsx: true,
-        one: true,
-        dotx: true,
-        pdf: true
-    };
+    function openDocument(documentUrl) {
+        var opened = false,
+            plugin;
+
+        plugin = getPluginForBrowser();
+        if (!!plugin) {
+            try {
+                opened = plugin.ViewDocument(documentUrl);
+            } catch (e) {
+            }
+        }
+
+        if (!opened) {
+            try {
+                window.location.href = documentUrl + "?Web=1";
+            } catch (e) {
+            }
+        }
+    }
+
+    function getPluginForBrowser() {
+        var opened = false,
+            openDocumentActivexControl,
+            userAgent = navigator.userAgent.toLowerCase(),
+            appVersion = navigator.appVersion.toLowerCase(),
+            npapiPluginName = "application/x-sharepoint",
+            macPluginName = "application/x-sharepoint-webkit",
+            browserIs = {
+                activeXEnabled: !!window.ActiveXObject,
+                chrome: userAgent.indexOf("chrome") !== -1,
+                firefox: userAgent.indexOf("firefox") !== -1,
+                safari: userAgent.indexOf("webkit") !== -1,
+                windows: appVersion.indexOf("win") !== -1,
+                mac: appVersion.indexOf("mac") !== -1
+            }, plugin;
+
+        if (browserIs.activeXEnabled) {
+            try {
+                plugin = new ActiveXObject("SharePoint.OpenDocuments.5");
+            } catch (e) {
+                try {
+                    plugin = new ActiveXObject("SharePoint.OpenDocuments.4");
+                } catch (e) {
+                }
+            }
+        } else if (browserIs.windows &&
+            (browserIs.firefox || browserIs.chrome) &&
+            isPluginEnabled(npapiPluginName)) {
+            plugin = getPlugin(npapiPluginName);
+        } else if (browserIs.mac &&
+            (browserIs.firefox || browserIs.safari) &&
+            isPluginEnabled(macPluginName)) {
+            plugin = getPlugin(macPluginName);
+        }
+
+        return plugin;
+    }
+
+    function isPluginEnabled(pluginName) {
+
+        return !!navigator.mimeTypes && !!navigator.mimeTypes[pluginName] && navigator.mimeTypes[pluginName].enabledPlugin;
+    }
+
+    function getPlugin(pluginName) {
+        var pluginElement = document.getElementById(pluginName);
+
+        if (!pluginElement) {
+            pluginElement = document.createElement("object");
+            pluginElement.id = pluginName;
+            pluginElement.type = pluginName;
+            pluginElement.width = "0";
+            pluginElement.height = "0";
+            pluginElement.style.setProperty("visibility", "hidden", "");
+
+            $("body").append(pluginElement);
+        }
+
+        return pluginElement;
+    }
+
+    function getFileExtension(fileName) {
+        if (!fileName) {
+            return "";
+        }
+
+        var extension = fileName.split(".");
+
+        if (extension.length === 1) {
+            return "";
+        } else {
+            return extension.pop().toLowerCase();
+        }
+    }
+
+    function requestFileIconUrl(msls_sharepoint, fileExtension) {
+        var deferred = $.Deferred();
+
+        msls_sharepoint.ready(function onDependenciesReady() {
+            var iconName = msls_sharepoint.appWeb.mapToIcon("." + fileExtension, "", SP.Utilities.IconSize.size32);
+
+            msls_sharepoint.context.executeQueryAsync(function () {
+                var img = new Image(),
+                    iconUrl = sharePointImagesUrl + iconName.get_value();
+
+                function onImageLoaded(e) {
+                    if (e.type !== "load") {
+                        iconUrl = msls_sharepoint.getDefaultFileIcon();
+                    }
+
+                    cachedIcons[fileExtension] = iconUrl;
+
+                    deferred.resolve(iconUrl);
+                }
+
+                img.onload = onImageLoaded;
+                img.onerror = onImageLoaded;
+                img.src = iconUrl;
+            });
+        });
+
+        return deferred.promise();
+    }
+
+    function getFileIconUrl(fileName) {
+        var me = this,
+            deferred = $.Deferred(),
+            fileExtension = getFileExtension(fileName),
+            cachedIcon = cachedIcons[fileExtension];
+
+        if (!!cachedIcon) {
+            deferred.resolve(cachedIcon);
+        } else {
+            var pendingRequest = pendingIconRequests[fileExtension];
+
+            if (!pendingRequest) {
+                pendingRequest = requestFileIconUrl(me, fileExtension);
+
+                pendingIconRequests[fileExtension] = pendingRequest;
+            }
+
+            pendingRequest.then(deferred.resolve);
+        }
+
+        return deferred.promise();
+    }
+
+    function getDefaultFileIcon() {
+        var me = this;
+
+        return sharePointImagesUrl + "lg_icgen.gif";
+    }
 
     msls_sharepoint = {
         hostUrl: hostUrl,
@@ -17214,9 +15431,11 @@ var SP,
         serverUrl: serverUrl,
         chromeBackgroundColor: chromeBackgroundColor,
         chromeLinkFontColor: chromeLinkFontColor,
+        sharePointImagesUrl: sharePointImagesUrl,
         context: null,
         hostWeb: null,
         appWeb: null,
+        executor: null,
         ready: promise.then,
         process: function () {
             var me = this, context = me.context, deferred;
@@ -17241,19 +15460,10 @@ var SP,
             });
             return me.process();
         },
-        getIconUrl: function (extension) {
-            var prefix = this.serverUrl + "/_layouts/15/images/ic";
-            if (extension === "html") {
-                extension = "htm";
-            }
-            if (gifIconExtensions[extension]) {
-                return prefix + extension + ".gif";
-            } else if (pngIconExtensions[extension]) {
-                return prefix + extension + ".png";
-            } else {
-                return prefix + "gen.gif";
-            }
-        }
+        openDocument: openDocument,
+        getFileIconUrl: getFileIconUrl,
+        getDefaultFileIcon: getDefaultFileIcon,
+        getFileExtension: getFileExtension
     };
 
 }());
@@ -17268,7 +15478,8 @@ var msls_addOrRemoveClass,
     msls_handleContainerKeyboardNavigation,
     msls_updateContainerFocusItem,
     msls_restoreScrollPosition,
-    msls_addFocusStylingToElement;
+    msls_addFocusStylingToElement,
+    msls_ensureFocusedItemInView;
 
 (function () {
 
@@ -17349,7 +15560,9 @@ var msls_addOrRemoveClass,
 
     msls_setText =
     function setText($element, text) {
-        $element.empty();
+        if ($element.length) {
+            $element[0].innerHTML = "";
+        }
         if (text) {
             $element[0].appendChild(document.createTextNode(text));
         }
@@ -17529,10 +15742,47 @@ var msls_addOrRemoveClass,
     function restoreScrollPosition($container, scrollPosition) {
         if (scrollPosition > 0 && scrollPosition !== $container.scrollTop()) {
             msls_subscribeOnce(
-                msls_shell_activeNavigationUnitChangedNotification,
+                msls_shell_NavigationComplete,
                 function () {
                     $container.scrollTop(scrollPosition);
                 });
+        }
+    };
+
+    msls_ensureFocusedItemInView =
+    function ensureFocusedItemInView($focusedItem) {
+        var $activePage,
+            headerHeight,
+            footerHeight,
+            $window,
+            windowScrollTop,
+            shouldScroll,
+            focusedItemViewTop,
+            focusedItemViewOffset;
+
+        $activePage = $.mobile.activePage;
+        $window = $(window);
+        windowScrollTop = $window.scrollTop();
+        focusedItemViewTop = $focusedItem.offset().top - windowScrollTop;
+
+        headerHeight = $("div[data-role='header']", $activePage)
+            .outerHeight();
+        if (headerHeight) {
+            focusedItemViewOffset = focusedItemViewTop - headerHeight;
+            shouldScroll = focusedItemViewOffset < 0;
+        }
+        if (!shouldScroll) {
+            footerHeight = $("div[data-role='footer']", $activePage)
+                .outerHeight();
+            if (footerHeight) {
+                focusedItemViewOffset = $focusedItem.outerHeight() -
+                    ($window.height() - focusedItemViewTop -
+                    footerHeight);
+                shouldScroll = focusedItemViewOffset > 0;
+            }
+        }
+        if (shouldScroll) {
+            $window.scrollTop(windowScrollTop + focusedItemViewOffset);
         }
     };
 
@@ -17716,28 +15966,819 @@ var msls_updateLayout,
 
 (function () {
 
-    function updateLayout($rootNodes, isolated, skipIfAlreadyUpdated) {
-    }
+    var currentLayout = [],
+        currentLayoutIndex = 0,
+        queueHandle = null,
+        suspensionCount = 0,
+        isolatedNodeList = null,
+        nonIsolatedNodeList = null,
+        fullUpdateRequested = false,
+        forceUpdate = false,
+        layoutUpdating = false,
+        rootSelector = "body > div:not(.msls-layout-ignore):not(.ui-loader)",
+        lastWindowWidth = -1,
+        lastWindowHeight = -1,
+        verticalScrollSize = 0,
+        horizontalScrollSize = 0;
 
-     function updateLayoutImmediately($rootNodes, skipIfAlreadyUpdated) {
-    }
 
-    msls_updateLayout = updateLayout;
-    msls_updateLayoutImmediately = updateLayoutImmediately;
 
     msls_suspendLayout = function suspendLayout(keepLayoutQueue) {
+        suspensionCount++;
+        if (keepLayoutQueue) {
+            if (queueHandle !== null) {
+                msls_clearTimeout(queueHandle);
+                queueHandle = null;
+            }
+        } else {
+            _clearQueue();
+        }
     };
 
     msls_resumeLayout = function resumeLayout(queueUpdate) {
-
+        queueUpdate = typeof queueUpdate === "boolean" ? queueUpdate : true;
+        suspensionCount--;
+        if (queueUpdate) {
+            _queue();
+        }
     };
 
-    msls_getAvailableClientWidth = function getAvailableClientWidth(element) {
+    msls_updateLayoutImmediately = function ($rootNodes, skipIfAlreadyUpdated) {
+        nonIsolatedNodeList = $rootNodes ? $rootNodes : $(rootSelector);
+        forceUpdate = !skipIfAlreadyUpdated;
+        _invokeLayout();
     };
 
-    msls_getNodeWidth = function getNodeWidth(element) {
+    function _invokeLayout() {
+        var tempIsolatedNodes = isolatedNodeList,
+            tempFullUpdateRequested = fullUpdateRequested,
+            tempNonIsolatedNodes = nonIsolatedNodeList,
+            tempForceUpdate = forceUpdate,
+            $rootNodes;
+
+        _clearQueue(true);
+        if (tempFullUpdateRequested) {
+            $rootNodes = $(rootSelector);
+            updateLayoutCore($rootNodes, false, tempForceUpdate);
+        } else if (!!tempNonIsolatedNodes) {
+            updateLayoutCore(tempNonIsolatedNodes, false, tempForceUpdate);
+        }
+        if (!!tempIsolatedNodes) {
+            updateLayoutCore(tempIsolatedNodes, true, true);
+        }
+    }
+
+    var requestReceived = false;
+    function _queue() {
+        function _handleCallback() {
+            if (requestReceived) {
+                requestReceived = false;
+                queueHandle = msls_setTimeout(_handleCallback, 1);
+                return;
+            }
+
+            _invokeLayout();
+        }
+
+        if (queueHandle !== null) {
+            requestReceived = true;
+            return;
+        }
+
+        if (suspensionCount > 0) {
+            return;
+        }
+
+        queueHandle = msls_setTimeout(_handleCallback, 1);
+
+    }
+
+    function _clearQueue(clearIsolatedNodes) {
+
+        if (queueHandle !== null) {
+            msls_clearTimeout(queueHandle);
+            queueHandle = null;
+        }
+        requestReceived = false;
+        if (clearIsolatedNodes) {
+            isolatedNodeList = null;
+        }
+        nonIsolatedNodeList = null;
+        fullUpdateRequested = false;
+        forceUpdate = false;
+    }
+
+    msls_updateLayout =
+    function updateLayout($rootNodes, skipIfAlreadyUpdated) {
+        
+        if (layoutUpdating) {
+            return;
+        }
+
+        if (!$rootNodes) {
+            if (!fullUpdateRequested && suspensionCount === 0) {
+                fullUpdateRequested = true;
+                msls_mark(msls_codeMarkers.layoutFullRequest);
+            }
+        } else {
+            if ($rootNodes.first().closest(".msls-layout-ignore-children").length) {
+                isolatedNodeList = !isolatedNodeList ? $rootNodes : isolatedNodeList.add($rootNodes);
+                msls_mark(msls_codeMarkers.layoutPartialRequest);
+            } else if (!fullUpdateRequested) {
+                if (nonIsolatedNodeList) {
+                    if ($rootNodes.filter(nonIsolatedNodeList).length !== $rootNodes.length) {
+                        fullUpdateRequested = true;
+                        forceUpdate = true;
+                        msls_mark(msls_codeMarkers.layoutFullRequest);
+                    }
+                } else {
+                    nonIsolatedNodeList = $rootNodes;
+                    msls_mark(msls_codeMarkers.layoutPartialRequest);
+                }
+            }
+        }
+        if (!skipIfAlreadyUpdated) {
+            forceUpdate = true;
+        }
+
+        requestReceived = false;
+        _queue();
     };
 
+
+    function isLayoutRoot($node) {
+        return $node.length === 1 &&
+            ($node.hasClass("ui-page") || $node.hasClass("msls-tab-content"));
+    }
+
+    function isLayoutUpToDate($node) {
+        return isLayoutRoot($node) && $node.data("lastWindowWidth") === lastWindowWidth && $node.data("lastWindowHeight") === lastWindowHeight;
+    }
+
+    function markLayoutUpdated($node) {
+        if (isLayoutRoot($node)) {
+            $node.data("lastWindowWidth", lastWindowWidth);
+            $node.data("lastWindowHeight", lastWindowHeight);
+            if ($node.hasClass("ui-page")) {
+                var tabRoot = $node.find(".msls-tab-content.msls-tab-content-active");
+                tabRoot.data("lastWindowWidth", lastWindowWidth);
+                tabRoot.data("lastWindowHeight", lastWindowHeight);
+            }
+        }
+    }
+
+    function updateLayoutCore($rootNodes, isolated, force) {
+
+        if (suspensionCount > 0) {
+            return;
+        }
+        if (layoutUpdating) {
+            return;
+        }
+
+        if (isLayoutUpToDate($rootNodes)) {
+            if (!force) {
+                return;
+            }
+        } else {
+            markLayoutUpdated($rootNodes);
+        }
+
+        try {
+            layoutUpdating = true;
+            msls_mark(msls_codeMarkers.layoutStart);
+            msls_notify(msls_layout_updatingNotification, $rootNodes);
+
+            $rootNodes = $rootNodes.filter(":visible");
+
+            updateHeight($rootNodes, isolated);
+
+            var columnLayoutsNeedUpdate = getEligibleColumnLayoutNodes($rootNodes, isolated),
+                layoutPlan = getLayoutPlan(columnLayoutsNeedUpdate);
+
+            updateWidth(layoutPlan);
+            if (!isolated && verticalScrollSize !== 0) {
+                updateWidth(layoutPlan);
+            }
+            msls_mark(msls_codeMarkers.layoutEnd);
+            msls_notify(msls_layout_updatedNotification, $rootNodes);
+            msls_mark(msls_codeMarkers.layoutEndNotified);
+        } finally {
+            layoutUpdating = false;
+        }
+    }
+
+    function getLayoutPlan(layoutItems) {
+
+        var parentIndexList = [],
+            dependentCountList = [],
+            executionIndex = [],
+            executionPlan = [],
+            itemCount,
+            parentNode,
+            currentParentIndex,
+            i,
+            layerStart, layerEnd,
+            leftCount;
+
+
+        itemCount = layoutItems.length;
+        for (i = 0; i < itemCount; i++) {
+            layoutItems[i].msls_layout_index = i + 1;
+            parentIndexList[i] = -1;
+            dependentCountList[i] = 0;
+        }
+
+        for (i = itemCount - 1; i >= 0; i--) {
+            parentNode = layoutItems[i].parentNode;
+            while (parentNode) {
+                currentParentIndex = parentNode.msls_layout_index;
+                if (currentParentIndex) {
+                    parentIndexList[i] = --currentParentIndex;
+                    dependentCountList[currentParentIndex]++;
+                    break;
+                }
+                parentNode = parentNode.parentNode;
+            }
+            layoutItems[i].msls_layout_index = 0;
+        }
+
+        leftCount = itemCount;
+
+        layerStart = 0;
+        for (i = itemCount - 1; i >= 0; i--) {
+            if (dependentCountList[i] === 0) {
+                executionIndex.push(i);
+                leftCount--;
+            }
+        }
+
+        while (leftCount > 0) {
+            layerEnd = executionIndex.length;
+
+            if (layerEnd === layerStart) {
+                break;
+            }
+
+            executionIndex.push(-1);
+
+            for (i = layerStart; i < layerEnd; i++) {
+                currentParentIndex = parentIndexList[executionIndex[i]];
+                if (currentParentIndex >= 0) {
+                    if (--dependentCountList[currentParentIndex] === 0) {
+                        executionIndex.push(currentParentIndex);
+                        leftCount--;
+                    }
+                }
+            }
+
+            layerStart = layerEnd + 1;
+        }
+
+        for (i = executionIndex.length - 1; i >= 0; i--) {
+            executionPlan.push(executionIndex[i] >= 0 ? layoutItems[executionIndex[i]] : null);
+        }
+        executionPlan.push(null);
+        return executionPlan;
+    }
+
+    function executeChangeQueue(changeQueue) {
+        for (var i = 0; i < changeQueue.length; i++) {
+            changeQueue[i].call();
+        }
+    }
+
+    function updateHeight(rootNodes, isolated) {
+
+        var vStretchElements = rootNodes.filter(".msls-vstretch").add($(".msls-vstretch", rootNodes));
+        if (!isolated){
+            vStretchElements = vStretchElements.not(".msls-layout-ignore-children .msls-vstretch, .msls-columns-layout > .msls-vstretch");
+        }
+        vStretchElements = vStretchElements.filter(":visible");
+
+        $.each(vStretchElements, function () {
+            $(this.parentNode).data("msls-rows-updated", false);
+        });
+
+        var layoutPlan = getLayoutPlan(vStretchElements),
+            changeQueue = [];
+
+        layoutPlan.forEach(function (layoutNode) {
+
+            if (!layoutNode) {
+                executeChangeQueue(changeQueue);
+                changeQueue = [];
+                return;
+            }
+
+            var parentNode = layoutNode.parentNode,
+                totalSiblingsHeight = 0,
+                parentHeight,
+                totalAvailableHeight,
+                weightedTotal;
+
+            if (!!$(parentNode).data("msls-rows-updated")) {
+                return;
+            }
+
+            $.each(getVAutoNodes(parentNode), function () {
+                totalSiblingsHeight += getNodeHeight(this);
+            });
+
+            weightedTotal = 0.0;
+            parentHeight = getAvailableChildHeight(parentNode);
+            totalAvailableHeight = parentHeight - totalSiblingsHeight;
+            
+            var rows = $(parentNode).children(".msls-vstretch").filter(":visible");
+            $.each(rows, function () {
+                weightedTotal += getWeight(this);
+            });
+
+            arrangeRows(parentNode, rows, totalAvailableHeight, weightedTotal, changeQueue);
+            $(parentNode).data("msls-rows-updated", true);
+        });
+    }
+
+    function arrangeRows(parentNode, filteredRows, totalAvailableHeight, weightedTotal, changeQueue) {
+
+        $.each(filteredRows, function () {
+            var row = this,
+                node = $(this),
+                isParentVStretch, weight, computedStyle, minHeight,
+                desiredHeight, margin, padding, border, boxSizingMode,
+                isContentBox, isPaddingBox;
+
+            isParentVStretch = $(parentNode).hasClass("msls-columns-layout") || parentNode.tagName === "BODY";
+            weight = getWeight(this);
+            computedStyle = window.getComputedStyle(this);
+            minHeight = parseFloat(computedStyle.minHeight);
+            desiredHeight = totalAvailableHeight * (isParentVStretch ? 1 : (weight / weightedTotal));
+            margin = parseFloat(computedStyle.marginTop) + parseFloat(computedStyle.marginBottom);
+            padding = parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
+            border = parseFloat(computedStyle.borderTopWidth) + parseFloat(computedStyle.borderBottomWidth);
+
+            desiredHeight -= margin;
+
+            if (desiredHeight < 0) {
+                desiredHeight = 0;
+            }
+
+            if (desiredHeight < padding + border) {
+                desiredHeight = padding + border;
+            }
+
+            boxSizingMode = getBoxSizingMode(computedStyle);
+            isContentBox = boxSizingMode === "content-box";
+            isPaddingBox = boxSizingMode === "padding-box";
+
+            desiredHeight -= ((isPaddingBox || isContentBox) ? parseFloat(computedStyle.borderTopWidth) + parseFloat(computedStyle.borderBottomWidth) : 0) +
+                             (isContentBox ? parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom) : 0);
+            desiredHeight = Math.floor(desiredHeight);
+
+            var heightSetting = desiredHeight + "px";
+            if (row.style.height !== heightSetting) {
+                changeQueue.push(function () {
+                    row.style.height = heightSetting;
+
+                });
+            }
+        });
+    }
+
+    function getEligibleColumnLayoutNodes(rootNodes, isolated) {
+        var columnLayouts = rootNodes.filter(".msls-columns-layout:not(.msls-static-layout)")
+                                .add($(".msls-columns-layout:not(.msls-static-layout)", rootNodes)),
+            filteredColumnLayouts = [];
+
+        if (!isolated) {
+            columnLayouts = columnLayouts.not(".msls-layout-ignore-children .msls-columns-layout");
+        }
+        columnLayouts = columnLayouts.filter(":visible");
+
+        $.each(columnLayouts, function () {
+            var node = $(this);
+
+            if (!!node.children(".msls-hstretch").length || node.hasClass("msls-dynamic-padding")) {
+                filteredColumnLayouts.push(this);
+            }
+        });
+        return $(filteredColumnLayouts);
+    }
+
+    function updateWidth(columnLayouts) {
+        var changeQueue = [];
+
+        columnLayouts.forEach(function (layoutNode) {
+
+            if (!layoutNode) {
+                executeChangeQueue(changeQueue);
+                changeQueue = [];
+                return;
+            }
+
+            var node = $(layoutNode),
+                availableWidth = getAvailableChildWidth(layoutNode);
+
+
+            arrangeColumns(layoutNode, availableWidth, changeQueue);
+        });
+    }
+
+    function arrangeColumns(parentNode, parentWidth, changeQueue) {
+
+        var totalSiblingWidth = 0,
+            weight,
+            requiredWidth,
+            weightedTotal = 0,
+            totalAvailableWidth,
+            overflowColumns,
+            columns = [],
+            columnDetails,
+            rowData,
+            hasStretch = false,
+            allChildren = parentNode.children;
+
+        if (allChildren.length === 0) {
+            return;
+        }
+
+        $.each(allChildren, function () {
+            var node = $(this);
+            if (node.hasClass("msls-hauto")) {
+                requiredWidth = msls_getNodeWidth(this);
+                totalSiblingWidth += requiredWidth;
+                columns.push({
+                    element: this,
+                    isAuto: true,
+                    requiredWidth: requiredWidth
+                });
+            } else if (node.hasClass("msls-hstretch")) {
+                weight = getWeight(this);
+                weightedTotal += weight;
+                columns.push({
+                    element: this,
+                    isAuto: false,
+                    weight: weight
+                });
+                hasStretch = true;
+            }
+        });
+
+        if (hasStretch) {
+            totalAvailableWidth = parentWidth - totalSiblingWidth;
+            totalAvailableWidth = totalAvailableWidth > 0 ? totalAvailableWidth : 0;
+
+            columnDetails = [];
+            hasStretch = false;
+            overflowColumns = $(parentNode).hasClass("msls-overflow-columns");
+
+            $.each(columns, function (index) {
+                var element = this.element,
+                    node = $(element);
+
+                if (element.offsetWidth !== 0 || element.offsetHeight !== 0) {
+                    var computedStyle = window.getComputedStyle(element),
+                        margin = parseFloat(computedStyle.marginLeft) + parseFloat(computedStyle.marginRight),
+                        minWidth = 0;
+
+                    if (this.isAuto) {
+                        requiredWidth = this.requiredWidth;
+                    } else {
+                        weight = this.weight;
+                        requiredWidth = (totalAvailableWidth) * (weight / weightedTotal);
+                        minWidth = parseFloat(computedStyle.minWidth);
+                        if (overflowColumns && requiredWidth < minWidth) {
+                            requiredWidth = minWidth;
+                        }
+                        hasStretch = true;
+                    }
+                    this.totalWidth = Math.floor(requiredWidth + margin);
+
+                    columnDetails.push(this);
+                }
+            });
+
+            if (hasStretch) {
+                if (overflowColumns) {
+                    rowData = splitColumns(columnDetails, parentWidth);
+
+                    $.each(rowData, function () {
+                        fitColumnsIntoRow(this, parentWidth, overflowColumns, changeQueue);
+                    });
+                } else {
+                    $.each(columnDetails, function () {
+                        if (!this.isAuto) {
+                            setWidth(this.element, this.totalWidth, overflowColumns, changeQueue);
+                        }
+                    });
+                }
+            }
+        }
+        if ($(parentNode).hasClass("msls-dynamic-padding")) {
+            setColumnClasses(parentNode, changeQueue);
+        }
+    }
+
+    function splitColumns(columnsToSplit, rowWidth) {
+
+        var i = 0,
+            row = 0,
+            remainingWidth,
+            rowData = [];
+
+        while (i < columnsToSplit.length) {
+            remainingWidth = rowWidth;
+
+            var items = [];
+            do {
+                var column = columnsToSplit[i];
+
+                if (items.length === 0 || column.totalWidth <= remainingWidth) {
+                    items.push(column);
+                    remainingWidth -= column.totalWidth;
+                    i++;
+                } else {
+                    break;
+                }
+            } while (i < columnsToSplit.length);
+
+            rowData.push(items);
+            row++;
+        }
+
+        return rowData;
+    }
+
+    function fitColumnsIntoRow(columnsToFit, availableWidth, isOverflowing, changeQueue) {
+
+
+        var hstretchColumns = [],
+            totalAutoColumnWidth = 0,
+            totalStretchColumnWidth = 0,
+            totalWeight = 0,
+            netAvailableWidth = 0;
+
+        $.each(columnsToFit, function (columnIndex) {
+            var isFirst = columnIndex === 0,
+                isLast = columnIndex === columnsToFit.length - 1,
+                nextSibling = $(this.element.nextSibling);
+            if (this.isAuto) {
+                totalAutoColumnWidth += this.totalWidth;
+            } else {
+                totalStretchColumnWidth += this.totalWidth;
+                hstretchColumns.push(this);
+                totalWeight += this.weight;
+            }
+            if (nextSibling.hasClass("msls-hempty")) {
+                changeQueue.push(function () {
+                    msls_addOrRemoveClass(nextSibling, isLast, "msls-clear");
+                });
+            }
+        });
+
+        netAvailableWidth = availableWidth - totalAutoColumnWidth - totalStretchColumnWidth;
+
+        $.each(hstretchColumns, function () {
+            var idealWidth = (availableWidth - totalAutoColumnWidth) * (this.weight / totalWeight),
+                difference = idealWidth - this.totalWidth,
+                width = this.totalWidth;
+            difference = difference > netAvailableWidth ? netAvailableWidth : difference;
+            if (difference > 0) {
+                width += difference;
+                netAvailableWidth -= difference;
+            }
+            setWidth(this.element, width, isOverflowing, changeQueue);
+        });
+    }
+
+    function setColumnClasses(parentNode, changeQueue) {
+        var children = [],
+            rowIndexTotal = -1,
+            childrenData = [],
+            isOverflowing = false;
+
+        $(parentNode).children(":visible").each(function () {
+            var node = $(this);
+            if (node.hasClass("msls-hauto") || node.hasClass("msls-hstretch")) {
+                childrenData.push({
+                    element: this,
+                    offsetTop: this.offsetTop,
+                    rowIndex: 0,
+                    addClassString: "",
+                    removeClassString: ""
+                });
+            }
+        });
+
+        if (childrenData.length === 0) {
+            return;
+        }
+
+        isOverflowing = childrenData[0].offsetTop !== childrenData[childrenData.length - 1].offsetTop;
+        $.each(childrenData, function (index) {
+            if (isOverflowing) {
+                this.addClassString += " msls-overflow";
+            } else {
+                this.removeClassString += " msls-overflow";
+            }
+        });
+
+        changeQueue.push(function () {
+            $.each(childrenData, function () {
+                msls_addOrRemoveClass($(this.element), true, this.addClassString, this.removeClassString);
+            });
+        });
+    }
+
+    function getVAutoNodes(parentNode) {
+        var node = $(parentNode);
+
+        if (!node.hasClass("msls-columns-layout")) {
+            return node.children(".msls-vauto");
+        } else {
+            return [];
+        }
+    }
+
+    function getWeight(element) {
+        var weight,
+            weightRaw = $(element).attr("data-msls-weight");
+        if (weightRaw) {
+            weight = parseFloat(weightRaw);
+        } else {
+            weight = 1;
+        }
+        return weight;
+    }
+
+    function getNodeHeight(element) {
+        var result = 0,
+            margin = 0,
+            style = window.getComputedStyle(element),
+            styleHeight = parseFloat(style.height);
+        
+        result = element.offsetHeight + (isNaN(styleHeight) ? 0 : styleHeight - Math.round(styleHeight));
+
+        margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+        if (!isNaN(margin) && margin > 0) {
+            result += margin;
+        }
+
+        return Math.ceil(result);
+    }
+
+    msls_getNodeWidth =
+    function getNodeWidth(element) {
+
+        var result = 0,
+            margin = 0,
+            style = window.getComputedStyle(element),
+            styleWidth = parseFloat(style.width);
+
+        result = element.offsetWidth + (isNaN(styleWidth) ? 0 : styleWidth - Math.round(styleWidth));
+
+        margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+        if (!isNaN(margin) && margin > 0) {
+            result += margin;
+        }
+
+        return Math.ceil(result);
+    };
+
+
+    function getAvailableChildWidth(element) {
+
+        var result = 0,
+            style = window.getComputedStyle(element),
+            styleWidth = parseFloat(style.width);
+
+        result = element.clientWidth + (isNaN(styleWidth) ? 0 : styleWidth - Math.round(styleWidth));
+        result -= parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+
+        result = isNaN(result) ? 0 : result;
+        return Math.floor(result);
+    }
+    msls_getAvailableClientWidth = getAvailableChildWidth;
+
+
+    function getAvailableChildHeight(element) {
+
+        var result = 0,
+            style = window.getComputedStyle(element),
+            styleHeight = parseFloat(style.height);
+
+        result = element.clientHeight + (isNaN(styleHeight) ? 0 : styleHeight - Math.round(styleHeight));
+        result -= parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+
+        result = isNaN(result) ? 0 : result;
+        return Math.floor(result);
+    }
+
+    function setWidth(element, width, isOverflowing, changeQueue) {
+
+        var computedStyle = window.getComputedStyle(element),
+            resultingWidth = width,
+            minWidth = parseFloat(computedStyle.minWidth),
+            boxSizingMode = getBoxSizingMode(computedStyle),
+            isContentBox = boxSizingMode === "content-box",
+            isPaddingBox = boxSizingMode === "padding-box";
+
+        resultingWidth -= parseFloat(computedStyle.marginLeft) + parseFloat(computedStyle.marginRight) +
+            ((isPaddingBox || isContentBox) ? parseFloat(computedStyle.borderLeftWidth) + parseFloat(computedStyle.borderRightWidth) : 0) +
+            (isContentBox ? parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight) : 0);
+        resultingWidth = Math.floor(resultingWidth);
+
+        var widthSetting = resultingWidth + "px";
+        if (element.style.width !== widthSetting) {
+            changeQueue.push(function () {
+                element.style.width = widthSetting;
+            });
+        }
+        if (!isOverflowing && minWidth > resultingWidth) {
+            if (element.style.minWidth !== widthSetting) {
+                changeQueue.push(function () {
+                    element.style.minWidth = widthSetting;
+
+                });
+            }
+        }
+    }
+
+    function getBoxSizingMode(computedStyle) {
+        return computedStyle.boxSizing ||
+            computedStyle.MozBoxSizing ||
+            computedStyle.webkitBoxSizing;
+    }
+
+    function findAffectedSubtree(element) {
+
+        var current = element,
+            className,
+            verticalClosest,
+            horizontalClosest;
+
+        while (!!current && (!verticalClosest || !horizontalClosest)) {
+            if (current.tagName === "LI") {
+                verticalClosest = horizontalClosest = current;
+            } else {
+                className = (" " + current.className + " ").replace(/\s+/, " ");
+                if (!verticalClosest && (className.indexOf(" msls-vstretch ") >= 0 || className.indexOf(" msls-fixed-height ") >= 0)) {
+                    verticalClosest = current;
+                    horizontalClosest = horizontalClosest && current;
+                }
+                if (!horizontalClosest && (className.indexOf(" msls-hstretch ") >= 0 || className.indexOf(" msls-fixed-width ") >= 0)) {
+                    horizontalClosest = current;
+                    verticalClosest = verticalClosest && current;
+                }
+            }
+            current = current.parentNode;
+        }
+        current = horizontalClosest || verticalClosest;
+        if (!current) {
+            return null;
+        }
+        return $(current);
+    }
+
+    $(function () {
+        var $window = $(window);
+
+        lastWindowWidth = $window.width();
+        lastWindowHeight = $window.height();
+
+        window.addEventListener("resize", function () {
+            var width = $window.width(),
+                height = $window.height();
+            if (width !== lastWindowWidth || height !== lastWindowHeight) {
+                lastWindowWidth = width;
+                lastWindowHeight = height;
+                msls_updateLayout();
+            }
+        }, false);
+    });
+
+    function _calculateEffectiveScrollbarWidth() {
+        var $body = $("body"),
+            $div1 = $('<div style="height: 100px; width: 100px; visibility: hidden" class="msls-vscroll msls-hscroll"></div>').appendTo($body),
+            $div2 = $('<div style="height: 200px; width: 200px;"></div>').appendTo($div1);
+
+        msls_verticalScrollbarSize = verticalScrollSize = $div1[0].offsetHeight - $div1[0].clientHeight;
+        horizontalScrollSize = $div1[0].offsetWidth - $div1[0].clientWidth;
+        $div1.remove();
+    }
+
+    $(document).ready(function () {
+        _calculateEffectiveScrollbarWidth();
+        $("body").on("updatelayout", function (e) {
+            if (!!e.target && e.target.tagName === "UL") {
+                return;
+            }
+            var subtreeToUpdate = findAffectedSubtree(e.target);
+            if (subtreeToUpdate) {
+                msls_updateLayout(subtreeToUpdate);
+            }
+        });
+    });
 }());
 
 var
@@ -18006,9 +17047,16 @@ var
         for (i = 0; i < len && !!currentNode; i++) {
             index = templateItemPath[i];
             currentNode = currentNode.firstChild;
-            while (index > 0 && !!currentNode) {
+            while (currentNode) {
+                if (currentNode.tagName !== "B" || !$(currentNode).hasClass("ui-table-cell-label")) {
+                    index--;
+                }
+
+                if (index < 0) {
+                    break;
+                }
+
                 currentNode = currentNode.nextSibling;
-                index--;
             }
         }
 
@@ -18347,10 +17395,11 @@ var msls_setTextBoxMaxLength;
             }
 
 
-            me._element.text(me.content);
-
-            if (me._element.data("mobile-button")) {
+            if (me._element.hasClass("ui-btn")) {
+                msls_control_find(me._element, ".ui-btn-text").text(me.content);
                 me._element.trigger("refresh");
+            } else {
+                me._element.text(me.content);
             }
 
             me._initialized = true;
@@ -19623,16 +18672,6 @@ var msls_getAttachedLabelPosition,
     }
 
     function render_external(element, contentItem) {
-        /// <summary>
-        /// Renders the visualization of a content item inside a root HTML element.
-        /// </summary>
-        /// <param name="element" type="HTMLElement">
-        /// A root HTML element under which the
-        /// the content item visual is rendered.
-        /// </param>
-        /// <param name="contentItem" type="msls.ContentItem">
-        /// A content item that provides the view model for the visual elements.
-        /// </param>
         if (!element) {
             throw msls_getResourceString("render_invalid_arg_element");
         }
@@ -21142,173 +20181,184 @@ var msls_getAttachedLabelPosition,
 }());
 
 (function () {
-    var control_attachViewCore = msls.ui.Control.prototype._attachViewCore;
 
-    function DocumentEditor(view) {
-
+    function DocumentSummary(view) {
         msls.ui.Control.call(this, view);
     }
 
-    function _fillTemplate(view, contentItem, templateData) {
-        var template = "<div></div>",
-            element = $(template).appendTo(view);
+    function setDocumentIcon(control, iconUrl) {
+        control._iconUrl = iconUrl;
 
-        templateData.idElement = msls_getTemplateItemPath(view, element);
-    }
-
-    function _attachViewCore(templateData) {
-        control_attachViewCore.call(this, templateData);
-        this._docElement = msls_getTemplateItem(this.getView(), templateData.idElement, "[data-role='sharepointdoceditor']");
-        this._refreshView();
+        control._iconElement.attr("src", control._iconUrl);
     }
 
     function _refreshView() {
-    }
-
-    msls_defineClass("ui.controls", "DocumentEditor", DocumentEditor, msls.ui.Control, {
-        controlName: "DocumentEditor",
-
-        _refreshView: _refreshView,
-        _attachViewCore: _attachViewCore,
-
-        docId: msls_controlProperty(
-            function onDocIdChanged(value) {
-                this._refreshView();
-            }, null, true),
-    }, {
-        _fillTemplate: _fillTemplate,
-    });
-
-    msls.ui.controls.DocumentEditor.prototype._propertyMappings = {
-        stringValue: "docId",
-        properties: {
-            documentLibrary: "documentLibrary",
-            folderPath: "subPath"
-        }
-    };
-}());
-
-(function () {
-    var control_attachViewCore = msls.ui.Control.prototype._attachViewCore;
-
-    function DocumentViewer(view) {
-        msls.ui.Control.call(this, view);
-    }
-
-    function _refreshView() {
-        var me = this;
-        if (!!this._isViewCreated && !!msls_sharepoint) {
-            if (!me.docId || !me._documentLibrary || !me._folderPath) {
-                me._refreshUI();
-            } else {
-                msls_sharepoint.ready(function () {
-                    return me._refreshInternal();
-                });
-            }
-        }
-    }
-
-    function _fillTemplate(view, contentItem, templateData) {
-        view.html("<img style='display:none'></img><a class ='ui-link' href='' target='_blank'> </a><div class ='msls-error' style='display: none'></div>");
-        view.addClass("msls-spdoc-link");
-        templateData.imgElement = msls_getTemplateItemPath(view, view.find("img"));
-        templateData.linkElement = msls_getTemplateItemPath(view, view.find("a"));
-        templateData.errorElement = msls_getTemplateItemPath(view, view.find("div"));
-    }
-
-    function _refreshInternal() {
-        var me = this;
-
-        if (!me.docId || !me._documentLibrary || !me._folderPath) {
-            me._refreshUI();
-            return;
-        }
-
-        var docLib = msls_sharepoint.hostWeb.get_lists().getByTitle(me._documentLibrary),
-            docId = parseInt(me.docId, 10),
-            listItem = docLib.getItemById(docId),
-            file = listItem.get_file(),
-            lastModifiedBy = file.get_modifiedBy(),
-            author = file.get_author();
-
-        msls_sharepoint.load(docLib, listItem, file, lastModifiedBy, author).then(function () {
-            me._docInfo = {
-                name: file.get_name(),
-                id: docId,
-                relativeUrl: file.get_serverRelativeUrl(),
-                url: msls_sharepoint.serverUrl + file.get_serverRelativeUrl() + "?Web=1",
-                author: author.get_title(),
-                lastModifiedBy: lastModifiedBy.get_title(),
-                title: file.get_title()
-            };
-            me._refreshUI();
-        }, function (e) {
-            me._error = e;
-            me._refreshUI();
-        });
-    }
-
-    function _refreshUI() {
         var me = this,
-            docInfo = me._docInfo;
+            entity = me.entity;
 
-        if (!!docInfo && !!docInfo.url && !!docInfo.name) {
-            var fileName = docInfo.name,
-                lastIndex = fileName.lastIndexOf("."),
-                extension = lastIndex > 0 && lastIndex < (fileName.length - 1) ? fileName.substr(lastIndex + 1) : "generic";
+        if (!!me._isViewCreated && !!entity && !!me._valuePropertyName) {
+            var documentText;
 
-            me._linkElement.attr("href", docInfo.url);
-            me._linkElement.text(docInfo.name);
-            me._imgElement.attr("src", msls_sharepoint.getIconUrl(extension));
-            me._linkElement.css("display", "");
-            me._imgElement.css("display", "");
-            me._errorElement.css("display", "none");
-        } else {
-            me._linkElement.css("display", "none");
-            me._imgElement.css("display", "none");
-            if (me._error) {
-                var error = me._error;
-                me._errorElement.css("display", "");
-                me._errorElement.text(error.get_message());
+            documentText = entity[me._valuePropertyName];
+            updateText(me, documentText);
+
+            if (!!msls_sharepoint) {
+                var fileName = (!!entity.Name) ? entity.Name : documentText;
+
+                setDocumentIcon(me, msls_sharepoint.getDefaultFileIcon());
+
+                if (!!fileName) {
+                    msls_sharepoint.ready(function onSharePointReady() {
+                        if (!!msls_sharepoint.hostWeb) {
+                            msls_sharepoint.getFileIconUrl(fileName)
+                                .done(function getDocumentIconUrlDone(iconUrl) {
+                                    setDocumentIcon(me, iconUrl);
+                                });
+                        }
+                    });
+                }
             }
         }
     }
 
-    function _attachViewCore(templateData) {
+    function updateText(control, value) {
+        var textElement = control._nameElement;
 
-        control_attachViewCore.call(this, templateData);
-        this._imgElement = msls_getTemplateItem(this.getView(), templateData.imgElement, "img");
-        this._linkElement = msls_getTemplateItem(this.getView(), templateData.linkElement, "a");
-        this._errorElement = msls_getTemplateItem(this.getView(), templateData.errorElement, "div");
+        if (control._isViewCreated && !!textElement) {
+            var stringValue = getStringValue(control, value);
 
-        var contentItem = this.data,
-            valueModel = contentItem.valueModel,
-            docStorageAttribute = valueModel && valueModel["Microsoft.LightSwitch.SharePoint:@DocumentStorage"];
-        this._documentLibrary = docStorageAttribute && docStorageAttribute.documentLibrary;
-        this._folderPath = docStorageAttribute && docStorageAttribute.subPath;
-        this._refreshView();
+            textElement.text(stringValue);
+        }
     }
 
-    msls_defineClass("ui.controls", "DocumentViewer", DocumentViewer, msls.ui.Control, {
-        controlName: "DocumentViewer",
+    function getStringValue(control, value) {
+        var valuePair,
+            stringValue = "";
+
+        if (!!control._valueProperty) {
+            var supportedValues = msls_getAttributes(control._valueProperty, ":@SupportedValue");
+
+            if (!!supportedValues) {
+                valuePair = msls_iterate(supportedValues)
+                    .first(function (sv) { return sv.value === value; });
+                if (!!valuePair) {
+                    stringValue = msls_getLocalizedString(valuePair.displayName);
+                }
+            }
+
+            if (!valuePair) {
+                stringValue = msls_convertToString(value, control._valueProperty);
+            }
+        }
+
+        return stringValue;
+    }
+
+    function _fillTemplate(view, contentItem, templateData) {
+        var summaryContainerElement = $('<a class="msls-spdoc-summary" href="#"></a>'),
+            iconContainer = $('<div class="msls-spdoc-summary-imgContainer"></div>'),
+            iconElement = $('<img class="msls-spdoc-summary-icon" />'),
+            textContainerElement = $('<div class="msls-spdoc-summary-textContainer"></div>'),
+            nameElement = $('<div class="msls-text ui-link"></div>');
+
+        iconElement.appendTo(iconContainer);
+        iconContainer.appendTo(summaryContainerElement);
+
+        nameElement.appendTo(textContainerElement);
+        textContainerElement.appendTo(summaryContainerElement);
+
+        summaryContainerElement.appendTo(view);
+
+        templateData.iconElement = msls_getTemplateItemPath(view, iconElement);
+        templateData.nameElement = msls_getTemplateItemPath(view, nameElement);
+        templateData.summaryContainerElement = msls_getTemplateItemPath(view, summaryContainerElement);
+    }
+
+    function _attachViewCore(templateData) {
+        var me = this,
+            view = me.getView(),
+            summaryTemplateItem;
+
+        me._iconElement = msls_getTemplateItem(view, templateData.iconElement);
+        me._nameElement = msls_getTemplateItem(view, templateData.nameElement);
+
+        summaryTemplateItem = msls_getTemplateItem(view, templateData.summaryContainerElement);
+        summaryTemplateItem.on("vclick", function onDocumentItemClicked(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            if (!!me._documentUrl) {
+                msls_sharepoint.openDocument(me._documentUrl);
+            }
+        });
+
+        summaryTemplateItem.keydown(function onDocumentItemKeyDown(e) {
+            switch (e.keyCode) {
+                case $.mobile.keyCode.SPACE:
+                case $.mobile.keyCode.ENTER:
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    if (!!me._documentUrl) {
+                        msls_sharepoint.openDocument(me._documentUrl);
+                    }
+                    break;
+            }
+        });
+
+        me._refreshView();
+    }
+
+    msls_defineClass("ui.controls", "DocumentSummary", DocumentSummary, msls.ui.Control, {
+        controlName: "DocumentSummary",
 
         _refreshView: _refreshView,
         _attachViewCore: _attachViewCore,
-        _refreshInternal: _refreshInternal,
-        _refreshUI: _refreshUI,
 
-        docId: msls_controlProperty(
-            function onDocIdChanged(value) {
-                this._refreshView();
-            }, null, true),
+        entity: msls_controlProperty(
+                function onEntityChanged(value) {
+                    var me = this;
+
+                    if (!!value) {
+                        var entityProperties = value.details._;
+
+                        me._documentUrl = entityProperties.Microsoft_LightSwitch_ReadLink;
+
+                        if (!me._valueProperty || !me._valuePropertyName) {
+                            var entityType = value.details.getModel(),
+                                summaryAttribute, property;
+
+                            summaryAttribute = msls_getAttribute(entityType, ":@SummaryProperty");
+                            if (!!summaryAttribute) {
+                                property = summaryAttribute.property;
+                            }
+
+
+                            if (!!property) {
+                                var contentItem;
+
+                                me._valueProperty = property;
+                                me._valuePropertyName = msls_getProgrammaticName(property.name);
+
+                                contentItem = me.data;
+                                contentItem.dataBind("value." + me._valuePropertyName, function (newValue) {
+                                    updateText(me, newValue);
+                                });
+                            }
+                        }
+                    } else {
+                        me._documentUrl = null;
+                    }
+
+                    me._refreshView();
+                }, null, true),
     }, {
-        _fillTemplate: _fillTemplate,
+        _fillTemplate: _fillTemplate
     });
 
-    msls.ui.controls.DocumentViewer.prototype._propertyMappings = {
-        stringValue: "docId"
+    msls.ui.controls.DocumentSummary.prototype._propertyMappings = {
+        value: "entity"
     };
-
 }());
 
 (function () {
@@ -21939,6 +20989,9 @@ var msls_getAttachedLabelPosition,
         rootElement = me._container[0];
 
         rowContainer = rootElement.firstChild;
+        if (!!rowContainer && rowContainer.tagName === "B" && $(rowContainer).hasClass("ui-table-cell-label")) {
+            rowContainer = rowContainer.nextSibling;
+        }
 
         $.each(itemsSource, function (index) {
             var row,
@@ -22084,6 +21137,10 @@ var msls_getAttachedLabelPosition,
         column = root[0].firstChild;
         while (column) {
             if (i % 2 === 0) {
+                if (!!column && column.tagName === "B" && $(column).hasClass("ui-table-cell-label")) {
+                    column = column.nextSibling;
+                }
+
                 contentItemPresenter = new msls.ui.controls.ContentItemPresenter($(column));
                 contentItemPresenter.parent = me;
                 contentItemPresenter.data = itemsSource[i / 2];
@@ -22145,7 +21202,7 @@ var msls_getAttachedLabelPosition,
             columnTexts.push("></td>");
         }
 
-        view[0].innerHTML = columnTexts.join("");
+        view.html(columnTexts.join(""));
 
         i = 0;
         column = view[0].firstChild;
@@ -22451,6 +21508,936 @@ var msls_modalView;
         isOpen: canCloseActiveModalView
     };
     msls_modal._modalView = msls_modalView;
+
+}());
+
+(function () {
+
+    var documentTypeData = [
+            { textResource: "createOrUploadDocument_word", imageName: "lg_icdocx.png", documentType: "1", extension: "docx", templateExtension: "dotx", isCreationSupported: true },
+            { textResource: "createOrUploadDocument_excel", imageName: "lg_icxlsx.png", documentType: "2", extension: "xlsx", templateExtension: "xltx", isCreationSupported: true },
+            { textResource: "createOrUploadDocument_ppt", imageName: "lg_icpptx.png", documentType: "3", extension: "pptx", templateExtension: "potx", isCreationSupported: true },
+            { textResource: "createOrUploadDocument_one", imageName: "lg_icone.png", documentType: "4", extension: "one", templateExtension: "onepkg", isCreationSupported: false }
+        ],
+        spWOPIFrameAction = {
+            edit: 1
+        },
+        inputElementId = "openFile",
+        listTitleElementId = "listTitle",
+        formElementId = "uploadForm",
+        uploadUrl = "/Microsoft_LightSwitch_SharePoint_FileUploader",
+        loadedNotification = "createOrUploadDocumentLoaded";
+
+    function CreateOrUploadDocument(view) {
+        msls.ui.Control.call(this, view);
+    }
+
+    function downloadTemplate(control, templateUrl) {
+        var deferred = $.Deferred(),
+            requestUrl = msls_sharepoint.appWebUrl +
+                         "/_api/SP.AppContextSite(@target)/web/getFileByServerRelativeUrl(@fileRelativeUrl)/$value" +
+                         "?@target='" + encodeURIComponent(msls_sharepoint.hostUrl) + "'" +
+                         "&@fileRelativeUrl='" + encodeURIComponent(templateUrl) + "'",
+            requestOptions = {
+                url: requestUrl,
+                method: "GET",
+                binaryStringResponseBody: true,
+                success: function onTemplateDownloadSuccess(responseInfo) {
+                    deferred.resolve(responseInfo.body);
+                },
+                error: function onTemplateDownloadError(responseInfo, errorCode, errorText) {
+                    deferred.reject();
+                }
+            };
+
+            msls_sharepoint.executor.executeAsync(requestOptions);
+
+        return deferred.promise();
+    }
+
+    function uploadFileAsArrayBuffer(control, fileName, buffer) {
+        var deferred = $.Deferred();
+
+        var bytes = new Uint8Array(buffer),
+            content = "";
+
+        for (var i = 0; i < bytes.length; i++) {
+            content += String.fromCharCode(bytes[i]);
+        }
+
+        uploadString(control, fileName, content)
+             .then(function onUploadSuccess(itemId) {
+                 setDocumentRelationship(control, itemId)
+                     .then(deferred.resolve, deferred.reject);
+             }, function onUploadError() {
+                 deferred.reject();
+             });
+
+        return deferred.promise();
+    }
+
+    function uploadString(control, fileName, content) {
+        var deferred = $.Deferred(),
+            requestUrl = msls_sharepoint.appWebUrl +
+                         "/_api/SP.AppContextSite(@target)/web/lists/getByTitle(@docLibName)/" +
+                         "RootFolder/Files/Add(url='" + encodeURIComponent(fileName) + "',overwrite=true)/" +
+                         "?@target='" + encodeURIComponent(msls_sharepoint.hostUrl) + "'" +
+                         "&@docLibName='" + encodeURIComponent(control._docLibName) + "'" +
+                         "&$select=ListItemAllFields/Id&$expand=ListItemAllFields/Id",
+            requestOptions = {
+                url: requestUrl,
+                method: "POST",
+                body: content,
+                binaryStringRequestBody: true,
+                headers: {
+                    Accept: "application/json; odata=verbose",
+                    "content-type": "application/json;odata=verbose",
+                    "content-length": content.length
+                },
+                success: function onUploadSuccess(data) {
+                    var jsonObject = JSON.parse(data.body),
+                        fileObject = jsonObject.d;
+                    deferred.resolve(fileObject.ListItemAllFields.Id);
+                },
+                error: function onUploadError(responseInfo, errorCode, errorText) {
+                    deferred.reject();
+                }
+            };
+
+        msls_sharepoint.executor.executeAsync(requestOptions);
+
+        return deferred.promise();
+    }
+
+    function isFileInDocumentLibrary(control, fileName) {
+        var deferred = $.Deferred(),
+            requestUrl = msls_sharepoint.appWebUrl +
+                         "/_api/SP.AppContextSite(@target)/web/GetFolderByServerRelativeUrl(@rootFolder)/Files(@fileName)?" +
+                         "@target='" + encodeURIComponent(msls_sharepoint.hostUrl) + "'" +
+                         "&@rootFolder='" + encodeURIComponent(control._rootFolderRelativeUrl) + "'" +
+                         "&@fileName='" + encodeURIComponent(fileName) + "'",
+            requestOptions = {
+                url: requestUrl,
+                method: "GET",
+                headers: {
+                    Accept: "application/json; odata=verbose"
+                },
+                success: function onRequestSuccess() {
+                    deferred.resolve(true);
+                },
+                error: function onRequestSuccess(response) {
+                    var data = JSON.parse(response.body),
+                        error = data.error;
+
+                    if (error.code.indexOf("System.IO.FileNotFoundException")) {
+                        deferred.resolve(false);
+                    } else {
+                        deferred.reject();
+                    }
+                }
+            };
+
+        msls_sharepoint.executor.executeAsync(requestOptions);
+
+        return deferred.promise();
+    }
+
+    function showError(control, errorMessage) {
+
+        closePopup(control).then(function onPopupClosed() {
+            msls_modal_showError(errorMessage);
+        });
+    }
+
+    function closePopup(control) {
+        var deferred = $.Deferred();
+
+        hideSpinner(control);
+        msls.shellView.closePopup()
+            .then(deferred.resolve, deferred.reject);
+
+        return deferred.promise();
+    }
+
+    function showSpinner(control) {
+        control._loadingElement.show();
+        control._loading = true;
+    }
+
+    function hideSpinner(control) {
+        control._loadingElement.hide();
+        control._loading = false;
+    }
+
+    function setDocumentRelationship(control, itemId) {
+        var deferred = $.Deferred();
+
+        control._entitySet.filter("Id eq " + itemId)
+            .merge(msls.MergeOption.unchangedOnly)
+            .execute()
+            .then(function onDocumentEntityRequestSuccess(response) {
+                var documentEntity = response.results[0],
+                    contentItem = control.data,
+                    visualCollection = contentItem.value,
+                    loader = visualCollection._loader,
+                    collectionProperty = loader._collectionProperty,
+                    data = collectionProperty._entry.data,
+                    propertyValue = collectionProperty.owner,
+                    propertyName = data.toPropertyName;
+                
+                if (documentEntity[propertyName] !== propertyValue) {
+                    documentEntity[propertyName] = propertyValue;
+
+                    window.msls.application.applyChanges()
+                        .then(deferred.resolve, deferred.reject);
+                } else {
+                    visualCollection.refresh()
+                        .then(deferred.resolve, deferred.reject);
+                }
+            }, deferred.reject);
+
+        return deferred.promise();
+    }
+
+    function isCreateDocumentAvailable() {
+        var list = new SP.List(msls_sharepoint.context, null);
+
+        return !!list && !!list.createDocument;
+    }
+
+    function createAndOpenDocumentInCloud(control, templateUrl, templateType) {
+        var deferred = $.Deferred(),
+            listCollection = msls_sharepoint.hostWeb.get_lists(),
+            list = listCollection.getByTitle(control._docLibName),
+            destination,
+            item,
+            url;
+
+        if (list.createDocument === undefined) {
+            deferred.reject();
+        } else if (templateUrl === "" && !templateType) {
+            deferred.reject();
+        } else {
+            destination = msls_sharepoint.hostWeb.getFolderByServerRelativeUrl(control._rootFolderRelativeUrl);
+            item = (templateUrl === "") ? list.createDocument(null, destination, templateType) : list.createDocumentFromTemplate(null, destination, templateUrl);
+            url = item.getWOPIFrameUrl(spWOPIFrameAction.edit);
+            msls_sharepoint.context.load(item);
+
+            msls_sharepoint.context.executeQueryAsync(
+                function onDocumentCreateSuccess() {
+                    var itemId = item.get_id(),
+                        urlValue = url.get_value();
+
+                    setDocumentRelationship(control, itemId)
+                        .then(function onSetDocumentRelationshipSuccess() {
+                            deferred.resolve(urlValue);
+                        }, deferred.reject);
+                }, deferred.reject);
+        }
+
+        return deferred.promise();
+    }
+
+    function createNewDocumentClicked(control, templateUrl, extension,  templateType) {
+        if (control._loading) {
+            return;
+        }
+
+        if (templateType !== "") {
+            showSpinner(control);
+            createAndOpenDocumentInCloud(control, templateUrl, templateType)
+                .then(function onCreateAndOpenDocumentInCloudSuccess(wacUrl) {
+                    closePopup(control).then(function onPopUpClosed() {
+                        if (!!wacUrl) {
+                            wacUrl = wacUrl.replace("action=edit", "action=editnew");
+                            window.location.href = wacUrl;
+                        }
+                    });
+                }, function onCreateAndOpenDocumentInCloudError(error) {
+                    showError(control, msls_getResourceString("createOrUploadDocument_createDocumentError"));
+                });
+        } else if (templateUrl !== "") {
+            if (!window.FileReader) {
+                showError(control, msls_getResourceString("createOrUploadDocument_uploadNotSupported"));
+                return;
+            }
+            showSpinner(control);
+            downloadTemplate(control, templateUrl)
+                .then(function onDownloadTemplateSuccess(content) {
+                    getDocumentName(extension).then(
+                        function onOK(documentName) {
+                            uploadString(control, documentName, content)
+                                 .then(function onUploadSuccess(itemId) {
+                                     setDocumentRelationship(control, itemId)
+                                        .then(function onSetDocumentRelationshipSuccess() {
+                                            closePopup(control);
+                                        }, function onSetDocumentRelationshipSuccess() {
+                                            showError(control, msls_getResourceString("createOrUploadDocument_createDocumentError"));
+                                        });
+                                 }, function onUploadError() {
+                                     showError(control, msls_getResourceString("createOrUploadDocument_createDocumentError"));
+                                 });
+                        }, function onCancel() {
+                            closePopup(control);
+                        });
+                }, function onDownloadTemplateError() {
+                    showError(control, msls_getResourceString("createOrUploadDocument_createDocumentError"));
+                });
+        } else {
+            closePopup(control);
+        }
+    }
+
+    function uploadDocumentClicked(control, target) {
+        var inputElement = target,
+            file = inputElement.files[0],
+            reader = new FileReader();
+
+        showSpinner(control);
+
+        isFileInDocumentLibrary(control, file.name).then(function fileCheckSuccess(isFileInDocLib) {
+            if (isFileInDocLib) {
+                showError(control, msls_getResourceString("createOrUploadDocument_fileOverwritingError"));
+                return;
+            }
+
+            reader.onload = function onLoad(progressEvent) {
+                var buffer = progressEvent.target.result;
+
+                uploadFileAsArrayBuffer(control, file.name, buffer).then(
+                    function onSuccess() {
+                        closePopup(control);
+                    },
+                    function onError() {
+                        showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+                    });
+            };
+
+            reader.onerror = function (progressEvent) {
+                showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+            };
+
+            reader.readAsArrayBuffer(file);
+        }, function fileCheckError() {
+            showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+        });
+    }
+
+    function getDocumentName(extension) {
+        var deferred = $.Deferred(),
+            documentName;
+
+        msls_modalView.show({
+            title: msls_getResourceString("createOrUploadDocument_promptTitle"),
+            defaultResult: false,
+            buildContentCallback: function buildContent(content) {
+                var inputText = $("<input class='ui-input-text' type='text' id='documentName'></input>"),
+                    buttons = $("<div class='msls-leaf'/>");
+                content.append($('<div class="msls-spdoc-modal"></div>')
+                    .append($("<div>" + msls_getResourceString("createOrUploadDocument_promptLabel") + "</div>"))
+                    .append(inputText));
+
+                if (!!extension) {
+                    content.find(".msls-spdoc-modal").append($('<div class="msls-spdoc-modal-extension">.' + extension + "</div>"))
+                        .append($('<div class="msls-clear"></div>'));
+                }
+
+                buttons.appendTo(content)
+                       .append($('<a class="msls-spdoc-modal-button msls-spdoc-modal-button-left" href="#">' + msls_getResourceString("dialogService_ok") + "</a>")
+                            .buttonMarkup({
+                                theme: cssDefaultJqmTheme,
+                                mini: true
+                            })
+                            .on("vclick", function okClicked(e) {
+                                e.preventDefault();
+                                documentName = $("#documentName").val() + "." + extension;
+                                msls_modalView.close();
+                            }));
+                buttons.append($('<a class="msls-spdoc-modal-button msls-spdoc-modal-button-right" href="#">' + msls_getResourceString("dialogService_cancel") + "</a>")
+                          .buttonMarkup({
+                              theme: cssDefaultJqmTheme,
+                              mini: true
+                          })
+                          .on("vclick", function cancelClicked(e) {
+                              e.preventDefault();
+                              msls_modalView.close();
+                          })).append($('<div class="msls-clear"></div>'));
+
+            }
+        }).then(function (a) {
+            if (!!documentName) {
+                deferred.resolve(documentName);
+            } else {
+                deferred.reject();
+            }
+        });
+
+        return deferred.promise();
+    }
+
+    function getDocumentLibraryInfo(control, createListIfNeeded) {
+        var deferred = $.Deferred(),
+            requestUrl = msls_sharepoint.appWebUrl +
+                         "/_api/SP.AppContextSite(@target)/web/lists/getByTitle(@docLibName)?" +
+                         "&$select=ContentTypes,RootFolder&$expand=ContentTypes,RootFolder" +
+                         "&@target='" + encodeURIComponent(msls_sharepoint.hostUrl) + "'" +
+                         "&@docLibName='" + encodeURIComponent(control._docLibName) + "'",
+            requestOptions = {
+                url: requestUrl,
+                method: "GET",
+                headers: {
+                    Accept: "application/json; odata=verbose",
+                },
+                success: function onRequestSuccess(responseInfo) {
+                    var data = JSON.parse(responseInfo.body);
+                    control._contentTypes = data.d.ContentTypes.results;
+                    control._rootFolderRelativeUrl = data.d.RootFolder.ServerRelativeUrl;
+                    deferred.resolve();
+                },
+                error: function onRequestError() {
+                    deferred.reject(msls_getResourceString("createOrUploadDocument_getListError"));
+                }
+            };
+
+        msls_sharepoint.executor.executeAsync(requestOptions);
+
+        return deferred.promise();
+    }
+
+    function initializeMenuItem() {
+        var listItem = $("<li class='msls-li ui-li ui-btn'></li>");
+        listItem.attr("data-theme", cssDefaultJqmTheme);
+        return listItem;
+    }
+
+    function addMenuItemToFocusable(ring, item) {
+        var current = ring.length;
+
+        if (current === 0) {
+            ring[0] = { menuItem: item, next: 0, previous: 0 };
+        } else {
+            ring[current] = { menuItem: item, next: 0, previous: current - 1 };
+            ring[current - 1].next = current;
+            ring[0].previous = current;
+        }
+    }
+
+    function moveFocus(control, up) {
+        var current = control._focusedMenuItem,
+            ring = control._menuItemsRing;
+        moveFocusTo(control, up ? ring[current].previous : ring[current].next);
+    }
+
+    function moveFocusTo(control, index) {
+        var ring = control._menuItemsRing,
+            item = ring[control._focusedMenuItem].menuItem;
+
+        item.attr(html_tabIndex_Attribute, "-1");
+        item.removeClass("ui-focus");
+        control._focusedMenuItem = index;
+        item = ring[control._focusedMenuItem].menuItem;
+        item.attr(html_tabIndex_Attribute, "0");
+        item.focus();
+    }
+
+    function onMenuKeyDown(control, e) {
+        var jQueryMobileKeyCode = $.mobile.keyCode,
+            keyCode = e.which;
+
+        switch (keyCode) {
+            case jQueryMobileKeyCode.UP:
+                moveFocus(control, true);
+                break;
+            case jQueryMobileKeyCode.DOWN:
+                moveFocus(control, false);
+                break;
+            case jQueryMobileKeyCode.SPACE:
+            case jQueryMobileKeyCode.ENTER:
+                control._menuItemsRing[control._focusedMenuItem].menuItem.trigger("vclick");
+                break;
+            default:
+                return;
+        }
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    function addCreateFromTemplateMenuItems(control) {
+        var contentTypes = control._contentTypes,
+            itemsAdded = false;
+
+        if (!contentTypes || contentTypes.length === 0 || !control._canCreateDocuments) {
+            control._customTypesHr.hide();
+            control._customTypesList.hide();
+            return;
+        }
+
+        contentTypes.forEach(function addLink(contentType) {
+            if ((!contentType.Hidden) && !!contentType.DocumentTemplateUrl && (contentType.DocumentTemplateUrl !== "")) {
+                var listItemElement = initializeMenuItem(),
+                    icon = $("<img class='ui-li-thumb' />"),
+                    linkContainer = $("<div class='msls-font-style-normal'></div>"),
+                    link = $("<div class='msls-text'></div>"),
+                    extension = msls_sharepoint.getFileExtension(contentType.DocumentTemplateUrl),
+                    type = "",
+                    iconUrl;
+
+                if ((extension === "") || (extension === "aspx") || (extension === "htm")) {
+                    return;
+                }
+
+                listItemElement.addClass("ui-li-static ui-li-has-thumb");
+
+                link.text(contentType.Name);
+                link.appendTo(linkContainer);
+
+                for (var i = 0; i < documentTypeData.length; i++) {
+                    var knownType = documentTypeData[i],
+                        isOfficeTemplate = (extension === knownType.templateExtension),
+                        isOfficeDocument = isOfficeTemplate || (extension === knownType.extension);
+
+                    if (isOfficeDocument) {
+                        iconUrl = msls_sharepoint.sharePointImagesUrl + knownType.imageName;
+
+                        if (isOfficeTemplate && knownType.isCreationSupported) {
+                            extension = knownType.extension;
+                            type = knownType.documentType;
+                        }
+
+                        break;
+                    }
+                }
+
+                listItemElement.on("vclick", function (e) {
+                    createNewDocumentClicked(control, contentType.DocumentTemplateUrl, extension, type);
+                });
+
+                if (!iconUrl) {
+                    icon.attr("src", msls_sharepoint.getDefaultFileIcon());
+
+                    msls_sharepoint.getFileIconUrl(contentType.DocumentTemplateUrl)
+                        .then(function onGetIconUrlSuccess(url) {
+                            icon.attr("src", url);
+                        });
+                } else {
+                    icon.attr("src", iconUrl);
+                }
+
+                icon.appendTo(listItemElement);
+
+                linkContainer.appendTo(listItemElement);
+                addMenuItemToFocusable(control._menuItemsRing, listItemElement);
+                listItemElement.appendTo(control._customTypesList);
+                itemsAdded = true;
+            }
+        });
+
+        if (!itemsAdded) {
+            control._customTypesHr.hide();
+            control._customTypesList.hide();
+        }
+        return;
+    }
+
+    function addCreateNewDocumentMenuItems(listElement) {
+        documentTypeData.forEach(function addLink(itemData) {
+            if (!itemData.isCreationSupported) {
+                return;
+            }
+
+            var listItemElement = initializeMenuItem(),
+                icon = $("<img />"),
+                linkContainer = $("<div class='msls-font-style-normal'></div>"),
+                link = $("<div class='msls-text'></div>");
+
+            link.text(msls_getResourceString(itemData.textResource));
+            link.appendTo(linkContainer);
+
+            icon.attr("src", msls_sharepoint.sharePointImagesUrl + itemData.imageName);
+            icon.appendTo(listItemElement);
+
+            linkContainer.appendTo(listItemElement);
+
+            listItemElement.attr("id", itemData.extension);
+            listItemElement.appendTo(listElement);
+        });
+    }
+
+    function addUploadMenuItem(menuContainerElement) {
+        var itemContainer = $("<div class='ui-bar'></div>"),
+            linkContainer = $("<div class='msls-font-style-small'></div>"),
+            linkContainerInner = $("<div class='msls-text'></div>"),
+            link = $("<a href='#' data-role='none'>" + msls_getResourceString("createOrUploadDocument_upload") + "</a>"),
+            inputElement,
+            iFrame;
+        link.attr(html_tabIndex_Attribute, "-1");
+        link.appendTo(linkContainerInner);
+
+        if (!!window.FileReader) {
+            inputElement = $("<input type='file' style='display: none;' id='" + inputElementId + "'>");
+            inputElement.appendTo(linkContainerInner);
+        } else {
+            iFrame = $("<iframe id='uploadIFrame' name='uploadIFrame' style='width: 0px; height: 0px; border: 0px solid #fff;' />");
+            iFrame.appendTo(linkContainerInner);
+        }
+
+        linkContainerInner.appendTo(linkContainer);
+        itemContainer.attr("data-theme", cssDefaultJqmTheme);
+        linkContainer.appendTo(itemContainer);
+        itemContainer.appendTo(menuContainerElement);
+
+        return {
+            link: link,
+            input: inputElement,
+            iFrame: iFrame
+        };
+    }
+
+    function attachCreateMenuItemsToView(control) {
+        documentTypeData.forEach(function attachEvents(itemData) {
+            if (!itemData.isCreationSupported) {
+                return;
+            }
+
+            function linkClicked() {
+                createNewDocumentClicked(control, "", itemData.extension, itemData.documentType);
+            }
+            var link = $("#".concat(itemData.extension));
+            if (!!link) {
+                link.on("vclick", linkClicked);
+                if (link[0].className.indexOf("ui-first-child") !== -1) {
+                    link.attr(html_tabIndex_Attribute, "0");
+                }
+                addMenuItemToFocusable(control._menuItemsRing, link);
+            }
+        });
+    }
+
+    function processFileUploadForm(control, frameDocument) {
+        var listTitle,
+            fileElement = frameDocument.getElementById(inputElementId);
+
+        if (!!fileElement) {
+            listTitle = frameDocument.getElementById(listTitleElementId);
+            listTitle.value = control._docLibName;
+
+            fileElement.onchange = function fileSelected(e) {
+                if (!!fileElement.value) {
+                    control._readingFromServer = true;
+                    showSpinner(control);
+                    frameDocument.getElementById(formElementId).submit();
+                }
+            };
+
+            $(fileElement).trigger("click");
+
+            hideSpinner(control);
+
+            return true;
+        }
+        return false;
+    }
+
+    function attachControlToView(control, templateData) {
+        var view = control.getView(),
+            inputWrapper,
+            uploadIFrame,
+            links, linkElement;
+
+        function fileSelected(e) {
+            var fileInput = $(e.target);
+
+            if (!!fileInput.val()) {
+                var newInputElement;
+
+                uploadDocumentClicked(control, fileInput[0]);
+
+                newInputElement = fileInput.clone();
+                fileInput.replaceWith(newInputElement);
+                newInputElement.change(fileSelected);
+            }
+        }
+
+        control._customTypesHr = msls_getTemplateItem(view, templateData.customTypesHrPath);
+        control._customTypesList = msls_getTemplateItem(view, templateData.customTypesListPath);
+        linkElement = msls_getTemplateItem(view, templateData.fileUploadLinkPath);
+        if (!!templateData.inputFilePath) {
+            inputWrapper = msls_getTemplateItem(view, templateData.inputFilePath);
+        } else {
+            uploadIFrame = msls_getTemplateItem(view, templateData.uploadIFramePath);
+        }
+        control._focusedMenuItem = 0;
+
+        addCreateFromTemplateMenuItems(control);
+
+        if (!!inputWrapper) {
+            var inputFile = inputWrapper[0].childNodes[0];
+            $(inputFile).change(fileSelected);
+
+            inputWrapper.ready(function () { inputWrapper.attr("style", "display: none;"); });
+
+            linkElement.on("vclick",
+                function uploadLinkClicked() {
+                    if (!control._loading) {
+                        view.find("#" + inputElementId).trigger("click");
+                    }
+                });
+        } else {
+            control._readingFromServer = false;
+            linkElement.on("vclick",
+                function uploadLinkClicked() {
+                    if (!control._loading) {
+                        showSpinner(control);
+                        control._readingFromServer = true;
+                        uploadIFrame.attr("src", uploadUrl);
+                    }
+                });
+
+            uploadIFrame.on("load", function onFileUploadIFrameLoaded() {
+                if (!control._readingFromServer) {
+                    return;
+                }
+                control._readingFromServer = false;
+
+                var serverResponse = null,
+                    frameDocument = uploadIFrame[0].contentDocument,
+                    itemInfo;
+
+                try {
+                    if (processFileUploadForm(control, frameDocument)) {
+                        return;
+                    }
+                    serverResponse = frameDocument.body.textContent;
+                    if (!!serverResponse) {
+                        itemInfo = JSON.parse(serverResponse);
+                    }
+                } catch (e) {
+                }
+
+                if (!!itemInfo) {
+                    if (!isNaN(itemInfo.itemId)) {
+                        setDocumentRelationship(control, itemInfo.itemId)
+                            .then(function onSetDocumentRelationshipSuccess() {
+                                closePopup(control);
+                            }, function onSetDocumentRelationshipError() {
+                                showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+                            });
+                    } else if (!!itemInfo.missingWebPages){
+                        showError(control, msls_getResourceString("createOrUploadDocument_uploadNotSupported"));
+                    } else if (!!itemInfo.fileExists) {
+                        showError(control, msls_getResourceString("createOrUploadDocument_fileOverwritingError"));
+                    } else {
+                        showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+                    }
+                } else {
+                    showError(control, msls_getResourceString("createOrUploadDocument_uploadDocumentError"));
+                }
+            });
+        }
+
+        addMenuItemToFocusable(control._menuItemsRing, linkElement);
+
+        control._menuContainerElement.on("keydown", function (e) {
+            onMenuKeyDown(control, e);
+        });
+
+        if ($.mobile.popup.active) {
+            var popup = $.mobile.activePage.find(".ui-popup-container.ui-popup-active > .ui-popup");
+
+            if (popup.length) {
+                moveFocusTo(control, 0);
+
+                popup.on("popupafteropen", function onPopupOpened() {
+                    moveFocusTo(control, 0);
+                    repositionPopup(control, $(this));
+                });
+            }
+        }
+   }
+
+    function repositionPopup(control, popup) {
+        var popupElement, pos;
+
+        if (popup.length) {
+            popupElement = popup[0];
+            pos = popupElement._mslsCustomPosition;
+            if (!!pos) {
+                popup.popup("reposition", pos);
+                control._lastPopupPosition = pos;
+            } else if (!!control && !!control._lastPopupPosition) {
+                popup.popup("reposition", control._lastPopupPosition);
+            }
+        }
+    }
+
+    function repositionControl(control) {
+        if ($.mobile.popup.active) {
+            var $popup = $.mobile.activePage.find(".ui-popup-container.ui-popup-active > .ui-popup");
+            repositionPopup(control, $popup);
+        }
+    }
+
+    function _refreshView(notify) {
+        var me = this;
+
+        if (!!me._isViewCreated && !!msls_sharepoint) {
+            me._loaded = false;
+            me._customTypesList.empty();
+            me._customTypesList.hide();
+            me._customTypesHr.hide();
+            showSpinner(me);
+            me._contentTypes = [];
+
+            if (!!me._canCreateDocuments) {
+                getDocumentLibraryInfo(me, true)
+                    .then(function onGetDocumentLibraryInfoSuccess() {
+                        addCreateFromTemplateMenuItems(me);
+
+                        hideSpinner(me);
+                        me._loaded = true;
+                        repositionControl(me);
+                    }, function onGetDocumentLibraryInfoError(error) {
+                        showError(me, msls_getResourceString("createOrUploadDocument_getListError"));
+                    })
+                    .always(function () {
+                        msls_notify(loadedNotification, me);
+                    });
+            }
+        }
+    }
+
+    function _attachViewCore(templateData) {
+        var me = this,
+            view = me.getView(),
+            entitySetModel,
+            docLibNameAttribute,
+            contentItem = me.data,
+            valueModel = contentItem.valueModel,
+            entityTypeModel,
+            application, entityType, dataWorkspace;
+
+        me._loaded = false;
+        me._loadingElement = msls_getTemplateItem(view, templateData.loadingElementPath);
+        me._menuContainerElement = msls_getTemplateItem(view, templateData.menuContainerElementPath);
+        me._createDefaultListElement = msls_getTemplateItem(view, templateData.createDefaultListElementPath);
+        me._titleContainerElement = msls_getTemplateItem(view, templateData.titleContainerElementPath);
+        showSpinner(me);
+        me._menuItemsRing = [];
+        me._contentTypes = [];
+        me._lastPopupPosition = null;
+
+        if (!valueModel.query || !valueModel.query.source.links) {
+            showError(me, msls_getResourceString("createOrUploadDocument_noNavigationPropertyError"));
+            return;
+        }
+
+        if (!msls_sharepoint) {
+            showError(me, msls_getResourceString("createOrUploadDocument_siteError"));
+            return;
+        }
+
+        msls_sharepoint.ready(function onSharePointLibrariesReady() {
+            if (!msls_sharepoint.hostWeb) {
+                showError(me, msls_getResourceString("createOrUploadDocument_siteError"));
+                return;
+            }
+
+            me._canCreateDocuments = isCreateDocumentAvailable();
+
+            application = window.msls.application;
+            entityTypeModel = valueModel.elementType;
+            entityType = application[entityTypeModel.name];
+            dataWorkspace = application.activeDataWorkspace;
+            me._entitySet = msls_EntitySet_getEntitySetForEntityType(dataWorkspace, entityType);
+            entitySetModel = me._entitySet.getModel();
+            docLibNameAttribute = msls_getAttribute(entitySetModel, msls_sharePointListModelAttribute);
+
+            if (!docLibNameAttribute) {
+                showError(me, msls_getResourceString("createOrUploadDocument_entityChangeError"));
+                return;
+            }
+            me._docLibName = docLibNameAttribute.title;
+
+            if (!me._canCreateDocuments) {
+                me._createDefaultListElement.attr("style", "display: none;");
+                me._titleContainerElement.attr("style", "display: none;");
+            } else {
+                attachCreateMenuItemsToView(me);
+            }
+
+            getDocumentLibraryInfo(me, true)
+                .then(function addAllMenuItems() {
+                    attachControlToView(me, templateData);
+
+                    hideSpinner(me);
+                    me._loaded = true;
+                    repositionControl(me);
+                }, function onGetDocumentLibraryInfoError() {
+                    showError(me, msls_getResourceString("createOrUploadDocument_getListError"));
+                })
+                .always(function () {
+                    msls_notify(loadedNotification, me);
+                });
+        }, function onSharePointLibrariesError() {
+            showError(me, msls_getResourceString("createOrUploadDocument_siteError"));
+        });
+    }
+
+    function _fillTemplate(view, contentItem, templateData) {
+        var listContainer = $("<div class='msls-spdoc-create'></div>"),
+            menuTitleContainer = $("<div class='ui-bar'></div>"),
+            menuTitle = $("<div class='msls-font-style-large'><div class='msls-text'>" + msls_getResourceString("createOrUploadDocument_title") + "</div></div>"),
+            createDefaultList = $("<ul class='msls-listview' data-role='listview' data-inset='false'></ul>"),
+            hr = $("<hr />"),
+            fromTemplateListElement = $("<ul class='msls-listview' data-role='listview' data-inset='false' style='display:inline'></ul>"),
+            uploadElements,
+            loadingElement = $("<div class='msls-list-loading'></div>");
+
+        menuTitleContainer.attr("data-theme", cssDefaultJqmTheme);
+        menuTitleContainer.appendTo(listContainer);
+        menuTitle.appendTo(menuTitleContainer);
+
+        addCreateNewDocumentMenuItems(createDefaultList);
+        createDefaultList.appendTo(listContainer);
+
+        hr.appendTo(listContainer);
+        fromTemplateListElement.appendTo(listContainer);
+
+        uploadElements = addUploadMenuItem(listContainer);
+
+        loadingElement.appendTo(listContainer);
+        loadingElement.hide();
+        
+        listContainer.appendTo(view);
+
+        templateData.titleContainerElementPath = msls_getTemplateItemPath(view, menuTitleContainer);
+        templateData.createDefaultListElementPath = msls_getTemplateItemPath(view, createDefaultList);
+        templateData.menuContainerElementPath = msls_getTemplateItemPath(view, listContainer);
+        templateData.customTypesHrPath = msls_getTemplateItemPath(view, hr);
+        templateData.customTypesListPath = msls_getTemplateItemPath(view, fromTemplateListElement);
+        templateData.loadingElementPath = msls_getTemplateItemPath(view, loadingElement);
+        if (!!uploadElements.input) {
+            templateData.inputFilePath = msls_getTemplateItemPath(view, uploadElements.input);
+        } else {
+            templateData.uploadIFramePath = msls_getTemplateItemPath(view, uploadElements.iFrame);
+        }
+        templateData.fileUploadLinkPath = msls_getTemplateItemPath(view, uploadElements.link);
+    }
+
+    msls_defineClass("ui.controls", "CreateOrUploadDocument", CreateOrUploadDocument, msls.ui.Control, {
+        controlName: "CreateOrUploadDocument",
+
+        _refreshView: _refreshView,
+        _attachViewCore: _attachViewCore,
+
+        entity: msls_controlProperty()
+    }, {
+        _fillTemplate: _fillTemplate
+    });
+
+    msls.ui.controls.CreateOrUploadDocument.prototype._propertyMappings = {
+        value: "entity"
+    };
 
 }());
 
@@ -22925,19 +22912,21 @@ var msls_tryGetPercentFormattedText;
         mimeType = "application/x-sharepoint-uc",
         objectElement;
     try {
-        if (window.ActiveXObject) {
-            nameCtrl = new ActiveXObject("Name.NameCtrl.1");
-        } else if (!!navigator.mimeTypes &&
-            !!navigator.mimeTypes[mimeType] &&
-            navigator.mimeTypes[mimeType].enabledPlugin) {
-            nameCtrl = document.getElementById(mimeType);
-            if (!nameCtrl) {
-                objectElement = document.createElement("object");
-                objectElement.id = objectElement.type = mimeType;
-                objectElement.width = objectElement.height = "0";
-                objectElement.style.setProperty("visibility", "hidden", "");
-                document.body.appendChild(objectElement);
+        if (!!msls_sharepoint) {
+            if (window.ActiveXObject) {
+                nameCtrl = new ActiveXObject("Name.NameCtrl.1");
+            } else if (!!navigator.mimeTypes &&
+                !!navigator.mimeTypes[mimeType] &&
+                navigator.mimeTypes[mimeType].enabledPlugin) {
                 nameCtrl = document.getElementById(mimeType);
+                if (!nameCtrl) {
+                    objectElement = document.createElement("object");
+                    objectElement.id = objectElement.type = mimeType;
+                    objectElement.width = objectElement.height = "0";
+                    objectElement.style.setProperty("visibility", "hidden", "");
+                    document.body.appendChild(objectElement);
+                    nameCtrl = document.getElementById(mimeType);
+                }
             }
         }
     } catch (e) { }
@@ -23046,11 +23035,10 @@ var msls_tryGetPercentFormattedText;
             }
         } else {
             template +=
-                "<a class='msls-sppsv-picture-link' target='_blank'>" +
-                    "<span class='msls-sppsv-picture'>" +
-                        "<img class='msls-sppsv-picture-img' />" +
-                    "</span>" +
-                "</a>";
+                "<span class='msls-sppsv-picture'>" +
+                    "<img class='msls-sppsv-picture-img' />" +
+                "</span>";
+                
             if (!showPresence) {
                 detailsClasses += " msls-sppsv-name-title";
             } else {
@@ -23063,7 +23051,7 @@ var msls_tryGetPercentFormattedText;
         if (showPicture) {
             template += "<div class='msls-text'>";
         }
-        template += '<a class="link-element msls-sppsv-link" target="_blank"></a>';
+        template += '<span class="msls-sppsv-name"></span>';
         if (showPicture) {
             template += '</div><div class="msls-font-style-small"><div class="msls-text msls-sppsv-title"></div>';
         }
@@ -23076,11 +23064,10 @@ var msls_tryGetPercentFormattedText;
             templateData.presenceElement = msls_getTemplateItemPath(view, msls_control_find(view, ".presence-element"));
         }
         if (showPicture) {
-            templateData.pictureLinkElement = msls_getTemplateItemPath(view, msls_control_find(view, ".msls-sppsv-picture-link"));
             templateData.pictureElement = msls_getTemplateItemPath(view, msls_control_find(view, ".msls-sppsv-picture-img"));
         }
         templateData.idElement = msls_getTemplateItemPath(view, msls_control_find(view, ".msls-sppsv-id"));
-        templateData.linkElement = msls_getTemplateItemPath(view, msls_control_find(view, ".link-element"));
+        templateData.nameElement = msls_getTemplateItemPath(view, msls_control_find(view, ".msls-sppsv-name"));
         if (showPicture) {
             templateData.titleElement = msls_getTemplateItemPath(view, msls_control_find(view, ".msls-sppsv-title"));
         }
@@ -23096,11 +23083,10 @@ var msls_tryGetPercentFormattedText;
             me._presenceElement = msls_getTemplateItem(me.getView(), templateData.presenceElement, ".presence-element");
         }
         if (templateData.pictureElement) {
-            me._pictureLinkElement = msls_getTemplateItem(me.getView(), templateData.pictureLinkElement, ".msls-sppsv-picture-link");
             me._pictureElement = msls_getTemplateItem(me.getView(), templateData.pictureElement, ".msls-sppsv-picture-img");
         }
         me._idElement = msls_getTemplateItem(me.getView(), templateData.idElement, ".msls-sppsv-id");
-        me._linkElement = msls_getTemplateItem(me.getView(), templateData.linkElement, ".link-element");
+        me._nameElement = msls_getTemplateItem(me.getView(), templateData.nameElement, ".msls-sppsv-name");
         if (templateData.titleElement) {
             me._titleElement = msls_getTemplateItem(me.getView(), templateData.titleElement, ".msls-sppsv-title");
         }
@@ -23248,9 +23234,8 @@ var msls_tryGetPercentFormattedText;
             if (me._titleElement) {
                 me._titleElement.empty();
             }
-            me._linkElement.hide();
-            me._linkElement.empty();
-            me._linkElement.attr("href", null);
+            me._nameElement.hide();
+            me._nameElement.empty();
             if (me._presenceElement) {
                 me._presenceElement.removeClass().addClass(
                     _getPresenceImageClasses(-1, pawnOrStrip));
@@ -23261,7 +23246,6 @@ var msls_tryGetPercentFormattedText;
             if (me._pictureElement) {
                 me._pictureElement.attr("src", msls_sharepoint.hostUrl +
                     "/_layouts/15/userphoto.aspx?size=S");
-                me._pictureLinkElement.attr("href", null);
             }
             me._loadingPromise = null;
             if (me.value) {
@@ -23301,17 +23285,8 @@ var msls_tryGetPercentFormattedText;
                     if (!displayText) {
                         me._idElement.show();
                     } else {
-                        msls_setText(me._linkElement, displayText);
-                        if (spUserId) {
-                            [me._pictureLinkElement, me._linkElement].forEach(function (element) {
-                                if (element) {
-                                    element.attr("href", msls_sharepoint.hostUrl +
-                                        "/_layouts/15/userdisp.aspx?ID=" +
-                                        encodeURIComponent(spUserId));
-                                }
-                            });
-                        }
-                        me._linkElement.show();
+                        msls_setText(me._nameElement, displayText);
+                        me._nameElement.show();
                         if (!!accountName && !!me._pictureElement) {
                             me._pictureElement.attr("src", msls_sharepoint.hostUrl +
                                 "/_layouts/15/userphoto.aspx?size=S&accountname=" +
@@ -23364,7 +23339,7 @@ var msls_tryGetPercentFormattedText;
     var _PersonViewer = msls.ui.controls.PersonViewer,
         escapeElement = $("<pre/>");
 
-    function PersonPicker(view) {
+    function PersonPickerBase(view) {
         var me = this;
         msls_ui_Control.call(me, view);
         me._updatingValue = false;
@@ -23428,22 +23403,27 @@ var msls_tryGetPercentFormattedText;
         return deferred.promise();
     }
 
+    function _updateValue() {
+        var deferred = $.Deferred();
+        var me = this,
+            userEntity = me._userEntity,
+            entityData;
+        me._updatingValue = true;
+        if (userEntity) {
+            entityData = userEntity.EntityData;
+            me.value = entityData ? entityData.Email : userEntity.Key;
+        } else {
+            me._textElement.val("");
+            me.value = me._textElement.val();
+        }
+        me._updatingValue = false;
+        deferred.resolve();
+        return deferred.promise();
+    }
+
     function _attachViewCore(templateData) {
         var me = this,
             innerFocus;
-
-        function updateValue() {
-            var userEntity = me._userEntity,
-                entityData;
-            me._updatingValue = true;
-            if (userEntity) {
-                entityData = userEntity.EntityData;
-                me.value = entityData ? entityData.Email : userEntity.Key;
-            } else {
-                me.value = me._textElement.val();
-            }
-            me._updatingValue = false;
-        }
 
         me._ulElement = msls_getTemplateItem(me.getView(), templateData.idElement, ".id-element");
         me._showDetails = templateData.showDetails;
@@ -23484,13 +23464,13 @@ var msls_tryGetPercentFormattedText;
                             }
                             break;
                         case keyCodes.ENTER:
-                            updateValue();
+                            me._updateValue();
                             break;
                     }
                 },
                 change: function () {
                     if (!innerFocus) {
-                        updateValue();
+                        me._updateValue();
                     }
                 }
             });
@@ -23543,8 +23523,9 @@ var msls_tryGetPercentFormattedText;
                 var $ul = $(this),
                     $input = $(data.input),
                     value = $input.val(),
-                    unchangedValue = me._userEntity ?
-                        me._userEntity.DisplayText || me._userEntity.Key :
+                    userEntity = me._userEntity,
+                    unchangedValue = userEntity ?
+                        userEntity.DisplayText || userEntity.Key :
                         me.value;
                 if (value === unchangedValue) {
                     return;
@@ -23638,16 +23619,20 @@ var msls_tryGetPercentFormattedText;
                 }
             },
             vclick: function (e) {
-                var $li;
+                var $li, userEntity;
                 if (e.target === me._ulElement[0]) {
                     return;
                 } else {
                     $li = $(e.target).closest("li");
                 }
-                me._userEntity = $li.data("userEntity");
-                me._textElement.val(me._userEntity.DisplayText || me._userEntity.Key);
+                userEntity = $li.data("userEntity");
+                if (!userEntity) {
+                    return;
+                }
+                me._userEntity = userEntity;
+                me._textElement.val(userEntity.DisplayText || userEntity.Key);
                 me._emptyList();
-                updateValue();
+                me._updateValue();
                 e.preventDefault();
             }
         });
@@ -23662,11 +23647,12 @@ var msls_tryGetPercentFormattedText;
     }
 
     function _refreshView() {
-        var me = this, key, loadingPromise;
+        var me = this, key, loadingPromise,
+            userEntity = me._userEntity;
         if (!me._isViewCreated || !me._textElement || me._updatingValue) {
             return;
         }
-        key = !me._userEntity ? me._textElement.val() : me._userEntity.Key;
+        key = !userEntity ? me._textElement.val() : userEntity.Key;
         if (key !== me.value) {
             me._userEntity = null;
             me._textElement.val(me.value);
@@ -23708,8 +23694,8 @@ var msls_tryGetPercentFormattedText;
         }
     }
 
-    msls_defineClass("ui.controls", "PersonPicker", PersonPicker, msls_ui_Control, {
-        controlName: "PersonPicker",
+    msls_defineClass("ui.controls", "PersonPickerBase", PersonPickerBase, msls_ui_Control, {
+        controlName: "PersonPickerBase",
         value: msls_controlProperty(
             function onValueChanged(value) {
                 this._onValueChanged();
@@ -23720,10 +23706,33 @@ var msls_tryGetPercentFormattedText;
         _refreshView: _refreshView,
         _onValueChanged: _onValueChanged,
         _selectPerson: _selectPerson,
-        _emptyList: _emptyList
+        _emptyList: _emptyList,
+        _updateValue: _updateValue
     }, {
         _fillTemplate: _fillTemplate,
         _isFormElement: true
+    });
+
+}());
+
+(function () {
+
+    function PersonPicker(view) {
+       
+        msls.ui.controls.PersonPickerBase.call(this, view);
+    }
+
+    function _attachViewCore(templateData) {
+        msls.ui.controls.PersonPickerBase.prototype._attachViewCore.call(this, templateData);
+        this._rootElement.addClass("msls-ctl-person-picker-base");
+    }
+
+    msls_defineClass("ui.controls", "PersonPicker", PersonPicker, msls.ui.controls.PersonPickerBase, {
+        controlName: "PersonPicker",
+        _attachViewCore: _attachViewCore
+    }, {
+        _fillTemplate: msls.ui.controls.PersonPickerBase._fillTemplate,
+        _isFormElement: msls.ui.controls.PersonPickerBase._isFormElement
     });
 
     msls.ui.controls.PersonPicker.prototype._propertyMappings = {
@@ -23928,6 +23937,155 @@ var msls_tryGetPercentFormattedText;
     }, {
         _fillTemplate: _fillTemplate
     });
+
+}());
+
+(function () {
+    function RelatedEntityPersonPicker(view) {
+
+        msls.ui.controls.PersonPickerBase.call(this, view);
+    }
+
+    function _attachViewCore(templateData) {
+        var me = this,
+            contentItem = me.data,
+            model = contentItem.model,
+            dataSource = model.dataSource,
+            member = dataSource.member,
+            entity = me.entity,
+            entityDetails;
+
+        msls.ui.controls.PersonPickerBase.prototype._attachViewCore.call(me, templateData);
+        me._rootElement.addClass("msls-ctl-person-picker-base");
+
+        $.each(member.elementType.properties, function (index, prop) {
+            if (prop.name.toLowerCase() === "email" || prop.name.toLowerCase() === "workemail") {
+                me._emailPropertyName = prop.name;
+                return false;
+            }
+
+            return true;
+        });
+
+
+        contentItem.dataBind("value." + me._emailPropertyName, function (newValue) {
+            if (entity) {
+                entityDetails = entity.details;
+                me.value = entityDetails.entity[me._emailPropertyName];
+            } else {
+                me.value = null;
+            }
+        });
+    }
+
+    function _getForeignKeyPropertyName(me) {
+
+        var relatedEntityPropertyModel = me.detailsProperty.getModel(),
+            relatedEntityPropertyName = relatedEntityPropertyModel.name,
+            fromEnd = null,
+            toEnd = null,
+            foreignKeyProperty = null,
+            foreignKeyPropertyName,
+            relationshipEnds = me.detailsProperty._details["__" + relatedEntityPropertyName].associationSet.ends;
+
+
+        $.each(relationshipEnds, function (index, end) {
+            if (end.entitySet.entityType.id === me.detailsProperty.entity.details.getModel().id) {
+                fromEnd = end;
+            } else {
+                toEnd = end;
+            }
+
+            return true;
+        });
+
+        me._toEndEntitySetName = toEnd.entitySet.name;
+
+
+        foreignKeyProperty = fromEnd.properties[0];
+        if (foreignKeyProperty.entityProperty) {
+            foreignKeyPropertyName = foreignKeyProperty.entityProperty.name;
+        }
+
+        return foreignKeyPropertyName;
+    }
+
+    function _setForeignKeyProperty(me, userId, deferred) {
+        var query = null;
+
+        if (!me._isRelationshipInfoResolved) {
+            me._foreignKeyPropertyName = _getForeignKeyPropertyName(me);
+            me._isRelationshipInfoResolved = true;
+        }
+
+        if (me._foreignKeyPropertyName) {
+            me.detailsProperty.entity[me._foreignKeyPropertyName] = userId;
+            deferred.resolve();
+        } else if (userId) {
+            query = me.detailsProperty.entity.details.entitySet.dataService[me._toEndEntitySetName + "_SingleOrDefault"](userId);
+            query.execute().then(function (result) {
+                me.detailsProperty.value = result.results[0];
+                deferred.resolve();
+            });
+        } else {
+            me.detailsProperty.value = null;
+            deferred.resolve();
+        }
+    }
+
+    function _updateValue() {
+        var me = this,
+            userEntity = me._userEntity,
+            entityData,
+            deferred = $.Deferred();
+
+        if (userEntity) {
+            msls_sharepoint.ready(function () {
+                entityData = userEntity.EntityData;
+                var user = msls_sharepoint.hostWeb.ensureUser(entityData.Email),
+                    userId;
+                msls_sharepoint.load(user).then(
+                    function onEnsureUserSuccess() {
+                        me._updatingValue = true;
+                        userId = user.get_id();
+                        me._updatingValue = false;
+
+                        _setForeignKeyProperty(me, userId, deferred);
+                    });
+            });
+        } else {
+            me._updatingValue = true;
+            me.value = me._textElement.val();
+            me._updatingValue = false;
+
+            _setForeignKeyProperty(me, null, deferred);
+        }
+        
+        return deferred.promise();
+    }
+
+    msls_defineClass("ui.controls", "RelatedEntityPersonPicker", RelatedEntityPersonPicker, msls.ui.controls.PersonPickerBase, {
+        controlName: "RelatedEntityPersonPicker",
+        _updateValue: _updateValue,
+        _emailPropertyName: null,
+        _foreignKeyPropertyName: null,
+        _isRelationshipInfoResolved: null,
+        _toEndEntitySetName: null,
+        entity: msls_controlProperty(null, null, true),
+        _attachViewCore: _attachViewCore
+    }, {
+        _fillTemplate: msls.ui.controls.PersonPickerBase._fillTemplate,
+        _isFormElement: msls.ui.controls.PersonPickerBase._isFormElement
+    });
+
+    msls.ui.controls.RelatedEntityPersonPicker.prototype._propertyMappings = {
+        value: "entity",
+        details: "detailsProperty"
+    };
+
+    msls.ui.controls.RelatedEntityPersonPicker.prototype._editableProperties = {
+        entity: "value"
+    };
 
 }());
 
@@ -24225,13 +24383,18 @@ var msls_ui_CollectionControl;
     function toggleFocusedItem(control) {
         var $focusableItem = control.focusableItem;
         var focusedItemEntity = $focusableItem.data(itemDataKey);
-        var collection = control._collection;
-        if (collection.selectedItem === focusedItemEntity) {
-            collection.selectedItem = null;
+
+        if (!!focusedItemEntity) {
+            var collection = control._collection;
+            if (collection.selectedItem === focusedItemEntity) {
+                collection.selectedItem = null;
+            } else {
+                selectFocusedItem(control);
+            }
+            return false;
         } else {
-            selectFocusedItem(control);
+            return true;
         }
-        return false;
     }
 
 
@@ -24306,6 +24469,7 @@ var msls_ui_CollectionControl;
     itemDataKey = "__entity",
     listViewTemplate =
         '<div class="msls-vauto ' + msls_control_header + '"/>' +
+        "<div class='msls-vauto " + msls_control_search + "'/>" +
         '<div{0}><ul class="msls-listview" data-role="listview" data-inset="true" /></div>',
     listViewEmptyHtml,
     initializedNotification = "listViewInitialized",
@@ -24592,7 +24756,10 @@ var msls_ui_CollectionControl;
             if (listView._shouldEnhance) {
                 $elements.trigger("create");
             }
+
+            ulElement.listview();
             ulElement.listview("refresh");
+
             if (!listView._focusableItem && !!addedElements.length) {
                 $focusableItem = listView._focusableItem =
                     $(addedElements[0]);
@@ -24636,7 +24803,9 @@ var msls_ui_CollectionControl;
 
     function changeFocusableItem(listView, $itemToFocus) {
 
-        listView._focusableItem.attr(html_tabIndex_Attribute, "-1");
+        if (listView._focusableItem) {
+            listView._focusableItem.attr(html_tabIndex_Attribute, "-1");
+        }
 
         listView._focusableItem = $itemToFocus;
         $itemToFocus.attr(html_tabIndex_Attribute, "0");
@@ -24734,6 +24903,7 @@ var msls_ui_CollectionControl;
         listView._collectionPromise = null;
         msls_mark(msls_codeMarkers.listViewLoadDataLoaded);
         addListItems(listView, items, startIndex);
+        endLoading(listView);
     }
 
     function joinVisualCollectionExecution(listView) {
@@ -24885,41 +25055,10 @@ var msls_ui_CollectionControl;
         return $($items[focusedItemIndex]);
     }
 
-    function ensureFocusedItemInView(listView, $focusedItem) {
-        var $activePage,
-            headerHeight,
-            footerHeight,
-            $window,
-            windowScrollTop,
-            shouldScroll,
-            focusedItemViewTop,
-            focusedItemViewOffset;
+    function ensureFocusedItemInViewForListView(listView, $focusedItem) {
 
         if (!listView.data._isVStretch) {
-            $activePage = $.mobile.activePage;
-            $window = $(window);
-            windowScrollTop = $window.scrollTop();
-            focusedItemViewTop = $focusedItem.offset().top - windowScrollTop;
-
-            headerHeight = $("div[data-role='header']", $activePage)
-                .outerHeight();
-            if (headerHeight) {
-                focusedItemViewOffset = focusedItemViewTop - headerHeight;
-                shouldScroll = focusedItemViewOffset < 0;
-            }
-            if (!shouldScroll) {
-                footerHeight = $("div[data-role='footer']", $activePage)
-                    .outerHeight();
-                if (footerHeight) {
-                    focusedItemViewOffset = $focusedItem.outerHeight() -
-                        ($window.height() - focusedItemViewTop -
-                        footerHeight);
-                    shouldScroll = focusedItemViewOffset > 0;
-                }
-            }
-            if (shouldScroll) {
-                $window.scrollTop(windowScrollTop + focusedItemViewOffset);
-            }
+            msls_ensureFocusedItemInView($focusedItem);
         }
     }
 
@@ -24956,7 +25095,7 @@ var msls_ui_CollectionControl;
         if (!!$itemToFocus && !!$itemToFocus.length) {
             changeFocusableItem(listView, $itemToFocus);
             $itemToFocus.focus();
-            ensureFocusedItemInView(listView, $itemToFocus);
+            ensureFocusedItemInViewForListView(listView, $itemToFocus);
         }
     }
 
@@ -25040,6 +25179,23 @@ var msls_ui_CollectionControl;
         e.preventDefault();
     }
 
+    function onCollectionEnableSearchChange(listView) {
+        var collection = listView._collection;
+        if (listView._searchBox) {
+            var isVisible = true;
+            if (collection.enableSearch) {
+                isVisible = true;
+            } else {
+                isVisible = false;
+                listView._searchBox.text = null;
+            }
+
+            msls_addOrRemoveClass(listView._searchBox.getView(), !isVisible, msls_collapsed);
+            msls_ensureFocusedItemInView($("input.id-element", listView._searchBox.getView()));
+            $("input.id-element", listView._searchBox.getView()).focus();
+        }
+    }
+
     function onCreated(listView) {
         var collection = listView._collection,
             ulElement = listView._ulElement,
@@ -25068,6 +25224,10 @@ var msls_ui_CollectionControl;
             onCollectionSelectedItemChange(listView);
         });
 
+        msls_addAutoDisposeChangeListener(collection, "enableSearch", listView, function () {
+            onCollectionEnableSearchChange(listView);
+        });
+
         msls_mark(msls_codeMarkers.listViewLoadStart);
 
         scrollHelper = listView._scrollHelper =
@@ -25081,6 +25241,9 @@ var msls_ui_CollectionControl;
         });
 
         ulElement.on("keydown", function (e) {
+            if (e.isDefaultPrevented()) {
+                return;
+            }
             onKeyDown(listView, e);
         });
 
@@ -25141,6 +25304,22 @@ var msls_ui_CollectionControl;
                 headerTextBinding.bind();
             }
             listView._headerLabel.render();
+
+            if (!listView._searchBox) {
+                listView._searchBox = new msls.ui.controls.SearchTextBoxControl(
+                    $("." + msls_control_search, listView.getView()));
+
+                var visualCollection = listView.data.value;
+                if (!!visualCollection && !visualCollection.enableSearch) {
+                    listView._searchBox.getView().addClass(msls_collapsed);
+                }
+                
+                var searchTextBinding = new msls.data.DataBinding(
+                    "data.value.search", listView, "text", listView._searchBox,
+                    msls_data_DataBindingMode.twoWay);
+                searchTextBinding.bind();
+            }
+            listView._searchBox.render();
 
             if (!collection) {
                 return;
@@ -25203,12 +25382,17 @@ var msls_ui_CollectionControl;
             function _onDispose() {
                 var me = this,
                     headerLabel = me._headerLabel,
+                    searchBox = me._searchBox,
                     globalStyle = me._globalStyle,
                     layoutUpdatingCallback = me._layoutUpdatingCallback;
 
                 if (headerLabel) {
                     msls_dispose(headerLabel);
                     me._headerLabel = null;
+                }
+                if (searchBox) {
+                    msls_dispose(searchBox);
+                    me._searchBox = null;
                 }
                 if (globalStyle) {
                     globalStyle.remove();
@@ -25259,6 +25443,10 @@ var msls_ui_CollectionControl;
 }());
 
 (function () {
+
+    var _PersonViewer = msls.ui.controls.PersonViewer;
+
+    /* Static fields */
     var _ModalPickerQueryObjectLoader,
         _ModalPickerListViewContentItemDetails,
         _ContentItemPresenter = msls.ui.controls.ContentItemPresenter,
@@ -25322,42 +25510,370 @@ var msls_ui_CollectionControl;
     function _fillTemplate(view, contentItem, templateData) {
 
 
-        var element = $('<a class="id-element" tabIndex="0" data-role="button" data-icon="arrow-d" data-mini="true" data-iconpos="right" />').appendTo(view),
-            itemViewElement = $("<div></div>").appendTo(element),
+        var containerDiv = $('<div class="id-container"/>').appendTo(view),
+            autoCompleteElement = $('<ul class="id-auto-complete-element" ' +
+                                        'data-role="listview" data-inset="true" data-filter="true" data-filter-theme="a" ' +
+                                        'data-filter-placeholder="' + msls_getResourceString("modalPicker_placeholder") + '" />').appendTo(containerDiv),
+            modalButton = $('<a class="id-modal-button msls-has-search msls-large-icon" tabIndex="0" data-role="button" data-icon="msls-add" data-mini="true" data-iconpos="notext" />').appendTo(containerDiv),
+            itemViewElement = $("<div/>").appendTo(containerDiv),
+            autoCompleteDropDown = $('<div class="id-auto-complete-dropdown"/>').appendTo(view),
             itemViewModel = contentItem.children[0];
-        templateData.idElement = msls_getTemplateItemPath(view, element);
+
+        templateData.autoCompleteElement = msls_getTemplateItemPath(view, autoCompleteElement);
+        templateData.autoCompleteDropDown = msls_getTemplateItemPath(view, autoCompleteDropDown);
+        templateData.modalButton = msls_getTemplateItemPath(view, modalButton);
         templateData.itemViewElement = msls_getTemplateItemPath(view, itemViewElement);
         if (!!itemViewModel) {
             msls_createPresenterTemplate(itemViewElement, itemViewModel, templateData.itemViewData = {});
         }
     }
 
+    function _updateSearchValue(entity, modalPicker) {
+        var value = null,
+            entityType,
+            summaryAttribute,
+            property,
+            id;
+
+        if (entity) {
+            entityType = entity.details.getModel();
+            summaryAttribute = msls_getAttribute(entityType, ":@SummaryProperty");
+            if (!!summaryAttribute) {
+                property = summaryAttribute.property;
+                if (!!property && !!property.name) {
+                    value = entity[property.name];
+                    if (!!msls_sharepoint && property.propertyType.id === ":Person") {
+                        var promise = _PersonViewer._resolveId(value);
+                        modalPicker.search = value;
+                        _updateValue(modalPicker);
+                        promise.then(function (userEntity) {
+                            if (!!userEntity) {
+                                if (msls_isDisposed(modalPicker) || (modalPicker.search !== "" && modalPicker.search !== value)) {
+                                    return;
+                                }
+                                if (!!userEntity.DisplayText) {
+                                    modalPicker.search = userEntity.DisplayText;
+                                } else {
+                                    modalPicker.search = value;
+                                }
+                                _updateValue(modalPicker);
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+        }
+
+        modalPicker.search = value;
+        _updateValue(modalPicker);
+    }
+
+    function _updateValue(modalPicker) {
+        modalPicker._updatingValue = true;
+        if (!!modalPicker._autoCompleteSearchBox) {
+            modalPicker.search = modalPicker._autoCompleteSearchBox.val();
+        }
+        modalPicker._updatingValue = false;
+    }
+
     function _attachViewCore(templateData) {
         var me = this,
-            element = me._element = msls_getTemplateItem(me.getView(), templateData.idElement, ".id-element"),
+            modalButton = me._modalButton = msls_getTemplateItem(me.getView(), templateData.modalButton, ".id-modal-button"),
+            autoCompleteElement = me._autoCompleteElement = msls_getTemplateItem(me.getView(), templateData.autoCompleteElement, ".id-auto-complete-element"),
+            autoCompleteDropDown = me._autoCompleteDropDown = msls_getTemplateItem(me.getView(), templateData.autoCompleteDropDown, ".id-auto-complete-dropdown"),
             itemViewModel = me.data.children[0],
             itemView,
-            itemViewElement = msls_getTemplateItem(me.getView(), templateData.itemViewElement);
+            itemViewElement = msls_getTemplateItem(me.getView(), templateData.itemViewElement),
+            innerFocus,
+            isSearchable = false,
+            propertyModel;
 
         msls_ui_Control.prototype._attachViewCore.call(me, templateData);
+        me._rootElement = me.getView().closest(".msls-presenter");
 
-        element.on("vclick", function (e) {
-            element.focus();
+        modalButton.on("vclick", function (e) {
+            modalButton.focus();
             showPicker(me);
             e.preventDefault();
         });
 
-        msls_handleKeyDownForTapAction(element);
+        msls_handleKeyDownForTapAction(modalButton);
 
-        if (!itemViewModel) {
-            return;
+        if (!_isReadOnlyOrDisabled(me) &&
+            !!me.data && !!me.data.valueModel && !!me.data.valueModel) {
+            propertyModel = me.data.valueModel;
+            if (propertyModel) {
+                isSearchable = !msls_getAttribute(propertyModel.propertyType, ":@NotSearchable");
+            }
         }
 
-        itemView = new msls.ui.controls.ContentItemPresenter(itemViewElement);
-        itemView.parent = me;
-        itemView.data = itemViewModel;
+        if (!isSearchable) {
 
-        itemView.attachView(templateData.itemViewData);
+            autoCompleteElement.remove();
+            me._autoCompleteElement = null;
+
+            modalButton.attr("data-iconpos", "right");
+            modalButton.attr("data-icon", "arrow-d");
+            modalButton.removeClass("msls-has-search");
+            modalButton.removeClass("msls-large-icon");
+
+            itemViewElement.remove();
+            itemViewElement.appendTo(modalButton);
+
+            if (!!itemViewModel) {
+                itemView = new msls.ui.controls.ContentItemPresenter(itemViewElement);
+                itemView.parent = me;
+                itemView.data = itemViewModel;
+
+                itemView.attachView(templateData.itemViewData);
+            }
+        } else /*isSearchable*/ {
+            itemViewElement.remove();
+
+            me.getView().one("listviewinit", function () {
+                var searchElement = me.getView().find(".ui-input-search");
+
+                searchElement.addClass("ui-mini");
+
+                me._autoCompleteSearchBox = searchElement.find(".ui-input-text");
+                me._autoCompleteSearchBox.on({
+                    vmousedown: function () {
+                        if ($(document.activeElement).closest(me._autoCompleteElement).length) {
+                            innerFocus = true;
+                        }
+                    },
+                    keydown: function (e) {
+                        var keyCodes = $.mobile.keyCode,
+                            ulElement, liElements, liElement;
+                        switch (e.keyCode) {
+                            case keyCodes.TAB:
+                                ulElement = me._autoCompleteDropDown.find(".msls-listview");
+                                liElements = ulElement.children("li");
+                                if (liElements.length === 1 && !liElements.is(".msls-sppsp-loading")) {
+                                    liElements.first().trigger("vclick");
+                                }
+                                break;
+                            case keyCodes.DOWN:
+                                ulElement = me._autoCompleteDropDown.find(".msls-listview");
+                                liElements = ulElement.children("li");
+                                if (!!liElements.length && !liElements.is(".msls-sppsp-loading")) {
+                                    innerFocus = true;
+                                    liElement = liElements.first();
+                                    liElement.attr("tabIndex", "0");
+                                    liElement.addClass("ui-btn-active");
+                                    liElement.focus();
+                                    e.preventDefault();
+                                }
+                                break;
+                            case keyCodes.ESCAPE:
+                                if (me._popupContentItemInfo) {
+                                    me._emptyList();
+                                    e.stopPropagation();
+                                }
+                                break;
+                            case keyCodes.ENTER:
+                                _updateValue(me);
+                                break;
+                        }
+                    },
+                    change: function () {
+                        if (!innerFocus) {
+                            _updateValue(me);
+                        }
+                    }
+                });
+
+                me._refreshView();
+            });
+
+            me._autoCompleteElement.on({
+                listviewbeforefilter: function (eventArg, data) {
+                    var $ul = $(this),
+                        $input = $(data.input),
+                        value = $input.val(),
+                        visualCollection;
+
+                    if (value === "") {
+                        value = null;
+                    }
+
+                    if (me.search === value) {
+                        return;
+                    }
+
+                    me.search = value;
+                    me._emptyList();
+
+                    if (!me.search) {
+                        me.item = null;
+                        return;
+                    }
+
+                    if (me.search.length < 3) {
+                        return;
+                    }
+
+                    if (!me._delayPopup) {
+                        me._delayPopup = new msls.DelayedRequest();
+                        me._delayPopup.timeOut = 500;
+                    }
+
+                    me._delayPopup.addRequest(function () {
+                        if (!me.search || me.search.length < 3) {
+                            return;
+                        }
+
+                        visualCollection = _initializeVisualCollection(me, true);
+                        visualCollection.load().then(function () {
+                            if (visualCollection.data.length === 0) {
+                                me._emptyList();
+                            }
+                        });
+
+                        _initializeListViewModel(me);
+                        me._popupContentItemInfo = _initializeList(me, visualCollection);
+                        _renderList(me, visualCollection, me._popupContentItemInfo, /*content*/me._autoCompleteDropDown, /*showClear*/ false, /*showHeader*/ false);
+
+                        msls_updateLayout(me._autoCompleteDropDown);
+
+                        me._autoCompleteDropDown.on({
+                            vmousedown: function (e) {
+                                var activeElement = $(document.activeElement),
+                                    ulElement2 = me._autoCompleteDropDown.find(".msls-listview"),
+                                    listControl = me._autoCompleteDropDown.find(".msls-ctl-list");
+                                if (!!activeElement.closest(me._autoCompleteSearchBox).length ||
+                                    (!!activeElement.closest("li").closest(me._autoCompleteDropDown).length &&
+                                    e.target === ulElement2[0])) {
+                                    innerFocus = true;
+                                }
+                                if (e.target === listControl[0]) {
+                                    setTimeout(function () {
+                                        $(document).one("vmousedown", function (ev) {
+                                            if (!$(ev.target).closest(me.getView()).length) {
+                                                me._emptyList();
+                                            }
+                                        });
+                                    }, 0);
+                                }
+                            }
+                        });
+
+                        var ulElement = me._autoCompleteDropDown.find(".msls-listview");
+                        ulElement.on({
+                            keydown: function (e) {
+                                var keyCodes = $.mobile.keyCode,
+                                    liElement;
+                                switch (e.keyCode) {
+                                    case keyCodes.UP:
+                                        liElement = $(document.activeElement);
+                                        liElement.attr("tabIndex", "-1");
+                                        liElement.removeClass("ui-btn-active");
+                                        liElement = liElement.prev("li");
+                                        innerFocus = true;
+                                        if (!liElement.length) {
+                                            me._autoCompleteSearchBox.focus();
+                                        } else {
+                                            liElement.addClass("ui-btn-active");
+                                            liElement.attr("tabIndex", "0");
+                                            liElement.focus();
+                                        }
+                                        e.preventDefault();
+                                        break;
+                                    case keyCodes.DOWN:
+                                        liElement = $(document.activeElement);
+                                        if (liElement.next("li").length) {
+                                            liElement.attr("tabIndex", "-1");
+                                            liElement.removeClass("ui-btn-active");
+                                            liElement = liElement.next("li");
+                                            innerFocus = true;
+                                            liElement.addClass("ui-btn-active");
+                                            liElement.attr("tabIndex", "0");
+                                            liElement.focus();
+                                        }
+                                        e.preventDefault();
+                                        break;
+                                    case keyCodes.ESCAPE:
+                                        innerFocus = true;
+                                        me._emptyList();
+                                        me._autoCompleteSearchBox.focus();
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        break;
+                                    case keyCodes.TAB:
+                                    case keyCodes.ENTER:
+                                        $(e.target).trigger("vclick");
+                                        break;
+                                }
+                            },
+                            vclick: function (e) {
+                                var $li,
+                                    ulElement3 = me._autoCompleteDropDown.find(".msls-listview");
+                                if (e.target === ulElement3[0]) {
+                                    return;
+                                } else {
+                                    $li = $(e.target).closest("li");
+                                }
+
+                                me.item = $li.data("__entity");
+                                me._emptyList();
+                                _updateSearchValue(me.item, me);
+                                e.preventDefault();
+                                me._autoCompleteSearchBox.focus();
+                            }
+                        });
+
+                    }); /* End of delayPopup callback */
+
+                }
+            });
+
+            me.getView().focusout(function (e) {
+                var listControl;
+                if (innerFocus) {
+                    innerFocus = false;
+                } else {
+                    listControl = me._autoCompleteDropDown.find(".msls-ctl-list");
+                    if (e.target !== listControl[0]) {
+                        me._emptyList();
+                        _updateSearchValue(me.item, me);
+                    }
+                }
+            });
+        } /*isSearchable*/
+    }
+
+    function _disposeContentItemInfo(info) {
+        if (info) {
+            info.item.parent = null;
+            msls_dispose(info.presenter);
+            msls_dispose(info.item);
+            msls_dispose(info.itemDetails);
+        }
+    }
+
+    function _refreshView() {
+        var me = this, currentText;
+        if (!me._isViewCreated || !me._autoCompleteSearchBox || me._updatingValue) {
+            return;
+        }
+        currentText = me._autoCompleteSearchBox.val();
+        if (currentText !== me.search) {
+            me._autoCompleteSearchBox.val(me.search);
+        }
+    }
+
+    function _emptyList() {
+        this._autoCompleteDropDown.html("");
+        
+        if (this._popupContentItemInfo) {
+            msls_notify(popupClosedNotification, {
+                modalPicker: this,
+            });
+
+            _disposeContentItemInfo(this._popupContentItemInfo);
+            this._popupContentItemInfo = null;
+        }
     }
 
     function _customVisualStateHandler(e) {
@@ -25374,31 +25890,18 @@ var msls_ui_CollectionControl;
         }
     }
 
-    function showPicker(me) {
-
-        if (_isReadOnlyOrDisabled(me)) {
-            return;
-        }
+    function _initializeVisualCollection(me, applySearchFilter) {
 
         var modalPickerContentItem = me.data,
-            modalPickerContentItemModel = modalPickerContentItem.model,
-            itemContentItemTemplate =
-                modalPickerContentItem.children[0],
+            visualCollection = me._visualCollection,
             detailsProperty = me.detailsProperty,
             loader,
-            visualCollection = me._visualCollection,
             propertyModel,
             entityType,
             screenDetails,
             targetEntitySet,
-            listViewControlModels,
-            listViewCIP,
-            listViewContentItem,
-            listViewContentItemDetails,
-            showClear =
-                !!detailsProperty.value &&
-                (!detailsProperty.entity ||
-                 msls_Entity_getNavigationPropertyTargetMultiplicity(detailsProperty) === "ZeroOrOne");
+            search,
+            itemLimit;
 
         if (!visualCollection) {
             visualCollection = modalPickerContentItem.choicesSource;
@@ -25425,11 +25928,37 @@ var msls_ui_CollectionControl;
                 visualCollection =
                     new msls.VisualCollection(modalPickerContentItem.screen.details, loader);
 
-                visualCollection.load();
+                visualCollection.search = me.search;
             }
 
             me._visualCollection = visualCollection;
         }
+
+        search = null;
+        itemLimit = null;
+
+        if (applySearchFilter) {
+            search = me.search;
+            itemLimit = 15;
+        }
+
+        if (visualCollection.search !== search) {
+            visualCollection.search = search;
+        }
+
+        if (visualCollection._loader._itemLimit !== itemLimit) {
+            visualCollection._loader._itemLimit = itemLimit;
+        }
+
+        return visualCollection;
+    }
+
+    function _initializeListViewModel(me) {
+        var listViewControlModels,
+            modalPickerContentItem = me.data,
+            modalPickerContentItemModel = modalPickerContentItem.model,
+            itemContentItemTemplate = modalPickerContentItem.children[0];
+
 
         if (!listViewModel) {
             listViewControlModels = msls_findGlobalItems(
@@ -25447,77 +25976,118 @@ var msls_ui_CollectionControl;
         listViewModel.childContentItems = [
             itemContentItemTemplate.model
         ];
+    }
 
-        listViewContentItem = contentItemService.createContentItemTree(
+    function _initializeList(me, visualCollection) {
+
+        var modalPickerContentItem = me.data,
+            contentItemInfo = {};
+
+        me._emptyList();
+
+        contentItemInfo.item = contentItemService.createContentItemTree(
             modalPickerContentItem.screen, listViewModel, modalPickerContentItem);
         modalPickerContentItem.children.pop();
-        listViewContentItem.__value = visualCollection;
-        listViewContentItem.__details = listViewContentItemDetails =
+        contentItemInfo.item.__value = visualCollection;
+        contentItemInfo.item.__details = contentItemInfo.itemDetails =
             new _ModalPickerListViewContentItemDetails(visualCollection);
-        listViewContentItem._dictionary.setValue(builtIn_showHeaderProperty, false);
+        contentItemInfo.item._dictionary.setValue(builtIn_showHeaderProperty, false);
 
-        if (showClear && !clearText) {
-            clearText = msls_getResourceString("modalPicker_clear");
+        return contentItemInfo;
+    }
+
+    function _renderList(me, visualCollection, contentItemInfo, content, showClear, showHeader) {
+
+        var modalPickerContentItem = me.data,
+            detailsProperty = me.detailsProperty,
+            $header, $clearLink, $listViewContainerElement,
+            listView;
+
+        content.addClass("msls-modalpicker");
+        if (msls_application.options.enableModalScrollRegions) {
+            content.addClass(msls_vscroll);
         }
 
+        $header = $('<div class="msls-vauto"/>').appendTo(content);
+        $listViewContainerElement = $("<div>").appendTo(content);
+
+        if (showClear) {
+            if (!clearText) {
+                clearText = msls_getResourceString("modalPicker_clear");
+            }
+
+            $clearLink = $('<a href="#"/>')
+                .on("touchend", function () { })
+                .on("vclick", function (e) {
+                    e.preventDefault();
+                    detailsProperty.value = null;
+                    me.search = null;
+                    msls_modalView.close();
+                })
+                .appendTo($('<div class="msls-modal-picker-clear-container msls-leaf"/>')
+                    .appendTo($header))
+                .text(clearText);
+        }
+
+        if (showHeader) {
+            $header.append($('<div class="msls-control-header msls-leaf"/>')
+                .append($('<div class="msls-text"/>')
+                    .append($('<span class="id-element"/>')
+                        .text(modalPickerContentItem.displayName))));
+        }
+
+        contentItemInfo.presenter = new _ContentItemPresenter($listViewContainerElement);
+        contentItemInfo.presenter.data = contentItemInfo.item;
+        contentItemInfo.presenter.render();
+        $listViewContainerElement.removeClass("msls-compact-padding");
+
+        listView = contentItemInfo.presenter.children[0];
+
+        listView.itemTap = new msls.BoundCommand(
+            "_onItemTap",
+            me,
+            msls_createBoundArguments(visualCollection, [{ binding: "selectedItem" }]));
+
+        msls_addLifetimeDependency(listView, listView.itemTap);
+
+        msls_notify(popupOpenedNotification, {
+            modalPicker: me,
+            listView: listView,
+            clearLink: $clearLink
+        });
+    }
+
+    function showPicker(me) {
+
+        if (_isReadOnlyOrDisabled(me)) {
+            return;
+        }
+
+        var detailsProperty = me.detailsProperty,
+            visualCollection,
+            contentItemInfo,
+            showHeader = true,
+            showClear = !!detailsProperty.value &&
+                        (!detailsProperty.entity ||
+                        msls_Entity_getNavigationPropertyTargetMultiplicity(detailsProperty) === "ZeroOrOne");
+
+        visualCollection = _initializeVisualCollection(me, false);
+        visualCollection.load();
+
+        _initializeListViewModel(me);
+
+        contentItemInfo = _initializeList(me, visualCollection);
+
+        me._displayingModalWindow = true;
         msls_modalView.show({
             buildContentCallback: function buildContent(content) {
-
-                content.addClass("msls-modalpicker");
-                if (msls_application.options.enableModalScrollRegions) {
-                    content.addClass(msls_vscroll);
-                }
-
-                var $header = $('<div class="msls-vauto"/>').appendTo(content),
-                    $clearLink,
-                    listViewContainerElement = $("<div>")
-                        .appendTo(content),
-                    listView;
-
-                if (showClear) {
-                    $clearLink = $('<a href="#"/>')
-                        .on("touchend", function () { })
-                        .on("vclick", function (e) {
-                            e.preventDefault();
-                            detailsProperty.value = null;
-                            msls_modalView.close();
-                        })
-                        .appendTo($('<div class="msls-modal-picker-clear-container msls-leaf"/>')
-                            .appendTo($header))
-                        .text(clearText);
-                }
-                $header.append($('<div class="msls-control-header msls-leaf"/>')
-                    .append($('<div class="msls-text"/>')
-                        .append($('<span class="id-element"/>')
-                            .text(modalPickerContentItem.displayName))));
-
-                listViewCIP = new _ContentItemPresenter(listViewContainerElement);
-                listViewCIP.data = listViewContentItem;
-                listViewCIP.render();
-                listViewContainerElement.removeClass("msls-compact-padding");
-
-                listView = listViewCIP.children[0];
-
-                listView.itemTap = new msls.BoundCommand(
-                    "_onItemTap",
-                    me,
-                    msls_createBoundArguments(visualCollection, [{ binding: "selectedItem" }]));
-
-                msls_addLifetimeDependency(listView, listView.itemTap);
-
-                msls_notify(popupOpenedNotification, {
-                    modalPicker: me,
-                    listView: listView,
-                    clearLink: $clearLink
-                });
+                _renderList(me, visualCollection, contentItemInfo, content, showClear, showHeader);
             },
             disposeContentCallback: function disposeContent() {
-                listViewContentItem.parent = null;
-                msls_dispose(listViewCIP);
-                msls_dispose(listViewContentItem);
-                msls_dispose(listViewContentItemDetails);
+                _disposeContentItemInfo(contentItemInfo);
             }
         }).then(function () {
+            me._displayingModalWindow = false;
             msls_notify(popupClosedNotification, {
                 modalPicker: me,
             });
@@ -25530,23 +26100,45 @@ var msls_ui_CollectionControl;
         }
 
         this.detailsProperty.value = item;
-        msls_modalView.close();
+        if (this._displayingModalWindow) {
+            msls_modalView.close();
+        } else {
+            this._emptyList();
+        }
     }
 
     msls_defineClass("ui.controls", "ModalPicker",
         function ModalPicker(view) {
             var me = this;
             msls_ui_Control.call(me, view);
+            me._updatingValue = false;
         },
         msls_ui_Control, {
             controlName: "ModalPicker",
             item: msls_controlProperty(
-                null, null, true),
+            function onValueChanged(value) {
+                var entity;
+
+                if (!!value && !!value.details) {
+                    entity = value.details.entity;
+                    _updateSearchValue(entity, this);
+                }
+            },
+            null, true),
+            search: msls_controlProperty(
+            function onValueChanged(value) {
+                this._refreshView();
+            },
+            null, true),
 
             _attachViewCore: _attachViewCore,
             _customVisualStateHandler: _customVisualStateHandler,
             _onItemTap: _onItemTap,
-            _onDispose: _onDispose
+            _onDispose: _onDispose,
+            _refreshView: _refreshView,
+            _emptyList: _emptyList,
+            _updateSearchValue: _updateSearchValue,
+            _disposeContentItemInfo: _disposeContentItemInfo
         }, {
             _fillTemplate: _fillTemplate
         }
@@ -25557,6 +26149,76 @@ var msls_ui_CollectionControl;
     };
     msls.ui.controls.ModalPicker.prototype._editableProperties = {
         item: "value"
+    };
+}());
+
+(function () {
+    function SearchTextBoxControl(view) {
+
+        msls.ui.controls.TextBox.call(this, view);
+    }
+
+    function _fillTemplate(view, contentItem, templateData) {
+        var template = '<input type="search" placeholder="' + msls_getResourceString("searchTextBox_placeholder") + '" class="id-element" data-mini="true" />',
+            textElement = $(template).appendTo(view);
+
+        templateData.idElement = msls_getTemplateItemPath(view, textElement);
+    }
+
+    function _attachViewCore(templateData) {
+        var me = this;
+
+        function updateText() {
+            var idElementValue = $("input.id-element", me.getView()).val(),
+                idElementValueTrimmed = idElementValue.replace(/^\s+|\s+$/g, "");
+
+            if (idElementValue !== idElementValueTrimmed) {
+                $("input.id-element", me.getView()).val(idElementValueTrimmed);
+            }
+
+            if (idElementValueTrimmed !== me.text) {
+                me._updatingText = true;
+                
+                me.text = idElementValueTrimmed;
+                me._updatingText = false;
+            }
+        }
+
+        msls_ui_Control.prototype._attachViewCore.call(me, templateData);
+
+        me.getView().on("keydown", "input.id-element", null, function (e) {
+            if (e.keyCode === $.mobile.keyCode.ENTER) {
+                updateText();
+            }
+        }).on("change", "input.id-element", null, updateText).on("blur", "input.id-element", null, updateText);
+
+        me._refreshView();
+    }
+
+    function _refreshView() {
+        if (!this._isViewCreated) {
+            return;
+        }
+        var idElement = $("input.id-element", this.getView());
+        if (!this._updatingText || idElement.val() !== this.text) {
+            idElement.val(this.text);
+        }
+    }
+
+    msls_defineClass("ui.controls", "SearchTextBoxControl", SearchTextBoxControl, msls.ui.controls.TextBox, {
+        controlName: "SearchTextBoxControl",
+        _attachViewCore: _attachViewCore,
+        _refreshView: _refreshView
+    }, {
+        _fillTemplate: _fillTemplate,
+        _isFormElement: true
+    });
+
+    msls.ui.controls.SearchTextBoxControl.prototype._propertyMappings = {
+        stringValue: "text",
+        properties: {
+            placeholderText: "placeholderText"
+        }
     };
 }());
 
@@ -25573,7 +26235,6 @@ var msls_shellView;
         $progressOverlay,
         $progressIcon,
         saveIconClasses = "msls-progress-icon msls-progress-save-icon",
-        jqmToggleIgnoreList = "a, button, input, select, textarea, .ui-header-fixed, .ui-footer-fixed, .ui-popup, li, tr",
 
         data_msls_name = "data-msls-name",
         popupTemplateId = "popupTemplate",
@@ -25600,12 +26261,6 @@ var msls_shellView;
         window.location.replace(window.location.href.replace(/#.*/, ""));
         return;
     }
-
-    if (window.location.hash) {
-
-        _restartApplication();
-    }
-
 
     if ($.mobile) {
         $.mobile.autoInitializePage = false;
@@ -25641,6 +26296,11 @@ var msls_shellView;
                     return;
                 }
             });
+
+        $("body").blur(function onBodyBlurEvent(blurEvent) {
+            blurEvent.preventDefault();
+            blurEvent.stopPropagation();
+        });
 
         $(window).on("updatelayout", function (e) {
             if ($.mobile.popup.active) {
@@ -25750,6 +26410,10 @@ var msls_shellView;
             me.initialize();
         }
 
+        if (targetUnit.requestedPageId) {
+            pageId = targetUnit.requestedPageId;
+        }
+
         if (targetUnit === msls_shell.activeNavigationUnit) {
             _changeActiveScreenTab(me, targetUnit, complete);
             return;
@@ -25759,7 +26423,7 @@ var msls_shellView;
         if (existingPageId) {
 
             if ($("#" + existingPageId, $.mobile.pageContainer).length === 0) {
-                _createScreenPage(me, existingPageId, targetUnit);
+                _createScreenPage(me, existingPageId, targetUnit, createScreenHashValue(targetUnit.screen.details));
             }
 
             _goToPageInHistory(me, $.mobile.activePage[0].id, existingPageId, false, function () {
@@ -25777,7 +26441,9 @@ var msls_shellView;
         var prefix = "";
 
 
-        pageId = _createUniquePageId(me, prefix);
+        if (!pageId) {
+            pageId = _createUniquePageId(me, prefix);
+        }
         if (!targetUnit.screen.details._pageId) {
             targetUnit.screen.details._pageId = pageId;
         }
@@ -25811,8 +26477,6 @@ var msls_shellView;
             _awaitPageChange(me, pageId)
            .then(function success2() {
                _transitionOpeningScreen(me, $.mobile.activePage, function () {
-                   $(".ui-page-active .ui-header").fixedtoolbar("updatePagePadding");
-                   $.mobile.resetActivePageHeight();
                    complete();
                });
            }, function failure(e) {
@@ -25836,6 +26500,16 @@ var msls_shellView;
         }
     }
 
+    function createScreenHashValue(screenDetails) {
+        var screenModel = screenDetails.getModel();
+
+        if (screenDetails._dataUrl !== "" && !msls_appOptions.disableUrlScreenParameters) {
+            return "/" + encodeURIComponent(screenModel.name) + "/" + screenDetails._dataUrl + "/[" + screenDetails._pageId + "]";
+        } else {
+            return "/" + encodeURIComponent(screenModel.name) + "/[" + screenDetails._pageId + "]";
+        }
+    }
+
     function awaitBrowserNavigation(targetUnit) {
         var me = this,
             targetPageId = _findPageIdFromNavigationUnit(me, targetUnit);
@@ -25848,6 +26522,10 @@ var msls_shellView;
         });
     }
 
+    function completeNavigation(targetUnit) {
+        msls_notify(msls_shell_NavigationComplete, { navigationUnit: targetUnit });
+    }
+
     function _setShellIntroducedNavigation(me) {
         me._isShellIntroducedNavigation = true;
     }
@@ -25856,18 +26534,6 @@ var msls_shellView;
         return new WinJS.Promise(function (complete) {
             me._completeOnHashChange = complete;
         });
-    }
-
-    function _parseUrl(me, url) {
-
-        var pageId = $.mobile.path.parseUrl(url).hash;
-        if (pageId) {
-            pageId = pageId.replace(/^[^#]*#/, "");
-        }
-        if (!pageId) {
-            pageId = me._firstPageId;
-        }
-        return { id: pageId, unit: _getNavigationUnit(me, pageId) };
     }
 
     function _getNavigationUnit(me, pageId) {
@@ -25881,6 +26547,9 @@ var msls_shellView;
     function _handlePageBeforeChange(me, e, navigationData) {
 
         if (!$.mobile.activePage) {
+            if (navigationData.options.fromHashChange && typeof navigationData.toPage === "string") {
+                navigationData.toPage = "";
+            }
             return;
         }
 
@@ -25889,17 +26558,23 @@ var msls_shellView;
         }
 
         if (typeof navigationData.toPage === "string") {
-            var parsed = _parseUrl(me, navigationData.toPage),
-                newPageId = parsed.id,
-                newNavigationUnit = parsed.unit;
+            var parsed = navigationData.toPage[0] === "/" ? msls_parseUrlHash(navigationData.toPage) : msls_parseUrl(navigationData.toPage),
+                newPageId = parsed.pageId || me._firstPageId,
+                newNavigationUnit = _getNavigationUnit(me, newPageId);
 
 
             if ($("#" + newPageId, $.mobile.pageContainer).length === 0) {
 
                 if (newNavigationUnit) {
-                    _createScreenPage(me, newPageId, newNavigationUnit);
+                    var dataUrl = navigationData.toPage[0] === "/" ? navigationData.toPage : $.mobile.path.parseUrl(navigationData.toPage).hash.substr(1);
+                    _createScreenPage(me, newPageId, newNavigationUnit, dataUrl);
                 } else {
-                    _createExpiredPage(me, newPageId);
+
+                    if (parsed.screenName) {
+                        e.preventDefault();
+                        msls.shell.showScreenWithParameterQueryStrings(parsed.screenName, parsed.screenParameters, parsed.pageId).done();
+                        msls_notify("BrowserNavigationPromise", _awaitPageChange(me, parsed.pageId));
+                    }
                 }
             }
         } else {
@@ -25910,13 +26585,8 @@ var msls_shellView;
         if ($page.length) {
             var navigationUnit = _getNavigationUnit(me, $page[0].id);
             if (!navigationUnit.popup) {
-                var $header = $("div[data-role='header']", $page),
-                    $footer = $("div[data-role='footer']", $page),
-                    paddingTop = $header.outerHeight().toString() + "px",
+                var $footer = $("div[data-role='footer']", $page),
                     paddingBottom = $footer.outerHeight().toString() + "px";
-                if ($page[0].style.paddingTop !== paddingTop) {
-                    $page[0].style.paddingTop = paddingTop;
-                }
                 if ($page[0].style.paddingBottom !== paddingBottom) {
                     $page[0].style.paddingBottom = paddingBottom;
                 }
@@ -26134,7 +26804,7 @@ var msls_shellView;
 
             WinJS.Promise.join(promises)
             .then(function success() {
-                var actualId = window.location.hash.replace(/^#/, "") || me._firstPageId;
+                var actualId = msls_parseUrl(window.location).pageId || me._firstPageId;
                 if (actualId === targetPageId) {
                     msls_dispatch(function () {
                         doneHandler();
@@ -26266,9 +26936,10 @@ var msls_shellView;
         var pageId = viewInfo.pageId,
             targetUnit = viewInfo.unit,
             isScreen = viewInfo.unit.contentItemTree.kind === msls_ContentItemKind.tab,
+            dataUrl = createScreenHashValue(targetUnit.screen.details),
             $page =
-                !targetUnit.popup ? _createScreenPage(me, pageId, targetUnit) :
-                _createScreenDialogPage(me, pageId, targetUnit);
+                !targetUnit.popup ? _createScreenPage(me, pageId, targetUnit, dataUrl) :
+                _createScreenDialogPage(me, pageId, targetUnit, dataUrl);
 
         return $page;
     }
@@ -26286,7 +26957,11 @@ var msls_shellView;
 
 
         $page.attr("id", pageId);
-        $page.attr("data-url", pageId);
+    }
+
+    function _setPageDataUrl($page, dataUrl)
+    {
+        $page.attr("data-url", dataUrl);
     }
 
     function _createHeaderControl(navigationUnit, $header, dataTemplate) {
@@ -26313,7 +26988,7 @@ var msls_shellView;
 
     function _createScreenFrameHeader(me, navigationUnit) {
 
-        var $header = $("<div class='msls-header' data-role='header' data-position='fixed' data-update-page-padding='false' data-tap-toggle-blacklist='" + jqmToggleIgnoreList + "'></div>"),
+        var $header = $("<div class='msls-header' data-role='header' data-update-page-padding='false' data-tap-toggle='false' ></div>"),
             dataTemplate = msls_templateStrings[taskHeaderTemplateId],
             buttonsNeeded = _determineButtonsNeeded(navigationUnit),
             mainButtonsTemplate,
@@ -26328,16 +27003,13 @@ var msls_shellView;
             buttonsNeeded.showOk ? "screenOkTemplate" :
             buttonsNeeded.showOkCancel ? "screenOkCancelTemplate" :
             null;
-        logoBackTemplate =
-            buttonsNeeded.showLogo ? "screenLogoTemplate" :
-            buttonsNeeded.showBackClose ? "screenBackTemplate" :
-            null;
+        logoBackTemplate = buttonsNeeded.showBackClose ? "screenHomeTemplate" : null;
         logoutTemplate = buttonsNeeded.showLogOut ? "screenLogoutTemplate" : null;
         navigationMenuTemplate =
             buttonsNeeded.showNavigationMenu ? "screenNavigationMenuTemplate" : null;
 
         if (!!msls_sharepoint) {
-            homeScreenUrl = msls_removeUrlParameter(window.location.href, "entity");
+            homeScreenUrl = msls_removeUrlParameter(window.location.href, "entity").replace(/#.*/, "");
         } else {
             homeScreenUrl = "./";
         }
@@ -26377,10 +27049,11 @@ var msls_shellView;
     }
 
 
-    function _createScreenPage(me, pageId, navigationUnit) {
+    function _createScreenPage(me, pageId, navigationUnit, dataUrl) {
 
         var $page = _createEmptyPage();
         _setPageIds($page, pageId);
+        _setPageDataUrl($page, dataUrl);
 
         $page.attr("data-title", navigationUnit.screen.details.displayName);
 
@@ -26392,15 +27065,6 @@ var msls_shellView;
             $footer = $(msls_templateStrings[screenFooterTemplateId])
                 .appendTo($page),
             $headerFooter = $header.add($footer);
-
-        $pageContentRoot.focusin(function (e) {
-            $headerFooter.each(function () {
-                var instance = $(this).data("mobile-fixedtoolbar");
-                if (!!instance && $(e.target).is(instance.options.hideDuringFocus)) {
-                    $(this).fixedtoolbar("hide");
-                }
-            });
-        });
 
         $footer.on("updatelayout", function (e) {
             var pageStyle = $page[0].style,
@@ -26416,18 +27080,6 @@ var msls_shellView;
 
         _handleScreenKeyboardShortCuts($page, navigationUnit);
         return $page;
-    }
-
-    function _createExpiredPage(me, pageId) {
-
-        var $page = _createEmptyPage()
-            .addClass(msls_page_expired);
-        _setPageIds($page, pageId);
-
-        $("<h2 class='msls-page-expired-message'>" +
-            msls_getResourceString("shell_page_expired_message") + "</h2>").appendTo($page);
-
-        return $page.appendTo($body);
     }
 
     function _setPageLayoutOptions($page, navigationUnit) {
@@ -26650,7 +27302,7 @@ var msls_shellView;
     }
 
 
-    function _createScreenDialogPage(me, pageId, navigationUnit) {
+    function _createScreenDialogPage(me, pageId, navigationUnit, dataUrl) {
 
 
         var cacheResult,
@@ -26666,6 +27318,7 @@ var msls_shellView;
         _fillDialogHeader($screenDialogPage, navigationUnit, screenDialogTemplateData);
 
         _setPageIds($screenDialogPage, pageId);
+        _setPageDataUrl($screenDialogPage, dataUrl);
         $screenDialogPage.appendTo($body);
 
         var $pageContentRoot = msls_getTemplateItem($screenDialogPage, screenDialogTemplateData.pageContentContainerElement);
@@ -26858,7 +27511,6 @@ var msls_shellView;
     function _determineButtonsNeeded(navigationUnit) {
 
         var task = navigationUnit.task,
-            isOnFirstScreen = navigationUnit.index === 0,
             result = {};
 
 
@@ -26873,11 +27525,9 @@ var msls_shellView;
             result.showOk = result.showOkCancel = result.showSaveDiscard = false;
         }
 
-        result.showBackClose = !result.showSaveDiscard && !result.showOk && !result.showOkCancel && !isOnFirstScreen;
+        result.showBackClose = !result.showSaveDiscard && !result.showOk && !result.showOkCancel;
 
-        result.showLogo = isOnFirstScreen;
-
-        result.showLogOut = isOnFirstScreen;
+        result.showLogOut = msls_shell.getHomeScreen() === navigationUnit.screen.details.getModel();
 
         result.showNavigationMenu = msls_shell.hasNavigationMenu() && navigationUnit.isBrowseMode();
 
@@ -27442,10 +28092,11 @@ var msls_shellView;
                 msls_mark(msls_codeMarkers.closePopupEnd);
             });
 
-            $popup.popup();
+            var popupOptions = {
+                history: false
+            };
 
-
-            var popupOptions = {};
+            $popup.popup(popupOptions);
 
             if (options && options.originalEvent) {
                 var originalEvent = options.originalEvent;
@@ -27546,6 +28197,7 @@ var msls_shellView;
             initialize: initialize,
             navigate: navigate,
             awaitBrowserNavigation: awaitBrowserNavigation,
+            completeNavigation: completeNavigation,
             onNavigationUnitClosed: onNavigationUnitClosed,
             logout: logout,
             showProgress: showProgress,
@@ -27685,6 +28337,7 @@ var msls_shellView;
     itemDataKey = "__entity",
     tableTemplate =
         "<div class='msls-vauto " + msls_control_header + "'/>" +
+        "<div class='msls-vauto " + msls_control_search + "'/>" +
         "<div{0}>" +
         "<table class='msls-table ui-responsive table-stripe' " +
             "data-role='table' data-inset='true' role='grid'>" +
@@ -27726,6 +28379,81 @@ var msls_shellView;
         return false;
     }
 
+    function getKey(bindingPath) {
+
+        var key = null,
+            paths;
+
+        paths = !!bindingPath ? bindingPath.split(".") : [];
+        if (paths.length > 1 && paths[0] === "data") {
+            paths.shift();
+            key = paths.join("/");
+        }
+
+        return key;
+    }
+
+    function sortTableByColumn(table, cellIndex) {
+
+        var tableContentItem = table.data;
+        var rowTemplateContentItem = tableContentItem.children[0];
+        var columnContentItems = rowTemplateContentItem.children;
+
+        var sortOrder = msls_SortOrder.ascending;
+        var header = columnContentItems[cellIndex];
+        var key = getKey(header.bindingPath);
+
+        if (!key) {
+            var valueModel = header.valueModel;
+            key = valueModel.name;
+        }
+
+        var orderBy = new msls_OrderBy(sortOrder, key, cellIndex, true);
+
+        if (table._orderBy && table._orderBy.key === key) {
+            orderBy.sortDirection = (1 - table._orderBy.sortDirection);
+        }
+
+        var collection = table._collection;
+        collection.setOrderBy(orderBy);
+        collection.load();
+
+        table._selectedRowIndex = 0;
+
+        removeSortGlyphFromHeader(table, table._headerRowElement);
+        addSortGlyphToHeader(table._headerRowElement, orderBy);
+
+        table._orderBy = orderBy;
+    }
+
+    function removeSortGlyphFromHeader(table, headerRowElement) {
+
+        if (table._orderBy) {
+            var oldHeaderElement = headerRowElement[table._orderBy.index];
+            var oldHeaderName = $(oldHeaderElement).text();
+            $(oldHeaderElement).html(oldHeaderName.substring(0, oldHeaderName.length - 1));
+            $(oldHeaderElement).removeAttr("aria-label");
+        }
+    }
+
+    function addSortGlyphToHeader(headerRowElement, orderBy) {
+
+        var sortGlyph, sortName;
+
+        if (orderBy.sortDirection === msls_SortOrder.ascending) {
+            sortGlyph = "&#9650;";
+            sortName = msls_getResourceString("accessibility_ascending_name");
+        } else {
+            sortGlyph = "&#9660;";
+            sortName = msls_getResourceString("accessibility_descending_name");
+        }
+
+        var headerElement = headerRowElement[orderBy.index];
+        var headerName = $(headerElement).text();
+        $(headerElement).html(headerName + sortGlyph);
+        $(headerElement).attr("aria-label", headerName + "  " + sortName);
+    }
+
     function updateSelection(table, trElement) {
 
 
@@ -27735,20 +28463,28 @@ var msls_shellView;
 
         table._selectingElement = trElement;
 
-        entity = trElement.data(itemDataKey);
+        if (trElement) {
+            entity = trElement.data(itemDataKey);
+        }
         collection.selectedItem = entity;
 
         table._selectingElement = null;
+
+        if (trElement) {
+            table._selectedRowIndex = trElement[0].rowIndex;
+        } else {
+            table._selectedRowIndex = null;
+        }
 
         msls_mark(msls_codeMarkers.tableSelectedItemChanged);
     }
 
     function addItemEventHandlers(table) {
 
-        var tbodyElement = table._tbodyElement,
-            tbodyHtmlElement = tbodyElement[0];
+        var tableElement = table._tableElement,
+            tableHtmlElement = tableElement[0];
 
-        msls_bind_clickEvent(tbodyElement,
+        msls_bind_clickEvent(tableElement,
            table,
            "itemTap",
            "ItemTapPromise",
@@ -27757,11 +28493,123 @@ var msls_shellView;
            }
         );
 
-        tbodyElement.keypress(function (e) {
-            if (e.keyCode === $.mobile.keyCode.ENTER) {
-                $(e.target).trigger("vclick");
+        tableElement.keydown(function (e) {
+            var target = e.target,
+                header,
+                selection,
+                tableRowElement,
+                targetIndex;
+
+            if (target.tagName.toLowerCase() === "th") {
+                header = target;
+            }
+
+            switch (e.keyCode) {
+                case $.mobile.keyCode.LEFT:
+                    if (header) {
+                        if (header.cellIndex >= 1) {
+                            tableRowElement = header.parentElement;
+                            selection = tableRowElement.cells[header.cellIndex - 1];
+                            updateSelectedHeader(table, selection);
+                        }
+                    }
+                    break;
+
+                case $.mobile.keyCode.RIGHT:
+                    if (header) {
+                        tableRowElement = header.parentElement;
+                        if (header.cellIndex < tableRowElement.cells.length - 1) {
+                            selection = tableRowElement.cells[header.cellIndex + 1];
+                            updateSelectedHeader(table, selection);
+                        }
+                    }
+                    break;
+
+                case $.mobile.keyCode.UP:
+                    targetIndex = table._selectedRowIndex - 1;
+
+                    if (targetIndex === 0) {
+                        updateSelectedHeader(table, table._headerRowElement[0]);
+                    } else if (targetIndex < 0) {
+                        var lastRow = table._tableElement[0].rows.length - 1;
+                        selection = table._tableElement[0].rows[lastRow];
+                        updateSelection(table, $(selection));
+                    } else {
+                        selection = table._tableElement[0].rows[targetIndex];
+                        updateSelection(table, $(selection));
+                    }
+                    break;
+
+                case $.mobile.keyCode.DOWN:
+                    targetIndex = table._selectedRowIndex + 1;
+
+                    if (targetIndex < table._tableElement[0].rows.length) {
+                        updateSelectedHeader(table, null);
+                        selection = table._tableElement[0].rows[targetIndex];
+                        updateSelection(table, $(selection));
+                    } else {
+                        updateSelectedHeader(table, table._headerRowElement[0]);
+                    }
+                    break;
             }
         });
+
+        tableElement.keyup(function (e) {
+            var target = e.target,
+                header;
+
+            if (target.tagName.toLowerCase() === "th") {
+                header = target;
+            }
+
+            switch (e.keyCode) {
+                case $.mobile.keyCode.ENTER:
+                    if (header) {
+                        sortTableByColumn(table, header.cellIndex);
+                    } else {
+                        msls_ui_CollectionControl.selectFocusedItem(table);
+                    }
+                    break;
+
+                case $.mobile.keyCode.SPACE:
+                    if (header) {
+                        sortTableByColumn(table, header.cellIndex);
+                    } else {
+                        msls_ui_CollectionControl.toggleFocusedItem(table);
+                    }
+                    break;
+
+                case $.mobile.keyCode.TAB:
+                    updateSelectedHeader(table, table._headerRowElement[0]);
+                    break;
+            }
+        });
+    }
+
+    function setFocusToItem(table, selection) {
+
+        $(table.focusableItem).blur();
+        table.focusableItem = $(selection);
+        table.focusCurrentItem();
+    }
+
+    function updateSelectedHeader(table, selection) {
+
+        var activeButton = "ui-btn-active";
+        if (table._selectedHeader) {
+            $(table._selectedHeader).removeClass(activeButton);
+        }
+
+        if (selection) {
+            if (table._selectedRowIndex) {
+                updateSelection(table, null);
+            }
+
+            $(selection).addClass(activeButton);
+            table._selectedHeader = selection;
+
+            setFocusToItem(table, selection);
+        }
     }
 
     function endLoading(table) {
@@ -27828,9 +28676,6 @@ var msls_shellView;
             table.focusableItem = $();
         } else {
             emptyElement.remove();
-            if (table.focusableItem.length === 0) {
-                table.focusableItem = table.getItems().first();
-            }
         }
     }
 
@@ -27852,39 +28697,15 @@ var msls_shellView;
         return true;
     }
 
-    function refreshTable(table) {
-
-        var labels = [];
-
-        var i = 0,
-            j = 0,
-            th = table.find("thead th");
-        for (i = 0; i < th.length; i++) {
-            labels.push($("<b class='ui-table-cell-label'>" +
-                th[i].innerHTML + "</b>"));
-        }
-
-        var rows = table.find("tbody > tr"),
-            rowLength = rows.length,
-            labelLength = labels.length;
-        for (i = 0; i < rowLength; i++) {
-            var cells = $(rows[i].children),
-                cellLength = cells.length;
-            if (cells.first().children("b.ui-table-cell-label").length === 0) {
-                for (j = 0; j < cellLength && j < labelLength; j++) {
-                    cells.eq(j).prepend(labels[j].clone());
-                }
-            }
-        }
-    }
-
     function addTableItems(table, items, startingIndex, skipTryLoadMore) {
 
         var
+        i,
         index, lastIndex = items.length - 1,
         tableElement = table._tableElement,
         tableContentItem = table.data,
         rowTemplateContentItem = tableContentItem.children[0],
+        columnContentItems = rowTemplateContentItem.children,
         prependElements = startingIndex === 0 && tableElement.find(itemHtmlSelector).length !== 0,
         contentItemPresenterView,
         rowElement,
@@ -27892,6 +28713,7 @@ var msls_shellView;
         rowTemplate = table._rowTemplate,
         rowTemplateData = table._rowTemplateData,
         tr,
+        tdElements,
         contentItemPresenterControl,
         emptyElement = $(".msls-empty", tableElement),
         addedElements = [],
@@ -27905,6 +28727,8 @@ var msls_shellView;
         if (!rowTemplateContentItem) {
             return;
         }
+
+        rowTemplateContentItem._isHStretch = true;
 
         if (lastIndex >= 0) {
 
@@ -27924,6 +28748,10 @@ var msls_shellView;
                 msls_createPresenterTemplate(contentItemPresenterView, rowTemplateContentItem, rowTemplateData);
                 table._itemHasAttachedLabel = !!tr.find("." + msls_attached_label).length;
 
+                tdElements = tr.children("td");
+                for (i = 0; i < columnContentItems.length; i++) {
+                    tdElements.eq(i).prepend($("<b class='ui-table-cell-label'>" + columnContentItems[i].displayName + "</b>"));
+                }
                 table._shouldEnhance = needEnhancement(rowTemplateContentItem);
             }
 
@@ -27961,7 +28789,6 @@ var msls_shellView;
             if (table._shouldEnhance) {
                 $elements.trigger("create");
             }
-            refreshTable(tableElement);
 
             msls_notify(itemsAddedNotification, table);
         }
@@ -28103,6 +28930,9 @@ var msls_shellView;
                     onVisualCollectionExecutionResolved(table, visualCollection.data);
                 },
                 function failure(error) {
+                    if (table._orderBy) {
+                        reloadTableWithoutSorting(table);
+                    }
                 }
             );
         } else {
@@ -28115,6 +28945,11 @@ var msls_shellView;
                 }
             );
         }
+    }
+
+    function reloadTableWithoutSorting(table) {
+        table._collection.setOrderBy(null);
+        table._collection.load();
     }
 
     function deleteChildContentItems(table) {
@@ -28199,6 +29034,23 @@ var msls_shellView;
         }
     }
 
+    function onCollectionEnableSearchChange(table) {
+        var collection = table._collection;
+        if (table._searchBox) {
+            var isVisible = true;
+            if (collection.enableSearch) {
+                isVisible = true;
+            } else {
+                isVisible = false;
+                table._searchBox.text = null;
+            }
+
+            msls_addOrRemoveClass(table._searchBox.getView(), !isVisible, msls_collapsed);
+            msls_ensureFocusedItemInView($("input.id-element", table._searchBox.getView()));
+            $("input.id-element", table._searchBox.getView()).focus();
+        }
+    }
+
     function onCreated(table) {
         var collection = table._collection,
             scrollHelper,
@@ -28225,6 +29077,9 @@ var msls_shellView;
         msls_addAutoDisposeChangeListener(collection, "selectedItem", table, function () {
             onCollectionSelectedItemChange(table);
         });
+        msls_addAutoDisposeChangeListener(collection, "enableSearch", table, function () {
+            onCollectionEnableSearchChange(table);
+        });
 
         msls_mark(msls_codeMarkers.tableLoadStart);
 
@@ -28237,10 +29092,6 @@ var msls_shellView;
             
             tryLoadMoreEntities(table);
         });
-
-        table.keyboardDispatcher =
-            msls_ui_CollectionControl.keyBindListNavigation(
-            table);
 
         if (collection.state !== _VisualCollectionState.idle) {
             joinVisualCollectionExecution(table);
@@ -28299,6 +29150,29 @@ var msls_shellView;
             }
             table._headerLabel.render();
 
+            table._headerRowElement = table._tableElement.find("thead").find("tr")[0].cells;
+            table._selectedRowIndex = 0;
+
+            if (!table._searchBox) {
+                table._searchBox = new msls.ui.controls.SearchTextBoxControl(
+                    $("." + msls_control_search, table.getView()));
+
+                var visualCollection = table.data.value;
+                if (!!visualCollection && !visualCollection.enableSearch) {
+                    table._searchBox.getView().addClass(msls_collapsed);
+                }
+
+                var searchTextBinding = new msls.data.DataBinding(
+                    "data.value.search", table, "text", table._searchBox,
+                    msls_data_DataBindingMode.twoWay);
+                searchTextBinding.bind();
+            }
+            table._searchBox.render();
+
+            table._searchBox.getView().on("focus", "input.id-element", null, function (e) {
+                table.focusableItem = $();
+            });
+
             if (!collection) {
                 return;
             }
@@ -28339,7 +29213,11 @@ var msls_shellView;
                     }
                 }
 
-                if (element !== tbodyHtmlElement) {
+                if (element.tagName.toLowerCase() === "th") {
+                    var index = element.cellIndex;
+                    updateSelectedHeader(this, this._headerRowElement[index]);
+                    sortTableByColumn(this, index);
+                } else if (element !== tbodyHtmlElement) {
                     while (elementParent !== tbodyHtmlElement) {
                         element = elementParent;
                         elementParent = element.parentNode;
@@ -28356,11 +29234,16 @@ var msls_shellView;
             function _onDispose() {
                 var me = this,
                     headerLabel = me._headerLabel,
+                    searchBox = me._searchBox,
                     globalStyle = me._globalStyle;
 
                 if (headerLabel) {
                     msls_dispose(headerLabel);
                     me._headerLabel = null;
+                }
+                if (searchBox) {
+                    msls_dispose(searchBox);
+                    me._searchBox = null;
                 }
                 if (globalStyle) {
                     globalStyle.remove();
@@ -28374,6 +29257,9 @@ var msls_shellView;
                 me._tbodyElement = null;
                 me._collection = null;
                 me._scrollHelper = null;
+                me._headerRowElement = null;
+                me._selectedHeader = null;
+                me._orderBy = null;
 
                 $(window).off("resize", me._onWindowResize);
                 me._onWindowResize = null;
@@ -28417,8 +29303,11 @@ var msls_shellView;
                     netWeight = getNetCollectionWeight(columns);
                 for (i = 0; i < len; i++) {
                     if (columns[i].isVisible) {
-                        headRow.append(fillHeader($("<th>"), columns[i], netWeight));
-                    }
+                        var header = $("<th tabIndex = -1>");
+                        $(header).addClass("msls-table-header ui-btn ui-btn-up" + cssDefaultJqmTheme);
+                        header.attr("data-theme", cssDefaultJqmTheme);
+                        headRow.append(fillHeader(header, columns[i], netWeight));
+                      }
                 }
                 headRow.appendTo(view.find("thead"));
             },
@@ -28676,12 +29565,14 @@ var msls_shellView;
     msls_createControlMappings("PercentEditor", msls.ui.controls.PercentEditor);
     msls_createControlMappings("PersonViewer", msls.ui.controls.PersonViewer);
     msls_createControlMappings("PersonPicker", msls.ui.controls.PersonPicker);
+    msls_createControlMappings("RelatedEntityPersonPicker", msls.ui.controls.RelatedEntityPersonPicker);
     msls_createControlMappings("PhoneNumberViewer", msls.ui.controls.PhoneNumberViewer);
     msls_createControlMappings("PhoneNumberEditor", msls.ui.controls.PhoneNumberEditor);
+    msls_createControlMappings("searchTextBoxControl", msls.ui.controls.SearchTextBoxControl);
     msls_createControlMappings("EmailAddressEditor", msls.ui.controls.EmailAddressEditor);
     msls_createControlMappings("EmailAddressViewer", msls.ui.controls.EmailAddressViewer);
-    msls_createControlMappings("DocumentEditor", msls.ui.controls.DocumentEditor);
-    msls_createControlMappings("DocumentViewer", msls.ui.controls.DocumentViewer);
+    msls_createControlMappings("CreateOrUploadDocument", msls.ui.controls.CreateOrUploadDocument);
+    msls_createControlMappings("DocumentSummary", msls.ui.controls.DocumentSummary);
     msls_createControlMappings("FlipSwitchControl", msls.ui.controls.FlipSwitchControl);
     msls_createControlMappings("WebAddressEditor", msls.ui.controls.WebAddressEditor);
     msls_createControlMappings("WebAddressViewer", msls.ui.controls.WebAddressViewer);
@@ -28703,86 +29594,86 @@ if (!window.msls) {
 
 })(window);
 // SIG // Begin signature block
-// SIG // MIIarwYJKoZIhvcNAQcCoIIaoDCCGpwCAQExCzAJBgUr
+// SIG // MIIaowYJKoZIhvcNAQcCoIIalDCCGpACAQExCzAJBgUr
 // SIG // DgMCGgUAMGcGCisGAQQBgjcCAQSgWTBXMDIGCisGAQQB
 // SIG // gjcCAR4wJAIBAQQQEODJBs441BGiowAQS9NQkAIBAAIB
-// SIG // AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFFhMfbLzHKOF
-// SIG // d8HSlh2qoRfpWMBAoIIVgjCCBMMwggOroAMCAQICEzMA
-// SIG // AAAz5SeGow5KKoAAAAAAADMwDQYJKoZIhvcNAQEFBQAw
+// SIG // AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFFbfE4hwMvGS
+// SIG // ugG7kRO3I/DGrFO3oIIVgjCCBMMwggOroAMCAQICEzMA
+// SIG // AABMoehNzLR0ezsAAAAAAEwwDQYJKoZIhvcNAQEFBQAw
 // SIG // dzELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldhc2hpbmd0
 // SIG // b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1p
 // SIG // Y3Jvc29mdCBDb3Jwb3JhdGlvbjEhMB8GA1UEAxMYTWlj
-// SIG // cm9zb2Z0IFRpbWUtU3RhbXAgUENBMB4XDTEzMDMyNzIw
-// SIG // MDgyM1oXDTE0MDYyNzIwMDgyM1owgbMxCzAJBgNVBAYT
+// SIG // cm9zb2Z0IFRpbWUtU3RhbXAgUENBMB4XDTEzMTExMTIy
+// SIG // MTEzMVoXDTE1MDIxMTIyMTEzMVowgbMxCzAJBgNVBAYT
 // SIG // AlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQH
 // SIG // EwdSZWRtb25kMR4wHAYDVQQKExVNaWNyb3NvZnQgQ29y
 // SIG // cG9yYXRpb24xDTALBgNVBAsTBE1PUFIxJzAlBgNVBAsT
-// SIG // Hm5DaXBoZXIgRFNFIEVTTjpGNTI4LTM3NzctOEE3NjEl
+// SIG // Hm5DaXBoZXIgRFNFIEVTTjpDMEY0LTMwODYtREVGODEl
 // SIG // MCMGA1UEAxMcTWljcm9zb2Z0IFRpbWUtU3RhbXAgU2Vy
 // SIG // dmljZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
-// SIG // ggEBAMreyhkPH5ZWgl/YQjLUCG22ncDC7Xw4q1gzrWuB
-// SIG // ULiIIQpdr5ctkFrHwy6yTNRjdFj938WJVNALzP2chBF5
-// SIG // rKMhIm0z4K7eJUBFkk4NYwgrizfdTwdq3CrPEFqPV12d
-// SIG // PfoXYwLGcD67Iu1bsfcyuuRxvHn/+MvpVz90e+byfXxX
-// SIG // WC+s0g6o2YjZQB86IkHiCSYCoMzlJc6MZ4PfRviFTcPa
-// SIG // Zh7Hc347tHYXpqWgoHRVqOVgGEFiOMdlRqsEFmZW6vmm
-// SIG // y0LPXVRkL4H4zzgADxBr4YMujT5I7ElWSuyaafTLDxD7
-// SIG // BzRKYmwBjW7HIITKXNFjmR6OXewPpRZIqmveIS8CAwEA
-// SIG // AaOCAQkwggEFMB0GA1UdDgQWBBQAWBs+7cXxBpO+MT02
-// SIG // tKwLXTLwgTAfBgNVHSMEGDAWgBQjNPjZUkZwCu1A+3b7
+// SIG // ggEBALHY+hsGK3eo5JRdfA/meqaS7opUHaT5hHWFl8zL
+// SIG // XJbQ13Ut2Qj7W9LuLSXGNz71q34aU+VXvmvov8qWCtxG
+// SIG // 8VoePgLSsuAmjgBke748k/hYMnmH0hpdI7ycUcQPEPoE
+// SIG // WLUWdm7svMblvvytrMFB26rOefUcsplBp3olK/+reA1Y
+// SIG // OrFeUN5kTODKFSrfpun+pGYvWxAJCSYh1D8NL23S+HeQ
+// SIG // A2zeFBKljOc2H/SHpbBBF2/jTXRmwv2icUY1UcxrF1Fj
+// SIG // +hWUkppfSyi65hZFSekstf6Lh6/8pW1D3KYw+iko75sN
+// SIG // LFyD3hKNarTbce9cFFoqIyj/gXBX8YwHmhPYKlMCAwEA
+// SIG // AaOCAQkwggEFMB0GA1UdDgQWBBS5Da2zTfTanxqyJyZV
+// SIG // DSBE2Jji9DAfBgNVHSMEGDAWgBQjNPjZUkZwCu1A+3b7
 // SIG // syuwwzWzDzBUBgNVHR8ETTBLMEmgR6BFhkNodHRwOi8v
 // SIG // Y3JsLm1pY3Jvc29mdC5jb20vcGtpL2NybC9wcm9kdWN0
 // SIG // cy9NaWNyb3NvZnRUaW1lU3RhbXBQQ0EuY3JsMFgGCCsG
 // SIG // AQUFBwEBBEwwSjBIBggrBgEFBQcwAoY8aHR0cDovL3d3
 // SIG // dy5taWNyb3NvZnQuY29tL3BraS9jZXJ0cy9NaWNyb3Nv
 // SIG // ZnRUaW1lU3RhbXBQQ0EuY3J0MBMGA1UdJQQMMAoGCCsG
-// SIG // AQUFBwMIMA0GCSqGSIb3DQEBBQUAA4IBAQAC/+OMA+rv
-// SIG // fji5uXyfO1KDpPojONQDuGpZtergb4gD9G9RapU6dYXo
-// SIG // HNwHxU6dG6jOJEcUJE81d7GcvCd7j11P/AaLl5f5KZv3
-// SIG // QB1SgY52SAN+8psXt67ZWyKRYzsyXzX7xpE8zO8OmYA+
-// SIG // BpE4E3oMTL4z27/trUHGfBskfBPcCvxLiiAFHQmJkTkH
-// SIG // TiFO3mx8cLur8SCO+Jh4YNyLlM9lvpaQD6CchO1ctXxB
-// SIG // oGEtvUNnZRoqgtSniln3MuOj58WNsiK7kijYsIxTj2hH
-// SIG // R6HYAbDxYRXEF6Et4zpsT2+vPe7eKbBEy8OSZ7oAzg+O
-// SIG // Ee/RAoIxSZSYnVFIeK0d1kC2MIIE7DCCA9SgAwIBAgIT
-// SIG // MwAAALARrwqL0Duf3QABAAAAsDANBgkqhkiG9w0BAQUF
+// SIG // AQUFBwMIMA0GCSqGSIb3DQEBBQUAA4IBAQAJik4Gr+jt
+// SIG // gs8dB37XKqckCy2vmlskf5RxDFWIJBpSFWPikE0FSphK
+// SIG // nPvhp21oVYK5KeppqbLV4wza0dZ6JTd4ZxwM+9spWhqX
+// SIG // OCo5Vkb7NYG55D1GWo7k/HU3WFlJi07bPBWdc1JL63sM
+// SIG // OsItwbObUi3gNcW5wVez6D2hPETyIxYeCqpZNyfQlVJe
+// SIG // qH8/VPCB4dyavWXVePb3TDm73eDWNw6RmoeMc+dxZFL3
+// SIG // PgPYxs1yuDQ0mFuM0/UIput4xlGgDQ5v9Gs8QBpgFiyp
+// SIG // BlKdHBOQzm8CHup7nLP2+Jdg8mXR0R+HOsF18EKNeu2M
+// SIG // crJ7+yyKtJFHVOIuacwWVBpZMIIE7DCCA9SgAwIBAgIT
+// SIG // MwAAAMps1TISNcThVQABAAAAyjANBgkqhkiG9w0BAQUF
 // SIG // ADB5MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGlu
 // SIG // Z3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMV
 // SIG // TWljcm9zb2Z0IENvcnBvcmF0aW9uMSMwIQYDVQQDExpN
-// SIG // aWNyb3NvZnQgQ29kZSBTaWduaW5nIFBDQTAeFw0xMzAx
-// SIG // MjQyMjMzMzlaFw0xNDA0MjQyMjMzMzlaMIGDMQswCQYD
+// SIG // aWNyb3NvZnQgQ29kZSBTaWduaW5nIFBDQTAeFw0xNDA0
+// SIG // MjIxNzM5MDBaFw0xNTA3MjIxNzM5MDBaMIGDMQswCQYD
 // SIG // VQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4G
 // SIG // A1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0
 // SIG // IENvcnBvcmF0aW9uMQ0wCwYDVQQLEwRNT1BSMR4wHAYD
 // SIG // VQQDExVNaWNyb3NvZnQgQ29ycG9yYXRpb24wggEiMA0G
-// SIG // CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDor1yiIA34
-// SIG // KHy8BXt/re7rdqwoUz8620B9s44z5lc/pVEVNFSlz7SL
-// SIG // qT+oN+EtUO01Fk7vTXrbE3aIsCzwWVyp6+HXKXXkG4Un
-// SIG // m/P4LZ5BNisLQPu+O7q5XHWTFlJLyjPFN7Dz636o9UEV
-// SIG // XAhlHSE38Cy6IgsQsRCddyKFhHxPuRuQsPWj/ov0DJpO
-// SIG // oPXJCiHiquMBNkf9L4JqgQP1qTXclFed+0vUDoLbOI8S
-// SIG // /uPWenSIZOFixCUuKq6dGB8OHrbCryS0DlC83hyTXEmm
-// SIG // ebW22875cHsoAYS4KinPv6kFBeHgD3FN/a1cI4Mp68fF
-// SIG // SsjoJ4TTfsZDC5UABbFPZXHFAgMBAAGjggFgMIIBXDAT
-// SIG // BgNVHSUEDDAKBggrBgEFBQcDAzAdBgNVHQ4EFgQUWXGm
-// SIG // WjNN2pgHgP+EHr6H+XIyQfIwUQYDVR0RBEowSKRGMEQx
-// SIG // DTALBgNVBAsTBE1PUFIxMzAxBgNVBAUTKjMxNTk1KzRm
-// SIG // YWYwYjcxLWFkMzctNGFhMy1hNjcxLTc2YmMwNTIzNDRh
-// SIG // ZDAfBgNVHSMEGDAWgBTLEejK0rQWWAHJNy4zFha5TJoK
+// SIG // CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCWcV3tBkb6
+// SIG // hMudW7dGx7DhtBE5A62xFXNgnOuntm4aPD//ZeM08aal
+// SIG // IV5WmWxY5JKhClzC09xSLwxlmiBhQFMxnGyPIX26+f4T
+// SIG // UFJglTpbuVildGFBqZTgrSZOTKGXcEknXnxnyk8ecYRG
+// SIG // vB1LtuIPxcYnyQfmegqlFwAZTHBFOC2BtFCqxWfR+nm8
+// SIG // xcyhcpv0JTSY+FTfEjk4Ei+ka6Wafsdi0dzP7T00+Lnf
+// SIG // NTC67HkyqeGprFVNTH9MVsMTC3bxB/nMR6z7iNVSpR4o
+// SIG // +j0tz8+EmIZxZRHPhckJRIbhb+ex/KxARKWpiyM/gkmd
+// SIG // 1ZZZUBNZGHP/QwytK9R/MEBnAgMBAAGjggFgMIIBXDAT
+// SIG // BgNVHSUEDDAKBggrBgEFBQcDAzAdBgNVHQ4EFgQUH17i
+// SIG // XVCNVoa+SjzPBOinh7XLv4MwUQYDVR0RBEowSKRGMEQx
+// SIG // DTALBgNVBAsTBE1PUFIxMzAxBgNVBAUTKjMxNTk1K2I0
+// SIG // MjE4ZjEzLTZmY2EtNDkwZi05YzQ3LTNmYzU1N2RmYzQ0
+// SIG // MDAfBgNVHSMEGDAWgBTLEejK0rQWWAHJNy4zFha5TJoK
 // SIG // HzBWBgNVHR8ETzBNMEugSaBHhkVodHRwOi8vY3JsLm1p
 // SIG // Y3Jvc29mdC5jb20vcGtpL2NybC9wcm9kdWN0cy9NaWND
 // SIG // b2RTaWdQQ0FfMDgtMzEtMjAxMC5jcmwwWgYIKwYBBQUH
 // SIG // AQEETjBMMEoGCCsGAQUFBzAChj5odHRwOi8vd3d3Lm1p
 // SIG // Y3Jvc29mdC5jb20vcGtpL2NlcnRzL01pY0NvZFNpZ1BD
 // SIG // QV8wOC0zMS0yMDEwLmNydDANBgkqhkiG9w0BAQUFAAOC
-// SIG // AQEAMdduKhJXM4HVncbr+TrURE0Inu5e32pbt3nPApy8
-// SIG // dmiekKGcC8N/oozxTbqVOfsN4OGb9F0kDxuNiBU6fNut
-// SIG // zrPJbLo5LEV9JBFUJjANDf9H6gMH5eRmXSx7nR2pEPoc
-// SIG // sHTyT2lrnqkkhNrtlqDfc6TvahqsS2Ke8XzAFH9IzU2y
-// SIG // RPnwPJNtQtjofOYXoJtoaAko+QKX7xEDumdSrcHps3Om
-// SIG // 0mPNSuI+5PNO/f+h4LsCEztdIN5VP6OukEAxOHUoXgSp
-// SIG // Rm3m9Xp5QL0fzehF1a7iXT71dcfmZmNgzNWahIeNJDD3
-// SIG // 7zTQYx2xQmdKDku/Og7vtpU6pzjkJZIIpohmgjCCBbww
+// SIG // AQEAd1zr15E9zb17g9mFqbBDnXN8F8kP7Tbbx7UsG177
+// SIG // VAU6g3FAgQmit3EmXtZ9tmw7yapfXQMYKh0nfgfpxWUf
+// SIG // tc8Nt1THKDhaiOd7wRm2VjK64szLk9uvbg9dRPXUsO8b
+// SIG // 1U7Brw7vIJvy4f4nXejF/2H2GdIoCiKd381wgp4Yctgj
+// SIG // zHosQ+7/6sDg5h2qnpczAFJvB7jTiGzepAY1p8JThmUR
+// SIG // dwmPNVm52IaoAP74MX0s9IwFncDB1XdybOlNWSaD8cKy
+// SIG // iFeTNQB8UCu8Wfz+HCk4gtPeUpdFKRhOlludul8bo/En
+// SIG // UOoHlehtNA04V9w3KDWVOjic1O1qhV0OIhFeezCCBbww
 // SIG // ggOkoAMCAQICCmEzJhoAAAAAADEwDQYJKoZIhvcNAQEF
 // SIG // BQAwXzETMBEGCgmSJomT8ixkARkWA2NvbTEZMBcGCgmS
 // SIG // JomT8ixkARkWCW1pY3Jvc29mdDEtMCsGA1UEAxMkTWlj
@@ -28874,41 +29765,40 @@ if (!window.msls) {
 // SIG // Zr2dHYcSZAI9La9Zj7jkIeW1sMpjtHhUBdRBLlCslLCl
 // SIG // eKuzoJZ1GtmShxN1Ii8yqAhuoFuMJb+g74TKIdbrHk/J
 // SIG // mu5J4PcBZW+JC33Iacjmbuqnl84xKf8OxVtc2E0bodj6
-// SIG // L54/LlUWa8kTo/0xggSZMIIElQIBATCBkDB5MQswCQYD
+// SIG // L54/LlUWa8kTo/0xggSNMIIEiQIBATCBkDB5MQswCQYD
 // SIG // VQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4G
 // SIG // A1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0
 // SIG // IENvcnBvcmF0aW9uMSMwIQYDVQQDExpNaWNyb3NvZnQg
-// SIG // Q29kZSBTaWduaW5nIFBDQQITMwAAALARrwqL0Duf3QAB
-// SIG // AAAAsDAJBgUrDgMCGgUAoIGyMBkGCSqGSIb3DQEJAzEM
+// SIG // Q29kZSBTaWduaW5nIFBDQQITMwAAAMps1TISNcThVQAB
+// SIG // AAAAyjAJBgUrDgMCGgUAoIGmMBkGCSqGSIb3DQEJAzEM
 // SIG // BgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgor
-// SIG // BgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSZ9AqmIGV5
-// SIG // dhElBxhplfuXAkirQDBSBgorBgEEAYI3AgEMMUQwQqAo
-// SIG // gCYAbQBzAGwAcwAtADIALgAwAC4AMAAtAHYAcwBkAG8A
-// SIG // YwAuAGoAc6EWgBRodHRwOi8vbWljcm9zb2Z0LmNvbTAN
-// SIG // BgkqhkiG9w0BAQEFAASCAQB+zPXbs0XlB0O8rScm3ElG
-// SIG // euzJaJ6PddhO+mD0KdZi9xBUQoATOrfIdhFg8C6AHnJR
-// SIG // DQTXVhEH6VA4cScgpUURHwev+uiI0APJbfvGkmkwAEUh
-// SIG // Sb10oYy22E0CopIoXEwgKdd4w5TMoBz9HOngWdY+Dq+8
-// SIG // AgWxNS4uHNuvR46+kV289RnJ/HBIxJkhjN015k+alaTv
-// SIG // mMwc4akhzkJyvCKlv+X9GqsDa7t2e8GumlEL099gNLek
-// SIG // 0gTsxQQWInsf2otyXzpdYXCf1EqIaoEobAMcFILqlLm7
-// SIG // IGhw56ovi+Si9xrvMfDBIU3zMJC4izRd+atf/b0sbGM2
-// SIG // R64yWbpdyojJoYICKDCCAiQGCSqGSIb3DQEJBjGCAhUw
-// SIG // ggIRAgEBMIGOMHcxCzAJBgNVBAYTAlVTMRMwEQYDVQQI
-// SIG // EwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRtb25kMR4w
-// SIG // HAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xITAf
-// SIG // BgNVBAMTGE1pY3Jvc29mdCBUaW1lLVN0YW1wIFBDQQIT
-// SIG // MwAAADPlJ4ajDkoqgAAAAAAAMzAJBgUrDgMCGgUAoF0w
-// SIG // GAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG
-// SIG // 9w0BCQUxDxcNMTMxMDA1MDUyNzIyWjAjBgkqhkiG9w0B
-// SIG // CQQxFgQUkuZZg9dapSiUy2obVzu92p1kaMQwDQYJKoZI
-// SIG // hvcNAQEFBQAEggEAhKTE1vDQKms6a3ftR+7KjfPOUjoo
-// SIG // Hxh1qOsf3/XbQ1pxeyU9XKJvsKycsYNCJjTpp0xt5F+P
-// SIG // UYO9+ggWxs7hD5Llqxr5Fx8WYOKfSV3vAM8bbRhYOXy7
-// SIG // M2A1t/+q+o3Ws+gusrgoWAF0/uzx4WPwgVNKf5xy4uYz
-// SIG // oCUm7QcQPxq8GVhlZkkX3fmsJ+ZsXFn7+Q+k473nbi6O
-// SIG // W8MUnSfjR0ix3CL/veOrJpaLTFBZXHzdwuw7ICbVQsXb
-// SIG // 4eJuSuR/X6zKwv7ONDEKES0R8SbMaDWhtc79x4+t8p6t
-// SIG // jzMZTjZiAhX+VP6jhDmKYM8h08sxCahAicR+EAqFPJOz
-// SIG // 7/849w==
+// SIG // BgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBT98t5nInhv
+// SIG // cwqNWJeFID4kyUIRbDBGBgorBgEEAYI3AgEMMTgwNqAc
+// SIG // gBoAbQBzAGwAcwAtADIALgA1AC4AMQAuAGoAc6EWgBRo
+// SIG // dHRwOi8vbWljcm9zb2Z0LmNvbTANBgkqhkiG9w0BAQEF
+// SIG // AASCAQBbOX1Xn4ytOSB5cioc0mISCJ30dlmd+P77BwU3
+// SIG // sNKXdUGlQ73M9xZf6x7omVzEHiXtirxeaDTaEP/cBgzP
+// SIG // TkZL6HMc8v3k8jv0kiyomdHP9u6pEe4jhEUniHsTbREY
+// SIG // hhG79Gnwaj0An9KUovAf83YtFctpAblzAKEbcHkh7btq
+// SIG // +shE13W/EeaAiG8b8z8judki6a41pfboS11x6glr2pgv
+// SIG // hHCD4Dqa7fGmLVXhTgLiIjsx4dhyuOEuhWi7IfoWhvOE
+// SIG // RkJUieYuNnAFJgZ/j5Vc7ir23jhRwIM2yWBcEg4ILU05
+// SIG // mSSLURA3DGY25f6kfLoblhiaxUXJnHuOs9E0IDeqoYIC
+// SIG // KDCCAiQGCSqGSIb3DQEJBjGCAhUwggIRAgEBMIGOMHcx
+// SIG // CzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9u
+// SIG // MRAwDgYDVQQHEwdSZWRtb25kMR4wHAYDVQQKExVNaWNy
+// SIG // b3NvZnQgQ29ycG9yYXRpb24xITAfBgNVBAMTGE1pY3Jv
+// SIG // c29mdCBUaW1lLVN0YW1wIFBDQQITMwAAAEyh6E3MtHR7
+// SIG // OwAAAAAATDAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkD
+// SIG // MQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTQw
+// SIG // NjI2MDUyMjM3WjAjBgkqhkiG9w0BCQQxFgQU/yk2HDEy
+// SIG // d+28LArxXfz+6X1rRIEwDQYJKoZIhvcNAQEFBQAEggEA
+// SIG // jljrPhTtjHyg4ofGrUtdAyPJmaAvS3pqF847fprdpRZg
+// SIG // EYeZdLp85zIoasBDHhhy+zuna1fyZP+CP+cqU6+ekFTd
+// SIG // +Kr5w41OPg0kwtcIuBVD0a3wEfCQVJKSZzNPvcNC5P9Z
+// SIG // 8b5Th/psaG4jE8B3eHDtUIGNr2cQ+Y34+OOrzMDWHj0D
+// SIG // gkOZvYvwWxwBF9L/Q7GjYp64wZForOZsMefGgD0Wjxwf
+// SIG // SC5hhBOUpHCqeVQIC+hbhnEYPsPjGWyPkM+38IEFskKO
+// SIG // 8rRbU0z60eiAuYcHWKmmqhJpcdGXghKdGG2o0iDpeGgt
+// SIG // GaduTAYZ1ZY0/LcmImuwNVg7OXpUFfFtOA==
 // SIG // End signature block
