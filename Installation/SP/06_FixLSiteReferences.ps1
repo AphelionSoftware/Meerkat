@@ -3,8 +3,8 @@
   [string]$SpSite
 )
 Add-PSSnapin microsoft.sharepoint.powershell
-$baseURL = "http://mgs-m6700"
-$SpSite = "http://mgs-m6700"
+#$baseURL = "http://mgs-m6700"
+#$SpSite = "http://mgs-m6700"
 
 #Admin
 
