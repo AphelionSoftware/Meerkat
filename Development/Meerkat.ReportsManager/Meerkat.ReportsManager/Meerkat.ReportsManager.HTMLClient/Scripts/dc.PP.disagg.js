@@ -337,7 +337,6 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
 
         //Need to define by number reached....
         var disaggGroup = disaggDim.group().reduceSum(function (d) {
-            ///TODO:
             if (d[rollupField]) {
                 return d[rollupField];
             } else {
@@ -347,7 +346,7 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
         var domain = d3.nest()
         .key(function (d) { return d[x.colID]; })
         .rollup(function (d) {
-            return d3.sum(d, function (g) { ///TODO:
+            return d3.sum(d, function (g) {  
                 if (g[rollupField]) {
                     return g[rollupField];
                 } else {
@@ -361,13 +360,13 @@ dcLSWrapper.prototype.rowCharts = function (arrRowCharts, rollupField) {
 
         max = d3.max(d3.values(domain));
         //Setting the max to the next item up
-        //51454 will become 52000
+        //51454 will become 60000
         var conv = Math.pow(10, Math.ceil(Math.log(max) / Math.LN10) - 1);
         max = Math.ceil(max / conv) * conv;
 
         //min = d3.min(d3.values(domain));
         //overriding the set heiht
-        var height = 30 + d3.values(domain).length * 30;
+        var height = 40 + d3.values(domain).length * 25;
 
         var rowChart = dc.rowChart("#" + x.divID);
         rowChart
@@ -486,10 +485,7 @@ dcLSWrapper.prototype.setupPage = function () {
         if (mapRetrieved && !mapRendered) {
             mapRendered = true;
             obj.mapChartsByData(mapID, mapData, rollupField);
-        } else {
-            dc.renderAll();
-
-        }
+        } 
         obj.rowCharts(arrRowCharts, rollupField);
         obj.barCharts(arrBarCharts, rollupField);
         dc.renderAll();
