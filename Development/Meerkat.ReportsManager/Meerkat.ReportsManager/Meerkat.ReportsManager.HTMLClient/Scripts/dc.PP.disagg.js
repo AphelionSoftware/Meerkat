@@ -154,6 +154,8 @@ dcLSWrapper.prototype.mapChartsByData = function (mapElement, mapData, rollupFie
                 .overlayGeoJson(locJSON.features, "location", function (d) {
                     if (d.properties.Location_Name) {
                         return d.properties.Location_Name;
+                    } if (d.properties.LocationName) {
+                        return d.properties.LocationName;
                     } if (d.properties.Location) {
                         return d.properties.Location;
                     } if (d.properties.DIST_NAME) {
