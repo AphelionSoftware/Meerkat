@@ -1,4 +1,10 @@
-﻿# Set admin rights if they are lacking.
+﻿Param(
+  [string] $DatabaseServer ,
+  [string] $FarmAccount 
+)
+
+
+# Set admin rights if they are lacking.
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 {   
 # No Administrative rights, it will display a popup window asking user for Admin rights
@@ -14,9 +20,9 @@ break
 Add-PSSnapin Microsoft.SharePoint.PowerShell -erroraction SilentlyContinue 
   
 # Settings you may want to change ## 
-$databaseServerName = "MeerkatDB"
+$databaseServerName = $DatabaseServer
 $saAppPoolName = "SharePoint Web Services"
-$appPoolUserName = "Meerkat\SPApp"
+$appPoolUserName = $FarmAccount 
   
   
 # Service Application Service Names ## 
