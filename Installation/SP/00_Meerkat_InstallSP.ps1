@@ -54,16 +54,16 @@ $handler_Install_Click=
 
 #Parameters needed
 #01 and 02
-$DatabaseServer 
-$FarmAccount 
+$DatabaseServer = $txtDatabaseServer.Text
+$FarmAccount = $txtFarmAccount.Text
 
-$rootname  #RootSiteName
-$sitecoll #RootSiteCollectionLocation
-$rootfilePath #Root site path 
-$template #STS#0 for team site
-$user     #site collection owner
+$rootname = $rootname.Text #RootSiteName
+$sitecoll = $sitecoll.Text #RootSiteCollectionLocation
+$rootfilePath =$txtrootfilePath.Text #Root site path 
+$template =$txttemplate.Text #STS#0 for team site
+$user     = $txtuser.Text     #site collection owner
 
-$reportsfilepath #filepath for reports import
+$reportsfilepath = $txtreportsfilepath.Text #filepath for reports import
 
 #Not implemented yet - fix reports paths
 #[string]$sitecoll,
@@ -72,8 +72,19 @@ $reportsfilepath #filepath for reports import
 #[string]$datasource
 
 #Fix LS ref
-$baseURL #Base URL for LS apps
-$masterpage #Masterpage name
+$baseURL = $txtbaseURL.Text #Base URL for LS apps
+$SpSite = $sitecoll
+$masterpage = $txtmasterpage.Text #Masterpage name
+
+
+$ScriptPath = Split-Path $MyInvocation.InvocationName
+
+invoke-expression -Command "$ScriptPath\01_Meerkat.PSConfig.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+invoke-expression -Command "$ScriptPath\02_Meerkat.Service Application Setup.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+invoke-expression -Command "$ScriptPath\03_Meerkat_ImportRootSite.ps1 -name $name -sitecoll $sitecoll -filePath $filePath -template $template -user $user"
+invoke-expression -Command "$ScriptPath\04_Meerkat_ImportReportSite.ps1  -name $name -sitecoll $sitecoll -filePath $filePath -template $template -user $user"
+invoke-expression -Command "$ScriptPath\06_FixLSiteReferences.ps1 -baseURL $baseURL -SpSite $SpSite"
+invoke-expression -Command "$ScriptPath\07_SwitchMasterPage.ps1 -SpSite $SpSite -masterpage $masterpage"
 
 #Close the form after executing
 $MeerkatForm.close()
