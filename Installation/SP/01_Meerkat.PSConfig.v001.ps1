@@ -1,4 +1,10 @@
-﻿# Set admin rights if they are lacking.
+﻿Param(
+  [string] $DatabaseServer ,
+  [string] $FarmAccount 
+)
+
+
+# Set admin rights if they are lacking.
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 {   
 # No Administrative rights, it will display a popup window asking user for Admin rights
@@ -14,14 +20,14 @@ break
 Add-PSSnapin Microsoft.SharePoint.PowerShell -erroraction SilentlyContinue 
 
 # Settings to change
-$DatabaseServer = "DBservername";
 $FarmName = "SP2013";
 $ConfigDB = $FarmName+"_ConfigDB";
 $AdminContentDB = $FarmName+"_CentralAdminContent";
 $Passphrase = convertto-securestring "Password123" -asplaintext -force;
-$Port = "2013";
+$Port = "36000";
 $Authentication = "NTLM";
-$FarmAccount = "Sp2013\SPFarm"
+
+
 
  
 # Configure SP Farm
