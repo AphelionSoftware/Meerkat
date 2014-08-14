@@ -21,7 +21,25 @@ INSERT INTO [settings].[GlobalSettings]
 		SELECT 
 		'MMBASEURL' AS Code
 		, 'MegaMenu Base URL' AS Name 
-		, '/' as Value)
+		, '/sites/Meerkat/' as Value)
+		Src
+	 WHERE NOT EXISTS 
+	 (SELECT 1 FROM settings.GlobalSettings
+	 WHERE Src.Code = GlobalSettings.Code)
+
+
+	 INSERT INTO [settings].[GlobalSettings]
+           ([Code]
+           ,[Name]
+           ,[Value]
+           )
+     SELECT 
+	 Code, Name, Value 
+	 FROM (
+		SELECT 
+		'BASESITEURL' AS Code
+		, 'Fully qualified Base URL' AS Name 
+		, 'http://mgs-m6700/sites/Meerkat/' as Value)
 		Src
 	 WHERE NOT EXISTS 
 	 (SELECT 1 FROM settings.GlobalSettings
