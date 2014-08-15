@@ -4,7 +4,7 @@ Regenerate SSIS packages
 -->
 <# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
 <# var tables = connection.GenerateTableNodes(); #>
-<# string SourceDir = "C:\\Dropbox\\Clients\\Meerkat\\CARE Somalia\\Data\\StagingTemplates\\Templates\\"; #>
+<# string SourceDir = "C:\\Dropbox\\Clients\\Meerkat\\CARE Somalia\\Data\\StagingTemplates\\"; #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
   <Connections>
     <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" CreateInProject="true"/>
@@ -26,6 +26,21 @@ Regenerate SSIS packages
   <Packages>
   <# foreach (var table in tables) { #>
     <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+	<Variables>
+		<Variable Name="strCommand" DataType="String" EvaluateAsExpression="true">REPLACE("                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database="
+							   +
+							   @[$Project::strStagingTemplatePath]
+							   +
+							   "\\InProcess\\<#=table.SchemaName#>.<#=table.Name#>.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+
+", "////", "//")</Variable>
+
+	</Variables>
+    
       <Annotations>
         <Annotation>
           Excel Driver Setup
@@ -48,25 +63,14 @@ Regenerate SSIS packages
       <Tasks>
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
           <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]
-		  /*
-		   SELECT *
-                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
-                               , 'Excel 12.0;Database=<#=SourceDir#><#=table.SchemaName#>.<#=table.Name#>.xlsx'
-                               , 'select * from [Sheet1$A2:XFD]'
-                               )
-		  */
+		  
 		  </DirectInput>
         </ExecuteSQL>
-		        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+		  <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
             <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStagingBIML" ValidateExternalMetadata="0">
-              <DirectInput>
-                SELECT *
-                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
-                               , 'Excel 12.0;Database=<#=SourceDir#><#=table.SchemaName#>.<#=table.Name#>.xlsx'
-                               , 'select * from [Sheet1$A2:XFD]'
-                               )
-              </DirectInput>
+              <VariableInput VariableName="User.strCommand"/>
+			   
             </OleDbSource>
             <DataConversion Name="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx">
               <InputPath OutputPathName="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
