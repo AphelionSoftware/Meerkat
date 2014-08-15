@@ -13,7 +13,7 @@
     [ProjectSiteName]      VARCHAR (255)  NOT NULL,
     [ProjectStartDate]     DATETIME       NOT NULL,
     [SectorBusinessKey]    NVARCHAR (400) NULL,
-    [ShortName]            NVARCHAR (255) NOT NULL,
+    [ShortName]            VARCHAR (255)  NOT NULL,
     [SubSectorBusinessKey] NVARCHAR (400) NULL,
     [TextDescription]      VARCHAR (MAX)  NOT NULL,
     [Outcome_ID]           INT            NULL,
@@ -21,4 +21,6 @@
     [Sector_ID]            INT            NULL,
     [SubSector_ID]         INT            NULL
 );
+
+
 
