@@ -4,7 +4,7 @@
     [Name]                VARCHAR (255)  NOT NULL,
     [BusinessKey]         NVARCHAR (400) NOT NULL,
     [CustomReportType_ID] INT            NOT NULL,
-    [Active]              INT            CONSTRAINT [DF__CustomRep__Activ__00750D23] DEFAULT ((1)) NOT NULL,
+    [Active]              INT            CONSTRAINT [DF__CustomReport__Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]       VARCHAR (255)  CONSTRAINT [DF_CustomReport_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]       DATETIME       CONSTRAINT [DF_CustomReport_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255)  CONSTRAINT [DF_CustomReport_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
