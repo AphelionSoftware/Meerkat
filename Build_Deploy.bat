@@ -1,3 +1,4 @@
+MKDIR Deploy
 Call BuildDB.bat
 CALL BuildLS.bat
 CALL BuildETL.bat
