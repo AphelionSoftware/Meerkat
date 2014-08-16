@@ -30,7 +30,7 @@ myapp.AddEditProject.SearchOutcomesTap_execute = function (screen) {
     screen.Project.Outcome = screen.Outcomes.selectedItem;
     screen.closePopup();
 };
-};
+
 myapp.AddEditProject.ProjectType_postRender = function (element, contentItem) {
     // Write code here.
     contentItem.dataBind("value", function (newValue) {
@@ -78,3 +78,4 @@ myapp.AddEditProject.ProjectType_postRender = function (element, contentItem) {
             target.isVisible = true;
         }
     });
+}
