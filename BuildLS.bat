@@ -11,8 +11,8 @@
 "C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild.exe" "Development\Meerkat.ReportsManager\Meerkat.ReportsManager\Meerkat.ReportsManager.lsxtproj" /T:Rebuild /P:Configuration=Release > Deploy\ReportManagerBuild.txt
 "C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild.exe" "Development\Meerkat.ReportsManager\Meerkat.ReportsManager\Meerkat.ReportsManager.lsxtproj" /T:Publish /P:Configuration=Release > Deploy\ReportManagerPublish.txt
 
-xcopy c:\installs\Meerkat_Capture\*.*  %~dp0\DeployMeerkat_Capture\ /Y
-xcopy c:\installs\Meerkat_Admin\*.*  %~dp0\DeployMeerkat_Admin\ /Y
+xcopy c:\installs\Meerkat_Capture\*.*  %~dp0\Deploy\Meerkat_Capture\ /Y
+xcopy c:\installs\Meerkat_Admin\*.*  %~dp0\Deploy\Meerkat_Admin\ /Y
 xcopy c:\installs\Meerkat_FormBuilder\*.*  %~dp0\Deploy\Meerkat_FormBuilder\ /Y
 xcopy c:\installs\Meerkat_FormCapture\*.*  %~dp0\Deploy\Meerkat_FormCapture\ /Y
 xcopy c:\installs\Meerkat_EventRegister\*.*  %~dp0\Deploy\Meerkat_EventRegister\ /Y
