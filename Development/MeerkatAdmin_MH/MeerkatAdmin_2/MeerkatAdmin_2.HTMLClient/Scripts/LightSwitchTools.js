@@ -18,6 +18,8 @@
         return pluralled;
     }
 
+
+
     lightswitchTools.configureCaptureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;
 

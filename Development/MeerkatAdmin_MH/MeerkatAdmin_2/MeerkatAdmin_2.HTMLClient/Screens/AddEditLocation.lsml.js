@@ -21,3 +21,8 @@ myapp.AddEditLocation.SearchLocationsTap_execute = function (screen) {
     screen.Location.locations;
     screen.closePopup();
 };
+myapp.AddEditLocation.Delete_execute_execute = function (screen) {
+    // Write code here.
+    msls.application.lightswitchTools.deleteEntity(screen);
+
+};
