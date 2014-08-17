@@ -11,9 +11,10 @@
     [sys_ModifiedOn]      DATETIME       CONSTRAINT [DF_CustomReport_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_CustomReport] PRIMARY KEY CLUSTERED ([CustomReport_ID] ASC),
     CONSTRAINT [FK_CustomReport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_CustomReport_CustomReportType] FOREIGN KEY ([CustomReportType_ID]) REFERENCES [rpt].[CustomReportType] ([CustomReportType_ID]),
-    CONSTRAINT [UQ_CustomReport_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC)
+    CONSTRAINT [FK_CustomReport_CustomReportType] FOREIGN KEY ([CustomReportType_ID]) REFERENCES [rpt].[CustomReportType] ([CustomReportType_ID])
 );
+
+
 
 
 

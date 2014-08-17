@@ -11,9 +11,10 @@
     [Active]         INT             CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_StatusType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_StatusType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [UQ_StatusType_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_StatusType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

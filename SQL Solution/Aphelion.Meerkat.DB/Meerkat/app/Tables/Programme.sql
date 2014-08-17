@@ -12,9 +12,10 @@
     [sys_ModifiedBy]    VARCHAR (255)  CONSTRAINT [DF_Programme_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_Programme_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Programme_1] PRIMARY KEY CLUSTERED ([Programme_ID] ASC),
-    CONSTRAINT [FK_Programme_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [UQ_Programme_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC)
+    CONSTRAINT [FK_Programme_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

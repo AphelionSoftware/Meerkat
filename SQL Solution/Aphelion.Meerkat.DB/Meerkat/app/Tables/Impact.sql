@@ -15,9 +15,10 @@
     CONSTRAINT [PK_Impact] PRIMARY KEY CLUSTERED ([Impact_ID] ASC),
     CONSTRAINT [FK_Impact_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Impact_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),
-    CONSTRAINT [UQ_Impact_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_Impact_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
