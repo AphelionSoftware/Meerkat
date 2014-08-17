@@ -21,12 +21,12 @@ INSERT INTO [settings].[GlobalSettings]
 		SELECT 
 		'MMBASEURL' AS Code
 		, 'MegaMenu Base URL' AS Name 
-		, '/sites/Meerkat/' as Value)
+		, '/' as Value)
 		Src
 	 WHERE NOT EXISTS 
 	 (SELECT 1 FROM settings.GlobalSettings
 	 WHERE Src.Code = GlobalSettings.Code)
-
+	 
 
 	 INSERT INTO [settings].[GlobalSettings]
            ([Code]
@@ -44,3 +44,23 @@ INSERT INTO [settings].[GlobalSettings]
 	 WHERE NOT EXISTS 
 	 (SELECT 1 FROM settings.GlobalSettings
 	 WHERE Src.Code = GlobalSettings.Code)
+
+
+	 INSERT INTO [settings].[GlobalSettings]
+           ([Code]
+           ,[Name]
+           ,[Value]
+           )
+     SELECT 
+	 Code, Name, Value 
+	 FROM (
+		SELECT 
+		'Client' AS Code
+		, 'Client' AS Name 
+		, 'CARE Somalia' as Value)
+		Src
+	 WHERE NOT EXISTS 
+	 (SELECT 1 FROM settings.GlobalSettings
+	 WHERE Src.Code = GlobalSettings.Code)
+
+
