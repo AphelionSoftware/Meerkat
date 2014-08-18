@@ -56,7 +56,11 @@
 (YEAR( @[System::ContainerStartTime]  ) * 10000)
 + (MONTH(@[System::ContainerStartTime]  ) * 100)
 +  DAY(@[System::ContainerStartTime]  )
-) </Variable>
+) 
+
+</Variable>
+		
+		
 		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
  (DT_STR, 10, 1252)  (
 (YEAR( @[System::ContainerStartTime]  ) * 10000)
@@ -71,6 +75,22 @@
 +  DAY(@[System::ContainerStartTime]  )
 ) +"\\Staging.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorIndividualConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorIndividualDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
+		
+		
+		<Variable Name="ProcessedFile" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Processed\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) 
+
+</Variable>
+		<Variable Name="InProcessSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\InProcess\\" + @[User::FileName]
+
+</Variable>
+
+
+
 
 	</Variables>
       <Tasks>
@@ -273,6 +293,18 @@
 			  <VariableInput VariableName="User.ErrorFileSource" />
               <VariableOutput VariableName="User.ErrorFileDestination" />
 			  </FileSystem>
+
+			 <FileSystem Operation="MoveFile" Name="FSMoveSuccessfulFile" OverwriteDestination="true">
+			  		  <PrecedenceConstraints>
+			<Inputs>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="Constraint" EvaluationValue="Success">
+			</Input>
+			</Inputs>
+			</PrecedenceConstraints>
+			  <VariableInput VariableName="User.InProcessSource" />
+              <VariableOutput VariableName="User.ProcessedFile" />
+			  </FileSystem>
+
 		<!-- data flow to load data into summary error fils -->
 		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>" MaxErrorCount="2000">
 				<PrecedenceConstraints>
