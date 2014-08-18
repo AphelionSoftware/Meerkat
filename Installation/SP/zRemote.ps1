@@ -17,8 +17,8 @@ $SpSite = "http://mgs-m6700/"
 #invoke-expression -Command "$ScriptPath\04_Meerkat_ImportReportSite.ps1  -name $name -sitecoll $sitecoll -filePath $filePath -template $template -user $user"
 #invoke-expression -Command "$ScriptPath\06_FixLSiteReferences.ps1 -baseURL $baseURL -SpSite $SpSite"
 #invoke-expression -Command "$ScriptPath\07_SwitchMasterPage.ps1 -SpSite $SpSite -masterpage $masterpage"
-
-invoke-expression -Command ".\05_Meerkat_FixReportDataConnections.ps1 -webURL http://mgs-m6700/ "
-
+d:
+cd Dropbox\Github\Meerkat\installation\sp
+invoke-expression -Command ".\05_Meerkat_FixReportDataConnections.ps1 -webURL $SpSite  "
 exit
 

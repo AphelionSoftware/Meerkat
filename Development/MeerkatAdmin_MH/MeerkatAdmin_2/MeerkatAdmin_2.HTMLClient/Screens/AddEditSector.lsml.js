@@ -11,3 +11,8 @@ myapp.AddEditSector.beforeApplyChanges = function (screen) {
     var x = 1;
 
 };
+myapp.AddEditSector.Delete_execute_execute = function (screen) {
+    // Write code here.
+    msls.application.lightswitchTools.deleteEntity(screen);
+
+};

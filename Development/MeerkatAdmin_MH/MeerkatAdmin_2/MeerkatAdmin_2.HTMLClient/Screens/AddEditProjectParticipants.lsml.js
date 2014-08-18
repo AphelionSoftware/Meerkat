@@ -6,3 +6,8 @@ myapp.AddEditProjectParticipants.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
     msls.application.lightswitchTools.setBusinessKeyIsName(screen);
 };
+myapp.AddEditProjectParticipants.Delete_execute_execute = function (screen) {
+    // Write code here.
+    msls.application.lightswitchTools.deleteEntity(screen);
+
+};

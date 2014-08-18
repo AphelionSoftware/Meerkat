@@ -7,13 +7,29 @@ myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
 myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem) {
 
     contentItem.dataBind("value", function (newValue) {
+        if (!contentItem.screen.Client) {
+            return;
+        }
+        if ( contentItem.screen.Client.Value == "CARE Somalia")
+        {
+            contentItem.screen.findContentItem("SectorGroup").isVisible = true;
+            contentItem.screen.findContentItem("SubSectorGroup").isVisible = true;
+            contentItem.screen.findContentItem("ProjectGroup").isVisible = true;
+            contentItem.screen.findContentItem("ProgrammeGroup").isVisible = true;
+            contentItem.screen.findContentItem("IndicatorTypeGroup").isVisible = false;
+
+            return;
+            //CARE has some specific implementations
+        }
+
+        contentItem.screen.findContentItem("IndicatorTypeGroup").isVisible = true;
 
         var indicatorGroup = contentItem.screen.findContentItem("SubIndicators");
         $.each(indicatorGroup.children, function (index, child) {
             child.isVisible = false;
         });
 
-        if (newValue === undefined) {
+        if (!newValue || newValue === undefined) {
             return;
         }
 
@@ -37,6 +53,11 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
             case "PROG":
                 {
                     target = contentItem.screen.findContentItem("Programme");
+                    break;
+                }
+            case "PRJ":
+                {
+                    target = contentItem.screen.findContentItem("Project");
                     break;
                 }
             case "SEC":
@@ -74,6 +95,14 @@ myapp.AddEditIndicator.created = function (screen) {
     msls.application.lightswitchTools.setBaselineString(screen);
     msls.application.lightswitchTools.setTargetString(screen);
     screen.Indicator.IsKeyIndicator = false;
+
+    screen.details.dataWorkspace.MeerkatData.GlobalSettings.filter("Code eq 'Client'").execute().then(function (x) {
+        screen.Client = x.results[0];
+    });
+
+
+
+
 };
 
 myapp.AddEditIndicator.SearchIndicatorTypeTap_execute = function (screen) {
@@ -99,4 +128,84 @@ myapp.AddEditIndicator.SelectedSubOutputsTap_execute = function (screen) {
 myapp.AddEditIndicator.SearchIndicatorLocationsTap_execute = function (screen) {
     screen.Indicator.IndicatorLocations = screen.IndicatorLocations.selectedItem;
     screen.closePopup();
+};
+myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, contentItem) {
+    var input = $(element);
+    contentItem.dataBind("screen.ProjectsSorted.selectedItem", function (newValue) {
+        if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+
+            if (newValue) {
+                if (contentItem.screen.ProgrammeSorted.selectedItem != null) {
+                    contentItem.screen.ProgrammeSorted.deleteSelected();
+                }
+                contentItem.screen.Indicator.setProgramme(null);
+                input.find("input").val("");
+                myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PROG'").execute().then(function (x) {
+                    contentItem.screen.Indicator.setIndicatorType(x.results[0]);
+                });
+            }
+        }
+    });
+};
+myapp.AddEditIndicator.Indicator_Project_postRender = function (element, contentItem) {
+    
+        var input = $(element);
+        contentItem.dataBind("screen.ProgrammeSorted.selectedItem", function (newValue) {
+            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+
+                if (newValue) {
+                    if (contentItem.screen.ProjectsSorted.selectedItem != null) {
+                        contentItem.screen.ProjectsSorted.deleteSelected();
+                    }
+                    contentItem.screen.Indicator.setProject(null);
+                    input.find("input").val("");
+                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PRJ'").execute().then(function (x) {
+                        contentItem.screen.Indicator.setIndicatorType(x.results[0]);
+                    });
+                }
+            }
+        });
+    
+};
+myapp.AddEditIndicator.Indicator_Sector_postRender = function (element, contentItem) {
+   
+        var input = $(element);
+        contentItem.dataBind("screen.SubSectorSorted.selectedItem", function (newValue) {
+            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+
+                if (newValue) {
+                    if (contentItem.screen.SectorSorted.selectedItem != null) {
+                        contentItem.screen.SectorSorted.deleteSelected();
+                    }
+                    contentItem.screen.Indicator.setSector(null);
+                    input.find("input").val("");
+
+                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'S'").execute().then(function (x) {
+                        contentItem.screen.Indicator.setIndicatorType(x.results[0]);
+                    });
+                }
+            }
+        });
+    
+};
+myapp.AddEditIndicator.Indicator_SubSector_postRender = function (element, contentItem) {
+    
+        var input = $(element);
+        contentItem.dataBind("screen.SectorSorted.selectedItem", function (newValue) {
+            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+
+                if (newValue) {
+                    if (contentItem.screen.SubSectorSorted.selectedItem != null) {
+                        contentItem.screen.SubSectorSorted.deleteSelected();
+                    }
+                    contentItem.screen.Indicator.setSector(null);
+                    input.find("input").val("");
+
+                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'SS'").execute().then(function (x) {
+                        contentItem.screen.Indicator.setIndicatorType(x.results[0]);
+                    });
+                }
+            }
+        });
+    
 };

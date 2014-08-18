@@ -51,7 +51,7 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Required />
           <Hidden />
         </EntityProperty.Attributes>
@@ -111,6 +111,35 @@
           <Hidden />
         </NavigationProperty.Attributes>
       </NavigationProperty>
+      <EntityProperty
+        Name="NoticeDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="WarningDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DeadlineDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="CustomReports"
+        Association="FK_CustomReport_CustomReportType"
+        FromEnd="CustomReportType"
+        ToEnd="CustomReport" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -204,7 +233,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_CustomReport_CustomReportType"
+      Association="FK_CustomReport_CustomReportType">
+      <AssociationSetEnd
+        Name="CustomReportType"
+        EntitySet="CustomReportTypes" />
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_CustomReport_CustomReportType">
+    <AssociationEnd
+      Name="CustomReportType"
+      Multiplicity="One"
+      EntityType="CustomReportType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport"
+      Multiplicity="Many"
+      EntityType="CustomReport" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -235,10 +289,26 @@
           Type="varchar"
           Property="CustomReportType/Properties[Name]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
           Property="CustomReportType/Properties[BusinessKey]" />
+        <SsdlProperty
+          Name="NoticeDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[NoticeDays]" />
+        <SsdlProperty
+          Name="WarningDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[WarningDays]" />
+        <SsdlProperty
+          Name="DeadlineDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[DeadlineDays]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -268,5 +338,26 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_CustomReportType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_CustomReportType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_CustomReportType]/Members[CustomReportType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReportType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_CustomReportType]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReportType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>
