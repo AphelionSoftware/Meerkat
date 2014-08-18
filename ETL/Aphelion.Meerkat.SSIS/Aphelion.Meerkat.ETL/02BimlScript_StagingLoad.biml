@@ -43,7 +43,7 @@
 	var errTable = ErrorSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).First();
 	
   #>
-    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
+    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey"  MaxErrorCount="2000">
 	<Variables>
 		<Variable Name="intQueueID" DataType="Int32" >0</Variable>
 		<Variable Name="intErrorCount" DataType="Int32" >0</Variable>
@@ -80,7 +80,7 @@
 		  </DirectInput>
         </ExecuteSQL>
 		  <!--- Initial data flow to load data into DW tables-->
-        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>"  MaxErrorCount="2000">
 		<PrecedenceConstraints>
 					<Inputs>
 			<Input OutputPathName="SQL_Truncate_<#=errTable.SchemaName#>_<#=table.Name#>.Output"> </Input>
@@ -211,9 +211,10 @@
 
 
 		  <FileSystem Operation="CopyFile" Name="FSCopyTemplateFile" OverwriteDestination="true">
-			  		  <PrecedenceConstraints>
+			<PrecedenceConstraints LogicalType="Or">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionOrConstraint" Expression="@[User::intErrorCount] > 0" EvaluationValue="Failure">
+			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
 			  <VariableInput VariableName="User.FileSource" />
@@ -223,7 +224,7 @@
 		  <!-- Loading individual errors -->
 		  <!--
 		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
-			<PrecedenceConstraints>
+			<PrecedenceConstraints >
 			<Inputs>
 				<Input OutputPathName="FSCopyTemplateFile.Output" EvaluationOperation="Constraint">    
 					
@@ -263,16 +264,17 @@
 		  -->
 		  
 		  <FileSystem Operation="CopyFile" Name="FSCopyErrorFile" OverwriteDestination="true">
-			  		  <PrecedenceConstraints>
+			  		  <PrecedenceConstraints LogicalType="Or">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionOrConstraint" Expression="@[User::intErrorCount] > 0" EvaluationValue="Failure">
+			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
 			  <VariableInput VariableName="User.ErrorFileSource" />
               <VariableOutput VariableName="User.ErrorFileDestination" />
 			  </FileSystem>
 		<!-- data flow to load data into summary error fils -->
-		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>">
+		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>" MaxErrorCount="2000">
 				<PrecedenceConstraints>
 					<Inputs>
 					<Input OutputPathName="FSCopyErrorFile.Output" EvaluationOperation="Constraint">    
