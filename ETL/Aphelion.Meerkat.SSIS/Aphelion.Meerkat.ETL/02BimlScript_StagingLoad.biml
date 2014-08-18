@@ -51,10 +51,25 @@
 		<Variable Name="FileName" DataType="String">Staging.<#=table.Name#>.xlsx</Variable>
         <Variable Name="FileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\" + @[User::FileName]</Variable>
         <Variable Name="ErrorFileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\Errors.xlsx" </Variable>
-		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors" </Variable>
-		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Errors.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) </Variable>
+		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) +"\\Errors.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorFileConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorFileDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
-		<Variable Name="ErrorIndividualDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Staging.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="ErrorIndividualDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) +"\\Staging.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorIndividualConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorIndividualDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
 
 	</Variables>
@@ -79,7 +94,7 @@
               </DirectInput>
             </OleDbSource>
 			  <# strLookup ="OLE_SRC_Staging_" + table.Name + ".Output";#> 
-            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
+            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID', 'isSiteCreated') AND T.name = '"+ table.Name + "'"); #>
             <# string IsNullable ="" ;
                foreach (DataRow FKColumn in FKColumns.Rows) { 
 					IsNullable = "" + FKColumn["IsNullable"];
