@@ -230,14 +230,14 @@
         </Dataflow>
 
 
-		  <FileSystem Operation="CopyFile" Name="FSCopyTemplateFile" OverwriteDestination="true">
+		  <FileSystem Operation="MoveFile" Name="FSMoveErrorFile" OverwriteDestination="true">
 			<PrecedenceConstraints LogicalType="Or">
 			<Inputs>
 			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionOrConstraint" Expression="@[User::intErrorCount] > 0" EvaluationValue="Failure">
 			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
-			  <VariableInput VariableName="User.FileSource" />
+			  <VariableInput VariableName="User.InProcessSource" />
               <VariableOutput VariableName="User.FileDestination" />
 			  </FileSystem>
 		  
@@ -246,7 +246,7 @@
 		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
 			<PrecedenceConstraints >
 			<Inputs>
-				<Input OutputPathName="FSCopyTemplateFile.Output" EvaluationOperation="Constraint">    
+				<Input OutputPathName="FSMoveErrorFile.Output" EvaluationOperation="Constraint">    
 					
 				</Input>
 			</Inputs>
@@ -295,9 +295,9 @@
 			  </FileSystem>
 
 			 <FileSystem Operation="MoveFile" Name="FSMoveSuccessfulFile" OverwriteDestination="true">
-			  		  <PrecedenceConstraints>
+			<PrecedenceConstraints LogicalType="And">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="Constraint" EvaluationValue="Success">
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] = 0"  EvaluationValue="Success">
 			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
