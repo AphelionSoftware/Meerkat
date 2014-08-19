@@ -5,6 +5,6 @@ CALL powershell "& 'Installation\SetupProxies.ps1'"
 CALL powershell "& 'Installation\Install_LSWebApps.ps1'"
 CALL powershell "& 'Installation\Install_LSWebApps.ps1'"
 CD Installation\SP
-CALL powershell "& '00_MeerkatSP.ps1'"
+CALL powershell "& '.\00_Meerkat_InstallSP.ps1'"
 cd..
 cd..
