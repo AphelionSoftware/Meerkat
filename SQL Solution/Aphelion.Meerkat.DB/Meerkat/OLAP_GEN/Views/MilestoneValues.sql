@@ -284,25 +284,25 @@ EXECUTE sp_addextendedproperty @name = N'XMLATableType', @value = N'MeasureGroup
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'False', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureDistinctCount', @value = N'false', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'True', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 

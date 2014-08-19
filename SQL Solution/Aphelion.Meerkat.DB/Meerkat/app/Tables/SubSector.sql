@@ -34,5 +34,5 @@ EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'True', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
+EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
 
