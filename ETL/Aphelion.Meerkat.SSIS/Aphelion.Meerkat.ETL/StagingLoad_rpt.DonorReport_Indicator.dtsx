@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="08/19/2014 08:55:54" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-M6700" DTS:CreatorName="administrator" DTS:DTSID="{10A8546B-5A0B-44B9-8E27-265C8E7C5551}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="7177" DTS:MaxErrorCount="2000" DTS:ObjectName="StagingLoad_rpt_DonorReport_Indicator" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{3A0CFD1C-4F1D-492C-A611-13DF1C35DDB2}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="EXCEL" DTS:DTSID="{0C731F1E-9456-4D40-9FF7-7BB27EB36E7D}" DTS:ObjectName="ExcelCountConnection" DTS:refId="Package.ConnectionManagers[ExcelCountConnection]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Errors.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+      <DTS:PropertyExpression DTS:Name="ConnectionString">@[User::ErrorFileConnection]</DTS:PropertyExpression>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{C7199BB7-C067-46C3-8120-C17AC88FAE8A}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate_Errors_DonorReport_Indicator" DTS:refId="Package\SQL_Truncate_Errors_DonorReport_Indicator" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatErrorsBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Errors].[DonorReport_Indicator]&#xA;  &#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{5E9944CD-D0F3-46CA-B2CA-E2FC74149C80}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:MaxErrorCount="2000" DTS:ObjectName="DFT_Load rpt_DonorReport_Indicator" DTS:refId="Package\DFT_Load rpt_DonorReport_Indicator" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator" usesDispositions="true" version="7">
+              <connections>
+                <connection connectionManagerID="{840851F7-872D-4B82-B720-33AAA34F3227}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="DonorReportBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[DonorReportBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="IndicatorBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[IndicatorBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[DonorReport_Indicator_ID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[DonorReportBusinessKey]" length="400" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReportBusinessKey]" name="DonorReportBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReportBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].ExternalColumns[IndicatorBusinessKey]" length="400" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[IndicatorBusinessKey]" name="IndicatorBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[IndicatorBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[DonorReport_Indicator_ID]" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[DonorReport_Indicator_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="400" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[DonorReportBusinessKey]" name="DonorReportBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[DonorReportBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="400" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[IndicatorBusinessKey]" name="IndicatorBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[IndicatorBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM [Staging].[DonorReport_Indicator]
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{671046B0-AA63-4C9F-90E4-C06E0B710CE3}" contactInfo="Lookup;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5" name="LKP_DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID" usesDispositions="true" version="6">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="Connection manager used to access lookup data." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input name="OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="DonorReportBusinessKey" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReportBusinessKey]" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID].Columns[DonorReportBusinessKey]">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table that a column joins." name="JoinToReferenceColumn">BusinessKey</property>
+                        <property dataType="System.Null" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">
+                        </property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Lookup" errorRowDisposition="IgnoreFailure" exclusionGroup="1" name="Match" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="CopyColumn" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" name="DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">DonorReport_ID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;" exclusionGroup="1" name="NoMatch" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[NoMatch]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the SQL statement that generates the lookup table." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT BusinessKey, DonorReport_ID FROM [rpt].[DonorReport]</property>
+                <property dataType="System.String" description="Specifies a SQL statement that uses parameters to generate the lookup table." expressionType="Notify" name="SqlCommandParam" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT BusinessKey, DonorReport_ID FROM [rpt].[DonorReport]) [refTable] where [refTable].[BusinessKey] = ?</property>
+                <property dataType="System.Int32" description="Specifies the type of connection used to access the reference dataset." name="ConnectionType" typeConverter="LookupConnectionType">0</property>
+                <property dataType="System.Int32" description="Specifies the cache type of the lookup table." name="CacheType" typeConverter="CacheType">0</property>
+                <property dataType="System.Int32" description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set." name="NoMatchBehavior" typeConverter="LookupNoMatchBehavior">0</property>
+                <property dataType="System.Int32" description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset." name="NoMatchCachePercentage">0</property>
+                <property dataType="System.Int32" description="Maximum Memory Usage for Reference Cache on a 32 bit platform." name="MaxMemoryUsage">25</property>
+                <property dataType="System.Int64" description="Maximum Memory Usage for Reference Cache on a 64 bit platform." name="MaxMemoryUsage64">25</property>
+                <property dataType="System.String" description="Indicates whether to reference metadata in an XML format." name="ReferenceMetadataXml">&lt;referenceMetadata&gt;
+  &lt;referenceColumns&gt;
+    &lt;referenceColumn name="BusinessKey" dataType="DT_WSTR" length="400" precision="0" scale="0" codePage="0" /&gt;
+    &lt;referenceColumn name="DonorReport_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0" /&gt;
+  &lt;/referenceColumns&gt;
+&lt;/referenceMetadata&gt;</property>
+                <property containsID="true" dataType="System.String" description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons." name="ParameterMap">#{Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReportBusinessKey]};</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used." name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+            </component>
+            <component componentClassID="{671046B0-AA63-4C9F-90E4-C06E0B710CE3}" contactInfo="Lookup;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5" name="LKP_IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID" usesDispositions="true" version="6">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="Connection manager used to access lookup data." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input name="LKP_DonorReportID_Match_LKP_IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="IndicatorBusinessKey" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[IndicatorBusinessKey]" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID].Columns[IndicatorBusinessKey]">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table that a column joins." name="JoinToReferenceColumn">BusinessKey</property>
+                        <property dataType="System.Null" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">
+                        </property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Lookup" errorRowDisposition="IgnoreFailure" exclusionGroup="1" name="Match" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="CopyColumn" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" name="IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">IndicatorID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;" exclusionGroup="1" name="NoMatch" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[NoMatch]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the SQL statement that generates the lookup table." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT BusinessKey, IndicatorID FROM [app].[Indicator]</property>
+                <property dataType="System.String" description="Specifies a SQL statement that uses parameters to generate the lookup table." expressionType="Notify" name="SqlCommandParam" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT BusinessKey, IndicatorID FROM [app].[Indicator]) [refTable] where [refTable].[BusinessKey] = ?</property>
+                <property dataType="System.Int32" description="Specifies the type of connection used to access the reference dataset." name="ConnectionType" typeConverter="LookupConnectionType">0</property>
+                <property dataType="System.Int32" description="Specifies the cache type of the lookup table." name="CacheType" typeConverter="CacheType">0</property>
+                <property dataType="System.Int32" description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set." name="NoMatchBehavior" typeConverter="LookupNoMatchBehavior">0</property>
+                <property dataType="System.Int32" description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset." name="NoMatchCachePercentage">0</property>
+                <property dataType="System.Int32" description="Maximum Memory Usage for Reference Cache on a 32 bit platform." name="MaxMemoryUsage">25</property>
+                <property dataType="System.Int64" description="Maximum Memory Usage for Reference Cache on a 64 bit platform." name="MaxMemoryUsage64">25</property>
+                <property dataType="System.String" description="Indicates whether to reference metadata in an XML format." name="ReferenceMetadataXml">&lt;referenceMetadata&gt;
+  &lt;referenceColumns&gt;
+    &lt;referenceColumn name="BusinessKey" dataType="DT_WSTR" length="400" precision="0" scale="0" codePage="0" /&gt;
+    &lt;referenceColumn name="IndicatorID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0" /&gt;
+  &lt;/referenceColumns&gt;
+&lt;/referenceMetadata&gt;</property>
+                <property containsID="true" dataType="System.String" description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons." name="ParameterMap">#{Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[IndicatorBusinessKey]};</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used." name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+            </component>
+            <component componentClassID="{7F88F654-4E20-4D14-84F4-AF9C925D3087}" contactInfo="Conditional Split;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="CSPL_DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID" usesDispositions="true">
+              <inputs>
+                <input name="LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReport_Indicator_ID" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID].Columns[DonorReport_Indicator_ID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" exclusionGroup="1" name="Insert" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Insert]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]" truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <properties>
+                    <property containsID="true" dataType="System.String" name="Expression">ISNULL(#{Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]})</property>
+                    <property containsID="true" dataType="System.String" expressionType="Notify" name="FriendlyExpression">ISNULL(DonorReport_Indicator_ID)</property>
+                    <property dataType="System.Int32" name="EvaluationOrder">0</property>
+                  </properties>
+                </output>
+                <output exclusionGroup="1" name="Default" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Default]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <properties>
+                    <property dataType="System.Boolean" name="IsDefaultOut">true</property>
+                  </properties>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{93FFEC66-CBC8-4C7F-9C6A-CB1C17A7567D}" contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2" name="CMD_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator" usesDispositions="true" version="2">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Command Execution" errorRowDisposition="FailComponent" hasSideEffects="true" name="CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Param_0" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_0]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Param_1" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_1]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Param_2" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_2]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReportID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_0]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].Columns[DonorReportID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="IndicatorID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_1]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReport_Indicator_ID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].ExternalColumns[Param_2]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator].Columns[DonorReport_Indicator_ID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Output]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [rpt].[DonorReport_Indicator]SET [DonorReportID] = ?,[IndicatorID] = ?,[sys_ModifiedBy] = USER_NAME(),[sys_ModifiedOn] = GETDATE() WHERE DonorReport_Indicator_ID = ?</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="RedirectRow" hasSideEffects="true" name="CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Active" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[Active]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_CreatedBy" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[sys_CreatedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_CreatedOn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[sys_CreatedOn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_ModifiedBy" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[sys_ModifiedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_ModifiedOn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[sys_ModifiedOn]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="IndicatorID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReportID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator].Columns[DonorReportID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[rpt].[DonorReport_Indicator]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Singleton_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="RedirectRow" hasSideEffects="true" name="OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Active" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[Active]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_CreatedBy" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[sys_CreatedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_CreatedOn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[sys_CreatedOn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_ModifiedBy" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[sys_ModifiedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_ModifiedOn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[sys_ModifiedOn]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="IndicatorID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReportID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator].Columns[DonorReportID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[rpt].[DonorReport_Indicator]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">1</property>
+              </properties>
+            </component>
+            <component componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}" contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DC_AddErrorDetails" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails" usesDispositions="true">
+              <inputs>
+                <input name="OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">(DT_STR, 255, 1252)@[System::PackageName]</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">(DT_STR, 255, 1252)@[System::PackageName]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">@[User::intQueueID]</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">@[User::intQueueID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">(DT_STR, 255, 1252)("Insert")</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">(DT_STR, 255, 1252)("Insert")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}" contactInfo="Row Count;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="RC_CountErrors" refId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors">
+              <inputs>
+                <input hasSideEffects="true" name="DC_AddErrorDetails_Output_RC_CountErrors" refId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors.Outputs[Output]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the variable to hold the row count." name="VariableName">User::intErrorCount</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Error_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{2D4BDCB8-1E75-4A0A-B25C-A66DC2FA9B90}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatErrorsBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="QueueID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="SSISErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[SSISErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="SSISErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[SSISErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="PackageName" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="ErrorType" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="DonorReportBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReportBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="IndicatorBusinessKey" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[IndicatorBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="PackageName" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[PackageName]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="QueueID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[QueueID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="ErrorType" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[ErrorType]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="IndicatorID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[IndicatorID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match].Columns[IndicatorID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[IndicatorID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReportID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReportID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match].Columns[DonorReportID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[DonorReportID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="DonorReport_Indicator_ID" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReport_Indicator_ID]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReport_Indicator_ID]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[DonorReport_Indicator_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="DonorReportBusinessKey" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[DonorReportBusinessKey]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[DonorReportBusinessKey]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[DonorReportBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="IndicatorBusinessKey" externalMetadataColumnId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].ExternalColumns[IndicatorBusinessKey]" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output].Columns[IndicatorBusinessKey]" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator].Columns[IndicatorBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Outputs[Error]" synchronousInputId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Errors].[DonorReport_Indicator]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">200</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Inputs[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]" name="OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[OLE_SRC_Staging_DonorReport_Indicator_Output_LKP_DonorReportID]" startId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_SRC_Staging_DonorReport_Indicator.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Inputs[LKP_DonorReportID_Match_LKP_IndicatorID]" name="LKP_DonorReportID_Match_LKP_IndicatorID" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[LKP_DonorReportID_Match_LKP_IndicatorID]" startId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_DonorReportID.Outputs[Match]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Inputs[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]" name="LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[LKP_IndicatorID_Match_CSPL_DonorReport_Indicator_ID]" startId="Package\DFT_Load rpt_DonorReport_Indicator\LKP_IndicatorID.Outputs[Match]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator]" name="CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[CSPL_DonorReport_Indicator_ID_Insert_OLE_DST_rpt_DonorReport_Indicator]" startId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Insert]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Inputs[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator]" name="OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[OLE_DST_rpt_DonorReport_Indicator_Error_OLE_DST_Singleton_rpt_DonorReport_Indicator]" startId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_rpt_DonorReport_Indicator.Outputs[Error]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails]" name="OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[OLE_DST_Singleton_rpt_DonorReport_Indicator_Error_DC_AddErrorDetails]" startId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Singleton_rpt_DonorReport_Indicator.Outputs[Error]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]" name="DC_AddErrorDetails_Output_RC_CountErrors" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[DC_AddErrorDetails_Output_RC_CountErrors]" startId="Package\DFT_Load rpt_DonorReport_Indicator\DC_AddErrorDetails.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\OLE_DST_Error_rpt_DonorReport_Indicator.Inputs[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator]" name="RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[RC_CountErrors_Output_OLE_DST_Error_rpt_DonorReport_Indicator]" startId="Package\DFT_Load rpt_DonorReport_Indicator\RC_CountErrors.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load rpt_DonorReport_Indicator\CMD_rpt_DonorReport_Indicator.Inputs[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator]" name="CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator" refId="Package\DFT_Load rpt_DonorReport_Indicator.Paths[CSPL_DonorReport_Indicator_ID_Default_CMD_rpt_DonorReport_Indicator]" startId="Package\DFT_Load rpt_DonorReport_Indicator\CSPL_DonorReport_Indicator_ID.Outputs[Default]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{6220C6DE-67E4-42C6-BE0F-A8353654F6F1}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSCopyTemplateFile" DTS:refId="Package\FSCopyTemplateFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::FileDestination" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOverwriteDestFile="True" TaskSourcePath="User::FileSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{6C1BEDB0-867B-4356-AC61-E5B1D72C4DFF}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSCopyErrorFile" DTS:refId="Package\FSCopyErrorFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::ErrorFileDestination" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOverwriteDestFile="True" TaskSourcePath="User::ErrorFileSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{B0302BA6-074F-41EF-9AAB-64D82076E639}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSMoveSuccessfulFile" DTS:refId="Package\FSMoveSuccessfulFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::ProcessedFile" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOperationType="MoveFile" TaskOverwriteDestFile="True" TaskSourcePath="User::InProcessSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{CF2C7E04-26CE-4A55-AFB9-8AFFFEABEF85}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:MaxErrorCount="2000" DTS:ObjectName="DFT_ErrorCount_rpt_DonorReport_Indicator" DTS:refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Errors_DonorReport_Indicator" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator" usesDispositions="true" version="7">
+              <connections>
+                <connection connectionManagerID="{2D4BDCB8-1E75-4A0A-B25C-A66DC2FA9B90}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatErrorsBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="QueueID" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="PackageErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="ErrorType" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="PackageName" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Count" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[Count]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[QueueID]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageErrorCode]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorCode]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageErrorColumn]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorColumn]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[ErrorType]" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[PackageName]" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].ExternalColumns[Count]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[Count]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[QueueID]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageErrorCode]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageErrorColumn]">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorType]">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[PackageName]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[Count]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+					SELECT [QueueID]
+						 ,[SSISErrorCode] AS PackageErrorCode
+						 ,[SSISErrorColumn] PackageErrorColumn
+						,[ErrorType]
+						,[PackageName]  ,Count(*) As [Count]
+					FROM [Errors].[DonorReport_Indicator]
+					  GROUP BY [QueueID]
+						  ,[SSISErrorCode]
+						  ,[SSISErrorColumn]
+						  ,[ErrorType]
+						  ,[PackageName] 
+				  </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DC_ExcelErrors" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="QueueID" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[QueueID]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="PackageErrorCode" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorCode]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[PackageErrorCode]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="PackageErrorColumn" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorColumn]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[PackageErrorColumn]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="ErrorType" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="PackageName" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageName]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="Count" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[Count]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors].Columns[Count]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output]" synchronousInputId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[QueueID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorCode]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageErrorColumn]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[ErrorType]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[PackageName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[Count]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output].Columns[Count]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Error]" synchronousInputId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{1F5D5712-2FBA-4CB9-A95A-86C1F336E1DA}" contactInfo="Excel Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary" usesDispositions="true" validateExternalMetadata="False">
+              <connections>
+                <connection connectionManagerID="{0C731F1E-9456-4D40-9FF7-7BB27EB36E7D}:external" connectionManagerRefId="Package.ConnectionManagers[ExcelCountConnection]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="IgnoreFailure" hasSideEffects="true" name="DC_ExcelErrors_Output_OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="QueueID" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ErrorType" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageName" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Count" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[Count]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="QueueID" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[QueueID]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageErrorCode" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorCode]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageErrorCode]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageErrorColumn" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorColumn]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageErrorColumn]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ErrorType" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[ErrorType]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageName" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageName]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Count" externalMetadataColumnId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[Count]" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output].Columns[Count]" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[Count]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Outputs[Error]" synchronousInputId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">Sheet1$</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">0</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">
+                </property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Inputs[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors]" name="OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator.Paths[OLE_SRC_Errors_DonorReport_Indicator_Output_DC_ExcelErrors]" startId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_SRC_Errors_DonorReport_Indicator.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]" name="DC_ExcelErrors_Output_OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator.Paths[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]" startId="Package\DFT_ErrorCount_rpt_DonorReport_Indicator\DC_ExcelErrors.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{6874CAF0-7036-44F2-AF8C-BC1C0DDA47B9}" DTS:From="Package\SQL_Truncate_Errors_DonorReport_Indicator" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate_Errors_DonorReport_Indicator_To_DFT_Load rpt_DonorReport_Indicator" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate_Errors_DonorReport_Indicator_To_DFT_Load rpt_DonorReport_Indicator]" DTS:To="Package\DFT_Load rpt_DonorReport_Indicator">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{86058909-A9F7-44DF-9D98-4E612777408B}" DTS:EvalOp="4" DTS:Expression="@[User::intErrorCount] &gt; 0" DTS:From="Package\DFT_Load rpt_DonorReport_Indicator" DTS:ObjectName="Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSCopyTemplateFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSCopyTemplateFile]" DTS:To="Package\FSCopyTemplateFile" DTS:Value="1">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{82A781D9-261A-4F82-9A1C-D578EA490CD7}" DTS:EvalOp="4" DTS:Expression="@[User::intErrorCount] &gt; 0" DTS:From="Package\DFT_Load rpt_DonorReport_Indicator" DTS:ObjectName="Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSCopyErrorFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSCopyErrorFile]" DTS:To="Package\FSCopyErrorFile" DTS:Value="1">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{10ED456C-A930-4E58-8C06-A36E109A554F}" DTS:From="Package\DFT_Load rpt_DonorReport_Indicator" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSMoveSuccessfulFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load rpt_DonorReport_Indicator_To_FSMoveSuccessfulFile]" DTS:To="Package\FSMoveSuccessfulFile">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{89A5BB78-EFCF-4803-B4C1-744533960309}" DTS:From="Package\FSCopyErrorFile" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_FSCopyErrorFile_To_DFT_ErrorCount_rpt_DonorReport_Indicator" DTS:refId="Package.PrecedenceConstraints[Constraint_FSCopyErrorFile_To_DFT_ErrorCount_rpt_DonorReport_Indicator]" DTS:To="Package\DFT_ErrorCount_rpt_DonorReport_Indicator">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{FBED2666-4965-4927-B866-D2F7ACEC30E2}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="intQueueID">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{EC5D33D1-4386-46A4-A3F5-63C1EFA97179}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="intErrorCount">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{78D84D77-3467-4BF5-A986-99C4110B95FA}" DTS:EvaluateAsExpression="True" DTS:Expression="@[System::PackageName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="strPackageName">
+      <DTS:VariableValue DTS:DataType="8">StagingLoad_rpt.DonorReport_Indicator</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{2DD87E31-078F-462C-AC1C-96474DDA6B04}" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileName">
+      <DTS:VariableValue DTS:DataType="8">Staging.DonorReport_Indicator.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{B16FB7E6-5B5E-47D2-96FD-880BFD85BADD}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Templates\\&quot; + @[User::FileName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Staging.DonorReport_Indicator.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{B6954234-34A9-4294-AB14-9661BA879AE0}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Templates\\Errors.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Errors.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{A6F0575C-AE17-4934-ABF1-A3F37893465A}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140819</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{D8C6BB71-4E92-425A-880D-9E3DFEE29CF8}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;) +&quot;\\Errors.DonorReport_Indicator.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140819\Errors.DonorReport_Indicator.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{F248146A-1D89-4325-84EE-67B5DC462816}" DTS:EvaluateAsExpression="True" DTS:Expression="&quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; + @[User::ErrorFileDestination] +&quot;;Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileConnection">
+      <DTS:VariableValue DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140819\Errors.DonorReport_Indicator.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES"</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{511FF85A-1692-4FF6-BCAE-8EFE08C39108}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;) +&quot;\\Staging.DonorReport_Indicator.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorIndividualDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140819\Staging.DonorReport_Indicator.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{2EEF344A-A1D3-4525-ACCD-104BD952D937}" DTS:EvaluateAsExpression="True" DTS:Expression="&quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; + @[User::ErrorIndividualDestination] +&quot;;Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorIndividualConnection">
+      <DTS:VariableValue DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140819\Staging.DonorReport_Indicator.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES"</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{8DBDE6D9-196D-4922-AA08-86BC7DEE9E05}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Processed\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ProcessedFile">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Processed\20140819</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{B0E2A120-701C-4035-9366-D3FC62D4C69E}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\InProcess\\&quot; + @[User::FileName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="InProcessSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.DonorReport_Indicator.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+</DTS:Executable>
