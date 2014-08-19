@@ -43,7 +43,7 @@
 	var errTable = ErrorSchema.TableNodes.Where(item => tableNamesToImport.Contains(item.Name)).First();
 	
   #>
-    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
+    <Package Name="StagingLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey"  MaxErrorCount="2000">
 	<Variables>
 		<Variable Name="intQueueID" DataType="Int32" >0</Variable>
 		<Variable Name="intErrorCount" DataType="Int32" >0</Variable>
@@ -51,11 +51,46 @@
 		<Variable Name="FileName" DataType="String">Staging.<#=table.Name#>.xlsx</Variable>
         <Variable Name="FileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\" + @[User::FileName]</Variable>
         <Variable Name="ErrorFileSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Templates\\Errors.xlsx" </Variable>
-		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors" </Variable>
-		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Errors.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="FileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) 
+
+</Variable>
+		
+		
+		<Variable Name="ErrorFileDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) +"\\Errors.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorFileConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorFileDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
-		<Variable Name="ErrorIndividualDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\Staging.<#=table.Name#>.xlsx" </Variable>
+		<Variable Name="ErrorIndividualDestination" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\FileErrors\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) +"\\Staging.<#=table.Name#>.xlsx" </Variable>
 		<Variable Name="ErrorIndividualConnection" DataType="String" EvaluateAsExpression="true">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::ErrorIndividualDestination] +";Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;"  </Variable>
+		
+		
+		<Variable Name="ProcessedFile" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\Processed\\" + 
+ (DT_STR, 10, 1252)  (
+(YEAR( @[System::ContainerStartTime]  ) * 10000)
++ (MONTH(@[System::ContainerStartTime]  ) * 100)
++  DAY(@[System::ContainerStartTime]  )
+) 
+
+</Variable>
+		<Variable Name="InProcessSource" DataType="String" EvaluateAsExpression="true">@[$Project::strStagingTemplatePath] + "\\InProcess\\" + @[User::FileName]
+
+</Variable>
+
+
+
 
 	</Variables>
       <Tasks>
@@ -65,7 +100,7 @@
 		  </DirectInput>
         </ExecuteSQL>
 		  <!--- Initial data flow to load data into DW tables-->
-        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+        <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>"  MaxErrorCount="2000">
 		<PrecedenceConstraints>
 					<Inputs>
 			<Input OutputPathName="SQL_Truncate_<#=errTable.SchemaName#>_<#=table.Name#>.Output"> </Input>
@@ -79,7 +114,7 @@
               </DirectInput>
             </OleDbSource>
 			  <# strLookup ="OLE_SRC_Staging_" + table.Name + ".Output";#> 
-            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID') AND T.name = '"+ table.Name + "'"); #>
+            <# DataTable FKColumns = ExternalDataAccess.GetDataTable(DestConnection.ConnectionString, "SELECT DISTINCT C.name AS ForeignKeyColumn, '[' + FS.name + '].[' + FT.name + ']' AS ForeignTable, FC.name AS ForeignTableColumn, FT.name + 'BusinessKey' AS SourceLookupColumn, CAST(C.is_nullable AS VARCHAR) AS IsNullable FROM sys.foreign_key_columns AS FK JOIN sys.tables AS T ON FK.parent_object_id = T.object_id JOIN sys.columns AS C ON FK.parent_object_id = C.object_id AND FK.parent_column_id = C.column_id JOIN sys.tables AS FT ON FK.referenced_object_id = FT.object_id JOIN sys.columns AS FC ON FK.referenced_object_id = FC.object_id AND FK.referenced_column_id = FC.column_id JOIN sys.schemas AS FS ON FT.schema_id = FS.schema_id WHERE C.name NOT IN ('Active','AgeBandMin_ID','AgeBandMax_ID','ParentLocation_ID','ParentOrganization_ID','ProjectParentID', 'isSiteCreated') AND T.name = '"+ table.Name + "'"); #>
             <# string IsNullable ="" ;
                foreach (DataRow FKColumn in FKColumns.Rows) { 
 					IsNullable = "" + FKColumn["IsNullable"];
@@ -120,7 +155,7 @@
 				  
 			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>_<#=FKColumn["ForeignKeyColumn"]#>" ConnectionName="MeerkatErrorsBIML" MaximumInsertCommitSize="200"  TableLock="false">
 				  <InputPath OutputPathName="RC_CountErrors_<#=FKColumn["ForeignKeyColumn"]#>.Output" />
-				<ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
+				<ExternalTableOutput Table="[<#=errTable.SchemaName#>].[<#=table.Name#>]" />
             </OleDbDestination>
               <# } #>
 				  <# 
@@ -167,7 +202,7 @@
 
 			<OleDbDestination Name="OLE_DST_Error_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatErrorsBIML" MaximumInsertCommitSize="200" TableLock="false">
               <InputPath OutputPathName="RC_CountErrors.Output" />
-              <ExternalTableOutput Table="<#=errTable.SchemaQualifiedName#>" />
+              <ExternalTableOutput Table="[<#=errTable.SchemaName#>].[<#=table.Name#>]" />
             </OleDbDestination>
             
             <OleDbCommand Name="CMD_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatBIML">
@@ -196,9 +231,10 @@
 
 
 		  <FileSystem Operation="CopyFile" Name="FSCopyTemplateFile" OverwriteDestination="true">
-			  		  <PrecedenceConstraints>
+			<PrecedenceConstraints LogicalType="Or">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionOrConstraint" Expression="@[User::intErrorCount] > 0" EvaluationValue="Failure">
+			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
 			  <VariableInput VariableName="User.FileSource" />
@@ -208,7 +244,7 @@
 		  <!-- Loading individual errors -->
 		  <!--
 		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
-			<PrecedenceConstraints>
+			<PrecedenceConstraints >
 			<Inputs>
 				<Input OutputPathName="FSCopyTemplateFile.Output" EvaluationOperation="Constraint">    
 					
@@ -248,16 +284,29 @@
 		  -->
 		  
 		  <FileSystem Operation="CopyFile" Name="FSCopyErrorFile" OverwriteDestination="true">
-			  		  <PrecedenceConstraints>
+			  		  <PrecedenceConstraints LogicalType="Or">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] > 0">    </Input>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionOrConstraint" Expression="@[User::intErrorCount] > 0" EvaluationValue="Failure">
+			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
 			  <VariableInput VariableName="User.ErrorFileSource" />
               <VariableOutput VariableName="User.ErrorFileDestination" />
 			  </FileSystem>
+
+			 <FileSystem Operation="MoveFile" Name="FSMoveSuccessfulFile" OverwriteDestination="true">
+			  		  <PrecedenceConstraints>
+			<Inputs>
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="Constraint" EvaluationValue="Success">
+			</Input>
+			</Inputs>
+			</PrecedenceConstraints>
+			  <VariableInput VariableName="User.InProcessSource" />
+              <VariableOutput VariableName="User.ProcessedFile" />
+			  </FileSystem>
+
 		<!-- data flow to load data into summary error fils -->
-		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>">
+		  	<Dataflow Name="DFT_ErrorCount_<#=table.SchemaName#>.<#=table.Name#>" MaxErrorCount="2000">
 				<PrecedenceConstraints>
 					<Inputs>
 					<Input OutputPathName="FSCopyErrorFile.Output" EvaluationOperation="Constraint">    

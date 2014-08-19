@@ -7,12 +7,13 @@
   DTS:CreatorName="DEV\gjs"
   DTS:DTSID="{E89892F3-7436-42E9-BC2D-0B76B70E09D1}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.2100.60"
+  DTS:LastModifiedProductVersion="11.0.3460.0"
   DTS:LocaleID="1033"
+  DTS:MaxErrorCount="2000"
   DTS:ObjectName="200_StagingTemplateLoader"
   DTS:PackageType="5"
-  DTS:VersionBuild="62"
-  DTS:VersionGUID="{BCDCB399-B5AD-4EBA-826B-11BE66F24615}">
+  DTS:VersionBuild="67"
+  DTS:VersionGUID="{DAB54070-52AE-4259-B31A-C511C86926CA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +28,7 @@
         DTS:Name="ServerName">@[User::strFullFileName]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Staging.Activity.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=NO&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\CARE Somalia\Data\StagingTemplates\Staging.Activity.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=NO&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -45,12 +46,12 @@
       DTS:CreationName=""
       DTS:DTSID="{F81AD5CF-6985-4C38-A77F-9C957E7382DB}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="REPLACE(@[$Project::strStagingTemplatePath] + &quot;\\&quot;  + &quot;Errors\\&quot;&#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
+      DTS:Expression="REPLACE(@[$Project::strStagingTemplatePath] + &quot;\\&quot;  + &quot;Errors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)&#xA;+&quot;\\&quot; &#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="strErrors">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Errors\</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\Errors\20140818\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -74,6 +75,17 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{4953E93D-17DA-4EAB-8FF7-167C585EFDEF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="REPLACE(@[$Project::strStagingTemplatePath] + &quot;\\&quot;  + &quot;FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)&#xA;+&quot;\\&quot; &#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strFileErrors">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\FileErrors\20140818\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{31CAAF72-41F4-4DA4-A884-B033957C0CB8}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
@@ -90,7 +102,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strFullFileName">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Staging.Activity.xlsx</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\Staging.Activity.xlsx</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -101,7 +113,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strInProcess">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -112,7 +124,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strInProcessFullFileName">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Activity.xlsx</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Activity.xlsx</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -123,7 +135,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strProcessed">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Processed\20140815\</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\CARE Somalia\Data\StagingTemplates\Processed\20140818\</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -134,6 +146,7 @@
       DTS:DTSID="{CCB76483-C394-4CA0-AC85-E473B265E3F0}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
       DTS:ObjectName="SEQ_StagingTemplate file handler">
       <DTS:Variables />
       <DTS:Executables>
@@ -145,6 +158,7 @@
           DTS:ExecutableType="STOCK:FOREACHLOOP"
           DTS:ForceExecutionResult="0"
           DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
           DTS:ObjectName="FELC_InProcess files">
           <DTS:ForEachEnumerator
             DTS:CreationName="DTS.ForEachFileEnumerator.3"
@@ -155,7 +169,7 @@
             <DTS:ObjectData>
               <ForEachFileEnumeratorProperties>
                 <FEFEProperty
-                  Folder="C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\" />
+                  Folder="C:\Dropbox\CARE Somalia\Data\StagingTemplates\InProcess\" />
                 <FEFEProperty
                   FileSpec="*.xlsx" />
                 <FEFEProperty
@@ -174,6 +188,7 @@
               DTS:DTSID="{9443075F-3796-404D-826C-9E29B5CEAFA3}"
               DTS:ExecutableType="SSIS.ExecutePackageTask.3"
               DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
               DTS:ObjectName="EPT_ExcelLoad_Staging"
               DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
               <DTS:Variables />
@@ -234,6 +249,7 @@
               DTS:refId="Package\SEQ_StagingTemplate file handler\FELC_InProcess files\FSYS_Move to Processed"
               DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
               DTS:Description="File System Task"
+              DTS:Disabled="True"
               DTS:DTSID="{2fb71974-d943-4dc8-8faa-05ea8d27ebe9}"
               DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
               DTS:LocaleID="-1"
@@ -297,7 +313,7 @@
             <DTS:ObjectData>
               <ForEachFileEnumeratorProperties>
                 <FEFEProperty
-                  Folder="C:\Dropbox (Data)\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\" />
+                  Folder="C:\Dropbox\CARE Somalia\Data\StagingTemplates\" />
                 <FEFEProperty
                   FileSpec="*.xlsx" />
                 <FEFEProperty
@@ -1322,7 +1338,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
               DTS:LocaleID="-1"
               DTS:ObjectName="FSYS_Move to Errors"
               DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="2">
               <DTS:Variables />
               <DTS:ObjectData>
                 <FileSystemData
@@ -1343,7 +1359,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
               DTS:LocaleID="-1"
               DTS:ObjectName="FSYS_Move to InProcess"
               DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="3">
               <DTS:Variables />
               <DTS:ObjectData>
                 <FileSystemData
@@ -1363,7 +1379,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
               DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask, Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
               DTS:LocaleID="-1"
               DTS:ObjectName="SCR_Dummy"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="2">
               <DTS:Variables />
               <DTS:ObjectData>
                 <ScriptProject
@@ -2000,6 +2016,48 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           </DTS:ForEachVariableMappings>
         </DTS:Executable>
         <DTS:Executable
+          DTS:refId="Package\SEQ_StagingTemplate file handler\FST_Create_ErrorsArchive"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="File System Task"
+          DTS:DTSID="{5a7e5c5a-90e7-436f-b68b-64378c2f068d}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="FST_Create_ErrorsArchive"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::strErrors"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::strProcessed"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_StagingTemplate file handler\FST_Create_FileErrorsArchive"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="File System Task"
+          DTS:DTSID="{239c38f5-fc1b-49be-a64b-b07b1bfb1853}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="FST_Create_FileErrorsArchive"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::strProcessed"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::strProcessed"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
           DTS:refId="Package\SEQ_StagingTemplate file handler\FST_Create_ProcessedArchive"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="File System Task"
@@ -2008,7 +2066,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           DTS:LocaleID="-1"
           DTS:ObjectName="FST_Create_ProcessedArchive"
           DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -2029,7 +2087,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           DTS:LocaleID="-1"
           DTS:ObjectName="SQL_Truncate MeerkatStaging tables"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -2063,6 +2121,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 2"
           DTS:To="Package\SEQ_StagingTemplate file handler\FELC_InProcess files" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{76572B11-6835-4E3C-9958-89913F22CCDA}"
+          DTS:From="Package\SEQ_StagingTemplate file handler\FST_Create_ErrorsArchive"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{90D143E5-9B6E-4ADC-9D11-07B31B0D1D72}"
+          DTS:From="Package\SEQ_StagingTemplate file handler\FST_Create_FileErrorsArchive"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\SEQ_StagingTemplate file handler\FELC_InProcess files" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
@@ -2079,15 +2153,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="191.2,41.6"
+          Size="191,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files\EPT_ExcelLoad_Staging"
           TopLeft="91,41" />
         <NodeLayout
-          Size="176.8,41.6"
+          Size="177,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files\FSYS_Move to Errors"
           TopLeft="99,137" />
         <NodeLayout
-          Size="196,41.6"
+          Size="196,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files\FSYS_Move to Processed"
           TopLeft="360,42" />
         <EdgeLayout
@@ -2139,24 +2213,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="660,232.8"
+          PanelSize="660,233"
           Size="660,276"
           Id="Package\SEQ_StagingTemplate file handler\FELC_InProcess files"
           TopLeft="59,570" />
         <NodeLayout
-          Size="224,41.6"
+          Size="224,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\DFT_Validate StagingTemplate"
           TopLeft="60,130" />
         <NodeLayout
-          Size="176.8,41.6"
+          Size="177,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\FSYS_Move to Errors"
           TopLeft="359,233" />
         <NodeLayout
-          Size="195.2,41.6"
+          Size="195,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\FSYS_Move to InProcess"
           TopLeft="75,232" />
         <NodeLayout
-          Size="140,41.6"
+          Size="140,42"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate\SCR_Dummy"
           TopLeft="88,25" />
         <EdgeLayout
@@ -2284,44 +2358,40 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="663.2,329.6"
-          Size="663.2,372.8"
+          PanelSize="663,330"
+          Size="663,373"
           Id="Package\SEQ_StagingTemplate file handler\FELC_StagingTemplates Validate"
-          TopLeft="180,108.5" />
+          TopLeft="169,77.5" />
         <NodeLayout
-          Size="220.8,41.6"
+          Size="202,42"
+          Id="Package\SEQ_StagingTemplate file handler\FST_Create_ErrorsArchive"
+          TopLeft="119,13" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\SEQ_StagingTemplate file handler\FST_Create_FileErrorsArchive"
+          TopLeft="280,491" />
+        <NodeLayout
+          Size="221,42"
           Id="Package\SEQ_StagingTemplate file handler\FST_Create_ProcessedArchive"
           TopLeft="47,500" />
         <NodeLayout
-          Size="252.8,41.6"
+          Size="253,42"
           Id="Package\SEQ_StagingTemplate file handler\SQL_Truncate MeerkatStaging tables"
           TopLeft="448,4.5" />
         <EdgeLayout
           Id="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint]"
-          TopLeft="511.5,481.5">
+          TopLeft="499.083333333333,450.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-13.8333333333334,88.5"
+              EndConnector="0,119.5"
               Start="0,0"
-              End="-13.8333333333334,81">
+              End="0,112">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,48.9715840386941" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,48.9715840386941"
-                    Point2="0,52.9715840386941"
-                    Point3="-4,52.9715840386941" />
-                  <mssgle:LineSegment
-                    End="-9.83333333333337,52.9715840386941" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-9.83333333333337,52.9715840386941"
-                    Point2="-13.8333333333334,52.9715840386941"
-                    Point3="-13.8333333333334,56.9715840386941" />
-                  <mssgle:LineSegment
-                    End="-13.8333333333334,81" />
+                    End="0,112" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2336,26 +2406,26 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-63,62"
+              EndConnector="35.1666666666666,31"
               Start="0,0"
-              End="-63,54.5">
+              End="35.1666666666666,23.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,27" />
+                    End="0,14.5552211856756" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,27"
-                    Point2="0,31"
-                    Point3="-4,31" />
+                    Point1="0,14.5552211856756"
+                    Point2="0,18.5552211856756"
+                    Point3="4,18.5552211856756" />
                   <mssgle:LineSegment
-                    End="-59,31" />
+                    End="31.1666666666666,18.5552211856756" />
                   <mssgle:CubicBezierSegment
-                    Point1="-59,31"
-                    Point2="-63,31"
-                    Point3="-63,35" />
+                    Point1="31.1666666666666,18.5552211856756"
+                    Point2="35.1666666666666,18.5552211856756"
+                    Point3="35.1666666666666,22.5552211856756" />
                   <mssgle:LineSegment
-                    End="-63,54.5" />
+                    End="35.1666666666666,23.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2398,10 +2468,60 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint 3]"
+          TopLeft="321,34">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="70.3333333333333,43.5"
+              Start="0,0"
+              End="70.3333333333333,36">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="66.3333333333333,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="66.3333333333333,0"
+                    Point2="70.3333333333333,0"
+                    Point3="70.3333333333333,4" />
+                  <mssgle:LineSegment
+                    End="70.3333333333333,36" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ_StagingTemplate file handler.PrecedenceConstraints[Constraint 4]"
+          TopLeft="389,533">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="848,900.8"
+          PanelSize="848,901"
           Size="848,944"
           Id="Package\SEQ_StagingTemplate file handler"
           TopLeft="67,32" />
@@ -2409,7 +2529,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           Text="USE [master]&#xA;          GO&#xA;          sp_configure 'show advanced options', 1&#xA;          GO&#xA;          RECONFIGURE WITH OverRide&#xA;          GO&#xA;          sp_configure 'Ad Hoc Distributed Queries', 1&#xA;          GO&#xA;          RECONFIGURE WITH OVERRIDE&#xA;          GO&#xA;          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'AllowInProcess' ,  1&#xA;          GO&#xA;          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'DynamicParameters' ,  1&#xA;          GO&#xA;        &#xA;&#xA;&#xA;http://www.microsoft.com/download/en/details.aspx?displaylang=en&amp;WT.mc_id=soc-n-[TR]-loc-[Services]-[farukc]&amp;id=13255&#xA;&#xA;Drivers"
           ParentId="Package"
           FontInfo="{assembly:Null}"
-          Size="696.8,343.2"
+          Size="697,343"
           Id="56d3ad6c-0bc5-4426-b764-7c3fcb968952"
           TopLeft="912.000015553974,232.15686601971" />
       </GraphLayout>

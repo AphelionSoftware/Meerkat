@@ -63,14 +63,20 @@ Regenerate SSIS packages
       <Tasks>
         <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
           <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]
-		  
+		  /*
+
+		  <# foreach (var column in table.Columns) { #>
+						 Name="DRV_<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>"
+							
+						<#} #>
+
+		  */
 		  </DirectInput>
         </ExecuteSQL>
 		  <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
           <Transformations>
             <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStagingBIML" ValidateExternalMetadata="0">
               <VariableInput VariableName="User.strCommand"/>
-			   
             </OleDbSource>
             <DataConversion Name="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx">
               <InputPath OutputPathName="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
@@ -80,9 +86,42 @@ Regenerate SSIS packages
                   <#} #>
               </Columns>
             </DataConversion>
+						<DerivedColumns Name="DRV_<#=table.SchemaName#>_<#=table.Name#>_FixStreams">
+			<InputPath OutputPathName="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
+              			<Columns>
+						<Column Name="DRV_Placeholder" DataType="AnsiString" Length="1">
+						"1"
+						</Column>
+						 <# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1)) ){ #>
+						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
+							(DT_STR, 4000, 1252) ( (DT_WSTR, 4000) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+						</Column>
+						<#} #>
+						<# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "String" && (column.Length == 4000 || column.Length == -1)) ){ #>
+						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
+							 ( (DT_WSTR, 4000) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+						</Column>
+						<#} #>
+              </Columns>
+
+
+			</DerivedColumns>
+
             <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
-              <InputPath OutputPathName="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
+              <InputPath OutputPathName="DRV_<#=table.SchemaName#>_<#=table.Name#>_FixStreams.Output" />
               <ExternalTableOutput Table="[<#=table.SchemaName#>].[<#=table.Name#>]" />
+
+			  <Columns>
+                <# foreach (var column in table.Columns.Where( column => !(column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ) ) { #>
+                <Column SourceColumn="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+
+				<# foreach (var column in table.Columns.Where( column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ){ #>
+                <Column SourceColumn="DRV_<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+              </Columns>
             </OleDbDestination>
           </Transformations>
         </Dataflow>
