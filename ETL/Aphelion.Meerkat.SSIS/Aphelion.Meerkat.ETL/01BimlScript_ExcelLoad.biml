@@ -25,7 +25,7 @@ Regenerate SSIS packages
 
   <Packages>
   <# foreach (var table in tables) { #>
-    <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+    <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey" DelayValidation="true">
 	<Variables>
 		<Variable Name="strCommand" DataType="String" EvaluateAsExpression="true">REPLACE("                SELECT *
                 FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
@@ -94,12 +94,12 @@ Regenerate SSIS packages
 						</Column>
 						 <# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1)) ){ #>
 						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
-							(DT_STR, 4000, 1252) ( (DT_WSTR, 4000) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+							(DT_STR, 4000, 1252) ( (DT_TEXT, 1252) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
 						</Column>
 						<#} #>
 						<# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "String" && (column.Length == 4000 || column.Length == -1)) ){ #>
 						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
-							 ( (DT_WSTR, 4000) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+							 ( (DT_WSTR, 4000)(DT_NTEXT) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
 						</Column>
 						<#} #>
               </Columns>
