@@ -11,6 +11,7 @@
     [BusinessKey]         NVARCHAR (400) CONSTRAINT [DF_Project_BusinessKey] DEFAULT (N'ShortName') NOT NULL,
     [ProjectSiteName]     VARCHAR (255)  CONSTRAINT [DF_Project_ProjectSiteName] DEFAULT ('ShortName') NOT NULL,
     [Active]              INT            CONSTRAINT [DF_Project_Active] DEFAULT ((1)) NOT NULL,
+    [isSiteCreated]       BIT            CONSTRAINT [DF_Project_isSiteCreated] DEFAULT ((0)) NOT NULL,
     [sys_CreatedBy]       VARCHAR (255)  CONSTRAINT [DF_Project_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]       DATETIME       CONSTRAINT [DF_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255)  CONSTRAINT [DF_Project_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -57,6 +58,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project', @level2type = N'COLUMN', @level2name = N'isSiteCreated';
 
