@@ -17,5 +17,6 @@ Post-Deployment Script Template
 --:r .\app.IndicatorMilestone.CARE.PDS.sql
 :r .\Core.LocationType.CARE.PDS.sql
 :r .\Core.Locations.CARE.PDS.sql
+:r .\App.Programme.CARE.PDS.sql
 
 						

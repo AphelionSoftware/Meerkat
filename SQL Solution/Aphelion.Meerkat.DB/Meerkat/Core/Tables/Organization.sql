@@ -15,6 +15,7 @@
     CONSTRAINT [FK_Organization_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Organization_Organization] FOREIGN KEY ([ParentOrganization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_Organization_OrganizationType] FOREIGN KEY ([OrganizationType_ID]) REFERENCES [Core].[OrganizationType] ([OrganizationType_ID]),
+    CONSTRAINT [UQ_Organization_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_Organization_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
@@ -23,4 +24,10 @@
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Organization';
 

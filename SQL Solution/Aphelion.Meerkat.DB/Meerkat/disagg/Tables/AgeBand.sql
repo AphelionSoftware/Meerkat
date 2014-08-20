@@ -2,7 +2,7 @@
     [AgeBand_ID]      INT            IDENTITY (1, 1) NOT NULL,
     [AgeBandMin_ID]   INT            NOT NULL,
     [AgeBandMax_ID]   INT            NOT NULL,
-    [TextDescription] VARCHAR (MAX)  NULL,
+    [TextDescription] VARCHAR (4000) NULL,
     [Name]            VARCHAR (255)  NULL,
     [Code]            VARCHAR (50)   NULL,
     [BusinessKey]     NVARCHAR (400) NOT NULL,
@@ -22,4 +22,10 @@
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'AgeBand';
 

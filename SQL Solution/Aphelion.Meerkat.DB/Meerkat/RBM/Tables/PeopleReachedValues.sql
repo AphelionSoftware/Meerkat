@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[PeopleReachedValues] (
+CREATE TABLE [RBM].[PeopleReachedValues] (
     [PeopleReachedValuesID]        INT            IDENTITY (1, 1) NOT NULL,
     [Outcome_ID]                   INT            NULL,
     [Output_ID]                    INT            NULL,
@@ -55,6 +55,8 @@
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
@@ -119,3 +121,5 @@ GO
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
+

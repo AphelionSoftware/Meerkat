@@ -54,6 +54,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
@@ -76,4 +78,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'true', @level
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues';
 

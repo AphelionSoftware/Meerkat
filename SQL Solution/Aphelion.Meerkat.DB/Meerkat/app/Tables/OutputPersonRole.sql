@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[OutputPersonRole] (
+CREATE TABLE [app].[OutputPersonRole] (
     [OutputPersonRole_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Output_ID]           INT           NULL,
     [Person_ID]           INT           NULL,
@@ -27,9 +27,19 @@ ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Rol
 
 
 GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
 
 
 
 GO
 
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputPersonRole';
 

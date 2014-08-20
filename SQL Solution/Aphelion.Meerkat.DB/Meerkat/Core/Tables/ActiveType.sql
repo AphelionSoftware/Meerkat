@@ -8,8 +8,13 @@
     [sys_ModifiedOn] DATETIME      CONSTRAINT [DF_ActiveType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_ActiveType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [UQ_ActiveType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
-  
 );
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ActiveType';
 

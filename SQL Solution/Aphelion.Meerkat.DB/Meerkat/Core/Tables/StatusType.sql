@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[StatusType] (
+CREATE TABLE [Core].[StatusType] (
     [ID]             INT             NOT NULL,
     [Code]           VARCHAR (50)    NOT NULL,
     [Name]           VARCHAR (255)   NOT NULL,
@@ -11,6 +11,7 @@
     [Active]         INT             CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_StatusType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_StatusType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [UQ_StatusType_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_StatusType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
@@ -21,6 +22,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType';
 

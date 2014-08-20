@@ -13,3 +13,9 @@
     CONSTRAINT [FK_OutputOutputLink_Output1] FOREIGN KEY ([SecondaryOutput_ID]) REFERENCES [app].[Output] ([Output_ID])
 );
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputOutputLink';
+
