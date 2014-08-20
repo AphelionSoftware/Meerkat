@@ -52,18 +52,22 @@ $InitialFormWindowState = New-Object System.Windows.Forms.FormWindowState
 $handler_Install_Click= 
 {
 
+CLS
+
 #Parameters needed
 #01 and 02
 $DatabaseServer = $txtDatabaseServer.Text
 $FarmAccount = $txtFarmAccount.Text
 
-$rootname = $rootname.Text #RootSiteName
-$sitecoll = $sitecoll.Text #RootSiteCollectionLocation
+$rootname = $txtrootname.Text #RootSiteName
+$sitecoll = $txtsitecoll.Text #RootSiteCollectionLocation
 $rootfilePath =$txtrootfilePath.Text #Root site path 
 $template =$txttemplate.Text #STS#0 for team site
 $user     = $txtuser.Text     #site collection owner
 
 $reportsfilepath = $txtreportsfilepath.Text #filepath for reports import
+
+$name = $txtrootname.Text
 
 #Not implemented yet - fix reports paths
 #[string]$sitecoll,
@@ -77,16 +81,24 @@ $SpSite = $sitecoll
 $masterpage = $txtmasterpage.Text #Masterpage name
 
 
-$ScriptPath = Split-Path $MyInvocation.InvocationName
-
-invoke-expression -Command "$ScriptPath\01_Meerkat.PSConfig.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
-invoke-expression -Command "$ScriptPath\02_Meerkat.Service Application Setup.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
-invoke-expression -Command "$ScriptPath\03_Meerkat_ImportRootSite.ps1 -name $name -sitecoll $sitecoll -filePath $filePath -template $template -user $user"
-invoke-expression -Command "$ScriptPath\04_Meerkat_ImportReportSite.ps1  -name $name -sitecoll $sitecoll -filePath $filePath -template $template -user $user"
-invoke-expression -Command "$ScriptPath\05_Meerkat_FixReportDataConnections.ps1 -webURL $SpSite "
-invoke-expression -Command "$ScriptPath\06_FixLSiteReferences.ps1 -baseURL $baseURL -SpSite $SpSite"
-invoke-expression -Command "$ScriptPath\07_SwitchMasterPage.ps1 -SpSite $SpSite -masterpage $masterpage"
-
+#$ScriptPath = Split-Path $MyInvocation.InvocationName
+ if (!($spFarm = Get-SPFarm))
+    {
+        invoke-expression -Command ".\01_Meerkat.PSConfig.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+        Write-Host "Created farm"
+    }
+invoke-expression -Command ".\02_Meerkat_SvcSetup.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+Write-Host "Setup service applications"
+invoke-expression -Command ".\03_Meerkat_ImportRootSite.ps1 -name $name -sitecoll $sitecoll -filePath $rootfilePath -template $template -user $user"
+Write-Host "Imported root site"
+invoke-expression -Command ".\04_Meerkat_ImportReportSite.ps1  -name $name -sitecoll $sitecoll -filePath $reportsfilePath -template $template -user $user"
+Write-Host "Imported report site"
+invoke-expression -Command ".\05_Meerkat_FixReportDataConnections.ps1 -webURL $SpSite "
+Write-Host "Fixed report connections"
+invoke-expression -Command ".\06_FixLSiteReferences.ps1 -baseURL $baseURL -SpSite $SpSite"
+Write-Host "Fixed Lightswitch references"
+invoke-expression -Command ".\07_SwitchMasterPage.ps1 -SpSite $SpSite -masterpage $masterpage"
+Write-Host "Switched master page"
 #Close the form after executing
 $MeerkatForm.close()
 
@@ -170,7 +182,7 @@ $System_Drawing_Size.Width = 432
 $txtDatabaseServer.Size = $System_Drawing_Size
 $txtDatabaseServer.TabIndex = 11
 $txtDatabaseServer.UseSystemPasswordChar = $False
-$txtDatabaseServer.Text = "."
+$txtDatabaseServer.Text = ".\SQL2012"
 
 $MeerkatForm.Controls.Add($txtDatabaseServer)
 $txtFarmAccount.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -185,7 +197,7 @@ $System_Drawing_Size.Width = 432
 $txtFarmAccount.Size = $System_Drawing_Size
 $txtFarmAccount.TabIndex = 12
 $txtFarmAccount.UseSystemPasswordChar = $False
-$txtFarmAccount.Text = "domain\username"
+$txtFarmAccount.Text = "DEV03\spinstall"
 
 $MeerkatForm.Controls.Add($txtFarmAccount)
 $txtrootname.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -215,7 +227,7 @@ $System_Drawing_Size.Width = 432
 $txtsitecoll.Size = $System_Drawing_Size
 $txtsitecoll.TabIndex = 14
 $txtsitecoll.UseSystemPasswordChar = $False
-$txtsitecoll.Text = "http://meerkat"
+$txtsitecoll.Text = "http://carer03.cloudapp.net"
 
 $MeerkatForm.Controls.Add($txtsitecoll)
 $txtrootfilePath.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -260,7 +272,7 @@ $System_Drawing_Size.Width = 432
 $txtuser.Size = $System_Drawing_Size
 $txtuser.TabIndex = 17
 $txtuser.UseSystemPasswordChar = $False
-$txtuser.Text = "domain\user"
+$txtuser.Text = "DEV03\spinstall"
 
 $MeerkatForm.Controls.Add($txtuser)
 $txtreportsfilepath.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -290,7 +302,7 @@ $System_Drawing_Size.Width = 432
 $txtbaseURL.Size = $System_Drawing_Size
 $txtbaseURL.TabIndex = 19
 $txtbaseURL.UseSystemPasswordChar = $False
-$txtbaseURL.Text = "http://Meerkat"
+$txtbaseURL.Text = "http://carer03.cloudapp.net"
 
 $MeerkatForm.Controls.Add($txtbaseURL)
 $txtmasterpage.DataBindings.DefaultDataSourceUpdateMode = 0
