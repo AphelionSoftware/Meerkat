@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="000_SP_Jobs"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{ADBA0245-F885-4D3B-91E4-28CA02FAB270}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{EBC26DA8-FC7E-4060-BF52-BFEAB07D9CAE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:PackageParameters>
@@ -154,20 +154,20 @@
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\SEQ_Programmes\EST_GetProjects"
+          DTS:refId="Package\SEQ_Programmes\EST_GetProgrammes"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="Execute SQL Task"
           DTS:DTSID="{b617cb3c-2189-4aef-9468-b606b0e5d604}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="EST_GetProjects"
+          DTS:ObjectName="EST_GetProgrammes"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
-              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;P.ProgrammeSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;&#xA;&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM  app.Programme P&#xA; &#xA; WHERE P.isSiteCreated = 0"
+              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;P.ProgrammeSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;  /*+ CASE WHEN  convert(varchar(10), getdate(), 112) = 20140820 THEN '_' +  cast (   (datepart(hour,getdate()) * 100) + datepart(minute,getdate())&#xA;   as varchar(255))&#xA;   ELSE '' END*/&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM  app.Programme P&#xA; &#xA; WHERE P.isSiteCreated = 0"
               SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="0"
@@ -176,14 +176,14 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\SEQ_Programmes\FLC_CreateProjectSites"
+          DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites"
           DTS:CreationName="STOCK:FOREACHLOOP"
           DTS:Description="Foreach Loop Container"
           DTS:DTSID="{fc76c2f9-7430-4967-9216-4b1e15babf04}"
           DTS:ExecutableType="STOCK:FOREACHLOOP"
           DTS:LocaleID="-1"
           DTS:MaxErrorCount="2000"
-          DTS:ObjectName="FLC_CreateProjectSites">
+          DTS:ObjectName="FLC_CreateProgrammeSites">
           <DTS:ForEachEnumerator
             DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
             DTS:DTSID="{de880201-c31d-4c4a-87e1-f412243e8922}"
@@ -197,7 +197,7 @@
           <DTS:Variables />
           <DTS:Executables>
             <DTS:Executable
-              DTS:refId="Package\SEQ_Programmes\FLC_CreateProjectSites\EST_UpdateCreated"
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated"
               DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
               DTS:Description="Execute SQL Task"
               DTS:DTSID="{2feba0ee-7109-422b-a986-305cc5455536}"
@@ -221,7 +221,7 @@
               </DTS:ObjectData>
             </DTS:Executable>
             <DTS:Executable
-              DTS:refId="Package\SEQ_Programmes\FLC_CreateProjectSites\Execute Process Task"
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
               DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
               DTS:Description="Execute Process Task"
               DTS:DTSID="{ba5d8083-d9e2-49d8-993f-cbfad411347c}"
@@ -243,13 +243,13 @@
           </DTS:Executables>
           <DTS:PrecedenceConstraints>
             <DTS:PrecedenceConstraint
-              DTS:refId="Package\SEQ_Programmes\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites.PrecedenceConstraints[Constraint]"
               DTS:CreationName=""
               DTS:DTSID="{a105b7d7-dbaa-4637-b40e-e1674cc1baf7}"
-              DTS:From="Package\SEQ_Programmes\FLC_CreateProjectSites\Execute Process Task"
+              DTS:From="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
               DTS:LogicalAnd="True"
               DTS:ObjectName="Constraint"
-              DTS:To="Package\SEQ_Programmes\FLC_CreateProjectSites\EST_UpdateCreated" />
+              DTS:To="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated" />
           </DTS:PrecedenceConstraints>
           <DTS:ForEachVariableMappings>
             <DTS:ForEachVariableMapping
@@ -272,10 +272,10 @@
           DTS:refId="Package\SEQ_Programmes.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
           DTS:DTSID="{c8d3a912-714d-4280-8ebd-d67881549f94}"
-          DTS:From="Package\SEQ_Programmes\EST_GetProjects"
+          DTS:From="Package\SEQ_Programmes\EST_GetProgrammes"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
-          DTS:To="Package\SEQ_Programmes\FLC_CreateProjectSites" />
+          DTS:To="Package\SEQ_Programmes\FLC_CreateProgrammeSites" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -438,19 +438,19 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="157,42"
-          Id="Package\SEQ_Programmes\EST_GetProjects"
+          Size="178,42"
+          Id="Package\SEQ_Programmes\EST_GetProgrammes"
           TopLeft="60,60" />
         <NodeLayout
           Size="173,42"
-          Id="Package\SEQ_Programmes\FLC_CreateProjectSites\EST_UpdateCreated"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated"
           TopLeft="126,148" />
         <NodeLayout
           Size="180,42"
-          Id="Package\SEQ_Programmes\FLC_CreateProjectSites\Execute Process Task"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
           TopLeft="80,31" />
         <EdgeLayout
-          Id="Package\SEQ_Programmes\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites.PrecedenceConstraints[Constraint]"
           TopLeft="170,73">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -488,17 +488,17 @@
           IsExpanded="True"
           PanelSize="387,288"
           Size="387,331"
-          Id="Package\SEQ_Programmes\FLC_CreateProjectSites"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites"
           TopLeft="75,178" />
         <EdgeLayout
           Id="Package\SEQ_Programmes.PrecedenceConstraints[Constraint]"
-          TopLeft="138.5,102">
+          TopLeft="149,102">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="130,76"
+              EndConnector="119.5,76"
               Start="0,0"
-              End="130,68.5">
+              End="119.5,68.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -509,13 +509,13 @@
                     Point2="0,38"
                     Point3="4,38" />
                   <mssgle:LineSegment
-                    End="126,38" />
+                    End="115.5,38" />
                   <mssgle:CubicBezierSegment
-                    Point1="126,38"
-                    Point2="130,38"
-                    Point3="130,42" />
+                    Point1="115.5,38"
+                    Point2="119.5,38"
+                    Point3="119.5,42" />
                   <mssgle:LineSegment
-                    End="130,68.5" />
+                    End="119.5,68.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
