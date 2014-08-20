@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="000_SP_Jobs"
   DTS:PackageType="5"
-  DTS:VersionBuild="11"
-  DTS:VersionGUID="{5D6DFA90-543C-45E9-8950-41CEA2B741D4}">
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{ADBA0245-F885-4D3B-91E4-28CA02FAB270}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:PackageParameters>
@@ -48,6 +48,39 @@
       DTS:ObjectName="Folder">
       <DTS:VariableValue
         DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{75BFA443-4D52-46D5-823A-5F1FA0122E19}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::Folder] + &quot;meerkat_export_programme.cmp&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9FD7B429-B589-4683-883D-7E72F44884CE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot; -ExecutionPolicy ByPass -command \&quot;. '&quot; &#xA;+ @[User::progPSFile]   +&#xA; &quot;'     '&quot;&#xA;+ @[User::SiteName]   +&#xA; &quot;'     '&quot;&#xA;+ @[User::SitePath]  + &#xA;&quot;'    '&quot; &#xA;+ @[User::progFile]  + &#xA;&quot;'    '&quot; &#xA;+ @[$Package::Template]    + &#xA;&quot;'   \&quot;  &gt; &quot; + @[User::progFile] + &quot;.log&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progPSCommand">
+      <DTS:VariableValue
+        DTS:DataType="8"> -ExecutionPolicy ByPass -command ". 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp'    'STS#0'   "  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp.log</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3032D385-2EE4-4831-BD4D-CF75674CB3FB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::Folder] + &quot;Meerkat.ImportSite.Silent.ps1&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progPSFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -200,11 +233,11 @@
               DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:PropertyExpression
-                DTS:Name="Arguments">@[User::PSCommand]</DTS:PropertyExpression>
+                DTS:Name="Arguments">@[User::progPSCommand]</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <ExecuteProcessData
                   Executable="%windir%\\System32\\WindowsPowerShell\\v1.0\\PowerShell.exe"
-                  Arguments=" -ExecutionPolicy ByPass -command &quot;. 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp'    'STS#0'   &quot;  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp.log" />
+                  Arguments=" -ExecutionPolicy ByPass -command &quot;. 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp'    'STS#0'   &quot;  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp.log" />
               </DTS:ObjectData>
             </DTS:Executable>
           </DTS:Executables>
@@ -406,100 +439,6 @@
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="157,42"
-          Id="Package\SEQ_Projects\EST_GetProjects"
-          TopLeft="60,60" />
-        <NodeLayout
-          Size="173,42"
-          Id="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated"
-          TopLeft="126,148" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
-          TopLeft="80,31" />
-        <EdgeLayout
-          Id="Package\SEQ_Projects\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
-          TopLeft="170,73">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="42.5,75"
-              Start="0,0"
-              End="42.5,67.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,33.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,33.5"
-                    Point2="0,37.5"
-                    Point3="4,37.5" />
-                  <mssgle:LineSegment
-                    End="38.5,37.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="38.5,37.5"
-                    Point2="42.5,37.5"
-                    Point3="42.5,41.5" />
-                  <mssgle:LineSegment
-                    End="42.5,67.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="387,288"
-          Size="387,331"
-          Id="Package\SEQ_Projects\FLC_CreateProjectSites"
-          TopLeft="76,178" />
-        <EdgeLayout
-          Id="Package\SEQ_Projects.PrecedenceConstraints[Constraint]"
-          TopLeft="138.5,102">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="131,76"
-              Start="0,0"
-              End="131,68.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,34" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,34"
-                    Point2="0,38"
-                    Point3="4,38" />
-                  <mssgle:LineSegment
-                    End="127,38" />
-                  <mssgle:CubicBezierSegment
-                    Point1="127,38"
-                    Point2="131,38"
-                    Point3="131,42" />
-                  <mssgle:LineSegment
-                    End="131,68.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="468,564"
-          Size="468,607"
-          Id="Package\SEQ_Projects"
-          TopLeft="100,844" />
-        <NodeLayout
-          Size="157,42"
           Id="Package\SEQ_Programmes\EST_GetProjects"
           TopLeft="60,60" />
         <NodeLayout
@@ -592,6 +531,100 @@
           Size="468,607"
           Id="Package\SEQ_Programmes"
           TopLeft="128,156.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\SEQ_Projects\EST_GetProjects"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated"
+          TopLeft="126,148" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
+          TopLeft="80,31" />
+        <EdgeLayout
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
+          TopLeft="170,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42.5,75"
+              Start="0,0"
+              End="42.5,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33.5"
+                    Point2="0,37.5"
+                    Point3="4,37.5" />
+                  <mssgle:LineSegment
+                    End="38.5,37.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="38.5,37.5"
+                    Point2="42.5,37.5"
+                    Point3="42.5,41.5" />
+                  <mssgle:LineSegment
+                    End="42.5,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="387,288"
+          Size="387,331"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites"
+          TopLeft="76,178" />
+        <EdgeLayout
+          Id="Package\SEQ_Projects.PrecedenceConstraints[Constraint]"
+          TopLeft="138.5,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="131,76"
+              Start="0,0"
+              End="131,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34"
+                    Point2="0,38"
+                    Point3="4,38" />
+                  <mssgle:LineSegment
+                    End="127,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="127,38"
+                    Point2="131,38"
+                    Point3="131,42" />
+                  <mssgle:LineSegment
+                    End="131,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="468,564"
+          Size="468,607"
+          Id="Package\SEQ_Projects"
+          TopLeft="100,844" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="362,763.5">

@@ -49,7 +49,7 @@ FROM (
 	SELECT 'UYP' AS Code
 		,'Urban Youth Programme' As LongName
 		,'Urban Youth' as ShortName
-		,'program3' as ProgrammeSiteName
+		,'program2' as ProgrammeSiteName
 		,'The Urban Youth Program (UYP) focuses on job creation and livelihood opportunities for poor youth through e.g. secondary education, vocational training, small business development, and microfinance.' As TextDescription
 	) Src
 	WHERE NOT EXISTS (SELECT 1 FROM app.Programme P WHERE P.BusinessKey = Src.Code)
@@ -85,7 +85,7 @@ FROM (
 	SELECT 'CO' AS Code
 		,'Country Office' As LongName
 		,'Country Office' as ShortName
-		,'program1' as ProgrammeSiteName
+		,'program4' as ProgrammeSiteName
 		,'The Country Office aggregates information from all programme sites.' As TextDescription
 	) Src
 	WHERE NOT EXISTS (SELECT 1 FROM app.Programme P WHERE P.BusinessKey = Src.Code)
