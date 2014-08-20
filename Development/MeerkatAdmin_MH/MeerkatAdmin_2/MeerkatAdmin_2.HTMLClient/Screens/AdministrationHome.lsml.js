@@ -16,3 +16,11 @@ myapp.AdministrationHome.created = function (screen) {
         screen.findContentItem("ShowBrowseIndicatorTypes").isVisible = true;
     }
 };
+myapp.AdministrationHome.VersionLabel1_render = function (element, contentItem) {
+    msls.application.lightswitchTools.getVersionInfo(function (version) {
+        var smallElement = document.createElement("small");
+        smallElement.innerText = version;
+        element.appendChild(smallElement);
+    })
+
+};
