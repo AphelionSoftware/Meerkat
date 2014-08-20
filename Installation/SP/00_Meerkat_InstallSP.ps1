@@ -99,7 +99,7 @@ invoke-expression -Command ".\06_FixLSiteReferences.ps1 -baseURL $baseURL -SpSit
 Write-Host "Fixed Lightswitch references"
 invoke-expression -Command ".\07_SwitchMasterPage.ps1 -SpSite $SpSite -masterpage $masterpage"
 Write-Host "Switched master page"
-#Close the form after executing
+Close the form after executing
 $MeerkatForm.close()
 
 }

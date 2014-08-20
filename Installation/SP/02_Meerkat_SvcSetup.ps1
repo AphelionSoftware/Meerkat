@@ -62,45 +62,60 @@ if($saAppPool -eq $null)
   
   
   
-Write-Host "Creating Usage Service and Proxy..."
+
 $serviceInstance = Get-SPUsageService
-New-SPUsageApplication -Name $usageSAName -DatabaseServer $databaseServerName -DatabaseName "UsageDB" -UsageService $serviceInstance > $null
+$var = Get-SPUsageApplication
+if ($var  -eq $null) {
+    Write-Host "Creating Usage Service and Proxy..."
+    New-SPUsageApplication -Name $usageSAName -DatabaseServer $databaseServerName -DatabaseName "UsageDB" -UsageService $serviceInstance > $null
+}
   
   
   
-Write-Host "Creating Excel Service..."
-New-SPExcelServiceApplication -name $excelSAName –ApplicationPool $saAppPoolName > $null
-Set-SPExcelFileLocation -Identity "http://" -ExcelServiceApplication $excelSAName -ExternalDataAllowed 2 -WorkbookSizeMax 10 -WarnOnDataRefresh:$true 
-Get-SPServiceInstance | where-object {$_.TypeName -eq "Excel Calculation Services"} | Start-SPServiceInstance > $null
+$var = Get-SPExcelServiceApplication
+if ($var  -eq $null) {
+
+    Write-Host "Creating Excel Service..."
+    New-SPExcelServiceApplication -name $excelSAName –ApplicationPool $saAppPoolName > $null
+    Set-SPExcelFileLocation -Identity "http://" -ExcelServiceApplication $excelSAName -ExternalDataAllowed 2 -WorkbookSizeMax 10 -WarnOnDataRefresh:$true 
+    Get-SPServiceInstance | where-object {$_.TypeName -eq "Excel Calculation Services"} | Start-SPServiceInstance > $null
+}  
   
   
   
+#$var = Get-SPMetadataServiceApplication -Identity $metadataSAName
+#if ($var  -eq $null) {
+#    Write-Host "Creating Metadata Service and Proxy: $metadataSAName"
+#New-SPMetadataServiceApplication -Name $metadataSAName -ApplicationPool $saAppPoolName -DatabaseServer $databaseServerName -DatabaseName "MetadataDB"  > $null
+#New-SPMetadataServiceApplicationProxy -Name "$metadataSAName Proxy" -DefaultProxyGroup -ServiceApplication $metadataSAName > $null
+#Get-SPServiceInstance | where-object {$_.TypeName -eq "Managed Metadata Web Service"} | Start-SPServiceInstance > $null
+# }
   
-Write-Host "Creating Metadata Service and Proxy..."
-New-SPMetadataServiceApplication -Name $metadataSAName -ApplicationPool $saAppPoolName -DatabaseServer $databaseServerName -DatabaseName "MetadataDB" > $null
-New-SPMetadataServiceApplicationProxy -Name "$metadataSAName Proxy" -DefaultProxyGroup -ServiceApplication $metadataSAName > $null
-Get-SPServiceInstance | where-object {$_.TypeName -eq "Managed Metadata Web Service"} | Start-SPServiceInstance > $null
   
   
-  
-  
-Write-Host "Creating Performance Point Service and Proxy..."
+$var = Get-SPPerformancePointServiceApplication
+if ($var  -eq $null) {
+    Write-Host "Creating Performance Point Service and Proxy..."
 New-SPPerformancePointServiceApplication -Name $performancePointSAName -ApplicationPool $saAppPoolName > $null
 New-SPPerformancePointServiceApplicationProxy -Default -Name "$performancePointSAName Proxy" -ServiceApplication $performancePointSAName > $null
 Get-SPServiceInstance | where-object {$_.TypeName -eq "PerformancePoint Service"} | Start-SPServiceInstance > $null
-  
+ }
   
 
-Write-Host "Creating State Service and Proxy..."
+$var = Get-SPStateServiceApplication
+if ($var  -eq $null) {
+    Write-Host "Creating State Service and Proxy..."
 New-SPStateServiceDatabase -Name "StateServiceDB" -DatabaseServer $databaseServerName | New-SPStateServiceApplication -Name $stateSAName | New-SPStateServiceApplicationProxy -Name "$stateSAName Proxy" -DefaultProxyGroup > $null
+  }
   
   
   
-  
-Write-Host "Creating Secure Store Service and Proxy..."
+$var = Get-SPSecureStoreServiceapplication
+if ($var  -eq $null) {
+    Write-Host "Creating Secure Store Service and Proxy..."
 New-SPSecureStoreServiceapplication -Name $secureStoreSAName -Sharing:$false -DatabaseServer $databaseServerName -DatabaseName "SecureStoreServiceAppDB" -ApplicationPool $saAppPoolName -auditingEnabled:$true -auditlogmaxsize 30 | New-SPSecureStoreServiceApplicationProxy -name "$secureStoreSAName Proxy" -DefaultProxygroup > $null
 Get-SPServiceInstance | where-object {$_.TypeName -eq "Secure Store Service"} | Start-SPServiceInstance > $null
-
+}
 
 Write-Host "Configuring Reporting Services"
 Install-SPRSService
