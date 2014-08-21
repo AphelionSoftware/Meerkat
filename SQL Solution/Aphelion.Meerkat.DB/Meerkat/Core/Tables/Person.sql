@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[Person] (
+﻿CREATE TABLE [Core].[Person] (
     [Person_ID]      INT            IDENTITY (1, 1) NOT NULL,
     [Title]          VARCHAR (MAX)  NULL,
     [Name]           VARCHAR (255)  NULL,
@@ -11,10 +11,11 @@ CREATE TABLE [Core].[Person] (
     [sys_CreatedOn]  DATETIME       CONSTRAINT [DF_Person_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)  CONSTRAINT [DF_Person_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME       CONSTRAINT [DF_Person_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [LocalName]      NVARCHAR (255) NULL,
     CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED ([Person_ID] ASC),
     CONSTRAINT [FK_Person_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

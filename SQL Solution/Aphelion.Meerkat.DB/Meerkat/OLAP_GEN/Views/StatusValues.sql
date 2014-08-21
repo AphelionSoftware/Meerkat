@@ -223,7 +223,7 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Indicator_ID', @
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorByProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
 
 
 
@@ -234,4 +234,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0t
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship02', @value = N'IndicatorByProjectSector[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
 
