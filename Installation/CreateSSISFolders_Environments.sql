@@ -23,9 +23,9 @@ SELECT N'FormBasePath', N'C:\Dropbox\CARE Somalia\Data\Forms\'
 UNION ALL
 SELECT N'LoadQueueConn', N'Data Source=icmkgil6ip.database.windows.net;User ID=Aphelion;Password=@ph3l10n;Initial Catalog=Aphelion.Care.LoadQueue;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;'
 UNION ALL
-SELECT N'MeerkatConn', N'Data Source=.;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;'
+SELECT N'MeerkatConn', N'Data Source=.\SQL2012;Initial Catalog=Meerkat;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;'
 UNION ALL
-SELECT N'MeerkatStagingConn', N'Data Source=.;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;'
+SELECT N'MeerkatStagingConn', N'Data Source=.\SQL2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;'
 UNION ALL
 SELECT N'Server', N'.\SQL2012'
 UNION ALL
@@ -33,7 +33,7 @@ SELECT N'StagingBasePath', N'C:\Dropbox\CARE Somalia\Data\StagingTemplates\'
 
 
 DECLARE @EnvironmentName SYSNAME = N'Meerkat';
-DECLARE @ExcelFolderName SYSNAME = N'ExcelLoads';
+DECLARE @ExcelFolderName SYSNAME = N'Meerkat';
 DECLARE @QueueFolderName SYSNAME = N'QueueCode';
 
 

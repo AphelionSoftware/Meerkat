@@ -25,9 +25,15 @@
     [sys_CreatedOn]   DATETIME      CONSTRAINT [DF_DimDate_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255) CONSTRAINT [DF_DimDate_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME      CONSTRAINT [DF_DimDate_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC) ,
+    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC),
     CONSTRAINT [FK_DimDate_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimDate';
 

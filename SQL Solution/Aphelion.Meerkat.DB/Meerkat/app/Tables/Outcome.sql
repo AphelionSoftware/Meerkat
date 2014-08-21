@@ -5,7 +5,7 @@
     [LongName]        NVARCHAR (500) NOT NULL,
     [BusinessKey]     NVARCHAR (400) NOT NULL,
     [ShortName]       NVARCHAR (50)  NOT NULL,
-    [TextDescription] NVARCHAR (MAX) NULL,
+    [TextDescription] VARCHAR (4000) NULL,
     [OutcomeSiteName] NVARCHAR (50)  NULL,
     [DataVersion]     INT            DEFAULT ((0)) NOT NULL,
     [Active]          INT            CONSTRAINT [DF_Outcome_Active] DEFAULT ((1)) NOT NULL,
@@ -27,6 +27,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Outcome';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Outcome';
 

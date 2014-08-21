@@ -15,3 +15,9 @@
     CONSTRAINT [FK_SubOutputPersonRole_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID])
 );
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutputPersonRole';
+

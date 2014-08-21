@@ -11,10 +11,17 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_LocationType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_LocationType] PRIMARY KEY CLUSTERED ([LocationType_ID] ASC),
     CONSTRAINT [FK_LocationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [UQ_LocationType_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_LocationType_Code] UNIQUE NONCLUSTERED ([Code] ASC),
     CONSTRAINT [UQ_LocationType_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'LocationType';
 

@@ -17,3 +17,9 @@
 
 
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorType';
+

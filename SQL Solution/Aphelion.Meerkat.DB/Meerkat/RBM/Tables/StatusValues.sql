@@ -60,6 +60,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [StatusValues_UniqueRows]
     ON [RBM].[StatusValues]([Output_ID] ASC, [Outcome_ID] ASC, [Activity_ID] ASC, [SubOutput_ID] ASC, [Programme_ID] ASC, [ProjectID] ASC, [ReportingPeriodID] ASC, [LocationID] ASC, [DataVersionID] ASC);
@@ -105,4 +107,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0t
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
 

@@ -7,12 +7,12 @@
   DTS:CreatorName="MGS2012\administrator"
   DTS:DTSID="{33B50CC9-3B7E-4DB2-B0C4-9E674EE518E5}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3393.0"
+  DTS:LastModifiedProductVersion="11.0.3460.0"
   DTS:LocaleID="1033"
   DTS:ObjectName="000_SP_Jobs"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{AD5DFDD7-A153-42D6-A69E-578D2D7773F1}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{EBC26DA8-FC7E-4060-BF52-BFEAB07D9CAE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:PackageParameters>
@@ -48,6 +48,39 @@
       DTS:ObjectName="Folder">
       <DTS:VariableValue
         DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{75BFA443-4D52-46D5-823A-5F1FA0122E19}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::Folder] + &quot;meerkat_export_programme.cmp&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9FD7B429-B589-4683-883D-7E72F44884CE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot; -ExecutionPolicy ByPass -command \&quot;. '&quot; &#xA;+ @[User::progPSFile]   +&#xA; &quot;'     '&quot;&#xA;+ @[User::SiteName]   +&#xA; &quot;'     '&quot;&#xA;+ @[User::SitePath]  + &#xA;&quot;'    '&quot; &#xA;+ @[User::progFile]  + &#xA;&quot;'    '&quot; &#xA;+ @[$Package::Template]    + &#xA;&quot;'   \&quot;  &gt; &quot; + @[User::progFile] + &quot;.log&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progPSCommand">
+      <DTS:VariableValue
+        DTS:DataType="8"> -ExecutionPolicy ByPass -command ". 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp'    'STS#0'   "  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp.log</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3032D385-2EE4-4831-BD4D-CF75674CB3FB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::Folder] + &quot;Meerkat.ImportSite.Silent.ps1&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="progPSFile">
+      <DTS:VariableValue
+        DTS:DataType="8">D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -110,126 +143,287 @@
   </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\EST_GetProjects"
-      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{26D9233B-7909-4D08-953A-7174B9E6E455}"
-      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:refId="Package\SEQ_Programmes"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6ea91103-9be1-448a-a865-592ce9687dfe}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="EST_GetProjects"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
-          SQLTask:SqlStatementSource="&#xA;SELECT &#xA;PR.ProjectSiteName As SiteName,&#xA; &#xA;&#x9;&#x9;(SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;&#x9;&#x9;+ P.ProgrammeSiteName  &#xA;&#x9;&#x9;+ '/'&#xA;&#x9;&#x9;+ PR.ProjectSiteName&#xA;&#xA;&#x9;AS SitePath&#xA;&#x9;   &#xA;&#xA;&#x9;   FROM app.Project PR&#xA;&#x9;   LEFT OUTER JOIN app.SubSector SS1&#xA;&#x9;&#x9;&#x9;JOIN app.Sector S1&#xA;&#x9;&#x9;&#x9;&#x9;ON SS1.Sector_ID = S1.Sector_ID&#xA;&#xA;&#x9;&#x9;ON PR.SubSector_ID = SS1.SubSector_ID&#xA; &#xA;&#x9;&#x9;LEFT OUTER JOIN app.Sector S2&#xA;&#x9;&#x9;&#x9;&#x9;ON PR.Sector_ID = S2.Sector_ID&#xA;&#x9;&#xA;&#x9;     JOIN app.Programme P&#xA;&#x9;&#x9;&#x9;ON PR.Programme_ID = P.Programme_ID&#xA;&#x9;&#x9;&#x9;OR S1.Programme_ID = P.Programme_ID&#xA;&#x9;&#x9;&#x9;OR S2.Programme_ID = P.Programme_ID&#xA;&#x9;WHERE PR.isSiteCreated = 0"
-          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ResultBinding
-            SQLTask:ResultName="0"
-            SQLTask:DtsVariableName="User::Resultset" />
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\FLC_CreateSites"
-      DTS:CreationName="STOCK:FOREACHLOOP"
-      DTS:Description="Foreach Loop Container"
-      DTS:DTSID="{A500FE73-C2E1-451C-9318-3E47F24A39EF}"
-      DTS:ExecutableType="STOCK:FOREACHLOOP"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="FLC_CreateSites">
-      <DTS:ForEachEnumerator
-        DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-        DTS:DTSID="{B797841B-674C-4C45-B066-2616C62A369C}"
-        DTS:ObjectName="{B797841B-674C-4C45-B066-2616C62A369C}">
-        <DTS:ObjectData>
-          <FEEADO
-            EnumType="EnumerateRowsInFirstTable"
-            VarName="User::Resultset" />
-        </DTS:ObjectData>
-      </DTS:ForEachEnumerator>
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Programmes">
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\FLC_CreateSites\EST_UpdateCreated"
+          DTS:refId="Package\SEQ_Programmes\EST_GetProgrammes"
           DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:Description="Execute SQL Task"
-          DTS:DTSID="{02994327-E020-43D3-8DDC-29261BBA2A28}"
+          DTS:DTSID="{b617cb3c-2189-4aef-9468-b606b0e5d604}"
           DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
           DTS:LocaleID="-1"
-          DTS:ObjectName="EST_UpdateCreated"
+          DTS:ObjectName="EST_GetProgrammes"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
-              SQLTask:SqlStatementSource="UPDATE app.Project&#xA;SET isSiteCreated = 1&#xA;where ProjectSiteName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="User::SiteName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="129"
-                SQLTask:ParameterSize="255" />
+              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;P.ProgrammeSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;  /*+ CASE WHEN  convert(varchar(10), getdate(), 112) = 20140820 THEN '_' +  cast (   (datepart(hour,getdate()) * 100) + datepart(minute,getdate())&#xA;   as varchar(255))&#xA;   ELSE '' END*/&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM  app.Programme P&#xA; &#xA; WHERE P.isSiteCreated = 0"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::Resultset" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\FLC_CreateSites\Execute Process Task"
-          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-          DTS:Description="Execute Process Task"
-          DTS:DTSID="{9BC599BB-4B45-4CBB-AB21-155B6D531481}"
-          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{fc76c2f9-7430-4967-9216-4b1e15babf04}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Execute Process Task"
-          DTS:TaskContact="Execute Process Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FLC_CreateProgrammeSites">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{de880201-c31d-4c4a-87e1-f412243e8922}"
+            DTS:ObjectName="{B797841B-674C-4C45-B066-2616C62A369C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::Resultset" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
           <DTS:Variables />
-          <DTS:PropertyExpression
-            DTS:Name="Arguments">@[User::PSCommand]</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <ExecuteProcessData
-              Executable="%windir%\\System32\\WindowsPowerShell\\v1.0\\PowerShell.exe"
-              Arguments=" -ExecutionPolicy ByPass -command &quot;. 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp'    'STS#0'   &quot;  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp.log" />
-          </DTS:ObjectData>
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated"
+              DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{2feba0ee-7109-422b-a986-305cc5455536}"
+              DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EST_UpdateCreated"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
+                  SQLTask:SqlStatementSource="UPDATE app.Programme&#xA;SET isSiteCreated = 1&#xA;where ProgrammeSiteName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::SiteName"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="255" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
+              DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:Description="Execute Process Task"
+              DTS:DTSID="{ba5d8083-d9e2-49d8-993f-cbfad411347c}"
+              DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="Execute Process Task"
+              DTS:TaskContact="Execute Process Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="Arguments">@[User::progPSCommand]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecuteProcessData
+                  Executable="%windir%\\System32\\WindowsPowerShell\\v1.0\\PowerShell.exe"
+                  Arguments=" -ExecutionPolicy ByPass -command &quot;. 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp'    'STS#0'   &quot;  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_export_programme.cmp.log" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SEQ_Programmes\FLC_CreateProgrammeSites.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{a105b7d7-dbaa-4637-b40e-e1674cc1baf7}"
+              DTS:From="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated" />
+          </DTS:PrecedenceConstraints>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{f74709cc-3ed5-4b59-acd1-727ab8279b3a}"
+              DTS:ObjectName="{F97108A8-6F86-434B-9939-8B7AA114925D}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::SiteName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{4ec4dde0-8c11-46a4-afa7-430c7d34a3b0}"
+              DTS:ObjectName="{60EF6682-F5B5-49DF-9E03-73C409276EEA}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::SitePath" />
+          </DTS:ForEachVariableMappings>
         </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\FLC_CreateSites.PrecedenceConstraints[Constraint]"
+          DTS:refId="Package\SEQ_Programmes.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{18990B4A-EA21-4B79-943A-6A56F2EC9B4F}"
-          DTS:From="Package\FLC_CreateSites\Execute Process Task"
+          DTS:DTSID="{c8d3a912-714d-4280-8ebd-d67881549f94}"
+          DTS:From="Package\SEQ_Programmes\EST_GetProgrammes"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
-          DTS:To="Package\FLC_CreateSites\EST_UpdateCreated" />
+          DTS:To="Package\SEQ_Programmes\FLC_CreateProgrammeSites" />
       </DTS:PrecedenceConstraints>
-      <DTS:ForEachVariableMappings>
-        <DTS:ForEachVariableMapping
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Projects"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{55BF7D73-BB9A-45D4-B3F6-3FE97E58E317}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Projects">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Projects\EST_GetProjects"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{08d3f287-de53-41e3-b935-4fca960782e5}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EST_GetProjects"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
+              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;PR.ProjectSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;  + '/'&#xA;  + PR.ProjectSiteName&#xA;&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM app.Project PR&#xA;    LEFT OUTER JOIN app.SubSector SS1&#xA;   JOIN app.Sector S1&#xA;    ON SS1.Sector_ID = S1.Sector_ID&#xA;&#xA;  ON PR.SubSector_ID = SS1.SubSector_ID&#xA; &#xA;  LEFT OUTER JOIN app.Sector S2&#xA;    ON PR.Sector_ID = S2.Sector_ID&#xA; &#xA;      JOIN app.Programme P&#xA;   ON PR.Programme_ID = P.Programme_ID&#xA;   OR S1.Programme_ID = P.Programme_ID&#xA;   OR S2.Programme_ID = P.Programme_ID&#xA; WHERE PR.isSiteCreated = 0"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::Resultset" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Projects\FLC_CreateProjectSites"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{2368ccf8-4c59-485b-bb6c-1dd9336cd07d}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FLC_CreateProjectSites">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{8c757ebb-eb73-4a74-a4cc-e7cbf3e9e2d3}"
+            DTS:ObjectName="{B797841B-674C-4C45-B066-2616C62A369C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::Resultset" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated"
+              DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{9fc69f69-079f-4982-9038-9f32cb317b2e}"
+              DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="EST_UpdateCreated"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
+                  SQLTask:SqlStatementSource="UPDATE app.Project&#xA;SET isSiteCreated = 1&#xA;where ProjectSiteName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::SiteName"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="255" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
+              DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:Description="Execute Process Task"
+              DTS:DTSID="{774f38ad-92ce-47ba-b904-ab179d6eca6b}"
+              DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="Execute Process Task"
+              DTS:TaskContact="Execute Process Task;Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="Arguments">@[User::PSCommand]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecuteProcessData
+                  Executable="%windir%\\System32\\WindowsPowerShell\\v1.0\\PowerShell.exe"
+                  Arguments=" -ExecutionPolicy ByPass -command &quot;. 'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\Meerkat.ImportSite.Silent.ps1'     'Test'     'http://mgs-m6700/Test'    'D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp'    'STS#0'   &quot;  &gt; D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp.log" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SEQ_Projects\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{627ff9b9-bbb5-468a-99c3-d0298f8c3fef}"
+              DTS:From="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated" />
+          </DTS:PrecedenceConstraints>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{7b606b5f-a67d-4bd6-902e-6e0744e44745}"
+              DTS:ObjectName="{F97108A8-6F86-434B-9939-8B7AA114925D}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::SiteName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{4738b49e-cf0d-4e1d-a8f7-31b942660e45}"
+              DTS:ObjectName="{60EF6682-F5B5-49DF-9E03-73C409276EEA}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::SitePath" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Projects.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{F97108A8-6F86-434B-9939-8B7AA114925D}"
-          DTS:ObjectName="{F97108A8-6F86-434B-9939-8B7AA114925D}"
-          DTS:ValueIndex="0"
-          DTS:VariableName="User::SiteName" />
-        <DTS:ForEachVariableMapping
-          DTS:CreationName=""
-          DTS:DTSID="{60EF6682-F5B5-49DF-9E03-73C409276EEA}"
-          DTS:ObjectName="{60EF6682-F5B5-49DF-9E03-73C409276EEA}"
-          DTS:ValueIndex="1"
-          DTS:VariableName="User::SitePath" />
-      </DTS:ForEachVariableMappings>
+          DTS:DTSID="{747f135b-0e43-4541-8fd2-a6f1e575be05}"
+          DTS:From="Package\SEQ_Projects\EST_GetProjects"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Projects\FLC_CreateProjectSites" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{CC5D5735-A0FD-49A6-9B4D-8DFF6F9BAA0D}"
-      DTS:From="Package\EST_GetProjects"
+      DTS:DTSID="{B5493AA3-1010-4F2D-9371-F034B0135B9A}"
+      DTS:From="Package\SEQ_Programmes"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\FLC_CreateSites" />
+      DTS:To="Package\SEQ_Projects" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -242,21 +436,21 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="157,42"
-          Id="Package\EST_GetProjects"
-          TopLeft="82,159" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package\FLC_CreateSites\Execute Process Task"
-          TopLeft="80,31" />
+          Size="178,42"
+          Id="Package\SEQ_Programmes\EST_GetProgrammes"
+          TopLeft="60,60" />
         <NodeLayout
           Size="173,42"
-          Id="Package\FLC_CreateSites\EST_UpdateCreated"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated"
           TopLeft="126,148" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
+          TopLeft="80,31" />
         <EdgeLayout
-          Id="Package\FLC_CreateSites.PrecedenceConstraints[Constraint]"
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites.PrecedenceConstraints[Constraint]"
           TopLeft="170,73">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -294,11 +488,105 @@
           IsExpanded="True"
           PanelSize="387,288"
           Size="387,331"
-          Id="Package\FLC_CreateSites"
-          TopLeft="98,277" />
+          Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites"
+          TopLeft="75,178" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="160.5,201">
+          Id="Package\SEQ_Programmes.PrecedenceConstraints[Constraint]"
+          TopLeft="149,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="119.5,76"
+              Start="0,0"
+              End="119.5,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34"
+                    Point2="0,38"
+                    Point3="4,38" />
+                  <mssgle:LineSegment
+                    End="115.5,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="115.5,38"
+                    Point2="119.5,38"
+                    Point3="119.5,42" />
+                  <mssgle:LineSegment
+                    End="119.5,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="468,564"
+          Size="468,607"
+          Id="Package\SEQ_Programmes"
+          TopLeft="128,156.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\SEQ_Projects\EST_GetProjects"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated"
+          TopLeft="126,148" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
+          TopLeft="80,31" />
+        <EdgeLayout
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites.PrecedenceConstraints[Constraint]"
+          TopLeft="170,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42.5,75"
+              Start="0,0"
+              End="42.5,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33.5"
+                    Point2="0,37.5"
+                    Point3="4,37.5" />
+                  <mssgle:LineSegment
+                    End="38.5,37.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="38.5,37.5"
+                    Point2="42.5,37.5"
+                    Point3="42.5,41.5" />
+                  <mssgle:LineSegment
+                    End="42.5,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="387,288"
+          Size="387,331"
+          Id="Package\SEQ_Projects\FLC_CreateProjectSites"
+          TopLeft="76,178" />
+        <EdgeLayout
+          Id="Package\SEQ_Projects.PrecedenceConstraints[Constraint]"
+          TopLeft="138.5,102">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -322,6 +610,47 @@
                     Point3="131,42" />
                   <mssgle:LineSegment
                     End="131,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="468,564"
+          Size="468,607"
+          Id="Package\SEQ_Projects"
+          TopLeft="100,844" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="362,763.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-28,80.5"
+              Start="0,0"
+              End="-28,73">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.25"
+                    Point2="0,40.25"
+                    Point3="-4,40.25" />
+                  <mssgle:LineSegment
+                    End="-24,40.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-24,40.25"
+                    Point2="-28,40.25"
+                    Point3="-28,44.25" />
+                  <mssgle:LineSegment
+                    End="-28,73" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

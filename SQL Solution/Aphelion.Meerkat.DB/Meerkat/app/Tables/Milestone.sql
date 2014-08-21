@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [app].[Milestone] (
     [MilestoneID]     INT             IDENTITY (1, 1) NOT NULL,
     [LongName]        VARCHAR (500)   NOT NULL,
-    [TextDescription] VARCHAR (MAX)   NULL,
+    [TextDescription] VARCHAR (4000)  NULL,
     [Baseline]        DECIMAL (20, 5) NULL,
     [BaselineString]  VARCHAR (MAX)   NULL,
     [BaselineDate]    DATETIME        NOT NULL,
@@ -26,6 +26,7 @@
     [sys_ModifiedBy]  VARCHAR (255)   CONSTRAINT [DF_Milestone_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME        CONSTRAINT [DF_Milestone_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Milestone] PRIMARY KEY CLUSTERED ([MilestoneID] ASC),
+    CONSTRAINT [CK_Milestone] CHECK ((case when [Activity_ID] IS NULL then (1) else (0) end+case when [ProjectID] IS NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Milestone_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Milestone_Activity] FOREIGN KEY ([Activity_ID]) REFERENCES [app].[Activity] ([Activity_ID]),
     CONSTRAINT [FK_Milestone_MilestoneType] FOREIGN KEY ([MilestoneTypeID]) REFERENCES [app].[MilestoneType] ([MilestoneTypeID]),
@@ -40,6 +41,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
 

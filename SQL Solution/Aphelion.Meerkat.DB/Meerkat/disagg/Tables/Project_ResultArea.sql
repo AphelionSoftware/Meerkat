@@ -10,6 +10,12 @@
     CONSTRAINT [PK_ProjectResultArea] PRIMARY KEY CLUSTERED ([Project_ResultArea_ID] ASC),
     CONSTRAINT [FK_Project_ResultArea_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Project_ResultArea_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
-	CONSTRAINT [FK_Project_ResultArea_ResultArea] FOREIGN KEY ([ResultAreaID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID])
+    CONSTRAINT [FK_Project_ResultArea_ResultArea] FOREIGN KEY ([ResultAreaID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID])
 );
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Project_ResultArea';
 

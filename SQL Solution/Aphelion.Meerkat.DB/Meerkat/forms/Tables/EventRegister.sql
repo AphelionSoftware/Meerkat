@@ -25,3 +25,9 @@
 
 
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'EventRegister';
+

@@ -2,7 +2,7 @@
     [Question_ID]              INT              IDENTITY (1, 1) NOT NULL,
     [Name]                     VARCHAR (50)     NOT NULL,
     [Code]                     VARCHAR (50)     NOT NULL,
-    [TextDescription]          VARCHAR (MAX)    NOT NULL,
+    [TextDescription]          VARCHAR (4000)   NULL,
     [QuestionType_ID]          INT              NOT NULL,
     [Category_ID]              INT              NOT NULL,
     [QuestionOrder]            INT              NOT NULL,
@@ -49,4 +49,10 @@
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question';
 

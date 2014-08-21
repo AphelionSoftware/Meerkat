@@ -13,3 +13,9 @@
     CONSTRAINT [FK_MilestoneLocation_Milestone] FOREIGN KEY ([MilestoneID]) REFERENCES [app].[Milestone] ([MilestoneID])
 );
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneLocation';
+
