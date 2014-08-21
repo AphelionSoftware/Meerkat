@@ -9,9 +9,12 @@
     [AgeBandMin_ID]      INT            NOT NULL,
     [BusinessKey]        NVARCHAR (400) NOT NULL,
     [Code]               VARCHAR (50)   NULL,
+    [LocalName]          NVARCHAR (255) NULL,
     [Name]               VARCHAR (255)  NULL,
     [ProjectBusinessKey] NVARCHAR (400) NULL,
-    [TextDescription]    VARCHAR (MAX)  NULL,
+    [TextDescription]    VARCHAR (4000) NULL,
     [ProjectID]          INT            NULL
 );
+
+
 

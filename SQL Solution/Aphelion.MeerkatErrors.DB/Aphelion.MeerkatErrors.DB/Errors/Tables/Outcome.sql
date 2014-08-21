@@ -9,11 +9,15 @@
     [Code]                   VARCHAR (50)   NOT NULL,
     [DataVersionBusinessKey] NVARCHAR (400) NOT NULL,
     [ImpactBusinessKey]      NVARCHAR (400) NULL,
-    [LongName]               NVARCHAR (500) NOT NULL,
+    [LocalLongName]          NVARCHAR (500) NULL,
+    [LocalShortName]         NVARCHAR (50)  NULL,
+    [LongName]               VARCHAR (500)  NOT NULL,
     [OutcomeSiteName]        NVARCHAR (50)  NULL,
-    [ShortName]              NVARCHAR (50)  NOT NULL,
-    [TextDescription]        NVARCHAR (MAX) NULL,
+    [ShortName]              VARCHAR (50)   NOT NULL,
+    [TextDescription]        VARCHAR (4000) NULL,
     [DataVersion]            INT            NULL,
     [Impact_ID]              INT            NULL
 );
+
+
 

@@ -8,7 +8,10 @@
     [BusinessKey]                 NVARCHAR (400) NOT NULL,
     [Code]                        VARCHAR (50)   NOT NULL,
     [CustomReportTypeBusinessKey] NVARCHAR (400) NOT NULL,
+    [LocalName]                   NVARCHAR (255) NULL,
     [Name]                        VARCHAR (255)  NOT NULL,
     [CustomReportType_ID]         INT            NULL
 );
+
+
 
