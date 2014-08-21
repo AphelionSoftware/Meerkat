@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[MilestoneValues] (
+CREATE TABLE [RBM].[MilestoneValues] (
     [MilestoneValues_ID]  INT              IDENTITY (1, 1) NOT NULL,
     [Milestone_ID]        INT              NOT NULL,
     [ActualLabel]         VARCHAR (50)     NOT NULL,
@@ -56,6 +56,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
@@ -81,5 +83,6 @@ EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues';
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_MilestoneValues_BusinessKey]
+    ON [RBM].[MilestoneValues]([BusinessKey] ASC) WHERE ([Active]>=(0));
 

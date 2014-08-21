@@ -1,4 +1,4 @@
-﻿CREATE TABLE [disagg].[FrameworkDetail_Indicator] (
+CREATE TABLE [disagg].[FrameworkDetail_Indicator] (
     [FrameworkDetail_Indicator_ID] INT            IDENTITY (1, 1) NOT NULL,
     [FrameworkDetail_ID]           INT            NULL,
     [IndicatorID]                  INT            NULL,
@@ -11,8 +11,7 @@
     CONSTRAINT [PK_IndicatorFrameworkDetail] PRIMARY KEY CLUSTERED ([FrameworkDetail_Indicator_ID] ASC),
     CONSTRAINT [FK_FrameworkDetail_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_FrameworkDetail_Indicator_FrameworkDetail] FOREIGN KEY ([FrameworkDetail_ID]) REFERENCES [disagg].[FrameworkDetail] ([FrameworkDetail_ID]),
-    CONSTRAINT [FK_FrameworkDetail_Indicator_Indicator] FOREIGN KEY ([IndicatorID]) REFERENCES [app].[Indicator] ([IndicatorID]),
-    CONSTRAINT [UQ_FrameworkDetail_Indicator_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC)
+    CONSTRAINT [FK_FrameworkDetail_Indicator_Indicator] FOREIGN KEY ([IndicatorID]) REFERENCES [app].[Indicator] ([IndicatorID])
 );
 
 
@@ -22,6 +21,9 @@
 
 
 
+
+
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail_Indicator';
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_FrameworkDetail_Indicator_BusinessKey]
+    ON [disagg].[FrameworkDetail_Indicator]([BusinessKey] ASC) WHERE ([Active]>=(0));
 

@@ -9,9 +9,9 @@ CREATE TABLE [Core].[StatusType] (
     [sys_ModifiedBy] VARCHAR (255)   CONSTRAINT [DF_StatusType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME        CONSTRAINT [DF_StatusType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [Active]         INT             CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) NOT NULL,
+    [LocalName]      NVARCHAR (255)  NULL,
     CONSTRAINT [PK_StatusType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_StatusType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [UQ_StatusType_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC),
     CONSTRAINT [UQ_StatusType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
 
@@ -24,6 +24,9 @@ CREATE TABLE [Core].[StatusType] (
 
 
 
+
+
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType';
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_StatusType_BusinessKey]
+    ON [Core].[StatusType]([BusinessKey] ASC) WHERE ([Active]>=(0));
 

@@ -25,6 +25,8 @@
 
 
 
+
+
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM';
+
 

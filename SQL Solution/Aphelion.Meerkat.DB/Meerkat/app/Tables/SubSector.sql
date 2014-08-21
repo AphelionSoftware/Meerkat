@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[SubSector] (
+CREATE TABLE [app].[SubSector] (
     [SubSector_ID]    INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
@@ -11,11 +11,14 @@
     [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_SubSector_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_SubSector_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_SubSector_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [LocalShortName]  NVARCHAR (50)  NULL,
+    [LocalLongName]   NVARCHAR (500) NULL,
     CONSTRAINT [PK_SubSector] PRIMARY KEY CLUSTERED ([SubSector_ID] ASC),
     CONSTRAINT [FK_SubSector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
-    CONSTRAINT [UQ_SubSector_BusinessKey] UNIQUE NONCLUSTERED ([BusinessKey] ASC)
+    CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID])
 );
+
+
 
 
 
@@ -41,5 +44,6 @@ EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true'
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_SubSector_BusinessKey]
+    ON [app].[SubSector]([BusinessKey] ASC) WHERE ([Active]>=(0));
 

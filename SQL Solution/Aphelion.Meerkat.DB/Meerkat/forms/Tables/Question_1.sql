@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [forms].[Question] (
     [Question_ID]              INT              IDENTITY (1, 1) NOT NULL,
-    [Name]                     VARCHAR (50)     NOT NULL,
+    [Name]                     VARCHAR (255)    NOT NULL,
     [Code]                     VARCHAR (50)     NOT NULL,
     [TextDescription]          VARCHAR (4000)   NULL,
     [QuestionType_ID]          INT              NOT NULL,
@@ -25,6 +25,7 @@
     [Group_ID]                 INT              NULL,
     [Institution_ID]           INT              NULL,
     [Location_ID]              INT              NULL,
+    [LocalName]                NVARCHAR (255)   NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -53,6 +54,8 @@
 
 
 
+
+
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question';
+
 
