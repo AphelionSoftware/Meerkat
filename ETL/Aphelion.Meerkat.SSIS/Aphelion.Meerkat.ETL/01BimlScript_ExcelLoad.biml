@@ -106,9 +106,24 @@ Regenerate SSIS packages
 
 
 			</DerivedColumns>
-
             <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
               <InputPath OutputPathName="DRV_<#=table.SchemaName#>_<#=table.Name#>_FixStreams.Output" />
+              <ExternalTableOutput Table="[<#=table.SchemaName#>].[<#=table.Name#>]" />
+			  <ErrorHandling ErrorRowDisposition="RedirectRow" TruncationRowDisposition="RedirectRow" />
+			  <Columns>
+                <# foreach (var column in table.Columns.Where( column => !(column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ) ) { #>
+                <Column SourceColumn="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+
+				<# foreach (var column in table.Columns.Where( column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ){ #>
+                <Column SourceColumn="DRV_<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+              </Columns>
+            </OleDbDestination>
+			  <OleDbDestination Name="OLE_DST_Singleton_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStagingBIML"  MaximumInsertCommitSize="1">
+              <InputPath OutputPathName="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>.Error" />
               <ExternalTableOutput Table="[<#=table.SchemaName#>].[<#=table.Name#>]" />
 
 			  <Columns>
@@ -123,6 +138,7 @@ Regenerate SSIS packages
 				    <#} #>
               </Columns>
             </OleDbDestination>
+          
           </Transformations>
         </Dataflow>
       </Tasks>
