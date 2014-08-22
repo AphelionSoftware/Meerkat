@@ -9,6 +9,7 @@ SELECT
 	,[ReportingPeriod_6896613720974965773].[FirstCycleDate] AS [ReportingPeriodFirstCycleDate]
 	,[ReportingPeriod_6896613720974965773].[ID] AS [ReportingPeriodID]
 	,[ReportingPeriod_6896613720974965773].[LastCycleDate] AS [ReportingPeriodLastCycleDate]
+	,[ReportingPeriod_6896613720974965773].[LocalYearName] AS [ReportingPeriodLocalYearName]
 	,[ReportingPeriod_6896613720974965773].[ReportingPeriod] AS [ReportingPeriod]
 	,[ReportingPeriod_6896613720974965773].[StartDateID] AS [ReportingPeriodStartDateID]
 	,[ReportingPeriod_6896613720974965773].[Summary] AS [ReportingPeriodSummary]
@@ -169,4 +170,20 @@ EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'ReportingPeriodBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'ReportingPeriod', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'ReportingPeriodLocalYearName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'ReportingPeriodLocalYearName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalYearName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'ReportingPeriodLocalYearName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'ReportingPeriodLocalYearName';
 

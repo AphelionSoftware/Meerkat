@@ -1,4 +1,4 @@
-CREATE TABLE [app].[SubOutput] (
+﻿CREATE TABLE [app].[SubOutput] (
     [SubOutput_ID]    INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
@@ -32,6 +32,8 @@ CREATE TABLE [app].[SubOutput] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutput';
 
@@ -39,4 +41,8 @@ EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true'
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_SubOutput_BusinessKey]
     ON [app].[SubOutput]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

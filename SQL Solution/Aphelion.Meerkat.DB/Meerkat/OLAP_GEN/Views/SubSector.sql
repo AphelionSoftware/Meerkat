@@ -6,6 +6,8 @@ AS
 SELECT 
 	[SubSector_5772644787810675328].[BusinessKey] AS [SubSectorBusinessKey]
 	,[SubSector_5772644787810675328].[Code] AS [SubSectorCode]
+	,[SubSector_5772644787810675328].[LocalLongName] AS [SubSectorLocalLongName]
+	,[SubSector_5772644787810675328].[LocalShortName] AS [SubSectorLocalShortName]
 	,[SubSector_5772644787810675328].[LongName] AS [SubSectorLongName]
 	,COALESCE([SubSector_5772644787810675328].[Sector_ID] , [Sector_107543768305573008].[Sector_ID] ) AS [SubSectorSector_ID]
 	,[SubSector_5772644787810675328].[ShortName] AS [SubSectorShortName]
@@ -13,12 +15,16 @@ SELECT
 	,[SubSector_5772644787810675328].[TextDescription] AS [SubSectorTextDescription]
 	,[Sector_107543768305573008].[BusinessKey] AS [SectorBusinessKey]
 	,[Sector_107543768305573008].[Code] AS [SectorCode]
+	,[Sector_107543768305573008].[LocalLongName] AS [SectorLocalLongName]
+	,[Sector_107543768305573008].[LocalShortName] AS [SectorLocalShortName]
 	,[Sector_107543768305573008].[LongName] AS [SectorLongName]
 	,COALESCE([Sector_107543768305573008].[Programme_ID] , [Programme_347718018981161618].[Programme_ID] ) AS [SectorProgramme_ID]
 	,[Sector_107543768305573008].[ShortName] AS [SectorShortName]
 	,[Sector_107543768305573008].[TextDescription] AS [SectorTextDescription]
 	,[Programme_347718018981161618].[BusinessKey] AS [ProgrammeBusinessKey]
 	,[Programme_347718018981161618].[Code] AS [ProgrammeCode]
+	,[Programme_347718018981161618].[LocalLongName] AS [ProgrammeLocalLongName]
+	,[Programme_347718018981161618].[LocalShortName] AS [ProgrammeLocalShortName]
 	,[Programme_347718018981161618].[LongName] AS [ProgrammeLongName]
 	,[Programme_347718018981161618].[ProgrammeSiteName] AS [ProgrammeSiteName]
 	,[Programme_347718018981161618].[ShortName] AS [ProgrammeShortName]
@@ -342,4 +348,100 @@ EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0typ
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'SubSector', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'SubSector', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SubSectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Sector', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Sector', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'SectorLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Programme', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Programme', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalLongName';
 

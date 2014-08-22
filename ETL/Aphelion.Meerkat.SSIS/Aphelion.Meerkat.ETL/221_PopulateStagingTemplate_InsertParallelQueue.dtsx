@@ -1,0 +1,883 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/27/2014 3:56:33 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="SERVER2012"
+  DTS:CreatorName="gjs"
+  DTS:DTSID="{E9AFCAE2-FA3A-4E5E-A0B0-A628EE2C6D33}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.2100.60"
+  DTS:LocaleID="1033"
+  DTS:MaxErrorCount="2000"
+  DTS:ObjectName="221_PopulateStagingTemplate_InsertParallelQueue"
+  DTS:VersionBuild="101"
+  DTS:VersionGUID="{BF14E2A5-14CF-4D1E-A475-8498B16CE14A}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[StagingTemplate]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{C662C154-7A9E-4E4B-890D-00A7987F9D8F}"
+      DTS:ObjectName="StagingTemplate">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::strConnectionString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\Staging.Activity.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5A7AEE51-8412-40C9-9F26-9586D7100DF1}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="bitHasStagingTable">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DECFCDC9-26AF-4043-8499-22455CBF45B6}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="intPackageLoadID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6224167A-9073-4170-B267-6481FDEB4BC2}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="objTableList">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A8D4924B-1E22-46EB-9118-8C6B1517017D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot;+ @[User::strExportTemplatePath] +&quot;;Extended Properties=\&quot;EXCEL 12.0 XML;HDR=YES\&quot;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strConnectionString">
+      <DTS:VariableValue
+        DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\Staging.Activity.xlsx;Extended Properties="EXCEL 12.0 XML;HDR=YES"</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1395DD6B-B144-4AAA-AA3E-A1775B23396F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strCreateTable">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E66E0590-5306-43F3-9DB3-FFEEAC521422}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strExcelColumns">
+      <DTS:VariableValue
+        DTS:DataType="8">Activity_ID,BusinessKey,ProjectBusinessKey,Code,LongName,ShortName,TextDescription</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1149CED6-3523-4BB5-A77A-F626D8FBA3B6}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strExcelTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">Activity</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{598372CB-6129-4394-8E86-B78E81B744D7}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="REPLACE(&#xA;@[$Project::strStagingTemplatePath] + &quot;\\Export\\Staging.&quot;+ @[User::strExcelTableName] +&quot;.xlsx&quot;&#xA;, &quot;\\\\&quot;,&quot;\\&quot;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strExportTemplatePath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\Staging.Activity.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{033D18D0-EDDE-4A9A-99D8-069B3A874C58}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strJoin">
+      <DTS:VariableValue
+        DTS:DataType="8">JOIN [app].[Project] AS [Project] ON [p].[ProjectID] = [Project].[ProjectID]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{792C381C-EDFA-4559-BA33-8B70D959DF3B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                      , 'Excel 12.0;Database=&quot;+ @[User::strExportTemplatePath] +&quot;'&#xA;                      , 'select &quot;+ @[User::strExcelColumns] +&quot; from [Sheet1$]'&#xA;                      ) &quot; +  @[User::strSelect] + &quot; &quot; + @[User::strTableName] + &quot; AS p &quot; +  @[User::strJoin]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strOPENROWSET">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                      , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\Staging.Activity.xlsx'
+                      , 'select Activity_ID,BusinessKey,ProjectBusinessKey,Code,LongName,ShortName,TextDescription from [Sheet1$]'
+                      ) SELECT [p].[Activity_ID],[p].[BusinessKey],[Project].[BusinessKey],[p].[Code],[p].[LongName],[p].[ShortName],[p].[TextDescription] FROM [app].[Activity] AS p JOIN [app].[Project] AS [Project] ON [p].[ProjectID] = [Project].[ProjectID]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EFCC9B70-2F37-4784-B514-00BCB53894A0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strSelect">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT [p].[Activity_ID],[p].[BusinessKey],[Project].[BusinessKey],[p].[Code],[p].[LongName],[p].[ShortName],[p].[TextDescription] FROM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AAE61A6F-2486-4877-BC89-009A2B18DA0A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '&quot;+ @[User::strExcelTableName] +&quot;')&#xA;BEGIN&#xA;    SELECT CAST(1 AS BIT)   AS HasStaging&#xA;END&#xA;ELSE&#xA;BEGIN&#xA;    SELECT CAST(0 AS BIT)   AS HasStaging&#xA;END&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strSQLCheckStagingTable">
+      <DTS:VariableValue
+        DTS:DataType="8">IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Activity')
+BEGIN
+    SELECT CAST(1 AS BIT)   AS HasStaging
+END
+ELSE
+BEGIN
+    SELECT CAST(0 AS BIT)   AS HasStaging
+END</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{92251FA9-EA99-4F4F-B967-A430A5C92AD4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DECLARE @TableName  VARCHAR(100) = '&quot;+ @[User::strExcelTableName] +&quot;'&#xA;IF OBJECT_ID('tempdb..#TempColumns') IS NOT NULL&#xA;    DROP TABLE #TempColumns&#xA;SELECT '`'+C.ColumnName+'` ' +&#xA;        CASE WHEN DT.DATA_TYPE IN ('int','datetime','date') THEN UPPER(DT.DATA_TYPE)&#xA;            ELSE 'NTEXT'&#xA;        END AS DataType&#xA;     , C.ColumnName AS ColumnName&#xA;     , ROW_NUMBER() OVER(ORDER BY C.[order],C.ColumnName) AS ID&#xA;INTO #TempColumns&#xA;FROM (  select a.name as TableName, b.name AS ColumnName, 1 as [order]&#xA;        from sys.Tables as a&#xA;        inner join sys.Columns as b on (a.object_id = b.object_id)&#xA;        where b.name like a.name + 'ID'&#xA;           or b.name like a.name + '_ID'&#xA;           or b.name = 'ID'&#xA;        UNION ALL&#xA;        select a.name, b.name, 2&#xA;        from sys.Tables as a&#xA;        inner join sys.Columns as b on (a.object_id = b.object_id)&#xA;        where b.name like '%BusinessKey'&#xA;        UNION ALL&#xA;        select a.name, b.name, 3&#xA;        from sys.Tables as a&#xA;        inner join sys.Columns as b on (a.object_id = b.object_id)&#xA;        where b.name not like a.name + 'ID'&#xA;          and b.name not like a.name + '_ID'&#xA;          and b.name != 'ID'&#xA;          and b.name not like '%BusinessKey'&#xA;     )  AS C&#xA;JOIN INFORMATION_SCHEMA.COLUMNS AS DT&#xA;    ON C.TableName = DT.TABLE_NAME&#xA;    AND C.ColumnName = DT.COLUMN_NAME&#xA;WHERE C.TableName = @TableName&#xA;ORDER BY C.TableName&#xA;       , C.[order]&#xA;       , C.ColumnName&#xA;&#xA;DECLARE @SQL            NVARCHAR(4000)&#xA;      , @ExcelColumns   NVARCHAR(4000)&#xA;      , @Select         NVARCHAR(4000)&#xA;SET @SQL = 'CREATE TABLE `Sheet1` ('&#xA;SELECT @SQL = @SQL + SUBSTRING((SELECT ',' + DataType AS [text()] &#xA;                                FROM #TempColumns&#xA;                                For XML PATH('')&#xA;                               )&#xA;                              ,2,8000&#xA;                              )&#xA;SET @SQL = @SQL + ')'&#xA;SELECT @ExcelColumns = SUBSTRING((SELECT ',' + ColumnName   AS [text()] &#xA;                                  FROM #TempColumns&#xA;                                  For XML PATH('')&#xA;                                 )&#xA;                                 ,2,8000&#xA;                                )&#xA;SET @Select = 'SELECT '&#xA;SELECT @Select = @Select + SUBSTRING((SELECT ',CAST([' &#xA;                                            + CASE WHEN PATINDEX('%BusinessKey%',ColumnName) &gt; 1&#xA;                                                    THEN SUBSTRING(ColumnName,1,PATINDEX('%BusinessKey%',ColumnName)-1) + '].[BusinessKey'&#xA;                                                    ELSE 'p].[' + ColumnName END&#xA;                                            + '] AS NVARCHAR(MAX))'   AS [text()] &#xA;                                      FROM #TempColumns&#xA;                                      For XML PATH('')&#xA;                                     )&#xA;                                     ,2,8000&#xA;                                    )&#xA;SET @Select = @Select + ' FROM '&#xA;&#xA;SELECT @SQL             AS CreateTable&#xA;     , @ExcelColumns    AS ExcelColumns&#xA;     , @Select          AS SelectStatement&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strSQLCreateTable">
+      <DTS:VariableValue
+        DTS:DataType="8">DECLARE @TableName  VARCHAR(100) = 'Activity'
+IF OBJECT_ID('tempdb..#TempColumns') IS NOT NULL
+    DROP TABLE #TempColumns
+SELECT '`'+C.ColumnName+'` ' +
+        CASE WHEN DT.DATA_TYPE IN ('int','datetime','date') THEN UPPER(DT.DATA_TYPE)
+            ELSE 'NTEXT'
+        END AS DataType
+     , C.ColumnName AS ColumnName
+     , ROW_NUMBER() OVER(ORDER BY C.[order],C.ColumnName) AS ID
+INTO #TempColumns
+FROM (  select a.name as TableName, b.name AS ColumnName, 1 as [order]
+        from sys.Tables as a
+        inner join sys.Columns as b on (a.object_id = b.object_id)
+        where b.name like a.name + 'ID'
+           or b.name like a.name + '_ID'
+           or b.name = 'ID'
+        UNION ALL
+        select a.name, b.name, 2
+        from sys.Tables as a
+        inner join sys.Columns as b on (a.object_id = b.object_id)
+        where b.name like '%BusinessKey'
+        UNION ALL
+        select a.name, b.name, 3
+        from sys.Tables as a
+        inner join sys.Columns as b on (a.object_id = b.object_id)
+        where b.name not like a.name + 'ID'
+          and b.name not like a.name + '_ID'
+          and b.name != 'ID'
+          and b.name not like '%BusinessKey'
+     )  AS C
+JOIN INFORMATION_SCHEMA.COLUMNS AS DT
+    ON C.TableName = DT.TABLE_NAME
+    AND C.ColumnName = DT.COLUMN_NAME
+WHERE C.TableName = @TableName
+ORDER BY C.TableName
+       , C.[order]
+       , C.ColumnName
+
+DECLARE @SQL            NVARCHAR(4000)
+      , @ExcelColumns   NVARCHAR(4000)
+      , @Select         NVARCHAR(4000)
+SET @SQL = 'CREATE TABLE `Sheet1` ('
+SELECT @SQL = @SQL + SUBSTRING((SELECT ',' + DataType AS [text()] 
+                                FROM #TempColumns
+                                For XML PATH('')
+                               )
+                              ,2,8000
+                              )
+SET @SQL = @SQL + ')'
+SELECT @ExcelColumns = SUBSTRING((SELECT ',' + ColumnName   AS [text()] 
+                                  FROM #TempColumns
+                                  For XML PATH('')
+                                 )
+                                 ,2,8000
+                                )
+SET @Select = 'SELECT '
+SELECT @Select = @Select + SUBSTRING((SELECT ',CAST([' 
+                                            + CASE WHEN PATINDEX('%BusinessKey%',ColumnName) &gt; 1
+                                                    THEN SUBSTRING(ColumnName,1,PATINDEX('%BusinessKey%',ColumnName)-1) + '].[BusinessKey'
+                                                    ELSE 'p].[' + ColumnName END
+                                            + '] AS NVARCHAR(MAX))'   AS [text()] 
+                                      FROM #TempColumns
+                                      For XML PATH('')
+                                     )
+                                     ,2,8000
+                                    )
+SET @Select = @Select + ' FROM '
+
+SELECT @SQL             AS CreateTable
+     , @ExcelColumns    AS ExcelColumns
+     , @Select          AS SelectStatement</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6C4440D0-DE6A-4F62-9B90-18C84332DD11}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;DECLARE @SQL            NVARCHAR(4000)&#xA;      , @strTableName   VARCHAR(100) = '&quot;+ @[User::strTableName] +&quot;'&#xA;SELECT @SQL = SUBSTRING((SELECT ' ' + JoinClause AS [text()] &#xA;                         FROM (SELECT jointype&#xA;                                        + '[' + rs + '].[' + rt + '] AS ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'] ON [p].[' + pc + '] = ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'].[' + rc + ']'   AS JoinClause&#xA;                                FROM  (SELECT CASE WHEN pc.is_nullable = 0&#xA;                                                    THEN 'JOIN '&#xA;                                                    ELSE 'LEFT JOIN '&#xA;                                                END     AS jointype&#xA;                                            , rs.name   AS rs&#xA;                                            , rt.name   AS rt&#xA;                                            , rc.name   AS rc&#xA;                                            , ps.name   AS ps&#xA;                                            , pt.name   AS pt&#xA;                                            , pc.name   AS pc&#xA;                                            , ROW_NUMBER() OVER (PARTITION BY rt.name ORDER BY pc.name)  AS DupTableRefID&#xA;                                        FROM sys.foreign_keys f&#xA;                                        JOIN sys.foreign_key_columns fc&#xA;                                            ON f.object_id = fc.constraint_object_id&#xA;                                        JOIN sys.tables pt&#xA;                                            ON f.parent_object_id = pt.object_id&#xA;                                        JOIN sys.schemas ps&#xA;                                            ON ps.schema_id = pt.schema_id&#xA;                                        JOIN sys.columns pc&#xA;                                            ON fc.parent_column_id = pc.column_id&#xA;                                            AND pt.object_id = pc.object_id&#xA;                                        JOIN sys.tables rt&#xA;                                            ON f.referenced_object_id = rt.object_id&#xA;                                        JOIN sys.schemas rs&#xA;                                            ON rs.schema_id = rt.schema_id&#xA;                                        JOIN sys.columns rc&#xA;                                            ON fc.referenced_column_id = rc.column_id&#xA;                                            AND rt.object_id = rc.object_id&#xA;                                        WHERE rt.name != 'ActiveType'&#xA;                                          AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName&#xA;                                        )   AS SUB2&#xA;                                  &#xA;                              ) SUB&#xA;                         For XML PATH('')&#xA;                        )&#xA;                        ,2,8000&#xA;                       )&#xA;SELECT @SQL AS JoinClause&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strSQLJoin">
+      <DTS:VariableValue
+        DTS:DataType="8">DECLARE @SQL            NVARCHAR(4000)
+      , @strTableName   VARCHAR(100) = '[app].[Activity]'
+SELECT @SQL = SUBSTRING((SELECT ' ' + JoinClause AS [text()] 
+                         FROM (SELECT jointype
+                                        + '[' + rs + '].[' + rt + '] AS ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'] ON [p].[' + pc + '] = ['+ rt + (CASE WHEN DupTableRefID != 1 THEN CAST(DupTableRefID AS VARCHAR(10)) ELSE '' END)+'].[' + rc + ']'   AS JoinClause
+                                FROM  (SELECT CASE WHEN pc.is_nullable = 0
+                                                    THEN 'JOIN '
+                                                    ELSE 'LEFT JOIN '
+                                                END     AS jointype
+                                            , rs.name   AS rs
+                                            , rt.name   AS rt
+                                            , rc.name   AS rc
+                                            , ps.name   AS ps
+                                            , pt.name   AS pt
+                                            , pc.name   AS pc
+                                            , ROW_NUMBER() OVER (PARTITION BY rt.name ORDER BY pc.name)  AS DupTableRefID
+                                        FROM sys.foreign_keys f
+                                        JOIN sys.foreign_key_columns fc
+                                            ON f.object_id = fc.constraint_object_id
+                                        JOIN sys.tables pt
+                                            ON f.parent_object_id = pt.object_id
+                                        JOIN sys.schemas ps
+                                            ON ps.schema_id = pt.schema_id
+                                        JOIN sys.columns pc
+                                            ON fc.parent_column_id = pc.column_id
+                                            AND pt.object_id = pc.object_id
+                                        JOIN sys.tables rt
+                                            ON f.referenced_object_id = rt.object_id
+                                        JOIN sys.schemas rs
+                                            ON rs.schema_id = rt.schema_id
+                                        JOIN sys.columns rc
+                                            ON fc.referenced_column_id = rc.column_id
+                                            AND rt.object_id = rc.object_id
+                                        WHERE rt.name != 'ActiveType'
+                                          AND '['+ ps.name +'].[' + pt.name + ']' = @strTableName
+                                        )   AS SUB2
+                                  
+                              ) SUB
+                         For XML PATH('')
+                        )
+                        ,2,8000
+                       )
+SELECT @SQL AS JoinClause</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B8512BD9-4682-43B0-B818-AFF48808D052}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strStagingTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">[Activity]</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6347FF52-9513-4B04-B02D-ACC2C59C28E5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="REPLACE( &#xA;@[$Project::strStagingTemplatePath] + &quot;\\StagingTemplate.xlsx&quot;&#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strStagingTemplatePath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\StagingTemplate.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CB25B002-267E-45F0-B1C6-80B7E018FF4A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">[app].[Activity]</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\EST_InsertQueue"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{068f5f88-ae4b-4c07-9860-274969d0840c}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EST_InsertQueue"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+          SQLTask:SqlStatementSource="EXEC [dbo].[InsertQueueItem] 1, 2, ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::intPackageLoadID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\FELC_Table list"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{6C66FB25-6D62-4802-BB18-376B0442146A}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="FELC_Table list">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+        DTS:DTSID="{A99A2506-8C26-4B1E-881B-C1F3BAF87CD8}"
+        DTS:ObjectName="{A99A2506-8C26-4B1E-881B-C1F3BAF87CD8}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::objTableList" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\FELC_Table list\EST_InsertPackageLoadStep"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{033311AE-A7D2-4B53-94D3-682AC4E4941E}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EST_InsertPackageLoadStep"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:BypassPrepare="False"
+              SQLTask:SqlStatementSource="&#xA;INSERT INTO [dbo].[PackageLoadStep]&#xA;           ([PackageLoadID]&#xA;           ,[StepTypeID]&#xA;           ,[PackageID]&#xA;           ,[PackageLoadStepName]&#xA;           ,[PackageLoadStepCode]&#xA;           ,[StepOrder]&#xA;           ,[MaxParallel]&#xA;           ,[strParm1]&#xA;           ,[strParm2]&#xA;           ,[strParm]&#xA;           )&#xA;   SELECT ?, 2,&#xA;   PackageID, '222_GeneratePopulateStagingTemplate_Single'&#xA;   , 'SingleExport'&#xA;   , PackageID&#xA;   , 16&#xA;   , ?&#xA;   , ?&#xA;   , ?&#xA;  &#xA;   FROM dbo.Package WHERE PackageName = '222_GeneratePopulateStagingTemplate_Single.dtsx'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::intPackageLoadID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::strTableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="255" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::strStagingTableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="255" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="3"
+                SQLTask:DtsVariableName="User::strExcelTableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="255" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\FELC_Table list\SQL_Check for staging table"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B33819B4-13A9-41F7-A27B-B86479D08C8F}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_Check for staging table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{15E93C59-B687-4A64-9A3B-8D372DF396D4}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::strSQLCheckStagingTable"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="HasStaging"
+                SQLTask:DtsVariableName="User::bitHasStagingTable" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\FELC_Table list.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3CFD2F28-287C-4311-B726-0C98A840CDBF}"
+          DTS:EvalOp="1"
+          DTS:Expression="@[User::bitHasStagingTable]"
+          DTS:From="Package\FELC_Table list\SQL_Check for staging table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\FELC_Table list\EST_InsertPackageLoadStep" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{DC2AB131-6E7F-44E1-9325-F3605FD47E29}"
+          DTS:ObjectName="{DC2AB131-6E7F-44E1-9325-F3605FD47E29}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::strTableName" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{FEBA577A-EE5B-467C-A901-D3592D15770C}"
+          DTS:ObjectName="{FEBA577A-EE5B-467C-A901-D3592D15770C}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::strStagingTableName" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{44B453BC-4BAE-4DAF-B69B-A79F9FF1425B}"
+          DTS:ObjectName="{44B453BC-4BAE-4DAF-B69B-A79F9FF1425B}"
+          DTS:ValueIndex="2"
+          DTS:VariableName="User::strExcelTableName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_SetupQueueIfNotExists"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{57297756-F20D-4FF2-9B50-263561838465}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQ_SetupQueueIfNotExists">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists\SQL_DeleteSteps"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{360f915a-f733-461c-9ac9-414f96f421b3}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_DeleteSteps"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="&#xA;DELETE FROM PackageLoadStep&#xA;WHERE PackageLoadID =&#xA;&#x9; (SELECT PackageLoadID FROM dbo.PackageLoad&#xA;&#x9; WHERE PackageLoadCode = 'GENEX')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists\SQL_GetPackageLoadID"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3e181261-8c98-4f93-808f-18ceaf301ac6}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadID"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="SELECT PackageLoadID FROM dbo.PackageLoad&#xA;&#x9; WHERE PackageLoadCode = 'GENEX'&#xA;&#x9; "
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::intPackageLoadID" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists\SQL_InsertLoad"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0a8240dc-5048-4d5a-a399-d577e17a2bac}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_InsertLoad"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="&#xA;INSERT INTO [dbo].[PackageLoad]&#xA;           ([PackageLoadName]&#xA;           ,[PackageLoadCode]&#xA;           ,[MaxParallel]&#xA;           )&#xA;     SELECT 'Generate Export Excel'&#xA;&#x9; , 'GENEX'&#xA;&#x9; , 16&#xA;&#x9; WHERE NOT EXISTS&#xA;&#x9; (SELECT 1 FROM dbo.PackageLoad&#xA;&#x9; WHERE PackageLoadCode = 'GENEX')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists\SQL_InsertPackage"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{c9a0d584-531b-4512-8b73-28c4bd837051}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_InsertPackage"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="&#xA;INSERT INTO [dbo].[Package]&#xA;           ([ApplicationID]&#xA;           ,[PackageName]&#xA;           ,[PackageFullName]&#xA;           )&#xA;SELECT 1, '222_GeneratePopulateStagingTemplate_Single.dtsx', '222_GeneratePopulateStagingTemplate_Single.dtsx'&#xA;WHERE NOT EXISTS &#xA;(SELECT 1&#xA;&#x9;FROM dbo.package&#xA;&#x9;WHERE PackageName = '222_GeneratePopulateStagingTemplate_Single.dtsx'&#xA;&#x9;)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{4AEB42F7-F7F1-49C3-9FC4-CACBF080E14D}"
+          DTS:From="Package\SEQ_SetupQueueIfNotExists\SQL_InsertPackage"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_SetupQueueIfNotExists\SQL_InsertLoad" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{828CDEFD-CB14-427E-BBF5-BAA4D500E716}"
+          DTS:From="Package\SEQ_SetupQueueIfNotExists\SQL_InsertLoad"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\SEQ_SetupQueueIfNotExists\SQL_DeleteSteps" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{DD649419-1D34-484E-98D1-6B7038509AE4}"
+          DTS:From="Package\SEQ_SetupQueueIfNotExists\SQL_DeleteSteps"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\SEQ_SetupQueueIfNotExists\SQL_GetPackageLoadID" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Get table list"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{13CA6094-A80A-4475-9649-96D0E2410F63}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Get table list"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B8F7D022-C655-45D3-94E2-57C05FE0D111}"
+          SQLTask:SqlStatementSource="SELECT '[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']'    AS TableName&#xA;     , '[' + TABLE_NAME + ']'                           AS StagingTableName&#xA;     , TABLE_NAME                                       AS ExcelTableName&#xA;FROM INFORMATION_SCHEMA.TABLES&#xA;WHERE TABLE_TYPE = 'BASE TABLE'&#xA;  AND TABLE_NAME NOT IN ('__RefactorLog','sysdiagrams')&#xA;&#xA;ORDER BY TABLE_SCHEMA&#xA;       , TABLE_NAME"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::objTableList" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BBD4C713-7884-44D2-B225-07349A85650A}"
+      DTS:From="Package\SEQ_SetupQueueIfNotExists"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL_Get table list" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{97D40E52-92A1-49E1-99BD-3CDD61E01223}"
+      DTS:From="Package\FELC_Table list"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\EST_InsertQueue" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{33834FB5-F6DA-4AD4-A9E5-70CCD8BB0515}"
+      DTS:From="Package\SQL_Get table list"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\FELC_Table list" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="212,41.6"
+          Id="Package\FELC_Table list\SQL_Check for staging table"
+          TopLeft="5.50000000000001,5.50000000000007" />
+        <NodeLayout
+          Size="161.6,41.6"
+          Id="Package\FELC_Table list\EST_InsertPackageLoadStep"
+          TopLeft="30.7,107.1" />
+        <EdgeLayout
+          Id="Package\FELC_Table list.PrecedenceConstraints[Constraint]"
+          TopLeft="111.5,47.1000000000001">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="223.2,204"
+          Size="223.2,247.2"
+          Id="Package\FELC_Table list"
+          TopLeft="37.5000005449569,585.68823484797" />
+        <NodeLayout
+          Size="163.2,41.6"
+          Id="Package\SQL_Get table list"
+          TopLeft="35.5000000000001,515.9" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="117.1,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32.0000005449568,28.1882348479695"
+              Start="0,0"
+              End="32.0000005449568,20.6882348479695">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.0941174239848" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.0941174239848"
+                    Point2="0,14.0941174239848"
+                    Point3="4,14.0941174239848" />
+                  <mssgle:LineSegment
+                    End="28.0000005449568,14.0941174239848" />
+                  <mssgle:CubicBezierSegment
+                    Point1="28.0000005449568,14.0941174239848"
+                    Point2="32.0000005449568,14.0941174239848"
+                    Point3="32.0000005449568,18.0941174239848" />
+                  <mssgle:LineSegment
+                    End="32.0000005449568,20.6882348479695" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\SEQ_SetupQueueIfNotExists\SQL_InsertPackage"
+          TopLeft="17.5,5.49999999999995" />
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\SEQ_SetupQueueIfNotExists\SQL_InsertLoad"
+          TopLeft="24.7,107.1" />
+        <EdgeLayout
+          Id="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint]"
+          TopLeft="101.5,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\SEQ_SetupQueueIfNotExists\SQL_DeleteSteps"
+          TopLeft="24.7,208.7" />
+        <EdgeLayout
+          Id="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint 1]"
+          TopLeft="103.1,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="192,41.6"
+          Id="Package\SEQ_SetupQueueIfNotExists\SQL_GetPackageLoadID"
+          TopLeft="5.50000000000003,310.3" />
+        <EdgeLayout
+          Id="Package\SEQ_SetupQueueIfNotExists.PrecedenceConstraints[Constraint 2]"
+          TopLeft="103.1,250.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="203.2,407.2"
+          Size="203.2,450.4"
+          Id="Package\SEQ_SetupQueueIfNotExists"
+          TopLeft="15.5,5.50000000000006" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="117.1,455.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.0000000000001"
+              Start="0,0"
+              End="0,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="161.6,41.6"
+          Id="Package\EST_InsertQueue"
+          TopLeft="614.628581909258,373.976475676038" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184.966667211624,585.68823484797">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="510.461914697634,-170.111759171931"
+              Start="0,0"
+              End="510.461914697634,-162.611759171931">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-64.771159579827" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-64.771159579827"
+                    Point2="0,-68.771159579827"
+                    Point3="4,-68.771159579827" />
+                  <mssgle:LineSegment
+                    End="506.461914697634,-68.771159579827" />
+                  <mssgle:CubicBezierSegment
+                    Point1="506.461914697634,-68.771159579827"
+                    Point2="510.461914697634,-68.771159579827"
+                    Point3="510.461914697634,-72.771159579827" />
+                  <mssgle:LineSegment
+                    End="510.461914697634,-162.611759171931" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -6,6 +6,8 @@ AS
 SELECT 
 	[Organization_2346206332354567989].[BusinessKey] AS [OrganizationBusinessKey]
 	,[Organization_2346206332354567989].[Code] AS [OrganizationCode]
+	,[Organization_2346206332354567989].[LocalLongName] AS [OrganizationLocalLongName]
+	,[Organization_2346206332354567989].[LocalShortName] AS [OrganizationLocalShortName]
 	,[Organization_2346206332354567989].[LongName] AS [OrganizationLongName]
 	,[Organization_2346206332354567989].[Organization_ID] AS [Organization_ID]
 	,[Organization_2346206332354567989].[OrganizationType_ID] AS [OrganizationType_ID]
@@ -14,6 +16,7 @@ SELECT
 	,[OrganizationType_977538741929692349].[BusinessKey] AS [OrganizationTypeBusinessKey]
 	,[OrganizationType_977538741929692349].[Code] AS [OrganizationTypeCode]
 	,[OrganizationType_977538741929692349].[Description] AS [OrganizationTypeDescription]
+	,[OrganizationType_977538741929692349].[LocalName] AS [OrganizationTypeLocalName]
 	,[OrganizationType_977538741929692349].[Name] AS [OrganizationTypeName]
 FROM [Core].[Organization] AS [Organization_2346206332354567989]
 
@@ -190,4 +193,52 @@ EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'OrganizationType', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationTypeLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationTypeLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationTypeLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationTypeLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Organization', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Organization', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Organization', @level2type = N'COLUMN', @level2name = N'OrganizationLocalLongName';
 

@@ -1,4 +1,4 @@
-CREATE TABLE [app].[MilestoneType] (
+﻿CREATE TABLE [app].[MilestoneType] (
     [MilestoneTypeID] INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [Name]            VARCHAR (255)  NOT NULL,
@@ -23,7 +23,13 @@ CREATE TABLE [app].[MilestoneType] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_MilestoneType_BusinessKey]
     ON [app].[MilestoneType]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneType', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

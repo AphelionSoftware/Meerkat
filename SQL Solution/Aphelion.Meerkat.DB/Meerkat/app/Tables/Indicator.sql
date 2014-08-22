@@ -1,4 +1,4 @@
-CREATE TABLE [app].[Indicator] (
+﻿CREATE TABLE [app].[Indicator] (
     [IndicatorID]            INT             IDENTITY (1, 1) NOT NULL,
     [LongName]               VARCHAR (500)   NOT NULL,
     [TextDescription]        VARCHAR (4000)  NULL,
@@ -72,6 +72,8 @@ CREATE TABLE [app].[Indicator] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'Indicator', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator', @level2type = N'COLUMN', @level2name = N'ShortName';
 
@@ -87,4 +89,8 @@ EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true'
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Indicator_BusinessKey]
     ON [app].[Indicator]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

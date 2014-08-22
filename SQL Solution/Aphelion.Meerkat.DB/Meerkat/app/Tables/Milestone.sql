@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[Milestone] (
+CREATE TABLE [app].[Milestone] (
     [MilestoneID]     INT             IDENTITY (1, 1) NOT NULL,
     [LongName]        VARCHAR (500)   NOT NULL,
     [TextDescription] VARCHAR (4000)  NULL,
@@ -46,10 +46,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
 
 
 GO
-
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

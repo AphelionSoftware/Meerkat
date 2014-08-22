@@ -1,4 +1,4 @@
-CREATE TABLE [rpt].[DonorReport] (
+﻿CREATE TABLE [rpt].[DonorReport] (
     [DonorReport_ID] INT            IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NOT NULL,
@@ -20,7 +20,13 @@ CREATE TABLE [rpt].[DonorReport] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_DonorReport_BusinessKey]
     ON [rpt].[DonorReport]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

@@ -1,4 +1,4 @@
-CREATE TABLE [disagg].[Group] (
+﻿CREATE TABLE [disagg].[Group] (
     [Group_ID]       INT            IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NULL,
@@ -20,7 +20,13 @@ CREATE TABLE [disagg].[Group] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Group_BusinessKey]
     ON [disagg].[Group]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Group', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[OrganizationType] (
+﻿CREATE TABLE [Core].[OrganizationType] (
     [OrganizationType_ID] INT            IDENTITY (1, 1) NOT NULL,
     [Code]                VARCHAR (50)   NOT NULL,
     [Name]                VARCHAR (255)  NULL,
@@ -21,7 +21,13 @@ CREATE TABLE [Core].[OrganizationType] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_OrganizationType_BusinessKey]
     ON [Core].[OrganizationType]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'OrganizationType', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

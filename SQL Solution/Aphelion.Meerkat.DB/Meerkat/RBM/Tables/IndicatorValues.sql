@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[IndicatorValues] (
+CREATE TABLE [RBM].[IndicatorValues] (
     [IndicatorValues_ID]  INT              IDENTITY (1, 1) NOT NULL,
     [Indicator_ID]        INT              NOT NULL,
     [ActualLabel]         VARCHAR (50)     NOT NULL,
@@ -61,6 +61,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 
@@ -102,5 +104,5 @@ EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @lev
 
 
 GO
-
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

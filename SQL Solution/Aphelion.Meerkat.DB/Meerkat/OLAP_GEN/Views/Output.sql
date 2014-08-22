@@ -6,6 +6,8 @@ AS
 SELECT 
 	[Output_7705848111094348923].[BusinessKey] AS [OutputBusinessKey]
 	,[Output_7705848111094348923].[Code] AS [OutputCode]
+	,[Output_7705848111094348923].[LocalLongName] AS [OutputLocalLongName]
+	,[Output_7705848111094348923].[LocalShortName] AS [OutputLocalShortName]
 	,[Output_7705848111094348923].[LongName] AS [OutputLongName]
 	,[Output_7705848111094348923].[Outcome_ID] AS [OutputOutcome_ID]
 	,[Output_7705848111094348923].[Output_ID] AS [Output_ID]
@@ -15,6 +17,8 @@ SELECT
 	,[Outcome_4486978240285421683].[Code] AS [OutcomeCode]
 	,[Outcome_4486978240285421683].[DataVersion] AS [OutcomeDataVersion]
 	,[Outcome_4486978240285421683].[Impact_ID] AS [OutcomeImpact_ID]
+	,[Outcome_4486978240285421683].[LocalLongName] AS [OutcomeLocalLongName]
+	,[Outcome_4486978240285421683].[LocalShortName] AS [OutcomeLocalShortName]
 	,[Outcome_4486978240285421683].[LongName] AS [OutcomeLongName]
 	,[Outcome_4486978240285421683].[OutcomeSiteName] AS [OutcomeSiteName]
 	,[Outcome_4486978240285421683].[ShortName] AS [OutcomeShortName]
@@ -23,6 +27,8 @@ SELECT
 	,[Impact_7488715917167768081].[Code] AS [ImpactCode]
 	,[Impact_7488715917167768081].[DataVersion] AS [ImpactDataVersion]
 	,[Impact_7488715917167768081].[ImpactSiteName] AS [ImpactSiteName]
+	,[Impact_7488715917167768081].[LocalLongName] AS [ImpactLocalLongName]
+	,[Impact_7488715917167768081].[LocalShortName] AS [ImpactLocalShortName]
 	,[Impact_7488715917167768081].[LongName] AS [ImpactLongName]
 	,[Impact_7488715917167768081].[ShortName] AS [ImpactShortName]
 	,[Impact_7488715917167768081].[TextDescription] AS [ImpactTextDescription]
@@ -478,4 +484,100 @@ EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0typ
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Output', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Output', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutputLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Outcome', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Outcome', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'OutcomeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Impact', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalShortName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Impact', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'ImpactLocalLongName';
 

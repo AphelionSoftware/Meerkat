@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[StatusType] (
+﻿CREATE TABLE [Core].[StatusType] (
     [ID]             INT             NOT NULL,
     [Code]           VARCHAR (50)    NOT NULL,
     [Name]           VARCHAR (255)   NOT NULL,
@@ -26,7 +26,13 @@ CREATE TABLE [Core].[StatusType] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_StatusType_BusinessKey]
     ON [Core].[StatusType]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

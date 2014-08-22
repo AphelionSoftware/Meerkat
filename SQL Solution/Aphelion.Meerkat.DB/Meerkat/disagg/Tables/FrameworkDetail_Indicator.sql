@@ -1,4 +1,4 @@
-CREATE TABLE [disagg].[FrameworkDetail_Indicator] (
+﻿CREATE TABLE [disagg].[FrameworkDetail_Indicator] (
     [FrameworkDetail_Indicator_ID] INT            IDENTITY (1, 1) NOT NULL,
     [FrameworkDetail_ID]           INT            NULL,
     [IndicatorID]                  INT            NULL,
@@ -23,7 +23,13 @@ CREATE TABLE [disagg].[FrameworkDetail_Indicator] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_FrameworkDetail_Indicator_BusinessKey]
     ON [disagg].[FrameworkDetail_Indicator]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

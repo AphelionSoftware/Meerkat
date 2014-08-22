@@ -1,4 +1,4 @@
-CREATE TABLE [disagg].[AgeBand] (
+﻿CREATE TABLE [disagg].[AgeBand] (
     [AgeBand_ID]      INT            IDENTITY (1, 1) NOT NULL,
     [AgeBandMin_ID]   INT            NOT NULL,
     [AgeBandMax_ID]   INT            NOT NULL,
@@ -29,7 +29,13 @@ CREATE TABLE [disagg].[AgeBand] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_AgeBand_BusinessKey]
     ON [disagg].[AgeBand]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

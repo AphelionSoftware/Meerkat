@@ -2,8 +2,11 @@
 
 
 
+
 CREATE VIEW [OLAP_GEN].[IndicatorByProgram]
 as
+
+select top 0 * from(
 select 
 	'Program' as ReportLevel,
 	P.ShortName as IndicatorShortName,
@@ -485,6 +488,8 @@ INNER JOIN app.Sector S
 ON I.Sector_ID = SS.Sector_ID
 	INNER JOIN app.Programme P
 	ON S.Programme_ID = P.Programme_ID
+
+) src
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProgram', @level2type = N'COLUMN', @level2name = N'SubsectorShortName';
 

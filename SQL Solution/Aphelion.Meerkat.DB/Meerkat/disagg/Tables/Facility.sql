@@ -1,4 +1,4 @@
-CREATE TABLE [disagg].[Facility] (
+﻿CREATE TABLE [disagg].[Facility] (
     [Facility_ID]     INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NOT NULL,
     [Name]            VARCHAR (255)  NOT NULL,
@@ -22,7 +22,13 @@ CREATE TABLE [disagg].[Facility] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Facility_BusinessKey]
     ON [disagg].[Facility]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Facility', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

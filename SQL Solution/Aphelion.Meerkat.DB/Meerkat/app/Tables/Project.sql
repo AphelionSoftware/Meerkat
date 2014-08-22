@@ -68,6 +68,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project';
 
@@ -83,4 +85,8 @@ EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Project_BusinessKey]
     ON [app].[Project]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 
