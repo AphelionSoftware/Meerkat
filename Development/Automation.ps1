@@ -1,0 +1,1 @@
+﻿$dte = New-Object -comobject "VisualStudio.DTE"
