@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:MaxErrorCount="2000"
   DTS:ObjectName="220_GeneratePopulateStagingTemplate"
-  DTS:VersionBuild="94"
-  DTS:VersionGUID="{79B24357-C856-4BA6-B6E7-80AC1DB29482}"
+  DTS:VersionBuild="96"
+  DTS:VersionGUID="{B5A4CD7A-2909-4CCE-8CBA-DDE3B04175D2}"
   DTS:VersionMajor="0">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
@@ -27,7 +27,7 @@
         DTS:Name="ConnectionString">@[User::strConnectionString]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140822\Staging.Activity.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140823\Staging.Activity.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -68,7 +68,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strConnectionString">
       <DTS:VariableValue
-        DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140822\Staging.Activity.xlsx;Extended Properties="EXCEL 12.0 XML;HDR=YES"</DTS:VariableValue>
+        DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140823\Staging.Activity.xlsx;Extended Properties="EXCEL 12.0 XML;HDR=YES"</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -107,7 +107,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="strExportTemplatePath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140822\Staging.Activity.xlsx</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140823\Staging.Activity.xlsx</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -122,14 +122,14 @@
       DTS:CreationName=""
       DTS:DTSID="{9962EE3C-89C6-41F6-AABF-4B2E324005BC}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="&quot;INSERT INTO OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                      , 'Excel 12.0;Database=&quot;+ @[User::strExportTemplatePath] +&quot;'&#xA;                      , 'select &quot;+ @[User::strExcelColumns] +&quot; from [Sheet1$]'&#xA;                      ) &quot; +  @[User::strSelect] + &quot; &quot; + @[User::strTableName] + &quot; AS p &quot; +  @[User::strJoin]"
+      DTS:Expression="&quot;INSERT INTO OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'&#xA;                      , 'Excel 12.0;Database=&quot;+ @[User::strExportTemplatePath] +&quot;'&#xA;                      , 'select &quot;+ @[User::strExcelColumns] +&quot; from [Sheet1$A2:XFD]'&#xA;                      ) &quot; +  @[User::strSelect] + &quot; &quot; + @[User::strTableName] + &quot; AS p &quot; +  @[User::strJoin]"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="strOPENROWSET">
       <DTS:VariableValue
         DTS:DataType="8">INSERT INTO OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
-                      , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140822\Staging.Activity.xlsx'
-                      , 'select Activity_ID,BusinessKey,ProjectBusinessKey,Code,LongName,ShortName,TextDescription from [Sheet1$]'
+                      , 'Excel 12.0;Database=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Export\20140823\Staging.Activity.xlsx'
+                      , 'select Activity_ID,BusinessKey,ProjectBusinessKey,Code,LongName,ShortName,TextDescription from [Sheet1$A2:XFD]'
                       ) SELECT [p].[Activity_ID],[p].[BusinessKey],[Project].[BusinessKey],[p].[Code],[p].[LongName],[p].[ShortName],[p].[TextDescription] FROM [app].[Activity] AS p JOIN [app].[Project] AS [Project] ON [p].[ProjectID] = [Project].[ProjectID]</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
@@ -306,12 +306,12 @@ SELECT @SQL AS JoinClause</DTS:VariableValue>
       DTS:CreationName=""
       DTS:DTSID="{268E9C10-BB5B-4885-8A7B-DA358F37AFE9}"
       DTS:EvaluateAsExpression="True"
-      DTS:Expression="REPLACE( &#xA;@[$Project::strStagingTemplatePath] + &quot;\\Staging.&quot;   + @[User::strExcelTableName]  + &quot;.xlsx&quot;&#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
+      DTS:Expression="REPLACE( &#xA;@[$Project::strStagingTemplatePath] + &quot;\\Templates\\Staging.&quot;   + @[User::strExcelTableName]  + &quot;.xlsx&quot;&#xA;, &quot;\\\\&quot;, &quot;\\&quot;)"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="strStagingTemplatePath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Staging.Activity.xlsx</DTS:VariableValue>
+        DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Staging.Activity.xlsx</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -561,6 +561,9 @@ Partial Public Class ScriptMain
 
 End Class]]></ProjectItem>
               <ProjectItem
+                Name="ST_7fba59782dbe4dbf81bda916a2271fb9.vbproj"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{844F36C0-48D3-4C4E-AE88-084F36F66F33}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>My Project</AppDesignerFolder><RootNamespace>ST_b99127b1183840c890e6dc75f72b9223</RootNamespace><AssemblyName>ST_7fba59782dbe4dbf81bda916a2271fb9</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>true</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>false</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><Import Include="Microsoft.VisualBasic" /><Import Include="System" /><Import Include="System.Collections" /><Import Include="System.Data" /><Import Include="System.Diagnostics" /><Import Include="System.Windows.Forms" /></ItemGroup><ItemGroup><AppDesigner Include="My Project\" /><Compile Include="My Project\AssemblyInfo.vb"><SubType>Code</SubType></Compile><EmbeddedResource Include="My Project\Resources.resx"><Generator>VbMyResourcesResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.vb</LastGenOutput><CustomToolNamespace>My.Resources</CustomToolNamespace></EmbeddedResource><Compile Include="My Project\Resources.Designer.vb"><AutoGen>True</AutoGen><DesignTime>True</DesignTime><DependentUpon>Resources.resx</DependentUpon><SubType>Code</SubType></Compile><None Include="My Project\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.vb</LastGenOutput></None><Compile Include="My Project\Settings.Designer.vb"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon><SubType>Code</SubType></Compile><Compile Include="ScriptMain.vb"><SubType>Code</SubType></Compile></ItemGroup><ItemGroup><COMReference Include="Microsoft.Office.Core"><Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid><VersionMajor>2</VersionMajor><VersionMinor>7</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="Microsoft.Office.Interop.Excel"><Guid>{00020813-0000-0000-C000-000000000046}</Guid><VersionMajor>1</VersionMajor><VersionMinor>8</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="VBIDE"><Guid>{0002E157-0000-0000-C000-000000000046}</Guid><VersionMajor>5</VersionMajor><VersionMinor>3</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference></ItemGroup><!-- Include the build rules for a VB project.--><Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="#HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir#\devenv.exe" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST110</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
+              <ProjectItem
                 Name="My Project\Settings.settings"
                 Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
 <SettingsFile xmlns="uri:settings" CurrentProfile="(Default)" GeneratedClassNamespace="$safeprojectname" GeneratedClassName="MySettings">
@@ -629,9 +632,6 @@ End Class]]></ProjectItem>
 		<msb:File Include="My Project\Settings.settings"/>
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
-              <ProjectItem
-                Name="ST_7fba59782dbe4dbf81bda916a2271fb9.vbproj"
-                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{844F36C0-48D3-4C4E-AE88-084F36F66F33}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>My Project</AppDesignerFolder><RootNamespace>ST_b99127b1183840c890e6dc75f72b9223</RootNamespace><AssemblyName>ST_7fba59782dbe4dbf81bda916a2271fb9</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>true</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>false</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><Import Include="Microsoft.VisualBasic" /><Import Include="System" /><Import Include="System.Collections" /><Import Include="System.Data" /><Import Include="System.Diagnostics" /><Import Include="System.Windows.Forms" /></ItemGroup><ItemGroup><AppDesigner Include="My Project\" /><Compile Include="My Project\AssemblyInfo.vb"><SubType>Code</SubType></Compile><EmbeddedResource Include="My Project\Resources.resx"><Generator>VbMyResourcesResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.vb</LastGenOutput><CustomToolNamespace>My.Resources</CustomToolNamespace></EmbeddedResource><Compile Include="My Project\Resources.Designer.vb"><AutoGen>True</AutoGen><DesignTime>True</DesignTime><DependentUpon>Resources.resx</DependentUpon><SubType>Code</SubType></Compile><None Include="My Project\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.vb</LastGenOutput></None><Compile Include="My Project\Settings.Designer.vb"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon><SubType>Code</SubType></Compile><Compile Include="ScriptMain.vb"><SubType>Code</SubType></Compile></ItemGroup><ItemGroup><COMReference Include="Microsoft.Office.Core"><Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid><VersionMajor>2</VersionMajor><VersionMinor>7</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="Microsoft.Office.Interop.Excel"><Guid>{00020813-0000-0000-C000-000000000046}</Guid><VersionMajor>1</VersionMajor><VersionMinor>8</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="VBIDE"><Guid>{0002E157-0000-0000-C000-000000000046}</Guid><VersionMajor>5</VersionMajor><VersionMinor>3</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference></ItemGroup><!-- Include the build rules for a VB project.--><Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="#HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir#\devenv.exe" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST110</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
               <ProjectItem
                 Name="My Project\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -1125,113 +1125,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
               Language="VisualBasic"
               ReadOnlyVariables="User::strExportTemplatePath">
               <ProjectItem
-                Name="My Project\AssemblyInfo.vb"
-                Encoding="UTF8"><![CDATA[Imports System
-Imports System.Reflection
-Imports System.Runtime.InteropServices
-
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-
-' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("ST_b99127b1183840c890e6dc75f72b9223")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("ST_b99127b1183840c890e6dc75f72b9223")> 
-<Assembly: AssemblyCopyright("Copyright @  2014")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: CLSCompliant(True)> 
-
-<Assembly: ComVisible(False)> 
-
-'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("a630bd7e-07ab-44b0-b3af-5e3c562311c1")> 
-
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-' You can specify all the values or you can default the Build and Revision Numbers 
-' by using the '*' as shown below:
-' <Assembly: AssemblyVersion("1.0.*")>
-
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> ]]></ProjectItem>
-              <ProjectItem
-                Name="My Project\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)" GeneratedClassNamespace="$safeprojectname" GeneratedClassName="MySettings">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
-              <ProjectItem
-                Name="Project"
-                Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
-<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
-	<msb:PropertyGroup>
-		<msb:ProjectId>{0BC600F8-81C6-49E6-9B00-7A9B7D3ED128}</msb:ProjectId>
-		<msb:Language>msBuild</msb:Language>
-		<msb:CodeName>ST_b99127b1183840c890e6dc75f72b9223</msb:CodeName>
-		<msb:DisplayName>ST_b99127b1183840c890e6dc75f72b9223</msb:DisplayName>
-	</msb:PropertyGroup>
-	<msb:ItemGroup>
-		<msb:Project Include="ST_bd888ccb359b48d39973e9d44f39ecc3.vbproj"/>
-		<msb:File Include="My Project\Settings.Designer.vb"/>
-		<msb:File Include="My Project\Resources.Designer.vb"/>
-		<msb:File Include="My Project\AssemblyInfo.vb"/>
-		<msb:File Include="ScriptMain.vb"/>
-		<msb:File Include="My Project\Resources.resx"/>
-		<msb:File Include="My Project\Settings.settings"/>
-	</msb:ItemGroup>
-</c:Project>]]></ProjectItem>
-              <ProjectItem
-                Name="My Project\Settings.Designer.vb"
-                Encoding="UTF8"><![CDATA['------------------------------------------------------------------------------
-' <autogenerated>
-'     This code was generated by a tool.
-'
-'     Changes to this file may cause incorrect behavior and will be lost if
-'     the code is regenerated.
-' </autogenerated>
-'------------------------------------------------------------------------------
-
-Option Strict Off
-Option Explicit On
-
-
-
-Partial Friend NotInheritable Class MySettings
-    Inherits System.Configuration.ApplicationSettingsBase
-
-    Private Shared m_Value As MySettings
-
-    Private Shared m_SyncObject As Object = New Object
-
-    <System.Diagnostics.DebuggerNonUserCode()> _
-    Public Shared ReadOnly Property Value() As MySettings
-        Get
-            If (MySettings.m_Value Is Nothing) Then
-                System.Threading.Monitor.Enter(MySettings.m_SyncObject)
-                If (MySettings.m_Value Is Nothing) Then
-                    Try
-                        MySettings.m_Value = New MySettings
-                    Finally
-                        System.Threading.Monitor.Exit(MySettings.m_SyncObject)
-                    End Try
-                End If
-            End If
-            Return MySettings.m_Value
-        End Get
-    End Property
-End Class]]></ProjectItem>
-              <ProjectItem
                 Name="ST_bd888ccb359b48d39973e9d44f39ecc3.vbproj"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{844F36C0-48D3-4C4E-AE88-084F36F66F33}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>My Project</AppDesignerFolder><RootNamespace>ST_b99127b1183840c890e6dc75f72b9223</RootNamespace><AssemblyName>ST_bd888ccb359b48d39973e9d44f39ecc3</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>true</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineDebug>false</DefineDebug><DefineTrace>true</DefineTrace><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><Import Include="Microsoft.VisualBasic" /><Import Include="System" /><Import Include="System.Collections" /><Import Include="System.Data" /><Import Include="System.Diagnostics" /><Import Include="System.Windows.Forms" /></ItemGroup><ItemGroup><AppDesigner Include="My Project\" /><Compile Include="My Project\AssemblyInfo.vb"><SubType>Code</SubType></Compile><EmbeddedResource Include="My Project\Resources.resx"><Generator>VbMyResourcesResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.vb</LastGenOutput><CustomToolNamespace>My.Resources</CustomToolNamespace></EmbeddedResource><Compile Include="My Project\Resources.Designer.vb"><AutoGen>True</AutoGen><DesignTime>True</DesignTime><DependentUpon>Resources.resx</DependentUpon><SubType>Code</SubType></Compile><None Include="My Project\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.vb</LastGenOutput></None><Compile Include="My Project\Settings.Designer.vb"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon><SubType>Code</SubType></Compile><Compile Include="ScriptMain.vb"><SubType>Code</SubType></Compile></ItemGroup><ItemGroup><COMReference Include="Microsoft.Office.Core"><Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid><VersionMajor>2</VersionMajor><VersionMinor>7</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="Microsoft.Office.Interop.Excel"><Guid>{00020813-0000-0000-C000-000000000046}</Guid><VersionMajor>1</VersionMajor><VersionMinor>8</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference><COMReference Include="VBIDE"><Guid>{0002E157-0000-0000-C000-000000000046}</Guid><VersionMajor>5</VersionMajor><VersionMinor>3</VersionMinor><Lcid>0</Lcid><WrapperTool>primary</WrapperTool><Isolated>False</Isolated><EmbedInteropTypes>True</EmbedInteropTypes></COMReference></ItemGroup><!-- Include the build rules for a VB project.--><Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="vb" TemplatesPath="" DebugInfoExeName="#HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir#\devenv.exe" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST110</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
               <ProjectItem
@@ -1385,6 +1278,113 @@ Partial Public Class ScriptMain
 #End Region
 
 End Class]]></ProjectItem>
+              <ProjectItem
+                Name="My Project\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)" GeneratedClassNamespace="$safeprojectname" GeneratedClassName="MySettings">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
+                Name="My Project\AssemblyInfo.vb"
+                Encoding="UTF8"><![CDATA[Imports System
+Imports System.Reflection
+Imports System.Runtime.InteropServices
+
+' General Information about an assembly is controlled through the following 
+' set of attributes. Change these attribute values to modify the information
+' associated with an assembly.
+
+' Review the values of the assembly attributes
+
+<Assembly: AssemblyTitle("ST_b99127b1183840c890e6dc75f72b9223")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("ST_b99127b1183840c890e6dc75f72b9223")> 
+<Assembly: AssemblyCopyright("Copyright @  2014")> 
+<Assembly: AssemblyTrademark("")> 
+<Assembly: CLSCompliant(True)> 
+
+<Assembly: ComVisible(False)> 
+
+'The following GUID is for the ID of the typelib if this project is exposed to COM
+<Assembly: Guid("a630bd7e-07ab-44b0-b3af-5e3c562311c1")> 
+
+' Version information for an assembly consists of the following four values:
+'
+'      Major Version
+'      Minor Version 
+'      Build Number
+'      Revision
+'
+' You can specify all the values or you can default the Build and Revision Numbers 
+' by using the '*' as shown below:
+' <Assembly: AssemblyVersion("1.0.*")>
+
+<Assembly: AssemblyVersion("1.0.0.0")> 
+<Assembly: AssemblyFileVersion("1.0.0.0")> ]]></ProjectItem>
+              <ProjectItem
+                Name="My Project\Settings.Designer.vb"
+                Encoding="UTF8"><![CDATA['------------------------------------------------------------------------------
+' <autogenerated>
+'     This code was generated by a tool.
+'
+'     Changes to this file may cause incorrect behavior and will be lost if
+'     the code is regenerated.
+' </autogenerated>
+'------------------------------------------------------------------------------
+
+Option Strict Off
+Option Explicit On
+
+
+
+Partial Friend NotInheritable Class MySettings
+    Inherits System.Configuration.ApplicationSettingsBase
+
+    Private Shared m_Value As MySettings
+
+    Private Shared m_SyncObject As Object = New Object
+
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Public Shared ReadOnly Property Value() As MySettings
+        Get
+            If (MySettings.m_Value Is Nothing) Then
+                System.Threading.Monitor.Enter(MySettings.m_SyncObject)
+                If (MySettings.m_Value Is Nothing) Then
+                    Try
+                        MySettings.m_Value = New MySettings
+                    Finally
+                        System.Threading.Monitor.Exit(MySettings.m_SyncObject)
+                    End Try
+                End If
+            End If
+            Return MySettings.m_Value
+        End Get
+    End Property
+End Class]]></ProjectItem>
+              <ProjectItem
+                Name="Project"
+                Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:ProjectId>{0BC600F8-81C6-49E6-9B00-7A9B7D3ED128}</msb:ProjectId>
+		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>ST_b99127b1183840c890e6dc75f72b9223</msb:CodeName>
+		<msb:DisplayName>ST_b99127b1183840c890e6dc75f72b9223</msb:DisplayName>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="ST_bd888ccb359b48d39973e9d44f39ecc3.vbproj"/>
+		<msb:File Include="My Project\Settings.Designer.vb"/>
+		<msb:File Include="My Project\Resources.Designer.vb"/>
+		<msb:File Include="My Project\AssemblyInfo.vb"/>
+		<msb:File Include="ScriptMain.vb"/>
+		<msb:File Include="My Project\Resources.resx"/>
+		<msb:File Include="My Project\Settings.settings"/>
+	</msb:ItemGroup>
+</c:Project>]]></ProjectItem>
               <ProjectItem
                 Name="My Project\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
