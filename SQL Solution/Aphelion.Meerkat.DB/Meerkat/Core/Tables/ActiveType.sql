@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[ActiveType] (
+CREATE TABLE [Core].[ActiveType] (
     [ID]             INT            NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ActiveType';
 

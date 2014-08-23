@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[IndicatorLocation] (
+CREATE TABLE [app].[IndicatorLocation] (
     [IndicatorLocation_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Location_ID]          INT           NULL,
     [Indicator_ID]         INT           NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorLocation';
 

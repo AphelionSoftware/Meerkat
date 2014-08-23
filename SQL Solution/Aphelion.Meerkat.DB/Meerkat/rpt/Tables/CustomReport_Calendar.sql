@@ -1,4 +1,4 @@
-﻿CREATE TABLE [rpt].[CustomReport_Calendar] (
+CREATE TABLE [rpt].[CustomReport_Calendar] (
     [CustomReport_Calendar_ID] INT           IDENTITY (1, 1) NOT NULL,
     [CustomReport_ID]          INT           NULL,
     [Active]                   INT           CONSTRAINT [DF__CustomRep__Activ__0A7378A9] DEFAULT ((1)) NOT NULL,
@@ -20,6 +20,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Calendar';
 

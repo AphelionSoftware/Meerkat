@@ -33,6 +33,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'Indicator', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'ShortName';
 
@@ -52,4 +54,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_SubSector_BusinessKey]
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
 

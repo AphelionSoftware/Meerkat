@@ -1,4 +1,4 @@
-﻿CREATE TABLE [rpt].[DonorReport_Indicator] (
+CREATE TABLE [rpt].[DonorReport_Indicator] (
     [DonorReport_Indicator_ID] INT           IDENTITY (1, 1) NOT NULL,
     [DonorReportID]            INT           NULL,
     [IndicatorID]              INT           NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport_Indicator';
 

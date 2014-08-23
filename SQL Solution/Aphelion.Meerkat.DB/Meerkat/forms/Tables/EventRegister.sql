@@ -1,4 +1,4 @@
-﻿CREATE TABLE [forms].[EventRegister] (
+CREATE TABLE [forms].[EventRegister] (
     [EventRegister_ID]     INT           IDENTITY (1, 1) NOT NULL,
     [Event_ID]             INT           NOT NULL,
     [FirstName]            VARCHAR (255) NULL,
@@ -30,6 +30,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'EventRegister';
 

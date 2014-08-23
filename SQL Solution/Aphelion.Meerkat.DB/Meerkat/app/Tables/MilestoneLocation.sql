@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[MilestoneLocation] (
+CREATE TABLE [app].[MilestoneLocation] (
     [MilestoneLocation_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Location_ID]          INT           NOT NULL,
     [MilestoneID]          INT           NOT NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneLocation';
 

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[OutputOutputLink] (
+CREATE TABLE [app].[OutputOutputLink] (
     [OutputOutputLink_ID] INT           IDENTITY (1, 1) NOT NULL,
     [PrimaryOutput_ID]    INT           NOT NULL,
     [SecondaryOutput_ID]  INT           NOT NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputOutputLink';
 

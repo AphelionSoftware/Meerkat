@@ -1,4 +1,4 @@
-﻿CREATE TABLE [forms].[Event_Indicator_Rollup] (
+CREATE TABLE [forms].[Event_Indicator_Rollup] (
     [Event_Indicator_RollupID] INT           IDENTITY (1, 1) NOT NULL,
     [Event_ID]                 INT           NOT NULL,
     [Indicator_ID]             INT           NOT NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event_Indicator_Rollup';
 

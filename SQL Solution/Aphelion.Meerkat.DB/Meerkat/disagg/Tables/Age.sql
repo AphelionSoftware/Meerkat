@@ -1,4 +1,4 @@
-﻿CREATE TABLE [disagg].[Age] (
+CREATE TABLE [disagg].[Age] (
     [Age_ID]         INT           IDENTITY (1, 1) NOT NULL,
     [Active]         INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255) CONSTRAINT [DF_Age_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -14,6 +14,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Age';
 

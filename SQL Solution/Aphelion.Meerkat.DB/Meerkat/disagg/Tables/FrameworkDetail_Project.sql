@@ -1,4 +1,4 @@
-﻿CREATE TABLE [disagg].[FrameworkDetail_Project] (
+CREATE TABLE [disagg].[FrameworkDetail_Project] (
     [FrameworkDetail_Project_ID] INT           IDENTITY (1, 1) NOT NULL,
     [FrameworkDetail_ID]         INT           NULL,
     [ProjectID]                  INT           NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail_Project';
 

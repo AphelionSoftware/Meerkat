@@ -18,7 +18,7 @@
     [sys_ModifiedOn]      DATETIME       CONSTRAINT [DF_Project_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [ProjectStartDate]    DATETIME       CONSTRAINT [DF__Project__Project__6ADAD1BF] DEFAULT (getdate()) NOT NULL,
     [ProjectStartDate_ID] AS             (CONVERT([int],CONVERT([varchar](8),[ProjectStartDate],(112)))),
-    [ProjectType_ID]      INT            CONSTRAINT [DF_Project_ProjectType_ID] DEFAULT ((2)) NOT NULL,
+    [ProjectType_ID]      INT            CONSTRAINT [DF_Project_ProjectType_ID] DEFAULT ((2)) NULL,
     [LocalShortName]      NVARCHAR (50)  NULL,
     [LocalLongName]       NVARCHAR (500) NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
@@ -30,6 +30,8 @@
     CONSTRAINT [FK_Project_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
@@ -89,4 +91,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_Project_BusinessKey]
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project';
 

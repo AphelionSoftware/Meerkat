@@ -1,4 +1,4 @@
-﻿CREATE TABLE [forms].[Form] (
+CREATE TABLE [forms].[Form] (
     [Form_ID]           INT            IDENTITY (1, 1) NOT NULL,
     [Name]              VARCHAR (255)  NOT NULL,
     [Code]              VARCHAR (50)   NOT NULL,
@@ -48,6 +48,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Form';
 

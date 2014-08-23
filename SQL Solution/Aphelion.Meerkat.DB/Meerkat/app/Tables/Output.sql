@@ -32,6 +32,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Output_BusinessKey]
     ON [app].[Output]([BusinessKey] ASC) WHERE ([Active]>=(0));
@@ -39,4 +41,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_Output_BusinessKey]
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Output', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Output';
 

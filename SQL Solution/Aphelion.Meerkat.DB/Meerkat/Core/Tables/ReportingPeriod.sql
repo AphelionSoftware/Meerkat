@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[ReportingPeriod] (
+﻿CREATE TABLE [Core].[ReportingPeriod] (
     [ID]              INT            IDENTITY (1, 1) NOT NULL,
     [ReportingPeriod] INT            NOT NULL,
     [StartDateID]     INT            NOT NULL,
@@ -30,6 +30,12 @@ CREATE TABLE [Core].[ReportingPeriod] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ReportingPeriod';
 

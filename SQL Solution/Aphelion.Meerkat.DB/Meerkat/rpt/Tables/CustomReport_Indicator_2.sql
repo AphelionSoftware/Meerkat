@@ -1,4 +1,4 @@
-﻿CREATE TABLE [rpt].[CustomReport_Indicator] (
+CREATE TABLE [rpt].[CustomReport_Indicator] (
     [CustomReport_Indicator_ID] INT           IDENTITY (1, 1) NOT NULL,
     [CustomReport_ID]           INT           NULL,
     [IndicatorID]               INT           NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Indicator';
 

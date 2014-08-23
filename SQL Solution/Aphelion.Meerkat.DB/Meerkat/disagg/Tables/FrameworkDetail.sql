@@ -26,6 +26,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_FrameworkDetail_BusinessKey]
     ON [disagg].[FrameworkDetail]([BusinessKey] ASC) WHERE ([Active]>=(0));
@@ -33,4 +35,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_FrameworkDetail_BusinessKey]
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail';
 

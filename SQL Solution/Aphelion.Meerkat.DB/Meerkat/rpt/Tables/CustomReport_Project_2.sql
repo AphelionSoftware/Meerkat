@@ -1,4 +1,4 @@
-﻿CREATE TABLE [rpt].[CustomReport_Project] (
+CREATE TABLE [rpt].[CustomReport_Project] (
     [CustomReport_Project_ID] INT           IDENTITY (1, 1) NOT NULL,
     [CustomReport_ID]         INT           NULL,
     [ProjectID]               INT           NULL,
@@ -18,6 +18,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Project';
 

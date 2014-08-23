@@ -48,6 +48,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'CoalesceFieldsInView', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
 
@@ -85,4 +87,8 @@ EXECUTE sp_addextendedproperty @name = N'ExtendedProperties', @value = N'true', 
 
 
 
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
 

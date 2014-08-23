@@ -1,4 +1,4 @@
-CREATE TABLE [RBM].[StatusValues] (
+﻿CREATE TABLE [RBM].[StatusValues] (
     [StatusValuesID]    INT            IDENTITY (1, 1) NOT NULL,
     [Output_ID]         INT            NULL,
     [Outcome_ID]        INT            NULL,
@@ -38,6 +38,8 @@ CREATE TABLE [RBM].[StatusValues] (
     CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_StatusValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
@@ -115,4 +117,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @lev
 
 GO
 EXECUTE sp_addextendedproperty @name = N'AddtionalProperties2', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship02'', @value=N''IndicatorByProjectSector[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''StatusValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
 

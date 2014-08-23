@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[DimMunicipalityGEOM] (
+CREATE TABLE [Core].[DimMunicipalityGEOM] (
     [PK_ID]          INT               IDENTITY (1, 1) NOT NULL,
     [ID]             BIGINT            NULL,
     [LBL]            NVARCHAR (255)    NULL,
@@ -27,6 +27,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM';
 

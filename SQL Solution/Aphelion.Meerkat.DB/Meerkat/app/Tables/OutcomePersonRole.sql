@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[OutcomePersonRole] (
+CREATE TABLE [app].[OutcomePersonRole] (
     [OutcomePersonRole_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Outcome_ID]           INT           NULL,
     [Person_ID]            INT           NULL,
@@ -20,6 +20,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutcomePersonRole';
 
