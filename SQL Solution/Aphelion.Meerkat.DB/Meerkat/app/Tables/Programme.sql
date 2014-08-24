@@ -13,10 +13,11 @@
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_Programme_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalLongName]     NVARCHAR (500) NULL,
     [LocalShortName]    NVARCHAR (50)  NULL,
-    [Export]            BIT            NOT NULL,
     CONSTRAINT [PK_Programme_1] PRIMARY KEY CLUSTERED ([Programme_ID] ASC),
     CONSTRAINT [FK_Programme_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 
@@ -69,5 +70,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Programme', @level2type = N'COLUMN', @level2name = N'Export';
+
 

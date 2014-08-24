@@ -7,7 +7,6 @@
     [sys_CreatedOn]             DATETIME      CONSTRAINT [DF_SubOutputSubOutputLink_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]            VARCHAR (255) CONSTRAINT [DF_SubOutputSubOutputLink_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]            DATETIME      CONSTRAINT [DF_SubOutputSubOutputLink_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]                    BIT           NOT NULL,
     CONSTRAINT [PK_SubOutputSubOutputLink] PRIMARY KEY CLUSTERED ([SubOutputSubOutputLink_ID] ASC),
     CONSTRAINT [FK_SubOutputSubOutputLink_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput] FOREIGN KEY ([PrimarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
@@ -52,9 +51,15 @@ ALTER TABLE [app].[SubOutputSubOutputLink] NOCHECK CONSTRAINT [FK_SubOutputSubOu
 
 
 GO
+ALTER TABLE [app].[SubOutputSubOutputLink] NOCHECK CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput1];
+
+
+
+
+GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutputSubOutputLink';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutputSubOutputLink', @level2type = N'COLUMN', @level2name = N'Export';
+
 

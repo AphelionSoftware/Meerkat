@@ -10,11 +10,12 @@
     [ReportDeadlineStartDate]  DATE          NOT NULL,
     [ReportWarningStartDate]   DATE          NOT NULL,
     [ReportNoticeStartDate]    DATE          NOT NULL,
-    [Export]                   BIT           NOT NULL,
     CONSTRAINT [PK_CustomReport_Calendar] PRIMARY KEY CLUSTERED ([CustomReport_Calendar_ID] ASC),
     CONSTRAINT [FK_CustomReport_Calendar_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_CustomReport_Calendar_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID])
 );
+
+
 
 
 
@@ -32,5 +33,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Calendar', @level2type = N'COLUMN', @level2name = N'Export';
+
 

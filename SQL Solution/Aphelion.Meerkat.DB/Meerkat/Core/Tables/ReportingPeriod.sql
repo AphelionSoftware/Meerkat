@@ -15,12 +15,13 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_ReportingPeriod_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [Summary]         VARCHAR (50)   NOT NULL,
     [LocalYearName]   NVARCHAR (4)   NULL,
-    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     UNIQUE NONCLUSTERED ([EndDateID] ASC),
     UNIQUE NONCLUSTERED ([StartDateID] ASC)
 );
+
+
 
 
 
@@ -46,5 +47,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ReportingPeriod', @level2type = N'COLUMN', @level2name = N'Export';
+
 

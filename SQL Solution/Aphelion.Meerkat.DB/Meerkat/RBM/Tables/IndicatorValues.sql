@@ -25,7 +25,6 @@
     [Institution_ID]      INT              NULL,
     [ResultArea_ID]       INT              NULL,
     [StrategicElement_ID] INT              NULL,
-    [Export]              BIT              NOT NULL,
     CONSTRAINT [PK_IndicatorValues] PRIMARY KEY CLUSTERED ([IndicatorValues_ID] ASC),
     CONSTRAINT [FK_IndicatorValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_IndicatorValues_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -44,6 +43,8 @@
     CONSTRAINT [FK_IndicatorValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [UQ_IDS] UNIQUE NONCLUSTERED ([Indicator_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC, [AgeBand_ID] ASC, [CommunityType_ID] ASC, [Donor_ID] ASC, [Framework_ID] ASC, [Gender_ID] ASC, [Group_ID] ASC, [Institution_ID] ASC, [ResultArea_ID] ASC, [StrategicElement_ID] ASC)
 );
+
+
 
 
 
@@ -119,5 +120,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'Export';
+
 

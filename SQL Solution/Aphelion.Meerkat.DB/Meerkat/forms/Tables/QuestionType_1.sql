@@ -9,11 +9,12 @@
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_QuestionType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_QuestionType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]       NVARCHAR (255) NULL,
-    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_QuestionType_3] PRIMARY KEY CLUSTERED ([QuestionType_ID] ASC),
     CONSTRAINT [FK_QuestionType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ__Question__A25C5AA73ACB3951] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -33,5 +34,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'QuestionType', @level2type = N'COLUMN', @level2name = N'Export';
+
 

@@ -10,11 +10,12 @@
     [sys_ModifiedBy]       VARCHAR (255)  CONSTRAINT [DF_Framework_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME       CONSTRAINT [DF_Framework_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]            NVARCHAR (255) NULL,
-    [Export]               BIT            NOT NULL,
     CONSTRAINT [PK_Framework] PRIMARY KEY CLUSTERED ([Framework_ID] ASC),
     CONSTRAINT [FK_Framework_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Framework_Organization] FOREIGN KEY ([SourceOrganizationID]) REFERENCES [Core].[Organization] ([Organization_ID])
 );
+
+
 
 
 
@@ -45,5 +46,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Framework', @level2type = N'COLUMN', @level2name = N'Export';
+
 

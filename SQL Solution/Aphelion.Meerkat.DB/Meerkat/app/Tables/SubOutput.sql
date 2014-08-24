@@ -13,12 +13,13 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_SubOutput_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
-    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_SubOutput] PRIMARY KEY CLUSTERED ([SubOutput_ID] ASC),
     CONSTRAINT [FK_SubOutput_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubOutput_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [UQ_SubOutput_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -59,5 +60,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutput', @level2type = N'COLUMN', @level2name = N'Export';
+
 

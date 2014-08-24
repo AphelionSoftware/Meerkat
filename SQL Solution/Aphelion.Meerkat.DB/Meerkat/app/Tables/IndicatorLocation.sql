@@ -7,7 +7,6 @@
     [sys_CreatedOn]        DATETIME      CONSTRAINT [DF_IndicatorLocation_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]       VARCHAR (255) CONSTRAINT [DF_IndicatorLocation_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME      CONSTRAINT [DF_IndicatorLocation_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]               BIT           NOT NULL,
     CONSTRAINT [PK_IndicatorLocation] PRIMARY KEY CLUSTERED ([IndicatorLocation_ID] ASC),
     CONSTRAINT [FK_IndicatorLocation_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_IndicatorLocation_Indicator] FOREIGN KEY ([Indicator_ID]) REFERENCES [app].[Indicator] ([IndicatorID]),
@@ -25,10 +24,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorLocation';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorLocation', @level2type = N'COLUMN', @level2name = N'Export';
+
 

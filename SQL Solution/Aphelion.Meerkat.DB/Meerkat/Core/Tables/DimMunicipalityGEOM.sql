@@ -18,10 +18,11 @@
     [sys_CreatedOn]  DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)     CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]         BIT               NOT NULL,
     CONSTRAINT [PK_DimMuicipalityGEOM] PRIMARY KEY CLUSTERED ([PK_ID] ASC),
     CONSTRAINT [enforce_srid_geometry_DimMunicipalityGEOM] CHECK ([geom].[STSrid]=(4326))
 );
+
+
 
 
 
@@ -39,5 +40,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM', @level2type = N'COLUMN', @level2name = N'Export';
+
 
