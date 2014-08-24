@@ -13,11 +13,14 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Activity_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
+    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Activity] PRIMARY KEY CLUSTERED ([Activity_ID] ASC),
     CONSTRAINT [FK_Activity_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ_Activity_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -91,4 +94,8 @@ EXECUTE sp_addextendedproperty @name = N'ExtendedProperties', @value = N'true', 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity', @level2type = N'COLUMN', @level2name = N'Export';
 

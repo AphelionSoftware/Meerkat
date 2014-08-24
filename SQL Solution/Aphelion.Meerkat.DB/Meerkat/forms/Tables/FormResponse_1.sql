@@ -1,4 +1,4 @@
-CREATE TABLE [forms].[FormResponse] (
+﻿CREATE TABLE [forms].[FormResponse] (
     [FormResponse_ID]    INT           IDENTITY (1, 1) NOT NULL,
     [Text]               VARCHAR (MAX) NULL,
     [TrueFalse]          BIT           NULL,
@@ -17,6 +17,7 @@ CREATE TABLE [forms].[FormResponse] (
     [Gender_ID]          INT           NULL,
     [Group_ID]           INT           NULL,
     [Institution_ID]     INT           NULL,
+    [Export]             BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_FormResponse_3] PRIMARY KEY CLUSTERED ([FormResponse_ID] ASC),
     CONSTRAINT [FK_FormResponse_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_FormResponse_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -44,6 +45,12 @@ CREATE TABLE [forms].[FormResponse] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'FormResponse';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'FormResponse', @level2type = N'COLUMN', @level2name = N'Export';
 

@@ -1,4 +1,4 @@
-CREATE TABLE [rpt].[CustomReport_Calendar] (
+﻿CREATE TABLE [rpt].[CustomReport_Calendar] (
     [CustomReport_Calendar_ID] INT           IDENTITY (1, 1) NOT NULL,
     [CustomReport_ID]          INT           NULL,
     [Active]                   INT           CONSTRAINT [DF__CustomRep__Activ__0A7378A9] DEFAULT ((1)) NOT NULL,
@@ -10,6 +10,7 @@ CREATE TABLE [rpt].[CustomReport_Calendar] (
     [ReportDeadlineStartDate]  DATE          NOT NULL,
     [ReportWarningStartDate]   DATE          NOT NULL,
     [ReportNoticeStartDate]    DATE          NOT NULL,
+    [Export]                   BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_CustomReport_Calendar] PRIMARY KEY CLUSTERED ([CustomReport_Calendar_ID] ASC),
     CONSTRAINT [FK_CustomReport_Calendar_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_CustomReport_Calendar_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID])
@@ -22,6 +23,12 @@ CREATE TABLE [rpt].[CustomReport_Calendar] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Calendar';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Calendar', @level2type = N'COLUMN', @level2name = N'Export';
 

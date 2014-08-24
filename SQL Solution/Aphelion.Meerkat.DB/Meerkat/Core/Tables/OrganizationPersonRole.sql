@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[OrganizationPersonRole] (
+﻿CREATE TABLE [Core].[OrganizationPersonRole] (
     [OrganizationPersonRole_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Person_ID]                 INT           NULL,
     [Role_ID]                   INT           NULL,
@@ -10,6 +10,7 @@ CREATE TABLE [Core].[OrganizationPersonRole] (
     [sys_CreatedOn]             DATETIME      CONSTRAINT [DF_OrganizationPersonRole_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]            VARCHAR (255) CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]            DATETIME      CONSTRAINT [DF_OrganizationPersonRole_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Export]                    BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_OrganizationPersonRole] PRIMARY KEY CLUSTERED ([OrganizationPersonRole_ID] ASC),
     CONSTRAINT [FK_OrganizationPersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_OrganizationPersonRole_Organization] FOREIGN KEY ([Organization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
@@ -24,6 +25,12 @@ CREATE TABLE [Core].[OrganizationPersonRole] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'OrganizationPersonRole';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'OrganizationPersonRole', @level2type = N'COLUMN', @level2name = N'Export';
 

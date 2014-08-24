@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[DimMunicipalityGEOM] (
+﻿CREATE TABLE [Core].[DimMunicipalityGEOM] (
     [PK_ID]          INT               IDENTITY (1, 1) NOT NULL,
     [ID]             BIGINT            NULL,
     [LBL]            NVARCHAR (255)    NULL,
@@ -18,6 +18,7 @@ CREATE TABLE [Core].[DimMunicipalityGEOM] (
     [sys_CreatedOn]  DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)     CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Export]         BIT               DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_DimMuicipalityGEOM] PRIMARY KEY CLUSTERED ([PK_ID] ASC),
     CONSTRAINT [enforce_srid_geometry_DimMunicipalityGEOM] CHECK ([geom].[STSrid]=(4326))
 );
@@ -29,6 +30,12 @@ CREATE TABLE [Core].[DimMunicipalityGEOM] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM', @level2type = N'COLUMN', @level2name = N'Export';
 

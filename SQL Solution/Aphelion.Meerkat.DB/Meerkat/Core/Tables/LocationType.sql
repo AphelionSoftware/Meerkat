@@ -10,11 +10,14 @@
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_LocationType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_LocationType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]       NVARCHAR (255) NULL,
+    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_LocationType] PRIMARY KEY CLUSTERED ([LocationType_ID] ASC),
     CONSTRAINT [FK_LocationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_LocationType_Code] UNIQUE NONCLUSTERED ([Code] ASC),
     CONSTRAINT [UQ_LocationType_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
+
+
 
 
 
@@ -39,4 +42,8 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'LocationType';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'LocationType', @level2type = N'COLUMN', @level2name = N'Export';
 

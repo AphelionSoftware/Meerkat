@@ -13,10 +13,13 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Sector_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
+    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Sector_] PRIMARY KEY CLUSTERED ([Sector_ID] ASC),
     CONSTRAINT [FK_Sector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Sector_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID])
 );
+
+
 
 
 
@@ -240,4 +243,8 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'Export';
 

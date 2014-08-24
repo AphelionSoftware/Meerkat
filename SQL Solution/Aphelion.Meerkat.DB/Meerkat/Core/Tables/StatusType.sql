@@ -10,10 +10,13 @@
     [sys_ModifiedOn] DATETIME        CONSTRAINT [DF_StatusType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [Active]         INT             CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) NOT NULL,
     [LocalName]      NVARCHAR (255)  NULL,
+    [Export]         BIT             DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_StatusType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_StatusType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_StatusType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -41,4 +44,8 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType', @level2type = N'COLUMN', @level2name = N'Export';
 

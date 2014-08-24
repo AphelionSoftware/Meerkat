@@ -1,4 +1,4 @@
-CREATE TABLE [RBM].[PeopleReachedValues] (
+﻿CREATE TABLE [RBM].[PeopleReachedValues] (
     [PeopleReachedValuesID]        INT            IDENTITY (1, 1) NOT NULL,
     [Outcome_ID]                   INT            NULL,
     [Output_ID]                    INT            NULL,
@@ -29,6 +29,7 @@ CREATE TABLE [RBM].[PeopleReachedValues] (
     [ResultArea_ID]                INT            NULL,
     [StrategicElement_ID]          INT            NULL,
     [NumberReached]                INT            NOT NULL,
+    [Export]                       BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC),
     CONSTRAINT [CK_PeopleReachedValues] CHECK ((((((((case when [Outcome_ID] IS NULL then (0) else (1) end+case when [Output_ID] IS NULL then (0) else (1) end)+case when [SubOutput_ID] IS NULL then (0) else (1) end)+case when [Programme_ID] IS NULL then (0) else (1) end)+case when [Sector_ID] IS NULL then (0) else (1) end)+case when [SubSector_ID] IS NULL then (0) else (1) end)+case when [ProjectID] IS NULL then (0) else (1) end)+case when [Activity_ID] IS NULL then (0) else (1) end)=(1)),
     CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -55,6 +56,8 @@ CREATE TABLE [RBM].[PeopleReachedValues] (
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
@@ -126,4 +129,8 @@ GO
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'Export';
 

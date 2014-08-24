@@ -1,4 +1,4 @@
-CREATE TABLE [forms].[Response] (
+﻿CREATE TABLE [forms].[Response] (
     [Response_ID]          INT              IDENTITY (1, 1) NOT NULL,
     [FormResponse_ID]      INT              NOT NULL,
     [Question_ID]          INT              NOT NULL,
@@ -13,6 +13,7 @@ CREATE TABLE [forms].[Response] (
     [sys_ModifiedBy]       VARCHAR (255)    CONSTRAINT [DF_Response_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME         CONSTRAINT [DF_Response_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [FormResponse_FNVID]   BIGINT           DEFAULT ((0)) NOT NULL,
+    [Export]               BIT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Response] PRIMARY KEY CLUSTERED ([Response_ID] ASC),
     CONSTRAINT [FK_Response_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Response_FormResponse] FOREIGN KEY ([FormResponse_ID]) REFERENCES [forms].[FormResponse] ([FormResponse_ID]),
@@ -30,6 +31,12 @@ CREATE TABLE [forms].[Response] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'9', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Response';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Response', @level2type = N'COLUMN', @level2name = N'Export';
 

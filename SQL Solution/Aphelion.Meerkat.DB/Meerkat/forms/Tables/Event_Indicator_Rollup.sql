@@ -1,4 +1,4 @@
-CREATE TABLE [forms].[Event_Indicator_Rollup] (
+﻿CREATE TABLE [forms].[Event_Indicator_Rollup] (
     [Event_Indicator_RollupID] INT           IDENTITY (1, 1) NOT NULL,
     [Event_ID]                 INT           NOT NULL,
     [Indicator_ID]             INT           NOT NULL,
@@ -7,6 +7,7 @@ CREATE TABLE [forms].[Event_Indicator_Rollup] (
     [sys_CreatedOn]            DATETIME      CONSTRAINT [DF_Event_Indicator_Rollup_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]           VARCHAR (255) CONSTRAINT [DF_Event_Indicator_Rollup_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]           DATETIME      CONSTRAINT [DF_Event_Indicator_Rollup_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Export]                   BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Event_Indicator_Rollup_3] PRIMARY KEY CLUSTERED ([Event_Indicator_RollupID] ASC),
     CONSTRAINT [FK_Event_Indicator_Rollup_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Event_Indicator_Rollup_Event] FOREIGN KEY ([Event_ID]) REFERENCES [forms].[Event] ([Event_ID]),
@@ -20,6 +21,12 @@ CREATE TABLE [forms].[Event_Indicator_Rollup] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event_Indicator_Rollup';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event_Indicator_Rollup', @level2type = N'COLUMN', @level2name = N'Export';
 

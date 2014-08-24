@@ -1,4 +1,4 @@
-CREATE TABLE [app].[MilestoneLocation] (
+﻿CREATE TABLE [app].[MilestoneLocation] (
     [MilestoneLocation_ID] INT           IDENTITY (1, 1) NOT NULL,
     [Location_ID]          INT           NOT NULL,
     [MilestoneID]          INT           NOT NULL,
@@ -7,6 +7,7 @@ CREATE TABLE [app].[MilestoneLocation] (
     [sys_CreatedOn]        DATETIME      CONSTRAINT [DF_MilestoneLocation_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]       VARCHAR (255) CONSTRAINT [DF_MilestoneLocation_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME      CONSTRAINT [DF_MilestoneLocation_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Export]               BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_MilestoneLocation] PRIMARY KEY CLUSTERED ([MilestoneLocation_ID] ASC),
     CONSTRAINT [FK_MilestoneLocation_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_MilestoneLocation_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
@@ -20,6 +21,12 @@ CREATE TABLE [app].[MilestoneLocation] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneLocation';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneLocation', @level2type = N'COLUMN', @level2name = N'Export';
 

@@ -11,6 +11,7 @@
     [sys_ModifiedBy]       VARCHAR (255)  CONSTRAINT [DF_PotentialResponse_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME       CONSTRAINT [DF_PotentialResponse_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]            NVARCHAR (255) NULL,
+    [Export]               BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_PotentialResponse_3] PRIMARY KEY CLUSTERED ([PotentialResponse_ID] ASC),
     CONSTRAINT [FK_PotentialResponse_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_PotentialResponse_Question] FOREIGN KEY ([Question_ID]) REFERENCES [forms].[Question] ([Question_ID])
@@ -23,4 +24,10 @@
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'PotentialResponse', @level2type = N'COLUMN', @level2name = N'Export';
 

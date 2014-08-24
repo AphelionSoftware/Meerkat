@@ -1,4 +1,4 @@
-CREATE TABLE [Core].[ActiveType] (
+﻿CREATE TABLE [Core].[ActiveType] (
     [ID]             INT            NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NULL,
@@ -7,6 +7,7 @@ CREATE TABLE [Core].[ActiveType] (
     [sys_ModifiedBy] VARCHAR (255)  CONSTRAINT [DF_ActiveType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME       CONSTRAINT [DF_ActiveType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]      NVARCHAR (255) NULL,
+    [Export]         BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_ActiveType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [UQ_ActiveType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
@@ -20,6 +21,12 @@ CREATE TABLE [Core].[ActiveType] (
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ActiveType';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ActiveType', @level2type = N'COLUMN', @level2name = N'Export';
 

@@ -13,12 +13,15 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_AgeBand_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [ProjectID]       INT            NULL,
     [LocalName]       NVARCHAR (255) NULL,
+    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_AgeBand_] PRIMARY KEY CLUSTERED ([AgeBand_ID] ASC),
     CONSTRAINT [FK_AgeBand_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_AgeBand_Age] FOREIGN KEY ([AgeBandMin_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_AgeBand_Age1] FOREIGN KEY ([AgeBandMax_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_AgeBand_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
 
 
 
@@ -44,4 +47,8 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'AgeBand';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'Export';
 

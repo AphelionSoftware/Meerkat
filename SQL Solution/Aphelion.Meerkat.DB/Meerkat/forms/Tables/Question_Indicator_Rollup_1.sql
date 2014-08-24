@@ -8,6 +8,7 @@
     [sys_CreatedOn]               DATETIME      CONSTRAINT [DF_Question_Indicator_Rollup_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]              VARCHAR (255) CONSTRAINT [DF_Question_Indicator_Rollup_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]              DATETIME      CONSTRAINT [DF_Question_Indicator_Rollup_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Export]                      BIT           DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Question_Indicator_Rollup_3] PRIMARY KEY CLUSTERED ([Question_Indicator_RollupID] ASC),
     CONSTRAINT [FK_Question_Indicator_Rollup_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup] FOREIGN KEY ([Indicator_ID]) REFERENCES [app].[Indicator] ([IndicatorID]),
@@ -18,4 +19,10 @@
 
 
 
+
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question_Indicator_Rollup', @level2type = N'COLUMN', @level2name = N'Export';
 
