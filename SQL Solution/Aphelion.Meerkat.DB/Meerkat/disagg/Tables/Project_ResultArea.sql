@@ -7,12 +7,14 @@
     [sys_CreatedOn]         DATETIME      CONSTRAINT [DF_Project_ResultArea_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]        VARCHAR (255) CONSTRAINT [DF_Project_ResultArea_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]        DATETIME      CONSTRAINT [DF_Project_ResultArea_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]                BIT           DEFAULT ((0)) NOT NULL,
+    [Export]                BIT           NOT NULL,
     CONSTRAINT [PK_ProjectResultArea] PRIMARY KEY CLUSTERED ([Project_ResultArea_ID] ASC),
     CONSTRAINT [FK_Project_ResultArea_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Project_ResultArea_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Project_ResultArea_ResultArea] FOREIGN KEY ([ResultAreaID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID])
 );
+
+
 
 
 

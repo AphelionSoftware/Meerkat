@@ -9,10 +9,12 @@
     [sys_ModifiedBy] VARCHAR (255)  CONSTRAINT [DF_Institution_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME       CONSTRAINT [DF_Institution_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]      NVARCHAR (255) NULL,
-    [Export]         BIT            DEFAULT ((0)) NOT NULL,
+    [Export]         BIT            NOT NULL,
     CONSTRAINT [PK_Institution] PRIMARY KEY CLUSTERED ([Institution_ID] ASC),
     CONSTRAINT [FK_Institution_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

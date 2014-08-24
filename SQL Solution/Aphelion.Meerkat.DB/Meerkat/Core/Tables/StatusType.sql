@@ -10,11 +10,13 @@
     [sys_ModifiedOn] DATETIME        CONSTRAINT [DF_StatusType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [Active]         INT             CONSTRAINT [DF_StatusType_Active] DEFAULT ((1)) NOT NULL,
     [LocalName]      NVARCHAR (255)  NULL,
-    [Export]         BIT             DEFAULT ((0)) NOT NULL,
+    [Export]         BIT             NOT NULL,
     CONSTRAINT [PK_StatusType] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_StatusType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_StatusType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

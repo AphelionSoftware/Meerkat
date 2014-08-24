@@ -18,7 +18,6 @@
     [sys_ModifiedOn]          DATETIME       CONSTRAINT [DF_Event_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [EventDate_ID]            AS             (CONVERT([int],CONVERT([varchar](8),[EventDate],(112)))),
     [LocalName]               NVARCHAR (255) NULL,
-    [Export]                  BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Event_3] PRIMARY KEY CLUSTERED ([Event_ID] ASC),
     CONSTRAINT [FK_Event_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Event_Institution] FOREIGN KEY ([TrainingInstitution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
@@ -47,10 +46,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event', @level2type = N'COLUMN', @level2name = N'Export';
+
 

@@ -21,7 +21,6 @@
     [ProjectType_ID]      INT            CONSTRAINT [DF_Project_ProjectType_ID] DEFAULT ((2)) NULL,
     [LocalShortName]      NVARCHAR (50)  NULL,
     [LocalLongName]       NVARCHAR (500) NULL,
-    [Export]              BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
     CONSTRAINT [CK_Project] CHECK ((((case when [Outcome_ID] IS NOT NULL then (1) else (0) end+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [Sector_ID] IS NOT NULL then (1) else (0) end)+case when [SubSector_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -31,6 +30,8 @@
     CONSTRAINT [FK_Project_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
@@ -101,5 +102,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project', @level2type = N'COLUMN', @level2name = N'Export';
+
 

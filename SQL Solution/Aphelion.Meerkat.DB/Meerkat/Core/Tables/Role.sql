@@ -10,11 +10,12 @@
     [sys_ModifiedBy] VARCHAR (255)  CONSTRAINT [DF_Role_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME       CONSTRAINT [DF_Role_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]      NVARCHAR (255) NULL,
-    [Export]         BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED ([RoleID] ASC),
     CONSTRAINT [FK_Role_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_Role_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -45,5 +46,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Role', @level2type = N'COLUMN', @level2name = N'Export';
+
 

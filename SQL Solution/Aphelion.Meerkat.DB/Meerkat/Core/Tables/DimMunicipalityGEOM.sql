@@ -18,10 +18,12 @@
     [sys_CreatedOn]  DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255)     CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME          CONSTRAINT [DF_DimMunicipalityGEOM_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]         BIT               DEFAULT ((0)) NOT NULL,
+    [Export]         BIT               NOT NULL,
     CONSTRAINT [PK_DimMuicipalityGEOM] PRIMARY KEY CLUSTERED ([PK_ID] ASC),
     CONSTRAINT [enforce_srid_geometry_DimMunicipalityGEOM] CHECK ([geom].[STSrid]=(4326))
 );
+
+
 
 
 

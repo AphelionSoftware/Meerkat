@@ -8,13 +8,15 @@
     [sys_CreatedOn]        DATETIME      CONSTRAINT [DF_OutcomePersonRole_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]       VARCHAR (255) CONSTRAINT [DF_OutcomePersonRole_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]       DATETIME      CONSTRAINT [DF_OutcomePersonRole_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]               BIT           DEFAULT ((0)) NOT NULL,
+    [Export]               BIT           NOT NULL,
     CONSTRAINT [PK_OutcomePersonRole] PRIMARY KEY CLUSTERED ([OutcomePersonRole_ID] ASC),
     CONSTRAINT [FK_OutcomePersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_OutcomePersonRole_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
     CONSTRAINT [FK_OutcomePersonRole_Person] FOREIGN KEY ([Person_ID]) REFERENCES [Core].[Person] ([Person_ID]),
     CONSTRAINT [FK_OutcomePersonRole_Role] FOREIGN KEY ([Role_ID]) REFERENCES [Core].[Role] ([RoleID])
 );
+
+
 
 
 

@@ -10,11 +10,13 @@
     [ReportDeadlineStartDate]  DATE          NOT NULL,
     [ReportWarningStartDate]   DATE          NOT NULL,
     [ReportNoticeStartDate]    DATE          NOT NULL,
-    [Export]                   BIT           DEFAULT ((0)) NOT NULL,
+    [Export]                   BIT           NOT NULL,
     CONSTRAINT [PK_CustomReport_Calendar] PRIMARY KEY CLUSTERED ([CustomReport_Calendar_ID] ASC),
     CONSTRAINT [FK_CustomReport_Calendar_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_CustomReport_Calendar_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID])
 );
+
+
 
 
 

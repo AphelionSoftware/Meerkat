@@ -7,12 +7,14 @@
     [sys_CreatedOn]          DATETIME      CONSTRAINT [DF_DonorReport_Project_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]         VARCHAR (255) CONSTRAINT [DF_DonorReport_Project_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]         DATETIME      CONSTRAINT [DF_DonorReport_Project_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]                 BIT           DEFAULT ((0)) NOT NULL,
+    [Export]                 BIT           NOT NULL,
     CONSTRAINT [PK_ProjectDonorReport] PRIMARY KEY CLUSTERED ([DonorReport_Project_ID] ASC),
     CONSTRAINT [FK_DonorReport_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_DonorReport_Project_DonorReport] FOREIGN KEY ([DonorReportID]) REFERENCES [rpt].[DonorReport] ([DonorReport_ID]),
     CONSTRAINT [FK_DonorReport_Project_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
 
 
 

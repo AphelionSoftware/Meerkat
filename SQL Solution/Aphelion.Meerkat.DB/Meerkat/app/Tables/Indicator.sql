@@ -33,7 +33,7 @@
     [IndicatorSimpleType_ID] INT             NULL,
     [LocalLongName]          NVARCHAR (500)  NULL,
     [LocalShortName]         NVARCHAR (50)   NULL,
-    [Export]                 BIT             DEFAULT ((0)) NOT NULL,
+    [Export]                 BIT             NOT NULL,
     CONSTRAINT [PK_Indicator] PRIMARY KEY CLUSTERED ([IndicatorID] ASC),
     CONSTRAINT [CK_Indicator] CHECK (((((case when [Output_ID] IS NOT NULL then (1) else (0) end+case when [Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [ProjectID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -47,6 +47,8 @@
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

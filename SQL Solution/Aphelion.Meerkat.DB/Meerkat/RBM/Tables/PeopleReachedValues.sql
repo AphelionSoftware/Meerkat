@@ -29,7 +29,7 @@
     [ResultArea_ID]                INT            NULL,
     [StrategicElement_ID]          INT            NULL,
     [NumberReached]                INT            NOT NULL,
-    [Export]                       BIT            DEFAULT ((0)) NOT NULL,
+    [Export]                       BIT            NOT NULL,
     CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC),
     CONSTRAINT [CK_PeopleReachedValues] CHECK ((((((((case when [Outcome_ID] IS NULL then (0) else (1) end+case when [Output_ID] IS NULL then (0) else (1) end)+case when [SubOutput_ID] IS NULL then (0) else (1) end)+case when [Programme_ID] IS NULL then (0) else (1) end)+case when [Sector_ID] IS NULL then (0) else (1) end)+case when [SubSector_ID] IS NULL then (0) else (1) end)+case when [ProjectID] IS NULL then (0) else (1) end)+case when [Activity_ID] IS NULL then (0) else (1) end)=(1)),
     CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -56,6 +56,8 @@
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

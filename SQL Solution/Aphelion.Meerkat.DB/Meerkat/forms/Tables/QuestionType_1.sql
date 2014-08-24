@@ -9,11 +9,13 @@
     [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_QuestionType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_QuestionType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]       NVARCHAR (255) NULL,
-    [Export]          BIT            DEFAULT ((0)) NOT NULL,
+    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_QuestionType_3] PRIMARY KEY CLUSTERED ([QuestionType_ID] ASC),
     CONSTRAINT [FK_QuestionType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ__Question__A25C5AA73ACB3951] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

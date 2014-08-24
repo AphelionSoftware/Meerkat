@@ -26,7 +26,6 @@
     [Institution_ID]           INT              NULL,
     [Location_ID]              INT              NULL,
     [LocalName]                NVARCHAR (255)   NULL,
-    [Export]                   BIT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -61,10 +60,12 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question';
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question', @level2type = N'COLUMN', @level2name = N'Export';
+
 

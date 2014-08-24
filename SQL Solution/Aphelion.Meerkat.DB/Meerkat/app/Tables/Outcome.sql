@@ -15,13 +15,14 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Outcome_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
-    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Outcome] PRIMARY KEY CLUSTERED ([Outcome_ID] ASC),
     CONSTRAINT [FK_Outcome_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_OutCome_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),
     CONSTRAINT [FK_OutCome_Impact] FOREIGN KEY ([Impact_ID]) REFERENCES [app].[Impact] ([Impact_ID]),
     CONSTRAINT [UQ_OutCome_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -58,5 +59,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Outcome', @level2type = N'COLUMN', @level2name = N'Export';
+
 

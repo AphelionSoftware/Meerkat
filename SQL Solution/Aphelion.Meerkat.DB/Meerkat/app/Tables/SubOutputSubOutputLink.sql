@@ -7,12 +7,18 @@
     [sys_CreatedOn]             DATETIME      CONSTRAINT [DF_SubOutputSubOutputLink_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]            VARCHAR (255) CONSTRAINT [DF_SubOutputSubOutputLink_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]            DATETIME      CONSTRAINT [DF_SubOutputSubOutputLink_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]                    BIT           DEFAULT ((0)) NOT NULL,
+    [Export]                    BIT           NOT NULL,
     CONSTRAINT [PK_SubOutputSubOutputLink] PRIMARY KEY CLUSTERED ([SubOutputSubOutputLink_ID] ASC),
     CONSTRAINT [FK_SubOutputSubOutputLink_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput] FOREIGN KEY ([PrimarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput1] FOREIGN KEY ([SecondarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]) NOT FOR REPLICATION
 );
+
+
+GO
+ALTER TABLE [app].[SubOutputSubOutputLink] NOCHECK CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput1];
+
+
 
 
 GO

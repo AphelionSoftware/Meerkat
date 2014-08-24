@@ -28,10 +28,11 @@
     [LocalMonthName]   NVARCHAR (9)   NULL,
     [LocalQuarterName] NVARCHAR (255) NULL,
     [LocalYearName]    NVARCHAR (4)   NULL,
-    [Export]           BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC),
     CONSTRAINT [FK_DimDate_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 
@@ -49,5 +50,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimDate', @level2type = N'COLUMN', @level2name = N'Export';
+
 

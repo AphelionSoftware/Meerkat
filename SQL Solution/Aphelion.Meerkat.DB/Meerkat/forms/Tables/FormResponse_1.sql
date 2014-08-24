@@ -17,7 +17,7 @@
     [Gender_ID]          INT           NULL,
     [Group_ID]           INT           NULL,
     [Institution_ID]     INT           NULL,
-    [Export]             BIT           DEFAULT ((0)) NOT NULL,
+    [Export]             BIT           NOT NULL,
     CONSTRAINT [PK_FormResponse_3] PRIMARY KEY CLUSTERED ([FormResponse_ID] ASC),
     CONSTRAINT [FK_FormResponse_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_FormResponse_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -27,6 +27,8 @@
     CONSTRAINT [FK_FormResponse_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_FormResponse_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID])
 );
+
+
 
 
 

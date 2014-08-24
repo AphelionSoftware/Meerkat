@@ -13,10 +13,12 @@
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_Programme_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalLongName]     NVARCHAR (500) NULL,
     [LocalShortName]    NVARCHAR (50)  NULL,
-    [Export]            BIT            DEFAULT ((0)) NOT NULL,
+    [Export]            BIT            NOT NULL,
     CONSTRAINT [PK_Programme_1] PRIMARY KEY CLUSTERED ([Programme_ID] ASC),
     CONSTRAINT [FK_Programme_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

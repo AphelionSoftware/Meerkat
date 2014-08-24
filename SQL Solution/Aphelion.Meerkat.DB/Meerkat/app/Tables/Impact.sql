@@ -14,12 +14,13 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Impact_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
-    [Export]          BIT            DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Impact] PRIMARY KEY CLUSTERED ([Impact_ID] ASC),
     CONSTRAINT [FK_Impact_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Impact_DataVersion] FOREIGN KEY ([DataVersion]) REFERENCES [Core].[DataVersion] ([DataVersion_ID]),
     CONSTRAINT [UQ_Impact_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -52,5 +53,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'ExcludeFromStaging', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Impact', @level2type = N'COLUMN', @level2name = N'Export';
+
 

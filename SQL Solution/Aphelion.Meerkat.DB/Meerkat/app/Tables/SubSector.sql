@@ -13,11 +13,13 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_SubSector_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalShortName]  NVARCHAR (50)  NULL,
     [LocalLongName]   NVARCHAR (500) NULL,
-    [Export]          BIT            DEFAULT ((0)) NOT NULL,
+    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_SubSector] PRIMARY KEY CLUSTERED ([SubSector_ID] ASC),
     CONSTRAINT [FK_SubSector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID])
 );
+
+
 
 
 

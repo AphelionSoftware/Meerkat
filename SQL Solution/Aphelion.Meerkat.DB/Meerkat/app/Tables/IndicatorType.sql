@@ -9,11 +9,13 @@
     [sys_ModifiedBy]   VARCHAR (255)  CONSTRAINT [DF_IndicatorType_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]   DATETIME       CONSTRAINT [DF_IndicatorType_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]        NVARCHAR (255) NULL,
-    [Export]           BIT            DEFAULT ((0)) NOT NULL,
+    [Export]           BIT            NOT NULL,
     CONSTRAINT [PK_IndicatorType] PRIMARY KEY CLUSTERED ([IndicatorType_ID] ASC),
     CONSTRAINT [FK_IndicatorType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_IndicatorType_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

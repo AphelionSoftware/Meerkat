@@ -8,13 +8,15 @@
     [sys_CreatedOn]               DATETIME      CONSTRAINT [DF_Question_Indicator_Rollup_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]              VARCHAR (255) CONSTRAINT [DF_Question_Indicator_Rollup_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]              DATETIME      CONSTRAINT [DF_Question_Indicator_Rollup_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]                      BIT           DEFAULT ((0)) NOT NULL,
+    [Export]                      BIT           NOT NULL,
     CONSTRAINT [PK_Question_Indicator_Rollup_3] PRIMARY KEY CLUSTERED ([Question_Indicator_RollupID] ASC),
     CONSTRAINT [FK_Question_Indicator_Rollup_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup] FOREIGN KEY ([Indicator_ID]) REFERENCES [app].[Indicator] ([IndicatorID]),
     CONSTRAINT [FK_Question_Indicator_Rollup_Question] FOREIGN KEY ([Question_ID]) REFERENCES [forms].[Question] ([Question_ID]),
     CONSTRAINT [FK_Question_Indicator_Rollup_RollupType] FOREIGN KEY ([RollupType_ID]) REFERENCES [forms].[RollupType] ([RollupType_ID])
 );
+
+
 
 
 

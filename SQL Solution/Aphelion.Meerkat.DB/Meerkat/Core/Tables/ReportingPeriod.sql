@@ -15,12 +15,14 @@
     [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_ReportingPeriod_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [Summary]         VARCHAR (50)   NOT NULL,
     [LocalYearName]   NVARCHAR (4)   NULL,
-    [Export]          BIT            DEFAULT ((0)) NOT NULL,
+    [Export]          BIT            NOT NULL,
     CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     UNIQUE NONCLUSTERED ([EndDateID] ASC),
     UNIQUE NONCLUSTERED ([StartDateID] ASC)
 );
+
+
 
 
 

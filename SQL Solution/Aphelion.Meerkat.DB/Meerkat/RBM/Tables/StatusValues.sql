@@ -20,7 +20,7 @@
     [sys_CreatedOn]     DATETIME       CONSTRAINT [DF_StatusValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]    VARCHAR (255)  CONSTRAINT [DF_StatusValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_StatusValues_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]            BIT            DEFAULT ((0)) NOT NULL,
+    [Export]            BIT            NOT NULL,
     CONSTRAINT [PK_StatusValues] PRIMARY KEY CLUSTERED ([StatusValuesID] ASC),
     CONSTRAINT [CK_ENFORCE_SINGLE_Parent_Link_StatusValues] CHECK ((((((((case when [StatusValues].[ProjectID] IS NOT NULL then (1) else (0) end+case when [StatusValues].[Programme_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Output_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Activity_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[Sector_ID] IS NOT NULL then (1) else (0) end)+case when [StatusValues].[SubSector_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_StatusValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -39,6 +39,8 @@
     CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_StatusValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

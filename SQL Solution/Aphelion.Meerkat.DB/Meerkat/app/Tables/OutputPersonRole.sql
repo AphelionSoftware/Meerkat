@@ -8,13 +8,23 @@
     [sys_CreatedOn]       DATETIME      CONSTRAINT [DF_OutputPersonRole_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255) CONSTRAINT [DF_OutputPersonRole_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]      DATETIME      CONSTRAINT [DF_OutputPersonRole_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [Export]              BIT           DEFAULT ((0)) NOT NULL,
+    [Export]              BIT           NOT NULL,
     CONSTRAINT [PK_OutputPersonRole] PRIMARY KEY CLUSTERED ([OutputPersonRole_ID] ASC),
     CONSTRAINT [FK_OutputPersonRole_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_OutputPersonRole_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [FK_OutputPersonRole_Person] FOREIGN KEY ([Person_ID]) REFERENCES [Core].[Person] ([Person_ID]) NOT FOR REPLICATION,
     CONSTRAINT [FK_OutputPersonRole_Role] FOREIGN KEY ([Role_ID]) REFERENCES [Core].[Role] ([RoleID]) NOT FOR REPLICATION
 );
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
+
 
 
 GO

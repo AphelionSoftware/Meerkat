@@ -13,13 +13,15 @@
     [sys_ModifiedOn]        DATETIME       CONSTRAINT [DF_Organization_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalShortName]        NVARCHAR (50)  NULL,
     [LocalLongName]         NVARCHAR (500) NULL,
-    [Export]                BIT            DEFAULT ((0)) NOT NULL,
+    [Export]                BIT            NOT NULL,
     CONSTRAINT [PK_Organization] PRIMARY KEY CLUSTERED ([Organization_ID] ASC),
     CONSTRAINT [FK_Organization_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Organization_Organization] FOREIGN KEY ([ParentOrganization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_Organization_OrganizationType] FOREIGN KEY ([OrganizationType_ID]) REFERENCES [Core].[OrganizationType] ([OrganizationType_ID]),
     CONSTRAINT [UQ_Organization_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
