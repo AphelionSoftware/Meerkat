@@ -30,9 +30,7 @@ myapp.AddEditProject.SearchOutcomesTap_execute = function (screen) {
     screen.Project.Outcome = screen.Outcomes.selectedItem;
     screen.closePopup();
 };
-
-myapp.AddEditProject.ProjectType_postRender = function (element, contentItem) {
-    // Write code here.
+myapp.AddEditProject.ProjectLevel_postRender = function (element, contentItem) {
     contentItem.dataBind("value", function (newValue) {
 
         var projectGroup = contentItem.screen.findContentItem("SubProjects");
@@ -47,27 +45,36 @@ myapp.AddEditProject.ProjectType_postRender = function (element, contentItem) {
         var target = undefined;
         switch (newValue.Code) {
             case "Outcome":
+            case "OM":
                 {
                     target = contentItem.screen.findContentItem("OutcomeGroup");
                     break;
                 }
             case "Programme":
+            case "PRG":
+            case "PROG":
                 {
                     target = contentItem.screen.findContentItem("ProgrammeGroup");
                     break;
                 }
             case "Sector":
+            case "S":
                 {
                     target = contentItem.screen.findContentItem("SectorGroup");
                     break;
                 }
             case "SubSector":
+            case "Subsector":
+            case "Sub-sector":
+            case "Sub sector":
+            case "SS":
                 {
                     target = contentItem.screen.findContentItem("SubSectorGroup");
                     break;
                 }
             default:
                 {
+                    alert("Unknown code: " + newValue.Code)
                     console.log(newValue.Code);
                     break;
                 }
@@ -78,4 +85,5 @@ myapp.AddEditProject.ProjectType_postRender = function (element, contentItem) {
             target.isVisible = true;
         }
     });
-}
+
+};
