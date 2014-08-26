@@ -48,6 +48,10 @@
                   Name="IndicatorSimpleType2"
                   Kind="Details"
                   DataType="IndicatorSimpleType">
+                  <ContentItem.Attributes>
+                    <DisplayName
+                      Value="Indicator Result Type" />
+                  </ContentItem.Attributes>
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -68,6 +72,29 @@
                   </ContentItem>
                 </ContentItem>
                 <ContentItem
+                  Name="IndicatorLevel"
+                  Kind="Details"
+                  DataType="IndicatorType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="BrowseIndicators/Properties[IndicatorLevel]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="IndicatorType"
+                    Kind="Details"
+                    DataType="IndicatorType">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
                   Name="ShortName"
                   Kind="Value"
                   DataType=":String">
@@ -76,32 +103,6 @@
                       <ChainExpression>
                         <MemberExpression
                           Member="Indicator/Properties[ShortName]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="LocalShortName"
-                  Kind="Value"
-                  DataType=":String?">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Indicator/Properties[LocalShortName]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="LocalLongName"
-                  Kind="Value"
-                  DataType=":String?">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Indicator/Properties[LocalLongName]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -126,7 +127,31 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="BrowseIndicators/Methods[EditIndicator]" />
+                        Target="!module/Methods[showAddEditIndicator]">
+                        <CallExpression.Attributes>
+                          <AssociatedCollection
+                            Collection="BrowseIndicators/Properties[IndicatorsSorted]" />
+                        </CallExpression.Attributes>
+                        <ArgumentExpression
+                          Parameter="Indicator">
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="BrowseIndicators/Properties[IndicatorsSorted]" />
+                            <MemberExpression
+                              Member="selectedItem" />
+                          </ChainExpression>
+                        </ArgumentExpression>
+                      </CallExpression>
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="msls-edit"
+                        ResultType=":String" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
@@ -251,6 +276,156 @@
           <ContentItem
             Name="Filter"
             Kind="Group">
+            <ContentItem
+              Name="Group"
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+              <ContentItem
+                Name="Programme_ID"
+                Kind="Details"
+                DataType="Programme">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseIndicators/Properties[Programme_ID]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Programme"
+                  Kind="Details"
+                  DataType="Programme">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="LeftAligned"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ProjectID"
+                Kind="Details"
+                DataType="Project">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseIndicators/Properties[ProjectID]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Project"
+                  Kind="Details"
+                  DataType="Project">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="LeftAligned"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Group1"
+              Kind="Group"
+              View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+              <ContentItem
+                Name="Sector_ID"
+                Kind="Details"
+                DataType="Sector">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseIndicators/Properties[Sector_ID]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Sector"
+                  Kind="Details"
+                  DataType="Sector">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="LeftAligned"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="SubSector_ID"
+                Kind="Details"
+                DataType="SubSector">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="BrowseIndicators/Properties[SubSector_ID]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="SubSector"
+                  Kind="Details"
+                  DataType="SubSector">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="LeftAligned"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem>
             <ContentItem
               Name="Name1"
               Kind="Value"
@@ -469,6 +644,42 @@
                     Member="BrowseIndicators/Properties[Code1]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Programme_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Programme_ID]" />
+                  <MemberExpression
+                    Member="Programme_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[ProjectID]" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Sector_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Sector_ID]" />
+                  <MemberExpression
+                    Member="Sector_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="SubSector_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[SubSector_ID]" />
+                  <MemberExpression
+                    Member="SubSector_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -491,6 +702,18 @@
       <ScreenProperty
         Name="IndicatorLevel1"
         PropertyType="IndicatorType" />
+      <ScreenProperty
+        Name="Programme_ID"
+        PropertyType="Programme" />
+      <ScreenProperty
+        Name="ProjectID"
+        PropertyType="Project" />
+      <ScreenProperty
+        Name="Sector_ID"
+        PropertyType="Sector" />
+      <ScreenProperty
+        Name="SubSector_ID"
+        PropertyType="SubSector" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
