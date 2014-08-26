@@ -183,6 +183,70 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
+              <ContentItem
+                Name="ShowBrowseOrganizationTypes"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Browse Organization Types" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showBrowseOrganizationTypes]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-document"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="ShowAddEditOrganizationType"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Add Organization Type" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditOrganizationType]">
+                          <CallExpression.Attributes>
+                            <CreateNewEntity
+                              EntityType="OrganizationType"
+                              TargetParameter="!module/Methods[showAddEditOrganizationType]/Parameters[OrganizationType]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
             </ContentItem.CommandItems>
             <ContentItem.PropertySources>
               <ControlPropertySource
@@ -230,6 +294,19 @@
           <ContentItem
             Name="Filter"
             Kind="Group">
+            <ContentItem
+              Name="OrganizationType"
+              Kind="Value"
+              DataType=":Int32?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseOrganizations/Properties[OrganizationType]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
             <ContentItem
               Name="Code1"
               Kind="Value"
@@ -295,16 +372,38 @@
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree>
                 <BinaryExpression
-                  NodeType="Contains">
+                  NodeType="And">
                   <BinaryExpression.Left>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="Organization/Properties[Code]" />
-                    </ChainExpression>
+                    <BinaryExpression
+                      NodeType="Contains">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Organization/Properties[Code]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="Code" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Left>
                   <BinaryExpression.Right>
-                    <ParameterExpression
-                      Parameter="Code" />
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Organization/Properties[OrganizationType]" />
+                          <MemberExpression
+                            Member="OrganizationType_ID" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ParameterExpression
+                          Parameter="OrganizationType" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
                   </BinaryExpression.Right>
                 </BinaryExpression>
               </QueryFilterExpressionTree>
@@ -320,6 +419,10 @@
                 Name="Code"
                 IsOptional="True"
                 ParameterType=":String?" />
+              <QueryParameter
+                Name="OrganizationType"
+                IsOptional="True"
+                ParameterType=":Int32?" />
             </ScreenQueryDefinition.Parameters>
             <ScreenQueryDefinition.SortCriteria>
               <SortCriterion>
@@ -342,6 +445,13 @@
                     Member="BrowseOrganizations/Properties[Code]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="OrganizationType">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseOrganizations/Properties[OrganizationType]" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -349,6 +459,9 @@
       <ScreenProperty
         Name="Code"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="OrganizationType"
+        PropertyType=":Int32?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

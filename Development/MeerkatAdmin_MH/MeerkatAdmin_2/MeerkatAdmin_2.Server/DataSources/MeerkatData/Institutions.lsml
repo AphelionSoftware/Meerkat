@@ -136,6 +136,11 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Facilities"
+        Association="FK_Facility_Institution"
+        FromEnd="Institution"
+        ToEnd="Facility" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -249,6 +254,16 @@
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Facility_Institution"
+      Association="FK_Facility_Institution">
+      <AssociationSetEnd
+        Name="Institution"
+        EntitySet="Institutions" />
+      <AssociationSetEnd
+        Name="Facility"
+        EntitySet="Facilities" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_IndicatorValues_Institution">
@@ -277,6 +292,21 @@
       Name="MilestoneValues"
       Multiplicity="Many"
       EntityType="MilestoneValue" />
+  </Association>
+  <Association
+    Name="FK_Facility_Institution">
+    <AssociationEnd
+      Name="Institution"
+      Multiplicity="One"
+      EntityType="Institution">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Facility"
+      Multiplicity="Many"
+      EntityType="Facility" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -348,6 +378,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Facility_Institution">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Facility_Institution" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Institution]/Members[Institution]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Institution]/Members[Facility]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Institution">
       <AssociationSetMapping.Attributes>

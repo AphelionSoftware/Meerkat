@@ -23,27 +23,50 @@
             Name="IndicatorList"
             Kind="Group">
             <ContentItem
-              Name="Indicators"
+              Name="IndicatorsSorted"
               Kind="Collection"
               DataType="CollectionView$Indicator">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseIndicators/Properties[Indicators]" />
+                      Member="BrowseIndicators/Properties[IndicatorsSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="IndicatorsTemplate"
+                Name="IndicatorsSortedTemplate"
                 Kind="Details"
                 DataType="Indicator"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
+                <ContentItem
+                  Name="IndicatorSimpleType2"
+                  Kind="Details"
+                  DataType="IndicatorSimpleType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[IndicatorSimpleType]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="IndicatorSimpleType3"
+                    Kind="Details"
+                    DataType="IndicatorSimpleType">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
                 <ContentItem
                   Name="ShortName"
                   Kind="Value"
@@ -57,6 +80,45 @@
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
+                <ContentItem
+                  Name="LocalShortName"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[LocalShortName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="LocalLongName"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[LocalLongName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Indicator/Properties[LongName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
               </ContentItem>
               <ContentItem.PropertySources>
                 <ControlPropertySource
@@ -64,21 +126,7 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showAddEditIndicator]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="BrowseIndicators/Properties[Indicators]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="Indicator">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="BrowseIndicators/Properties[Indicators]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
+                        Target="BrowseIndicators/Methods[EditIndicator]" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
@@ -204,30 +252,112 @@
             Name="Filter"
             Kind="Group">
             <ContentItem
-              Name="Code1"
+              Name="Name1"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseIndicators/Properties[Code]" />
+                      Member="BrowseIndicators/Properties[Name]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
             <ContentItem
-              Name="ShortName1"
+              Name="Code1"
               Kind="Value"
               DataType=":String?">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Code" />
+              </ContentItem.Attributes>
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseIndicators/Properties[ShortName]" />
+                      Member="BrowseIndicators/Properties[Code1]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="IndicatorLevel1"
+              Kind="Details"
+              DataType="IndicatorType">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Indicator Level" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseIndicators/Properties[IndicatorLevel1]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="IndicatorType2"
+                Kind="Details"
+                DataType="IndicatorType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="LeftAligned"
+                        ResultType=":String" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
+            <ContentItem
+              Name="IndicatorType11"
+              Kind="Details"
+              DataType="IndicatorSimpleType">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Indicator Type" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseIndicators/Properties[IndicatorType1]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="IndicatorSimpleType4"
+                Kind="Details"
+                DataType="IndicatorSimpleType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[AttachedLabelPosition]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="LeftAligned"
+                        ResultType=":String" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
             </ContentItem>
           </ContentItem>
         </ContentItem>
@@ -272,99 +402,71 @@
         Name="EditIndicator" />
     </Screen.Methods>
     <Screen.Properties>
+      <ScreenProperty
+        Name="Code"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="ShortName"
+        PropertyType=":String?" />
+      <ScreenProperty
+        Name="IndicatorSimpleType"
+        PropertyType=":Int32?" />
+      <ScreenProperty
+        Name="IndicatorLinkedTo"
+        PropertyType=":Int32?" />
       <ScreenCollectionProperty
-        Name="Indicators"
+        Name="IndicatorsSorted"
         PageSize="45"
         PropertyType="CollectionView$Indicator">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="IndicatorsQuery"
+            Name="IndicatorsSortedQuery"
             ReturnType="Indicator*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="And">
-                  <BinaryExpression.Left>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Indicator/Properties[Code]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="Code" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Indicator/Properties[ShortName]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ShortName" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Indicators]" />
+                  Member="MeerkatData/Members[IndicatorsSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-              <QueryParameter
-                Name="ShortName"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ShortName" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseIndicators/Properties[Indicators]/Query">
+              Target="BrowseIndicators/Properties[IndicatorsSorted]/Query">
+              <ArgumentExpression
+                Parameter="IndicatorType">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[IndicatorType1]" />
+                  <MemberExpression
+                    Member="IndicatorSimpleType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="IndicatorLevel">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[IndicatorLevel1]" />
+                  <MemberExpression
+                    Member="IndicatorType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseIndicators/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseIndicators/Properties[Code]" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ShortName">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseIndicators/Properties[ShortName]" />
+                    Member="BrowseIndicators/Properties[Code1]" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -372,11 +474,23 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
-        Name="Code"
+        Name="IndicatorType"
+        PropertyType="IndicatorSimpleType" />
+      <ScreenProperty
+        Name="IndicatorLevel"
+        PropertyType="IndicatorType" />
+      <ScreenProperty
+        Name="Name"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="ShortName"
+        Name="Code1"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="IndicatorType1"
+        PropertyType="IndicatorSimpleType" />
+      <ScreenProperty
+        Name="IndicatorLevel1"
+        PropertyType="IndicatorType" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
