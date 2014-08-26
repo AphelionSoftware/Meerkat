@@ -47,7 +47,51 @@ ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Rol
 
 
 GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
 
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
+
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
+
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
+
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Person];
+
+
+GO
+ALTER TABLE [app].[OutputPersonRole] NOCHECK CONSTRAINT [FK_OutputPersonRole_Role];
+
+
+
+
+GO
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputPersonRole';
 
 
 GO

@@ -11,10 +11,12 @@
     [TextDescription]        VARCHAR (4000) NULL,
     [OutcomeBusinessKey]     NVARCHAR (400) NULL,
     [ProgrammeBusinessKey]   NVARCHAR (400) NULL,
-    [ProjectTypeBusinessKey] NVARCHAR (400) NOT NULL,
+    [ProjectTypeBusinessKey] NVARCHAR (400) NULL,
     [SectorBusinessKey]      NVARCHAR (400) NULL,
     [SubSectorBusinessKey]   NVARCHAR (400) NULL
 );
+
+
 
 
 

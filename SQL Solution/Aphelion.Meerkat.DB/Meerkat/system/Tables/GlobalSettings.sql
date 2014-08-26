@@ -8,7 +8,6 @@
     [sys_CreatedOn]     DATETIME       CONSTRAINT [DF_Age_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]    VARCHAR (255)  CONSTRAINT [DF_Age_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_Age_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [LocalName]         NVARCHAR (255) NULL,
     PRIMARY KEY CLUSTERED ([GlobalSettings_ID] ASC),
     CONSTRAINT [FK_Age_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
@@ -17,6 +16,10 @@
 
 
 
-GO
 
+
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'settings', @level1type = N'TABLE', @level1name = N'GlobalSettings';
 

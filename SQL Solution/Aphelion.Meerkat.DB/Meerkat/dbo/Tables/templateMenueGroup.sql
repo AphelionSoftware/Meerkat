@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[templateMenueGroup] (
+CREATE TABLE [dbo].[templateMenueGroup] (
     [Title]          VARCHAR (148) NULL,
     [Link]           VARCHAR (119) NULL,
     [Parent]         INT           NULL,
@@ -14,6 +14,8 @@
 
 
 
-GO
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'templateMenueGroup';
 

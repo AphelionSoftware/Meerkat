@@ -63,6 +63,14 @@
 
 
 
+
+
+
+
+
+
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
@@ -120,6 +128,10 @@ EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE
 
 
 GO
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
 
 
 GO

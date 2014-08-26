@@ -22,6 +22,14 @@
 
 
 
+
+
+
+
+
+
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_DonorReport_BusinessKey]
     ON [rpt].[DonorReport]([BusinessKey] ASC) WHERE ([Active]>=(0));
@@ -29,4 +37,12 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_DonorReport_BusinessKey]
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport', @level2type = N'COLUMN', @level2name = N'BusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport';
+
+
+GO
+
 

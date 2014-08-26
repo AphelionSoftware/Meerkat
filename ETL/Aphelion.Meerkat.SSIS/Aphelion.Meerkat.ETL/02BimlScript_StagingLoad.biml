@@ -242,6 +242,30 @@
               <VariableOutput VariableName="User.FileDestination" />
 			  </FileSystem>
 		  
+			<ExecuteSQL Name="SQL_UpdateExport_<#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatBIML">
+         		<PrecedenceConstraints LogicalType="Or">	
+				<Inputs>
+			<Input OutputPathName="FSMoveErrorFile.Output" EvaluationValue="Success">
+			</Input>
+			</Inputs>
+			</PrecedenceConstraints>
+		 <DirectInput>MERGE INTO settings.tablesToExport vw
+USING (SELECT '<#=table.SchemaName#>' As Table_schema
+	, '<#=table.Name#>' As Table_Name
+	, 1 As Export)
+	Src
+	ON vw.Table_schema = src.table_schema
+	and vw.table_name = src.table_name
+	WHEN MATCHED THEN 
+	UPDATE Set Export = src.Export
+	WHEN NOT MATCHED THEN
+	INSERT( Table_schema, Table_name, export)
+	VALUES (src.Table_schema, src.Table_name, src.Export);
+
+
+		  </DirectInput>
+        </ExecuteSQL>
+		  
 		  <!-- Loading individual errors -->
 		  <!--
 		  <Dataflow Name="DFT_ErrorFiles_<#=table.SchemaName#>.<#=table.Name#>">
@@ -298,7 +322,7 @@
 			 <FileSystem Operation="MoveFile" Name="FSMoveSuccessfulFile" OverwriteDestination="true">
 			<PrecedenceConstraints LogicalType="And">
 			<Inputs>
-			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] = 0"  EvaluationValue="Success">
+			<Input OutputPathName="DFT_Load <#=table.SchemaName#>.<#=table.Name#>.Output" EvaluationOperation="ExpressionAndConstraint" Expression="@[User::intErrorCount] == 0"  EvaluationValue="Success">
 			</Input>
 			</Inputs>
 			</PrecedenceConstraints>
