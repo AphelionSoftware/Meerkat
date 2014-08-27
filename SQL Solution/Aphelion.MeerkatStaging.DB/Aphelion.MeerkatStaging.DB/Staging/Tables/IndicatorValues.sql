@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [Staging].[IndicatorValues] (
     [IndicatorValues_ID]          INT             NULL,
+    [BusinessKey]                 NVARCHAR (400)  NOT NULL,
     [ActualDate]                  DATE            NULL,
     [ActualLabel]                 VARCHAR (50)    NOT NULL,
     [ActualValue]                 DECIMAL (20, 5) NULL,
-    [BusinessKey]                 NVARCHAR (400)  NOT NULL,
     [Notes]                       VARCHAR (MAX)   NULL,
     [AgeBandBusinessKey]          NVARCHAR (400)  NULL,
     [CommunityTypeBusinessKey]    NVARCHAR (400)  NULL,
@@ -20,6 +20,8 @@
     [ResultAreaBusinessKey]       NVARCHAR (400)  NULL,
     [StrategicElementBusinessKey] NVARCHAR (400)  NULL
 );
+
+
 
 
 

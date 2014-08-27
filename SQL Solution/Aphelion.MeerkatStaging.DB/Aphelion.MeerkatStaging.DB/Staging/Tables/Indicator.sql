@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [Staging].[Indicator] (
     [IndicatorID]                    INT             NULL,
+    [BusinessKey]                    NVARCHAR (400)  NOT NULL,
     [Baseline]                       DECIMAL (20, 5) NULL,
     [BaselineDate]                   DATETIME        NOT NULL,
     [BaselineString]                 VARCHAR (MAX)   NULL,
-    [BusinessKey]                    NVARCHAR (400)  NOT NULL,
     [Code]                           VARCHAR (50)    NOT NULL,
     [LocalLongName]                  NVARCHAR (500)  NULL,
     [LocalShortName]                 NVARCHAR (50)   NULL,
@@ -27,6 +27,8 @@
     [SubOutputBusinessKey]           NVARCHAR (400)  NULL,
     [SubSectorBusinessKey]           NVARCHAR (400)  NULL
 );
+
+
 
 
 

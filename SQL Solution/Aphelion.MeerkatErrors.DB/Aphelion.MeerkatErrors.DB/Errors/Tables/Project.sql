@@ -14,7 +14,7 @@
     [ProgrammeBusinessKey]   NVARCHAR (400) NULL,
     [ProjectSiteName]        VARCHAR (255)  NOT NULL,
     [ProjectStartDate]       DATETIME       NOT NULL,
-    [ProjectTypeBusinessKey] NVARCHAR (400) NOT NULL,
+    [ProjectTypeBusinessKey] NVARCHAR (400) NULL,
     [SectorBusinessKey]      NVARCHAR (400) NULL,
     [ShortName]              VARCHAR (50)   NOT NULL,
     [SubSectorBusinessKey]   NVARCHAR (400) NULL,
@@ -25,6 +25,8 @@
     [Sector_ID]              INT            NULL,
     [SubSector_ID]           INT            NULL
 );
+
+
 
 
 

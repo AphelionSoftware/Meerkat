@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [Staging].[Milestone] (
     [MilestoneID]              INT             NULL,
+    [BusinessKey]              NVARCHAR (400)  NOT NULL,
     [Baseline]                 DECIMAL (20, 5) NULL,
     [BaselineDate]             DATETIME        NOT NULL,
     [BaselineString]           VARCHAR (MAX)   NULL,
-    [BusinessKey]              NVARCHAR (400)  NOT NULL,
     [Code]                     VARCHAR (50)    NOT NULL,
     [LocalLongName]            NVARCHAR (500)  NULL,
     [LocalShortName]           NVARCHAR (50)   NULL,
@@ -21,6 +21,8 @@
     [MilestoneTypeBusinessKey] NVARCHAR (400)  NOT NULL,
     [ProjectBusinessKey]       NVARCHAR (400)  NULL
 );
+
+
 
 
 

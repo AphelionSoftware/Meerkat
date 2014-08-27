@@ -7,8 +7,10 @@
     [LongName]             VARCHAR (500)  NOT NULL,
     [ShortName]            VARCHAR (50)   NOT NULL,
     [TextDescription]      VARCHAR (4000) NULL,
-    [ProgrammeBusinessKey] NVARCHAR (400) NOT NULL
+    [ProgrammeBusinessKey] NVARCHAR (400) NULL
 );
+
+
 
 
 

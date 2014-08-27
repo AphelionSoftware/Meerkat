@@ -48,6 +48,11 @@ myapp.AddEditProject.ProjectLevel_postRender = function (element, contentItem) {
             case "OM":
                 {
                     target = contentItem.screen.findContentItem("OutcomeGroup");
+
+                    /*if (contentItem.screen.ProgrammeSorted.selectedItem != null) {
+                        contentItem.screen.ProgrammeSorted.deleteSelected();
+                    }*/
+                    contentItem.screen.Project.setProgramme(null);
                     break;
                 }
             case "Programme":
@@ -55,6 +60,11 @@ myapp.AddEditProject.ProjectLevel_postRender = function (element, contentItem) {
             case "PROG":
                 {
                     target = contentItem.screen.findContentItem("ProgrammeGroup");
+                    /*
+                    if (contentItem.screen.OutcomeSorted.selectedItem != null) {
+                        contentItem.screen.OutcomeSorted.deleteSelected();
+                    }*/
+                    contentItem.screen.Project.setOutcome(null);
                     break;
                 }
             case "Sector":

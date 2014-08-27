@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [rpt].[CustomReport_Indicator] (
     [CustomReport_Indicator_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [CustomReport_ID]           INT           NULL,
-    [IndicatorID]               INT           NULL,
+    [CustomReport_ID]           INT           NOT NULL,
+    [IndicatorID]               INT           NOT NULL,
     [Active]                    INT           DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]             VARCHAR (255) CONSTRAINT [DF_CustomReport_Indicator_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]             DATETIME      CONSTRAINT [DF_CustomReport_Indicator_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

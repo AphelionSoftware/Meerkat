@@ -10,11 +10,13 @@
     [LocalLongName]        NVARCHAR (500) NULL,
     [LocalShortName]       NVARCHAR (50)  NULL,
     [LongName]             VARCHAR (500)  NOT NULL,
-    [ProgrammeBusinessKey] NVARCHAR (400) NOT NULL,
+    [ProgrammeBusinessKey] NVARCHAR (400) NULL,
     [ShortName]            VARCHAR (50)   NOT NULL,
     [TextDescription]      VARCHAR (4000) NULL,
     [Programme_ID]         INT            NULL
 );
+
+
 
 
 
