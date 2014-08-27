@@ -5,8 +5,11 @@
     [LocalName]               NVARCHAR (255) NULL,
     [Name]                    VARCHAR (255)  NOT NULL,
     [FacilityTypeBusinessKey] NVARCHAR (400) NOT NULL,
-    [InstitutionBusinessKey]  NVARCHAR (400) NOT NULL
+    [InstitutionBusinessKey]  NVARCHAR (400) NULL,
+    [LocationBusinessKey]     NVARCHAR (400) NOT NULL
 );
+
+
 
 
 
