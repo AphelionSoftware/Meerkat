@@ -8,12 +8,18 @@
     [BusinessKey]             NVARCHAR (400) NOT NULL,
     [Code]                    VARCHAR (50)   NOT NULL,
     [FacilityTypeBusinessKey] NVARCHAR (400) NOT NULL,
-    [InstitutionBusinessKey]  NVARCHAR (400) NOT NULL,
+    [InstitutionBusinessKey]  NVARCHAR (400) NULL,
     [LocalName]               NVARCHAR (255) NULL,
+    [LocationBusinessKey]     NVARCHAR (400) NOT NULL,
     [Name]                    VARCHAR (255)  NOT NULL,
     [FacilityType_ID]         INT            NULL,
-    [Institution_ID]          INT            NULL
+    [Institution_ID]          INT            NULL,
+    [Location_ID]             INT            NULL
 );
+
+
+
+
 
 
 
