@@ -37,9 +37,8 @@
       </EntityProperty>
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -51,7 +50,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="4000" />
+            Value="400" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -101,6 +100,43 @@
         Association="FK_CustomReportType_ActiveType"
         FromEnd="CustomReportType"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="NoticeDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="WarningDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DeadlineDays"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="CustomReports"
+        Association="FK_CustomReport_CustomReportType"
+        FromEnd="CustomReportType"
+        ToEnd="CustomReport" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -194,7 +230,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_CustomReport_CustomReportType"
+      Association="FK_CustomReport_CustomReportType">
+      <AssociationSetEnd
+        Name="CustomReportType"
+        EntitySet="CustomReportTypes" />
+      <AssociationSetEnd
+        Name="CustomReport"
+        EntitySet="CustomReports" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_CustomReport_CustomReportType">
+    <AssociationEnd
+      Name="CustomReportType"
+      Multiplicity="One"
+      EntityType="CustomReportType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport"
+      Multiplicity="Many"
+      EntityType="CustomReport" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -221,14 +282,30 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="CustomReportType/Properties[Name]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
           Property="CustomReportType/Properties[BusinessKey]" />
+        <SsdlProperty
+          Name="NoticeDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[NoticeDays]" />
+        <SsdlProperty
+          Name="WarningDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[WarningDays]" />
+        <SsdlProperty
+          Name="DeadlineDays"
+          Nullable="False"
+          Type="int"
+          Property="CustomReportType/Properties[DeadlineDays]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -251,6 +328,12 @@
           Nullable="False"
           Type="datetime"
           Property="CustomReportType/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="CustomReportType/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -258,5 +341,26 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_CustomReport_CustomReportType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_CustomReport_CustomReportType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_CustomReportType]/Members[CustomReportType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReportType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_CustomReport_CustomReportType]/Members[CustomReport]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="CustomReportType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

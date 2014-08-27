@@ -35,9 +35,8 @@
       </EntityProperty>
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -331,11 +330,6 @@
         FromEnd="ActiveType"
         ToEnd="Form" />
       <NavigationProperty
-        Name="FormResponses"
-        Association="FK_FormResponse_ActiveType"
-        FromEnd="ActiveType"
-        ToEnd="FormResponse" />
-      <NavigationProperty
         Name="Responses"
         Association="FK_Response_ActiveType"
         FromEnd="ActiveType"
@@ -440,6 +434,14 @@
         Association="FK_RollupType_ActiveType"
         FromEnd="ActiveType"
         ToEnd="RollupType" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -1504,16 +1506,6 @@
         EntitySet="Forms" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_FormResponse_ActiveType"
-      Association="FK_FormResponse_ActiveType">
-      <AssociationSetEnd
-        Name="ActiveType"
-        EntitySet="ActiveTypes" />
-      <AssociationSetEnd
-        Name="FormResponse"
-        EntitySet="FormResponses" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_Response_ActiveType"
       Association="FK_Response_ActiveType">
       <AssociationSetEnd
@@ -1980,21 +1972,6 @@
       EntityType="Form" />
   </Association>
   <Association
-    Name="FK_FormResponse_ActiveType">
-    <AssociationEnd
-      Name="ActiveType"
-      Multiplicity="One"
-      EntityType="ActiveType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="FormResponse"
-      Multiplicity="Many"
-      EntityType="FormResponse" />
-  </Association>
-  <Association
     Name="FK_Response_ActiveType">
     <AssociationEnd
       Name="ActiveType"
@@ -2334,7 +2311,7 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="ActiveType/Properties[Name]" />
         <SsdlProperty
@@ -2359,6 +2336,12 @@
           Nullable="False"
           Type="datetime"
           Property="ActiveType/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="ActiveType/Properties[LocalName]" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -2795,27 +2778,6 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_ActiveType]/Members[Form]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Active" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_FormResponse_ActiveType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_FormResponse_ActiveType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_ActiveType]/Members[ActiveType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_ActiveType]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

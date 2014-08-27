@@ -17,9 +17,8 @@
     <EntityType.Properties>
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -161,7 +160,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -179,6 +178,14 @@
         Association="FK_Impact_DataVersion"
         FromEnd="DataVersion"
         ToEnd="Impact" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -449,7 +456,7 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="DataVersion/Properties[Name]" />
         <SsdlProperty
@@ -458,6 +465,7 @@
           Type="varchar(max)"
           Property="DataVersion/Properties[Description]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -489,6 +497,12 @@
           Nullable="False"
           Type="datetime"
           Property="DataVersion/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="DataVersion/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"

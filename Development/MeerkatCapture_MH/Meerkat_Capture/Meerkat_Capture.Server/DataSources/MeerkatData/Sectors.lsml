@@ -17,11 +17,12 @@
     <EntityType.Properties>
       <EntityProperty
         Name="LongName"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="500" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -59,7 +60,7 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Required />
           <Hidden />
         </EntityProperty.Attributes>
@@ -68,7 +69,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
           <Hidden />
         </EntityProperty.Attributes>
@@ -178,6 +180,22 @@
         Association="FK_StatusValues_Sector"
         FromEnd="Sector"
         ToEnd="StatusValues" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -419,10 +437,11 @@
         <SsdlProperty
           MaxLength="500"
           Name="LongName"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Sector/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -434,9 +453,10 @@
           Type="varchar"
           Property="Sector/Properties[ShortName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Sector/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
@@ -460,6 +480,18 @@
           Nullable="False"
           Type="datetime"
           Property="Sector/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Sector/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Sector/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -467,7 +499,7 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="Programme_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="Programme_ID" />
       </EntitySetMapping.Attributes>

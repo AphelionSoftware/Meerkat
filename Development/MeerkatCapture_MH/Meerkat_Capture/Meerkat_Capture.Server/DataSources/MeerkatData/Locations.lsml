@@ -22,12 +22,11 @@
         ToEnd="LocationType" />
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <KeyProperty
@@ -64,7 +63,7 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Required />
           <Hidden />
         </EntityProperty.Attributes>
@@ -223,11 +222,24 @@
           <Hidden />
         </NavigationProperty.Attributes>
       </NavigationProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
-        Name="FormResponses"
-        Association="FK_FormResponse_Location"
+        Name="Forms"
+        Association="FK_Form_Location"
         FromEnd="Location"
-        ToEnd="FormResponse" />
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Location"
+        FromEnd="Location"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -491,14 +503,24 @@
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_FormResponse_Location"
-      Association="FK_FormResponse_Location">
+      Name="FK_Form_Location"
+      Association="FK_Form_Location">
       <AssociationSetEnd
         Name="Location"
         EntitySet="Locations" />
       <AssociationSetEnd
-        Name="FormResponse"
-        EntitySet="FormResponses" />
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Location"
+      Association="FK_Question_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -531,7 +553,7 @@
       EntityType="PeopleReachedValue" />
   </Association>
   <Association
-    Name="FK_FormResponse_Location">
+    Name="FK_Form_Location">
     <AssociationEnd
       Name="Location"
       EntityType="Location">
@@ -540,9 +562,23 @@
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="FormResponse"
+      Name="Form"
       Multiplicity="Many"
-      EntityType="FormResponse" />
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_Question_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -570,7 +606,7 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Location/Properties[Name]" />
         <SsdlProperty
@@ -591,6 +627,7 @@
           Type="varchar(max)"
           Property="Location/Properties[Density]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -617,6 +654,12 @@
           Nullable="False"
           Type="datetime"
           Property="Location/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Location/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -656,19 +699,19 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_FormResponse_Location">
+      AssociationSet="FK_Form_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_FormResponse_Location" />
+          Name="FK_Form_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_Location]/Members[Location]">
+          End="MeerkatData/Members[FK_Form_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_Location]/Members[FormResponse]">
+          End="MeerkatData/Members[FK_Form_Location]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />
@@ -795,6 +838,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_PeopleReachedValues_Location]/Members[PeopleReachedValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Location]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />

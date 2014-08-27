@@ -81,7 +81,10 @@ Regenerate SSIS packages
             <DataConversion Name="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx">
               <InputPath OutputPathName="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
               <Columns>
-                <# foreach (var column in table.Columns) { #>
+                <# foreach (var column in table.Columns) { 
+				
+				if (column.DataType == 'AnsiString' && column.Length == 4000
+				#>
                 <Column SourceColumn="<#=column.Name#>" TargetColumn="<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>" Scale="<#=column.Scale#>" Precision="<#=column.Precision#>"/>
                   <#} #>
               </Columns>

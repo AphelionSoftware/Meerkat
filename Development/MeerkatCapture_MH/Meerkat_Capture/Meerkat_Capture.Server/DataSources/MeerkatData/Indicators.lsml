@@ -39,7 +39,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
           <Hidden />
         </EntityProperty.Attributes>
@@ -127,7 +128,7 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="4000" />
+            Value="400" />
           <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -311,6 +312,34 @@
         Association="FK_FrameworkDetail_Indicator_Indicator"
         FromEnd="Indicator"
         ToEnd="FrameworkDetail_Indicator" />
+      <EntityProperty
+        Name="IndicatorSimpleType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Indicator"
+        FromEnd="Indicator"
+        ToEnd="StatusValues" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -513,6 +542,16 @@
         Name="FrameworkDetail_Indicator"
         EntitySet="FrameworkDetail_Indicators" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_Indicator"
+      Association="FK_StatusValues_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
@@ -566,6 +605,7 @@
     Name="FK_CustomReport_Indicator_Indicator">
     <AssociationEnd
       Name="Indicator"
+      Multiplicity="One"
       EntityType="Indicator">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -604,6 +644,20 @@
       Multiplicity="Many"
       EntityType="FrameworkDetail_Indicator" />
   </Association>
+  <Association
+    Name="FK_StatusValues_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -628,9 +682,10 @@
           Type="varchar"
           Property="Indicator/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TextDescription]" />
         <SsdlProperty
           Name="Baseline"
@@ -677,6 +732,7 @@
           Type="date"
           Property="Indicator/Properties[ReportingDate]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -738,6 +794,23 @@
           Nullable="False"
           Type="datetime"
           Property="Indicator/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="IndicatorSimpleType_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[IndicatorSimpleType_ID]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -925,6 +998,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup]/Members[Question_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Indicator]/Members[StatusValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Indicator_ID" />

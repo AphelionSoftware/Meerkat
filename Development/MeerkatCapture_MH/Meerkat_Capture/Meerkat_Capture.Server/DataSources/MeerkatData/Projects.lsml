@@ -41,7 +41,8 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="255" />
+            Value="50" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -50,16 +51,16 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="255" />
+            Value="500" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -172,7 +173,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="4000" />
+            Value="400" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
@@ -229,6 +230,37 @@
         Association="FK_Project_ResultArea_Project"
         FromEnd="Project"
         ToEnd="Project_ResultArea" />
+      <EntityProperty
+        Name="isSiteCreated"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProjectType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -638,23 +670,25 @@
           Type="varchar"
           Property="Project/Properties[Code]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="50"
           Name="ShortName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Project/Properties[ShortName]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="500"
           Name="LongName"
           Nullable="False"
           Type="varchar"
           Property="Project/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
@@ -665,6 +699,11 @@
           Nullable="False"
           Type="varchar"
           Property="Project/Properties[ProjectSiteName]" />
+        <SsdlProperty
+          Name="isSiteCreated"
+          Nullable="False"
+          Type="bit"
+          Property="Project/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -698,6 +737,23 @@
           StoreGeneratedPattern="Computed"
           Type="int"
           Property="Project/Properties[ProjectStartDate_ID]" />
+        <SsdlProperty
+          Name="ProjectType_ID"
+          Nullable="True"
+          Type="int"
+          Property="Project/Properties[ProjectType_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Project/Properties[LocalShortName]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Project/Properties[LocalLongName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
