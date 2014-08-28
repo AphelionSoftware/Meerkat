@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "MeerkatErrors"
 :setvar DefaultFilePrefix "MeerkatErrors"
-:setvar DefaultDataPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
-:setvar DefaultLogPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
+:setvar DefaultDataPath "C:\SQLData\SQL2012\"
+:setvar DefaultLogPath "C:\SQLLogs\SQL2012\"
 
 GO
 :on error exit
@@ -36,97 +36,37 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
 
 
 GO
-USE [$(DatabaseName)];
-
-
-GO
-PRINT N'Altering [Errors].[CustomReport_Indicator]...';
-
-
-GO
-ALTER TABLE [Errors].[CustomReport_Indicator] ALTER COLUMN [CustomReportBusinessKey] NVARCHAR (400) NOT NULL;
-
-ALTER TABLE [Errors].[CustomReport_Indicator] ALTER COLUMN [IndicatorBusinessKey] NVARCHAR (400) NOT NULL;
-
-
-GO
-/*
-The column [Errors].[Facility].[LocationBusinessKey] on table [Errors].[Facility] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
-*/
-GO
-PRINT N'Starting rebuilding table [Errors].[Facility]...';
-
-
-GO
-BEGIN TRANSACTION;
-
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-
-SET XACT_ABORT ON;
-
-CREATE TABLE [Errors].[tmp_ms_xx_Facility] (
-    [QueueID]                 INT            NOT NULL,
-    [SSISErrorCode]           INT            NOT NULL,
-    [SSISErrorColumn]         INT            NOT NULL,
-    [PackageName]             VARCHAR (255)  NOT NULL,
-    [ErrorType]               VARCHAR (255)  NOT NULL,
-    [Facility_ID]             INT            NULL,
-    [BusinessKey]             NVARCHAR (400) NOT NULL,
-    [Code]                    VARCHAR (50)   NOT NULL,
-    [FacilityTypeBusinessKey] NVARCHAR (400) NOT NULL,
-    [InstitutionBusinessKey]  NVARCHAR (400) NULL,
-    [LocalName]               NVARCHAR (255) NULL,
-    [LocationBusinessKey]     NVARCHAR (400) NOT NULL,
-    [Name]                    VARCHAR (255)  NOT NULL,
-    [FacilityType_ID]         INT            NULL,
-    [Institution_ID]          INT            NULL,
-    [Location_ID]             INT            NULL
-);
-
-IF EXISTS (SELECT TOP 1 1 
-           FROM   [Errors].[Facility])
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
     BEGIN
-        INSERT INTO [Errors].[tmp_ms_xx_Facility] ([QueueID], [SSISErrorCode], [SSISErrorColumn], [PackageName], [ErrorType], [Facility_ID], [BusinessKey], [Code], [FacilityTypeBusinessKey], [InstitutionBusinessKey], [LocalName], [Name], [FacilityType_ID], [Institution_ID])
-        SELECT [QueueID],
-               [SSISErrorCode],
-               [SSISErrorColumn],
-               [PackageName],
-               [ErrorType],
-               [Facility_ID],
-               [BusinessKey],
-               [Code],
-               [FacilityTypeBusinessKey],
-               [InstitutionBusinessKey],
-               [LocalName],
-               [Name],
-               [FacilityType_ID],
-               [Institution_ID]
-        FROM   [Errors].[Facility];
+        ALTER DATABASE [$(DatabaseName)]
+            SET ANSI_NULLS ON,
+                ANSI_PADDING ON,
+                ANSI_WARNINGS ON,
+                ARITHABORT ON,
+                CONCAT_NULL_YIELDS_NULL ON,
+                QUOTED_IDENTIFIER ON,
+                ANSI_NULL_DEFAULT ON,
+                CURSOR_DEFAULT LOCAL 
+            WITH ROLLBACK IMMEDIATE;
     END
 
-DROP TABLE [Errors].[Facility];
 
-EXECUTE sp_rename N'[Errors].[tmp_ms_xx_Facility]', N'Facility';
-
-COMMIT TRANSACTION;
-
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET PAGE_VERIFY NONE,
+                DISABLE_BROKER 
+            WITH ROLLBACK IMMEDIATE;
+    END
 
 
 GO
-PRINT N'Altering [Errors].[Project]...';
-
-
-GO
-ALTER TABLE [Errors].[Project] ALTER COLUMN [ProjectTypeBusinessKey] NVARCHAR (400) NULL;
-
-
-GO
-PRINT N'Altering [Errors].[Sector]...';
-
-
-GO
-ALTER TABLE [Errors].[Sector] ALTER COLUMN [ProgrammeBusinessKey] NVARCHAR (400) NULL;
+USE [$(DatabaseName)];
 
 
 GO

@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "Meerkat"
 :setvar DefaultFilePrefix "Meerkat"
-:setvar DefaultDataPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
-:setvar DefaultLogPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
+:setvar DefaultDataPath "C:\SQLData\SQL2012\"
+:setvar DefaultLogPath "C:\SQLLogs\SQL2012\"
 
 GO
 :on error exit
@@ -37,505 +37,6 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
 
 GO
 USE [$(DatabaseName)];
-
-
-GO
-PRINT N'Dropping DF_Facility_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [DF_Facility_sys_CreatedBy];
-
-
-GO
-PRINT N'Dropping DF__Facility__Active__39D87308...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [DF__Facility__Active__39D87308];
-
-
-GO
-PRINT N'Dropping DF_Facility_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [DF_Facility_sys_ModifiedOn];
-
-
-GO
-PRINT N'Dropping DF_Facility_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [DF_Facility_sys_CreatedOn];
-
-
-GO
-PRINT N'Dropping DF_Facility_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [DF_Facility_sys_ModifiedBy];
-
-
-GO
-PRINT N'Dropping FK_Sector_Programme...';
-
-
-GO
-ALTER TABLE [app].[Sector] DROP CONSTRAINT [FK_Sector_Programme];
-
-
-GO
-PRINT N'Dropping FK_Facility_ActiveType...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [FK_Facility_ActiveType];
-
-
-GO
-PRINT N'Dropping FK_Facility_FacilityType...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [FK_Facility_FacilityType];
-
-
-GO
-PRINT N'Dropping FK_Facility_Institution...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] DROP CONSTRAINT [FK_Facility_Institution];
-
-
-GO
-PRINT N'Dropping FK_CustomReport_Indicator_CustomReport...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport_Indicator] DROP CONSTRAINT [FK_CustomReport_Indicator_CustomReport];
-
-
-GO
-PRINT N'Dropping FK_CustomReport_Indicator_Indicator...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport_Indicator] DROP CONSTRAINT [FK_CustomReport_Indicator_Indicator];
-
-
-GO
-PRINT N'Altering [app].[Sector]...';
-
-
-GO
-ALTER TABLE [app].[Sector] ALTER COLUMN [Programme_ID] INT NULL;
-
-
-GO
-/*
-The column [disagg].[Facility].[Location_ID] on table [disagg].[Facility] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
-*/
-GO
-PRINT N'Starting rebuilding table [disagg].[Facility]...';
-
-
-GO
-BEGIN TRANSACTION;
-
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-
-SET XACT_ABORT ON;
-
-CREATE TABLE [disagg].[tmp_ms_xx_Facility] (
-    [Facility_ID]     INT            IDENTITY (1, 1) NOT NULL,
-    [Code]            VARCHAR (50)   NOT NULL,
-    [Name]            VARCHAR (255)  NOT NULL,
-    [BusinessKey]     NVARCHAR (400) NOT NULL,
-    [Active]          INT            CONSTRAINT [DF__Facility__Active__39D87308] DEFAULT ((1)) NOT NULL,
-    [FacilityType_ID] INT            NOT NULL,
-    [Institution_ID]  INT            NULL,
-    [Location_ID]     INT            NOT NULL,
-    [sys_CreatedBy]   VARCHAR (255)  CONSTRAINT [DF_Facility_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_CreatedOn]   DATETIME       CONSTRAINT [DF_Facility_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
-    [sys_ModifiedBy]  VARCHAR (255)  CONSTRAINT [DF_Facility_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_ModifiedOn]  DATETIME       CONSTRAINT [DF_Facility_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [LocalName]       NVARCHAR (255) NULL,
-    CONSTRAINT [tmp_ms_xx_constraint_PK_Facility] PRIMARY KEY CLUSTERED ([Facility_ID] ASC)
-);
-
-IF EXISTS (SELECT TOP 1 1 
-           FROM   [disagg].[Facility])
-    BEGIN
-        SET IDENTITY_INSERT [disagg].[tmp_ms_xx_Facility] ON;
-        INSERT INTO [disagg].[tmp_ms_xx_Facility] ([Facility_ID], [Code], [Name], [BusinessKey], [Active], [FacilityType_ID], [Institution_ID], [sys_CreatedBy], [sys_CreatedOn], [sys_ModifiedBy], [sys_ModifiedOn], [LocalName])
-        SELECT   [Facility_ID],
-                 [Code],
-                 [Name],
-                 [BusinessKey],
-                 [Active],
-                 [FacilityType_ID],
-                 [Institution_ID],
-                 [sys_CreatedBy],
-                 [sys_CreatedOn],
-                 [sys_ModifiedBy],
-                 [sys_ModifiedOn],
-                 [LocalName]
-        FROM     [disagg].[Facility]
-        ORDER BY [Facility_ID] ASC;
-        SET IDENTITY_INSERT [disagg].[tmp_ms_xx_Facility] OFF;
-    END
-
-DROP TABLE [disagg].[Facility];
-
-EXECUTE sp_rename N'[disagg].[tmp_ms_xx_Facility]', N'Facility';
-
-EXECUTE sp_rename N'[disagg].[tmp_ms_xx_constraint_PK_Facility]', N'PK_Facility', N'OBJECT';
-
-COMMIT TRANSACTION;
-
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-
-
-GO
-PRINT N'Creating [disagg].[Facility].[UQ_Facility_BusinessKey]...';
-
-
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [UQ_Facility_BusinessKey]
-    ON [disagg].[Facility]([BusinessKey] ASC) WHERE ([Active]>=(0));
-
-
-GO
-PRINT N'Altering [rpt].[CustomReport_Indicator]...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport_Indicator] ALTER COLUMN [CustomReport_ID] INT NOT NULL;
-
-ALTER TABLE [rpt].[CustomReport_Indicator] ALTER COLUMN [IndicatorID] INT NOT NULL;
-
-
-GO
-PRINT N'Creating FK_Sector_Programme...';
-
-
-GO
-ALTER TABLE [app].[Sector] WITH NOCHECK
-    ADD CONSTRAINT [FK_Sector_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]);
-
-
-GO
-PRINT N'Creating FK_Facility_ActiveType...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] WITH NOCHECK
-    ADD CONSTRAINT [FK_Facility_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Creating FK_Facility_FacilityType...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] WITH NOCHECK
-    ADD CONSTRAINT [FK_Facility_FacilityType] FOREIGN KEY ([FacilityType_ID]) REFERENCES [disagg].[FacilityType] ([FacilityType_ID]);
-
-
-GO
-PRINT N'Creating FK_Facility_Institution...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] WITH NOCHECK
-    ADD CONSTRAINT [FK_Facility_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]);
-
-
-GO
-PRINT N'Creating FK_Facility_Location...';
-
-
-GO
-ALTER TABLE [disagg].[Facility] WITH NOCHECK
-    ADD CONSTRAINT [FK_Facility_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]);
-
-
-GO
-PRINT N'Creating FK_CustomReport_Indicator_CustomReport...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport_Indicator] WITH NOCHECK
-    ADD CONSTRAINT [FK_CustomReport_Indicator_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID]);
-
-
-GO
-PRINT N'Creating FK_CustomReport_Indicator_Indicator...';
-
-
-GO
-ALTER TABLE [rpt].[CustomReport_Indicator] WITH NOCHECK
-    ADD CONSTRAINT [FK_CustomReport_Indicator_Indicator] FOREIGN KEY ([IndicatorID]) REFERENCES [app].[Indicator] ([IndicatorID]);
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_ProgrammeMenuCategory]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_ProgrammeMenuCategory]';
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_ProgrammeMenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_ProgrammeMenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_ProgrammeMenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_ProgrammeMenuLink]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Activity]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Activity]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[AgeBand]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[AgeBand]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[FrameworkDetail_Indicator]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[FrameworkDetail_Indicator]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Indicator]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Indicator]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[IndicatorByProgram]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProgram]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[IndicatorByProjectSector]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProjectSector]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Milestone]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Milestone]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[PeopleReachedValues]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[PeopleReachedValues]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Project]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Project]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Sector]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Sector]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[StatusValues]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[StatusValues]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[SubSector]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[SubSector]';
-
-
-GO
-PRINT N'Refreshing [rpt].[ProjectStatusScorecard]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[ProjectStatusScorecard]';
-
-
-GO
-PRINT N'Refreshing [rpt].[vwPeopleReached]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[vwPeopleReached]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme1MenuCategory]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme1MenuCategory]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme2MenuCategory]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme2MenuCategory]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme3MenuCategory]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme3MenuCategory]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme4MenuCategory]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme4MenuCategory]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme1MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme1MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme2MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme2MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme3MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme3MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme4MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme4MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme1MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme1MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme2MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme2MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme3MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme3MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme4MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme4MenuLink]';
-
-
-GO
-PRINT N'Creating [disagg].[Facility].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Facility';
-
-
-GO
-PRINT N'Creating [disagg].[Facility].[BusinessKey].[SourceKey]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Facility', @level2type = N'COLUMN', @level2name = N'BusinessKey';
-
-
-GO
-PRINT N'Refreshing [dbo].[uspIndicatorsList]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorsList]';
 
 
 GO
@@ -1177,6 +678,73 @@ GO
 SET IDENTITY_INSERT [app].[IndicatorType] OFF
 GO
 
+INSERT  INTO [Core].PersonParticipationType
+(
+          [Core].[PersonParticipationType].[Code] ,
+          [Core].[PersonParticipationType].[Name] ,
+		  [Core].[PersonParticipationType].[BusinessKey]
+        )
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'DIRECT' AS Code,
+                'Direct Participant' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+        UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'INDIRECT' AS Code,
+                'Indirect Participant' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+        UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'STAFF' AS Code,
+                'Care Staff' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+
+		UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'FACILITATOR' AS Code,
+                'Project Facilitator' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+							 
+		UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'PARTNER' AS Code,
+                'Project Partner Staff' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
 
 /*Insert settings*/
 /*
@@ -2261,30 +1829,6 @@ INSERT INTO [settings].[GlobalSettings]
 /*end Insert data*/
 
 GO
-
-GO
-PRINT N'Checking existing data against newly created constraints';
-
-
-GO
-USE [$(DatabaseName)];
-
-
-GO
-ALTER TABLE [app].[Sector] WITH CHECK CHECK CONSTRAINT [FK_Sector_Programme];
-
-ALTER TABLE [disagg].[Facility] WITH CHECK CHECK CONSTRAINT [FK_Facility_ActiveType];
-
-ALTER TABLE [disagg].[Facility] WITH CHECK CHECK CONSTRAINT [FK_Facility_FacilityType];
-
-ALTER TABLE [disagg].[Facility] WITH CHECK CHECK CONSTRAINT [FK_Facility_Institution];
-
-ALTER TABLE [disagg].[Facility] WITH CHECK CHECK CONSTRAINT [FK_Facility_Location];
-
-ALTER TABLE [rpt].[CustomReport_Indicator] WITH CHECK CHECK CONSTRAINT [FK_CustomReport_Indicator_CustomReport];
-
-ALTER TABLE [rpt].[CustomReport_Indicator] WITH CHECK CHECK CONSTRAINT [FK_CustomReport_Indicator_Indicator];
-
 
 GO
 PRINT N'Update complete.';
