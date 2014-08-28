@@ -1,19 +1,23 @@
 ﻿CREATE TABLE [Core].[Person] (
-    [Person_ID]      INT            IDENTITY (1, 1) NOT NULL,
-    [Title]          VARCHAR (MAX)  NULL,
-    [Name]           VARCHAR (255)  NULL,
-    [ContactDetails] VARCHAR (MAX)  NULL,
-    [Category]       VARCHAR (MAX)  NULL,
-    [BusinessKey]    NVARCHAR (400) NOT NULL,
-    [UserDetails]    VARCHAR (50)   NULL,
-    [Active]         INT            CONSTRAINT [DF_Person_sys_Active] DEFAULT ((1)) NOT NULL,
-    [sys_CreatedBy]  VARCHAR (255)  CONSTRAINT [DF_Person_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_CreatedOn]  DATETIME       CONSTRAINT [DF_Person_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
-    [sys_ModifiedBy] VARCHAR (255)  CONSTRAINT [DF_Person_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
-    [sys_ModifiedOn] DATETIME       CONSTRAINT [DF_Person_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Person_ID]                  INT            IDENTITY (1, 1) NOT NULL,
+    [Title]                      VARCHAR (MAX)  NULL,
+    [Name]                       VARCHAR (255)  NULL,
+    [ContactDetails]             VARCHAR (MAX)  NULL,
+    [Category]                   VARCHAR (MAX)  NULL,
+    [BusinessKey]                NVARCHAR (400) NOT NULL,
+    [UserDetails]                VARCHAR (50)   NULL,
+    [PersonParticipationType_ID] INT            NULL,
+    [Active]                     INT            CONSTRAINT [DF_Person_sys_Active] DEFAULT ((1)) NOT NULL,
+    [sys_CreatedBy]              VARCHAR (255)  CONSTRAINT [DF_Person_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_CreatedOn]              DATETIME       CONSTRAINT [DF_Person_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
+    [sys_ModifiedBy]             VARCHAR (255)  CONSTRAINT [DF_Person_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
+    [sys_ModifiedOn]             DATETIME       CONSTRAINT [DF_Person_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED ([Person_ID] ASC),
-    CONSTRAINT [FK_Person_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
+    CONSTRAINT [FK_Person_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [FK_Person_PersonParticipationType] FOREIGN KEY ([PersonParticipationType_ID]) REFERENCES [Core].[PersonParticipationType] ([PersonParticipationType_ID])
 );
+
+
 
 
 
@@ -42,7 +46,9 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Person';
+EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Person';
+
+
 
 
 GO

@@ -33,6 +33,8 @@
     [IndicatorSimpleType_ID] INT             NULL,
     [LocalLongName]          NVARCHAR (500)  NULL,
     [LocalShortName]         NVARCHAR (50)   NULL,
+    [ResultArea_ID]          INT             NULL,
+    [StrategicElement_ID]    INT             NULL,
     CONSTRAINT [PK_Indicator] PRIMARY KEY CLUSTERED ([IndicatorID] ASC),
     CONSTRAINT [CK_Indicator] CHECK (((((case when [Output_ID] IS NOT NULL then (1) else (0) end+case when [Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [ProjectID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -42,10 +44,14 @@
     CONSTRAINT [FK_Indicator_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
     CONSTRAINT [FK_Indicator_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_Indicator_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    CONSTRAINT [FK_Indicator_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]),
     CONSTRAINT [FK_Indicator_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
+    CONSTRAINT [FK_Indicator_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

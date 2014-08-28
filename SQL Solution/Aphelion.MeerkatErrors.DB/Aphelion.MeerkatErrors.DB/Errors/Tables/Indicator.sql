@@ -22,8 +22,10 @@
     [ProjectBusinessKey]             NVARCHAR (400)  NULL,
     [ReleaseDate]                    DATE            NULL,
     [ReportingDate]                  DATE            NULL,
+    [ResultAreaBusinessKey]          NVARCHAR (400)  NULL,
     [SectorBusinessKey]              NVARCHAR (400)  NULL,
     [ShortName]                      VARCHAR (50)    NOT NULL,
+    [StrategicElementBusinessKey]    NVARCHAR (400)  NULL,
     [SubOutputBusinessKey]           NVARCHAR (400)  NULL,
     [SubSectorBusinessKey]           NVARCHAR (400)  NULL,
     [Target]                         DECIMAL (20, 5) NULL,
@@ -37,10 +39,14 @@
     [Output_ID]                      INT             NULL,
     [Programme_ID]                   INT             NULL,
     [ProjectID]                      INT             NULL,
+    [ResultArea_ID]                  INT             NULL,
     [Sector_ID]                      INT             NULL,
+    [StrategicElement_ID]            INT             NULL,
     [SubOutput_ID]                   INT             NULL,
     [SubSector_ID]                   INT             NULL
 );
+
+
 
 
 
