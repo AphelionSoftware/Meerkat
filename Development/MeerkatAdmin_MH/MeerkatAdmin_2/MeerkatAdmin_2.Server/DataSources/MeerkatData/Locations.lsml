@@ -221,6 +221,11 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Facilities"
+        Association="FK_Facility_Location"
+        FromEnd="Location"
+        ToEnd="Facility" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -463,7 +468,32 @@
         Name="Location1"
         EntitySet="Locations" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Facility_Location"
+      Association="FK_Facility_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Facility"
+        EntitySet="Facilities" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Facility_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Facility"
+      Multiplicity="Many"
+      EntityType="Facility" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -561,6 +591,27 @@
           PropertyName="ParentLocation_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Facility_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Facility_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Location]/Members[Facility]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorLocation_Location">
       <AssociationSetMapping.Attributes>
