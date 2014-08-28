@@ -53,7 +53,7 @@ GO*/
 :r .\Core.ReportingPeriod.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql
-:r .\app.PersonParticipationType.PDS.sql
+:r .\Core.PersonParticipationType.PDS.sql
 
 /*Insert settings*/
 :r .\settings\settings.GlobalSettings.PDS.sql
