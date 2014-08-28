@@ -210,6 +210,29 @@
             Name="Filter"
             Kind="Group">
             <ContentItem
+              Name="PersonParticipationType"
+              Kind="Details"
+              DataType="PersonParticipationType">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseProjectParticipants/Properties[PersonParticipationType]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="PersonParticipationType1"
+                Kind="Details"
+                DataType="PersonParticipationType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
               Name="Name"
               Kind="Value"
               DataType=":String?">
@@ -265,32 +288,6 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="People"
-        PageSize="45"
-        PropertyType="CollectionView$Person">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="PeopleQuery"
-            ReturnType="Person*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[People]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseProjectParticipants/Properties[People]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenCollectionProperty
         Name="PersonSorted"
         PageSize="45"
         PropertyType="CollectionView$Person">
@@ -327,6 +324,15 @@
                     Member="BrowseProjectParticipants/Properties[Title]" />
                 </ChainExpression>
               </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="PersonParticipationType">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseProjectParticipants/Properties[PersonParticipationType]" />
+                  <MemberExpression
+                    Member="PersonParticipationType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
             </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
@@ -337,6 +343,9 @@
       <ScreenProperty
         Name="Title"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="PersonParticipationType"
+        PropertyType="PersonParticipationType" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

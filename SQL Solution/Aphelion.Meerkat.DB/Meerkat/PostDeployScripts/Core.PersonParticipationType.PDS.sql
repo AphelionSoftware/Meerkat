@@ -1,17 +1,4 @@
-﻿/*
-Post-Deployment Script Template							
---------------------------------------------------------------------------------------
- This file contains SQL statements that will be appended to the build script.		
- Use SQLCMD syntax to include a file in the post-deployment script.			
- Example:      :r .\myfile.sql								
- Use SQLCMD syntax to reference a variable in the post-deployment script.		
- Example:      :setvar TableName MyTable							
-               SELECT * FROM [$(TableName)]					
---------------------------------------------------------------------------------------
-*/
-SET IDENTITY_INSERT Core.PersonParticipationType ON 
-
-INSERT  INTO [Core].PersonParticipationType
+﻿INSERT  INTO [Core].PersonParticipationType
 (
           [Core].[PersonParticipationType].[Code] ,
           [Core].[PersonParticipationType].[Name] ,
@@ -52,6 +39,8 @@ INSERT  INTO [Core].PersonParticipationType
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.PersonParticipationType
                              WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+
+		UNION ALL
         SELECT  Src.Code
 				, Src.Name
 				, Src.Code
@@ -63,6 +52,8 @@ INSERT  INTO [Core].PersonParticipationType
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.PersonParticipationType
                              WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+							 
+		UNION ALL
         SELECT  Src.Code
 				, Src.Name
 				, Src.Code
@@ -74,8 +65,3 @@ INSERT  INTO [Core].PersonParticipationType
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.PersonParticipationType
                              WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
-        
-GO
-
-
-SET IDENTITY_INSERT Core.PersonParticipationType OFF
