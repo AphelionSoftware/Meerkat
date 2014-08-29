@@ -162,7 +162,7 @@ myapp.AddEditIndicator.Indicator_Project_postRender = function (element, content
                     }*/
                     contentItem.screen.Indicator.setProject(null);
                     input.find("input").val("");
-                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PRJ'").execute().then(function (x) {
+                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PROG'").execute().then(function (x) {
                         contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                     });
                 }
@@ -177,15 +177,13 @@ myapp.AddEditIndicator.Indicator_Sector_postRender = function (element, contentI
             if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
 
                 if (newValue) {
-                    if (contentItem.screen.SectorSorted.selectedItem != null) {
-                        contentItem.screen.SectorSorted.deleteSelected();
-                    }
                     contentItem.screen.Indicator.setSector(null);
                     input.find("input").val("");
 
-                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'S'").execute().then(function (x) {
+                    /*myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'S' OR Code eq 'SEC'").execute().then(function (x) {
                         contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                     });
+                    */
                 }
             }
         });
@@ -198,15 +196,13 @@ myapp.AddEditIndicator.Indicator_SubSector_postRender = function (element, conte
             if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
 
                 if (newValue) {
-                    if (contentItem.screen.SubSectorSorted.selectedItem != null) {
-                        contentItem.screen.SubSectorSorted.deleteSelected();
-                    }
                     contentItem.screen.Indicator.setSector(null);
                     input.find("input").val("");
 
-                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'SS'").execute().then(function (x) {
+                    /*myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'SS' ").execute().then(function (x) {
                         contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                     });
+                    */
                 }
             }
         });
