@@ -131,13 +131,15 @@ myapp.AddEditIndicator.SearchIndicatorLocationsTap_execute = function (screen) {
 };
 myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, contentItem) {
     var input = $(element);
+    //Setting here as we need access to the control
     contentItem.dataBind("screen.ProjectsSorted.selectedItem", function (newValue) {
         if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
 
             if (newValue) {
-                if (contentItem.screen.ProgrammeSorted.selectedItem != null) {
+                //We dont want to actually delete!
+                /*if (contentItem.screen.ProgrammeSorted.selectedItem != null) {
                     contentItem.screen.ProgrammeSorted.deleteSelected();
-                }
+                }*/
                 contentItem.screen.Indicator.setProgramme(null);
                 input.find("input").val("");
                 myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PROG'").execute().then(function (x) {
@@ -148,15 +150,16 @@ myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, conte
     });
 };
 myapp.AddEditIndicator.Indicator_Project_postRender = function (element, contentItem) {
-    
+    //Setting here as we need access to the control through input
         var input = $(element);
         contentItem.dataBind("screen.ProgrammeSorted.selectedItem", function (newValue) {
             if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
 
                 if (newValue) {
-                    if (contentItem.screen.ProjectsSorted.selectedItem != null) {
+                    //We dont want to actually delete!
+                    /*if (contentItem.screen.ProjectsSorted.selectedItem != null) {
                         contentItem.screen.ProjectsSorted.deleteSelected();
-                    }
+                    }*/
                     contentItem.screen.Indicator.setProject(null);
                     input.find("input").val("");
                     myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PRJ'").execute().then(function (x) {
