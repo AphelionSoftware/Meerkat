@@ -22,3 +22,11 @@ myapp.AddEditIndicatorLocation.SelectedLocationsTap_execute = function (screen) 
     screen.IndicatorLocation.Location = screen.Locations.selectedItem;
     screen.closePopup();
 };
+myapp.AddEditIndicatorLocation.Indicator_postRender = function (element, contentItem) {
+    if (contentItem.screen.Indicator_ID) {
+        myapp.activeDataWorkspace.MeerkatData.Indicators_SingleOrDefault(contentItem.screen.Indicator_ID).execute().then(function (x) {
+            contentItem.screen.IndicatorLocation.setIndicator(x.results[0]);
+        });
+    }
+
+};

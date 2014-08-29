@@ -29,3 +29,13 @@ myapp.AddEditActivity.SelectedProjectTap_execute = function (screen) {
     screen.Activity.Project = screen.Projects.selectedItem;
     screen.closePopup();
 };
+myapp.AddEditActivity.Project_postRender = function (element, contentItem) {
+
+    if (contentItem.screen.Project_ID) {
+        myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(contentItem.screen.Project_ID).execute().then(function (x) {
+            contentItem.screen.Activity.setProject(x.results[0]);
+        });
+    }
+        
+    
+};
