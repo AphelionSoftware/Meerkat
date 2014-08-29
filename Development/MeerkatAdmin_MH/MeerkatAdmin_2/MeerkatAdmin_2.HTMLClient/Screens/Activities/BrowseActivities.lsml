@@ -23,29 +23,42 @@
             Name="ActivityList"
             Kind="Group">
             <ContentItem
-              Name="Activities"
+              Name="ActivitiesSorted"
               Kind="Collection"
               DataType="CollectionView$Activity">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseActivities/Properties[Activities]" />
+                      Member="BrowseActivities/Properties[ActivitiesSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="ActivitiesTemplate"
+                Name="ActivitiesSortedTemplate"
                 Kind="Details"
                 DataType="Activity"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ShortName"
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Activity/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ShortName2"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
@@ -57,18 +70,20 @@
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Activity/Properties[LongName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="BrowseActivities/Methods[EditActivity]" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
@@ -190,27 +205,54 @@
             Name="Filter"
             Kind="Group">
             <ContentItem
-              Name="Code1"
+              Name="ProjectID"
+              Kind="Details"
+              DataType="Project">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseActivities/Properties[ProjectID]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Project"
+                Kind="Details"
+                DataType="Project">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Name"
               Kind="Value"
               DataType=":String?">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseActivities/Properties[Code]" />
+                      Member="BrowseActivities/Properties[Name]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
             </ContentItem>
             <ContentItem
-              Name="ShortName1"
+              Name="Code1"
               Kind="Value"
               DataType=":String?">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Code" />
+              </ContentItem.Attributes>
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseActivities/Properties[ShortName]" />
+                      Member="BrowseActivities/Properties[Code1]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
@@ -259,98 +301,49 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Activities"
+        Name="ActivitiesSorted"
         PageSize="45"
         PropertyType="CollectionView$Activity">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="ActivitiesQuery"
+            Name="ActivitiesSortedQuery"
             ReturnType="Activity*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="And">
-                  <BinaryExpression.Left>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Activity/Properties[Code]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="Code" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Activity/Properties[ShortName]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ShortName" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Activities]" />
+                  Member="MeerkatData/Members[ActivitiesSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-              <QueryParameter
-                Name="ShortName"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ShortName" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseActivities/Properties[Activities]/Query">
+              Target="BrowseActivities/Properties[ActivitiesSorted]/Query">
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseActivities/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseActivities/Properties[Code]" />
+                    Member="BrowseActivities/Properties[Code1]" />
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
-                Parameter="ShortName">
+                Parameter="ProjectID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseActivities/Properties[ShortName]" />
+                    Member="BrowseActivities/Properties[ProjectID]" />
+                  <MemberExpression
+                    Member="ProjectID" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -358,11 +351,43 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
-        Name="Code"
+        Name="Name"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="ShortName"
+        Name="Code1"
         PropertyType=":String?" />
+      <ScreenProperty
+        Name="ProjectID1"
+        PropertyType="Project" />
+      <ScreenCollectionProperty
+        Name="ProjectsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Project">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="ProjectsSortedQuery"
+            ReturnType="Project*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[ProjectsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseActivities/Properties[ProjectsSorted]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="ProjectID"
+        PropertyType="Project" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

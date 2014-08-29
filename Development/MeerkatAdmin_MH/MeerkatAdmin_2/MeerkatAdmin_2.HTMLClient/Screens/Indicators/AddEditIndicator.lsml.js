@@ -142,7 +142,7 @@ myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, conte
                 }*/
                 contentItem.screen.Indicator.setProgramme(null);
                 input.find("input").val("");
-                myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PRJ'").execute().then(function (x) {
+                myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("BusinessKey eq 'PRJ'").execute().then(function (x) {
                     contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                 });
             }
@@ -162,7 +162,7 @@ myapp.AddEditIndicator.Indicator_Project_postRender = function (element, content
                     }*/
                     contentItem.screen.Indicator.setProject(null);
                     input.find("input").val("");
-                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PROG'").execute().then(function (x) {
+                    myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("BusinessKey eq 'PROG'").execute().then(function (x) {
                         contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                     });
                 }
