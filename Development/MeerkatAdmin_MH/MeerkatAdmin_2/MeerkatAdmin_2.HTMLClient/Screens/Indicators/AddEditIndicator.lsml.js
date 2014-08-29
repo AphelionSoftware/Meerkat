@@ -142,7 +142,7 @@ myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, conte
                 }*/
                 contentItem.screen.Indicator.setProgramme(null);
                 input.find("input").val("");
-                myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PROG'").execute().then(function (x) {
+                myapp.activeDataWorkspace.MeerkatData.IndicatorTypes.filter("Code eq 'PRJ'").execute().then(function (x) {
                     contentItem.screen.Indicator.setIndicatorType(x.results[0]);
                 });
             }
