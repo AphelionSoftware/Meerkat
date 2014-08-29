@@ -222,7 +222,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
 
 
     //Default Actual label to actual value 
-    /*var actualValueField = screen.findContentItem("ActualValue");
+    var actualValueField = screen.findContentItem("ActualValue");
     var actualLabelField = screen.findContentItem("ActualLabel");
     actualValueField.dataBind("value", function () {
         if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
@@ -235,9 +235,20 @@ myapp.AddEditIndicatorValue.created = function (screen) {
                 actualLabelField.stringValue = actualValueField.stringValue;
             }
         }
-    });*/
+    });
 
+    //Default business key 
+    var businessKeyField        = screen.findContentItem("BusinessKey");
+    var ReportingPeriod1Field   = screen.findContentItem("ReportingPeriod1");
+    var LocationField           = screen.findContentItem("Location");
+    var DataVersionField        = screen.findContentItem("DataVersion");
     
+    /*actualValueField.dataBind("value", function () {
+        
+        if (ReportingPeriod1Field.stringValue != undefined && LocationField.stringValue != undefined && DataVersionField.stringValue) {
+            businessKeyField.stringValue = ReportingPeriod1Field.stringValue + LocationField.stringValue + DataVersionField.stringValue;
+        }
+    }); */
 
     
 
