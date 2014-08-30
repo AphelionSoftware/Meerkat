@@ -109,3 +109,11 @@ myapp.Home.VersionLabel_render = function (element, contentItem) {
     })
 
 };
+myapp.Home.ProgrammeSorted1_ItemTap_execute = function (screen) {
+    myapp.activeDataWorkspace.MeerkatData.Programmes_SingleOrDefault(screen.ProgrammeSorted.selectedItem.Programme_ID).execute().then(function (Programme) {
+        screen.intProgramme_ID = Programme.results[0].Programme_ID;
+    });
+
+
+
+};
