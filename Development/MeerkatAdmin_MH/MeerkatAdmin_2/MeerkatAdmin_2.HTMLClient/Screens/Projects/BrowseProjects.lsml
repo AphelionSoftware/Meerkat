@@ -23,66 +23,54 @@
             Name="ProjectList"
             Kind="Group">
             <ContentItem
-              Name="Projects"
+              Name="ProjectsSorted"
               Kind="Collection"
               DataType="CollectionView$Project">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseProjects/Properties[Projects]" />
+                      Member="BrowseProjects/Properties[ProjectsSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="ProjectsTemplate"
+                Name="ProjectsSortedTemplate"
                 Kind="Details"
                 DataType="Project"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ShortName"
+                  Name="Code"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Project/Properties[ShortName]" />
+                          Member="Project/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Project/Properties[LongName]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
                 </ContentItem>
               </ContentItem>
-              <ContentItem.PropertySources>
-                <ControlPropertySource
-                  Property="Microsoft.LightSwitch.MobileWeb:RootCollectionControl/Properties[ItemTap]">
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <CallExpression
-                        Target="!module/Methods[showAddEditProject]">
-                        <CallExpression.Attributes>
-                          <AssociatedCollection
-                            Collection="BrowseProjects/Properties[Projects]" />
-                        </CallExpression.Attributes>
-                        <ArgumentExpression
-                          Parameter="Project">
-                          <ChainExpression>
-                            <MemberExpression
-                              Member="BrowseProjects/Properties[Projects]" />
-                            <MemberExpression
-                              Member="selectedItem" />
-                          </ChainExpression>
-                        </ArgumentExpression>
-                      </CallExpression>
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ControlPropertySource>
-              </ContentItem.PropertySources>
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
@@ -204,6 +192,42 @@
             Name="Filter"
             Kind="Group">
             <ContentItem
+              Name="Programme_ID1"
+              Kind="Details"
+              DataType="Programme">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseProjects/Properties[Programme_ID1]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Programme1"
+                Kind="Details"
+                DataType="Programme">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Name1"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseProjects/Properties[Name]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
               Name="Code1"
               Kind="Value"
               DataType=":String?">
@@ -217,17 +241,27 @@
               </ContentItem.DataSource>
             </ContentItem>
             <ContentItem
-              Name="ShortName1"
-              Kind="Value"
-              DataType=":String?">
+              Name="StrategicElement_ID"
+              Kind="Details"
+              DataType="StrategicElement">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseProjects/Properties[ShortName]" />
+                      Member="BrowseProjects/Properties[StrategicElement_ID]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
+              <ContentItem
+                Name="StrategicElement"
+                Kind="Details"
+                DataType="StrategicElement">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
             </ContentItem>
           </ContentItem>
         </ContentItem>
@@ -273,86 +307,44 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Projects"
+        Name="ProjectsSorted"
         PageSize="45"
         PropertyType="CollectionView$Project">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="ProjectsQuery"
+            Name="ProjectsSortedQuery"
             ReturnType="Project*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="And">
-                  <BinaryExpression.Left>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Project/Properties[Code]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="Code" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Project/Properties[ShortName]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ShortName" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Projects]" />
+                  Member="MeerkatData/Members[ProjectsSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-              <QueryParameter
-                Name="ShortName"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ShortName" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseProjects/Properties[Projects]/Query">
+              Target="BrowseProjects/Properties[ProjectsSorted]/Query">
+              <ArgumentExpression
+                Parameter="Programme_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseProjects/Properties[Programme_ID1]" />
+                  <MemberExpression
+                    Member="Programme_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseProjects/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
@@ -361,10 +353,12 @@
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
-                Parameter="ShortName">
+                Parameter="StrategicElement_ID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseProjects/Properties[ShortName]" />
+                    Member="BrowseProjects/Properties[StrategicElement_ID]" />
+                  <MemberExpression
+                    Member="StrategicElement_ID" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -372,11 +366,20 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
+        Name="Programme_ID"
+        PropertyType="Programme" />
+      <ScreenProperty
+        Name="Name"
+        PropertyType=":String?" />
+      <ScreenProperty
         Name="Code"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="ShortName"
-        PropertyType=":String?" />
+        Name="Programme_ID1"
+        PropertyType="Programme" />
+      <ScreenProperty
+        Name="StrategicElement_ID"
+        PropertyType="StrategicElement" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

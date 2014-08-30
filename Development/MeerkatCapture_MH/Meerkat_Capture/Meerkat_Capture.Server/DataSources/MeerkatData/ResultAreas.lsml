@@ -96,11 +96,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="IndicatorValues"
-        Association="FK_IndicatorValues_ResultArea"
-        FromEnd="ResultArea"
-        ToEnd="IndicatorValues" />
-      <NavigationProperty
         Name="MilestoneValues"
         Association="FK_MilestoneValues_ResultArea"
         FromEnd="ResultArea"
@@ -128,22 +123,13 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Indicators"
+        Association="FK_Indicator_ResultArea"
+        FromEnd="ResultArea"
+        ToEnd="Indicator" />
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_IndicatorValues_ResultArea">
-    <AssociationEnd
-      Name="ResultArea"
-      EntityType="ResultArea">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="IndicatorValues"
-      Multiplicity="Many"
-      EntityType="IndicatorValue" />
-  </Association>
   <Association
     Name="FK_MilestoneValues_ResultArea">
     <AssociationEnd
@@ -169,16 +155,6 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="ResultArea" />
-    <AssociationSet
-      Name="FK_IndicatorValues_ResultArea"
-      Association="FK_IndicatorValues_ResultArea">
-      <AssociationSetEnd
-        Name="ResultArea"
-        EntitySet="ResultAreas" />
-      <AssociationSetEnd
-        Name="IndicatorValues"
-        EntitySet="IndicatorValues" />
-    </AssociationSet>
     <AssociationSet
       Name="FK_MilestoneValues_ResultArea"
       Association="FK_MilestoneValues_ResultArea">
@@ -289,6 +265,16 @@
         Name="Project_ResultArea"
         EntitySet="Project_ResultAreas" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Indicator_ResultArea"
+      Association="FK_Indicator_ResultArea">
+      <AssociationSetEnd
+        Name="ResultArea"
+        EntitySet="ResultAreas" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_ResultArea">
@@ -317,6 +303,20 @@
       Name="Project_ResultArea"
       Multiplicity="Many"
       EntityType="Project_ResultArea" />
+  </Association>
+  <Association
+    Name="FK_Indicator_ResultArea">
+    <AssociationEnd
+      Name="ResultArea"
+      EntityType="ResultArea">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="Many"
+      EntityType="Indicator" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -389,19 +389,19 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_IndicatorValues_ResultArea">
+      AssociationSet="FK_Indicator_ResultArea">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_IndicatorValues_ResultArea" />
+          Name="FK_Indicator_ResultArea" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_ResultArea]/Members[ResultArea]">
+          End="MeerkatData/Members[FK_Indicator_ResultArea]/Members[ResultArea]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ResultArea_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_ResultArea]/Members[IndicatorValues]">
+          End="MeerkatData/Members[FK_Indicator_ResultArea]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ResultArea_ID" />

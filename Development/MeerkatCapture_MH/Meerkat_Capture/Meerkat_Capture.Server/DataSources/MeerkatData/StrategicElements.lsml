@@ -96,11 +96,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="IndicatorValues"
-        Association="FK_IndicatorValues_StrategicElement"
-        FromEnd="StrategicElement"
-        ToEnd="IndicatorValues" />
-      <NavigationProperty
         Name="MilestoneValues"
         Association="FK_MilestoneValues_StrategicElement"
         FromEnd="StrategicElement"
@@ -123,22 +118,13 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_StrategicElement"
+        FromEnd="StrategicElement"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_IndicatorValues_StrategicElement">
-    <AssociationEnd
-      Name="StrategicElement"
-      EntityType="StrategicElement">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="IndicatorValues"
-      Multiplicity="Many"
-      EntityType="IndicatorValue" />
-  </Association>
   <Association
     Name="FK_MilestoneValues_StrategicElement">
     <AssociationEnd
@@ -164,16 +150,6 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="StrategicElement" />
-    <AssociationSet
-      Name="FK_IndicatorValues_StrategicElement"
-      Association="FK_IndicatorValues_StrategicElement">
-      <AssociationSetEnd
-        Name="StrategicElement"
-        EntitySet="StrategicElements" />
-      <AssociationSetEnd
-        Name="IndicatorValues"
-        EntitySet="IndicatorValues" />
-    </AssociationSet>
     <AssociationSet
       Name="FK_MilestoneValues_StrategicElement"
       Association="FK_MilestoneValues_StrategicElement">
@@ -274,6 +250,16 @@
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_StrategicElement"
+      Association="FK_Project_StrategicElement">
+      <AssociationSetEnd
+        Name="StrategicElement"
+        EntitySet="StrategicElements" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_StrategicElement">
@@ -288,6 +274,20 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_Project_StrategicElement">
+    <AssociationEnd
+      Name="StrategicElement"
+      EntityType="StrategicElement">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="Many"
+      EntityType="Project" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -360,27 +360,6 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_IndicatorValues_StrategicElement">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_IndicatorValues_StrategicElement" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_StrategicElement]/Members[StrategicElement]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="StrategicElement_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_IndicatorValues_StrategicElement]/Members[IndicatorValues]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="StrategicElement_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
       AssociationSet="FK_MilestoneValues_StrategicElement">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -415,6 +394,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_PeopleReachedValues_StrategicElement]/Members[PeopleReachedValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="StrategicElement_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_StrategicElement">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_StrategicElement" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_StrategicElement]/Members[StrategicElement]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="StrategicElement_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_StrategicElement]/Members[Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="StrategicElement_ID" />
