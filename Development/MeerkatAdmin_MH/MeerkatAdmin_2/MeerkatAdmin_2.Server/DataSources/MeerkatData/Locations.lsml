@@ -226,6 +226,11 @@
         Association="FK_Facility_Location"
         FromEnd="Location"
         ToEnd="Facility" />
+      <NavigationProperty
+        Name="Structures"
+        Association="FK_Structure_Location"
+        FromEnd="Location"
+        ToEnd="c_Structure" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -478,6 +483,16 @@
         Name="Facility"
         EntitySet="Facilities" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Structure_Location"
+      Association="FK_Structure_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="c_Structure"
+        EntitySet="Structures" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Facility_Location">
@@ -493,6 +508,21 @@
       Name="Facility"
       Multiplicity="Many"
       EntityType="Facility" />
+  </Association>
+  <Association
+    Name="FK_Structure_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Structure"
+      Multiplicity="Many"
+      EntityType="c_Structure" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -734,6 +764,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="LocationID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Structure_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Structure_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Location]/Members[c_Structure]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

@@ -7,7 +7,6 @@ myapp.AddEditSubSector.created = function (screen) {
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
 };
 myapp.AddEditSubSector.Delete_execute_execute = function (screen) {
-    // Write code here.
     msls.application.lightswitchTools.deleteEntity(screen);
 
 };

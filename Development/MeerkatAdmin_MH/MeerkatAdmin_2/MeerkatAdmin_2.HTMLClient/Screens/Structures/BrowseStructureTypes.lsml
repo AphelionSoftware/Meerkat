@@ -5,10 +5,12 @@
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="BrowseActivities">
+    Name="BrowseStructureTypes">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
+      <DisplayName
+        Value="StructureTypes" />
     </Screen.Attributes>
     <Screen.RootContentItem>
       <ContentItem
@@ -20,25 +22,34 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="ActivityList"
+            Name="StructureTypeList"
             Kind="Group">
             <ContentItem
-              Name="ActivitiesSorted"
+              Name="StructureTypes"
               Kind="Collection"
-              DataType="CollectionView$Activity">
+              DataType="CollectionView$StructureType"
+              View="Microsoft.LightSwitch.MobileWeb:TileList">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="StructureTypes" />
+              </ContentItem.Attributes>
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseActivities/Properties[ActivitiesSorted]" />
+                      Member="BrowseStructureTypes/Properties[StructureTypes]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="ActivitiesSortedTemplate"
+                Name="rows"
                 Kind="Details"
-                DataType="Activity"
-                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                DataType="StructureType"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="rows" />
+                </ContentItem.Attributes>
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
@@ -52,37 +63,85 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Activity/Properties[Code]" />
+                          Member="StructureType/Properties[Code]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Large"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
                 </ContentItem>
                 <ContentItem
-                  Name="ShortName2"
+                  Name="Name"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Activity/Properties[ShortName]" />
+                          Member="StructureType/Properties[Name]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Small"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
                 </ContentItem>
                 <ContentItem
-                  Name="LongName"
+                  Name="BusinessKey"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Activity/Properties[LongName]" />
+                          Member="StructureType/Properties[BusinessKey]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Small"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
                 </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[WidthSizingMode]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="FitToContent"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem.PropertySources>
                 <ControlPropertySource
@@ -90,16 +149,16 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showAddEditActivity]">
+                        Target="!module/Methods[showAddEditStructureType]">
                         <CallExpression.Attributes>
                           <AssociatedCollection
-                            Collection="BrowseActivities/Properties[ActivitiesSorted]" />
+                            Collection="BrowseStructureTypes/Properties[StructureTypes]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
-                          Parameter="Activity">
+                          Parameter="StructureType">
                           <ChainExpression>
                             <MemberExpression
-                              Member="BrowseActivities/Properties[ActivitiesSorted]" />
+                              Member="BrowseStructureTypes/Properties[StructureTypes]" />
                             <MemberExpression
                               Member="selectedItem" />
                           </ChainExpression>
@@ -122,11 +181,11 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="ShowAdministrationHome"
+                Name="AddStructureType"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
-                    Value="Home" />
+                    Value="Add" />
                 </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
@@ -134,74 +193,45 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAdministrationHome]" />
+                          Target="!module/Methods[showAddEditStructureType]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="BrowseStructureTypes/Properties[StructureTypes]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditStructureType]/Parameters[StructureType]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-custom"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
-                Name="AddActivity"
-                Kind="Command">
-                <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-add"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditActivity]">
-                          <CallExpression.Attributes>
-                            <CreateNewEntity
-                              EntityType="Activity"
-                              TargetParameter="!module/Methods[showAddEditActivity]/Parameters[Activity]" />
-                          </CallExpression.Attributes>
-                        </CallExpression>
+                          ResultType="Microsoft.LightSwitch:String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="ShowFilter"
+                Name="SearchStructureTypes"
                 Kind="Command">
                 <ContentItem.Attributes>
                   <DisplayName
-                    Value="Filter" />
+                    Value="Search" />
                 </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
                     <ScreenExpressionTree>
                       <ChainExpression>
+                        <MemberExpression
+                          Member="BrowseStructureTypes/Properties[StructureTypes]" />
                         <CallExpression
-                          Target="BrowseActivities/Methods[showDialog]">
-                          <ArgumentExpression
-                            Parameter="dialogName">
-                            <ConstantExpression
-                              Value="Filter"
-                              ResultType=":String" />
-                          </ArgumentExpression>
-                        </CallExpression>
+                          Target="showSearch" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -210,8 +240,8 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-filter"
-                          ResultType=":String" />
+                          Value="msls-search"
+                          ResultType="Microsoft.LightSwitch:String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -235,77 +265,7 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
-          <ContentItem
-            Name="Filter"
-            Kind="Group">
-            <ContentItem
-              Name="ProjectID"
-              Kind="Details"
-              DataType="Project">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseActivities/Properties[ProjectID]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-              <ContentItem
-                Name="Project"
-                Kind="Details"
-                DataType="Project">
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression />
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
-              </ContentItem>
-            </ContentItem>
-            <ContentItem
-              Name="Name"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseActivities/Properties[Name]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
-            <ContentItem
-              Name="Code1"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.Attributes>
-                <DisplayName
-                  Value="Code" />
-              </ContentItem.Attributes>
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseActivities/Properties[Code1]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
-          </ContentItem>
-        </ContentItem>
-        <ContentItem.PropertySources>
-          <ControlPropertySource
-            Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
-            <ScreenExpressionTree>
-              <ChainExpression>
-                <ConstantExpression
-                  Value="Browse"
-                  ResultType=":String" />
-              </ChainExpression>
-            </ScreenExpressionTree>
-          </ControlPropertySource>
-        </ContentItem.PropertySources>
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
       </ContentItem>
     </Screen.RootContentItem>
     <Screen.Methods>
@@ -331,25 +291,23 @@
           Name="dialogName"
           ParameterType=":String" />
       </ScreenMethod>
-      <ScreenMethod
-        Name="EditActivity" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="ActivitiesSorted"
+        Name="StructureTypes"
         PageSize="45"
-        PropertyType="CollectionView$Activity">
+        PropertyType="CollectionView$StructureType">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="ActivitiesSortedQuery"
-            ReturnType="Activity*">
+            Name="StructureTypesQuery"
+            ReturnType="StructureType*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[ActivitiesSorted]" />
+                  Member="MeerkatData/Members[StructureTypes]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -357,80 +315,18 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseActivities/Properties[ActivitiesSorted]/Query">
-              <ArgumentExpression
-                Parameter="Name">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseActivities/Properties[Name]" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="Code">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseActivities/Properties[Code1]" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ProjectID">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseActivities/Properties[ProjectID]" />
-                  <MemberExpression
-                    Member="ProjectID" />
-                </ChainExpression>
-              </ArgumentExpression>
-            </CallExpression>
+              Target="BrowseStructureTypes/Properties[StructureTypes]/Query" />
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="Name"
-        PropertyType=":String?" />
-      <ScreenProperty
-        Name="Code1"
-        PropertyType=":String?" />
-      <ScreenProperty
-        Name="ProjectID1"
-        PropertyType="Project" />
-      <ScreenCollectionProperty
-        Name="ProjectsSorted"
-        PageSize="45"
-        PropertyType="CollectionView$Project">
-        <ScreenCollectionProperty.Query>
-          <ScreenQueryDefinition
-            Name="ProjectsSortedQuery"
-            ReturnType="Project*">
-            <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree />
-            </ScreenQueryDefinition.FilterExpression>
-            <ScreenQueryDefinition.Source>
-              <QuerySourceExpressionTree>
-                <MemberExpression
-                  Member="MeerkatData/Members[ProjectsSorted]" />
-              </QuerySourceExpressionTree>
-            </ScreenQueryDefinition.Source>
-          </ScreenQueryDefinition>
-        </ScreenCollectionProperty.Query>
-        <ScreenExpressionTree>
-          <ChainExpression>
-            <CallExpression
-              Target="BrowseActivities/Properties[ProjectsSorted]/Query" />
-          </ChainExpression>
-        </ScreenExpressionTree>
-      </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="ProjectID"
-        PropertyType="Project" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showBrowseActivities">
+      Name="showBrowseStructureTypes">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="BrowseActivities" />
+          TargetScreen="BrowseStructureTypes" />
       </ApplicationMethod.Attributes>
     </ApplicationMethod>
   </Application.Methods>

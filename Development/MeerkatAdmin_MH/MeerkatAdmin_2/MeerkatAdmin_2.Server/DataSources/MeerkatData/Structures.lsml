@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="ResultArea">
+    Name="c_Structure">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,17 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <KeyProperty
-        Name="ResultArea_ID"
+        Name="Structure_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -35,6 +26,16 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
         Name="Code"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -42,17 +43,15 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
         PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="400" />
-          <Required />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -63,7 +62,6 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -75,7 +73,6 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -86,7 +83,6 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -98,36 +94,8 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
-          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="ActiveType"
-        Association="FK_ResultArea_ActiveType"
-        FromEnd="ResultArea"
-        ToEnd="ActiveType">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="MilestoneValues"
-        Association="FK_MilestoneValues_ResultArea"
-        FromEnd="ResultArea"
-        ToEnd="MilestoneValues">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
-      <NavigationProperty
-        Name="Project_ResultAreas"
-        Association="FK_Project_ResultArea_ResultArea"
-        FromEnd="ResultArea"
-        ToEnd="Project_ResultArea">
-        <NavigationProperty.Attributes>
-          <Hidden />
-        </NavigationProperty.Attributes>
-      </NavigationProperty>
       <EntityProperty
         Name="LocalName"
         PropertyType=":String?">
@@ -137,26 +105,79 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Indicators"
-        Association="FK_Indicator_ResultArea"
-        FromEnd="ResultArea"
-        ToEnd="Indicator" />
+        Name="IndicatorValues"
+        Association="FK_IndicatorValues_Structure"
+        FromEnd="c_Structure"
+        ToEnd="IndicatorValues" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Structure_ActiveType"
+        FromEnd="c_Structure"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Institution"
+        Association="FK_Structure_Institution"
+        FromEnd="c_Structure"
+        ToEnd="Institution" />
+      <NavigationProperty
+        Name="Location"
+        Association="FK_Structure_Location"
+        FromEnd="c_Structure"
+        ToEnd="Location" />
+      <NavigationProperty
+        Name="StructureType"
+        Association="FK_Structure_StructureType"
+        FromEnd="c_Structure"
+        ToEnd="StructureType" />
+      <EntityProperty
+        Name="TextDescription"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="4000" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_IndicatorValues_Structure">
+    <AssociationEnd
+      Name="c_Structure"
+      EntityType="c_Structure">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="IndicatorValues"
+      Multiplicity="Many"
+      EntityType="IndicatorValue" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="ResultAreas"
+      Name="Structures"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="ResultArea" />
+      EntityType="c_Structure" />
+    <AssociationSet
+      Name="FK_IndicatorValues_Structure"
+      Association="FK_IndicatorValues_Structure">
+      <AssociationSetEnd
+        Name="c_Structure"
+        EntitySet="Structures" />
+      <AssociationSetEnd
+        Name="IndicatorValues"
+        EntitySet="IndicatorValues" />
+    </AssociationSet>
     <QueryOperation
-      Name="ResultAreas_Single"
-      ReturnType="ResultArea">
+      Name="Structures_Single"
+      ReturnType="c_Structure">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -169,12 +190,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ResultArea_ID" />
+                  Member="Structure_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ResultArea_ID" />
+                Parameter="Structure_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -182,21 +203,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="ResultAreas" />
+            Member="Structures" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ResultArea_ID"
-        ParameterType=":Int32?">
+        Name="Structure_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ResultArea_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Structure_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="ResultAreas_SingleOrDefault"
-      ReturnType="ResultArea">
+      Name="Structures_SingleOrDefault"
+      ReturnType="c_Structure">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -209,12 +230,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="ResultArea_ID" />
+                  Member="Structure_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="ResultArea_ID" />
+                Parameter="Structure_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -222,220 +243,127 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="ResultAreas" />
+            Member="Structures" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="ResultArea_ID"
-        ParameterType=":Int32?">
+        Name="Structure_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'ResultArea_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Structure_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_MilestoneValues_ResultArea"
-      Association="FK_MilestoneValues_ResultArea">
-      <AssociationSetEnd
-        Name="ResultArea"
-        EntitySet="ResultAreas" />
-      <AssociationSetEnd
-        Name="MilestoneValues"
-        EntitySet="MilestoneValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Project_ResultArea_ResultArea"
-      Association="FK_Project_ResultArea_ResultArea">
-      <AssociationSetEnd
-        Name="ResultArea"
-        EntitySet="ResultAreas" />
-      <AssociationSetEnd
-        Name="Project_ResultArea"
-        EntitySet="Project_ResultAreas" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_Indicator_ResultArea"
-      Association="FK_Indicator_ResultArea">
-      <AssociationSetEnd
-        Name="ResultArea"
-        EntitySet="ResultAreas" />
-      <AssociationSetEnd
-        Name="Indicator"
-        EntitySet="Indicators" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_MilestoneValues_ResultArea">
-    <AssociationEnd
-      Name="ResultArea"
-      EntityType="ResultArea">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="MilestoneValues"
-      Multiplicity="Many"
-      EntityType="MilestoneValue" />
-  </Association>
-  <Association
-    Name="FK_Project_ResultArea_ResultArea">
-    <AssociationEnd
-      Name="ResultArea"
-      EntityType="ResultArea">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project_ResultArea"
-      Multiplicity="Many"
-      EntityType="Project_ResultArea" />
-  </Association>
-  <Association
-    Name="FK_Indicator_ResultArea">
-    <AssociationEnd
-      Name="ResultArea"
-      EntityType="ResultArea">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Indicator"
-      Multiplicity="Many"
-      EntityType="Indicator" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="ResultAreas">
+      EntitySet="Structures">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="disagg"
-          Table="ResultArea" />
+          Table="Structure" />
         <SsdlProperty
-          Name="ResultArea_ID"
+          Name="Structure_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="ResultArea/Properties[ResultArea_ID]" />
+          Property="c_Structure/Properties[Structure_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
           Nullable="False"
           Type="varchar"
-          Property="ResultArea/Properties[Code]" />
+          Property="c_Structure/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
-          Property="ResultArea/Properties[Name]" />
+          Property="c_Structure/Properties[Name]" />
         <SsdlProperty
           MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
           Type="nvarchar"
-          Property="ResultArea/Properties[BusinessKey]" />
+          Property="c_Structure/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="4000"
+          Name="TextDescription"
+          Nullable="True"
+          Type="varchar"
+          Property="c_Structure/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="ResultArea/Properties[sys_CreatedBy]" />
+          Property="c_Structure/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="ResultArea/Properties[sys_CreatedOn]" />
+          Property="c_Structure/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="ResultArea/Properties[sys_ModifiedBy]" />
+          Property="c_Structure/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="ResultArea/Properties[sys_ModifiedOn]" />
+          Property="c_Structure/Properties[sys_ModifiedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="LocalName"
           Nullable="True"
           Type="nvarchar"
-          Property="ResultArea/Properties[LocalName]" />
+          Property="c_Structure/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Institution_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Institution_ID" />
+        <SsdlForeignKeyProperty
+          Name="Location_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="StructureType_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="StructureType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Indicator_ResultArea">
+      AssociationSet="FK_IndicatorValues_Structure">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Indicator_ResultArea" />
+          Name="FK_IndicatorValues_Structure" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_ResultArea]/Members[ResultArea]">
+          End="MeerkatData/Members[FK_IndicatorValues_Structure]/Members[c_Structure]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ResultArea_ID" />
+              Name="Structure_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Indicator_ResultArea]/Members[Indicator]">
+          End="MeerkatData/Members[FK_IndicatorValues_Structure]/Members[IndicatorValues]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ResultArea_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_MilestoneValues_ResultArea">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_MilestoneValues_ResultArea" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_MilestoneValues_ResultArea]/Members[ResultArea]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ResultArea_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_MilestoneValues_ResultArea]/Members[MilestoneValues]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ResultArea_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Project_ResultArea_ResultArea">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Project_ResultArea_ResultArea" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_ResultArea_ResultArea]/Members[ResultArea]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ResultArea_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_ResultArea_ResultArea]/Members[Project_ResultArea]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ResultAreaID" />
+              Name="Structure_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
