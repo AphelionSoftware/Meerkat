@@ -34,7 +34,7 @@ myapp.AddEditLocation.Location_Population_postRender = function (element, conten
         
     contentItem.dataBind("value", function () {
         if (PopulationField && AreaField && PopulationField.stringValue && AreaField.stringValue){
-            DensityField.value = PopulationField.stringValue / AreaField.stringValue;
+            DensityField.value = String(PopulationField.stringValue / AreaField.stringValue);
         }
         
     }
@@ -47,7 +47,7 @@ myapp.AddEditLocation.Location_AreaKM_postRender = function (element, contentIte
 
     contentItem.dataBind("value", function () {
         if (PopulationField && AreaField && PopulationField.stringValue && AreaField.stringValue) {
-            DensityField.value = PopulationField.stringValue / AreaField.stringValue;
+            DensityField.value = String(PopulationField.stringValue / AreaField.stringValue);
         }
 
     }

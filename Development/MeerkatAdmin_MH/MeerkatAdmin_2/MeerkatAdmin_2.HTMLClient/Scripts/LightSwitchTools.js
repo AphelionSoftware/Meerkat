@@ -312,18 +312,20 @@
 
         var BaselineField = screen.findContentItem("Baseline");
         var BaselineStringField = screen.findContentItem("BaselineString");
-        BaselineField.dataBind("value", function () {
-            if (BaselineField.value !== undefined && BaselineField.value.length > 0) {
-                var currentLength = 0;
-                if (BaselineStringField.value !== undefined) {
-                    currentLength = BaselineStringField.value.length;
-                }
+        if (BaselineField && BaselineStringField) {
+            BaselineField.dataBind("value", function () {
+                if (BaselineField.value !== undefined && BaselineField.value.length > 0) {
+                    var currentLength = 0;
+                    if (BaselineStringField.value !== undefined) {
+                        currentLength = BaselineStringField.value.length;
+                    }
 
-                if (currentLength === 0) {
-                    BaselineStringField.value = BaselineField.value;
+                    if (currentLength === 0) {
+                        BaselineStringField.value = BaselineField.value;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     lightswitchTools.setTargetString = function (screen) {
@@ -332,18 +334,20 @@
 
         var TargetField = screen.findContentItem("Target");
         var TargetStringField = screen.findContentItem("TargetString");
-        TargetField.dataBind("value", function () {
-            if (TargetField.value !== undefined && TargetField.value.length > 0) {
-                var currentLength = 0;
-                if (TargetStringField.value !== undefined) {
-                    currentLength = TargetStringField.value.length;
-                }
+        if (TargetField && TargetStringField) {
+            TargetField.dataBind("value", function () {
+                if (TargetField.value !== undefined && TargetField.value.length > 0) {
+                    var currentLength = 0;
+                    if (TargetStringField.value !== undefined) {
+                        currentLength = TargetStringField.value.length;
+                    }
 
-                if (currentLength === 0) {
-                    TargetStringField.value = TargetField.value;
+                    if (currentLength === 0) {
+                        TargetStringField.value = TargetField.value;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     lightswitchTools.setDescriptionIsName = function (screen) {
