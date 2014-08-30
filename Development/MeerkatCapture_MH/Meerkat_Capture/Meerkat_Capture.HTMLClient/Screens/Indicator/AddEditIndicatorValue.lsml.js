@@ -123,12 +123,14 @@ function updateFormValues(element, contentItem) {
 
 function updatePreviousVersionIndicator(element, contentItem) {
     if (contentItem.screen.DataVersionSorted.selectedItem) {
-        contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.DataVersion_ID + 1;
+        contentItem.screen.IndicatorValue.ActualValue = 0;
+        contentItem.screen.PreviousDataVersion = contentItem.screen.DataVersionSorted.selectedItem.Order + 1;
+
+        contentItem.screen.IndicatorValuesPreviousVersion.load();
+
+        contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
     }
 
-    contentItem.screen.IndicatorValuesPreviousVersion.load();
-
-    contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
 }
 
 function updateLocationsTotalIndicator( element, contentItem)
@@ -363,9 +365,16 @@ myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
 myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
     // Write code here.
     if (screen.IndicatorValuesPreviousVersion.data[1]) {
-        screen.IndicatorValue.ActualValue= screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
-        screen.IndicatorValue.ActualLabel = screen.IndicatorValuesPreviousVersion.data[1].ActualLabel;
-        screen.IndicatorValue.ActualDate = screen.IndicatorValuesPreviousVersion.data[1].ActualDate;
+        if (screen.IndicatorValuesPreviousVersion.data[1].ActualValue) {
+            //screen.IndicatorValue.ActualValue = screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
+            screen.findContentItem("ActualValue").stringValue = screen.IndicatorValuesPreviousVersion.data[1].ActualValue;
+        }
+        if (screen.IndicatorValuesPreviousVersion.data[1].ActualLabel) {
+            screen.IndicatorValue.ActualLabel = screen.IndicatorValuesPreviousVersion.data[1].ActualLabel;
+        }
+        if (screen.IndicatorValuesPreviousVersion.data[1].ActualDate) {
+            screen.IndicatorValue.ActualDate = screen.IndicatorValuesPreviousVersion.data[1].ActualDate;
+        }
     }
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
@@ -441,4 +450,8 @@ myapp.AddEditIndicatorValue.ReportingPeriod1_postRender = function (element, con
     }
     contentItem.dataBind("screen.ReportingPeriodsFiltered.count", setDefaultReportingPeriod());
     */
+};
+myapp.AddEditIndicatorValue.ActualValue_postRender = function (element, contentItem) {
+    //contentItem.value = 0;
+
 };
