@@ -41,10 +41,11 @@
     [ProjectID]                      INT             NULL,
     [ResultArea_ID]                  INT             NULL,
     [Sector_ID]                      INT             NULL,
-    [StrategicElement_ID]            INT             NULL,
     [SubOutput_ID]                   INT             NULL,
     [SubSector_ID]                   INT             NULL
 );
+
+
 
 
 

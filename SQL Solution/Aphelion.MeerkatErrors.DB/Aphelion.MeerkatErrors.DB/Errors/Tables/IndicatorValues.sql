@@ -36,7 +36,8 @@
     [Location_ID]                 INT             NULL,
     [Organization_ID]             INT             NULL,
     [ReportPeriodID]              INT             NULL,
-    [ResultArea_ID]               INT             NULL,
-    [StrategicElement_ID]         INT             NULL
+    [Structure_ID]                INT             NULL
 );
+
+
 

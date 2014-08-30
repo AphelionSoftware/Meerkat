@@ -5,22 +5,22 @@ AS
 
 SELECT 
 	[MilestoneValues].[MilestoneValues_ID] 
+	,[MilestoneValues].[BusinessKey] 
 	,[MilestoneValues].[ActualDate] 
 	,[MilestoneValues].[ActualLabel] 
 	,[MilestoneValues].[ActualValue] 
+	,[MilestoneValues].[GroupVersion] 
+	,[MilestoneValues].[MilestoneValueGroup] 
+	,[MilestoneValues].[Notes] 
 	,[MilestoneValues].[AgeBand_ID] 
-	,[MilestoneValues].[BusinessKey] 
 	,[MilestoneValues].[CommunityType_ID] 
 	,[MilestoneValues].[Donor_ID] 
 	,[MilestoneValues].[Framework_ID] 
 	,[MilestoneValues].[Gender_ID] 
 	,[MilestoneValues].[Group_ID] 
-	,[MilestoneValues].[GroupVersion] 
 	,[MilestoneValues].[Institution_ID] 
 	,[MilestoneValues].[Location_ID] 
 	,[MilestoneValues].[Milestone_ID] 
-	,[MilestoneValues].[MilestoneValueGroup] 
-	,[MilestoneValues].[Notes] 
 	,[MilestoneValues].[Organization_ID] 
 	,[MilestoneValues].[ReportPeriodID] 
 	,[MilestoneValues].[ResultArea_ID] 
@@ -305,4 +305,8 @@ EXECUTE sp_addextendedproperty @name = N'MeasureCount', @value = N'true', @level
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 

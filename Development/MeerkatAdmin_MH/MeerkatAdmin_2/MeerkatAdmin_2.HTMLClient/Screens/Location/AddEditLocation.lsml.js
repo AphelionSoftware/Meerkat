@@ -26,3 +26,30 @@ myapp.AddEditLocation.Delete_execute_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);
 
 };
+myapp.AddEditLocation.Location_Population_postRender = function (element, contentItem) {
+    
+    var DensityField = contentItem.screen.findContentItem("Density");
+    var AreaField = contentItem.screen.findContentItem("Location_AreaKM");
+    var PopulationField = contentItem.screen.findContentItem("Location_Population");
+        
+    contentItem.dataBind("value", function () {
+        if (PopulationField && AreaField && PopulationField.stringValue && AreaField.stringValue){
+            DensityField.value = PopulationField.stringValue / AreaField.stringValue;
+        }
+        
+    }
+    );
+};
+myapp.AddEditLocation.Location_AreaKM_postRender = function (element, contentItem) {
+    var DensityField = contentItem.screen.findContentItem("Density");
+    var AreaField = contentItem.screen.findContentItem("Location_AreaKM");
+    var PopulationField = contentItem.screen.findContentItem("Location_Population");
+
+    contentItem.dataBind("value", function () {
+        if (PopulationField && AreaField && PopulationField.stringValue && AreaField.stringValue) {
+            DensityField.value = PopulationField.stringValue / AreaField.stringValue;
+        }
+
+    }
+    );
+};

@@ -1,16 +1,16 @@
-    
+﻿    
 
 CREATE VIEW [OLAP_GEN].[StatusValues]
 AS
 
 SELECT 
 	[StatusValues].[StatusValuesID] 
+	,[StatusValues].[Notes] 
 	,[StatusValues].[Activity_ID] 
 	,[StatusValues].[DataVersionID] 
 	,[StatusValues].[Indicator_ID] 
 	,[StatusValues].[LocationID] 
 	,[StatusValues].[Milestone_ID] 
-	,[StatusValues].[Notes] 
 	,[StatusValues].[Outcome_ID] 
 	,[StatusValues].[Output_ID] 
 	,[StatusValues].[Programme_ID] 

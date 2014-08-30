@@ -23,8 +23,11 @@
     [Programme_ID]           INT            NULL,
     [ProjectType_ID]         INT            NULL,
     [Sector_ID]              INT            NULL,
+    [StrategicElement_ID]    INT            NULL,
     [SubSector_ID]           INT            NULL
 );
+
+
 
 
 

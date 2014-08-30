@@ -21,6 +21,7 @@
     [ProjectType_ID]      INT            CONSTRAINT [DF_Project_ProjectType_ID] DEFAULT ((2)) NULL,
     [LocalShortName]      NVARCHAR (50)  NULL,
     [LocalLongName]       NVARCHAR (500) NULL,
+    [StrategicElement_ID] INT            NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ProjectID] ASC),
     CONSTRAINT [CK_Project] CHECK ((((case when [Outcome_ID] IS NOT NULL then (1) else (0) end+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [Sector_ID] IS NOT NULL then (1) else (0) end)+case when [SubSector_ID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Project_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -28,8 +29,11 @@
     CONSTRAINT [FK_Project_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_Project_ProjectType] FOREIGN KEY ([ProjectType_ID]) REFERENCES [app].[ProjectType] ([ProjectType_ID]),
     CONSTRAINT [FK_Project_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID]),
+    CONSTRAINT [FK_Project_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
     CONSTRAINT [FK_Project_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

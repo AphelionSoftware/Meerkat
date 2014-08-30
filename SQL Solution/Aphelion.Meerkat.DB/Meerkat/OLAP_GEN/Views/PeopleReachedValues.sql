@@ -5,6 +5,8 @@ AS
 
 SELECT 
 	[PeopleReachedValues].[PeopleReachedValuesID] 
+	,[PeopleReachedValues].[Notes] 
+	,[PeopleReachedValues].[NumberReached] 
 	,[PeopleReachedValues].[Activity_ID] 
 	,[PeopleReachedValues].[AgeBand_ID] 
 	,[PeopleReachedValues].[CommunityType_ID] 
@@ -15,8 +17,6 @@ SELECT
 	,[PeopleReachedValues].[Group_ID] 
 	,[PeopleReachedValues].[Institution_ID] 
 	,[PeopleReachedValues].[Location_ID] 
-	,[PeopleReachedValues].[Notes] 
-	,[PeopleReachedValues].[NumberReached] 
 	,[PeopleReachedValues].[Outcome_ID] 
 	,[PeopleReachedValues].[Output_ID] 
 	,[PeopleReachedValues].[Programme_ID] 

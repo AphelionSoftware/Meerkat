@@ -25,10 +25,11 @@
     [ProjectBusinessKey]             NVARCHAR (400)  NULL,
     [ResultAreaBusinessKey]          NVARCHAR (400)  NULL,
     [SectorBusinessKey]              NVARCHAR (400)  NULL,
-    [StrategicElementBusinessKey]    NVARCHAR (400)  NULL,
     [SubOutputBusinessKey]           NVARCHAR (400)  NULL,
     [SubSectorBusinessKey]           NVARCHAR (400)  NULL
 );
+
+
 
 
 

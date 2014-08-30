@@ -440,3 +440,11 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Outcome', @level2type = N'COLUMN', @level2name = N'ImpactLocalLongName';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Outcome', @level2type = N'COLUMN', @level2name = N'OutcomeBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Outcome', @level2type = N'COLUMN', @level2name = N'ImpactBusinessKey';
+

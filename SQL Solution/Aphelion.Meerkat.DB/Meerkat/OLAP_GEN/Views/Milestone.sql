@@ -49,6 +49,7 @@ SELECT
 	,COALESCE([Project_4456949503457366757].[ProjectType_ID] , [ProjectType_309590169417902643].[ProjectType_ID], [Project_5098028073883527751].[ProjectType_ID], [ProjectType_5850653284049282881].[ProjectType_ID] ) AS [ProjectType_ID]
 	,COALESCE([Project_4456949503457366757].[Sector_ID] , [Sector_4924144588923763731].[Sector_ID], [Sector_6522458742435283257].[Sector_ID], [Project_5098028073883527751].[Sector_ID], [Sector_8977024346432794853].[Sector_ID], [Sector_2902205030677027279].[Sector_ID] ) AS [ProjectSector_ID]
 	,COALESCE([Project_4456949503457366757].[ShortName] , [Project_5098028073883527751].[ShortName] ) AS [ProjectShortName]
+	,COALESCE([Project_4456949503457366757].[StrategicElement_ID] , [StrategicElement_8460756972496582987].[StrategicElement_ID], [Project_5098028073883527751].[StrategicElement_ID], [StrategicElement_2900584784206566229].[StrategicElement_ID] ) AS [ProjectStrategicElement_ID]
 	,COALESCE([Project_4456949503457366757].[SubSector_ID] , [SubSector_452163034357765023].[SubSector_ID], [Project_5098028073883527751].[SubSector_ID], [SubSector_5582173981829459845].[SubSector_ID] ) AS [ProjectSubSector_ID]
 	,COALESCE([Project_4456949503457366757].[TextDescription] , [Project_5098028073883527751].[TextDescription] ) AS [ProjectTextDescription]
 	,COALESCE([Outcome_42678601143493245].[BusinessKey] , [Outcome_8652530300005222807].[BusinessKey] ) AS [OutcomeBusinessKey]
@@ -90,6 +91,10 @@ SELECT
 	,COALESCE([Sector_4924144588923763731].[Programme_ID] , [Sector_6522458742435283257].[Programme_ID], [Sector_8977024346432794853].[Programme_ID], [Sector_2902205030677027279].[Programme_ID] ) AS [SectorProgramme_ID]
 	,COALESCE([Sector_4924144588923763731].[ShortName] , [Sector_6522458742435283257].[ShortName], [Sector_8977024346432794853].[ShortName], [Sector_2902205030677027279].[ShortName] ) AS [SectorShortName]
 	,COALESCE([Sector_4924144588923763731].[TextDescription] , [Sector_6522458742435283257].[TextDescription], [Sector_8977024346432794853].[TextDescription], [Sector_2902205030677027279].[TextDescription] ) AS [SectorTextDescription]
+	,COALESCE([StrategicElement_8460756972496582987].[BusinessKey] , [StrategicElement_2900584784206566229].[BusinessKey] ) AS [StrategicElementBusinessKey]
+	,COALESCE([StrategicElement_8460756972496582987].[Code] , [StrategicElement_2900584784206566229].[Code] ) AS [StrategicElementCode]
+	,COALESCE([StrategicElement_8460756972496582987].[LocalName] , [StrategicElement_2900584784206566229].[LocalName] ) AS [StrategicElementLocalName]
+	,COALESCE([StrategicElement_8460756972496582987].[Name] , [StrategicElement_2900584784206566229].[Name] ) AS [StrategicElementName]
 	,COALESCE([SubSector_452163034357765023].[BusinessKey] , [SubSector_5582173981829459845].[BusinessKey] ) AS [SubSectorBusinessKey]
 	,COALESCE([SubSector_452163034357765023].[Code] , [SubSector_5582173981829459845].[Code] ) AS [SubSectorCode]
 	,COALESCE([SubSector_452163034357765023].[LocalLongName] , [SubSector_5582173981829459845].[LocalLongName] ) AS [SubSectorLocalLongName]
@@ -123,26 +128,34 @@ FROM [app].[Milestone] AS [Milestone_3537840701332031490]
     ON  [Project_4456949503457366757].[Programme_ID] = [Programme_4767818439020600199].[Programme_ID]
         
 
-    JOIN [app].[ProjectType] AS [ProjectType_309590169417902643] 
+    LEFT JOIN [app].[ProjectType] AS [ProjectType_309590169417902643] 
     
-        ON  [Project_4456949503457366757].[ProjectType_ID] = [ProjectType_309590169417902643].[ProjectType_ID]
+    ON  [Project_4456949503457366757].[ProjectType_ID] = [ProjectType_309590169417902643].[ProjectType_ID]
+        
 
     LEFT JOIN [app].[Sector] AS [Sector_4924144588923763731] 
     
-    JOIN [app].[Programme] AS [Programme_8548454656602143505] 
+    LEFT JOIN [app].[Programme] AS [Programme_8548454656602143505] 
     
-        ON  [Sector_4924144588923763731].[Programme_ID] = [Programme_8548454656602143505].[Programme_ID]
+    ON  [Sector_4924144588923763731].[Programme_ID] = [Programme_8548454656602143505].[Programme_ID]
+        
 
     ON  [Project_4456949503457366757].[Sector_ID] = [Sector_4924144588923763731].[Sector_ID]
+        
+
+    LEFT JOIN [disagg].[StrategicElement] AS [StrategicElement_8460756972496582987] 
+    
+    ON  [Project_4456949503457366757].[StrategicElement_ID] = [StrategicElement_8460756972496582987].[StrategicElement_ID]
         
 
     LEFT JOIN [app].[SubSector] AS [SubSector_452163034357765023] 
     
     JOIN [app].[Sector] AS [Sector_6522458742435283257] 
     
-    JOIN [app].[Programme] AS [Programme_8985200191557887445] 
+    LEFT JOIN [app].[Programme] AS [Programme_8985200191557887445] 
     
-        ON  [Sector_6522458742435283257].[Programme_ID] = [Programme_8985200191557887445].[Programme_ID]
+    ON  [Sector_6522458742435283257].[Programme_ID] = [Programme_8985200191557887445].[Programme_ID]
+        
 
         ON  [SubSector_452163034357765023].[Sector_ID] = [Sector_6522458742435283257].[Sector_ID]
 
@@ -175,26 +188,34 @@ FROM [app].[Milestone] AS [Milestone_3537840701332031490]
     ON  [Project_5098028073883527751].[Programme_ID] = [Programme_9173451270087487659].[Programme_ID]
         
 
-    JOIN [app].[ProjectType] AS [ProjectType_5850653284049282881] 
+    LEFT JOIN [app].[ProjectType] AS [ProjectType_5850653284049282881] 
     
-        ON  [Project_5098028073883527751].[ProjectType_ID] = [ProjectType_5850653284049282881].[ProjectType_ID]
+    ON  [Project_5098028073883527751].[ProjectType_ID] = [ProjectType_5850653284049282881].[ProjectType_ID]
+        
 
     LEFT JOIN [app].[Sector] AS [Sector_8977024346432794853] 
     
-    JOIN [app].[Programme] AS [Programme_1783489461233979001] 
+    LEFT JOIN [app].[Programme] AS [Programme_1783489461233979001] 
     
-        ON  [Sector_8977024346432794853].[Programme_ID] = [Programme_1783489461233979001].[Programme_ID]
+    ON  [Sector_8977024346432794853].[Programme_ID] = [Programme_1783489461233979001].[Programme_ID]
+        
 
     ON  [Project_5098028073883527751].[Sector_ID] = [Sector_8977024346432794853].[Sector_ID]
+        
+
+    LEFT JOIN [disagg].[StrategicElement] AS [StrategicElement_2900584784206566229] 
+    
+    ON  [Project_5098028073883527751].[StrategicElement_ID] = [StrategicElement_2900584784206566229].[StrategicElement_ID]
         
 
     LEFT JOIN [app].[SubSector] AS [SubSector_5582173981829459845] 
     
     JOIN [app].[Sector] AS [Sector_2902205030677027279] 
     
-    JOIN [app].[Programme] AS [Programme_7999559335504819587] 
+    LEFT JOIN [app].[Programme] AS [Programme_7999559335504819587] 
     
-        ON  [Sector_2902205030677027279].[Programme_ID] = [Programme_7999559335504819587].[Programme_ID]
+    ON  [Sector_2902205030677027279].[Programme_ID] = [Programme_7999559335504819587].[Programme_ID]
+        
 
         ON  [SubSector_5582173981829459845].[Sector_ID] = [Sector_2902205030677027279].[Sector_ID]
 
@@ -1876,4 +1897,128 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ActivityLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'SubSectorBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'SectorBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectTypeBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProgrammeBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'OutcomeBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'MilestoneTypeBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'MilestoneBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ImpactBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ActivityBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'StrategicElement', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Name', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'StrategicElement', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementLocalName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'StrategicElement', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementCode';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementCode';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Code', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementCode';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementCode';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'StrategicElement', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'BusinessKey', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'3', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'StrategicElementBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Project', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectStrategicElement_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'app', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectStrategicElement_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'StrategicElement_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectStrategicElement_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Milestone', @level2type = N'COLUMN', @level2name = N'ProjectStrategicElement_ID';
 

@@ -1,0 +1,28 @@
+﻿CREATE TABLE [Errors].[Form] (
+    [QueueID]                  INT            NOT NULL,
+    [SSISErrorCode]            INT            NOT NULL,
+    [SSISErrorColumn]          INT            NOT NULL,
+    [PackageName]              VARCHAR (255)  NOT NULL,
+    [ErrorType]                VARCHAR (255)  NOT NULL,
+    [Form_ID]                  INT            NULL,
+    [Age_ID]                   INT            NULL,
+    [AgeBandBusinessKey]       NVARCHAR (400) NULL,
+    [Code]                     VARCHAR (50)   NOT NULL,
+    [CommunityTypeBusinessKey] NVARCHAR (400) NULL,
+    [GenderBusinessKey]        NVARCHAR (400) NULL,
+    [GroupBusinessKey]         NVARCHAR (400) NULL,
+    [InstitutionBusinessKey]   NVARCHAR (400) NULL,
+    [LocalName]                NVARCHAR (255) NULL,
+    [LocationBusinessKey]      NVARCHAR (400) NULL,
+    [Name]                     VARCHAR (255)  NOT NULL,
+    [ProjectBusinessKey]       NVARCHAR (400) NOT NULL,
+    [TextDescription]          VARCHAR (4000) NULL,
+    [AgeBand_ID]               INT            NULL,
+    [CommunityType_ID]         INT            NULL,
+    [Gender_ID]                INT            NULL,
+    [Group_ID]                 INT            NULL,
+    [Institution_ID]           INT            NULL,
+    [Location_ID]              INT            NULL,
+    [ProjectID]                INT            NULL
+);
+

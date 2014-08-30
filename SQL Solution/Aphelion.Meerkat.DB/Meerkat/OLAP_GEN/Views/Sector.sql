@@ -23,9 +23,9 @@ SELECT
 	,[Programme_7818958432026254290].[TextDescription] AS [ProgrammeTextDescription]
 FROM [app].[Sector] AS [Sector_6798140682959160272]
 
-    JOIN [app].[Programme] AS [Programme_7818958432026254290] 
+    LEFT JOIN [app].[Programme] AS [Programme_7818958432026254290] 
     
-        ON  [Sector_6798140682959160272].[Programme_ID] = [Programme_7818958432026254290].[Programme_ID]
+    ON  [Sector_6798140682959160272].[Programme_ID] = [Programme_7818958432026254290].[Programme_ID]
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Programme', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'ProgrammeTextDescription';
 
@@ -300,4 +300,12 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocalLongName', 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'ProgrammeLocalLongName';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'SectorBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'ProgrammeBusinessKey';
 
