@@ -23,36 +23,49 @@
             Name="MilestoneList"
             Kind="Group">
             <ContentItem
-              Name="Milestones"
+              Name="MilestonesSorted"
               Kind="Collection"
               DataType="CollectionView$Milestone">
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseMilestones/Properties[Milestones]" />
+                      Member="BrowseMilestones/Properties[MilestonesSorted]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="MilestonesTemplate"
+                Name="MilestonesSortedTemplate"
                 Kind="Details"
                 DataType="Milestone"
-                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ShortName"
+                  Name="Code"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="Milestone/Properties[ShortName]" />
+                          Member="Milestone/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="LongName"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="Milestone/Properties[LongName]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
@@ -67,18 +80,28 @@
                         Target="!module/Methods[showAddEditMilestone]">
                         <CallExpression.Attributes>
                           <AssociatedCollection
-                            Collection="BrowseMilestones/Properties[Milestones]" />
+                            Collection="BrowseMilestones/Properties[MilestonesSorted]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
                           Parameter="Milestone">
                           <ChainExpression>
                             <MemberExpression
-                              Member="BrowseMilestones/Properties[Milestones]" />
+                              Member="BrowseMilestones/Properties[MilestonesSorted]" />
                             <MemberExpression
                               Member="selectedItem" />
                           </ChainExpression>
                         </ArgumentExpression>
                       </CallExpression>
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="msls-edit"
+                        ResultType=":String" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ControlPropertySource>
@@ -204,6 +227,96 @@
             Name="Filter"
             Kind="Group">
             <ContentItem
+              Name="DirectProject"
+              Kind="Details"
+              DataType="Project">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[DirectProject]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Project"
+                Kind="Details"
+                DataType="Project">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="ActivityProject"
+              Kind="Details"
+              DataType="Project">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[ActivityProject]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Project1"
+                Kind="Details"
+                DataType="Project">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Activity"
+              Kind="Details"
+              DataType="Activity">
+              <ContentItem.ChoicesSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[ActivitiesSorted]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.ChoicesSource>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[Activity]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Activity1"
+                Kind="Details"
+                DataType="Activity">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="Name"
+              Kind="Value"
+              DataType=":String?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseMilestones/Properties[Name]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
               Name="Code1"
               Kind="Value"
               DataType=":String?">
@@ -212,19 +325,6 @@
                   <ChainExpression>
                     <MemberExpression
                       Member="BrowseMilestones/Properties[Code]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
-            <ContentItem
-              Name="ShortName1"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseMilestones/Properties[ShortName]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
@@ -273,86 +373,44 @@
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="Milestones"
+        Name="MilestonesSorted"
         PageSize="45"
         PropertyType="CollectionView$Milestone">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="MilestonesQuery"
+            Name="MilestonesSortedQuery"
             ReturnType="Milestone*">
             <ScreenQueryDefinition.FilterExpression>
-              <QueryFilterExpressionTree>
-                <BinaryExpression
-                  NodeType="And">
-                  <BinaryExpression.Left>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Milestone/Properties[Code]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="Code" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Left>
-                  <BinaryExpression.Right>
-                    <BinaryExpression
-                      NodeType="Contains">
-                      <BinaryExpression.Left>
-                        <ChainExpression>
-                          <MemberExpression
-                            Member="Milestone/Properties[ShortName]" />
-                        </ChainExpression>
-                      </BinaryExpression.Left>
-                      <BinaryExpression.Right>
-                        <ParameterExpression
-                          Parameter="ShortName" />
-                      </BinaryExpression.Right>
-                    </BinaryExpression>
-                  </BinaryExpression.Right>
-                </BinaryExpression>
-              </QueryFilterExpressionTree>
+              <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[Milestones]" />
+                  Member="MeerkatData/Members[MilestonesSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
-            <ScreenQueryDefinition.Parameters>
-              <QueryParameter
-                Name="Code"
-                IsOptional="True"
-                ParameterType=":String?" />
-              <QueryParameter
-                Name="ShortName"
-                IsOptional="True"
-                ParameterType=":String?" />
-            </ScreenQueryDefinition.Parameters>
-            <ScreenQueryDefinition.SortCriteria>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="Code" />
-                </ChainExpression>
-              </SortCriterion>
-              <SortCriterion>
-                <ChainExpression>
-                  <MemberExpression
-                    Member="ShortName" />
-                </ChainExpression>
-              </SortCriterion>
-            </ScreenQueryDefinition.SortCriteria>
           </ScreenQueryDefinition>
         </ScreenCollectionProperty.Query>
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseMilestones/Properties[Milestones]/Query">
+              Target="BrowseMilestones/Properties[MilestonesSorted]/Query">
+              <ArgumentExpression
+                Parameter="Activity">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[Activity]" />
+                  <MemberExpression
+                    Member="Activity_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Name">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[Name]" />
+                </ChainExpression>
+              </ArgumentExpression>
               <ArgumentExpression
                 Parameter="Code">
                 <ChainExpression>
@@ -361,10 +419,21 @@
                 </ChainExpression>
               </ArgumentExpression>
               <ArgumentExpression
-                Parameter="ShortName">
+                Parameter="DirectProject">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseMilestones/Properties[ShortName]" />
+                    Member="BrowseMilestones/Properties[DirectProject]" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ActivityProject">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[ActivityProject]" />
+                  <MemberExpression
+                    Member="ProjectID" />
                 </ChainExpression>
               </ArgumentExpression>
             </CallExpression>
@@ -372,11 +441,63 @@
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
       <ScreenProperty
-        Name="Code"
+        Name="Project"
+        PropertyType=":Int32?" />
+      <ScreenProperty
+        Name="Name"
         PropertyType=":String?" />
       <ScreenProperty
-        Name="ShortName"
+        Name="Code"
         PropertyType=":String?" />
+      <ScreenCollectionProperty
+        Name="ActivitiesSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Activity">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="ActivitiesSortedQuery"
+            ReturnType="Activity*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[ActivitiesSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseMilestones/Properties[ActivitiesSorted]/Query">
+              <ArgumentExpression
+                Parameter="Name" />
+              <ArgumentExpression
+                Parameter="Code" />
+              <ArgumentExpression
+                Parameter="ProjectID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseMilestones/Properties[ActivityProject]" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="DirectProject"
+        PropertyType="Project" />
+      <ScreenProperty
+        Name="ActivityProject"
+        PropertyType="Project" />
+      <ScreenProperty
+        Name="Activity"
+        PropertyType="Activity" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
