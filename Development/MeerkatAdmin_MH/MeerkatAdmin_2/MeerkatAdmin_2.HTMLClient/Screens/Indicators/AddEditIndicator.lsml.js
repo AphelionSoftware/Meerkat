@@ -89,6 +89,16 @@ myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
 };
 
 myapp.AddEditIndicator.created = function (screen) {
+
+
+    if (screen.Indicator.Baseline == "") {
+        screen.Indicator.setBaseline(0);
+    }
+
+    if (screen.Indicator.Target == "") {
+        screen.Indicator.setTarget(0);
+    }
+
     msls.application.lightswitchTools.configureCaptureForm(screen);
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
@@ -100,6 +110,13 @@ myapp.AddEditIndicator.created = function (screen) {
         screen.Client = x.results[0];
     });
 
+    if (!screen.Indicator.Baseline || screen.Indicator.Baseline == "") {
+        screen.Indicator.setBaseline(0);
+    }
+
+    if (!screen.Indicator.Target  || screen.Indicator.Target == "") {
+        screen.Indicator.setTarget(0);
+    }
 
 
 
