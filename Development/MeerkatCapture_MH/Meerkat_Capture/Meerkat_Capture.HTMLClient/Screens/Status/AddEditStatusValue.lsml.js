@@ -2,6 +2,49 @@
 /// <reference path="../Scripts/LightSwitchTools.js" />
 
 myapp.AddEditStatusValue.created = function (screen) {
+
+    if (screen.StatusValue.StatusValuesID)
+    {
+        if (screen.StatusValue.Output) {
+            screen.findContentItem("OutputGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.Outcome) {
+            screen.findContentItem("OutcomeGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.SubOutput) {
+            screen.findContentItem("SubOutputGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.Sector) {
+            screen.findContentItem("SectorGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.SubSector) {
+            screen.findContentItem("SubSectorGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.Programme) {
+            screen.findContentItem("ProgrammeGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.Project) {
+            screen.findContentItem("ProjectGroup").isVisible = true;
+            return;
+        }
+        if (screen.StatusValue.Activity) {
+            screen.findContentItem("ActivityGroup").isVisible = true;
+            return;
+        }
+
+        if (screen.StatusValue.Output_ID) {
+            screen.findContentItem("OutputGroup").isVisible = true;
+            return;
+        }
+
+    }
+
     if (screen.Values === undefined) {
         msls.showMessageBox("This screen has been called without the required values and thus will be broken");
     }
@@ -210,5 +253,25 @@ myapp.AddEditStatusValue.StatusValue_DataVersion_postRender = function (element,
         
 
     });
+
+};
+myapp.AddEditStatusValue.StatusType_postRender = function (element, contentItem) {
+    /*if (contentItem.value.StatusType.Code == "-") {
+        $(element).css("background", "#fc8d59");
+    } else if (contentItem.value.StatusType.Code == "=") {
+        $(element).css("background", "#ffffbf");
+    } else if (contentItem.value.StatusType.Code == "+") {
+        $(element).css("background", "#91cf60");
+    }*/
+
+};
+myapp.AddEditStatusValue.RowTemplate7_postRender = function (element, contentItem) {
+    if (contentItem.value.BusinessKey == "-") {
+        $(element).css("background", "#fc8d59");
+    } else if (contentItem.value.BusinessKey == "=") {
+        $(element).css("background", "#ffffbf");
+    } else if (contentItem.value.BusinessKey == "+") {
+        $(element).css("background", "#91cf60");
+    }
 
 };
