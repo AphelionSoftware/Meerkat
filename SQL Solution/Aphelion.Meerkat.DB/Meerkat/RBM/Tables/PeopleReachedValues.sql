@@ -29,6 +29,7 @@
     [ResultArea_ID]                INT            NULL,
     [StrategicElement_ID]          INT            NULL,
     [NumberReached]                INT            NOT NULL,
+    [ParticipationType_ID]         INT            NULL,
     CONSTRAINT [PK_PeopleReachedValues] PRIMARY KEY CLUSTERED ([PeopleReachedValuesID] ASC),
     CONSTRAINT [CK_PeopleReachedValues] CHECK ((((((case when [Outcome_ID] IS NULL then (0) else (1) end+case when [Output_ID] IS NULL then (0) else (1) end)+case when [SubOutput_ID] IS NULL then (0) else (1) end)+case when [Programme_ID] IS NULL then (0) else (1) end)+case when [ProjectID] IS NULL then (0) else (1) end)+case when [Activity_ID] IS NULL then (0) else (1) end)=(1)),
     CONSTRAINT [FK_PeopleReachedValues_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
@@ -45,6 +46,7 @@
     CONSTRAINT [FK_PeopleReachedValues_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [FK_PeopleReachedValues_Outcome] FOREIGN KEY ([Outcome_ID]) REFERENCES [app].[Outcome] ([Outcome_ID]),
     CONSTRAINT [FK_PeopleReachedValues_Output] FOREIGN KEY ([Output_ID]) REFERENCES [app].[Output] ([Output_ID]),
+    CONSTRAINT [FK_PeopleReachedValues_PersonParticipationType] FOREIGN KEY ([ParticipationType_ID]) REFERENCES [Core].[PersonParticipationType] ([PersonParticipationType_ID]),
     CONSTRAINT [FK_PeopleReachedValues_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_PeopleReachedValues_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_PeopleReachedValues_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
@@ -55,6 +57,8 @@
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

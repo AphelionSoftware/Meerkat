@@ -15,7 +15,7 @@
     [BusinessKey]            NVARCHAR (400)  NOT NULL,
     [Notes]                  NVARCHAR (MAX)  NULL,
     [Code]                   VARCHAR (50)    NOT NULL,
-    [IndicatorType_ID]       INT             NOT NULL,
+    [IndicatorType_ID]       INT             NULL,
     [SubOutput_ID]           INT             NULL,
     [ShortName]              VARCHAR (50)    NOT NULL,
     [BaselineDate_ID]        AS              (CONVERT([int],CONVERT([varchar](8),[BaselineDate],(112)))),
@@ -35,7 +35,6 @@
     [LocalShortName]         NVARCHAR (50)   NULL,
     [ResultArea_ID]          INT             NULL,
     CONSTRAINT [PK_Indicator] PRIMARY KEY CLUSTERED ([IndicatorID] ASC),
-    CONSTRAINT [CK_Indicator] CHECK (((((case when [Output_ID] IS NOT NULL then (1) else (0) end+case when [Outcome_ID] IS NOT NULL then (1) else (0) end)+case when [SubOutput_ID] IS NOT NULL then (1) else (0) end)+case when [Programme_ID] IS NOT NULL then (1) else (0) end)+case when [ProjectID] IS NOT NULL then (1) else (0) end)=(1)),
     CONSTRAINT [FK_Indicator_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Indicator_IndicatorSimpleType] FOREIGN KEY ([IndicatorSimpleType_ID]) REFERENCES [app].[IndicatorSimpleType] ([IndicatorSimpleType_ID]),
     CONSTRAINT [FK_Indicator_IndicatorType] FOREIGN KEY ([IndicatorType_ID]) REFERENCES [app].[IndicatorType] ([IndicatorType_ID]),
@@ -48,6 +47,8 @@
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 
