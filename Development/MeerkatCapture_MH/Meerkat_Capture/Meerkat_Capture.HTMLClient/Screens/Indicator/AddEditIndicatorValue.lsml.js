@@ -396,7 +396,10 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1Template_postRender =
         //contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
     } else {
         contentItem.isVisible = true;
+    }
 
+    if (!(contentItem.data.IndicatorValues_ID)) {
+        contentItem.isVisible = false;
     }
 
 };
@@ -427,7 +430,8 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
 
 };
 myapp.AddEditIndicatorValue.UseFormValue_execute = function (screen) {
-    screen.IndicatorValue.ActualValue = screen.FormValue;
+    //screen.IndicatorValue.ActualValue = screen.FormValue;
+    screen.findContentItem("ActualValue").stringValue = String(screen.FormValue);
     screen.IndicatorValue.ActualLabel = screen.FormValue;
 };
 myapp.AddEditIndicatorValue.SelectedLocationTap_execute = function (screen) {
@@ -454,4 +458,9 @@ myapp.AddEditIndicatorValue.ReportingPeriod1_postRender = function (element, con
 myapp.AddEditIndicatorValue.ActualValue_postRender = function (element, contentItem) {
     //contentItem.value = 0;
 
+};
+myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersionTemplate_postRender = function (element, contentItem) {
+    if (!(contentItem.data.IndicatorValues_ID)) {
+        contentItem.isVisible = false;
+    }
 };
