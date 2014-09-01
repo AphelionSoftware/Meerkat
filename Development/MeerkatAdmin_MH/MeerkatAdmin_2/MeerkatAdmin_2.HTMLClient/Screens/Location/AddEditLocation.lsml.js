@@ -6,7 +6,7 @@ myapp.AddEditLocation.created = function (screen) {
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     screen.ParentLocation.getLocation_ID().then(function(_){
         if (_ !== undefined) {
-            screen.Location.Location1 = screen.ParentLocation;  
+            screen.ParentLocation = screen.Location.Location1;// = screen.ParentLocation;
         } 
     });
     
