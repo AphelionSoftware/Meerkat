@@ -36,11 +36,12 @@
       </EntityProperty>
       <EntityProperty
         Name="LongName"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="500" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -54,18 +55,20 @@
       </EntityProperty>
       <EntityProperty
         Name="ShortName"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -140,6 +143,27 @@
         Association="FK_Programme_ActiveType"
         FromEnd="Programme"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Form_Programmes"
+        Association="FK_Form_Programme_Programme"
+        FromEnd="Programme"
+        ToEnd="Form_Programme" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -277,12 +301,21 @@
         Name="Project"
         EntitySet="Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Programme_Programme"
+      Association="FK_Form_Programme_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="Form_Programme"
+        EntitySet="Form_Programmes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Sector_Programme">
     <AssociationEnd
       Name="Programme"
-      Multiplicity="One"
       EntityType="Programme">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -306,6 +339,20 @@
       Name="Project"
       Multiplicity="Many"
       EntityType="Project" />
+  </Association>
+  <Association
+    Name="FK_Form_Programme_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form_Programme"
+      Multiplicity="Many"
+      EntityType="Form_Programme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -333,7 +380,7 @@
         <SsdlProperty
           MaxLength="500"
           Name="LongName"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Programme/Properties[LongName]" />
         <SsdlProperty
@@ -345,13 +392,14 @@
         <SsdlProperty
           MaxLength="50"
           Name="ShortName"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Programme/Properties[ShortName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Programme/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="50"
@@ -381,6 +429,18 @@
           Nullable="False"
           Type="datetime"
           Property="Programme/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Programme/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Programme/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -388,6 +448,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_Programme_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Programme_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Programme_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Programme_Programme]/Members[Form_Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Indicator_Programme">
       <AssociationSetMapping.Attributes>

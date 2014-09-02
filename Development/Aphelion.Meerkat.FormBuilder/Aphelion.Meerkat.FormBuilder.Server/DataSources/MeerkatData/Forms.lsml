@@ -21,7 +21,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -37,10 +37,10 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -91,11 +91,6 @@
         Association="FK_Category_Form"
         FromEnd="Form"
         ToEnd="Category" />
-      <NavigationProperty
-        Name="Project"
-        Association="FK_Form_Project"
-        FromEnd="Form"
-        ToEnd="Project" />
       <NavigationProperty
         Name="ActiveType"
         Association="FK_Form_ActiveType"
@@ -209,6 +204,24 @@
         Association="FK_FormResponse_Form"
         FromEnd="Form"
         ToEnd="FormResponse" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Form_Programmes"
+        Association="FK_Form_Programme_Form"
+        FromEnd="Form"
+        ToEnd="Form_Programme" />
+      <NavigationProperty
+        Name="Form_Projects"
+        Association="FK_Form_Project_Form"
+        FromEnd="Form"
+        ToEnd="Form_Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -337,6 +350,26 @@
         Name="FormResponse"
         EntitySet="FormResponses" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Programme_Form"
+      Association="FK_Form_Programme_Form">
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+      <AssociationSetEnd
+        Name="Form_Programme"
+        EntitySet="Form_Programmes" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Project_Form"
+      Association="FK_Form_Project_Form">
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+      <AssociationSetEnd
+        Name="Form_Project"
+        EntitySet="Form_Projects" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_FormResponse_Form">
@@ -352,6 +385,34 @@
       Name="FormResponse"
       Multiplicity="Many"
       EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Form_Programme_Form">
+    <AssociationEnd
+      Name="Form"
+      EntityType="Form">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form_Programme"
+      Multiplicity="Many"
+      EntityType="Form_Programme" />
+  </Association>
+  <Association
+    Name="FK_Form_Project_Form">
+    <AssociationEnd
+      Name="Form"
+      EntityType="Form">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form_Project"
+      Multiplicity="Many"
+      EntityType="Form_Project" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -371,7 +432,7 @@
           Type="int"
           Property="Form/Properties[Form_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -383,9 +444,10 @@
           Type="varchar"
           Property="Form/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="Form/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
@@ -464,6 +526,12 @@
           Nullable="True"
           Type="bit"
           Property="Form/Properties[ShowInstitution]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Form/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -484,11 +552,6 @@
           Nullable="True"
           Type="int"
           PropertyName="Location_ID" />
-        <SsdlForeignKeyProperty
-          Name="ProjectID"
-          Nullable="False"
-          Type="int"
-          PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -505,6 +568,48 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Category_Form]/Members[Category]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_Programme_Form">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Programme_Form" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Programme_Form]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Programme_Form]/Members[Form_Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_Project_Form">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Project_Form" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project_Form]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project_Form]/Members[Form_Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Form_ID" />

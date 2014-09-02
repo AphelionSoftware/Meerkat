@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Category">
+    Name="Form_Project">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,35 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="Form_Project_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Code"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="TextDescription"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="4000" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
@@ -87,46 +68,20 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="Form"
-        Association="FK_Category_Form"
-        FromEnd="Category"
-        ToEnd="Form" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_Category_ActiveType"
-        FromEnd="Category"
+        Association="FK_Form_Project_ActiveType"
+        FromEnd="Form_Project"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="Questions"
-        Association="FK_Question_Category"
-        FromEnd="Category"
-        ToEnd="Question" />
-      <KeyProperty
-        Name="Category_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <EntityProperty
-        Name="CategoryOrder"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="LocalName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        Name="Form"
+        Association="FK_Form_Project_Form"
+        FromEnd="Form_Project"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Form_Project_Project"
+        FromEnd="Form_Project"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -135,14 +90,14 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Categories"
+      Name="Form_Projects"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Category" />
+      EntityType="Form_Project" />
     <QueryOperation
-      Name="Categories_Single"
-      ReturnType="Category">
+      Name="Form_Projects_Single"
+      ReturnType="Form_Project">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -155,12 +110,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Category_ID" />
+                  Member="Form_Project_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Category_ID" />
+                Parameter="Form_Project_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -168,21 +123,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Categories" />
+            Member="Form_Projects" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Category_ID"
-        ParameterType=":Int32?">
+        Name="Form_Project_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Category_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Form_Project_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Categories_SingleOrDefault"
-      ReturnType="Category">
+      Name="Form_Projects_SingleOrDefault"
+      ReturnType="Form_Project">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -195,12 +150,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Category_ID" />
+                  Member="Form_Project_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Category_ID" />
+                Parameter="Form_Project_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -208,112 +163,58 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Categories" />
+            Member="Form_Projects" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Category_ID"
-        ParameterType=":Int32?">
+        Name="Form_Project_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Category_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Form_Project_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_Question_Category"
-      Association="FK_Question_Category">
-      <AssociationSetEnd
-        Name="Category"
-        EntitySet="Categories" />
-      <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_Question_Category">
-    <AssociationEnd
-      Name="Category"
-      Multiplicity="One"
-      EntityType="Category">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Question"
-      Multiplicity="Many"
-      EntityType="Question" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Categories">
+      EntitySet="Form_Projects">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="forms"
-          Table="Category" />
+          Table="Form_Project" />
         <SsdlProperty
-          Name="Category_ID"
+          Name="Form_Project_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Category/Properties[Category_ID]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="Category/Properties[Name]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
-          Type="varchar"
-          Property="Category/Properties[Code]" />
-        <SsdlProperty
-          MaxLength="4000"
-          Name="TextDescription"
-          Nullable="True"
-          Type="varchar"
-          Property="Category/Properties[TextDescription]" />
-        <SsdlProperty
-          Name="CategoryOrder"
-          Nullable="False"
-          Type="int"
-          Property="Category/Properties[CategoryOrder]" />
+          Property="Form_Project/Properties[Form_Project_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="Category/Properties[sys_CreatedBy]" />
+          Property="Form_Project/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Category/Properties[sys_CreatedOn]" />
+          Property="Form_Project/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="Category/Properties[sys_ModifiedBy]" />
+          Property="Form_Project/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Category/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="LocalName"
-          Nullable="True"
-          Type="nvarchar"
-          Property="Category/Properties[LocalName]" />
+          Property="Form_Project/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -321,31 +222,15 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="Form_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="Form_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Question_Category">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Question_Category" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Category]/Members[Category]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Category_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Category]/Members[Question]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Category_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

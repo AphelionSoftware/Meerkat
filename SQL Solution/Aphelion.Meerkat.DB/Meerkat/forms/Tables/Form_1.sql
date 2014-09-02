@@ -4,7 +4,6 @@
     [Code]              VARCHAR (50)   NOT NULL,
     [TextDescription]   VARCHAR (4000) NULL,
     [Active]            INT            CONSTRAINT [DF__Form_sys_Active] DEFAULT ((1)) NOT NULL,
-    [ProjectID]         INT            NOT NULL,
     [sys_CreatedBy]     VARCHAR (255)  CONSTRAINT [DF_Form_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]     DATETIME       CONSTRAINT [DF_Form_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]    VARCHAR (255)  CONSTRAINT [DF_Form_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
@@ -33,9 +32,12 @@
     CONSTRAINT [FK_Form_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Form_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Form_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
-    CONSTRAINT [FK_Form_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ__Form__A25C5AA73EDF24B3] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
+
+
 
 
 
