@@ -52,3 +52,7 @@ myapp.AddEditFormResponse.Responses1Template_postRender = function (element, con
             }
     }
 };
+myapp.AddEditFormResponse.Response1_postRender = function (element, contentItem) {
+    // Write code here.
+
+};
