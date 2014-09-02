@@ -40,6 +40,218 @@ USE [$(DatabaseName)];
 
 
 GO
+PRINT N'Dropping FK_Indicator_IndicatorType...';
+
+
+GO
+ALTER TABLE [app].[Indicator] DROP CONSTRAINT [FK_Indicator_IndicatorType];
+
+
+GO
+PRINT N'Dropping CK_Indicator...';
+
+
+GO
+ALTER TABLE [app].[Indicator] DROP CONSTRAINT [CK_Indicator];
+
+
+GO
+PRINT N'Altering [app].[Indicator]...';
+
+
+GO
+ALTER TABLE [app].[Indicator] ALTER COLUMN [IndicatorType_ID] INT NULL;
+
+
+GO
+PRINT N'Altering [Core].[LocationType]...';
+
+
+GO
+ALTER TABLE [Core].[LocationType]
+    ADD [LocationTypeOrder] INT CONSTRAINT [DF_LocationType_LocationTypeOrder] DEFAULT ((0)) NOT NULL;
+
+
+GO
+PRINT N'Altering [RBM].[PeopleReachedValues]...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues]
+    ADD [ParticipationType_ID] INT NULL;
+
+
+GO
+PRINT N'Creating FK_Indicator_IndicatorType...';
+
+
+GO
+ALTER TABLE [app].[Indicator] WITH NOCHECK
+    ADD CONSTRAINT [FK_Indicator_IndicatorType] FOREIGN KEY ([IndicatorType_ID]) REFERENCES [app].[IndicatorType] ([IndicatorType_ID]);
+
+
+GO
+PRINT N'Creating FK_PeopleReachedValues_PersonParticipationType...';
+
+
+GO
+ALTER TABLE [RBM].[PeopleReachedValues] WITH NOCHECK
+    ADD CONSTRAINT [FK_PeopleReachedValues_PersonParticipationType] FOREIGN KEY ([ParticipationType_ID]) REFERENCES [Core].[PersonParticipationType] ([PersonParticipationType_ID]);
+
+
+GO
+PRINT N'Refreshing [dbo].[DimIndicatorMultiLevel]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[DimIndicatorMultiLevel]';
+
+
+GO
+PRINT N'Refreshing [forms].[vw_ResponsesByIndicator]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[forms].[vw_ResponsesByIndicator]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[FrameworkDetail_Indicator]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[FrameworkDetail_Indicator]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[Indicator]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Indicator]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[IndicatorByProgram]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProgram]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[IndicatorByProjectSector]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProjectSector]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[StatusValues]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[StatusValues]';
+
+
+GO
+PRINT N'Refreshing [rpt].[FormResponsesByProject]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[rpt].[FormResponsesByProject]';
+
+
+GO
+PRINT N'Refreshing [rpt].[vwFormResponsesCount]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[rpt].[vwFormResponsesCount]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[Location]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Location]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[Structure]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Structure]';
+
+
+GO
+PRINT N'Refreshing [rpt].[vwPeopleReached]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[rpt].[vwPeopleReached]';
+
+
+GO
+PRINT N'Refreshing [OLAP_GEN].[PeopleReachedValues]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[PeopleReachedValues]';
+
+
+GO
+PRINT N'Refreshing [dbo].[uspIndicatorTimeline_ByDisagg]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorTimeline_ByDisagg]';
+
+
+GO
+PRINT N'Refreshing [dbo].[uspIndicatorTimeline]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorTimeline]';
+
+
+GO
+PRINT N'Refreshing [dbo].[uspIndicatorTimelineWithLocation]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorTimelineWithLocation]';
+
+
+GO
+PRINT N'Refreshing [Core].[sp_IndicatorCaptureProgress]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[Core].[sp_IndicatorCaptureProgress]';
+
+
+GO
+PRINT N'Refreshing [dbo].[rptIndicatorStatusValues]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[rptIndicatorStatusValues]';
+
+
+GO
+PRINT N'Refreshing [dbo].[uspIndicatorsList]...';
+
+
+GO
+EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorsList]';
+
+
+GO
 
 /*GeoSpatialData*/
 
@@ -148,7 +360,6 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-SET IDENTITY_INSERT Core.StatusType ON 
 
 INSERT  INTO [Core].StatusType
         ( [Core].[StatusType].[ID] ,
@@ -191,7 +402,6 @@ INSERT  INTO [Core].StatusType
 GO
 
 
-SET IDENTITY_INSERT Core.StatusType OFF
 /*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
@@ -1829,6 +2039,20 @@ INSERT INTO [settings].[GlobalSettings]
 /*end Insert data*/
 
 GO
+
+GO
+PRINT N'Checking existing data against newly created constraints';
+
+
+GO
+USE [$(DatabaseName)];
+
+
+GO
+ALTER TABLE [app].[Indicator] WITH CHECK CHECK CONSTRAINT [FK_Indicator_IndicatorType];
+
+ALTER TABLE [RBM].[PeopleReachedValues] WITH CHECK CHECK CONSTRAINT [FK_PeopleReachedValues_PersonParticipationType];
+
 
 GO
 PRINT N'Update complete.';
