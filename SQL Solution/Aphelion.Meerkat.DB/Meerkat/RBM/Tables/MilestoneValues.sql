@@ -41,8 +41,7 @@
     CONSTRAINT [FK_MilestoneValues_Organization] FOREIGN KEY ([Organization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_MilestoneValues_ReportingPeriod] FOREIGN KEY ([ReportPeriodID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [FK_MilestoneValues_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]),
-    CONSTRAINT [FK_MilestoneValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID]),
-    CONSTRAINT [UQ_IDS_MS] UNIQUE NONCLUSTERED ([Milestone_ID] ASC, [Location_ID] ASC, [ReportPeriodID] ASC, [DataVersion_ID] ASC, [Organization_ID] ASC)
+    CONSTRAINT [FK_MilestoneValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID])
 );
 
 
@@ -92,9 +91,6 @@ GO
 EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues', @level2type = N'COLUMN', @level2name = N'ActualValue';
 
 
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [UQ_MilestoneValues_BusinessKey]
-    ON [RBM].[MilestoneValues]([BusinessKey] ASC) WHERE ([Active]>=(0));
 
 
 GO
