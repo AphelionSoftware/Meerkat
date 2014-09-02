@@ -118,9 +118,17 @@ myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersionTemplate_postRender = 
         contentItem.isVisible = true;
 
     }
+
+    if (!(contentItem.data.MilestoneValues_ID)) {
+        contentItem.isVisible = false;
+    }
 };
 myapp.AddEditMilestoneValue.SelectedLocationsTap_execute = function (screen) {
     // Write code here.
     screen.MilestoneValue.Location = screen.LocationsSorted.selectedItem;
     screen.closePopup();
+};
+myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersion1Template_postRender = function (element, contentItem) {
+
+
 };
