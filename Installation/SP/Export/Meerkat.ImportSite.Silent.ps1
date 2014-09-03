@@ -19,6 +19,7 @@ Import-SPWeb -Identity "$sitecoll" -Path "$filePath"
 
 $web.CustomMasterUrl =  "/_catalogs/masterpage/$masterpage"  
 $web.MasterUrl = "/_catalogs/masterpage/$masterpage" 
+$web.Title = $title
 $web.Update() 
 
 
