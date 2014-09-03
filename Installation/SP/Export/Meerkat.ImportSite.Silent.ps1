@@ -3,7 +3,8 @@
   [string]$sitecoll,
   [string]$filePath,
   [string]$template,
-  [string]$masterpage
+  [string]$masterpage,
+  [string]$title
 )
 Add-PSSnapin microsoft.sharepoint.powershell
 
