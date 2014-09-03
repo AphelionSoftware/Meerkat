@@ -7,12 +7,12 @@
   DTS:CreatorName="MGS2012\administrator"
   DTS:DTSID="{33B50CC9-3B7E-4DB2-B0C4-9E674EE518E5}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3460.0"
+  DTS:LastModifiedProductVersion="11.0.2100.60"
   DTS:LocaleID="1033"
   DTS:ObjectName="000_SP_Jobs"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{EBC26DA8-FC7E-4060-BF52-BFEAB07D9CAE}">
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{C766A22D-5EFD-4D13-AC1E-18028E2BF9F6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:PackageParameters>
@@ -167,7 +167,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
-              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;P.ProgrammeSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;  /*+ CASE WHEN  convert(varchar(10), getdate(), 112) = 20140820 THEN '_' +  cast (   (datepart(hour,getdate()) * 100) + datepart(minute,getdate())&#xA;   as varchar(255))&#xA;   ELSE '' END*/&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM  app.Programme P&#xA; &#xA; WHERE P.isSiteCreated = 0"
+              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;P.ProgrammeSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + REPLACE('/' + P.ProgrammeSiteName  , '//', '/')&#xA;  /*+ CASE WHEN  convert(varchar(10), getdate(), 112) = 20140820 THEN '_' +  cast (   (datepart(hour,getdate()) * 100) + datepart(minute,getdate())&#xA;   as varchar(255))&#xA;   ELSE '' END*/&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM  app.Programme P&#xA; &#xA; WHERE P.isSiteCreated = 0"
               SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="0"
@@ -303,7 +303,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{21CDB393-558C-455B-98E5-7EFB5850E936}"
-              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;PR.ProjectSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + P.ProgrammeSiteName  &#xA;  + '/'&#xA;  + PR.ProjectSiteName&#xA;&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM app.Project PR&#xA;    LEFT OUTER JOIN app.SubSector SS1&#xA;   JOIN app.Sector S1&#xA;    ON SS1.Sector_ID = S1.Sector_ID&#xA;&#xA;  ON PR.SubSector_ID = SS1.SubSector_ID&#xA; &#xA;  LEFT OUTER JOIN app.Sector S2&#xA;    ON PR.Sector_ID = S2.Sector_ID&#xA; &#xA;      JOIN app.Programme P&#xA;   ON PR.Programme_ID = P.Programme_ID&#xA;   OR S1.Programme_ID = P.Programme_ID&#xA;   OR S2.Programme_ID = P.Programme_ID&#xA; WHERE PR.isSiteCreated = 0"
+              SQLTask:SqlStatementSource="&#xA;SELECT &#xA;PR.ProjectSiteName As SiteName,&#xA; &#xA;  (SELECT Value FROM settings.GlobalSettings WHERE Code = 'BASESITEURL' ) &#xA;  + REPLACE('/' + P.ProgrammeSiteName  &#xA;  + '/'&#xA;  + PR.ProjectSiteName&#xA;  , '//', '/')&#xA; AS SitePath&#xA;    &#xA;&#xA;    FROM app.Project PR&#xA;    LEFT OUTER JOIN app.SubSector SS1&#xA;   JOIN app.Sector S1&#xA;    ON SS1.Sector_ID = S1.Sector_ID&#xA;&#xA;  ON PR.SubSector_ID = SS1.SubSector_ID&#xA; &#xA;  LEFT OUTER JOIN app.Sector S2&#xA;    ON PR.Sector_ID = S2.Sector_ID&#xA; &#xA;      JOIN app.Programme P&#xA;   ON PR.Programme_ID = P.Programme_ID&#xA;   OR S1.Programme_ID = P.Programme_ID&#xA;   OR S2.Programme_ID = P.Programme_ID&#xA;WHERE PR.isSiteCreated = 0"
               SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="0"
@@ -438,15 +438,15 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="178,42"
+          Size="177.6,41.6"
           Id="Package\SEQ_Programmes\EST_GetProgrammes"
           TopLeft="60,60" />
         <NodeLayout
-          Size="173,42"
+          Size="172.8,41.6"
           Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\EST_UpdateCreated"
           TopLeft="126,148" />
         <NodeLayout
-          Size="180,42"
+          Size="180,41.6"
           Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites\Execute Process Task"
           TopLeft="80,31" />
         <EdgeLayout
@@ -486,8 +486,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="387,288"
-          Size="387,331"
+          PanelSize="387.2,288"
+          Size="387.2,331.2"
           Id="Package\SEQ_Programmes\FLC_CreateProgrammeSites"
           TopLeft="75,178" />
         <EdgeLayout
@@ -528,19 +528,19 @@
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="468,564"
-          Size="468,607"
+          Size="468,607.2"
           Id="Package\SEQ_Programmes"
           TopLeft="128,156.5" />
         <NodeLayout
-          Size="157,42"
+          Size="156.8,41.6"
           Id="Package\SEQ_Projects\EST_GetProjects"
           TopLeft="60,60" />
         <NodeLayout
-          Size="173,42"
+          Size="172.8,41.6"
           Id="Package\SEQ_Projects\FLC_CreateProjectSites\EST_UpdateCreated"
           TopLeft="126,148" />
         <NodeLayout
-          Size="180,42"
+          Size="180,41.6"
           Id="Package\SEQ_Projects\FLC_CreateProjectSites\Execute Process Task"
           TopLeft="80,31" />
         <EdgeLayout
@@ -580,8 +580,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="387,288"
-          Size="387,331"
+          PanelSize="387.2,288"
+          Size="387.2,331.2"
           Id="Package\SEQ_Projects\FLC_CreateProjectSites"
           TopLeft="76,178" />
         <EdgeLayout
@@ -622,7 +622,7 @@
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="468,564"
-          Size="468,607"
+          Size="468,607.2"
           Id="Package\SEQ_Projects"
           TopLeft="100,844" />
         <EdgeLayout
