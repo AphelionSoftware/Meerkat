@@ -23,5 +23,5 @@ xcopy c:\installs\Meerkat_Admin\MeerkatAdmin_2_1.SetParameters.xml  %~dp0\Deploy
 xcopy c:\installs\Meerkat_FormBuilder\Aphelion.Meerkat.FormBuilder.SetParameters.xml  %~dp0\Deploy\Meerkat_FormBuilder\ /Y
 xcopy c:\installs\Meerkat_FormCapture\Aphelion.Meerkat.FormCapture.SetParameters.xml  %~dp0\Deploy\Meerkat_FormCapture\ /Y
 xcopy c:\installs\Meerkat_EventRegister\Meerkat_EventRegister.SetParameters.xml  %~dp0\Deploy\Meerkat_EventRegister\ /Y
-xcopy c:\installs\Meerkat_ReportsManager\Meerkat_ReportsManager.SetParameters.xml  %~dp0\Deploy\Meerkat_ReportsManager\ /Y
+xcopy c:\installs\Meerkat_ReportsManager\Meerkat.ReportsManager.SetParameters.xml  %~dp0\Deploy\Meerkat_ReportsManager\ /Y
 
