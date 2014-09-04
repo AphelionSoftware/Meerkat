@@ -2,8 +2,7 @@
 
 CREATE PROC [dbo].[uspActivityProgress]
 --declare
-@DataVersion_ID varchar(255)=1
-,@Project_ID int 
+@DataVersion_ID varchar(255)=5
 ,@Activity_ID int = 0
 AS
 /*
@@ -91,13 +90,11 @@ mv.DataVersion_ID,
   AND (MV.DataVersion_ID =  @DataVersion_ID OR @DataVersion_ID = 0 )
   AND MV.ReportPeriodID = RP.ID
   
-   LEFT JOIN app.Activity a
+   JOIN app.Activity a
     on m.Activity_ID = a.Activity_ID
 	and (m.Activity_ID = @Activity_ID or @Activity_ID = 0)
 	JOIN  app.Project P
-		on a.ProjectID = P.ProjectID
-		OR m.ProjectID = P.ProjectID
-WHERE P.ProjectID = @Project_ID
+	on a.ProjectID = P.ProjectID
 
 order by m.Code, RP.StartDateID ASC
 
