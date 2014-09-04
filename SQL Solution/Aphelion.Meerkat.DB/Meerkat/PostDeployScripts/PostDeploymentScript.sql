@@ -45,6 +45,12 @@ GO*/
 
 /* Insert Data */
 
+/*Insert Security Data*/
+:r .\Access\access.roleType.PDS.sql
+:r .\Access\access.securityRole.PDS.sql
+
+
+
 /*Insert Core data*/
 :r .\Core.ActiveType.PDS.sql
 :r .\Core.StatusType.PDS.sql

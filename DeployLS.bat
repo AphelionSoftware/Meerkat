@@ -10,4 +10,6 @@ CALL Deploy\Meerkat_EventRegister\Aphelion.Meerkat.EventRegister.deploy.cmd /Y  
 REM XCOPY C:\inetpub\wwwroot\Meerkat_EventRegister\*.* C:\inetpub\Meerkat_EventRegister\ /A
 CALL Deploy\Meerkat_ReportsManager\Meerkat.ReportsManager.deploy.cmd /Y  > Deploy\Meerkat_ReportsManagerLS.txt
 REM XCOPY C:\inetpub\wwwroot\Meerkat_ReportsManager\*.* C:\inetpub\Meerkat_ReportsManager\ /A
+CALL Deploy\Meerkat_UAM\Aphelion.Meerkat.UserAccessManager.deploy.cmd /Y  > Deploy\Meerkat_UAM.txt
+REM XCOPY C:\inetpub\wwwroot\Meerkat_ReportsManager\*.* C:\inetpub\Meerkat_ReportsManager\ /A
 IISRESET /restart

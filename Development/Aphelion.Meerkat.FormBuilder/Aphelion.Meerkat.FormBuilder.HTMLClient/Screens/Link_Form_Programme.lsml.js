@@ -1,9 +1,9 @@
 ﻿/// <reference path="~/GeneratedArtifacts/viewModel.js" />
 
 myapp.Link_Form_Programme.Delete_execute = function (screen) {
-    screen.getForm_Programmes().then(function (customers) {
+    screen.getForm_Programmes().then(function (x) {
         // Delete selected
-        Form_Programmes.deleteSelected();
+        x.deleteSelected();
         // Save changes
         myapp.commitChanges().then(null, function fail(e) {
             msls.showMessageBox(e.message, { title: e.title }).then(function () {
