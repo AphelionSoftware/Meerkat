@@ -205,14 +205,11 @@
         Association="vwProgrammeUserMap_Programme"
         FromEnd="Programme"
         ToEnd="vwProgrammeUserMap" />
-      <EntityProperty
-        Name="isSiteCreated"
-        PropertyType=":Boolean">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+      <NavigationProperty
+        Name="vwProgrammeUserMaps"
+        Association="vwProgrammeUserMap_Programme"
+        FromEnd="Programme"
+        ToEnd="vwProgrammeUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -533,11 +530,6 @@
           Type="varchar"
           Property="Programme/Properties[ProgrammeSiteName]" />
         <SsdlProperty
-          Name="isSiteCreated"
-          Nullable="False"
-          Type="bit"
-          Property="Programme/Properties[isSiteCreated]" />
-        <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
@@ -725,5 +717,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProgrammeUserMap_Programmes">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProgrammeUserMap_Programmes" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[vwProgrammeUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwProgrammeUserMap_Programme">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProgrammeUserMap"
+      Multiplicity="Many"
+      EntityType="vwProgrammeUserMap" />
+    <AssociationEnd
+      Name="Programme"
+      Multiplicity="One"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>
