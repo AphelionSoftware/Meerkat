@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Access].[User_SystemRole_ProjectProgramme] (
     [User_SystemRole_ProjectProgramme_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [User_ID]                             INT           NOT NULL,
+    [UserID]                             INT           NOT NULL,
     [SystemRole_ID]                       INT           NOT NULL,
     [ProjectID]                           INT           NULL,
     [Programme_ID]                        INT           NULL,
@@ -14,7 +14,7 @@
     CONSTRAINT [FK_User_SystemRole_ProjectProgramme_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_User_SystemRole_ProjectProgramme_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_User_SystemRole_ProjectProgramme_SystemRole] FOREIGN KEY ([SystemRole_ID]) REFERENCES [Access].[SystemRole] ([SystemRole_ID]),
-    CONSTRAINT [FK_User_SystemRole_ProjectProgramme_User] FOREIGN KEY ([User_ID]) REFERENCES [Access].[User] ([UserID])
+    CONSTRAINT [FK_User_SystemRole_ProjectProgramme_User] FOREIGN KEY ([UserID]) REFERENCES [Access].[User] ([UserID])
 );
 
 
