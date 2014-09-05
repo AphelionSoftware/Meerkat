@@ -164,13 +164,18 @@ namespace LightSwitchApplication
         {
             //string Person = tsPerson;
             int UserID = this.tsPersonID;
-            filter = e => e.ActiveType.ID == 1;
+            filter = e => (
+                (e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+                
         }
 
         partial void IndicatorTypes_Filter(ref Expression<Func<IndicatorType, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;
-        }
+        }    
 
         partial void IndicatorValues_Filter(ref Expression<Func<IndicatorValue, bool>> filter)
         {
@@ -194,7 +199,13 @@ namespace LightSwitchApplication
 
         partial void Milestones_Filter(ref Expression<Func<Milestone, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => (
+                (e.vwMilestoneUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+            
         }
 
         partial void MilestoneTypes_Filter(ref Expression<Func<MilestoneType, bool>> filter)
@@ -259,7 +270,13 @@ namespace LightSwitchApplication
 
         partial void Projects_Filter(ref Expression<Func<Project, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => (
+                (e.vwProjectUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+            
         }
 
         partial void ReportingPeriods_Filter(ref Expression<Func<ReportingPeriod, bool>> filter)

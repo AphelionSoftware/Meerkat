@@ -12,7 +12,7 @@ FROM
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [Access].[RoleType]
-		WHERE Code = q.Code)
+		WHERE RoleTypeCode = q.Code)
 
 UNION ALL
 SELECT Q.Name, Q.Code, Q.Code
@@ -23,7 +23,7 @@ FROM
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [Access].[RoleType]
-		WHERE Code = q.Code)
+		WHERE RoleTypeCode = q.Code)
 
 UNION ALL
 SELECT Q.Name, Q.Code, Q.Code
@@ -34,7 +34,7 @@ FROM
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [Access].[RoleType]
-		WHERE Code = q.Code)
+		WHERE RoleTypeCode = q.Code)
 
 UNION ALL
 SELECT Q.Name, Q.Code, Q.Code
@@ -45,5 +45,5 @@ FROM
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [Access].[RoleType]
-		WHERE Code = q.Code)
+		WHERE RoleTypeCode = q.Code)
 

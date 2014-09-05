@@ -156,6 +156,11 @@
             Value="500" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="vwActivityUserMaps"
+        Association="vwActivityUserMap_Activity"
+        FromEnd="Activity"
+        ToEnd="vwActivityUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -306,6 +311,16 @@
       <AssociationSetEnd
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwActivityUserMap_Activities"
+      Association="vwActivityUserMap_Activity">
+      <AssociationSetEnd
+        Name="vwActivityUserMap"
+        EntitySet="vwActivityUserMaps" />
+      <AssociationSetEnd
+        Name="Activity"
+        EntitySet="Activities" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -478,5 +493,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwActivityUserMap_Activities">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwActivityUserMap_Activities" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwActivityUserMap_Activities]/Members[vwActivityUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Activity_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwActivityUserMap_Activities]/Members[Activity]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Activity_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwActivityUserMap_Activity">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwActivityUserMap"
+      Multiplicity="Many"
+      EntityType="vwActivityUserMap" />
+    <AssociationEnd
+      Name="Activity"
+      Multiplicity="One"
+      EntityType="Activity">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>

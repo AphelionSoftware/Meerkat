@@ -195,19 +195,16 @@
             Value="50" />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <EntityProperty
-        Name="isSiteCreated"
-        PropertyType=":Boolean">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <NavigationProperty
         Name="User_SystemRole_ProjectProgrammes"
         Association="FK_User_SystemRole_ProjectProgramme_Programme"
         FromEnd="Programme"
         ToEnd="User_SystemRole_ProjectProgramme" />
+      <NavigationProperty
+        Name="vwProgrammeUserMaps"
+        Association="vwProgrammeUserMap_Programme"
+        FromEnd="Programme"
+        ToEnd="vwProgrammeUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -403,6 +400,16 @@
         Name="User_SystemRole_ProjectProgramme"
         EntitySet="User_SystemRole_ProjectProgrammes" />
     </AssociationSet>
+    <AssociationSet
+      Name="vwProgrammeUserMap_Programmes"
+      Association="vwProgrammeUserMap_Programme">
+      <AssociationSetEnd
+        Name="vwProgrammeUserMap"
+        EntitySet="vwProgrammeUserMaps" />
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_StatusValues_Programme">
@@ -499,11 +506,6 @@
           Nullable="True"
           Type="varchar"
           Property="Programme/Properties[ProgrammeSiteName]" />
-        <SsdlProperty
-          Name="isSiteCreated"
-          Nullable="False"
-          Type="bit"
-          Property="Programme/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -671,5 +673,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProgrammeUserMap_Programmes">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProgrammeUserMap_Programmes" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[vwProgrammeUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwProgrammeUserMap_Programme">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProgrammeUserMap"
+      Multiplicity="Many"
+      EntityType="vwProgrammeUserMap" />
+    <AssociationEnd
+      Name="Programme"
+      Multiplicity="One"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>

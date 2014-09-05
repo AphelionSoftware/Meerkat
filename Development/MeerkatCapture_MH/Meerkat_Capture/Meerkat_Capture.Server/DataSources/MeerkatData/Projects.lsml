@@ -266,6 +266,11 @@
         Association="FK_User_SystemRole_ProjectProgramme_Project"
         FromEnd="Project"
         ToEnd="User_SystemRole_ProjectProgramme" />
+      <NavigationProperty
+        Name="vwProjectUserMaps"
+        Association="vwProjectUserMap_Project"
+        FromEnd="Project"
+        ToEnd="vwProjectUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -521,6 +526,16 @@
       <AssociationSetEnd
         Name="User_SystemRole_ProjectProgramme"
         EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwProjectUserMap_Projects"
+      Association="vwProjectUserMap_Project">
+      <AssociationSetEnd
+        Name="vwProjectUserMap"
+        EntitySet="vwProjectUserMaps" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -1042,5 +1057,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProjectUserMap_Projects">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProjectUserMap_Projects" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[vwProjectUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwProjectUserMap_Project">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProjectUserMap"
+      Multiplicity="Many"
+      EntityType="vwProjectUserMap" />
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>

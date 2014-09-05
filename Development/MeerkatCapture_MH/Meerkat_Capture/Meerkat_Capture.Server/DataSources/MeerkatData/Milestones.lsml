@@ -277,6 +277,11 @@
         Association="FK_StatusValues_Milestone"
         FromEnd="Milestone"
         ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="vwMilestoneUserMaps"
+        Association="vwMilestoneUserMap_Milestone"
+        FromEnd="Milestone"
+        ToEnd="vwMilestoneUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -429,6 +434,16 @@
       <AssociationSetEnd
         Name="StatusValues"
         EntitySet="StatusValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwMilestoneUserMap_Milestones"
+      Association="vwMilestoneUserMap_Milestone">
+      <AssociationSetEnd
+        Name="vwMilestoneUserMap"
+        EntitySet="vwMilestoneUserMaps" />
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -678,5 +693,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwMilestoneUserMap_Milestones">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwMilestoneUserMap_Milestones" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwMilestoneUserMap_Milestones]/Members[vwMilestoneUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwMilestoneUserMap_Milestones]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwMilestoneUserMap_Milestone">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwMilestoneUserMap"
+      Multiplicity="Many"
+      EntityType="vwMilestoneUserMap" />
+    <AssociationEnd
+      Name="Milestone"
+      Multiplicity="One"
+      EntityType="Milestone">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>
