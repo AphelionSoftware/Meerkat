@@ -168,6 +168,11 @@
         Association="FK_User_ActiveType"
         FromEnd="User"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="User_Locations"
+        Association="FK_User_Location_User"
+        FromEnd="User"
+        ToEnd="User_Location" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -271,6 +276,16 @@
         Name="User_SystemRole_ProjectProgramme"
         EntitySet="User_SystemRole_ProjectProgrammes" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_User_Location_User"
+      Association="FK_User_Location_User">
+      <AssociationSetEnd
+        Name="User"
+        EntitySet="Users" />
+      <AssociationSetEnd
+        Name="User_Location"
+        EntitySet="User_Locations" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_User_SystemRole_ProjectProgramme_User">
@@ -286,6 +301,21 @@
       Name="User_SystemRole_ProjectProgramme"
       Multiplicity="Many"
       EntityType="User_SystemRole_ProjectProgramme" />
+  </Association>
+  <Association
+    Name="FK_User_Location_User">
+    <AssociationEnd
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_Location"
+      Multiplicity="Many"
+      EntityType="User_Location" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -391,6 +421,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_Location_User">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_Location_User" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_Location_User]/Members[User]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="UserID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_Location_User]/Members[User_Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="User_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_User_SystemRole_ProjectProgramme_User">
       <AssociationSetMapping.Attributes>

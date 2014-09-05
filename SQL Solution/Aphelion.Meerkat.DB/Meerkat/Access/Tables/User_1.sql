@@ -15,7 +15,14 @@
     [sys_CreatedBy]      NVARCHAR (255) CONSTRAINT [DF__User__sys_Crea__1B9317B3] DEFAULT ('Unknown') NOT NULL,
     [sys_ModifiedOn]     DATETIME       CONSTRAINT [DF__User__sys_Modi__1C873BEC] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]     NVARCHAR (255) CONSTRAINT [DF__User__sys_Modi__1D7B6025] DEFAULT ('Unknown') NOT NULL,
-    CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED ([UserID] ASC),
+    CONSTRAINT [PK_User] PRIMARY KEY NONCLUSTERED ([UserID] ASC),
     CONSTRAINT [FK_User_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
+
+
+GO
+CREATE CLUSTERED INDEX [IX_User]
+    ON [Access].[User]([Active] ASC, [UserID] ASC);
 

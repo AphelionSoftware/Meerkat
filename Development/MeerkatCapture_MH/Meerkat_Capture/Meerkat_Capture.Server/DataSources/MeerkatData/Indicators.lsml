@@ -345,6 +345,11 @@
         Association="FK_Indicator_ResultArea"
         FromEnd="Indicator"
         ToEnd="ResultArea" />
+      <NavigationProperty
+        Name="vwIndicatorUserMaps"
+        Association="vwIndicatorUserMap_Indicator"
+        FromEnd="Indicator"
+        ToEnd="vwIndicatorUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -557,6 +562,16 @@
         Name="StatusValues"
         EntitySet="StatusValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="vwIndicatorUserMap_Indicators"
+      Association="vwIndicatorUserMap_Indicator">
+      <AssociationSetEnd
+        Name="vwIndicatorUserMap"
+        EntitySet="vwIndicatorUserMaps" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
@@ -662,6 +677,24 @@
       Name="StatusValues"
       Multiplicity="Many"
       EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="vwIndicatorUserMap_Indicator">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwIndicatorUserMap"
+      Multiplicity="Many"
+      EntityType="vwIndicatorUserMap" />
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -1050,6 +1083,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[vw_ResponsesByIndicator_Indicators]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwIndicatorUserMap_Indicators">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwIndicatorUserMap_Indicators" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIndicatorUserMap_Indicators]/Members[vwIndicatorUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIndicatorUserMap_Indicators]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="IndicatorID" />

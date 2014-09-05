@@ -186,6 +186,16 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="SystemRoles"
+        Association="FK_SystemRole_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="SystemRole" />
+      <NavigationProperty
+        Name="vwDataVersionUserMaps"
+        Association="vwDataVersionUserMap_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="vwDataVersionUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -399,6 +409,26 @@
         Name="Impact"
         EntitySet="Impacts" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_SystemRole_DataVersion"
+      Association="FK_SystemRole_DataVersion">
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+      <AssociationSetEnd
+        Name="SystemRole"
+        EntitySet="SystemRoles" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwDataVersionUserMap_DataVersions"
+      Association="vwDataVersionUserMap_DataVersion">
+      <AssociationSetEnd
+        Name="vwDataVersionUserMap"
+        EntitySet="vwDataVersionUserMaps" />
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_DataVersion">
@@ -429,6 +459,39 @@
       Name="Impact"
       Multiplicity="Many"
       EntityType="Impact" />
+  </Association>
+  <Association
+    Name="FK_SystemRole_DataVersion">
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="SystemRole"
+      Multiplicity="Many"
+      EntityType="SystemRole" />
+  </Association>
+  <Association
+    Name="vwDataVersionUserMap_DataVersion">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwDataVersionUserMap"
+      Multiplicity="Many"
+      EntityType="vwDataVersionUserMap" />
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -632,6 +695,48 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="DataVersionID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_SystemRole_DataVersion">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_SystemRole_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SystemRole_DataVersion]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SystemRole_DataVersion]/Members[SystemRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwDataVersionUserMap_DataVersions">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwDataVersionUserMap_DataVersions" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwDataVersionUserMap_DataVersions]/Members[vwDataVersionUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwDataVersionUserMap_DataVersions]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
