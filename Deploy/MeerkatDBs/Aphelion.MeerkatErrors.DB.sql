@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "MeerkatErrors"
 :setvar DefaultFilePrefix "MeerkatErrors"
-:setvar DefaultDataPath "C:\SQLData\SQL2012\"
-:setvar DefaultLogPath "C:\SQLLogs\SQL2012\"
+:setvar DefaultDataPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
+:setvar DefaultLogPath "C:\Program Files\Microsoft SQL Server\MSSQL11.SQL2012\MSSQL\DATA\"
 
 GO
 :on error exit
@@ -32,6 +32,36 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
     BEGIN
         PRINT N'SQLCMD mode must be enabled to successfully execute this script.';
         SET NOEXEC ON;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET ANSI_NULLS ON,
+                ANSI_PADDING ON,
+                ANSI_WARNINGS ON,
+                ARITHABORT ON,
+                CONCAT_NULL_YIELDS_NULL ON,
+                QUOTED_IDENTIFIER ON,
+                ANSI_NULL_DEFAULT ON,
+                CURSOR_DEFAULT LOCAL 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET PAGE_VERIFY NONE,
+                DISABLE_BROKER 
+            WITH ROLLBACK IMMEDIATE;
     END
 
 
