@@ -205,6 +205,14 @@
         Association="vwProgrammeUserMap_Programme"
         FromEnd="Programme"
         ToEnd="vwProgrammeUserMap" />
+      <EntityProperty
+        Name="isSiteCreated"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -453,6 +461,24 @@
       Multiplicity="Many"
       EntityType="User_SystemRole_ProjectProgramme" />
   </Association>
+  <Association
+    Name="vwProgrammeUserMap_Programme">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProgrammeUserMap"
+      Multiplicity="Many"
+      EntityType="vwProgrammeUserMap" />
+    <AssociationEnd
+      Name="Programme"
+      Multiplicity="One"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -506,6 +532,11 @@
           Nullable="True"
           Type="varchar"
           Property="Programme/Properties[ProgrammeSiteName]" />
+        <SsdlProperty
+          Name="isSiteCreated"
+          Nullable="False"
+          Type="bit"
+          Property="Programme/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -695,22 +726,4 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
   </DataService>
-  <Association
-    Name="vwProgrammeUserMap_Programme">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwProgrammeUserMap"
-      Multiplicity="Many"
-      EntityType="vwProgrammeUserMap" />
-    <AssociationEnd
-      Name="Programme"
-      Multiplicity="One"
-      EntityType="Programme">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
 </ServiceApplication>

@@ -152,7 +152,9 @@ namespace LightSwitchApplication
 
         partial void DataVersions_Filter(ref Expression<Func<DataVersion, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.                e.ActiveType.ID == 1;
+            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1;
         }
 
         partial void IndicatorLocations_Filter(ref Expression<Func<IndicatorLocation, bool>> filter)
@@ -184,7 +186,11 @@ namespace LightSwitchApplication
 
         partial void Locations_Filter(ref Expression<Func<Location, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => 
+                e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1
+                &&
+                e.ActiveType.ID == 1;
         }
 
         partial void LocationTypes_Filter(ref Expression<Func<LocationType, bool>> filter)

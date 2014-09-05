@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[Location] (
+CREATE TABLE [Core].[Location] (
     [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)      NOT NULL,
     [Name]              VARCHAR (255)     NULL,
@@ -15,12 +15,14 @@
     [sys_ModifiedBy]    VARCHAR (255)     CONSTRAINT [DF_Location_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]    DATETIME          CONSTRAINT [DF_Location_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [LocalName]         NVARCHAR (255)    NULL,
-    CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED ([Location_ID] ASC),
+    CONSTRAINT [PK_Location] PRIMARY KEY NONCLUSTERED ([Location_ID] ASC),
     CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]),
     CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([ParentLocation_ID] ASC, [Code] ASC)
 );
+
+
 
 
 
@@ -57,5 +59,11 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @lev
 
 
 GO
+CREATE NONCLUSTERED INDEX [IX_Location_Parent]
+    ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC);
 
+
+GO
+CREATE CLUSTERED INDEX [IX_Location]
+    ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC);
 

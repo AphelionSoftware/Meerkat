@@ -1,9 +1,8 @@
-﻿CREATE VIEW Access.vwDataVersionUserMap
+﻿
+CREATE VIEW [Access].[vwDataVersionUserMap]
 as
-
-select userid, 
-CASE WHEN MAX(RT.RoleTypeCode) = 'SU' THEN 0 ELSE
-min(dv.[Order]) END DataVersionOrder
+select UserID, 
+DvJoin.DataVersion_ID
 from 
 Access.User_SystemRole_ProjectProgramme RM
 join Access.SystemRole SR
@@ -12,4 +11,8 @@ join core.DataVersion dv
 on SR.DataVersion_ID = dv.DataVersion_ID
 join Access.RoleType RT
 on SR.RoleType_ID = RT.RoleType_ID
-group by userid
+join core.DataVersion DvJoin
+on DvJoin.[Order] >= DV.[Order]
+OR RT.RoleTypeCode = 'SU' 
+GROUP BY UserID, 
+DvJoin.DataVersion_ID
