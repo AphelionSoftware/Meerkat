@@ -8,6 +8,93 @@ namespace LightSwitchApplication
 
     public partial class MeerkatDataService
     {
+
+        #region Security
+
+        private string strUser = "";
+        public string UserName
+        {
+            get
+            {
+                if (strUser == "")
+                {
+                    switch (Application.User.Name)
+                    {
+                        case "TestUser":
+                            strUser = Environment.UserName;
+                            break;
+                        case "":
+                            strUser = Environment.UserName;
+                            break;
+                        case null:
+                            strUser = Environment.UserName;
+                            break;
+
+
+                        default:
+                            strUser = Application.User.Name;
+                            break;
+                    }
+
+                    if (strUser == "" || strUser == null)
+                    {
+                        strUser = Application.User.PersonId;
+                    }
+
+                }
+
+                if (strUser.Contains("|"))
+                {
+                    //For funny Sharepoint users.
+                    strUser = strUser.Split('|')[2];
+                }
+                return strUser;
+            }
+        }
+
+        private string str_tsPerson = "";
+        public string tsPerson
+        {
+            get
+            {
+                if (str_tsPerson == "")
+                {
+                    string strUserName = UserName;
+                    str_tsPerson = (from p in DataWorkspace.TimesheetsData.People
+                                    where p.ADUsername == strUserName || p.SharepointUserName == strUserName
+                                    select p.PersonName).FirstOrDefault();
+
+
+                }
+                return str_tsPerson;
+            }
+        }
+
+        private Int32 int_tsPersonID = 0;
+        public Int32 tsPersonID
+        {
+            get
+            {
+                if (int_tsPersonID == 0)
+                {
+                    string strUserName = UserName;
+                    int_tsPersonID = (from p in DataWorkspace.TimesheetsData.People
+                                      where p.ADUsername.ToLower() == strUserName.ToLower() || p.SharepointUserName.ToLower() == strUserName.ToLower()
+                                          //|| p.ADUsername.StartsWith(strUserName) || p.SharepointUserName.StartsWith(strUserName)
+                                      || p.ADUsername.ToLower().StartsWith(strUserName.ToLower()) || p.SharepointUserName.ToLower().StartsWith(strUserName.ToLower())
+                                      || p.ADUsername.ToLower().Contains(strUserName.ToLower()) || p.SharepointUserName.ToLower().Contains(strUserName.ToLower())
+                                      select p.PersonID).FirstOrDefault();
+
+
+                }
+                return int_tsPersonID;
+            }
+        }
+
+
+        #endregion
+
+
         private static DateTime MinDate = new DateTime(2000, 1, 1);
 
         private void SetTrackingInfo<T>(T entity)
