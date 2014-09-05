@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="User">
+    Name="Location">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,18 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="UserName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <KeyProperty
-        Name="UserID"
+        Name="Location_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -36,67 +26,73 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="UserSourceKey"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="UserCode"
+        Name="Code"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
             Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="StartDate"
-        PropertyType=":DateTime">
+        Name="AreaKM"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Population"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Density"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocationType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="FinalDate"
-        PropertyType=":DateTime?">
+        Name="sys_CreatedBy"
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="3"
-            PreserveSeconds="True" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Email"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ADUsername"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="SharepointUserName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -114,12 +110,13 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="sys_CreatedBy"
+        Name="sys_ModifiedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
             Value="255" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -134,61 +131,99 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="sys_ModifiedBy"
-        PropertyType=":String">
+        Name="LocalName"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <EntityProperty
-        Name="StartDate_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="FinalDate_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="User_SystemRole_ProjectProgrammes"
-        Association="FK_User_SystemRole_ProjectProgramme_User"
-        FromEnd="User"
-        ToEnd="User_SystemRole_ProjectProgramme" />
       <NavigationProperty
         Name="ActiveType"
-        Association="FK_User_ActiveType"
-        FromEnd="User"
+        Association="FK_Location_ActiveType"
+        FromEnd="Location"
         ToEnd="ActiveType" />
       <NavigationProperty
+        Name="Locations"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location"
+        ToEnd="Location1" />
+      <NavigationProperty
+        Name="Location1"
+        Association="FK_Location_ParentLocation"
+        FromEnd="Location1"
+        ToEnd="Location" />
+      <NavigationProperty
         Name="User_Locations"
-        Association="FK_User_Location_User"
-        FromEnd="User"
+        Association="FK_User_Location_Location"
+        FromEnd="Location"
         ToEnd="User_Location" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_Location_ParentLocation">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Location1"
+      Multiplicity="Many"
+      EntityType="Location" />
+  </Association>
+  <Association
+    Name="FK_User_Location_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_Location"
+      Multiplicity="Many"
+      EntityType="User_Location" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Users"
+      Name="Locations"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="User" />
+      EntityType="Location" />
+    <AssociationSet
+      Name="FK_Location_ParentLocation"
+      Association="FK_Location_ParentLocation">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Location1"
+        EntitySet="Locations" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_User_Location_Location"
+      Association="FK_User_Location_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="User_Location"
+        EntitySet="User_Locations" />
+    </AssociationSet>
     <QueryOperation
-      Name="Users_Single"
-      ReturnType="User">
+      Name="Locations_Single"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -201,12 +236,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="UserID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="UserID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -214,21 +249,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Users" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="UserID"
+        Name="Location_ID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'UserID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Users_SingleOrDefault"
-      ReturnType="User">
+      Name="Locations_SingleOrDefault"
+      ReturnType="Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -241,12 +276,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="UserID" />
+                  Member="Location_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="UserID" />
+                Parameter="Location_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -254,211 +289,154 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Users" />
+            Member="Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="UserID"
+        Name="Location_ID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'UserID' key property of the entity to retrieve." />
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_User_SystemRole_ProjectProgramme_User"
-      Association="FK_User_SystemRole_ProjectProgramme_User">
-      <AssociationSetEnd
-        Name="User"
-        EntitySet="Users" />
-      <AssociationSetEnd
-        Name="User_SystemRole_ProjectProgramme"
-        EntitySet="User_SystemRole_ProjectProgrammes" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_User_Location_User"
-      Association="FK_User_Location_User">
-      <AssociationSetEnd
-        Name="User"
-        EntitySet="Users" />
-      <AssociationSetEnd
-        Name="User_Location"
-        EntitySet="User_Locations" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_User_SystemRole_ProjectProgramme_User">
-    <AssociationEnd
-      Name="User"
-      Multiplicity="One"
-      EntityType="User">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="User_SystemRole_ProjectProgramme"
-      Multiplicity="Many"
-      EntityType="User_SystemRole_ProjectProgramme" />
-  </Association>
-  <Association
-    Name="FK_User_Location_User">
-    <AssociationEnd
-      Name="User"
-      Multiplicity="One"
-      EntityType="User">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="User_Location"
-      Multiplicity="Many"
-      EntityType="User_Location" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Users">
+      EntitySet="Locations">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="Access"
-          Table="User" />
+          Schema="Core"
+          Table="Location" />
         <SsdlProperty
-          Name="UserID"
+          Name="Location_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="User/Properties[UserID]" />
+          Property="Location/Properties[Location_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="False"
+          Type="varchar"
+          Property="Location/Properties[Code]" />
         <SsdlProperty
           MaxLength="255"
-          Name="UserSourceKey"
+          Name="Name"
           Nullable="True"
           Type="varchar"
-          Property="User/Properties[UserSourceKey]" />
+          Property="Location/Properties[Name]" />
         <SsdlProperty
-          MaxLength="255"
-          Name="UserName"
-          Nullable="False"
-          Type="varchar"
-          Property="User/Properties[UserName]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="UserCode"
-          Nullable="False"
-          Type="varchar"
-          Property="User/Properties[UserCode]" />
-        <SsdlProperty
-          Name="StartDate"
-          Nullable="False"
-          Type="datetime"
-          Property="User/Properties[StartDate]" />
-        <SsdlProperty
-          Name="StartDate_ID"
+          Name="AreaKM"
           Nullable="True"
-          StoreGeneratedPattern="Computed"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[AreaKM]" />
+        <SsdlProperty
+          Name="Population"
+          Nullable="True"
+          Scale="2"
+          Type="decimal"
+          Property="Location/Properties[Population]" />
+        <SsdlProperty
+          Name="Density"
+          Nullable="True"
+          Type="varchar(max)"
+          Property="Location/Properties[Density]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Location/Properties[BusinessKey]" />
+        <SsdlProperty
+          Name="LocationType_ID"
+          Nullable="True"
           Type="int"
-          Property="User/Properties[StartDate_ID]" />
-        <SsdlProperty
-          Name="FinalDate"
-          Nullable="True"
-          Type="datetime"
-          Property="User/Properties[FinalDate]" />
-        <SsdlProperty
-          Name="FinalDate_ID"
-          Nullable="True"
-          StoreGeneratedPattern="Computed"
-          Type="int"
-          Property="User/Properties[FinalDate_ID]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="Email"
-          Nullable="True"
-          Type="varchar"
-          Property="User/Properties[Email]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="ADUsername"
-          Nullable="True"
-          Type="varchar"
-          Property="User/Properties[ADUsername]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="SharepointUserName"
-          Nullable="True"
-          Type="varchar"
-          Property="User/Properties[SharepointUserName]" />
-        <SsdlProperty
-          Name="sys_CreatedOn"
-          Nullable="False"
-          Type="datetime"
-          Property="User/Properties[sys_CreatedOn]" />
+          Property="Location/Properties[LocationType_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
-          Type="nvarchar"
-          Property="User/Properties[sys_CreatedBy]" />
+          Type="varchar"
+          Property="Location/Properties[sys_CreatedBy]" />
         <SsdlProperty
-          Name="sys_ModifiedOn"
+          Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="User/Properties[sys_ModifiedOn]" />
+          Property="Location/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
+          Type="varchar"
+          Property="Location/Properties[sys_ModifiedBy]" />
+        <SsdlProperty
+          Name="sys_ModifiedOn"
+          Nullable="False"
+          Type="datetime"
+          Property="Location/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
           Type="nvarchar"
-          Property="User/Properties[sys_ModifiedBy]" />
+          Property="Location/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="ParentLocation_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ParentLocation_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_User_Location_User">
+      AssociationSet="FK_Location_ParentLocation">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_User_Location_User" />
+          Name="FK_Location_ParentLocation" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_Location_User]/Members[User]">
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="UserID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_Location_User]/Members[User_Location]">
+          End="MeerkatData/Members[FK_Location_ParentLocation]/Members[Location1]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="User_ID" />
+              Name="ParentLocation_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_User_SystemRole_ProjectProgramme_User">
+      AssociationSet="FK_User_Location_Location">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_User_SystemRole_ProjectProgramme_User" />
+          Name="FK_User_Location_Location" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User]">
+          End="MeerkatData/Members[FK_User_Location_Location]/Members[Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="UserID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User_SystemRole_ProjectProgramme]">
+          End="MeerkatData/Members[FK_User_Location_Location]/Members[User_Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="User_ID" />
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

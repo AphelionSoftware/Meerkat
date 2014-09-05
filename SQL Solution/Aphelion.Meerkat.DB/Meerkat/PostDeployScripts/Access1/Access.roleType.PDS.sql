@@ -7,6 +7,17 @@
 SELECT Q.Name, Q.Code, Q.Code
 FROM
 (SELECT 
+	 'Super user' as Name
+	,'SU' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[RoleType]
+		WHERE Code = q.Code)
+
+UNION ALL
+SELECT Q.Name, Q.Code, Q.Code
+FROM
+(SELECT 
 	 'Meerkat Capture & Form Capture' as Name
 	,'CAPTURE' as Code
 ) Q

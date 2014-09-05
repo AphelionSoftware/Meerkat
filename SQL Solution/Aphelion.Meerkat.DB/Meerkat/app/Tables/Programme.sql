@@ -6,6 +6,7 @@
     [ShortName]         VARCHAR (50)   NOT NULL,
     [TextDescription]   VARCHAR (4000) NULL,
     [ProgrammeSiteName] VARCHAR (50)   NULL,
+    [isSiteCreated]     BIT            CONSTRAINT [DF_Programme_isSiteCreated] DEFAULT ((0)) NOT NULL,
     [Active]            INT            DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]     VARCHAR (255)  CONSTRAINT [DF_Programme_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]     DATETIME       CONSTRAINT [DF_Programme_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,

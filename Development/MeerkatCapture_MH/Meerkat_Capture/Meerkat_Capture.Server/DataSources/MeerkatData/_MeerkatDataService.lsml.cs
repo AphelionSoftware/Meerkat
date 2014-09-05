@@ -57,12 +57,12 @@ namespace LightSwitchApplication
         {
             get
             {
-                if (str_tsPerson == "")
+                if   ( str_tsPerson == null || str_tsPerson == "")
                 {
                     string strUserName = UserName;
-                    str_tsPerson = (from p in DataWorkspace.TimesheetsData.People
+                    str_tsPerson = (from User p in DataWorkspace.MeerkatData.Users 
                                     where p.ADUsername == strUserName || p.SharepointUserName == strUserName
-                                    select p.PersonName).FirstOrDefault();
+                                    select p.UserName).FirstOrDefault();
 
 
                 }
@@ -75,15 +75,15 @@ namespace LightSwitchApplication
         {
             get
             {
-                if (int_tsPersonID == 0)
+                if (int_tsPersonID == null || int_tsPersonID == 0)
                 {
                     string strUserName = UserName;
-                    int_tsPersonID = (from p in DataWorkspace.TimesheetsData.People
+                    int_tsPersonID = (from User p in DataWorkspace.MeerkatData.Users
                                       where p.ADUsername.ToLower() == strUserName.ToLower() || p.SharepointUserName.ToLower() == strUserName.ToLower()
                                           //|| p.ADUsername.StartsWith(strUserName) || p.SharepointUserName.StartsWith(strUserName)
                                       || p.ADUsername.ToLower().StartsWith(strUserName.ToLower()) || p.SharepointUserName.ToLower().StartsWith(strUserName.ToLower())
                                       || p.ADUsername.ToLower().Contains(strUserName.ToLower()) || p.SharepointUserName.ToLower().Contains(strUserName.ToLower())
-                                      select p.PersonID).FirstOrDefault();
+                                      select p.UserID).FirstOrDefault();
 
 
                 }
@@ -162,6 +162,8 @@ namespace LightSwitchApplication
 
         partial void Indicators_Filter(ref Expression<Func<Indicator, bool>> filter)
         {
+            //string Person = tsPerson;
+            int UserID = this.tsPersonID;
             filter = e => e.ActiveType.ID == 1;
         }
 

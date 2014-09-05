@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="SystemRole">
+    Name="User">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <EntityProperty
-        Name="SystemRoleName"
+        Name="UserName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
@@ -25,8 +25,18 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <KeyProperty
+        Name="UserID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
-        Name="SystemRoleSourceKey"
+        Name="UserSourceKey"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
@@ -35,10 +45,74 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="SystemRoleCode"
+        Name="UserCode"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="StartDate"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="StartDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FinalDate"
+        PropertyType=":DateTime?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FinalDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Email"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ADUsername"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="SharepointUserName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -85,51 +159,56 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="RoleType"
-        Association="FK_SystemRole_RoleType"
-        FromEnd="SystemRole"
-        ToEnd="RoleType" />
-      <KeyProperty
-        Name="SystemRole_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <NavigationProperty
-        Name="User_SystemRole_ProjectProgrammes"
-        Association="FK_User_SystemRole_ProjectProgramme_SystemRole"
-        FromEnd="SystemRole"
-        ToEnd="User_SystemRole_ProjectProgramme" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_SystemRole_ActiveType"
-        FromEnd="SystemRole"
+        Association="FK_User_ActiveType"
+        FromEnd="User"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="DataVersion"
-        Association="FK_SystemRole_DataVersion"
-        FromEnd="SystemRole"
-        ToEnd="DataVersion" />
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_User"
+        FromEnd="User"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_User">
+    <AssociationEnd
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="SystemRoles"
+      Name="Users"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="SystemRole" />
+      EntityType="User" />
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_User"
+      Association="FK_User_SystemRole_ProjectProgramme_User">
+      <AssociationSetEnd
+        Name="User"
+        EntitySet="Users" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
     <QueryOperation
-      Name="SystemRoles_Single"
-      ReturnType="SystemRole">
+      Name="Users_Single"
+      ReturnType="User">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -142,12 +221,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="SystemRole_ID" />
+                  Member="UserID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="SystemRole_ID" />
+                Parameter="UserID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -155,21 +234,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="SystemRoles" />
+            Member="Users" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="SystemRole_ID"
+        Name="UserID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'SystemRole_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="SystemRoles_SingleOrDefault"
-      ReturnType="SystemRole">
+      Name="Users_SingleOrDefault"
+      ReturnType="User">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -182,12 +261,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="SystemRole_ID" />
+                  Member="UserID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="SystemRole_ID" />
+                Parameter="UserID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -195,135 +274,140 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="SystemRoles" />
+            Member="Users" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="SystemRole_ID"
+        Name="UserID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'SystemRole_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_User_SystemRole_ProjectProgramme_SystemRole"
-      Association="FK_User_SystemRole_ProjectProgramme_SystemRole">
-      <AssociationSetEnd
-        Name="SystemRole"
-        EntitySet="SystemRoles" />
-      <AssociationSetEnd
-        Name="User_SystemRole_ProjectProgramme"
-        EntitySet="User_SystemRole_ProjectProgrammes" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_User_SystemRole_ProjectProgramme_SystemRole">
-    <AssociationEnd
-      Name="SystemRole"
-      Multiplicity="One"
-      EntityType="SystemRole">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="User_SystemRole_ProjectProgramme"
-      Multiplicity="Many"
-      EntityType="User_SystemRole_ProjectProgramme" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="SystemRoles">
+      EntitySet="Users">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="Access"
-          Table="SystemRole" />
+          Table="User" />
         <SsdlProperty
-          Name="SystemRole_ID"
+          Name="UserID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="SystemRole/Properties[SystemRole_ID]" />
+          Property="User/Properties[UserID]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleSourceKey"
+          Name="UserSourceKey"
           Nullable="True"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleSourceKey]" />
+          Property="User/Properties[UserSourceKey]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleName"
+          Name="UserName"
           Nullable="False"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleName]" />
+          Property="User/Properties[UserName]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleCode"
+          Name="UserCode"
           Nullable="False"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleCode]" />
+          Property="User/Properties[UserCode]" />
+        <SsdlProperty
+          Name="StartDate"
+          Nullable="False"
+          Type="datetime"
+          Property="User/Properties[StartDate]" />
+        <SsdlProperty
+          Name="StartDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="User/Properties[StartDate_ID]" />
+        <SsdlProperty
+          Name="FinalDate"
+          Nullable="True"
+          Type="datetime"
+          Property="User/Properties[FinalDate]" />
+        <SsdlProperty
+          Name="FinalDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="User/Properties[FinalDate_ID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Email"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[Email]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ADUsername"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[ADUsername]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="SharepointUserName"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[SharepointUserName]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="SystemRole/Properties[sys_CreatedOn]" />
+          Property="User/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="nvarchar"
-          Property="SystemRole/Properties[sys_CreatedBy]" />
+          Property="User/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="SystemRole/Properties[sys_ModifiedOn]" />
+          Property="User/Properties[sys_ModifiedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="nvarchar"
-          Property="SystemRole/Properties[sys_ModifiedBy]" />
+          Property="User/Properties[sys_ModifiedBy]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="DataVersion_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="DataVersion_ID" />
-        <SsdlForeignKeyProperty
-          Name="RoleType_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="RoleType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_User_SystemRole_ProjectProgramme_SystemRole">
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_User">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_User_SystemRole_ProjectProgramme_SystemRole" />
+          Name="FK_User_SystemRole_ProjectProgramme_User" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_SystemRole]/Members[SystemRole]">
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="SystemRole_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_SystemRole]/Members[User_SystemRole_ProjectProgramme]">
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User_SystemRole_ProjectProgramme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="SystemRole_ID" />
+              Name="User_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

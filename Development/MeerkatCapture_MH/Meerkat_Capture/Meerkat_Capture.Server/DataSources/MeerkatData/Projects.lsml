@@ -186,11 +186,6 @@
         Association="FK_PeopleReachedValues_Project"
         FromEnd="Project"
         ToEnd="PeopleReachedValues" />
-      <NavigationProperty
-        Name="Forms"
-        Association="FK_Form_Project"
-        FromEnd="Project"
-        ToEnd="Form" />
       <EntityProperty
         Name="ProjectStartDate"
         PropertyType=":DateTime">
@@ -266,6 +261,11 @@
         Association="FK_Project_StrategicElement"
         FromEnd="Project"
         ToEnd="StrategicElement" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_Project"
+        FromEnd="Project"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -473,16 +473,6 @@
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <AssociationSet
-      Name="FK_Form_Project"
-      Association="FK_Form_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Form"
-        EntitySet="Forms" />
-    </AssociationSet>
-    <AssociationSet
       Name="FK_CustomReport_Project_Project"
       Association="FK_CustomReport_Project_Project">
       <AssociationSetEnd
@@ -521,6 +511,16 @@
       <AssociationSetEnd
         Name="Project_ResultArea"
         EntitySet="Project_ResultAreas" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_Project"
+      Association="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -581,21 +581,6 @@
       EntityType="PeopleReachedValue" />
   </Association>
   <Association
-    Name="FK_Form_Project">
-    <AssociationEnd
-      Name="Project"
-      Multiplicity="One"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Form"
-      Multiplicity="Many"
-      EntityType="Form" />
-  </Association>
-  <Association
     Name="FK_CustomReport_Project_Project">
     <AssociationEnd
       Name="Project"
@@ -650,6 +635,20 @@
       Name="Project_ResultArea"
       Multiplicity="Many"
       EntityType="Project_ResultArea" />
+  </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -897,27 +896,6 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Form_Project">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Form_Project" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Project]/Members[Project]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Project]/Members[Form]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
       AssociationSet="FK_FrameworkDetail_Project_Project">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -1036,6 +1014,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_StatusValues_Project]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[User_SystemRole_ProjectProgramme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />

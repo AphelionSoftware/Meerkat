@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="SystemRole">
+    Name="RoleType">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,18 +15,18 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="SystemRoleName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="RoleType_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
-        Name="SystemRoleSourceKey"
+        Name="RoleTypeSourceKey"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
@@ -35,13 +35,42 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="SystemRoleCode"
+        Name="LoadDate"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="RoleTypeName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="RoleTypeCode"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LoadDateID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -85,51 +114,56 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="RoleType"
-        Association="FK_SystemRole_RoleType"
-        FromEnd="SystemRole"
-        ToEnd="RoleType" />
-      <KeyProperty
-        Name="SystemRole_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <NavigationProperty
-        Name="User_SystemRole_ProjectProgrammes"
-        Association="FK_User_SystemRole_ProjectProgramme_SystemRole"
-        FromEnd="SystemRole"
-        ToEnd="User_SystemRole_ProjectProgramme" />
-      <NavigationProperty
         Name="ActiveType"
-        Association="FK_SystemRole_ActiveType"
-        FromEnd="SystemRole"
+        Association="FK_RoleType_ActiveType"
+        FromEnd="RoleType"
         ToEnd="ActiveType" />
       <NavigationProperty
-        Name="DataVersion"
-        Association="FK_SystemRole_DataVersion"
-        FromEnd="SystemRole"
-        ToEnd="DataVersion" />
+        Name="SystemRoles"
+        Association="FK_SystemRole_RoleType"
+        FromEnd="RoleType"
+        ToEnd="SystemRole" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_SystemRole_RoleType">
+    <AssociationEnd
+      Name="RoleType"
+      Multiplicity="One"
+      EntityType="RoleType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="SystemRole"
+      Multiplicity="Many"
+      EntityType="SystemRole" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="SystemRoles"
+      Name="RoleTypes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="SystemRole" />
+      EntityType="RoleType" />
+    <AssociationSet
+      Name="FK_SystemRole_RoleType"
+      Association="FK_SystemRole_RoleType">
+      <AssociationSetEnd
+        Name="RoleType"
+        EntitySet="RoleTypes" />
+      <AssociationSetEnd
+        Name="SystemRole"
+        EntitySet="SystemRoles" />
+    </AssociationSet>
     <QueryOperation
-      Name="SystemRoles_Single"
-      ReturnType="SystemRole">
+      Name="RoleTypes_Single"
+      ReturnType="RoleType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -142,12 +176,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="SystemRole_ID" />
+                  Member="RoleType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="SystemRole_ID" />
+                Parameter="RoleType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -155,21 +189,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="SystemRoles" />
+            Member="RoleTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="SystemRole_ID"
+        Name="RoleType_ID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'SystemRole_ID' key property of the entity to retrieve." />
+            Value="The value of the 'RoleType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="SystemRoles_SingleOrDefault"
-      ReturnType="SystemRole">
+      Name="RoleTypes_SingleOrDefault"
+      ReturnType="RoleType">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -182,12 +216,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="SystemRole_ID" />
+                  Member="RoleType_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="SystemRole_ID" />
+                Parameter="RoleType_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -195,135 +229,111 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="SystemRoles" />
+            Member="RoleTypes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="SystemRole_ID"
+        Name="RoleType_ID"
         ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'SystemRole_ID' key property of the entity to retrieve." />
+            Value="The value of the 'RoleType_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_User_SystemRole_ProjectProgramme_SystemRole"
-      Association="FK_User_SystemRole_ProjectProgramme_SystemRole">
-      <AssociationSetEnd
-        Name="SystemRole"
-        EntitySet="SystemRoles" />
-      <AssociationSetEnd
-        Name="User_SystemRole_ProjectProgramme"
-        EntitySet="User_SystemRole_ProjectProgrammes" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_User_SystemRole_ProjectProgramme_SystemRole">
-    <AssociationEnd
-      Name="SystemRole"
-      Multiplicity="One"
-      EntityType="SystemRole">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="User_SystemRole_ProjectProgramme"
-      Multiplicity="Many"
-      EntityType="User_SystemRole_ProjectProgramme" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="SystemRoles">
+      EntitySet="RoleTypes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
           Schema="Access"
-          Table="SystemRole" />
+          Table="RoleType" />
         <SsdlProperty
-          Name="SystemRole_ID"
+          Name="RoleType_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="SystemRole/Properties[SystemRole_ID]" />
+          Property="RoleType/Properties[RoleType_ID]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleSourceKey"
+          Name="RoleTypeSourceKey"
           Nullable="True"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleSourceKey]" />
+          Property="RoleType/Properties[RoleTypeSourceKey]" />
+        <SsdlProperty
+          Name="LoadDate"
+          Nullable="False"
+          Type="datetime"
+          Property="RoleType/Properties[LoadDate]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleName"
+          Name="RoleTypeName"
           Nullable="False"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleName]" />
+          Property="RoleType/Properties[RoleTypeName]" />
         <SsdlProperty
           MaxLength="255"
-          Name="SystemRoleCode"
+          Name="RoleTypeCode"
           Nullable="False"
           Type="varchar"
-          Property="SystemRole/Properties[SystemRoleCode]" />
+          Property="RoleType/Properties[RoleTypeCode]" />
+        <SsdlProperty
+          Name="LoadDateID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="RoleType/Properties[LoadDateID]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="SystemRole/Properties[sys_CreatedOn]" />
+          Property="RoleType/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="nvarchar"
-          Property="SystemRole/Properties[sys_CreatedBy]" />
+          Property="RoleType/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="SystemRole/Properties[sys_ModifiedOn]" />
+          Property="RoleType/Properties[sys_ModifiedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="nvarchar"
-          Property="SystemRole/Properties[sys_ModifiedBy]" />
+          Property="RoleType/Properties[sys_ModifiedBy]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
-        <SsdlForeignKeyProperty
-          Name="DataVersion_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="DataVersion_ID" />
-        <SsdlForeignKeyProperty
-          Name="RoleType_ID"
-          Nullable="False"
-          Type="int"
-          PropertyName="RoleType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_User_SystemRole_ProjectProgramme_SystemRole">
+      AssociationSet="FK_SystemRole_RoleType">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_User_SystemRole_ProjectProgramme_SystemRole" />
+          Name="FK_SystemRole_RoleType" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_SystemRole]/Members[SystemRole]">
+          End="MeerkatData/Members[FK_SystemRole_RoleType]/Members[RoleType]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="SystemRole_ID" />
+              Name="RoleType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_SystemRole]/Members[User_SystemRole_ProjectProgramme]">
+          End="MeerkatData/Members[FK_SystemRole_RoleType]/Members[SystemRole]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="SystemRole_ID" />
+              Name="RoleType_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

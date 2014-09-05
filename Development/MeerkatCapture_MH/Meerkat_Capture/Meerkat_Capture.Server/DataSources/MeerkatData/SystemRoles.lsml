@@ -15,20 +15,30 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="SystemRoleName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="SystemRole_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
           <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="SystemRoleSourceKey"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="SystemRoleSourceKey"
-        PropertyType=":String?">
+        Name="SystemRoleName"
+        PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -85,26 +95,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="RoleType"
-        Association="FK_SystemRole_RoleType"
-        FromEnd="SystemRole"
-        ToEnd="RoleType" />
-      <KeyProperty
-        Name="SystemRole_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <NavigationProperty
-        Name="User_SystemRole_ProjectProgrammes"
-        Association="FK_User_SystemRole_ProjectProgramme_SystemRole"
-        FromEnd="SystemRole"
-        ToEnd="User_SystemRole_ProjectProgramme" />
-      <NavigationProperty
         Name="ActiveType"
         Association="FK_SystemRole_ActiveType"
         FromEnd="SystemRole"
@@ -114,8 +104,33 @@
         Association="FK_SystemRole_DataVersion"
         FromEnd="SystemRole"
         ToEnd="DataVersion" />
+      <NavigationProperty
+        Name="RoleType"
+        Association="FK_SystemRole_RoleType"
+        FromEnd="SystemRole"
+        ToEnd="RoleType" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_SystemRole"
+        FromEnd="SystemRole"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_SystemRole">
+    <AssociationEnd
+      Name="SystemRole"
+      Multiplicity="One"
+      EntityType="SystemRole">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
@@ -127,6 +142,16 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="SystemRole" />
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_SystemRole"
+      Association="FK_User_SystemRole_ProjectProgramme_SystemRole">
+      <AssociationSetEnd
+        Name="SystemRole"
+        EntitySet="SystemRoles" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
     <QueryOperation
       Name="SystemRoles_Single"
       ReturnType="SystemRole">
@@ -207,32 +232,7 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="FK_User_SystemRole_ProjectProgramme_SystemRole"
-      Association="FK_User_SystemRole_ProjectProgramme_SystemRole">
-      <AssociationSetEnd
-        Name="SystemRole"
-        EntitySet="SystemRoles" />
-      <AssociationSetEnd
-        Name="User_SystemRole_ProjectProgramme"
-        EntitySet="User_SystemRole_ProjectProgrammes" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="FK_User_SystemRole_ProjectProgramme_SystemRole">
-    <AssociationEnd
-      Name="SystemRole"
-      Multiplicity="One"
-      EntityType="SystemRole">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="User_SystemRole_ProjectProgramme"
-      Multiplicity="Many"
-      EntityType="User_SystemRole_ProjectProgramme" />
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
