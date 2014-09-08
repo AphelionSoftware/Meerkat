@@ -18,6 +18,9 @@ New-SPSite -Url "$sitecoll" -OwnerAlias $user -template $template -name $name
 #Import the site 
 Import-SPWeb -Identity "$sitecoll" -Path "$filePath"
 
+Enable-SPFeature -Identity "PowerPivotSite" -URL "$sitecoll"
+
+
 #New-SPWeb –url "http://mgs-m6700/sites/Meerkat/Outcome3/test" -name "Test" -template STS#0
 #Import-SPWeb -Identity "http://mgs-m6700/sites/Meerkat/Outcome2/Test" -Path "D:\Dropbox\GitHub\Meerkat\Installation\SP\Export\meerkat_project.cmp"
 #
