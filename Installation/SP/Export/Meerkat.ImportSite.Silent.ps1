@@ -17,6 +17,7 @@ New-SPWeb –url "$sitecoll" -name "$name" -template $template
 Import-SPWeb -Identity "$sitecoll" -Path "$filePath"
 
 
+$web = Get-SPWeb -identity "$sitecoll"
 $web.CustomMasterUrl =  "/_catalogs/masterpage/$masterpage"  
 $web.MasterUrl = "/_catalogs/masterpage/$masterpage" 
 $web.Title = $title
