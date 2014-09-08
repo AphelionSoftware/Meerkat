@@ -225,3 +225,7 @@ myapp.AddEditIndicator.Indicator_SubSector_postRender = function (element, conte
         });
     
 };
+myapp.AddEditIndicator.ProgrammeGroup_postRender = function (element, contentItem) {
+    // Write code here.
+
+};

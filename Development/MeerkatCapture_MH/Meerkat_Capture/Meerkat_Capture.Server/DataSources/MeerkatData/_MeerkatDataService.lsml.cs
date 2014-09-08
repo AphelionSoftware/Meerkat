@@ -57,12 +57,12 @@ namespace LightSwitchApplication
         {
             get
             {
-                if (str_tsPerson == "")
+                if   ( str_tsPerson == null || str_tsPerson == "")
                 {
                     string strUserName = UserName;
-                    str_tsPerson = (from p in DataWorkspace.TimesheetsData.People
+                    str_tsPerson = (from User p in DataWorkspace.MeerkatData.Users 
                                     where p.ADUsername == strUserName || p.SharepointUserName == strUserName
-                                    select p.PersonName).FirstOrDefault();
+                                    select p.UserName).FirstOrDefault();
 
 
                 }
@@ -75,15 +75,15 @@ namespace LightSwitchApplication
         {
             get
             {
-                if (int_tsPersonID == 0)
+                if (int_tsPersonID == null || int_tsPersonID == 0)
                 {
                     string strUserName = UserName;
-                    int_tsPersonID = (from p in DataWorkspace.TimesheetsData.People
+                    int_tsPersonID = (from User p in DataWorkspace.MeerkatData.Users
                                       where p.ADUsername.ToLower() == strUserName.ToLower() || p.SharepointUserName.ToLower() == strUserName.ToLower()
                                           //|| p.ADUsername.StartsWith(strUserName) || p.SharepointUserName.StartsWith(strUserName)
                                       || p.ADUsername.ToLower().StartsWith(strUserName.ToLower()) || p.SharepointUserName.ToLower().StartsWith(strUserName.ToLower())
                                       || p.ADUsername.ToLower().Contains(strUserName.ToLower()) || p.SharepointUserName.ToLower().Contains(strUserName.ToLower())
-                                      select p.PersonID).FirstOrDefault();
+                                      select p.UserID).FirstOrDefault();
 
 
                 }
@@ -152,7 +152,9 @@ namespace LightSwitchApplication
 
         partial void DataVersions_Filter(ref Expression<Func<DataVersion, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.                e.ActiveType.ID == 1;
+            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1;
         }
 
         partial void IndicatorLocations_Filter(ref Expression<Func<IndicatorLocation, bool>> filter)
@@ -162,13 +164,20 @@ namespace LightSwitchApplication
 
         partial void Indicators_Filter(ref Expression<Func<Indicator, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //string Person = tsPerson;
+            int UserID = this.tsPersonID;
+            filter = e => (
+                (e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+                
         }
 
         partial void IndicatorTypes_Filter(ref Expression<Func<IndicatorType, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;
-        }
+        }    
 
         partial void IndicatorValues_Filter(ref Expression<Func<IndicatorValue, bool>> filter)
         {
@@ -177,7 +186,11 @@ namespace LightSwitchApplication
 
         partial void Locations_Filter(ref Expression<Func<Location, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => 
+                e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1
+                &&
+                e.ActiveType.ID == 1;
         }
 
         partial void LocationTypes_Filter(ref Expression<Func<LocationType, bool>> filter)
@@ -192,7 +205,13 @@ namespace LightSwitchApplication
 
         partial void Milestones_Filter(ref Expression<Func<Milestone, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => (
+                (e.vwMilestoneUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+            
         }
 
         partial void MilestoneTypes_Filter(ref Expression<Func<MilestoneType, bool>> filter)
@@ -257,7 +276,13 @@ namespace LightSwitchApplication
 
         partial void Projects_Filter(ref Expression<Func<Project, bool>> filter)
         {
-            filter = e => e.ActiveType.ID == 1;
+            //filter = e => e.ActiveType.ID == 1;
+            filter = e => (
+                (e.vwProjectUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 &&
+                e.ActiveType.ID == 1)
+                ;
+            
         }
 
         partial void ReportingPeriods_Filter(ref Expression<Func<ReportingPeriod, bool>> filter)

@@ -1,7 +1,7 @@
 ﻿
 CREATE VIEW [mm].[ALL_ProgrammeMenuCategory] 
 AS 
-  SELECT Title = 'Programme Pages', 
+ SELECT Title = 'Program', 
          Link = '', 
          ID = 10000, 
          [Programme_ID], 
@@ -9,7 +9,7 @@ AS
   FROM   [app].[Programme] 
   WHERE Active = 1
   UNION ALL 
-  SELECT Title = do.ShortName, 
+  SELECT Title = do.Code , 
          Link = '', 
          1 - do.Sector_ID + 5000 AS ID, 
          do.Programme_ID, 
@@ -18,6 +18,13 @@ AS
          LEFT JOIN [app].[Programme] AS OC 
                 ON do.Programme_ID = oc.[Programme_ID] 
 				WHERE do.Active = 1 AND oc.Active = 1
+				/*Hide sectors with no indicators*/
+				AND EXISTS (SELECT 1 FROM app.Indicator I
+								LEFT JOIN app.SubSector SS
+								ON I.SubSector_ID = SS.SubSector_ID
+								WHERE I.Sector_ID = do.Sector_ID
+								OR SS.Sector_ID = do.Sector_ID)
+
   UNION ALL 
   SELECT Title = 'Projects', 
          Link = '', 
@@ -26,3 +33,13 @@ AS
          [ProgrammeSiteName] 
   FROM   [app].[Programme] 
   WHERE Active = 1
+
+
+GO
+
+
+
+
+GO
+
+

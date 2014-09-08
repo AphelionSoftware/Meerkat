@@ -24,7 +24,11 @@ SELECT
 	,[IndicatorValues].[ReportPeriodID] 
 	,[IndicatorValues].[Structure_ID] 
 
+	,I.BusinessKey as HierarchyBusinessKey 
 FROM [RBM].[IndicatorValues] [IndicatorValues]
+
+	LEFT JOIN app.Indicator I
+	ON [IndicatorValues].Indicator_ID = I.IndicatorID
 GO
 
 
@@ -311,4 +315,16 @@ EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'RBM', @level0typ
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'Structure_ID', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'Structure_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship04', @value = N'IndicatorByProject[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship03', @value = N'IndicatorBySector[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorByProjectSector[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
 

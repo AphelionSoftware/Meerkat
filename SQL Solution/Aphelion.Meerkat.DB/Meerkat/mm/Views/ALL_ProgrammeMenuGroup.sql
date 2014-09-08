@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
     SELECT TOP ( 10000 )
@@ -44,7 +39,7 @@ AS
                         + CAST(do.Sector_ID AS VARCHAR(8)) + ']' AS Link ,
                         ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory
-                          WHERE     ( [mm].[ALL_ProgrammeMenuCategory].[Title] = do.ShortName )
+                          WHERE     ( [mm].[ALL_ProgrammeMenuCategory].[Title] = do.Code )
                                     AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = do.Programme_ID
                         ) AS Parent ,
                         100 + do.Sector_ID AS ID ,
@@ -58,12 +53,12 @@ AS
               UNION ALL
 			 SELECT    '10002' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Programme Level Status' AS Title ,
+                        'Program Level Status' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
-                        + '/Dashboards/Template%20Pages/Programme%20Status%20Report.aspx?qsProgramme=' + substring([O].[ProgrammeSiteName],8,1) AS Link ,
+                        + '/Dashboards/Template%20Pages/Programme%20Status%20Report.aspx?qsProgramme=[IndicatorByProject].[ProgrammeBusinessKey].%26[' + [O].[BusinessKey] + ']' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
-                          WHERE     ( [OMC_2].[Title] = 'Programme Pages' )
+                          WHERE     ( [OMC_2].[Title] = 'Program' )
                                     AND OMC_2.Programme_ID = O.Programme_ID
                         ) AS Parent ,
                         20 AS ID ,
@@ -76,13 +71,13 @@ AS
               UNION ALL
               SELECT    '10003' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Programme Level Indicators' AS Title ,
+                        'Program Level Indicators' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=[Programme].[Programme].%26['
                         + CAST(O.Programme_ID AS VARCHAR(8)) + ']' AS Link ,
                         ( SELECT    [OMC_7].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_7
-                          WHERE     ( [OMC_7].[Title] = 'Programme Pages' )
+                          WHERE     ( [OMC_7].[Title] = 'Program' )
                                     AND OMC_7.Programme_ID = O.Programme_ID
                         ) AS Parent ,
                         70 AS ID ,
@@ -99,7 +94,7 @@ AS
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_4
-                          WHERE     ( [OMC_4].[Title] = 'Programme Pages' )
+                          WHERE     ( [OMC_4].[Title] = 'Program' )
                                     AND OMC_4.Programme_ID = O.Programme_ID
                         ) AS Parent ,
                         40 AS ID ,
@@ -111,12 +106,12 @@ AS
               UNION ALL
               SELECT    '10008' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Programme Contact Info' AS Title ,
+                        'Program Contact Info' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/lists/Programme%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
-                          WHERE     ( [OMC_2].[Title] = 'Programme Pages' )
+                          WHERE     ( [OMC_2].[Title] = 'Program' )
                                     AND OMC_2.Programme_ID = O.Programme_ID
                         ) AS Parent ,
                         20 AS ID ,
@@ -132,7 +127,7 @@ AS
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
-                          WHERE     ( [OMC_1].[Title] = 'Programme Pages' )
+                          WHERE     ( [OMC_1].[Title] = 'Program' )
                                     AND OMC_1.Programme_ID = O.Programme_ID
                         ) AS Parent ,
                         10 AS ID ,
@@ -164,3 +159,6 @@ AS
             ) AS t
     ORDER BY [t].[orderBy1] ,
             [t].[orderby2]
+GO
+
+

@@ -245,6 +245,11 @@
         Association="FK_Structure_Location"
         FromEnd="Location"
         ToEnd="c_Structure" />
+      <NavigationProperty
+        Name="vwLocationUserMaps"
+        Association="vwLocationUserMap_Location"
+        FromEnd="Location"
+        ToEnd="vwLocationUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -536,6 +541,16 @@
       <AssociationSetEnd
         Name="c_Structure"
         EntitySet="Structures" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwLocationUserMap_Locations"
+      Association="vwLocationUserMap_Location">
+      <AssociationSetEnd
+        Name="vwLocationUserMap"
+        EntitySet="vwLocationUserMaps" />
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
     </AssociationSet>
   </EntityContainer>
   <Association
@@ -938,5 +953,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwLocationUserMap_Locations">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwLocationUserMap_Locations" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwLocationUserMap_Locations]/Members[vwLocationUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwLocationUserMap_Locations]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwLocationUserMap_Location">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwLocationUserMap"
+      Multiplicity="Many"
+      EntityType="vwLocationUserMap" />
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>

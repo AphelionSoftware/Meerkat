@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[IndicatorValues] (
+CREATE TABLE [RBM].[IndicatorValues] (
     [IndicatorValues_ID]  INT              IDENTITY (1, 1) NOT NULL,
     [Indicator_ID]        INT              NOT NULL,
     [ActualLabel]         VARCHAR (50)     NOT NULL,
@@ -40,6 +40,8 @@
     CONSTRAINT [FK_IndicatorValues_ReportingPeriod] FOREIGN KEY ([ReportPeriodID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [FK_IndicatorValues_Structure] FOREIGN KEY ([Structure_ID]) REFERENCES [disagg].[Structure] ([Structure_ID])
 );
+
+
 
 
 
@@ -121,5 +123,24 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @lev
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties03', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship04'', @value=N''IndicatorByProject[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'', @level1name=N''IndicatorValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties02', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship03'', @value=N''IndicatorBySector[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'', @level0name=N''OLAP_GEN'', @level1type=N''VIEW'', @level1name=N''IndicatorValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship'', @value=N''IndicatorByProjectSector[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''IndicatorValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalJoin01', @value = N'LEFT JOIN app.Indicator I
+	ON [IndicatorValues].Indicator_ID = I.IndicatorID
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'I.BusinessKey as HierarchyBusinessKey', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
 

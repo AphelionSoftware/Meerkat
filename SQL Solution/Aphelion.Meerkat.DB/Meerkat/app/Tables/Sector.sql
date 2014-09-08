@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[Sector] (
+CREATE TABLE [app].[Sector] (
     [Sector_ID]       INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NULL,
     [LongName]        VARCHAR (500)  NOT NULL,
@@ -17,6 +17,8 @@
     CONSTRAINT [FK_Sector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Sector_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID])
 );
+
+
 
 
 
@@ -247,5 +249,9 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @lev
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromOLAPViews', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromCube', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector';
 
