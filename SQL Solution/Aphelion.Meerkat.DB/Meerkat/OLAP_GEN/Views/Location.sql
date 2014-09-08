@@ -19,6 +19,7 @@ SELECT
 	,[LocationType_2046574047640308189].[Code] AS [LocationTypeCode]
 	,[LocationType_2046574047640308189].[Description] AS [LocationTypeDescription]
 	,[LocationType_2046574047640308189].[LocalName] AS [LocationTypeLocalName]
+	,[LocationType_2046574047640308189].[LocationTypeOrder] AS [LocationTypeOrder]
 	,[LocationType_2046574047640308189].[Name] AS [LocationTypeName]
 FROM [Core].[Location] AS [Location_1121467150999268327]
 
@@ -283,4 +284,20 @@ EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0ty
 
 GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Location', @level2type = N'COLUMN', @level2name = N'LocationBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'LocationType', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Location', @level2type = N'COLUMN', @level2name = N'LocationTypeOrder';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'Core', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Location', @level2type = N'COLUMN', @level2name = N'LocationTypeOrder';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'LocationTypeOrder', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Location', @level2type = N'COLUMN', @level2name = N'LocationTypeOrder';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'Location', @level2type = N'COLUMN', @level2name = N'LocationTypeOrder';
 

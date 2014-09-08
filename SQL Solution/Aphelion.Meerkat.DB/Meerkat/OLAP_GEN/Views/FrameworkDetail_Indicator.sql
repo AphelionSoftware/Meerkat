@@ -98,6 +98,7 @@ SELECT
 	,[Output_3954271295686627592].[TextDescription] AS [OutputTextDescription]
 	,[Programme_1519356379513247556].[BusinessKey] AS [ProgrammeBusinessKey]
 	,[Programme_1519356379513247556].[Code] AS [ProgrammeCode]
+	,[Programme_1519356379513247556].[isSiteCreated] AS [ProgrammeisSiteCreated]
 	,[Programme_1519356379513247556].[LocalLongName] AS [ProgrammeLocalLongName]
 	,[Programme_1519356379513247556].[LocalShortName] AS [ProgrammeLocalShortName]
 	,[Programme_1519356379513247556].[LongName] AS [ProgrammeLongName]
@@ -185,9 +186,10 @@ FROM [disagg].[FrameworkDetail_Indicator] AS [FrameworkDetail_Indicator_85295308
     ON  [Indicator_4807972650779752062].[IndicatorSimpleType_ID] = [IndicatorSimpleType_5459320042534819872].[IndicatorSimpleType_ID]
         
 
-    JOIN [app].[IndicatorType] AS [IndicatorType_7512795947921487176] 
+    LEFT JOIN [app].[IndicatorType] AS [IndicatorType_7512795947921487176] 
     
-        ON  [Indicator_4807972650779752062].[IndicatorType_ID] = [IndicatorType_7512795947921487176].[IndicatorType_ID]
+    ON  [Indicator_4807972650779752062].[IndicatorType_ID] = [IndicatorType_7512795947921487176].[IndicatorType_ID]
+        
 
     LEFT JOIN [app].[Outcome] AS [Outcome_2201295574120571704] 
     
@@ -2954,4 +2956,20 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'ResultArea_ID', 
 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'IndicatorResultArea_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Programme', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'isSiteCreated', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'FrameworkDetail_Indicator', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
 

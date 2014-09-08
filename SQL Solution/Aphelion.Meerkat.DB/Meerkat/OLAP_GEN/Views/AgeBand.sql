@@ -52,6 +52,7 @@ SELECT
 	,[Impact_6999641418207190887].[TextDescription] AS [ImpactTextDescription]
 	,[Programme_2393981381947330251].[BusinessKey] AS [ProgrammeBusinessKey]
 	,[Programme_2393981381947330251].[Code] AS [ProgrammeCode]
+	,[Programme_2393981381947330251].[isSiteCreated] AS [ProgrammeisSiteCreated]
 	,[Programme_2393981381947330251].[LocalLongName] AS [ProgrammeLocalLongName]
 	,[Programme_2393981381947330251].[LocalShortName] AS [ProgrammeLocalShortName]
 	,[Programme_2393981381947330251].[LongName] AS [ProgrammeLongName]
@@ -1534,4 +1535,20 @@ EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'StrategicElement
 
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'1', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'ProjectStrategicElement_ID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcTable', @value = N'Programme', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcSchema', @value = N'disagg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'SrcColumn', @value = N'isSiteCreated', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'2', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'AgeBand', @level2type = N'COLUMN', @level2name = N'ProgrammeisSiteCreated';
 

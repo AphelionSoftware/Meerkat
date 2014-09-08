@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[DimDate] (
+CREATE TABLE [Core].[DimDate] (
     [DateSK]           INT            IDENTITY (1, 1) NOT NULL,
     [DateID]           INT            NOT NULL,
     [Date]             DATETIME       NOT NULL,
@@ -28,9 +28,11 @@
     [LocalMonthName]   NVARCHAR (9)   NULL,
     [LocalQuarterName] NVARCHAR (255) NULL,
     [LocalYearName]    NVARCHAR (4)   NULL,
-    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC),
+    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC) WITH (FILLFACTOR = 90),
     CONSTRAINT [FK_DimDate_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 
@@ -50,5 +52,5 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
-
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromFlattenedViews', @value = N'true', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimDate';
 

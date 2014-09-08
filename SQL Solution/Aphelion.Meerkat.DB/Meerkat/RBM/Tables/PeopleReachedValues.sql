@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RBM].[PeopleReachedValues] (
+CREATE TABLE [RBM].[PeopleReachedValues] (
     [PeopleReachedValuesID]        INT            IDENTITY (1, 1) NOT NULL,
     [Outcome_ID]                   INT            NULL,
     [Output_ID]                    INT            NULL,
@@ -77,6 +77,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues', @level2type = N'COLUMN', @level2name = N'NumberReached';
 
@@ -102,8 +104,7 @@ EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @lev
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalProperties', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship'', @value=N''IndicatorByProgram[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'',@level1name=N''PeopleReachedValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
-', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
+
 
 
 
@@ -141,5 +142,11 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @lev
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties02', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship04'', @value=N''IndicatorByProject[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'',@level0name=N''OLAP_GEN'', @level1type=N''VIEW'', @level1name=N''PeopleReachedValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalProperties01', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship03'', @value=N''IndicatorBySector[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'', @level0name=N''OLAP_GEN'', @level1type=N''VIEW'', @level1name=N''PeopleReachedValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
+', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
 

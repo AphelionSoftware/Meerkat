@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[Activity] (
+CREATE TABLE [app].[Activity] (
     [Activity_ID]     INT            IDENTITY (1, 1) NOT NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
     [LongName]        VARCHAR (500)  NOT NULL,
@@ -18,6 +18,8 @@
     CONSTRAINT [FK_Activity_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ_Activity_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
@@ -98,5 +100,9 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @lev
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromOLAPViews', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromCube', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
 

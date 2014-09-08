@@ -1,4 +1,4 @@
-﻿CREATE TABLE [app].[Indicator] (
+CREATE TABLE [app].[Indicator] (
     [IndicatorID]            INT             IDENTITY (1, 1) NOT NULL,
     [LongName]               VARCHAR (500)   NOT NULL,
     [TextDescription]        VARCHAR (4000)  NULL,
@@ -89,6 +89,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'Indicator', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator', @level2type = N'COLUMN', @level2name = N'ShortName';
 
@@ -115,5 +117,9 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @lev
 
 
 GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromOLAPViews', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator';
 
+
+GO
+EXECUTE sp_addextendedproperty @name = N'ExcludeFromCube', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator';
 

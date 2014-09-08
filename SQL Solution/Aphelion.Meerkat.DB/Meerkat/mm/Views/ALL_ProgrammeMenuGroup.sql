@@ -1,4 +1,5 @@
-﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
+﻿
+CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
     SELECT TOP ( 10000 )
             [t].[Title] ,
@@ -54,7 +55,7 @@ AS
                         0 AS OrderBy2 ,
                         'Program Level Status' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
-                        + '/Dashboards/Template%20Pages/Programme%20Status%20Report.aspx?qsProgramme=' + substring([O].[ProgrammeSiteName],8,1) AS Link ,
+                        + '/Dashboards/Template%20Pages/Programme%20Status%20Report.aspx?qsProgramme=[IndicatorByProject].[ProgrammeBusinessKey].%26[' + [O].[BusinessKey] + ']' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
                           WHERE     ( [OMC_2].[Title] = 'Program' )
