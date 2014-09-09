@@ -14,4 +14,4 @@ WHERE Programme_ID in (Select ID from (
 Select Row_Number() Over (Partition by 1 Order By Code) as IDX, Programme_ID as ID
 from app.Programme Where Active=1 ) as IDX
 
-Where IDX.IDX=1)
+Where IDX.ID=1)

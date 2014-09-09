@@ -16,6 +16,7 @@ DECLARE @Outcome_ID int =0
 ,@SubSector_ID int = 0
 ,@Sector_ID int = 0
 ,@Project_ID int = 0
+,@Program_ID int = 0
 
 IF CHARINDEX('Outcome', @MDXKey ) > 0 
 SET @Outcome_ID  = dbo.fn_StripMDXKey(@MDXKey)
@@ -30,6 +31,8 @@ IF CHARINDEX('Indicator', @MDXKey ) > 0
 SET @Indicator_ID  = dbo.fn_StripMDXKey(@MDXKey)
 IF CHARINDEX('Sub Sector', @MDXKey ) > 0 
 SET @SubSector_ID  = dbo.fn_StripMDXKey(@MDXKey)
+IF CHARINDEX('Program', @MDXKey ) > 0 
+SET @Program_ID  = dbo.fn_StripMDXKey(@MDXKey)
 
 IF NOT CHARINDEX('Sub Sector', @MDXKey ) > 0 and  CHARINDEX('Sector', @MDXKey ) > 0
 SET @Sector_ID  = dbo.fn_StripMDXKey(@MDXKey)
@@ -49,8 +52,8 @@ dbo.fn_StripMDXKey(@MDXKey ) New,
 @INdicator_id I,
 Type = 'Indicator',
 om.Code OutcomeCode  , 
-o.Code OutputCode  , 
-so.Code SubOutputCode  , 
+S.Code OutputCode  , 
+ss.Code SubOutputCode  , 
 i.Code IndicatorCode  , 
 null ActivityCode  , 
 null MilestoneCode  , 
@@ -58,9 +61,9 @@ null MilestoneCode  ,
 
 i.LongName RollupName,
 
-om.LongName OutcomeName  , 
-o.LongName OutputName  , 
-so.LongName SubOutputName  , 
+ISNULL(om.LongName, prog.LongName) OutcomeName  , 
+ISNULL(o.LongName, s.LongName) OutputName  , 
+ISNULL(so.longname,ss.LongName) SubOutputName  , 
 i.LongName IndicatorName  , 
 
 Path = om.Code + ' 
@@ -159,13 +162,15 @@ OR o.Outcome_ID = om.Outcome_ID
 LEFT OUTER JOIN app.Project P
 ON i.ProjectID = P.ProjectID
 LEFT OUTER JOIN app.SubSector SS
-on P.SubSector_ID = SS.SubSector_ID
+on I.SubSector_ID = SS.SubSector_ID
 LEFT OUTER JOIN app.Sector S
 ON SS.Sector_ID = S.Sector_ID
 		OR S.Sector_ID = P.Sector_ID
 		OR S.Sector_ID = I.Sector_ID
 
-
+LEFT OUTER JOIN app.Programme PROG
+	ON I.Programme_ID = PROG.Programme_ID
+	 
 LEFT JOIN Core.DimDate DDStart
 on rc.StartDateID = DDStart.DateID
 
@@ -182,6 +187,7 @@ AND (i.SubOutput_ID = @SubOutput_ID OR @SubOutput_ID = 0)
 AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is null)
 AND (SS.SubSector_ID  = @SubSector_ID OR @SubSector_ID = 0 )
 AND (S.Sector_ID  = @Sector_ID OR @Sector_ID = 0 )
+AND (@Program_ID = 0 OR PROG.Programme_ID = @Program_ID)
 
 
 ----------------------------------------------------------------------------------------------
@@ -190,3 +196,4 @@ AND (S.Sector_ID  = @Sector_ID OR @Sector_ID = 0 )
 
 
 order by OutcomeCode  ASC ,  OutputCode  ASC , SubOutputCode  ASC , IndicatorCode  ASC , ReportCycleDate_ID DESC
+

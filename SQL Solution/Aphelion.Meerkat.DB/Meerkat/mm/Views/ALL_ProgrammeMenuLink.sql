@@ -43,6 +43,51 @@ INNER JOIN [app].[Programme] AS OC
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
+
+
+------------------------------------------------------------------------
+
+UNION ALL 
+SELECT Title = 'Indicators', 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
+       +  '/' + [ProjectSiteName] +
+'/SitePages/IndicatorValues.aspx?qsIndCode=' 
++ '[Project].[Project].%26[' 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']', 
+Priority = 200 * P.ProjectID, 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID), 
+P.Programme_ID 
+FROM   [app].[Project] P 
+INNER JOIN [app].[Programme] AS OC 
+        ON P.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  P.Active = 1 AND OC.Active = 1
+
+UNION ALL 
+SELECT Title = 'Milestones', 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
+       +  '/' + [ProjectSiteName] +
+'/SitePages/ActivityProgress.aspx?qsIndCode=' 
++ '[Project].[Project].%26[' 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']', 
+Priority = 200 * P.ProjectID, 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID), 
+P.Programme_ID 
+FROM   [app].[Project] P 
+INNER JOIN [app].[Programme] AS OC 
+        ON P.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  P.Active = 1 AND OC.Active = 1
+
+
 /*UNION ALL 
 SELECT Title = Da.ShortName, 
 Link = '/' + [ProgrammeSiteName] 

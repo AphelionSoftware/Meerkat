@@ -13,4 +13,4 @@ AS
                                       Programme_ID          AS ID 
                                FROM   [app].[Programme] 
                                WHERE  Active = 1) AS IDX 
-                       WHERE  IDX.IDx = 1)
+                       WHERE  IDX.ID = 1)
