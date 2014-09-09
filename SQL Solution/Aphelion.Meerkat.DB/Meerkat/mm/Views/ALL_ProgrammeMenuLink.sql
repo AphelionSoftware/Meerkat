@@ -2,7 +2,7 @@
 
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
-   SELECT Title = 'Indicator Details', 
+  SELECT Title = 'Indicator Details', 
          Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
                 + 
 '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
@@ -45,6 +45,8 @@ INNER JOIN [app].[Programme] AS OC
 WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 
 
+
+
 ------------------------------------------------------------------------
 
 UNION ALL 
@@ -52,6 +54,9 @@ SELECT Title = 'Indicators',
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
        +  '/' + [ProjectSiteName] +
 '/SitePages/IndicatorValues.aspx?qsIndCode=' 
++ '[Project].[Project].%26[' 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']'
++ '&qsMDXKey=' 
 + '[Project].[Project].%26[' 
 + Cast(P.ProjectID AS VARCHAR(8)) + ']', 
 Priority = 200 * P.ProjectID, 
@@ -73,7 +78,11 @@ Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName]
        +  '/' + [ProjectSiteName] +
 '/SitePages/ActivityProgress.aspx?qsIndCode=' 
 + '[Project].[Project].%26[' 
-+ Cast(P.ProjectID AS VARCHAR(8)) + ']', 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']'
++ '&qsMDXKey=' 
++ '[Project].[Project].%26[' 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']'
+, 
 Priority = 200 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
@@ -86,6 +95,7 @@ INNER JOIN [app].[Programme] AS OC
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
 WHERE  P.Active = 1 AND OC.Active = 1
+
 
 
 /*UNION ALL 
@@ -112,3 +122,6 @@ INNER JOIN [app].[Programme] AS OC
         ON dp.Programme_ID = oc.Programme_ID 
 WHERE  da.Active = 1 AND dp.Active = 1 AND oc.Active = 1
 */
+
+
+GO

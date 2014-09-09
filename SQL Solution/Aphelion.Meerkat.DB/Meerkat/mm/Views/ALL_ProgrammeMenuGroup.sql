@@ -89,7 +89,7 @@ AS
               UNION ALL
               SELECT    '10006' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Programme Documents' AS Title ,
+                        'Program Documents' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
@@ -125,6 +125,22 @@ AS
                         0 AS OrderBy2 ,
                         'FAQs' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
+                        ( SELECT    [OMC_1].[ID]
+                          FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
+                          WHERE     ( [OMC_1].[Title] = 'Program' )
+                                    AND OMC_1.Programme_ID = O.Programme_ID
+                        ) AS Parent ,
+                        10 AS ID ,
+                        [O].[Programme_ID]
+              FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+              WHERE     [O].[Active] = 1
+UNION ALL
+              SELECT    '10010' AS OrderBy1 ,
+                        0 AS OrderBy2 ,
+                        'People reached by district' AS Title ,
+                        'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/[c554e892]' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Program' )
