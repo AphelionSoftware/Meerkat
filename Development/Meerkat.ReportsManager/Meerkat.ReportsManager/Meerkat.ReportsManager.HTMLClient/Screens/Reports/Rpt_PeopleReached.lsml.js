@@ -60,3 +60,15 @@ myapp.Rpt_PeopleReached.LoadingStatus_render = function (element, contentItem) {
     $(div).appendTo($(element));
     chartWrapper.statusDiv = div;
 };
+myapp.Rpt_PeopleReached.AgeBand_render = function (element, contentItem) {
+    div = $("<div class='AgeBandDiv' id='AgeBandDiv' ></div>");
+    $(div).appendTo($(element));
+    chartWrapper.addRowChart('AgeBandDiv', 'AgeBand_Name', 160, 400);
+
+};
+myapp.Rpt_PeopleReached.Donor_render = function (element, contentItem) {
+    div = $("<div class='DonorDiv' id='DonorDiv' ></div>");
+    $(div).appendTo($(element));
+    chartWrapper.addRowChart('DonorDiv', 'Donor_Name', 160, 400);
+
+};

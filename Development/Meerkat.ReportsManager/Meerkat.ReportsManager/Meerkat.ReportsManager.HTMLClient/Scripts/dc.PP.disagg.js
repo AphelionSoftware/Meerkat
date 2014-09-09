@@ -488,6 +488,7 @@ dcLSWrapper.prototype.setupPage = function () {
         } 
         obj.rowCharts(arrRowCharts, rollupField);
         obj.barCharts(arrBarCharts, rollupField);
+        chartRendered = true;
         dc.renderAll();
         $(statusDiv)[0].innerText = "";
     });
