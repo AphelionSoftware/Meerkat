@@ -1,4 +1,4 @@
-    
+﻿    
 
 CREATE VIEW [OLAP_GEN].[StatusValues]
 AS
@@ -229,11 +229,15 @@ GO
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'StatusSum', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'StatusAverage', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
 
 
 GO
