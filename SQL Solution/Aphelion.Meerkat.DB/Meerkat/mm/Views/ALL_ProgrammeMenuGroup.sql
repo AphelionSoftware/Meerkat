@@ -139,14 +139,14 @@ AS
 UNION ALL
               SELECT    '10010' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'People reached by district' AS Title ,
-                        'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/[c554e892]' AS Link ,
+                        'People reached' AS Title ,
+                        '' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Program' )
                                     AND OMC_1.Programme_ID = O.Programme_ID
                         ) AS Parent ,
-                        10 AS ID ,
+                        55 AS ID ,
                         [O].[Programme_ID]
               FROM      [app].[Programme] O
 						LEFT OUTER JOIN  settings.GlobalSettings GS

@@ -1,6 +1,4 @@
-﻿
-
-CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
+﻿CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
   SELECT Title = 'Indicator Details', 
          Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
@@ -96,6 +94,33 @@ INNER JOIN [app].[Programme] AS OC
 							ON GS.Code = 'MMBASEURL'
 WHERE  P.Active = 1 AND OC.Active = 1
 
+---------------------------------------------------------------------
+--
+---------------------------------------------------------------------
+UNION ALL 
+SELECT Title = 'By District', 
+Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/DIST/'
+, 
+Priority = 300 , 
+Parent = 55
+, Programme_ID
+FROM app.Programme
+UNION ALL 
+SELECT Title = 'By Region', 
+Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/DIST/'
+, 
+Priority = 310 , 
+Parent = 55
+, Programme_ID
+FROM app.Programme
+UNION ALL 
+SELECT Title = 'By Country', 
+Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/CNTRY/'
+, 
+Priority = 320 , 
+Parent = 55
+, Programme_ID
+FROM app.Programme
 
 
 /*UNION ALL 
