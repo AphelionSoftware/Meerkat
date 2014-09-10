@@ -1,4 +1,4 @@
-CREATE TABLE [RBM].[StatusValues] (
+﻿CREATE TABLE [RBM].[StatusValues] (
     [StatusValuesID]    INT            IDENTITY (1, 1) NOT NULL,
     [Output_ID]         INT            NULL,
     [Outcome_ID]        INT            NULL,
@@ -76,6 +76,8 @@ CREATE TABLE [RBM].[StatusValues] (
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [StatusValues_UniqueRows]
     ON [RBM].[StatusValues]([Output_ID] ASC, [Outcome_ID] ASC, [Activity_ID] ASC, [SubOutput_ID] ASC, [Programme_ID] ASC, [ProjectID] ASC, [ReportingPeriodID] ASC, [LocationID] ASC, [DataVersionID] ASC);
@@ -115,11 +117,15 @@ EXECUTE sp_addextendedproperty @name = N'AdditionalField01', @value = N'COALESCE
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'StatusSum', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'true', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'StatusAverage', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
 
 
 GO
