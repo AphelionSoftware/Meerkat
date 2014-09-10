@@ -6,13 +6,15 @@ myapp.Rpt_PeopleReached.created = function (screen) {
     
     chartWrapper = new dcLSWrapper();
     
-
-    if (screen.KeyType && screen.KeyType != ""){
-        chartWrapper.url = myapp.activeDataWorkspace.MeerkatData.vwPeopleReacheds._requestUri + "?$format=json&$filter=LocationTypeCode eq 'DIST'" + " and KeyType eq '" + screen.KeyType + "'";
-    } else {
-        chartWrapper.url = myapp.activeDataWorkspace.MeerkatData.vwPeopleReacheds._requestUri + "?$format=json&$filter=LocationTypeCode eq 'DIST'";
+    if (!screen.strLocationType || screen.strLocationType == "") {
+        screen.strLocationType = "DIST";
     }
-    chartWrapper.mapUrl = chartWrapper.url.split("MeerkatData.svc")[0] + "HTMLClient/Maps/DIST.geojson";
+    if (screen.KeyType && screen.KeyType != ""){
+        chartWrapper.url = myapp.activeDataWorkspace.MeerkatData.vwPeopleReacheds._requestUri + "?$format=json&$filter=LocationTypeCode eq '" + screen.strLocationType + "'" + " and KeyType eq '" + screen.KeyType + "'";
+    } else {
+        chartWrapper.url = myapp.activeDataWorkspace.MeerkatData.vwPeopleReacheds._requestUri + "?$format=json&$filter=LocationTypeCode eq '" + screen.strLocationType + "'";
+    }
+    chartWrapper.mapUrl = chartWrapper.url.split("MeerkatData.svc")[0] + "HTMLClient/Maps/" + screen.strLocationType + ".geojson";
     chartWrapper.rollupField = "NumberReached";
 };
 
