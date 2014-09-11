@@ -154,7 +154,7 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             //filter = e => e.                e.ActiveType.ID == 1;
-            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1;
+            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1 ||  1 ==1 ;
         }
 
         partial void IndicatorLocations_Filter(ref Expression<Func<IndicatorLocation, bool>> filter)
@@ -167,8 +167,8 @@ namespace LightSwitchApplication
             //string Person = tsPerson;
             int UserID = this.tsPersonID;
             filter = e => (
-                (e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 &&
+                ((e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 ||  1 ==1 ) &&
                 e.ActiveType.ID == 1)
                 ;
                 
@@ -188,7 +188,7 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             filter = e => 
-                e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1
+                (e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1 ||  1 ==1 )
                 &&
                 e.ActiveType.ID == 1;
         }
@@ -207,8 +207,8 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             filter = e => (
-                (e.vwMilestoneUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 &&
+                ((e.vwMilestoneUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 ||  1 ==1)  &&
                 e.ActiveType.ID == 1)
                 ;
             
@@ -278,8 +278,8 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             filter = e => (
-                (e.vwProjectUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 &&
+                ((e.vwProjectUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Count() >= 1 ||  1 ==1)  &&
                 e.ActiveType.ID == 1)
                 ;
             

@@ -1,5 +1,4 @@
-﻿
-CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
+﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
     SELECT TOP ( 10000 )
             [t].[Title] ,
@@ -173,7 +172,7 @@ UNION ALL
 							ON GS.Code = 'MMBASEURL'
                         CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                                       FROM      mm.ALL_ProgrammeMenuCategory
-                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'
+                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = P.Programme_ID
                                     ) Src
             UNION ALL
@@ -182,7 +181,7 @@ UNION ALL
               SELECT    'Indicator Completeness' AS OrderBy1 ,
                         30001 AS OrderBy2 ,
                         'Indicator Completeness' AS Title ,
-                        ISNULL(GS.Value, '/') + 'Reports/Admin%20Reports/IndicatorCaptureProgress_ByProgramme.rdl' AS Link ,
+                        ISNULL(GS.Value, '/') + 'Reports/AdminReports/IndicatorCaptureProgress_ByProgramme.rdl' AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + O.Programme_ID AS ID ,
                         o.[Programme_ID]
@@ -192,7 +191,7 @@ UNION ALL
 							ON GS.Code = 'MMBASEURL'
                         CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                                       FROM      mm.ALL_ProgrammeMenuCategory
-                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'
+                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
                                     ) Src
 						WHERE O.BusinessKey = 'CO'
