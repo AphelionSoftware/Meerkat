@@ -107,7 +107,7 @@ Parent = 55
 FROM app.Programme
 UNION ALL 
 SELECT Title = 'By Region', 
-Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/DIST/'
+Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/REG/'
 , 
 Priority = 310 , 
 Parent = 55
