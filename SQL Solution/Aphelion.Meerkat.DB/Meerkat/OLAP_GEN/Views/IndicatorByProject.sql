@@ -1,4 +1,6 @@
-﻿CREATE VIEW [OLAP_GEN].[IndicatorByProject]
+﻿
+
+CREATE VIEW [OLAP_GEN].[IndicatorByProject]
 as
 
 --select top 0 * from(
@@ -16,7 +18,6 @@ select
 	P.Code as IndicatorCode,
 	P.Code as ProjectCode,
 	P.Code as ProgrammeCode
-
 
 from app.Programme P
 UNION ALL
@@ -131,11 +132,11 @@ EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'5', @level0
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProject', @level2type = N'COLUMN', @level2name = N'ReportLevel';
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProject', @level2type = N'COLUMN', @level2name = N'ReportLevel';
+
 
 
 GO

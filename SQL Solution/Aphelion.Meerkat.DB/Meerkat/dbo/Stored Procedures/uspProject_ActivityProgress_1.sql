@@ -3,7 +3,7 @@
 CREATE PROC [dbo].[uspProject_ActivityProgress]
 --declare
 
-@MDXKey varchar(255) ,
+@MDXKey varchar(255),
 @DataVersion_ID varchar(255)=0
 
 AS
@@ -98,14 +98,11 @@ mv.DataVersion_ID,
   AND (MV.DataVersion_ID =  @DataVersion_ID OR @DataVersion_ID = 0 )
   AND MV.ReportPeriodID = RP.ID
   
-   LEFT JOIN app.Activity a
+   JOIN app.Activity a
     on m.Activity_ID = a.Activity_ID
 	and (m.Activity_ID = @Activity_ID or @Activity_ID = 0)
 	JOIN  app.Project P
-	on (P.ProjectID = @Project_ID OR @Project_ID = 0)
-	and (a.ProjectID = P.ProjectID
-		OR 
-		m.ProjectID = P.ProjectID)
+	on a.ProjectID = P.ProjectID
+		OR a.ProjectID = @Project_ID
 
---where m.code like 'ELRP%'
 order by m.Code, RP.StartDateID ASC

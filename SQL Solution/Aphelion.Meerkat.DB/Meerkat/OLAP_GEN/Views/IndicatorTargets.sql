@@ -1,4 +1,5 @@
-﻿CREATE VIEW OLAP_GEN.IndicatorTargets
+
+CREATE VIEW [OLAP_GEN].[IndicatorTargets]
 as
 
 SELECT
@@ -15,10 +16,11 @@ OriginalBaseline + (
 	* (CurrentReportPeriodID-BaselinePeriodID)
 	)
  AS ExtrapolatedTarget
-
+ , BusinessKey As HierarchyBusinessKey
  FROM (
 SELECT  
      i.[IndicatorID] [Indicator_ID]
+	 , I.BusinessKey
 	 ,rc.ID ReportPeriodID
       ,rc.ReportingPeriod ReportCycle
       ,rc.EndDateID  ReportCycleDate_ID
@@ -53,9 +55,45 @@ SELECT
 ) FIV
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship02', @value = N'ReportingPeriod[ReportingPeriodID]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'Indicator_ID';
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship01', @value = N'Indicator[Indicator_ID]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'Indicator_ID';
+EXECUTE sp_addextendedproperty @name = N'DAXMeasure02', @value = N'[IndicatorAchievementSum]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'DAXCalc02', @value = N'[IndicatorValuesSum] / [ExtrapolatedTargetSum]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship01', @value = N'ReportingPeriod[ReportingPeriodID]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'ReportPeriodID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureSum', @value = N'ExtrapolatedTargetSum', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'ExtrapolatedTarget';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMin', @value = N'ExtrapolatedTargetMin', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'ExtrapolatedTarget';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureMax', @value = N'ExtrapolatedTargetMax', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'ExtrapolatedTarget';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MeasureAverage', @value = N'ExtrapolatedTargetAvg', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'ExtrapolatedTarget';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship03', @value = N'IndicatorBySector[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship02', @value = N'IndicatorByProject[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship01', @value = N'IndicatorByProjectSector[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorTargets', @level2type = N'COLUMN', @level2name = N'HierarchyBusinessKey';
 

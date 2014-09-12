@@ -188,7 +188,6 @@ AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is nu
 AND (SS.SubSector_ID  = @SubSector_ID OR @SubSector_ID = 0 )
 AND (S.Sector_ID  = @Sector_ID OR @Sector_ID = 0 )
 AND (@Program_ID = 0 OR PROG.Programme_ID = @Program_ID)
-AND (@Project_ID = 0 OR P.ProjectID = @Project_ID)
 
 
 ----------------------------------------------------------------------------------------------

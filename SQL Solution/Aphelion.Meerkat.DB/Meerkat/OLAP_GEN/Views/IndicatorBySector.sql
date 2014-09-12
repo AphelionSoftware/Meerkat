@@ -1,5 +1,8 @@
 ﻿
 
+
+
+
 CREATE VIEW [OLAP_GEN].[IndicatorBySector]
 as
 
@@ -19,7 +22,7 @@ SELECT
 	S.LongName as SectorLongName,
 	I.Code as IndicatorCode,
 	S.Code as SubsectorCode,
-	S.Code as SectorCode
+	S.Code as SectorCode 
 
 
 
@@ -120,11 +123,11 @@ EXECUTE sp_addextendedproperty @name = N'HierarchyLevel', @value = N'5', @level0
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorBySector', @level2type = N'COLUMN', @level2name = N'ReportLevel';
+
 
 
 GO
-EXECUTE sp_addextendedproperty @name = N'HiearchyLevel', @value = N'0', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorBySector', @level2type = N'COLUMN', @level2name = N'ReportLevel';
+
 
 
 GO

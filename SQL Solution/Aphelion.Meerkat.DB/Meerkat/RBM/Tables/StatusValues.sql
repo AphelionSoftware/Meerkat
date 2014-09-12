@@ -78,6 +78,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [StatusValues_UniqueRows]
     ON [RBM].[StatusValues]([Output_ID] ASC, [Outcome_ID] ASC, [Activity_ID] ASC, [SubOutput_ID] ASC, [Programme_ID] ASC, [ProjectID] ASC, [ReportingPeriodID] ASC, [LocationID] ASC, [DataVersionID] ASC);
@@ -144,4 +146,24 @@ EXECUTE sp_addextendedproperty @name = N'AdditionalProperties02', @value = N'EXE
 GO
 EXECUTE sp_addextendedproperty @name = N'AdditionalProperties01', @value = N'EXEC sys.sp_addextendedproperty @name=N''AdditionalRelationship03'', @value=N''IndicatorBySector[IndicatorBusinessKey]'' , @level0type=N''SCHEMA'', @level0name=N''OLAP_GEN'', @level1type=N''VIEW'', @level1name=N''StatusValues'', @level2type=N''COLUMN'',@level2name=N''HierarchyBusinessKey''
 ', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'KPIMeasure01', @value = N'StatusAverage', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'KPILT01', @value = N'0.5', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'KPIGT01', @value = N'-0.5', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'KPIGraphic01', @value = N'Three Symbols UnCircled Colored', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'KPIGoal01', @value = N'0.5', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues', @level2type = N'COLUMN', @level2name = N'StatusTypeID';
 
