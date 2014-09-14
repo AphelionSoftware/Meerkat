@@ -11,6 +11,7 @@ namespace LightSwitchApplication
 
         #region Security
 
+        private bool BypassSecurity = true;
         private string strUser = "";
         public string UserName
         {
@@ -140,6 +141,10 @@ namespace LightSwitchApplication
             SetTrackingInfo(entity);
         }
 
+        
+
+
+
         partial void Activities_Filter(ref Expression<Func<Activity, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;
@@ -154,7 +159,7 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             //filter = e => e.                e.ActiveType.ID == 1;
-            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1 ||  1 ==1 ;
+            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1 ||  this.BypassSecurity == true ;
         }
 
         partial void IndicatorLocations_Filter(ref Expression<Func<IndicatorLocation, bool>> filter)
@@ -168,7 +173,7 @@ namespace LightSwitchApplication
             int UserID = this.tsPersonID;
             filter = e => (
                 ((e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 ||  1 ==1 ) &&
+                ).Count() >= 1 ||  this.BypassSecurity == true ) &&
                 e.ActiveType.ID == 1)
                 ;
                 
@@ -188,7 +193,7 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             filter = e => 
-                (e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1 ||  1 ==1 )
+                (e.vwLocationUserMaps.Where( x => x.UserID == tsPersonID).Count() >= 1 ||  this.BypassSecurity == true )
                 &&
                 e.ActiveType.ID == 1;
         }
@@ -208,7 +213,7 @@ namespace LightSwitchApplication
             //filter = e => e.ActiveType.ID == 1;
             filter = e => (
                 ((e.vwMilestoneUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 ||  1 ==1)  &&
+                ).Count() >= 1 ||  this.BypassSecurity == true)  &&
                 e.ActiveType.ID == 1)
                 ;
             
@@ -279,7 +284,7 @@ namespace LightSwitchApplication
             //filter = e => e.ActiveType.ID == 1;
             filter = e => (
                 ((e.vwProjectUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 ||  1 ==1)  &&
+                ).Count() >= 1 ||  this.BypassSecurity == true)  &&
                 e.ActiveType.ID == 1)
                 ;
             
@@ -338,6 +343,62 @@ namespace LightSwitchApplication
         partial void StatusTypes_Filter(ref Expression<Func<StatusType, bool>> filter)
         {
             filter = e => e.ActiveType.ID == 1;
+        }
+
+
+        /*Start*/
+        partial void AgeBands_Filter(ref Expression<Func<AgeBand, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void CommunityTypes_Filter(ref Expression<Func<CommunityType, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void Donors_Filter(ref Expression<Func<Donor, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void FrameworkDetails_Filter(ref Expression<Func<FrameworkDetail, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void Frameworks_Filter(ref Expression<Func<Framework, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void Groups_Filter(ref Expression<Func<Group, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void Institutions_Filter(ref Expression<Func<Institution, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void StrategicElements_Filter(ref Expression<Func<StrategicElement, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
+        }
+
+        partial void ResultAreas_Filter(ref Expression<Func<ResultArea, bool>> filter)
+        {
+            filter = e => e.ActiveType.ID == 1;
+
         }
     }
 }
