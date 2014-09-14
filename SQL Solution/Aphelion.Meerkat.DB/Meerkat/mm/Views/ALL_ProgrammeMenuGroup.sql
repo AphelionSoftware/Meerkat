@@ -1,6 +1,6 @@
 ﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
-    SELECT TOP ( 10000 )
+SELECT TOP ( 10000 )
             [t].[Title] ,
             [t].[Link] ,
             [t].[Parent] ,
@@ -50,7 +50,7 @@ AS
               WHERE     do.Active = 1
                         AND dom.Active = 1
               UNION ALL
-			 SELECT    '10002' AS OrderBy1 ,
+			 /*SELECT    '10002' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Program Level Status' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
@@ -67,7 +67,7 @@ AS
 							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
 
-              UNION ALL
+              UNION ALL*/
               SELECT    '10003' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Program Level Indicators' AS Title ,
@@ -86,7 +86,7 @@ AS
 							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
 			  AND EXISTS (SELECT 1 FROM app.Indicator I
-				WHERE O.Programme_ID = O.Programme_ID
+				WHERE I.Programme_ID = O.Programme_ID
 				)
               
               UNION ALL
@@ -172,7 +172,7 @@ UNION ALL
 							ON GS.Code = 'MMBASEURL'
                         CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                                       FROM      mm.ALL_ProgrammeMenuCategory
-                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
+                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = P.Programme_ID
                                     ) Src
             UNION ALL
@@ -195,6 +195,28 @@ UNION ALL
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
                                     ) Src
 						WHERE O.BusinessKey = 'CO'
+
+
+						
+						UNION ALL
+              
+			  
+              SELECT    'Excel Reports' AS OrderBy1 ,
+                        30001 AS OrderBy2 ,
+                        'Excel Reports' AS Title ,
+                        '' AS Link ,
+                        Src.ID AS Parent ,
+                        SRC.ID + O.Programme_ID AS ID ,
+                        o.[Programme_ID]
+              FROM      [app].[Programme] O
+			  
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+                        CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
+                                      FROM      mm.ALL_ProgrammeMenuCategory
+                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
+                                                AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
+                                    ) Src
             ) AS t
     ORDER BY [t].[orderBy1] ,
             [t].[orderby2]
