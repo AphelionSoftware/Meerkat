@@ -4,6 +4,9 @@
     "use strict";
 
     function pluralName(name) {
+        if (name.substring(0, 2) == "c_") {
+            name = name.substring(2, name.length)
+        }
         if (name == "Person") {
             return "People";
         }

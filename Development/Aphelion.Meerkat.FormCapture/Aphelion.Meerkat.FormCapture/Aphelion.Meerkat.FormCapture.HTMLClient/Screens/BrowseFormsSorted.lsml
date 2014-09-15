@@ -175,6 +175,44 @@
                 </ControlPropertySource>
               </ContentItem.PropertySources>
             </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="ShowFilterForms"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Filter Forms" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="BrowseFormsSorted/Methods[showDialog]">
+                          <ArgumentExpression
+                            Parameter="dialogName">
+                            <ConstantExpression
+                              Value="FilterForms"
+                              ResultType=":String" />
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-filter"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
           </ContentItem>
           <ContentItem
             Name="PreviousFormSubmissions"
@@ -201,6 +239,56 @@
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
+                <ContentItem
+                  Name="Form1"
+                  Kind="Details"
+                  DataType="Form"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="FormResponse/Properties[Form]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name2"
+                    Kind="Value"
+                    DataType=":String">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Form/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="Location"
+                    Kind="Details"
+                    DataType="Location">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Form/Properties[Location]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="Location1"
+                      Kind="Details"
+                      DataType="Location">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
                 <ContentItem
                   Name="sys_CreatedOn1"
                   Kind="Value"
@@ -264,8 +352,12 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="ShowFilterForms"
+                Name="ShowFilterSubmissions"
                 Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Filter Submissions" />
+                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
@@ -276,10 +368,20 @@
                           <ArgumentExpression
                             Parameter="dialogName">
                             <ConstantExpression
-                              Value="FilterForms"
+                              Value="FilterSubmissions"
                               ResultType=":String" />
                           </ArgumentExpression>
                         </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-filter"
+                          ResultType=":String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -375,6 +477,63 @@
               </ContentItem.DataSource>
             </ContentItem>
           </ContentItem>
+          <ContentItem
+            Name="FilterSubmissions"
+            Kind="Group">
+            <ContentItem
+              Name="Form_ID2"
+              Kind="Details"
+              DataType="Form">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Form" />
+              </ContentItem.Attributes>
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseFormsSorted/Properties[Form_ID2]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="Form2"
+                Kind="Details"
+                DataType="Form">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="StartDate1"
+              Kind="Value"
+              DataType=":DateTime?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseFormsSorted/Properties[StartDate]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+            <ContentItem
+              Name="EndDate1"
+              Kind="Value"
+              DataType=":DateTime?">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseFormsSorted/Properties[EndDate]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+            </ContentItem>
+          </ContentItem>
         </ContentItem>
       </ContentItem>
     </Screen.RootContentItem>
@@ -456,7 +615,7 @@
                 Parameter="Form_ID">
                 <ChainExpression>
                   <MemberExpression
-                    Member="BrowseFormsSorted/Properties[Form_ID1]" />
+                    Member="BrowseFormsSorted/Properties[Form_ID2]" />
                   <MemberExpression
                     Member="Form_ID" />
                 </ChainExpression>
@@ -491,6 +650,9 @@
       <ScreenProperty
         Name="EndDate"
         PropertyType=":DateTime?" />
+      <ScreenProperty
+        Name="Form_ID2"
+        PropertyType="Form" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
