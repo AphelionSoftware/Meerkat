@@ -1,6 +1,6 @@
 ﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
-    SELECT TOP ( 10000 )
+        SELECT TOP ( 10000 )
             [t].[Title] ,
             [t].[Link] ,
             [t].[Parent] ,
@@ -142,7 +142,7 @@ AS
 UNION ALL
               SELECT    '10010' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'People reached' AS Title ,
+                        'People reached >>>' AS Title ,
                         '' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
@@ -172,7 +172,7 @@ UNION ALL
 							ON GS.Code = 'MMBASEURL'
                         CROSS APPLY ( SELECT    [mm].[ALL_ProgrammeMenuCategory].[ID]
                                       FROM      mm.ALL_ProgrammeMenuCategory
-                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Project'
+                                      WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = P.Programme_ID
                                     ) Src
             UNION ALL
@@ -202,7 +202,7 @@ UNION ALL
 
               SELECT    'Program Reports' AS OrderBy1 ,
                         30001 AS OrderBy2 ,
-                        'Program Reports' AS Title ,
+                        'Program Reports >>>' AS Title ,
                         ''
 						
 						 AS Link ,
