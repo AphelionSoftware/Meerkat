@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="QuestionType">
+    Name="Programme">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,8 +15,18 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
-        Name="QuestionType_ID"
+        Name="Programme_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -26,23 +36,31 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
+        Name="Code"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="255" />
+            Value="50" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Code"
+        Name="LongName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="500" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -52,6 +70,23 @@
           <MaxLength
             Value="4000" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProgrammeSiteName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="isSiteCreated"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -96,40 +131,66 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="Questions"
-        Association="FK_Question_QuestionType"
-        FromEnd="QuestionType"
-        ToEnd="Question" />
       <EntityProperty
-        Name="LocalName"
+        Name="LocalLongName"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
+        Name="Form_Programmes"
+        Association="FK_Form_Programme_Programme"
+        FromEnd="Programme"
+        ToEnd="Form_Programme" />
+      <NavigationProperty
         Name="ActiveType"
-        Association="FK_QuestionType_ActiveType"
-        FromEnd="QuestionType"
+        Association="FK_Programme_ActiveType"
+        FromEnd="Programme"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Projects"
+        Association="FK_Project_Programme"
+        FromEnd="Programme"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Question_QuestionType">
+    Name="FK_Form_Programme_Programme">
     <AssociationEnd
-      Name="QuestionType"
-      Multiplicity="One"
-      EntityType="QuestionType">
+      Name="Programme"
+      EntityType="Programme">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Question"
+      Name="Form_Programme"
       Multiplicity="Many"
-      EntityType="Question" />
+      EntityType="Form_Programme" />
+  </Association>
+  <Association
+    Name="FK_Project_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="Many"
+      EntityType="Project" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -137,24 +198,34 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="QuestionTypes"
+      Name="Programmes"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="QuestionType" />
+      EntityType="Programme" />
     <AssociationSet
-      Name="FK_Question_QuestionType"
-      Association="FK_Question_QuestionType">
+      Name="FK_Form_Programme_Programme"
+      Association="FK_Form_Programme_Programme">
       <AssociationSetEnd
-        Name="QuestionType"
-        EntitySet="QuestionTypes" />
+        Name="Programme"
+        EntitySet="Programmes" />
       <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
+        Name="Form_Programme"
+        EntitySet="Form_Programmes" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Project_Programme"
+      Association="FK_Project_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
     </AssociationSet>
     <QueryOperation
-      Name="QuestionTypes_Single"
-      ReturnType="QuestionType">
+      Name="Programmes_Single"
+      ReturnType="Programme">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -167,12 +238,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="QuestionType_ID" />
+                  Member="Programme_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="QuestionType_ID" />
+                Parameter="Programme_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -180,21 +251,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="QuestionTypes" />
+            Member="Programmes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="QuestionType_ID"
-        ParameterType=":Int32?">
+        Name="Programme_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'QuestionType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="QuestionTypes_SingleOrDefault"
-      ReturnType="QuestionType">
+      Name="Programmes_SingleOrDefault"
+      ReturnType="Programme">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -207,12 +278,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="QuestionType_ID" />
+                  Member="Programme_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="QuestionType_ID" />
+                Parameter="Programme_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -220,15 +291,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="QuestionTypes" />
+            Member="Programmes" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="QuestionType_ID"
-        ParameterType=":Int32?">
+        Name="Programme_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'QuestionType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'Programme_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -239,63 +310,92 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="QuestionTypes">
+      EntitySet="Programmes">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="forms"
-          Table="QuestionType" />
+          Schema="app"
+          Table="Programme" />
         <SsdlProperty
-          Name="QuestionType_ID"
+          Name="Programme_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="QuestionType/Properties[QuestionType_ID]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="Name"
-          Nullable="False"
-          Type="varchar"
-          Property="QuestionType/Properties[Name]" />
+          Property="Programme/Properties[Programme_ID]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
+          Nullable="True"
+          Type="varchar"
+          Property="Programme/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
           Nullable="False"
           Type="varchar"
-          Property="QuestionType/Properties[Code]" />
+          Property="Programme/Properties[LongName]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Programme/Properties[BusinessKey]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="ShortName"
+          Nullable="False"
+          Type="varchar"
+          Property="Programme/Properties[ShortName]" />
         <SsdlProperty
           MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
           Type="varchar"
-          Property="QuestionType/Properties[TextDescription]" />
+          Property="Programme/Properties[TextDescription]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="ProgrammeSiteName"
+          Nullable="True"
+          Type="varchar"
+          Property="Programme/Properties[ProgrammeSiteName]" />
+        <SsdlProperty
+          Name="isSiteCreated"
+          Nullable="False"
+          Type="bit"
+          Property="Programme/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="QuestionType/Properties[sys_CreatedBy]" />
+          Property="Programme/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="QuestionType/Properties[sys_CreatedOn]" />
+          Property="Programme/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="QuestionType/Properties[sys_ModifiedBy]" />
+          Property="Programme/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="QuestionType/Properties[sys_ModifiedOn]" />
+          Property="Programme/Properties[sys_ModifiedOn]" />
         <SsdlProperty
-          MaxLength="255"
-          Name="LocalName"
+          MaxLength="500"
+          Name="LocalLongName"
           Nullable="True"
           Type="nvarchar"
-          Property="QuestionType/Properties[LocalName]" />
+          Property="Programme/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Programme/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -304,22 +404,43 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Question_QuestionType">
+      AssociationSet="FK_Form_Programme_Programme">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Question_QuestionType" />
+          Name="FK_Form_Programme_Programme" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_QuestionType]/Members[QuestionType]">
+          End="MeerkatData/Members[FK_Form_Programme_Programme]/Members[Programme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="QuestionType_ID" />
+              Name="Programme_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_QuestionType]/Members[Question]">
+          End="MeerkatData/Members[FK_Form_Programme_Programme]/Members[Form_Programme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="QuestionType_ID" />
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Project_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Project_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Project_Programme]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

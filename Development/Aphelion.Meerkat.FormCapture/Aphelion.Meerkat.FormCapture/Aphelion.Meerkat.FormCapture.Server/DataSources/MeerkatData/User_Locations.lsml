@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="QuestionType">
+    Name="User_Location">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,44 +16,21 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="QuestionType_ID"
-        IsReadOnly="True"
+        Name="UserID"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
-          <Hidden />
           <Required />
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
+      <KeyProperty
+        Name="Location_ID"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
           <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Code"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="TextDescription"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="4000" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
@@ -96,65 +73,47 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="Questions"
-        Association="FK_Question_QuestionType"
-        FromEnd="QuestionType"
-        ToEnd="Question" />
       <EntityProperty
-        Name="LocalName"
-        PropertyType=":String?">
+        Name="User_Location_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
         <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
+          <Hidden />
+          <Required />
+          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
+        Name="Location"
+        Association="FK_User_Location_Location"
+        FromEnd="User_Location"
+        ToEnd="Location" />
+      <NavigationProperty
+        Name="User"
+        Association="FK_User_Location_User"
+        FromEnd="User_Location"
+        ToEnd="User" />
+      <NavigationProperty
         Name="ActiveType"
-        Association="FK_QuestionType_ActiveType"
-        FromEnd="QuestionType"
+        Association="FK_User_Location_ActiveType"
+        FromEnd="User_Location"
         ToEnd="ActiveType" />
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_Question_QuestionType">
-    <AssociationEnd
-      Name="QuestionType"
-      Multiplicity="One"
-      EntityType="QuestionType">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Question"
-      Multiplicity="Many"
-      EntityType="Question" />
-  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="QuestionTypes"
+      Name="User_Locations"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="QuestionType" />
-    <AssociationSet
-      Name="FK_Question_QuestionType"
-      Association="FK_Question_QuestionType">
-      <AssociationSetEnd
-        Name="QuestionType"
-        EntitySet="QuestionTypes" />
-      <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
-    </AssociationSet>
+      EntityType="User_Location" />
     <QueryOperation
-      Name="QuestionTypes_Single"
-      ReturnType="QuestionType">
+      Name="User_Locations_Single"
+      ReturnType="User_Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -163,16 +122,36 @@
       <QueryOperation.FilterExpression>
         <QueryFilterExpressionTree>
           <BinaryExpression
-            NodeType="Equal">
+            NodeType="And">
             <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="QuestionType_ID" />
-              </ChainExpression>
+              <BinaryExpression
+                NodeType="Equal">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="Location_ID" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="Location_ID" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="QuestionType_ID" />
+              <BinaryExpression
+                NodeType="Equal">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="UserID" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="UserID" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -180,21 +159,29 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="QuestionTypes" />
+            Member="User_Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="QuestionType_ID"
-        ParameterType=":Int32?">
+        Name="UserID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'QuestionType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="Location_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="QuestionTypes_SingleOrDefault"
-      ReturnType="QuestionType">
+      Name="User_Locations_SingleOrDefault"
+      ReturnType="User_Location">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -203,16 +190,36 @@
       <QueryOperation.FilterExpression>
         <QueryFilterExpressionTree>
           <BinaryExpression
-            NodeType="Equal">
+            NodeType="And">
             <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="QuestionType_ID" />
-              </ChainExpression>
+              <BinaryExpression
+                NodeType="Equal">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="Location_ID" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="Location_ID" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
-              <ParameterExpression
-                Parameter="QuestionType_ID" />
+              <BinaryExpression
+                NodeType="Equal">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="UserID" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ParameterExpression
+                    Parameter="UserID" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -220,15 +227,23 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="QuestionTypes" />
+            Member="User_Locations" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="QuestionType_ID"
-        ParameterType=":Int32?">
+        Name="UserID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'QuestionType_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="Location_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Location_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -239,63 +254,49 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="QuestionTypes">
+      EntitySet="User_Locations">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="forms"
-          Table="QuestionType" />
+          Schema="Access"
+          Table="User_Location" />
         <SsdlProperty
-          Name="QuestionType_ID"
+          Name="User_Location_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="QuestionType/Properties[QuestionType_ID]" />
+          Property="User_Location/Properties[User_Location_ID]" />
         <SsdlProperty
-          MaxLength="255"
-          Name="Name"
+          Name="UserID"
           Nullable="False"
-          Type="varchar"
-          Property="QuestionType/Properties[Name]" />
+          Type="int"
+          Property="User_Location/Properties[UserID]" />
         <SsdlProperty
-          MaxLength="50"
-          Name="Code"
+          Name="Location_ID"
           Nullable="False"
-          Type="varchar"
-          Property="QuestionType/Properties[Code]" />
-        <SsdlProperty
-          MaxLength="4000"
-          Name="TextDescription"
-          Nullable="True"
-          Type="varchar"
-          Property="QuestionType/Properties[TextDescription]" />
+          Type="int"
+          Property="User_Location/Properties[Location_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="QuestionType/Properties[sys_CreatedBy]" />
+          Property="User_Location/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="QuestionType/Properties[sys_CreatedOn]" />
+          Property="User_Location/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="QuestionType/Properties[sys_ModifiedBy]" />
+          Property="User_Location/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="QuestionType/Properties[sys_ModifiedOn]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="LocalName"
-          Nullable="True"
-          Type="nvarchar"
-          Property="QuestionType/Properties[LocalName]" />
+          Property="User_Location/Properties[sys_ModifiedOn]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -303,26 +304,5 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Question_QuestionType">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Question_QuestionType" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_QuestionType]/Members[QuestionType]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="QuestionType_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_QuestionType]/Members[Question]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="QuestionType_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

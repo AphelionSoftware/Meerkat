@@ -10,8 +10,32 @@ namespace LightSwitchApplication
     {
 
         #region Security
+        private bool _BypassSecurity ;
+        private bool BypassSecurity
+        {
+            get
+            {
+                if (_BypassSecurity == null)
+                {
+                    try
+                    {
+                        _BypassSecurity = (from GlobalSetting gs in DataWorkspace.MeerkatData.GlobalSettings
+                                           where gs.Code == "BYPASSAD"
+                                           select System.Convert.ToBoolean(gs.Value)).First();
+                    }
+                    catch {
+                        _BypassSecurity = false;
+                    }
+                    if (_BypassSecurity == null)
+                    {
+                        _BypassSecurity = false;
+                    }
 
-        private bool BypassSecurity = true;
+                }
+                return _BypassSecurity;
+            }
+
+        }
         private string strUser = "";
         public string UserName
         {

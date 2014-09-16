@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="Gender">
+    Name="User">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -15,17 +15,8 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <KeyProperty
-        Name="Gender_ID"
+        Name="UserID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -35,29 +26,93 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Code"
-        PropertyType=":String">
+        Name="UserSourceKey"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="BusinessKey"
+        Name="UserName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="400" />
+            Value="255" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="sys_CreatedBy"
+        Name="UserCode"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="StartDate"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="StartDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FinalDate"
+        PropertyType=":DateTime?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FinalDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Email"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ADUsername"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="SharepointUserName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -75,13 +130,12 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="sys_ModifiedBy"
+        Name="sys_CreatedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
             Value="255" />
-          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -95,63 +149,51 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="Forms"
-        Association="FK_Form_Gender"
-        FromEnd="Gender"
-        ToEnd="Form" />
-      <NavigationProperty
-        Name="FormResponses"
-        Association="FK_FormResponse_Gender"
-        FromEnd="Gender"
-        ToEnd="FormResponse" />
-      <NavigationProperty
-        Name="Questions"
-        Association="FK_Question_Gender"
-        FromEnd="Gender"
-        ToEnd="Question" />
       <EntityProperty
-        Name="LocalName"
-        PropertyType=":String?">
+        Name="sys_ModifiedBy"
+        PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
+        Name="User_Locations"
+        Association="FK_User_Location_User"
+        FromEnd="User"
+        ToEnd="User_Location" />
+      <NavigationProperty
         Name="ActiveType"
-        Association="FK_Gender_ActiveType"
-        FromEnd="Gender"
+        Association="FK_User_ActiveType"
+        FromEnd="User"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwFormUserMaps"
+        Association="vwFormUserMap_User"
+        FromEnd="User"
+        ToEnd="vwFormUserMap" />
+      <NavigationProperty
+        Name="vwProjectUserMaps"
+        Association="vwProjectUserMap_User"
+        FromEnd="User"
+        ToEnd="vwProjectUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
-    Name="FK_Form_Gender">
+    Name="FK_User_Location_User">
     <AssociationEnd
-      Name="Gender"
-      EntityType="Gender">
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Form"
+      Name="User_Location"
       Multiplicity="Many"
-      EntityType="Form" />
-  </Association>
-  <Association
-    Name="FK_FormResponse_Gender">
-    <AssociationEnd
-      Name="Gender"
-      EntityType="Gender">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="FormResponse"
-      Multiplicity="Many"
-      EntityType="FormResponse" />
+      EntityType="User_Location" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -159,34 +201,24 @@
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="Genders"
+      Name="Users"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="Gender" />
+      EntityType="User" />
     <AssociationSet
-      Name="FK_Form_Gender"
-      Association="FK_Form_Gender">
+      Name="FK_User_Location_User"
+      Association="FK_User_Location_User">
       <AssociationSetEnd
-        Name="Gender"
-        EntitySet="Genders" />
+        Name="User"
+        EntitySet="Users" />
       <AssociationSetEnd
-        Name="Form"
-        EntitySet="Forms" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_FormResponse_Gender"
-      Association="FK_FormResponse_Gender">
-      <AssociationSetEnd
-        Name="Gender"
-        EntitySet="Genders" />
-      <AssociationSetEnd
-        Name="FormResponse"
-        EntitySet="FormResponses" />
+        Name="User_Location"
+        EntitySet="User_Locations" />
     </AssociationSet>
     <QueryOperation
-      Name="Genders_Single"
-      ReturnType="Gender">
+      Name="Users_Single"
+      ReturnType="User">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -199,12 +231,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Gender_ID" />
+                  Member="UserID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Gender_ID" />
+                Parameter="UserID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -212,21 +244,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Genders" />
+            Member="Users" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Gender_ID"
-        ParameterType=":Int32?">
+        Name="UserID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Gender_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="Genders_SingleOrDefault"
-      ReturnType="Gender">
+      Name="Users_SingleOrDefault"
+      ReturnType="User">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -239,12 +271,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="Gender_ID" />
+                  Member="UserID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="Gender_ID" />
+                Parameter="UserID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -252,42 +284,74 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="Genders" />
+            Member="Users" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="Gender_ID"
-        ParameterType=":Int32?">
+        Name="UserID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'Gender_ID' key property of the entity to retrieve." />
+            Value="The value of the 'UserID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <AssociationSet
-      Name="FK_Question_Gender"
-      Association="FK_Question_Gender">
+      Name="vwFormUserMap_Users"
+      Association="vwFormUserMap_User">
       <AssociationSetEnd
-        Name="Gender"
-        EntitySet="Genders" />
+        Name="vwFormUserMap"
+        EntitySet="vwFormUserMaps" />
       <AssociationSetEnd
-        Name="Question"
-        EntitySet="Questions" />
+        Name="User"
+        EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwProjectUserMap_Users"
+      Association="vwProjectUserMap_User">
+      <AssociationSetEnd
+        Name="vwProjectUserMap"
+        EntitySet="vwProjectUserMaps" />
+      <AssociationSetEnd
+        Name="User"
+        EntitySet="Users" />
     </AssociationSet>
   </EntityContainer>
   <Association
-    Name="FK_Question_Gender">
+    Name="vwFormUserMap_User">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
     <AssociationEnd
-      Name="Gender"
-      EntityType="Gender">
+      Name="vwFormUserMap"
+      Multiplicity="Many"
+      EntityType="vwFormUserMap" />
+    <AssociationEnd
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
       <AssociationEnd.Attributes>
         <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
+  </Association>
+  <Association
+    Name="vwProjectUserMap_User">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
     <AssociationEnd
-      Name="Question"
+      Name="vwProjectUserMap"
       Multiplicity="Many"
-      EntityType="Question" />
+      EntityType="vwProjectUserMap" />
+    <AssociationEnd
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -295,63 +359,97 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="Genders">
+      EntitySet="Users">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="disagg"
-          Table="Gender" />
+          Schema="Access"
+          Table="User" />
         <SsdlProperty
-          Name="Gender_ID"
+          Name="UserID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="Gender/Properties[Gender_ID]" />
-        <SsdlProperty
-          MaxLength="50"
-          Name="Code"
-          Nullable="False"
-          Type="varchar"
-          Property="Gender/Properties[Code]" />
+          Property="User/Properties[UserID]" />
         <SsdlProperty
           MaxLength="255"
-          Name="Name"
+          Name="UserSourceKey"
           Nullable="True"
           Type="varchar"
-          Property="Gender/Properties[Name]" />
-        <SsdlProperty
-          MaxLength="400"
-          Name="BusinessKey"
-          Nullable="False"
-          Type="nvarchar"
-          Property="Gender/Properties[BusinessKey]" />
+          Property="User/Properties[UserSourceKey]" />
         <SsdlProperty
           MaxLength="255"
-          Name="sys_CreatedBy"
+          Name="UserName"
           Nullable="False"
           Type="varchar"
-          Property="Gender/Properties[sys_CreatedBy]" />
+          Property="User/Properties[UserName]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="UserCode"
+          Nullable="False"
+          Type="varchar"
+          Property="User/Properties[UserCode]" />
+        <SsdlProperty
+          Name="StartDate"
+          Nullable="False"
+          Type="datetime"
+          Property="User/Properties[StartDate]" />
+        <SsdlProperty
+          Name="StartDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="User/Properties[StartDate_ID]" />
+        <SsdlProperty
+          Name="FinalDate"
+          Nullable="True"
+          Type="datetime"
+          Property="User/Properties[FinalDate]" />
+        <SsdlProperty
+          Name="FinalDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="User/Properties[FinalDate_ID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="Email"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[Email]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ADUsername"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[ADUsername]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="SharepointUserName"
+          Nullable="True"
+          Type="varchar"
+          Property="User/Properties[SharepointUserName]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="Gender/Properties[sys_CreatedOn]" />
+          Property="User/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
-          Name="sys_ModifiedBy"
+          Name="sys_CreatedBy"
           Nullable="False"
-          Type="varchar"
-          Property="Gender/Properties[sys_ModifiedBy]" />
+          Type="nvarchar"
+          Property="User/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="Gender/Properties[sys_ModifiedOn]" />
+          Property="User/Properties[sys_ModifiedOn]" />
         <SsdlProperty
           MaxLength="255"
-          Name="LocalName"
-          Nullable="True"
+          Name="sys_ModifiedBy"
+          Nullable="False"
           Type="nvarchar"
-          Property="Gender/Properties[LocalName]" />
+          Property="User/Properties[sys_ModifiedBy]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -360,64 +458,64 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Form_Gender">
+      AssociationSet="FK_User_Location_User">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Form_Gender" />
+          Name="FK_User_Location_User" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Gender]/Members[Gender]">
+          End="MeerkatData/Members[FK_User_Location_User]/Members[User]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Form_Gender]/Members[Form]">
+          End="MeerkatData/Members[FK_User_Location_User]/Members[User_Location]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_FormResponse_Gender">
+      AssociationSet="vwFormUserMap_Users">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_FormResponse_Gender" />
+          Name="vwFormUserMap_Users" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_Gender]/Members[Gender]">
+          End="MeerkatData/Members[vwFormUserMap_Users]/Members[vwFormUserMap]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_FormResponse_Gender]/Members[FormResponse]">
+          End="MeerkatData/Members[vwFormUserMap_Users]/Members[User]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Question_Gender">
+      AssociationSet="vwProjectUserMap_Users">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Question_Gender" />
+          Name="vwProjectUserMap_Users" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Gender]/Members[Gender]">
+          End="MeerkatData/Members[vwProjectUserMap_Users]/Members[vwProjectUserMap]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Question_Gender]/Members[Question]">
+          End="MeerkatData/Members[vwProjectUserMap_Users]/Members[User]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="Gender_ID" />
+              Name="UserID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

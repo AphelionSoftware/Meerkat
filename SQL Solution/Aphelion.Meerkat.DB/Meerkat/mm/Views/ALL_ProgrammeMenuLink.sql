@@ -1,4 +1,5 @@
-﻿CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
+﻿
+CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
   SELECT Title = 'Indicator Details', 
          Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
@@ -166,7 +167,7 @@ Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 Priority = 200 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-   WHERE  G.Title = P.ShortName 
+   WHERE  G.Title = 'Program Reports >>>'
           AND G.Programme_ID = P.Programme_ID), 
 P.Programme_ID 
 FROM   [app].[Project] P 
@@ -189,7 +190,7 @@ Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 Priority = 300 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-   WHERE  G.Title = P.ShortName 
+   WHERE  G.Title = 'Program Reports >>>' 
           AND G.Programme_ID = P.Programme_ID), 
 P.Programme_ID 
 FROM   [app].[Project] P 
@@ -212,7 +213,7 @@ Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 Priority = 400 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-   WHERE  G.Title = P.ShortName 
+   WHERE  G.Title = 'Program Reports >>>'
           AND G.Programme_ID = P.Programme_ID), 
 P.Programme_ID 
 FROM   [app].[Project] P 

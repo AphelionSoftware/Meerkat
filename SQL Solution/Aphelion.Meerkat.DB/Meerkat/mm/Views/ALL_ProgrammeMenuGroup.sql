@@ -1,6 +1,8 @@
-﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
+﻿
+
+CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
-        SELECT TOP ( 10000 )
+    SELECT TOP ( 10000 )
             [t].[Title] ,
             [t].[Link] ,
             [t].[Parent] ,
@@ -86,13 +88,13 @@ AS
 							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
 			  AND EXISTS (SELECT 1 FROM app.Indicator I
-				WHERE O.Programme_ID = O.Programme_ID
+				WHERE I.Programme_ID = O.Programme_ID
 				)
               
               UNION ALL
               SELECT    '10006' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Program Documents' AS Title ,
+                        'Documents' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
@@ -109,7 +111,7 @@ AS
               UNION ALL
               SELECT    '10008' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Program Contact Info' AS Title ,
+                        'Contact Info' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/lists/Programme%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]

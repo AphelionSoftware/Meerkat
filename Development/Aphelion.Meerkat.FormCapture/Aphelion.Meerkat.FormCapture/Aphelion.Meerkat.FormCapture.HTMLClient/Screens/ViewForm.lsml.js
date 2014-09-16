@@ -48,6 +48,12 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var groups_ID = screen.GroupsSorted.selectedItem == null ? null : screen.GroupsSorted.selectedItem.Group_ID;
                 var institution_ID = screen.InstitutionsSorted.selectedItem == null ? null : screen.InstitutionsSorted.selectedItem.Institution_ID;
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
+                var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
+
+                if (!project_id) {
+                    this.ShowMessageBox("Project is required");
+                    return;
+                }
                 myapp.showViewCategory(
                     screen.Categories.selectedItem
                     , isConfidential
@@ -59,7 +65,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                     , gender_ID
                     , groups_ID
                     , institution_ID
-                    
+                    , project_id
                     ,
                     {
                         afterClosed: function (addEditScreen, navigationAction) {

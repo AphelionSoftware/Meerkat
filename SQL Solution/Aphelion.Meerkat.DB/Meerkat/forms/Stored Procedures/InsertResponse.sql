@@ -18,6 +18,7 @@
  ,@Gender_ID				int = null
  ,@Group_ID					int = null
  ,@Institution_ID			int = null
+ ,@ProjectID			int = null
 )
 as 
 DECLARE @tbl table(FormResponse_ID INT)
@@ -33,6 +34,7 @@ INSERT INTO forms.FormResponse
 			,[Gender_ID]
 			,[Group_ID]
 			,[Institution_ID]
+			,[ProjectID]
 		   )
 		    SELECT @FormID 
 			, @FormResponse_FNVID
@@ -44,6 +46,7 @@ INSERT INTO forms.FormResponse
 			,@Gender_ID		
 			,@Group_ID			
 			,@Institution_ID	
+			,@ProjectID
 WHERE NOT EXISTS (SELECT 1 FROM forms.FormResponse WHERE FormResponse_FNVID = @FormResponse_FNVID)
 
 
