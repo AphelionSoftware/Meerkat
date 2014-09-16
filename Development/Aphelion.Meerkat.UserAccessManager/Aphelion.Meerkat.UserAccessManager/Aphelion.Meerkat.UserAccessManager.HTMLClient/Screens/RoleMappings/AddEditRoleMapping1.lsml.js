@@ -5,16 +5,21 @@ myapp.AddEditRoleMapping1.created = function (screen) {
 
 };
 myapp.AddEditRoleMapping1.Delete_execute = function (screen) {
-    screen.getUser_SystemRole_ProjectProgramme().then(function (x) {
+    screen.getUser_SystemRole_ProjectProgramme().then(function (rm) {
         // Delete selected
-        x.deleteSelected();
-        // Save changes
-        myapp.commitChanges().then(null, function fail(e) {
-            msls.showMessageBox(e.message, { title: e.title }).then(function () {
-                myapp.cancelChanges();
-                throw e;
+        try {
+            rm.deleteEntity();
+            // Save changes
+            myapp.commitChanges().then(null, function fail(e) {
+                msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                    myapp.cancelChanges();
+                    throw e;
+                });
             });
-        });
+        }
+        catch (e){
+            this.showMessageBox("Error: " + e);
+        }
     });
 };
 myapp.AddEditRoleMapping1.Programme_postRender = function (element, contentItem) {
