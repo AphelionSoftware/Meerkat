@@ -25,6 +25,10 @@
             Name="Form_Programmes"
             Kind="Group"
             View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+            <ContentItem.Attributes>
+              <DisplayName
+                Value="Forms linked to Program" />
+            </ContentItem.Attributes>
             <ContentItem
               Name="Form_Programmes1"
               Kind="Collection"
@@ -158,6 +162,53 @@
                 </ControlPropertySource>
               </ContentItem.PropertySources>
             </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="AddForm_Programme"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Link Form to Programme" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showLink_Form_Programme]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="ViewProgrammeSortedItem/Properties[Form_Programmes]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showLink_Form_Programme]/Parameters[Form_Programme]" />
+                          </CallExpression.Attributes>
+                          <ArgumentExpression
+                            Parameter="Programme_ID">
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="ViewProgrammeSortedItem/Properties[Programme]" />
+                              <MemberExpression
+                                Member="Programme_ID" />
+                            </ChainExpression>
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
           </ContentItem>
           <ContentItem
             Name="Details"
