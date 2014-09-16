@@ -148,5 +148,82 @@ INNER JOIN [app].[Programme] AS OC
 WHERE  da.Active = 1 AND dp.Active = 1 AND oc.Active = 1
 */
 
+---------------------------------------------------------------------
+--
+---------------------------------------------------------------------
 
+
+
+UNION ALL 
+SELECT Title = 'Status', 
+Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
+						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
+						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '&qsNamedRange=Status'
+						+ '&qsProgramme=' + OC.BusinessKey
+
+, 
+Priority = 200 * P.ProjectID, 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID), 
+P.Programme_ID 
+FROM   [app].[Project] P 
+INNER JOIN [app].[Programme] AS OC 
+        ON P.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  P.Active = 1 AND OC.Active = 1
+
+
+  UNION ALL 
+SELECT Title = 'People Reached', 
+Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
+						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
+						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '&qsNamedRange=PeopleReached'
+						+ '&qsProgramme=' + OC.BusinessKey
+
+, 
+Priority = 300 * P.ProjectID, 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID), 
+P.Programme_ID 
+FROM   [app].[Project] P 
+INNER JOIN [app].[Programme] AS OC 
+        ON P.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  P.Active = 1 AND OC.Active = 1
+
+
+UNION ALL 
+SELECT Title = 'Indicators', 
+Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
+						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
+						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '&qsNamedRange=Indicators'
+						+ '&qsProgramme=' + OC.BusinessKey
+
+, 
+Priority = 400 * P.ProjectID, 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID), 
+P.Programme_ID 
+FROM   [app].[Project] P 
+INNER JOIN [app].[Programme] AS OC 
+        ON P.Programme_ID = oc.Programme_ID 
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  P.Active = 1 AND OC.Active = 1
+
+
+              
 GO
+
+
