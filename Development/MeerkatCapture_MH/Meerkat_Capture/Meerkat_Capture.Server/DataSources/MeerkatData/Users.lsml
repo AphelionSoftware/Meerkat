@@ -198,6 +198,11 @@
         Association="vwLocationUserMap_User"
         FromEnd="User"
         ToEnd="vwLocationUserMap" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_User"
+        FromEnd="User"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -361,6 +366,16 @@
         Name="User"
         EntitySet="Users" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_User"
+      Association="FK_User_SystemRole_ProjectProgramme_User">
+      <AssociationSetEnd
+        Name="User"
+        EntitySet="Users" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="vwIndicatorUserMap_User">
@@ -488,6 +503,21 @@
       </AssociationEnd.Attributes>
     </AssociationEnd>
   </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_User">
+    <AssociationEnd
+      Name="User"
+      Multiplicity="One"
+      EntityType="User">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -592,6 +622,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_User">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_User" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="UserID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_User]/Members[User_SystemRole_ProjectProgramme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="UserID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="vwIndicatorUserMap_Users">
       <AssociationSetMapping.Attributes>
