@@ -14,7 +14,7 @@ namespace LightSwitchApplication
     public partial class MeerkatDataService
     {
         #region Security
-        private bool _BypassSecurity;
+        private bool? _BypassSecurity;
         private bool BypassSecurity
         {
             get
@@ -37,7 +37,7 @@ namespace LightSwitchApplication
                     }
 
                 }
-                return _BypassSecurity;
+                return (bool) _BypassSecurity;
             }
 
         }
