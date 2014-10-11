@@ -161,3 +161,12 @@ myapp.ViewForm.Categories1_postRender = function (element, contentItem) {
 
 
 };
+myapp.ViewForm.VersionLabel_render = function (element, contentItem) {
+    // Write code here.
+   /* msls.application.lightswitchTools.getVersionInfo(function (version) {
+        var smallElement = document.createElement("small");
+        smallElement.innerText = version;
+        element.appendChild(smallElement);
+    })*/
+
+};
