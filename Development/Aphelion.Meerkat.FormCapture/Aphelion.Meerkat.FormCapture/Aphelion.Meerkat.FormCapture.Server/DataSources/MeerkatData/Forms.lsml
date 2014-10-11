@@ -55,14 +55,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="sys_CreatedBy"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -217,6 +209,21 @@
         Association="FK_Form_Project_Form"
         FromEnd="Form"
         ToEnd="Form_Project" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Form_ActiveType"
+        FromEnd="Form"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwFormUserMaps"
+        Association="vwFormUserMap_Form"
+        FromEnd="Form"
+        ToEnd="vwFormUserMap" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Form_Project"
+        FromEnd="Form"
+        ToEnd="Project" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -365,6 +372,16 @@
         Name="Form_Project"
         EntitySet="Form_Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="vwFormUserMap_Forms"
+      Association="vwFormUserMap_Form">
+      <AssociationSetEnd
+        Name="vwFormUserMap"
+        EntitySet="vwFormUserMaps" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_FormResponse_Form">
@@ -409,6 +426,24 @@
       Multiplicity="Many"
       EntityType="Form_Project" />
   </Association>
+  <Association
+    Name="vwFormUserMap_Form">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwFormUserMap"
+      Multiplicity="Many"
+      EntityType="vwFormUserMap" />
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="One"
+      EntityType="Form">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -444,11 +479,6 @@
           Nullable="True"
           Type="varchar"
           Property="Form/Properties[TextDescription]" />
-        <SsdlProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          Property="Form/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -513,6 +543,11 @@
           Type="nvarchar"
           Property="Form/Properties[LocalName]" />
         <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
           Name="Age_ID"
           Nullable="True"
           Type="int"
@@ -547,6 +582,11 @@
           Nullable="True"
           Type="int"
           PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -626,6 +666,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_FormResponse_Form]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwFormUserMap_Forms">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwFormUserMap_Forms" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwFormUserMap_Forms]/Members[vwFormUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwFormUserMap_Forms]/Members[Form]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Form_ID" />

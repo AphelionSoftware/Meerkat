@@ -14,12 +14,25 @@ myapp.Link_Form_Project.Delete_execute = function (screen) {
     });
 };
 myapp.Link_Form_Project.created = function (screen) {
-    myapp.activeDataWorkspace.MeerkatData.Forms_SingleOrDefault(screen.FormID).execute().then(function (x) {
-        screen.setForm(x.results[0]);
-    }, function (x) {
-        msls.showMessageBox(x, {
-            title: "Default value for Form failed"
+    msls.application.lightswitchTools.configureCaptureForm(screen);
+
+    if (screen.Form_ID) {
+        myapp.activeDataWorkspace.MeerkatData.Forms_SingleOrDefault(screen.Form_ID).execute().then(function (x) {
+            screen.setForm(x.results[0]);
+        }, function (x) {
+            msls.showMessageBox(x, {
+                title: "Default value for Form failed"
+            });
         });
-    });
+    }
+    if (screen.Project_ID) {
+        myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(screen.Project_ID).execute().then(function (x) {
+            screen.setProject(x.results[0]);
+        }, function (x) {
+            msls.showMessageBox(x, {
+                title: "Default value for Project failed"
+            });
+        });
+    }
 
 };

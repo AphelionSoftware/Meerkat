@@ -18,7 +18,6 @@ SET @Activity_ID = dbo.fn_StripMDXKey(@MDXKey)
 
 
 
-
 SELECT    
 
 DENSE_RANK() over(order by m.Code)  %2  RN,
@@ -98,11 +97,15 @@ mv.DataVersion_ID,
   AND (MV.DataVersion_ID =  @DataVersion_ID OR @DataVersion_ID = 0 )
   AND MV.ReportPeriodID = RP.ID
   
-   JOIN app.Activity a
+   LEFT JOIN app.Activity a
     on m.Activity_ID = a.Activity_ID
-	and (m.Activity_ID = @Activity_ID or @Activity_ID = 0)
 	JOIN  app.Project P
-	on a.ProjectID = P.ProjectID
-		OR a.ProjectID = @Project_ID
+	on (a.ProjectID = P.ProjectID
+		or m.ProjectID = P.ProjectID)
+
+where 
+(a.Activity_ID = @Activity_ID OR @Activity_ID = 0)
+AND
+(p.ProjectID = @Project_ID OR @Project_ID = 0)
 
 order by m.Code, RP.StartDateID ASC

@@ -1,4 +1,6 @@
-﻿CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
+﻿
+
+CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
 SELECT TOP ( 10000 )
             [t].[Title] ,
@@ -92,7 +94,7 @@ SELECT TOP ( 10000 )
               UNION ALL
               SELECT    '10006' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Program Documents' AS Title ,
+                        'Documents' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
@@ -109,7 +111,7 @@ SELECT TOP ( 10000 )
               UNION ALL
               SELECT    '10008' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'Program Contact Info' AS Title ,
+                        'Contact Info' AS Title ,
                         ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
                         + '/lists/Programme%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]
@@ -142,7 +144,7 @@ SELECT TOP ( 10000 )
 UNION ALL
               SELECT    '10010' AS OrderBy1 ,
                         0 AS OrderBy2 ,
-                        'People reached' AS Title ,
+                        'People reached >>>' AS Title ,
                         '' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
@@ -195,16 +197,17 @@ UNION ALL
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
                                     ) Src
 						WHERE O.BusinessKey = 'CO'
-
-
-						
-						UNION ALL
+            UNION ALL
               
 			  
-              SELECT    'Excel Reports' AS OrderBy1 ,
+
+
+              SELECT    'Program Reports' AS OrderBy1 ,
                         30001 AS OrderBy2 ,
-                        'Excel Reports' AS Title ,
-                        '' AS Link ,
+                        'Program Reports >>>' AS Title ,
+                        ''
+						
+						 AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + O.Programme_ID AS ID ,
                         o.[Programme_ID]
@@ -216,10 +219,10 @@ UNION ALL
                                       FROM      mm.ALL_ProgrammeMenuCategory
                                       WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
-                                    ) Src
-            ) AS t
+                                    ) Src) AS t
     ORDER BY [t].[orderBy1] ,
             [t].[orderby2]
 GO
+
 
 

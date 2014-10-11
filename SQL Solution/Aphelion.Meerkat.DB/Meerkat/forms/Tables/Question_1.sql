@@ -26,6 +26,7 @@
     [Institution_ID]           INT              NULL,
     [Location_ID]              INT              NULL,
     [LocalName]                NVARCHAR (255)   NULL,
+    [ProjectID]                INT              NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -37,9 +38,12 @@
     CONSTRAINT [FK_Question_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Question_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [FK_Question_PotentialResponse] FOREIGN KEY ([MultipleChoiceResponseID]) REFERENCES [forms].[PotentialResponse] ([PotentialResponse_ID]),
+    CONSTRAINT [FK_Question_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
 
 
 

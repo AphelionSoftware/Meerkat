@@ -9,6 +9,7 @@
     [sys_ModifiedBy]    VARCHAR (255)  CONSTRAINT [DF_Form_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]    DATETIME       CONSTRAINT [DF_Form_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [isConfidential]    BIT            CONSTRAINT [DF_Form_isConfidential] DEFAULT ((0)) NOT NULL,
+    [ProjectID]         INT            NULL,
     [Location_ID]       INT            NULL,
     [Age_ID]            INT            NULL,
     [AgeBand_ID]        INT            NULL,
@@ -32,8 +33,11 @@
     CONSTRAINT [FK_Form_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Form_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Form_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_Form_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ__Form__A25C5AA73EDF24B3] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

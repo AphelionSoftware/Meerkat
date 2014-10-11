@@ -72,13 +72,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Sector_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
@@ -89,14 +82,6 @@
         Name="SubSector_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -228,6 +213,36 @@
         Association="FK_Form_Project_Project"
         FromEnd="Project"
         ToEnd="Form_Project" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Project_ActiveType"
+        FromEnd="Project"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwProjectUserMaps"
+        Association="vwProjectUserMap_Project"
+        FromEnd="Project"
+        ToEnd="vwProjectUserMap" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_Project"
+        FromEnd="Project"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_Project"
+        FromEnd="Project"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Project_Programme"
+        FromEnd="Project"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Project"
+        FromEnd="Project"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -341,6 +356,46 @@
         Name="Form_Project"
         EntitySet="Form_Projects" />
     </AssociationSet>
+    <AssociationSet
+      Name="vwProjectUserMap_Projects"
+      Association="vwProjectUserMap_Project">
+      <AssociationSetEnd
+        Name="vwProjectUserMap"
+        EntitySet="vwProjectUserMaps" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Project"
+      Association="FK_FormResponse_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Project"
+      Association="FK_Form_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Project"
+      Association="FK_Question_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_AgeBand_Project">
@@ -369,6 +424,67 @@
       Name="Form_Project"
       Multiplicity="Many"
       EntityType="Form_Project" />
+  </Association>
+  <Association
+    Name="vwProjectUserMap_Project">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProjectUserMap"
+      Multiplicity="Many"
+      EntityType="vwProjectUserMap" />
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="FK_FormResponse_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Form_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_Question_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -417,11 +533,6 @@
           Type="int"
           Property="Project/Properties[Outcome_ID]" />
         <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Programme_ID]" />
-        <SsdlProperty
           Name="Sector_ID"
           Nullable="True"
           Type="int"
@@ -443,11 +554,6 @@
           Nullable="False"
           Type="varchar"
           Property="Project/Properties[ProjectSiteName]" />
-        <SsdlProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          Property="Project/Properties[Active]" />
         <SsdlProperty
           Name="isSiteCreated"
           Nullable="False"
@@ -508,6 +614,16 @@
           Nullable="True"
           Type="int"
           Property="Project/Properties[StrategicElement_ID]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -532,6 +648,27 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
+      AssociationSet="FK_Form_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Project]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
       AssociationSet="FK_Form_Project_Project">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -545,6 +682,69 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_Project_Project]/Members[Form_Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Project]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Project]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProjectUserMap_Projects">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProjectUserMap_Projects" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[vwProjectUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />

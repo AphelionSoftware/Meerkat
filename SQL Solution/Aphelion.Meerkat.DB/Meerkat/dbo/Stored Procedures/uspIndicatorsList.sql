@@ -33,6 +33,8 @@ IF CHARINDEX('Sub Sector', @MDXKey ) > 0
 SET @SubSector_ID  = dbo.fn_StripMDXKey(@MDXKey)
 IF CHARINDEX('Program', @MDXKey ) > 0 
 SET @Program_ID  = dbo.fn_StripMDXKey(@MDXKey)
+IF CHARINDEX('Project', @MDXKey ) > 0 
+SET @Project_ID  = dbo.fn_StripMDXKey(@MDXKey)
 
 IF NOT CHARINDEX('Sub Sector', @MDXKey ) > 0 and  CHARINDEX('Sector', @MDXKey ) > 0
 SET @Sector_ID  = dbo.fn_StripMDXKey(@MDXKey)
@@ -188,6 +190,7 @@ AND (i.IndicatorID  = @Indicator_ID OR @Indicator_ID = 0 OR iv.Location_ID is nu
 AND (SS.SubSector_ID  = @SubSector_ID OR @SubSector_ID = 0 )
 AND (S.Sector_ID  = @Sector_ID OR @Sector_ID = 0 )
 AND (@Program_ID = 0 OR PROG.Programme_ID = @Program_ID)
+AND (@Project_ID = 0 OR P.ProjectID = @Project_ID)
 
 
 ----------------------------------------------------------------------------------------------
