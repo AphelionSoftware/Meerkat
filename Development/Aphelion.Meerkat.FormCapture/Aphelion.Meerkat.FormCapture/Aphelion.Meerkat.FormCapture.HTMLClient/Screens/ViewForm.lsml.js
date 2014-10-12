@@ -52,7 +52,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
 
                 if (!project_id) {
-                    this.ShowMessageBox("Project is required");
+                    msls.showMessageBox("Project is required");
                     return;
                 }
                 myapp.showViewCategory(

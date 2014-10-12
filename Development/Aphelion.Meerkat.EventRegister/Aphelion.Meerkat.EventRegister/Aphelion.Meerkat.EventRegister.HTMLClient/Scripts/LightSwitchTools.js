@@ -4,6 +4,10 @@
     "use strict";
 
     function pluralName(name) {
+        if (name == "c_Event") {
+            return "Events";
+        }
+
         if (name == "Person") {
             return "People";
         }
