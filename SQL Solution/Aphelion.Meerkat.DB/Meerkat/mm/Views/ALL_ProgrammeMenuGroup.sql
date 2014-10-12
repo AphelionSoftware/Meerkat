@@ -2,7 +2,7 @@
 
 CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
-    SELECT TOP ( 10000 )
+SELECT TOP ( 10000 )
             [t].[Title] ,
             [t].[Link] ,
             [t].[Parent] ,

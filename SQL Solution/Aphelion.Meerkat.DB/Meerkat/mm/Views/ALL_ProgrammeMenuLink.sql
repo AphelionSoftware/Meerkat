@@ -1,6 +1,7 @@
 ﻿
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
+
   SELECT Title = 'Indicator Details', 
          Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
                 + 
@@ -148,6 +149,69 @@ INNER JOIN [app].[Programme] AS OC
         ON dp.Programme_ID = oc.Programme_ID 
 WHERE  da.Active = 1 AND dp.Active = 1 AND oc.Active = 1
 */
+-------------------------------------------------------------------------------------------------
+-- Excel Reports
+-------------------------------------------------------------------------------------------------
+
+UNION ALL
+SELECT Title = 'PeopleReached', 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
++ '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx' 
++ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx' 
++ '&qsNamedRange=PeopleReached' 
++ '&qsProgramme='  + OC.BusinessKey
+, 
+Priority = 200 * OC.Programme_ID , 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = 'Excel Reports' 
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM    [app].[Programme] AS OC 
+
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  OC.Active = 1
+UNION ALL
+SELECT Title = 'Indicator progress', 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
++ '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx' 
++ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx' 
++ '&qsNamedRange=Indicators' 
++ '&qsProgramme='  + OC.BusinessKey
+, 
+Priority = 210 * OC.Programme_ID , 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = 'Excel Reports' 
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM    [app].[Programme] AS OC 
+
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  OC.Active = 1
+UNION ALL
+SELECT Title = 'Status', 
+Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
++ '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx' 
++ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx' 
++ '&qsNamedRange=Status' 
++ '&qsProgramme='  + OC.BusinessKey
+, 
+Priority = 220 * OC.Programme_ID , 
+Parent = (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = 'Excel Reports' 
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM    [app].[Programme] AS OC 
+
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+WHERE  OC.Active = 1
+
+
 
 ---------------------------------------------------------------------
 --

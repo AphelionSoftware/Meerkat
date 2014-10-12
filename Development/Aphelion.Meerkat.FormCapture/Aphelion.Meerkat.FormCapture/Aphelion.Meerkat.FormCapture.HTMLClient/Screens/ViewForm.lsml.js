@@ -1,4 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+/// <reference path="../Scripts/LightswitchTools.js" />
 
 //var CompletedCategories = 1;
 // Fowler/Noll/Vo hashing.
@@ -159,5 +160,14 @@ myapp.ViewForm.Form_Institution_postRender = function (element, contentItem) {
 };
 myapp.ViewForm.Categories1_postRender = function (element, contentItem) {
 
+
+};
+myapp.ViewForm.VersionLabel_render = function (element, contentItem) {
+    // Write code here.
+   msls.application.lightswitchTools.getVersionInfo(function (version) {
+        var smallElement = document.createElement("small");
+        smallElement.innerText = version;
+        element.appendChild(smallElement);
+    })
 
 };
