@@ -1,7 +1,6 @@
 ﻿///<reference path="../GeneratedArtifacts/viewModel.js" />
 
-function updateAllInd(element, contentItem)
-{
+function updateAllInd(element, contentItem) {
     //Need to do this for the rollups. Theoretically should only fire the once so not a big impact on performance
     if (contentItem.screen.ReportingPeriodsFiltered.selectedItem == null) {
         $.getJSON("/api/TodaysReportingPeriod", function (data) {
@@ -20,8 +19,7 @@ function updateAllInd(element, contentItem)
         updateLocationsTotalIndicator(element, contentItem);
         updateFormValues(element, contentItem);
         setBizKey(element, contentItem);
-    } else 
-    {
+    } else {
         //If the basic filters aren't in place, hide the rollup fields
         contentItem.screen.findContentItem("LocationValues").isVisible = false;
         contentItem.screen.findContentItem("PreviousVersion").isVisible = false;
@@ -133,8 +131,7 @@ function updatePreviousVersionIndicator(element, contentItem) {
 
 }
 
-function updateLocationsTotalIndicator( element, contentItem)
-{
+function updateLocationsTotalIndicator(element, contentItem) {
     var TotalSum = 0;
     var TotalCount = 0;
     var TotalAvg = 0;
@@ -200,14 +197,30 @@ myapp.AddEditIndicatorValue.created = function (screen) {
     });
 
 
-    thisObject.sys_CreatedBy = "NA";
-    thisObject.sys_CreatedOn = "1999/01/01";
     thisObject.sys_ModifiedBy = "NA";
     thisObject.sys_ModifiedOn = "1999/01/01";
-    thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
+    var name = screen.details.getModel().properties[0].name;
 
-    //This should really be done at the data source level
-    //function setDefaultReportingPeriod(screen) {
+    var primaryKeyColumn;
+    var properties = screen.details.getModel().properties[0].elementType.properties;
+
+    $.each(properties, function (index, property) {
+        if (property.__isKeyProperty === 1) {
+            primaryKeyColumn = property.name;
+            return false;
+        }
+    });
+
+    var primaryKey = screen.IndicatorValue[primaryKeyColumn];
+    //var activeType = screen.IndicatorValue.ActiveType;
+
+    if (primaryKey === undefined) {
+        thisObject.sys_CreatedBy = "NA";
+        thisObject.sys_CreatedOn = "1999/01/01";
+
+
+        //This should really be done at the data source level
+        //function setDefaultReportingPeriod(screen) {
         $.getJSON("/api/TodaysReportingPeriod", function (data) {
             myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
                 screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
@@ -218,16 +231,17 @@ myapp.AddEditIndicatorValue.created = function (screen) {
                 //Need to do this for the rollups
                 contentItem.screen.ReportingPeriodsFiltered.selectedItem = reportingPeriod.results[0];
 
-                });
             });
-    //}
+        });
+        //}
+    }
 
 
     //Default Actual label to actual value 
     var actualValueField = screen.findContentItem("ActualValue");
     var actualLabelField = screen.findContentItem("ActualLabel");
     actualValueField.dataBind("value", function () {
-        if (actualValueField.value !== undefined && actualValueField.stringValue.length > 0) {
+        if (actualValueField.value !== undefined && actualValueField.stringValue !== undefined && actualValueField.stringValue.length > 0) {
             var currentLength = 0;
             if (actualLabelField.value !== undefined) {
                 currentLength = actualLabelField.stringValue.length;
@@ -240,11 +254,11 @@ myapp.AddEditIndicatorValue.created = function (screen) {
     });
 
     //Default business key 
-    var businessKeyField        = screen.findContentItem("BusinessKey");
-    var ReportingPeriod1Field   = screen.findContentItem("ReportingPeriod1");
-    var LocationField           = screen.findContentItem("Location");
-    var DataVersionField        = screen.findContentItem("DataVersion");
-    
+    var businessKeyField = screen.findContentItem("BusinessKey");
+    var ReportingPeriod1Field = screen.findContentItem("ReportingPeriod1");
+    var LocationField = screen.findContentItem("Location");
+    var DataVersionField = screen.findContentItem("DataVersion");
+
     /*actualValueField.dataBind("value", function () {
         
         if (ReportingPeriod1Field.stringValue != undefined && LocationField.stringValue != undefined && DataVersionField.stringValue) {
@@ -252,7 +266,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
         }
     }); */
 
-    
+
 
     //Set the indicator - it's prefiltered by parameter.
 
@@ -260,7 +274,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
         screen.IndicatorValue.setIndicator(indicator.results[0]);
     });
 
-   
+
 };
 
 
@@ -272,10 +286,10 @@ myapp.AddEditIndicatorValue.SumAmount_postRender = function (element, contentIte
         // Compute the total for the invoice
 
         if (contentItem.screen.DataVersionSorted.selectedItem && contentItem.screen.LocationsSorted.selectedItem)
-        contentItem.screen.IndicatorLocationRollup.load().then(function (promise) {
-            updateLocationsTotal(element, contentItem);
+            contentItem.screen.IndicatorLocationRollup.load().then(function (promise) {
+                updateLocationsTotal(element, contentItem);
 
-        });
+            });
 
     }
 
@@ -359,7 +373,7 @@ myapp.AddEditIndicatorValue.DataVersion_ID_postRender = function (element, conte
 };*/
 myapp.AddEditIndicatorValue.Order_postRender = function (element, contentItem) {
     // Write code here.
-    contentItem.screen.PreviousDataVersion = contentItem.value + 1; 
+    contentItem.screen.PreviousDataVersion = contentItem.value + 1;
 
 };
 myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
@@ -378,9 +392,9 @@ myapp.AddEditIndicatorValue.UsePreviousVersion_execute = function (screen) {
     }
 };
 myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersion1_postRender = function (element, contentItem) {
-        function updateTotal() {
-            updateAllInd(element, contentItem);
-         }
+    function updateTotal() {
+        updateAllInd(element, contentItem);
+    }
     // Set a dataBind to update the value when the selection change
     contentItem.dataBind("screen.DataVersionSorted.selectedItem", updateTotal);
     contentItem.dataBind("screen.ReportingPeriodsFiltered.selectedItem", updateTotal);
@@ -410,7 +424,7 @@ myapp.AddEditIndicatorValue.LocationValues_postRender = function (element, conte
         //contentItem.isVisible = false;
     } else {
         contentItem.isVisible = true;
-       // contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
+        // contentItem.screen.findContentItem("PreviousVersion").isVisible = true;
     }
 };
 
@@ -426,7 +440,7 @@ myapp.AddEditIndicatorValue.FormValue_postRender = function (element, contentIte
     contentItem.dataBind("screen.ReportingPeriod1.value", updateFormValue);
     contentItem.dataBind("screen.DataVersion.value", updateFormValue);
     contentItem.dataBind("screen.vw_ResponsesByIndicators_PerIndicator.count", updateFormValue);
-    
+
 
 };
 myapp.AddEditIndicatorValue.UseFormValue_execute = function (screen) {
