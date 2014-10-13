@@ -450,5 +450,10 @@ namespace LightSwitchApplication
 
         }
         #endregion
+
+        partial void ProjectsSorted_PreprocessQuery(ref IQueryable<Project> query)
+        {
+
+        }
     }
 }

@@ -171,3 +171,7 @@ myapp.ViewForm.VersionLabel_render = function (element, contentItem) {
     })
 
 };
+myapp.ViewForm.Form_Project_postRender = function (element, contentItem) {
+    // Write code here.
+
+};
