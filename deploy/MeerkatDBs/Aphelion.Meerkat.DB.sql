@@ -40,1250 +40,6 @@ USE [$(DatabaseName)];
 
 
 GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[IndicatorShortName].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'IndicatorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[IndicatorShortName].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'IndicatorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ProgrammeShortName].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ProgrammeShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ProgrammeShortName].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ProgrammeShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ProjectShortName].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ProjectShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ProjectShortName].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ProjectShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ReportLevel].[HiearchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HiearchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ReportLevel';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[ReportLevel].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'ReportLevel';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[SectorShortName].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'SectorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[SectorShortName].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'SectorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[SubsectorShortName].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'SubsectorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[SubsectorShortName].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector', @level2type = N'COLUMN', @level2name = N'SubsectorShortName';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[HierarchyLevel]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyLevel', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector';
-
-
-GO
-PRINT N'Dropping [OLAP_GEN].[IndicatorByProjectSector].[HierarchyName]...';
-
-
-GO
-EXECUTE sp_dropextendedproperty @name = N'HierarchyName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorByProjectSector';
-
-
-GO
-PRINT N'Dropping DF_Project_ProjectType_ID...';
-
-
-GO
-ALTER TABLE [app].[Project] DROP CONSTRAINT [DF_Project_ProjectType_ID];
-
-
-GO
-PRINT N'Dropping FK_Project_ProjectType...';
-
-
-GO
-ALTER TABLE [app].[Project] DROP CONSTRAINT [FK_Project_ProjectType];
-
-
-GO
-PRINT N'Altering [app].[Project]...';
-
-
-GO
-ALTER TABLE [app].[Project] ALTER COLUMN [ProjectType_ID] INT NULL;
-
-
-GO
-PRINT N'Altering [settings].[GlobalSettings]...';
-
-
-GO
-ALTER TABLE [settings].[GlobalSettings] DROP COLUMN [LocalName];
-
-
-GO
-PRINT N'Creating [settings].[TablesToExport]...';
-
-
-GO
-CREATE TABLE [settings].[TablesToExport] (
-    [TablesToExport_ID] INT           IDENTITY (1, 1) NOT NULL,
-    [Table_Schema]      VARCHAR (255) NOT NULL,
-    [Table_Name]        VARCHAR (255) NOT NULL,
-    [Export]            BIT           NOT NULL,
-    [Active]            INT           NOT NULL,
-    [sys_CreatedBy]     VARCHAR (255) NOT NULL,
-    [sys_CreatedOn]     DATETIME      NOT NULL,
-    [sys_ModifiedBy]    VARCHAR (255) NOT NULL,
-    [sys_ModifiedOn]    DATETIME      NOT NULL,
-    CONSTRAINT [PK__TablesTo__0C91590DA0E643C6] PRIMARY KEY CLUSTERED ([TablesToExport_ID] ASC)
-);
-
-
-GO
-PRINT N'Creating DF_Project_ProjectType_ID...';
-
-
-GO
-ALTER TABLE [app].[Project]
-    ADD CONSTRAINT [DF_Project_ProjectType_ID] DEFAULT ((2)) FOR [ProjectType_ID];
-
-
-GO
-PRINT N'Creating DF__TablesToE__Activ__64C2D10D...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF__TablesToE__Activ__64C2D10D] DEFAULT ((1)) FOR [Active];
-
-
-GO
-PRINT N'Creating DF__TablesToE__Expor__63CEACD4...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF__TablesToE__Expor__63CEACD4] DEFAULT ((0)) FOR [Export];
-
-
-GO
-PRINT N'Creating DF_TablesToExport_sys_CreatedBy...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF_TablesToExport_sys_CreatedBy] DEFAULT (user_name()) FOR [sys_CreatedBy];
-
-
-GO
-PRINT N'Creating DF_TablesToExport_sys_CreatedOn...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF_TablesToExport_sys_CreatedOn] DEFAULT (getdate()) FOR [sys_CreatedOn];
-
-
-GO
-PRINT N'Creating DF_TablesToExport_sys_ModifiedBy...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF_TablesToExport_sys_ModifiedBy] DEFAULT (user_name()) FOR [sys_ModifiedBy];
-
-
-GO
-PRINT N'Creating DF_TablesToExport_sys_ModifiedOn...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport]
-    ADD CONSTRAINT [DF_TablesToExport_sys_ModifiedOn] DEFAULT (getdate()) FOR [sys_ModifiedOn];
-
-
-GO
-PRINT N'Creating FK_Project_ProjectType...';
-
-
-GO
-ALTER TABLE [app].[Project] WITH NOCHECK
-    ADD CONSTRAINT [FK_Project_ProjectType] FOREIGN KEY ([ProjectType_ID]) REFERENCES [app].[ProjectType] ([ProjectType_ID]);
-
-
-GO
-PRINT N'Creating FK_TablesToExport_ActiveType...';
-
-
-GO
-ALTER TABLE [settings].[TablesToExport] WITH NOCHECK
-    ADD CONSTRAINT [FK_TablesToExport_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]);
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_OutcomeMenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_OutcomeMenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_OutcomeMenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_OutcomeMenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_ProgrammeMenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_ProgrammeMenuGroup]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Activity]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Activity]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[AgeBand]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[AgeBand]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[FrameworkDetail_Indicator]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[FrameworkDetail_Indicator]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Indicator]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Indicator]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[IndicatorByProgram]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProgram]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[IndicatorByProjectSector]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[IndicatorByProjectSector]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Milestone]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Milestone]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[PeopleReachedValues]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[PeopleReachedValues]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[Project]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[Project]';
-
-
-GO
-PRINT N'Refreshing [OLAP_GEN].[StatusValues]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[OLAP_GEN].[StatusValues]';
-
-
-GO
-PRINT N'Refreshing [rpt].[FormResponsesByProject]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[FormResponsesByProject]';
-
-
-GO
-PRINT N'Refreshing [rpt].[ProjectStatusScorecard]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[ProjectStatusScorecard]';
-
-
-GO
-PRINT N'Refreshing [rpt].[vwFormResponsesCount]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[vwFormResponsesCount]';
-
-
-GO
-PRINT N'Refreshing [rpt].[vwPeopleReached]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[rpt].[vwPeopleReached]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome1MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome1MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome2MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome2MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome3MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome3MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome4MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome4MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome5MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome5MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome6MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome6MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome7MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome7MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome8MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome8MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome1MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome1MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome2MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome2MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome3MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome3MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome4MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome4MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome5MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome5MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome6MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome6MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome7MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome7MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Outcome8MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Outcome8MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[ALL_ProgrammeMenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[ALL_ProgrammeMenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme1MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme1MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme2MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme2MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme3MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme3MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme4MenuGroup]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme4MenuGroup]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme1MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme1MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme2MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme2MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme3MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme3MenuLink]';
-
-
-GO
-PRINT N'Refreshing [mm].[Programme4MenuLink]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[mm].[Programme4MenuLink]';
-
-
-GO
-PRINT N'Creating [app].[Activity].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Activity';
-
-
-GO
-PRINT N'Creating [app].[Impact].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Impact';
-
-
-GO
-PRINT N'Creating [app].[Indicator].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Indicator';
-
-
-GO
-PRINT N'Creating [app].[IndicatorLocation].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorLocation';
-
-
-GO
-PRINT N'Creating [app].[IndicatorSimpleType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorSimpleType';
-
-
-GO
-PRINT N'Creating [app].[IndicatorType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'IndicatorType';
-
-
-GO
-PRINT N'Creating [app].[Milestone].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Milestone';
-
-
-GO
-PRINT N'Creating [app].[MilestoneLocation].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneLocation';
-
-
-GO
-PRINT N'Creating [app].[MilestoneType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'MilestoneType';
-
-
-GO
-PRINT N'Creating [app].[Outcome].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Outcome';
-
-
-GO
-PRINT N'Creating [app].[OutcomeOrganization].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutcomeOrganization';
-
-
-GO
-PRINT N'Creating [app].[OutcomePersonRole].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutcomePersonRole';
-
-
-GO
-PRINT N'Creating [app].[Output].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Output';
-
-
-GO
-PRINT N'Creating [app].[OutputOutputLink].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputOutputLink';
-
-
-GO
-PRINT N'Creating [app].[OutputPersonRole].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'OutputPersonRole';
-
-
-GO
-PRINT N'Creating [app].[Programme].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Programme';
-
-
-GO
-PRINT N'Creating [app].[Project].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Project';
-
-
-GO
-PRINT N'Creating [app].[ProjectType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'ProjectType';
-
-
-GO
-PRINT N'Creating [app].[Sector].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector';
-
-
-GO
-PRINT N'Creating [app].[SubOutput].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutput';
-
-
-GO
-PRINT N'Creating [app].[SubOutputPersonRole].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutputPersonRole';
-
-
-GO
-PRINT N'Creating [app].[SubOutputSubOutputLink].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubOutputSubOutputLink';
-
-
-GO
-PRINT N'Creating [app].[SubSector].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'SubSector';
-
-
-GO
-PRINT N'Creating [Core].[ActiveType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ActiveType';
-
-
-GO
-PRINT N'Creating [Core].[DataSource].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DataSource';
-
-
-GO
-PRINT N'Creating [Core].[DataVersion].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DataVersion';
-
-
-GO
-PRINT N'Creating [Core].[DimDate].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimDate';
-
-
-GO
-PRINT N'Creating [Core].[DimMunicipalityGEOM].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'DimMunicipalityGEOM';
-
-
-GO
-PRINT N'Creating [Core].[Location].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Location';
-
-
-GO
-PRINT N'Creating [Core].[LocationType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'LocationType';
-
-
-GO
-PRINT N'Creating [Core].[Organization].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Organization';
-
-
-GO
-PRINT N'Creating [Core].[OrganizationPersonRole].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'OrganizationPersonRole';
-
-
-GO
-PRINT N'Creating [Core].[OrganizationType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'OrganizationType';
-
-
-GO
-PRINT N'Creating [Core].[Person].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Person';
-
-
-GO
-PRINT N'Creating [Core].[ReportingPeriod].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'ReportingPeriod';
-
-
-GO
-PRINT N'Creating [Core].[Role].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'Role';
-
-
-GO
-PRINT N'Creating [Core].[StatusType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'Core', @level1type = N'TABLE', @level1name = N'StatusType';
-
-
-GO
-PRINT N'Creating [dbo].[templateMenueGroup].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'0', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'templateMenueGroup';
-
-
-GO
-PRINT N'Creating [disagg].[Age].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Age';
-
-
-GO
-PRINT N'Creating [disagg].[AgeBand].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'AgeBand';
-
-
-GO
-PRINT N'Creating [disagg].[CommunityType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'CommunityType';
-
-
-GO
-PRINT N'Creating [disagg].[Donor].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Donor';
-
-
-GO
-PRINT N'Creating [disagg].[Facility].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Facility';
-
-
-GO
-PRINT N'Creating [disagg].[FacilityType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FacilityType';
-
-
-GO
-PRINT N'Creating [disagg].[Framework].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Framework';
-
-
-GO
-PRINT N'Creating [disagg].[FrameworkDetail].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'4', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail';
-
-
-GO
-PRINT N'Creating [disagg].[FrameworkDetail_Indicator].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail_Indicator';
-
-
-GO
-PRINT N'Creating [disagg].[FrameworkDetail_Project].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'FrameworkDetail_Project';
-
-
-GO
-PRINT N'Creating [disagg].[Gender].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Gender';
-
-
-GO
-PRINT N'Creating [disagg].[Group].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Group';
-
-
-GO
-PRINT N'Creating [disagg].[Institution].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Institution';
-
-
-GO
-PRINT N'Creating [disagg].[Project_ResultArea].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'Project_ResultArea';
-
-
-GO
-PRINT N'Creating [disagg].[ResultArea].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'ResultArea';
-
-
-GO
-PRINT N'Creating [disagg].[StrategicElement].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'disagg', @level1type = N'TABLE', @level1name = N'StrategicElement';
-
-
-GO
-PRINT N'Creating [forms].[Category].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Category';
-
-
-GO
-PRINT N'Creating [forms].[Event].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event';
-
-
-GO
-PRINT N'Creating [forms].[Event_Indicator_Rollup].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Event_Indicator_Rollup';
-
-
-GO
-PRINT N'Creating [forms].[EventRegister].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'EventRegister';
-
-
-GO
-PRINT N'Creating [forms].[Form].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'6', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Form';
-
-
-GO
-PRINT N'Creating [forms].[FormResponse].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'FormResponse';
-
-
-GO
-PRINT N'Creating [forms].[Question].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Question';
-
-
-GO
-PRINT N'Creating [forms].[QuestionType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'QuestionType';
-
-
-GO
-PRINT N'Creating [forms].[Response].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'9', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'Response';
-
-
-GO
-PRINT N'Creating [forms].[RollupType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'forms', @level1type = N'TABLE', @level1name = N'RollupType';
-
-
-GO
-PRINT N'Creating [RBM].[IndicatorValues].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues';
-
-
-GO
-PRINT N'Creating [RBM].[MilestoneValues].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'MilestoneValues';
-
-
-GO
-PRINT N'Creating [RBM].[PeopleReachedValues].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'8', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'PeopleReachedValues';
-
-
-GO
-PRINT N'Creating [RBM].[StatusValues].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'StatusValues';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport_Calendar].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Calendar';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport_Indicator].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Indicator';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport_Project].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_Project';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReport_ResponsiblePerson].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'3', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReport_ResponsiblePerson';
-
-
-GO
-PRINT N'Creating [rpt].[CustomReportType].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'CustomReportType';
-
-
-GO
-PRINT N'Creating [rpt].[DonorReport].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport';
-
-
-GO
-PRINT N'Creating [rpt].[DonorReport_Indicator].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'7', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport_Indicator';
-
-
-GO
-PRINT N'Creating [rpt].[DonorReport_Project].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'5', @level0type = N'SCHEMA', @level0name = N'rpt', @level1type = N'TABLE', @level1name = N'DonorReport_Project';
-
-
-GO
-PRINT N'Creating [settings].[GlobalSettings].[RelationshipDepth]...';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @level0type = N'SCHEMA', @level0name = N'settings', @level1type = N'TABLE', @level1name = N'GlobalSettings';
-
-
-GO
-PRINT N'Refreshing [Core].[sp_MilestoneCaptureProgress]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[Core].[sp_MilestoneCaptureProgress]';
-
-
-GO
-PRINT N'Refreshing [Core].[usp_MilestoneCaptureProgress]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[Core].[usp_MilestoneCaptureProgress]';
-
-
-GO
-PRINT N'Refreshing [dbo].[uspActivityProgress]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[dbo].[uspActivityProgress]';
-
-
-GO
-PRINT N'Refreshing [dbo].[uspIndicatorsList]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[dbo].[uspIndicatorsList]';
-
-
-GO
-PRINT N'Refreshing [dbo].[uspProject_ActivityProgress]...';
-
-
-GO
-EXECUTE sp_refreshsqlmodule N'[dbo].[uspProject_ActivityProgress]';
-
-
-GO
 
 /*GeoSpatialData*/
 
@@ -1330,6 +86,125 @@ GO*/
 
 
 /* Insert Data */
+
+/*Insert Security Data*/
+INSERT INTO [Access].[RoleType]
+           ([RoleTypeName]
+           ,[RoleTypeCode]
+           ,[RoleTypeSourceKey]
+           )
+
+SELECT Q.Name, Q.Code, Q.Code
+FROM
+(SELECT 
+	 'Super user' as Name
+	,'SU' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[RoleType]
+		WHERE RoleTypeCode = q.Code)
+
+UNION ALL
+SELECT Q.Name, Q.Code, Q.Code
+FROM
+(SELECT 
+	 'Meerkat Capture & Form Capture' as Name
+	,'CAPTURE' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[RoleType]
+		WHERE RoleTypeCode = q.Code)
+
+UNION ALL
+SELECT Q.Name, Q.Code, Q.Code
+FROM
+(SELECT 
+	 'Meerkat Admin' as Name
+	,'ADMIN' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[RoleType]
+		WHERE RoleTypeCode = q.Code)
+
+UNION ALL
+SELECT Q.Name, Q.Code, Q.Code
+FROM
+(SELECT 
+	 'Meerkat Formbuilder' as Name
+	,'FORMS' as Code
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[RoleType]
+		WHERE RoleTypeCode = q.Code)
+
+
+INSERT INTO [Access].[SystemRole]
+           ([SystemRoleName]
+           ,[SystemRoleCode]
+           ,[SystemRoleSourceKey]
+		   ,[RoleTypeID]
+		   ,[DataVersion_ID]
+           )
+
+SELECT Q.Name, Q.Code, Q.Code, Q.RoleTypeID
+FROM
+(SELECT 
+  'IT ' AS Name
+, 'IT' AS Code
+,RoleType_ID, DV.DataVersionID
+,DV.DataVersion_ID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 0 AND RoleTypeSourceKey = 'SU'
+	UNION
+SELECT 
+  'M&L Coordinators' AS Name
+, 'M&L' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 0 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'PQU' AS Name
+, 'PQU' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 0 AND RoleTypeSourceKey = 'SU'
+	UNION
+SELECT 
+  'M&E Officers/M&E Focal Point Person' AS Name
+, 'M&E' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 1 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'Project Manager' AS Name
+, 'PM' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 1 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'Area Manager' AS Name
+, 'AM' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 1 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'Project Officer/Partner Organization' AS Name
+, 'PO' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 3 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'Senior Program Officer' AS Name
+, 'SPO' AS Code
+,RoleType_ID, DV.DataVersionID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 2 AND RoleTypeSourceKey = 'CAPTURE'
+	
+
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [Access].[SystemRole]
+		WHERE Code = q.Code)
+
+
+
 
 /*Insert Core data*/
 /*
@@ -1392,7 +267,6 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-SET IDENTITY_INSERT Core.StatusType ON 
 
 INSERT  INTO [Core].StatusType
         ( [Core].[StatusType].[ID] ,
@@ -1435,7 +309,6 @@ INSERT  INTO [Core].StatusType
 GO
 
 
-SET IDENTITY_INSERT Core.StatusType OFF
 /*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
@@ -1922,6 +795,73 @@ GO
 SET IDENTITY_INSERT [app].[IndicatorType] OFF
 GO
 
+INSERT  INTO [Core].PersonParticipationType
+(
+          [Core].[PersonParticipationType].[Code] ,
+          [Core].[PersonParticipationType].[Name] ,
+		  [Core].[PersonParticipationType].[BusinessKey]
+        )
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'DIRECT' AS Code,
+                'Direct Participant' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+        UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'INDIRECT' AS Code,
+                'Indirect Participant' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+        UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'STAFF' AS Code,
+                'Care Staff' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+
+		UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'FACILITATOR' AS Code,
+                'Project Facilitator' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
+							 
+		UNION ALL
+        SELECT  Src.Code
+				, Src.Name
+				, Src.Code
+			FROM (
+			SELECT 'PARTNER' AS Code,
+                'Project Partner Staff' AS Name
+				) Src
+                
+        WHERE   NOT EXISTS ( SELECT 1
+                             FROM   Core.PersonParticipationType
+                             WHERE  [Core].[PersonParticipationType].[Code] = Src.Code )
 
 /*Insert settings*/
 /*
@@ -3006,20 +1946,6 @@ INSERT INTO [settings].[GlobalSettings]
 /*end Insert data*/
 
 GO
-
-GO
-PRINT N'Checking existing data against newly created constraints';
-
-
-GO
-USE [$(DatabaseName)];
-
-
-GO
-ALTER TABLE [app].[Project] WITH CHECK CHECK CONSTRAINT [FK_Project_ProjectType];
-
-ALTER TABLE [settings].[TablesToExport] WITH CHECK CHECK CONSTRAINT [FK_TablesToExport_ActiveType];
-
 
 GO
 PRINT N'Update complete.';
