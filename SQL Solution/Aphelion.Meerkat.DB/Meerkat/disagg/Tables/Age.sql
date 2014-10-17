@@ -5,9 +5,12 @@
     [sys_CreatedOn]  DATETIME      CONSTRAINT [DF_Age_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy] VARCHAR (255) CONSTRAINT [DF_Age_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn] DATETIME      CONSTRAINT [DF_Age_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
+    [Age]            AS            (CONVERT([varchar](3),[Age_ID])),
     CONSTRAINT [PK_Age] PRIMARY KEY CLUSTERED ([Age_ID] ASC),
     CONSTRAINT [FK_Age_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

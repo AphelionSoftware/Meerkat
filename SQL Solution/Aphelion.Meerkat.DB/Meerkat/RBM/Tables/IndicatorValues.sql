@@ -15,7 +15,7 @@
     [sys_CreatedOn]       DATETIME         CONSTRAINT [DF_IndicatorValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]      VARCHAR (255)    CONSTRAINT [DF_IndicatorValues_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]      DATETIME         CONSTRAINT [DF_IndicatorValues_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    [IndicatorValueGroup] UNIQUEIDENTIFIER CONSTRAINT [DF__Indicator__Indic__51BA1E3A] DEFAULT (newid()) NOT NULL,
+    [IndicatorValueGroup] UNIQUEIDENTIFIER CONSTRAINT [DF__Indicator__Indic__51BA1E3A] DEFAULT (newid()) NULL,
     [AgeBand_ID]          INT              NULL,
     [CommunityType_ID]    INT              NULL,
     [Donor_ID]            INT              NULL,
