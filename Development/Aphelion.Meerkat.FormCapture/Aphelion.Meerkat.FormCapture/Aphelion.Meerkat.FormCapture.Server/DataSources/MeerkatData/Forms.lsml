@@ -224,6 +224,11 @@
         Association="FK_Form_Project"
         FromEnd="Form"
         ToEnd="Project" />
+      <NavigationProperty
+        Name="vwUnfinishedForms"
+        Association="vwUnfinishedForm_Form"
+        FromEnd="Form"
+        ToEnd="vwUnfinishedForm" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -378,6 +383,16 @@
       <AssociationSetEnd
         Name="vwFormUserMap"
         EntitySet="vwFormUserMaps" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwUnfinishedForm_Forms"
+      Association="vwUnfinishedForm_Form">
+      <AssociationSetEnd
+        Name="vwUnfinishedForm"
+        EntitySet="vwUnfinishedForms" />
       <AssociationSetEnd
         Name="Form"
         EntitySet="Forms" />
@@ -694,5 +709,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwUnfinishedForm_Forms">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwUnfinishedForm_Forms" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwUnfinishedForm_Forms]/Members[vwUnfinishedForm]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwUnfinishedForm_Forms]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Form_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwUnfinishedForm_Form">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwUnfinishedForm"
+      Multiplicity="Many"
+      EntityType="vwUnfinishedForm" />
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="One"
+      EntityType="Form">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>

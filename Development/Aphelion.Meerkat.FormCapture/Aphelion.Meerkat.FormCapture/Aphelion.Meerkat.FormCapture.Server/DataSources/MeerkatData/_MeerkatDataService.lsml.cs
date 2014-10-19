@@ -455,5 +455,13 @@ namespace LightSwitchApplication
         {
 
         }
+
+        partial void FormResponsesUnfinished_PreprocessQuery(int? Form, int? Project, ref IQueryable<FormResponse> query)
+        {
+            
+            query = query.Where(e =>  (e.vwUnfinishedForms.Where( x => x.FormResponse_ID == e.FormResponse_ID).Count() >= 1)
+                );
+            
+        }
     }
 }
