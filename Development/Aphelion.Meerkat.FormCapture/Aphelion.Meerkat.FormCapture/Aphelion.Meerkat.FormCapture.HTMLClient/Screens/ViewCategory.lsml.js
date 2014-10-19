@@ -163,3 +163,15 @@ myapp.ViewCategory.QuestionType_postRender = function (element, contentItem) {
     });
     */
 };
+myapp.ViewCategory.Questions1_postRender = function (element, contentItem) {
+    // Write code here.
+    tableElement = $(element).find("table")[0];
+    $(tableElement).off("keyup");
+
+    /*tableElement = $(element).find("div");
+    $(tableElement).off("keyup");*/
+
+    tableHead = $(element).find("thead")[0];
+    $(tableHead).hide();
+
+};
