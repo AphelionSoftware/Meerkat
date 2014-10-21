@@ -3,7 +3,7 @@
 
 myapp.AddEditStatusValue.created = function (screen) {
 
-    if (screen.StatusValues.StatusValuesID)
+    if (screen.StatusValue.StatusValuesID)
     {
         if (screen.StatusValues.Output) {
             screen.findContentItem("OutputGroup").isVisible = true;
