@@ -853,7 +853,7 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="AddEditStatusValue/Properties[Locations]" />
+                          Member="AddEditStatusValue/Properties[LocationsSorted]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.ChoicesSource>
@@ -1789,38 +1789,31 @@
               Kind="Group"
               View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
               <ContentItem
-                Name="Code71"
-                Kind="Value"
-                DataType=":String?">
+                Name="LocationType_ID"
+                Kind="Details"
+                DataType="LocationType">
                 <ContentItem.Attributes>
                   <DisplayName
-                    Value="Code" />
+                    Value="Location Type" />
                 </ContentItem.Attributes>
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <MemberExpression
-                        Member="AddEditStatusValue/Properties[Code7]" />
+                        Member="AddEditStatusValue/Properties[LocationType_ID]" />
                     </ChainExpression>
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
-              </ContentItem>
-              <ContentItem
-                Name="Name21"
-                Kind="Value"
-                DataType=":String?">
-                <ContentItem.Attributes>
-                  <DisplayName
-                    Value="Name" />
-                </ContentItem.Attributes>
-                <ContentItem.DataSource>
-                  <ScreenExpressionTree>
-                    <ChainExpression>
-                      <MemberExpression
-                        Member="AddEditStatusValue/Properties[Name2]" />
-                    </ChainExpression>
-                  </ScreenExpressionTree>
-                </ContentItem.DataSource>
+                <ContentItem
+                  Name="LocationType"
+                  Kind="Details"
+                  DataType="LocationType">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
               </ContentItem>
             </ContentItem>
             <ContentItem
@@ -3263,6 +3256,49 @@
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="LocationsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Location">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="LocationsSortedQuery"
+            ReturnType="Location*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[LocationsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditStatusValue/Properties[LocationsSorted]/Query">
+              <ArgumentExpression
+                Parameter="LocationType_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditStatusValue/Properties[LocationType_ID]" />
+                  <MemberExpression
+                    Member="LocationType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Location" />
+              <ArgumentExpression
+                Parameter="ParentLocation" />
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="LocationType_ID"
+        PropertyType="LocationType" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>

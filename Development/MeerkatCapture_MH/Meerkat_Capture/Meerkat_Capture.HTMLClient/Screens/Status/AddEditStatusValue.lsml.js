@@ -3,42 +3,42 @@
 
 myapp.AddEditStatusValue.created = function (screen) {
 
-    if (screen.StatusValue.StatusValuesID)
+    if (screen.StatusValue && screen.StatusValue.StatusValuesID)
     {
-        if (screen.StatusValues.Output) {
+        if (screen.StatusValue.Output) {
             screen.findContentItem("OutputGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.Outcome) {
+        if (screen.StatusValue.Outcome) {
             screen.findContentItem("OutcomeGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.SubOutput) {
+        if (screen.StatusValue.SubOutput) {
             screen.findContentItem("SubOutputGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.Sector) {
+        if (screen.StatusValue.Sector) {
             screen.findContentItem("SectorGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.SubSector) {
+        if (screen.StatusValue.SubSector) {
             screen.findContentItem("SubSectorGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.Programme) {
+        if (screen.StatusValue.Programme) {
             screen.findContentItem("ProgrammeGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.Project) {
+        if (screen.StatusValue.Project) {
             screen.findContentItem("ProjectGroup").isVisible = true;
             return;
         }
-        if (screen.StatusValues.Activity) {
+        if (screen.StatusValue.Activity) {
             screen.findContentItem("ActivityGroup").isVisible = true;
             return;
         }
 
-        if (screen.StatusValues.Output_ID) {
+        if (screen.StatusValue.Output_ID) {
             screen.findContentItem("OutputGroup").isVisible = true;
             return;
         }
