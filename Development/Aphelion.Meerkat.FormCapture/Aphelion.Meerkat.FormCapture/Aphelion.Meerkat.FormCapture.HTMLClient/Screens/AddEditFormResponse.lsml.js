@@ -56,3 +56,9 @@ myapp.AddEditFormResponse.Response1_postRender = function (element, contentItem)
     // Write code here.
 
 };
+myapp.AddEditFormResponse.Responses1_postRender = function (element, contentItem) {
+    // Write code here.
+    tableElement = $(element).find("table")[0];
+    $(tableElement).off("keyup");
+
+};
