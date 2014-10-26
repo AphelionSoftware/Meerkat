@@ -172,6 +172,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Event_Programmes"
+        Association="FK_Event_Programme_Programme"
+        FromEnd="Programme"
+        ToEnd="Event_Programme" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -319,6 +324,16 @@
         Name="Form_Programme"
         EntitySet="Form_Programmes" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Event_Programme_Programme"
+      Association="FK_Event_Programme_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="Event_Programme"
+        EntitySet="Event_Programmes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Sector_Programme">
@@ -361,6 +376,20 @@
       Name="Form_Programme"
       Multiplicity="Many"
       EntityType="Form_Programme" />
+  </Association>
+  <Association
+    Name="FK_Event_Programme_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Event_Programme"
+      Multiplicity="Many"
+      EntityType="Event_Programme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -461,6 +490,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Programme_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Programme_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Programme_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Programme_Programme]/Members[Event_Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Form_Programme_Programme">
       <AssociationSetMapping.Attributes>

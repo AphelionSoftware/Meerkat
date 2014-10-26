@@ -314,6 +314,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Event_Indicator_Rollups"
+        Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
+        FromEnd="Indicator"
+        ToEnd="Event_Indicator_Rollup" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -432,7 +437,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
+      Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="Event_Indicator_Rollup"
+        EntitySet="Event_Indicator_Rollups" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Event_Indicator_Rollup"
+      Multiplicity="Many"
+      EntityType="Event_Indicator_Rollup" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -638,6 +668,27 @@
           PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Event_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup">
       <AssociationSetMapping.Attributes>
