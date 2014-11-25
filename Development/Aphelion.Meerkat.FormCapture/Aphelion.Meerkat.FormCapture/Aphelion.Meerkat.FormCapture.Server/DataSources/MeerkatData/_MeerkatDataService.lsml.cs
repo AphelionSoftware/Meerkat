@@ -320,7 +320,16 @@ namespace LightSwitchApplication
                         command.Parameters.Add(
                             new SqlParameter("@ProjectID", entity.Project.ProjectID));
                     }
-
+                    if (entity.isComplete == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@Completed", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@Completed", entity.isComplete));
+                    }
 
                     connection.Open();
                     command.ExecuteNonQuery();

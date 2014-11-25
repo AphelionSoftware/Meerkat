@@ -162,6 +162,14 @@
         Association="vwUnfinishedForm_FormResponse"
         FromEnd="FormResponse"
         ToEnd="vwUnfinishedForm" />
+      <EntityProperty
+        Name="isComplete"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -291,6 +299,24 @@
       Multiplicity="Many"
       EntityType="Response" />
   </Association>
+  <Association
+    Name="vwUnfinishedForm_FormResponse">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwUnfinishedForm"
+      Multiplicity="Many"
+      EntityType="vwUnfinishedForm" />
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -355,6 +381,11 @@
           Nullable="False"
           Type="datetime"
           Property="FormResponse/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="isComplete"
+          Nullable="False"
+          Type="bit"
+          Property="FormResponse/Properties[isComplete]" />
         <SsdlProperty
           Name="FormResponse_FNVID"
           Nullable="False"
@@ -445,22 +476,4 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
   </DataService>
-  <Association
-    Name="vwUnfinishedForm_FormResponse">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwUnfinishedForm"
-      Multiplicity="Many"
-      EntityType="vwUnfinishedForm" />
-    <AssociationEnd
-      Name="FormResponse"
-      Multiplicity="One"
-      EntityType="FormResponse">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
 </ServiceApplication>

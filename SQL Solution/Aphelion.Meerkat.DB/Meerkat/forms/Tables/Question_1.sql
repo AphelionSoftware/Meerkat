@@ -17,6 +17,7 @@
     [DecimalResponse]          DECIMAL (20, 12) NULL,
     [TrueOrFalse]              BIT              NULL,
     [isConfidential]           BIT              CONSTRAINT [DF_Question_isConfidential] DEFAULT ((0)) NOT NULL,
+    [isComplete]               BIT              CONSTRAINT [DF_Question_isComplete] DEFAULT ((0)) NOT NULL,
     [FormResponse_FNVID]       BIGINT           NULL,
     [Age_ID]                   INT              NULL,
     [AgeBand_ID]               INT              NULL,
@@ -42,6 +43,8 @@
     CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
 
 
 

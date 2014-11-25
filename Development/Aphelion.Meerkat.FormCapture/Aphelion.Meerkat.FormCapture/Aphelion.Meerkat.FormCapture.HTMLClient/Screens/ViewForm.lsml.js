@@ -112,6 +112,7 @@ myapp.ViewForm.created = function (screen) {
 
     screen.FNV1a = fnv_1a(guid);
     screen.CompletedCategories = 0;
+    
 };
 myapp.ViewForm.RowTemplate_postRender = function (element, contentItem) {
     contentItem.dataBind("screen.strCategoryToHide", 
