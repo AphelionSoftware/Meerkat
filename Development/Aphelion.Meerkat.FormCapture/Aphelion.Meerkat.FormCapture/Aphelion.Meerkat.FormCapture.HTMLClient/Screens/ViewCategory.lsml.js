@@ -6,6 +6,7 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     //Setting isConfidential
     contentItem.data.isConfidential = contentItem.screen.isConfidential;
     contentItem.data.FormResponse_FNVID = contentItem.screen.FNV1a;
+    contentItem.data.isComplete = contentItem.screen.isComplete;
 
     myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(contentItem.screen.ProjectID).execute().then(
         function (x) {

@@ -49,6 +49,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var groups_ID = screen.GroupsSorted.selectedItem == null ? null : screen.GroupsSorted.selectedItem.Group_ID;
                 var institution_ID = screen.InstitutionsSorted.selectedItem == null ? null : screen.InstitutionsSorted.selectedItem.Institution_ID;
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
+                //var isComplete = screen.Form.isComplete == null ? false : screen.Form.Form_isComplete;
                 var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
 
                 if (!project_id) {
@@ -67,6 +68,8 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                     , groups_ID
                     , institution_ID
                     , project_id
+                    //, isComplete
+
                     ,
                     {
                         afterClosed: function (addEditScreen, navigationAction) {
@@ -174,5 +177,12 @@ myapp.ViewForm.VersionLabel_render = function (element, contentItem) {
 };
 myapp.ViewForm.Form_Project_postRender = function (element, contentItem) {
     // Write code here.
+
+};
+myapp.ViewForm.CompleteForm_execute = function (screen) {
+    screen.Form.isComplete = true;
+    screen.Form.FormResponse_FNVID = screen.FNV1a;
+    myapp.activeDataWorkspace.MeerkatData.saveChanges();
+    myapp.applyChanges();
 
 };

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -134,7 +135,7 @@ namespace LightSwitchApplication
                 string connectionStringName = this.DataWorkspace.MeerkatData.Details.Name;
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
-                string procedure = "forms.insertFormResponse";
+                string procedure = "entity.isComplforms.insertFormResponse";
                 using (SqlCommand command = new SqlCommand(procedure, connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -320,19 +321,11 @@ namespace LightSwitchApplication
                         command.Parameters.Add(
                             new SqlParameter("@ProjectID", entity.Project.ProjectID));
                     }
-                    if (entity.isComplete == null)
-                    {
-                        command.Parameters.Add(
-                       new SqlParameter("@Completed", null));
-                    }
-                    else
-                    {
-                        command.Parameters.Add(
-                            new SqlParameter("@Completed", entity.isComplete));
-                    }
+                   
 
                     connection.Open();
                     command.ExecuteNonQuery();
+                    connection.Close();
                 }                 
             }
             entity.DecimalResponse = null;
@@ -354,7 +347,32 @@ namespace LightSwitchApplication
 
         partial void Forms_Updating(Form entity)
         {
-           this.Details.DiscardChanges();
+            if ((entity.isComplete))
+            {
+                using (SqlConnection connection = new SqlConnection())
+                {
+                    string connectionStringName = this.DataWorkspace.MeerkatData.Details.Name;
+                    connection.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+
+                    string procedure = "forms.MarkComplete";
+                    using (SqlCommand command = new SqlCommand(procedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+
+                        command.Parameters.Add(
+                            new SqlParameter("@FormResponse_FNVID", entity.FormResponse_FNVID));
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+
+
+                
+
+                }
+            }
+            this.Details.DiscardChanges();
+           
         }
 
 

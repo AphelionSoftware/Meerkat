@@ -15,16 +15,6 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
-      <KeyProperty
-        Name="Location_ID"
-        IsReadOnly="True"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Hidden />
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
       <EntityProperty
         Name="Code"
         PropertyType=":String">
@@ -44,6 +34,16 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <KeyProperty
+        Name="Location_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Hidden />
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
       <EntityProperty
         Name="AreaKM"
         PropertyType=":Decimal?">
@@ -166,6 +166,11 @@
         Association="FK_Location_ActiveType"
         FromEnd="Location"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_Location"
+        FromEnd="Location"
+        ToEnd="FormResponse" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -314,6 +319,16 @@
         Name="User_Location"
         EntitySet="User_Locations" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Location"
+      Association="FK_FormResponse_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Form_Location">
@@ -357,6 +372,20 @@
       Name="User_Location"
       Multiplicity="Many"
       EntityType="User_Location" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -469,6 +498,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_Location]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />
