@@ -11,7 +11,7 @@ Post-Deployment Script Template
 */
 SET identity_insert disagg.gender on
 
-
+/*
 INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
@@ -29,7 +29,7 @@ FROM
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
 		WHERE Code = q.Code)
-
+*/
 INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
@@ -69,7 +69,7 @@ WHERE NOT EXISTS (
 		WHERE Code = q.Code)
 
 
-
+/*
 INSERT INTO [disagg].[Gender]
            ([Gender_ID]
 		   ,[Code]
@@ -87,7 +87,24 @@ FROM
 WHERE NOT EXISTS (
 	SELECT 1 FROM [disagg].[Gender]
 		WHERE Code = q.Code)
-
+*/
+INSERT INTO [disagg].[Gender]
+           ([Gender_ID]
+		   ,[Code]
+           ,[Name]
+		   ,[BusinessKey]
+           )
+SELECT Q.Gender_ID, Q.Code, Q.Name, Q.BusinessKey
+FROM
+(SELECT 
+	3 As Gender_ID
+	,'N/A' as Code
+	,'N/A' as Name
+	,'N/A' as BusinessKey
+) Q
+WHERE NOT EXISTS (
+	SELECT 1 FROM [disagg].[Gender]
+		WHERE Code = q.Code)
 
 
 SET identity_insert disagg.gender off
