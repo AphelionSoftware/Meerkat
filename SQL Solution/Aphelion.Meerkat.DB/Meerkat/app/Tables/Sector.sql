@@ -241,6 +241,15 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ_Sector_BusinessKey]
 
 
 GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_SubSector_Shortname] ON [app].[SubSector]
+(
+	[Sector_ID] ASC
+	, [Shortname]
+)
+WHERE ([Active]>=(0))
+
+GO
 EXECUTE sp_addextendedproperty @name = N'SourceKey', @value = N'true', @level0type = N'SCHEMA', @level0name = N'app', @level1type = N'TABLE', @level1name = N'Sector', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 
 

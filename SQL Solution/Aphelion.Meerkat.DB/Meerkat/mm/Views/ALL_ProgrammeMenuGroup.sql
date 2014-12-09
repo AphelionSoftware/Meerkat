@@ -73,7 +73,7 @@ SELECT TOP ( 10000 )
               SELECT    '10003' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Program Level Indicators' AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'')
                         + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=[Programme].[Programme].%26['
                         + CAST(O.Programme_ID AS VARCHAR(8)) + ']' AS Link ,
                         ( SELECT    [OMC_7].[ID]
@@ -95,7 +95,7 @@ SELECT TOP ( 10000 )
               SELECT    '10006' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Documents' AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'')
                         + '/Shared%20Documents/Forms/AllItems.aspx' AS Link ,
                         ( SELECT    [OMC_4].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_4
@@ -112,7 +112,7 @@ SELECT TOP ( 10000 )
               SELECT    '10008' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'Contact Info' AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName]
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'')
                         + '/lists/Programme%20Contacts' AS Link ,
                         ( SELECT    [OMC_2].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_2
@@ -129,7 +129,7 @@ SELECT TOP ( 10000 )
               SELECT    '10009' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'FAQs' AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'') + '/Programme%20Wiki' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Program' )
@@ -162,7 +162,7 @@ UNION ALL
               SELECT    P.ShortName AS OrderBy1 ,
                         30000 AS OrderBy2 ,
                         P.ShortName AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/' + P.ProjectSiteName AS Link ,
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'') + '/' + P.ProjectSiteName AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + P.ProjectID AS ID ,
                         [P].[Programme_ID]
@@ -220,6 +220,7 @@ UNION ALL
                                       WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Program'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = O.Programme_ID
                                     ) Src) AS t
+		WHERE t.Parent is not null
     ORDER BY [t].[orderBy1] ,
             [t].[orderby2]
 GO
