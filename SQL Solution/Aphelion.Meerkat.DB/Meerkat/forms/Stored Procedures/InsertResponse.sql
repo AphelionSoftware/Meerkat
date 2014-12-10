@@ -19,7 +19,7 @@
  ,@Group_ID					int = null
  ,@Institution_ID			int = null
  ,@ProjectID			int = null
- ,@Completed			bit = 0
+ ,@ReportingPeriod_ID			int = null
 )
 as 
 DECLARE @tbl table(FormResponse_ID INT)
@@ -36,7 +36,7 @@ INSERT INTO forms.FormResponse
 			,[Group_ID]
 			,[Institution_ID]
 			,[ProjectID]
-			,isComplete
+			,[ReportingPeriod_ID]
 		   )
 		    SELECT @FormID 
 			, @FormResponse_FNVID
@@ -49,13 +49,9 @@ INSERT INTO forms.FormResponse
 			,@Group_ID			
 			,@Institution_ID	
 			,@ProjectID
-			,@Completed
+			,@ReportingPeriod_ID
 WHERE NOT EXISTS (SELECT 1 FROM forms.FormResponse WHERE FormResponse_FNVID = @FormResponse_FNVID)
 
-IF @Completed = 1
-		UPDATE forms.FormResponse
-		SET isComplete = @Completed
-		WHERE FormResponse_FNVID = @FormResponse_FNVID
 
 INSERT INTO [forms].[Response]
            ([FormResponse_ID]

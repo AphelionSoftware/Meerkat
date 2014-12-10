@@ -51,7 +51,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
                 //var isComplete = screen.Form.isComplete == null ? false : screen.Form.Form_isComplete;
                 var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
-
+                var reportingPeriod_ID = screen.ReportingPeriodsSorted.selectedItem == null ? null : screen.ReportingPeriodsSorted.selectedItem.ID;
                 if (!project_id) {
                     msls.showMessageBox("Project is required");
                     return;
@@ -68,6 +68,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                     , groups_ID
                     , institution_ID
                     , project_id
+                    , reportingPeriod_ID
                     //, isComplete
 
                     ,

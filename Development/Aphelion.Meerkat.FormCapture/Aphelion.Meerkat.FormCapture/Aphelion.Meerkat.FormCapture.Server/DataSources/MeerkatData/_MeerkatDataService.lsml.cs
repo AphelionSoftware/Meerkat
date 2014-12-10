@@ -321,6 +321,17 @@ namespace LightSwitchApplication
                         command.Parameters.Add(
                             new SqlParameter("@ProjectID", entity.Project.ProjectID));
                     }
+
+                    if (entity.ReportingPeriod == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@ReportingPeriod_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@ReportingPeriod_ID", entity.ReportingPeriod.ID));
+                    }
                    
 
                     connection.Open();

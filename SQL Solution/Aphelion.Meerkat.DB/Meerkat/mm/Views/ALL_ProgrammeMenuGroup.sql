@@ -162,7 +162,7 @@ UNION ALL
               SELECT    P.ShortName AS OrderBy1 ,
                         30000 AS OrderBy2 ,
                         P.ShortName AS Title ,
-                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'') + '/' + P.ProjectSiteName AS Link ,
+                        ISNULL(GS.Value, '/') + REPLACE([O].[ProgrammeSiteName], char(9),'') + '/' + REPLACE(P.ProjectSiteName, char(9) , '') AS Link ,
                         Src.ID AS Parent ,
                         SRC.ID + P.ProjectID AS ID ,
                         [P].[Programme_ID]

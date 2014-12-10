@@ -19,6 +19,7 @@
     [Gender_ID]          INT           NULL,
     [Group_ID]           INT           NULL,
     [Institution_ID]     INT           NULL,
+    [ReportingPeriod_ID] INT           CONSTRAINT [DF_FormResponse_ReportingPeriod_ID] DEFAULT ((96)) NOT NULL,
     CONSTRAINT [PK_FormResponse_3] PRIMARY KEY CLUSTERED ([FormResponse_ID] ASC),
     CONSTRAINT [FK_FormResponse_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_FormResponse_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -27,8 +28,12 @@
     CONSTRAINT [FK_FormResponse_Gender] FOREIGN KEY ([Gender_ID]) REFERENCES [disagg].[Gender] ([Gender_ID]),
     CONSTRAINT [FK_FormResponse_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_FormResponse_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
-    CONSTRAINT [FK_FormResponse_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID])
+    CONSTRAINT [FK_FormResponse_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_FormResponse_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
+    CONSTRAINT [FK_FormResponse_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID])
 );
+
+
 
 
 

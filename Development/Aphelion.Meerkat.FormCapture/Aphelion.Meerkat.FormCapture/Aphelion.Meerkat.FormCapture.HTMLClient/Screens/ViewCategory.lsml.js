@@ -62,6 +62,12 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
             contentItem.data.setInstitution(res);
         }
     );
+    myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(contentItem.screen.ReportingPeriod_ID).execute().then(
+        function (x) {
+            var res = x.results[0];
+            contentItem.data.setReportingPeriod(res);
+        }
+    );
     //Question type
     var type = contentItem.data.QuestionType.Code;
     var x = element;
