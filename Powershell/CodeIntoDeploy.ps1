@@ -1,15 +1,25 @@
-﻿Param (
+﻿
+$GitFolder = "E:\Github\Meerkat"
+$BranchPrefix = "r03_CARE_Reports"
+
+<#
+Param (
     [Parameter(Mandatory=$True)][String]$GitFolder,
     [Parameter(Mandatory=$True)][String]$BranchPrefix
       )
+#>
 cd $GitFolder
 
-$DepBranch = $BranchPrefix +"/Deployment"
-$DevBranch = $BranchPrefix +"/Development"
 
-$DepToDep = "refs/heads/" +$DepBranch +":refs/heads/" +$DevBranch
-$DevToDev = "refs/heads/" +$DevBranch +":refs/heads/" +$DevBranch
-$DepToDev = "refs/heads/" +$DepBranch +":refs/heads/" +$DevBranch
+$DepBranch = "refs/heads/" +$BranchPrefix +"/Deployment"
+$DevBranch = "refs/heads/" +$BranchPrefix +"/Development"
+
+$DepToDep = $DepBranch +":" +$DepBranch
+$DevToDev = $DevBranch +":" +$DevBranch
+$DepToDev = $DepBranch +":" +$DevBranch
+
+
+
 
 
 git fetch --all
