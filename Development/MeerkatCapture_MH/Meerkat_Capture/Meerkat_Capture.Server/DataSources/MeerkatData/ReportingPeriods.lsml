@@ -184,6 +184,21 @@
             Value="4" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_ReportingPeriod"
+        FromEnd="ReportingPeriod"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_ReportingPeriod"
+        FromEnd="ReportingPeriod"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_ReportingPeriod"
+        FromEnd="ReportingPeriod"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -362,6 +377,36 @@
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_ReportingPeriod"
+      Association="FK_Form_ReportingPeriod">
+      <AssociationSetEnd
+        Name="ReportingPeriod"
+        EntitySet="ReportingPeriods" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_ReportingPeriod"
+      Association="FK_FormResponse_ReportingPeriod">
+      <AssociationSetEnd
+        Name="ReportingPeriod"
+        EntitySet="ReportingPeriods" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_ReportingPeriod"
+      Association="FK_Question_ReportingPeriod">
+      <AssociationSetEnd
+        Name="ReportingPeriod"
+        EntitySet="ReportingPeriods" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_ReportingPeriod">
@@ -377,6 +422,49 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_Form_ReportingPeriod">
+    <AssociationEnd
+      Name="ReportingPeriod"
+      EntityType="ReportingPeriod">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_ReportingPeriod">
+    <AssociationEnd
+      Name="ReportingPeriod"
+      Multiplicity="One"
+      EntityType="ReportingPeriod">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Question_ReportingPeriod">
+    <AssociationEnd
+      Name="ReportingPeriod"
+      EntityType="ReportingPeriod">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -479,6 +567,48 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
+      AssociationSet="FK_Form_ReportingPeriod">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_ReportingPeriod" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_ReportingPeriod]/Members[ReportingPeriod]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_ReportingPeriod]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ReportingPeriod_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_ReportingPeriod">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_ReportingPeriod" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_ReportingPeriod]/Members[ReportingPeriod]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_ReportingPeriod]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ReportingPeriod_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_ReportingPeriod">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
@@ -534,6 +664,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_PeopleReachedValues_ReportingPeriod]/Members[PeopleReachedValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ReportingPeriod_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_ReportingPeriod">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_ReportingPeriod" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_ReportingPeriod]/Members[ReportingPeriod]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_ReportingPeriod]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ReportingPeriod_ID" />
