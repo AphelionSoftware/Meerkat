@@ -19,7 +19,7 @@ Foreach ($file in get-childitem $SolutionFolder -recurse | where {$_.extension -
     
     $LoadQueueSolutionPath = $file.FullName
     
-    $TargetDB = "/p:TargetDatabase=[" +$file.name.Replace(".sqlproj","").ToString() +"] "
+    $TargetDB = "/p:TargetDatabase=" +$file.name.Replace(".sqlproj","").ToString() +" "
 
     Write-Host $File.Name " deployment started."
 
