@@ -24,11 +24,11 @@ $DepToDev = $DepBranch +":" +$DevBranch
 
 git fetch --all
 git pull --rebase --progress "origin " $DepToDep
-git checkout --force $DepBranch
+git checkout --force +$BranchPrefix "/Deployment"
 git pull --rebase --progress "origin " $DepToDev
 git merge $DevBranch
 git push --progress "origin" $DepToDep
-git checkout --force $DevBranch
+git checkout --force +$BranchPrefix "/Development"
 git push --progress "origin"$DepToDev 
 git push --recurse-submodules=check --progress "origin" $DepToDep
 
