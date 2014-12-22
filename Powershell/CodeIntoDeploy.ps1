@@ -1,14 +1,22 @@
 ﻿Param (
-    [Parameter(Mandatory=$True)][String]$GitFolder
+    [Parameter(Mandatory=$True)][String]$GitFolder,
+    [Parameter(Mandatory=$True)][String]$BranchPrefix
       )
 cd $GitFolder
 
+$DepBranch = $BranchPrefix +"/Deployment"
+$DevBranch = $BranchPrefix +"/Development"
+
+$DepToDep = "refs/heads/" +$DepBranch +":refs/heads/" +$DevBranch
+$DepToDev = "refs/heads/" +$DepBranch +":refs/heads/" +$DevBranch
+$DevToDev = "refs/heads/" +$DevBranch +":refs/heads/" +$DevBranch
+
 git fetch --all
-git pull --rebase --progress "origin" +refs/heads/r03_CARE_Reports/Deployment:+refs/heads/r03_CARE_Reports/Deployment:refs/remotes/origin/r03_CARE_Reports/Deployment
-git checkout --force "r03_CARE_Reports/Deployment"
-git pull --rebase --progress "origin" +refs/heads/r03_CARE_Reports/Deployment:refs/remotes/origin/r03_CARE_Reports/Development
-git merge r03_CARE_Reports/Development
-git push --progress "origin" refs/heads/r03_CARE_Reports/Deployment:refs/heads/r03_CARE_Reports/Deployment
-git checkout --force "r03_CARE_Reports/Development"
-git push --progress "origin" refs/heads/r03_CARE_Reports/Development:refs/remotes/origin/r03_CARE_Reports/Development
-git push --recurse-submodules=check --progress "origin" refs/heads/r03_CARE_Reports/Development:refs/heads/r03_CARE_Reports/Development
+git pull --rebase --progress "origin " $DepToDep
+git checkout --force $DepBranch
+git pull --rebase --progress "origin " $DepToDev
+git merge $DevBranch
+git push --progress "origin" $DepToDep
+git checkout --force $DevBranch
+git push --progress "origin"$DepToDev
+git push --recurse-submodules=check --progress "origin"$DevToDev
