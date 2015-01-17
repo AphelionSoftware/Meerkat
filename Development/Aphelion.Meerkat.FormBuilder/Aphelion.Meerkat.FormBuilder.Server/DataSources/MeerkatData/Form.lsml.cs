@@ -7,5 +7,10 @@ namespace LightSwitchApplication
 {
     public partial class Form
     {
+        partial void Form_Created()
+        {
+            
+
+        }
     }
 }

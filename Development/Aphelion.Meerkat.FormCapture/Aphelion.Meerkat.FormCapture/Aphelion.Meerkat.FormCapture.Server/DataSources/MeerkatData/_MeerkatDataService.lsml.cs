@@ -222,6 +222,16 @@ namespace LightSwitchApplication
                         command.Parameters.Add(
                             new SqlParameter("@DecimalResponse", entity.DecimalResponse));
                     }
+                    if (entity.DateResponse == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@DateResponse", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@DateResponse", entity.DateResponse));
+                    }
 
                     if (entity.isConfidential == null)
                     {
