@@ -28,6 +28,9 @@
     [LocalName]                NVARCHAR (255)   NULL,
     [ProjectID]                INT              NULL,
     [ReportingPeriod_ID]       INT              NULL,
+    [DateResponse]             DATE             NULL,
+    [DateTimeResponse]         DATETIME         NULL,
+    [TimeResponse]             TIME (7)         NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -44,6 +47,8 @@
     CONSTRAINT [FK_Question_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
 
 
 

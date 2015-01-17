@@ -68,7 +68,7 @@ INSERT  INTO Core.DataVersion
 				'2'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
-                             WHERE  [Core].[DataVersion].[DataVersion_ID] = 3 )
+                             WHERE  [Core].[DataVersion].[DataVersion_ID] = 2 )
 
 INSERT  INTO Core.DataVersion
         ( [Core].[DataVersion].[Active] ,
@@ -88,7 +88,7 @@ INSERT  INTO Core.DataVersion
 				'3'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   Core.DataVersion
-                             WHERE  [Core].[DataVersion].[DataVersion_ID] = 4 )
+                             WHERE  [Core].[DataVersion].[DataVersion_ID] = 3 )
 
 
 SET IDENTITY_INSERT  Core.DataVersion OFF
