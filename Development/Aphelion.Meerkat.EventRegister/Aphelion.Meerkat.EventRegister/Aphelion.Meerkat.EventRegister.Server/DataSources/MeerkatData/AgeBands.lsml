@@ -5,7 +5,7 @@
     <Partial />
   </ServiceApplication.Attributes>
   <EntityType
-    Name="EventRegister">
+    Name="AgeBand">
     <EntityType.Methods>
       <EntityMethod
         Name="Delete">
@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <KeyProperty
-        Name="EventRegister_ID"
+        Name="AgeBand_ID"
         IsReadOnly="True"
         PropertyType=":Int32">
         <KeyProperty.Attributes>
@@ -26,7 +26,16 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="FirstName"
+        Name="TextDescription"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="4000" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
@@ -35,31 +44,21 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Surname"
+        Name="Code"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
+            Value="50" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="IdentificationNumber"
-        PropertyType=":String?">
+        Name="BusinessKey"
+        PropertyType=":String">
         <EntityProperty.Attributes>
+          <Required />
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="DateOfBirth"
-        PropertyType=":Date?">
-        <EntityProperty.Attributes>
-          <DateTimeConstraint
-            Precision="0"
-            PreserveSeconds="True" />
-          <NotSearchable />
+            Value="400" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -104,58 +103,79 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="ActiveType"
-        Association="FK_EventRegister_ActiveType"
-        FromEnd="EventRegister"
-        ToEnd="ActiveType" />
-      <NavigationProperty
-        Name="c_Event"
-        Association="FK_EventRegister_Event"
-        FromEnd="EventRegister"
-        ToEnd="c_Event" />
-      <NavigationProperty
-        Name="Age"
-        Association="FK_EventRegister_Age1"
-        FromEnd="EventRegister"
-        ToEnd="Age" />
-      <NavigationProperty
-        Name="Gender"
-        Association="FK_EventRegister_Gender"
-        FromEnd="EventRegister"
-        ToEnd="Gender" />
       <EntityProperty
-        Name="Name"
-        IsReadOnly="True"
-        PropertyType=":String">
+        Name="LocalName"
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="511" />
-          <AnsiConstraint />
+            Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
-        Name="AgeBand"
+        Name="ActiveType"
+        Association="FK_AgeBand_ActiveType"
+        FromEnd="AgeBand"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="Age"
+        Association="FK_AgeBand_Age"
+        FromEnd="AgeBand"
+        ToEnd="Age" />
+      <NavigationProperty
+        Name="Age1"
+        Association="FK_AgeBand_Age1"
+        FromEnd="AgeBand"
+        ToEnd="Age" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_AgeBand_Project"
+        FromEnd="AgeBand"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="EventRegisters"
         Association="FK_EventRegister_AgeBand"
-        FromEnd="EventRegister"
-        ToEnd="AgeBand" />
+        FromEnd="AgeBand"
+        ToEnd="EventRegister" />
     </EntityType.Properties>
   </EntityType>
+  <Association
+    Name="FK_EventRegister_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="EventRegister"
+      Multiplicity="Many"
+      EntityType="EventRegister" />
+  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
       <Partial />
     </EntityContainer.Attributes>
     <EntitySet
-      Name="EventRegisters"
+      Name="AgeBands"
       CanDelete="True"
       CanInsert="True"
       CanUpdate="True"
-      EntityType="EventRegister" />
+      EntityType="AgeBand" />
+    <AssociationSet
+      Name="FK_EventRegister_AgeBand"
+      Association="FK_EventRegister_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="EventRegister"
+        EntitySet="EventRegisters" />
+    </AssociationSet>
     <QueryOperation
-      Name="EventRegisters_Single"
-      ReturnType="EventRegister">
+      Name="AgeBands_Single"
+      ReturnType="AgeBand">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -168,12 +188,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="EventRegister_ID" />
+                  Member="AgeBand_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="EventRegister_ID" />
+                Parameter="AgeBand_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -181,21 +201,21 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="EventRegisters" />
+            Member="AgeBands" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="EventRegister_ID"
-        ParameterType=":Int32?">
+        Name="AgeBand_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'EventRegister_ID' key property of the entity to retrieve." />
+            Value="The value of the 'AgeBand_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
     <QueryOperation
-      Name="EventRegisters_SingleOrDefault"
-      ReturnType="EventRegister">
+      Name="AgeBands_SingleOrDefault"
+      ReturnType="AgeBand">
       <QueryOperation.Attributes>
         <Generated />
         <Description
@@ -208,12 +228,12 @@
             <BinaryExpression.Left>
               <ChainExpression>
                 <MemberExpression
-                  Member="EventRegister_ID" />
+                  Member="AgeBand_ID" />
               </ChainExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
               <ParameterExpression
-                Parameter="EventRegister_ID" />
+                Parameter="AgeBand_ID" />
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -221,15 +241,15 @@
       <QueryOperation.Source>
         <QuerySourceExpressionTree>
           <MemberExpression
-            Member="EventRegisters" />
+            Member="AgeBands" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
       <QueryOperationParameter
-        Name="EventRegister_ID"
-        ParameterType=":Int32?">
+        Name="AgeBand_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
         <QueryOperationParameter.Attributes>
           <Description
-            Value="The value of the 'EventRegister_ID' key property of the entity to retrieve." />
+            Value="The value of the 'AgeBand_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -240,95 +260,111 @@
       <Partial />
     </DataService.Attributes>
     <EntitySetMapping
-      EntitySet="EventRegisters">
+      EntitySet="AgeBands">
       <EntitySetMapping.Attributes>
         <SsdlEntitySet
-          Schema="forms"
-          Table="EventRegister" />
+          Schema="disagg"
+          Table="AgeBand" />
         <SsdlProperty
-          Name="EventRegister_ID"
+          Name="AgeBand_ID"
           Nullable="False"
           StoreGeneratedPattern="Identity"
           Type="int"
-          Property="EventRegister/Properties[EventRegister_ID]" />
+          Property="AgeBand/Properties[AgeBand_ID]" />
         <SsdlProperty
-          MaxLength="255"
-          Name="FirstName"
+          MaxLength="4000"
+          Name="TextDescription"
           Nullable="True"
           Type="varchar"
-          Property="EventRegister/Properties[FirstName]" />
+          Property="AgeBand/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
-          Name="Surname"
-          Nullable="True"
-          Type="varchar"
-          Property="EventRegister/Properties[Surname]" />
-        <SsdlProperty
-          MaxLength="511"
           Name="Name"
+          Nullable="True"
+          Type="varchar"
+          Property="AgeBand/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="Code"
+          Nullable="True"
+          Type="varchar"
+          Property="AgeBand/Properties[Code]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
           Nullable="False"
-          StoreGeneratedPattern="Computed"
-          Type="varchar"
-          Property="EventRegister/Properties[Name]" />
-        <SsdlProperty
-          MaxLength="255"
-          Name="IdentificationNumber"
-          Nullable="True"
-          Type="varchar"
-          Property="EventRegister/Properties[IdentificationNumber]" />
-        <SsdlProperty
-          Name="DateOfBirth"
-          Nullable="True"
-          Type="date"
-          Property="EventRegister/Properties[DateOfBirth]" />
+          Type="nvarchar"
+          Property="AgeBand/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
           Nullable="False"
           Type="varchar"
-          Property="EventRegister/Properties[sys_CreatedBy]" />
+          Property="AgeBand/Properties[sys_CreatedBy]" />
         <SsdlProperty
           Name="sys_CreatedOn"
           Nullable="False"
           Type="datetime"
-          Property="EventRegister/Properties[sys_CreatedOn]" />
+          Property="AgeBand/Properties[sys_CreatedOn]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_ModifiedBy"
           Nullable="False"
           Type="varchar"
-          Property="EventRegister/Properties[sys_ModifiedBy]" />
+          Property="AgeBand/Properties[sys_ModifiedBy]" />
         <SsdlProperty
           Name="sys_ModifiedOn"
           Nullable="False"
           Type="datetime"
-          Property="EventRegister/Properties[sys_ModifiedOn]" />
+          Property="AgeBand/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="AgeBand/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
         <SsdlForeignKeyProperty
-          Name="Age_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="Age_ID" />
-        <SsdlForeignKeyProperty
-          Name="AgeBand_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="AgeBand_ID" />
-        <SsdlForeignKeyProperty
-          Name="Event_ID"
+          Name="AgeBandMin_ID"
           Nullable="False"
           Type="int"
-          PropertyName="Event_ID" />
+          PropertyName="AgeBandMin_ID" />
         <SsdlForeignKeyProperty
-          Name="Gender_ID"
+          Name="AgeBandMax_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="AgeBandMax_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
           Nullable="True"
           Type="int"
-          PropertyName="Gender_ID" />
+          PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_EventRegister_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_EventRegister_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_AgeBand]/Members[EventRegister]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>
