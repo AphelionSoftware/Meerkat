@@ -133,7 +133,7 @@ SELECT Q.Name, Q.Code, Q.Name
 FROM
 (SELECT 
 	 'Date' as Name
-	,'Date' as Code
+	,'DATE' as Code
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [forms].[QuestionType]

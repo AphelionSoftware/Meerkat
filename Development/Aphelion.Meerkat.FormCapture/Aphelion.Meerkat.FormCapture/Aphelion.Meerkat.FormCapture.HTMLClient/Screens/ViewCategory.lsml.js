@@ -100,12 +100,17 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
                 break;
             }
         case "RB":
-        case "MCQ" :
+        case "MCQ":
             {
                 contentItem.children[6].isVisible = true;
                 break;
             }
-        
+        case "DATE":
+            {
+                contentItem.children[7].isVisible = true;
+                break;
+            }
+
        
         default:
             {

@@ -4,7 +4,9 @@ namespace LightSwitchApplication.api
     using System;
     using System.Collections.Generic;
     using System.Web.Http;
-    using System.Linq; 
+    using System.Linq;
+
+ 
 
     public class TodaysReportingPeriodController : ApiController
     {
