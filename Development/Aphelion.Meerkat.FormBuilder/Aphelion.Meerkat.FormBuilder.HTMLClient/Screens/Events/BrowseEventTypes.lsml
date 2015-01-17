@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application
-  Name="LightSwitchApplication.MeerkatAdmin_2" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  Name="LightSwitchApplication.Aphelion.Meerkat.FormBuilder.HTMLClient" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
   <Application.Attributes>
     <Partial />
   </Application.Attributes>
   <Screen
-    Name="BrowseSubSectors">
+    Name="BrowseEventTypes">
     <Screen.Attributes>
       <SaveChangesTo
         EntityContainer="MeerkatData" />
+      <DisplayName
+        Value="EventTypes" />
     </Screen.Attributes>
     <Screen.RootContentItem>
       <ContentItem
@@ -20,43 +22,126 @@
           Kind="Group"
           View="Microsoft.LightSwitch.MobileWeb:TabPages">
           <ContentItem
-            Name="SubSectorList"
+            Name="EventTypeList"
             Kind="Group">
             <ContentItem
-              Name="SubSector"
+              Name="EventTypes"
               Kind="Collection"
-              DataType="CollectionView$SubSector"
-              View="Microsoft.LightSwitch.MobileWeb:List">
+              DataType="CollectionView$EventType"
+              View="Microsoft.LightSwitch.MobileWeb:TileList">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="EventTypes" />
+              </ContentItem.Attributes>
               <ContentItem.DataSource>
                 <ScreenExpressionTree>
                   <ChainExpression>
                     <MemberExpression
-                      Member="BrowseSubSectors/Properties[SubSectorSorted]" />
+                      Member="BrowseEventTypes/Properties[EventTypes]" />
                   </ChainExpression>
                 </ScreenExpressionTree>
               </ContentItem.DataSource>
               <ContentItem
-                Name="RowTemplate"
+                Name="rows"
                 Kind="Details"
-                DataType="SubSector">
+                DataType="EventType"
+                View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="rows" />
+                </ContentItem.Attributes>
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression />
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="ShortName"
+                  Name="Name"
                   Kind="Value"
                   DataType=":String">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <MemberExpression
-                          Member="SubSector/Properties[ShortName]" />
+                          Member="EventType/Properties[Name]" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Large"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
                 </ContentItem>
+                <ContentItem
+                  Name="Code"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventType/Properties[Code]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Small"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                </ContentItem>
+                <ContentItem
+                  Name="TextDescription"
+                  Kind="Value"
+                  DataType=":String?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventType/Properties[TextDescription]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[FontStyle]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            Value="Small"
+                            ResultType=":String" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                </ContentItem>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[WidthSizingMode]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="FitToContent"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem.PropertySources>
                 <ControlPropertySource
@@ -64,16 +149,16 @@
                   <ScreenExpressionTree>
                     <ChainExpression>
                       <CallExpression
-                        Target="!module/Methods[showAddEditSubSector]">
+                        Target="!module/Methods[showViewEventType]">
                         <CallExpression.Attributes>
                           <AssociatedCollection
-                            Collection="BrowseSubSectors/Properties[SubSectorSorted]" />
+                            Collection="BrowseEventTypes/Properties[EventTypes]" />
                         </CallExpression.Attributes>
                         <ArgumentExpression
-                          Parameter="SubSector">
+                          Parameter="EventType">
                           <ChainExpression>
                             <MemberExpression
-                              Member="BrowseSubSectors/Properties[SubSectorSorted]" />
+                              Member="BrowseEventTypes/Properties[EventTypes]" />
                             <MemberExpression
                               Member="selectedItem" />
                           </ChainExpression>
@@ -86,45 +171,24 @@
             </ContentItem>
             <ContentItem.CommandItems>
               <ContentItem
-                Name="Home"
+                Name="AddEventType"
                 Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Add" />
+                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <CallExpression
-                          Target="!module/Methods[showAdministrationHome]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <ConstantExpression
-                          Value="msls-custom"
-                          ResultType=":String" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ControlPropertySource>
-                </ContentItem.PropertySources>
-              </ContentItem>
-              <ContentItem
-                Name="AddSubSector"
-                Kind="Command">
-                <ContentItem.PropertySources>
-                  <ControlPropertySource
-                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <CallExpression
-                          Target="!module/Methods[showAddEditSubSector]">
+                          Target="!module/Methods[showAddEditEventType]">
                           <CallExpression.Attributes>
                             <AssociatedCollection
-                              Collection="BrowseSubSectors/Properties[SubSectorSorted]" />
+                              Collection="BrowseEventTypes/Properties[EventTypes]" />
                             <CreateNewEntity
-                              TargetParameter="!module/Methods[showAddEditSubSector]/Parameters[SubSector]" />
+                              TargetParameter="!module/Methods[showAddEditEventType]/Parameters[EventType]" />
                           </CallExpression.Attributes>
                         </CallExpression>
                       </ChainExpression>
@@ -136,29 +200,28 @@
                       <ChainExpression>
                         <ConstantExpression
                           Value="msls-add"
-                          ResultType=":String" />
+                          ResultType="Microsoft.LightSwitch:String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
-                Name="FilterSubSectors"
+                Name="SearchEventTypes"
                 Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Search" />
+                </ContentItem.Attributes>
                 <ContentItem.PropertySources>
                   <ControlPropertySource
                     Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
                     <ScreenExpressionTree>
                       <ChainExpression>
+                        <MemberExpression
+                          Member="BrowseEventTypes/Properties[EventTypes]" />
                         <CallExpression
-                          Target="BrowseSubSectors/Methods[showDialog]">
-                          <ArgumentExpression
-                            Parameter="dialogName">
-                            <ConstantExpression
-                              Value="FilterSubSector"
-                              ResultType=":String" />
-                          </ArgumentExpression>
-                        </CallExpression>
+                          Target="showSearch" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -167,8 +230,8 @@
                     <ScreenExpressionTree>
                       <ChainExpression>
                         <ConstantExpression
-                          Value="msls-filter"
-                          ResultType=":String" />
+                          Value="msls-search"
+                          ResultType="Microsoft.LightSwitch:String" />
                       </ChainExpression>
                     </ScreenExpressionTree>
                   </ControlPropertySource>
@@ -192,38 +255,7 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
-          <ContentItem
-            Name="FilterSubSector"
-            Kind="Group">
-            <ContentItem
-              Name="SubSectorCode"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseSubSectors/Properties[SubSectorCode]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
-            <ContentItem
-              Name="SubSectorShortName"
-              Kind="Value"
-              DataType=":String?">
-              <ContentItem.DataSource>
-                <ScreenExpressionTree>
-                  <ChainExpression>
-                    <MemberExpression
-                      Member="BrowseSubSectors/Properties[SubSectorShortName]" />
-                  </ChainExpression>
-                </ScreenExpressionTree>
-              </ContentItem.DataSource>
-            </ContentItem>
-          </ContentItem>
-        </ContentItem>
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
       </ContentItem>
     </Screen.RootContentItem>
     <Screen.Methods>
@@ -249,25 +281,23 @@
           Name="dialogName"
           ParameterType=":String" />
       </ScreenMethod>
-      <ScreenMethod
-        Name="ClientHome" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenCollectionProperty
-        Name="SubSectorSorted"
+        Name="EventTypes"
         PageSize="45"
-        PropertyType="CollectionView$SubSector">
+        PropertyType="CollectionView$EventType">
         <ScreenCollectionProperty.Query>
           <ScreenQueryDefinition
-            Name="SubSectorSortedQuery"
-            ReturnType="SubSector*">
+            Name="EventTypesQuery"
+            ReturnType="EventType*">
             <ScreenQueryDefinition.FilterExpression>
               <QueryFilterExpressionTree />
             </ScreenQueryDefinition.FilterExpression>
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[SubSectorSorted]" />
+                  Member="MeerkatData/Members[EventTypes]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -275,39 +305,18 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="BrowseSubSectors/Properties[SubSectorSorted]/Query">
-              <ArgumentExpression
-                Parameter="Code">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseSubSectors/Properties[SubSectorCode]" />
-                </ChainExpression>
-              </ArgumentExpression>
-              <ArgumentExpression
-                Parameter="ShortName">
-                <ChainExpression>
-                  <MemberExpression
-                    Member="BrowseSubSectors/Properties[SubSectorShortName]" />
-                </ChainExpression>
-              </ArgumentExpression>
-            </CallExpression>
+              Target="BrowseEventTypes/Properties[EventTypes]/Query" />
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
-      <ScreenProperty
-        Name="SubSectorCode"
-        PropertyType=":String?" />
-      <ScreenProperty
-        Name="SubSectorShortName"
-        PropertyType=":String?" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
     <ApplicationMethod
-      Name="showBrowseSubSectors">
+      Name="showBrowseEventTypes">
       <ApplicationMethod.Attributes>
         <ShowScreenMethod
-          TargetScreen="BrowseSubSectors" />
+          TargetScreen="BrowseEventTypes" />
       </ApplicationMethod.Attributes>
     </ApplicationMethod>
   </Application.Methods>

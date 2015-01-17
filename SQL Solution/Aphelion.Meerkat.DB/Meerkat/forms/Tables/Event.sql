@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [forms].[Event] (
     [Event_ID]                INT            IDENTITY (1, 1) NOT NULL,
+    [EventType_ID]            INT            CONSTRAINT [DF_Event_EventType_ID] DEFAULT ((1)) NOT NULL,
     [Name]                    VARCHAR (255)  NOT NULL,
     [Code]                    VARCHAR (50)   NOT NULL,
     [TextDescription]         VARCHAR (4000) NULL,
@@ -20,10 +21,13 @@
     [LocalName]               NVARCHAR (255) NULL,
     CONSTRAINT [PK_Event_3] PRIMARY KEY CLUSTERED ([Event_ID] ASC),
     CONSTRAINT [FK_Event_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
+    CONSTRAINT [FK_Event_EventType] FOREIGN KEY ([EventType_ID]) REFERENCES [forms].[EventType] ([EventType_ID]),
     CONSTRAINT [FK_Event_Institution] FOREIGN KEY ([TrainingInstitution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Event_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [FK_Event_Project] FOREIGN KEY ([Project_ID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
 
 
 
