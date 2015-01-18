@@ -44,10 +44,6 @@ GO*/
 */
 /* Insert Data */
 
-/*Insert Security Data*/
-:r .\Access1\Access.roleType.PDS.sql
-:r .\Access1\Access.systemRole.PDS.sql
-
 
 
 /*Insert Core data*/
@@ -58,6 +54,13 @@ GO*/
 :r .\Core.ReportingPeriod.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql
+
+
+/*Insert Security Data*/
+:r .\Access1\Access.roleType.PDS.sql
+:r .\Access1\Access.systemRole.PDS.sql
+
+
 :r .\Core.PersonParticipationType.PDS.sql
 
 /*Insert settings*/
