@@ -1,6 +1,6 @@
 ﻿
 /*GeoSpatialData*/
-
+/*
 IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
               FROM      master.dbo.sysdatabases
               WHERE     ( '[' + [master].[dbo].[sysdatabases].[name] + ']' = 'SpatialProvince'
@@ -41,8 +41,7 @@ IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
 /*ALTER TABLE app.SubOutput ADD CONSTRAINT
     DF_SubOutput_Active DEFAULT 1 FOR Active
 GO*/
-
-
+*/
 /* Insert Data */
 
 /*Insert Security Data*/
@@ -79,7 +78,7 @@ GO*/
 									
 
 /*Insert CARE Data */
-:r .\CareData\PostDeploymentScript.CARE.PDS.sql	
+/*:r .\CareData\PostDeploymentScript.CARE.PDS.sql	*/
 --:r .\InternalTest\PostDeploymentScript.InternalTest.PDS.sql	
 
 

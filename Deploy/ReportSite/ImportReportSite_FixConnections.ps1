@@ -4,7 +4,8 @@
 )
 Add-PSSnapin microsoft.sharepoint.powershell 
 
-#ImportReportSite_FixConnections.ps1 -site "http://mgs-m6700/sites/Meerkat/" -filePath "D:\Dropbox\GitHub\Meerkat\Deploy\ReportSite\meerkat.reports.cmp" 
+#.\ImportReportSite_FixConnections.ps1 -site "http://mgs-m6700/sites/Meerkat/" -filePath "D:\Dropbox\GitHub\Meerkat\Deploy\ReportSite\meerkat.reports.cmp" 
+#.\ImportReportSite_FixConnections.ps1 -site "http://carer03/" -filePath "C:\GitHub\Meerkat\Deploy\ReportSite\meerkat.reports.cmp" 
 
 
 #------------------------------------------------------------------------------------------- 
