@@ -84,10 +84,10 @@ $masterpage = $txtmasterpage.Text #Masterpage name
 #$ScriptPath = Split-Path $MyInvocation.InvocationName
  if (!($spFarm = Get-SPFarm))
     {
-        invoke-expression -Command ".\01_Meerkat.PSConfig.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+        #invoke-expression -Command ".\01_Meerkat.PSConfig.v001.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
         Write-Host "Created farm"
     }
-invoke-expression -Command ".\02_Meerkat_SvcSetup.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
+#invoke-expression -Command ".\02_Meerkat_SvcSetup.ps1 -DatabaseServer $DatabaseServer -FarmAccount $FarmAccount"
 Write-Host "Setup service applications"
 invoke-expression -Command ".\03_Meerkat_ImportRootSite.ps1 -name $name -sitecoll $sitecoll -filePath $rootfilePath -template $template -user $user"
 Write-Host "Imported root site"
@@ -227,7 +227,7 @@ $System_Drawing_Size.Width = 432
 $txtsitecoll.Size = $System_Drawing_Size
 $txtsitecoll.TabIndex = 14
 $txtsitecoll.UseSystemPasswordChar = $False
-$txtsitecoll.Text = "http://carer03.cloudapp.net"
+$txtsitecoll.Text = "http://carer04.cloudapp.net/sites/nd"
 
 $MeerkatForm.Controls.Add($txtsitecoll)
 $txtrootfilePath.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -302,7 +302,7 @@ $System_Drawing_Size.Width = 432
 $txtbaseURL.Size = $System_Drawing_Size
 $txtbaseURL.TabIndex = 19
 $txtbaseURL.UseSystemPasswordChar = $False
-$txtbaseURL.Text = "http://carer03.cloudapp.net"
+$txtbaseURL.Text = "http://carer04.cloudapp.net"
 
 $MeerkatForm.Controls.Add($txtbaseURL)
 $txtmasterpage.DataBindings.DefaultDataSourceUpdateMode = 0
