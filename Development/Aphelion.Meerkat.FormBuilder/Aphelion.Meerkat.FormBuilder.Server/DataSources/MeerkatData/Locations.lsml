@@ -188,6 +188,11 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_Location"
+        FromEnd="Location"
+        ToEnd="FormResponse" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -350,6 +355,16 @@
         Name="Question"
         EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Location"
+      Association="FK_FormResponse_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Form_Location">
@@ -378,6 +393,20 @@
       Name="Question"
       Multiplicity="Many"
       EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Location">
+    <AssociationEnd
+      Name="Location"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -511,6 +540,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Form_Location]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Location]/Members[FormResponse]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Location_ID" />

@@ -17,7 +17,6 @@
     [DecimalResponse]          DECIMAL (20, 12) NULL,
     [TrueOrFalse]              BIT              NULL,
     [isConfidential]           BIT              CONSTRAINT [DF_Question_isConfidential] DEFAULT ((0)) NOT NULL,
-    [isComplete]               BIT              CONSTRAINT [DF_Question_isComplete] DEFAULT ((0)) NOT NULL,
     [FormResponse_FNVID]       BIGINT           NULL,
     [Age_ID]                   INT              NULL,
     [AgeBand_ID]               INT              NULL,
@@ -28,6 +27,10 @@
     [Location_ID]              INT              NULL,
     [LocalName]                NVARCHAR (255)   NULL,
     [ProjectID]                INT              NULL,
+    [ReportingPeriod_ID]       INT              NULL,
+    [DateResponse]             DATE             NULL,
+    [DateTimeResponse]         DATETIME         NULL,
+    [TimeResponse]             TIME (7)         NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -41,8 +44,13 @@
     CONSTRAINT [FK_Question_PotentialResponse] FOREIGN KEY ([MultipleChoiceResponseID]) REFERENCES [forms].[PotentialResponse] ([PotentialResponse_ID]),
     CONSTRAINT [FK_Question_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]),
+    CONSTRAINT [FK_Question_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
+
+
 
 
 

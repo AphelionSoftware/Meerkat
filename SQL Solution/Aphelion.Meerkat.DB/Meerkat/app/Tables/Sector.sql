@@ -1,4 +1,4 @@
-CREATE TABLE [app].[Sector] (
+﻿CREATE TABLE [app].[Sector] (
     [Sector_ID]       INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NULL,
     [LongName]        VARCHAR (500)  NOT NULL,
@@ -238,6 +238,10 @@ GO
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Sector_BusinessKey]
     ON [app].[Sector]([BusinessKey] ASC) WHERE ([Active]>=(0));
+
+
+GO
+
 
 
 GO

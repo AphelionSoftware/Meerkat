@@ -1,4 +1,4 @@
-CREATE TABLE [app].[SubSector] (
+﻿CREATE TABLE [app].[SubSector] (
     [SubSector_ID]    INT            IDENTITY (1, 1) NOT NULL,
     [Code]            VARCHAR (50)   NULL,
     [ShortName]       VARCHAR (50)   NOT NULL,
@@ -17,6 +17,8 @@ CREATE TABLE [app].[SubSector] (
     CONSTRAINT [FK_SubSector_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubSector_Sector] FOREIGN KEY ([Sector_ID]) REFERENCES [app].[Sector] ([Sector_ID])
 );
+
+
 
 
 

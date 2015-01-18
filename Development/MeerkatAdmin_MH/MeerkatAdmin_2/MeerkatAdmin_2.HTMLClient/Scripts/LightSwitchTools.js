@@ -21,7 +21,15 @@
         return pluralled;
     }
 
+    lightswitchTools.sClient = "";
 
+    lightswitchTools.client = function (screen) {
+
+        myapp.activeDataWorkspace.MeerkatData.GlobalSettings.filter("Code eq 'Client'").execute().then(function (x) {
+            lightswitchTools.sClient = x.results[0].Value;
+            return lightswitchTools.sClient;
+        });
+    }
 
     lightswitchTools.configureCaptureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;

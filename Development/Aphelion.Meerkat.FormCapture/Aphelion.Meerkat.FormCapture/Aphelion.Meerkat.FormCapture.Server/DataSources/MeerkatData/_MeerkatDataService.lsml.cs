@@ -222,6 +222,16 @@ namespace LightSwitchApplication
                         command.Parameters.Add(
                             new SqlParameter("@DecimalResponse", entity.DecimalResponse));
                     }
+                    if (entity.DateResponse == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@DateResponse", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@DateResponse", entity.DateResponse));
+                    }
 
                     if (entity.isConfidential == null)
                     {
@@ -320,6 +330,17 @@ namespace LightSwitchApplication
                     {
                         command.Parameters.Add(
                             new SqlParameter("@ProjectID", entity.Project.ProjectID));
+                    }
+
+                    if (entity.ReportingPeriod == null)
+                    {
+                        command.Parameters.Add(
+                       new SqlParameter("@ReportingPeriod_ID", null));
+                    }
+                    else
+                    {
+                        command.Parameters.Add(
+                            new SqlParameter("@ReportingPeriod_ID", entity.ReportingPeriod.ID));
                     }
                    
 
