@@ -20,8 +20,7 @@
 
         return pluralled;
     }
-
-    lightswitchTools.sClient = "";
+ 
 
     lightswitchTools.client = function (screen) {
 
@@ -177,10 +176,31 @@
 
     }
 
+
+    lightswitchTools.getClientCode = function (callback) {
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback(data.ClientCode);
+            });
+        } else {
+
+            callback(window.lsData.ClientCode);
+        }
+    }
+
+
     lightswitchTools.getVersionInfo = function (callback) {
-        $.getJSON("/api/LightswitchHelpers", function (data) {
-            callback("version: " + data.Version + " (built " + data.Deployed + ")");
-        });
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback("version: " + data.Version + " (built " + data.Deployed + ")");
+            });
+        } else
+        {
+            callback("version: " + window.lsData.Version + " (built " + window.lsData.Deployed + ")");
+
+        }
     }
 
     lightswitchTools.browseAndRefresh = function (screen, target) {
