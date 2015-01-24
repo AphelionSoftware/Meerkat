@@ -36,37 +36,46 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
 
         var target = undefined;
         switch (newValue.Code) {
-            case "Outcome", "OM":
+            case "Outcome":
+            case "OM":
                 {
                     target = contentItem.screen.findContentItem("OutcomeGroup");
                     break;
                 }
-            case "Output", "OTP":
+            case "Output":
+            case "OTP":
                 {
                     target = contentItem.screen.findContentItem("OutputGroup");
                     break;
                 }
-            case "SubOutput", "STP":
+            case "SubOutput":
+            case "STP":
+            case "SO":
                 {
                     target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
-            case "Programme", "PROG":
+            case "Programme":
+            case "PROG":
                 {
                     target = contentItem.screen.findContentItem("Programme");
                     break;
                 }
-            case "Project", "PRJ":
+            case "Project":
+            case "PRJ":
                 {
                     target = contentItem.screen.findContentItem("Project");
                     break;
                 }
-            case "Sector","SEC", "S":
+            case "Sector":
+            case "SEC":
+            case "S":
                 {
                     target = contentItem.screen.findContentItem("Sector");
                     break;
                 }
-            case "SubSector", "SS":
+            case "SubSector":
+            case "SS":
                 {
                     target = contentItem.screen.findContentItem("SubSector");
                     break;
@@ -91,7 +100,7 @@ myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
 
 myapp.AddEditIndicator.created = function (screen) {
 
-
+    console.log("Setting defaults");
     if (screen.Indicator.Baseline == "") {
         screen.Indicator.setBaseline(0);
     }
@@ -101,6 +110,8 @@ myapp.AddEditIndicator.created = function (screen) {
     }
 
     msls.application.lightswitchTools.configureCaptureForm(screen);
+
+    console.log("Configured capture form defaults");
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
     msls.application.lightswitchTools.setBaselineString(screen);
@@ -123,6 +134,7 @@ myapp.AddEditIndicator.created = function (screen) {
     }
 
 
+    console.log("Configured all defaults");
 
 };
 
