@@ -51,8 +51,12 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
                 //var isComplete = screen.Form.isComplete == null ? false : screen.Form.Form_isComplete;
                 var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
-                var reportingPeriod_ID = screen.ReportingPeriodsSorted.selectedItem == null ? null : screen.ReportingPeriodsSorted.selectedItem.ID;
                 if (!project_id) {
+                    msls.showMessageBox("Project is required");
+                    return;
+                }
+                var reportingPeriod_ID = screen.ReportingPeriodsSorted.selectedItem == null ? null : screen.ReportingPeriodsSorted.selectedItem.ID;
+                if (!reportingPeriod_ID) {
                     msls.showMessageBox("Project is required");
                     return;
                 }
@@ -108,6 +112,14 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
     }
 };
 myapp.ViewForm.created = function (screen) {
+
+    $.getJSON("/api/TodaysReportingPeriod", function (data) {
+        myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+            screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+            screen.ReportingPeriodsSorted.selectedItem = reportingPeriod.results[0];
+            screen.Form.setReportingPeriod(reportingPeriod.results[0]);
+        });
+    });
 
     var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -186,4 +198,12 @@ myapp.ViewForm.CompleteForm_execute = function (screen) {
     myapp.activeDataWorkspace.MeerkatData.saveChanges();
     myapp.applyChanges();
 
+};
+myapp.ViewForm.Form_ReportingPeriod_postRender = function (element, contentItem) {
+    $.getJSON("/api/TodaysReportingPeriod", function (data) {
+        myapp.activeDataWorkspace.MeerkatData.ReportingPeriods_SingleOrDefault(data).execute().then(function (reportingPeriod) {
+            screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
+            contentItem.screen.ReportingPeriodsSorted.selectedItem = reportingPeriod.results[0];
+        });
+    });
 };

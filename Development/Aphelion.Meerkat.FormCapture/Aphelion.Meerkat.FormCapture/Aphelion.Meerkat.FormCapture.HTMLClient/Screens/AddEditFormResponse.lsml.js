@@ -15,6 +15,7 @@ myapp.AddEditFormResponse.Responses1Template_postRender = function (element, con
     contentItem.children[3].isVisible = false;
     contentItem.children[4].isVisible = false;
     contentItem.children[5].isVisible = false;
+    contentItem.children[6].isVisible = false;
     switch (type) {
         case "TR":
             {
@@ -44,7 +45,11 @@ myapp.AddEditFormResponse.Responses1Template_postRender = function (element, con
                 contentItem.children[5].isVisible = true;
                 break;
             }
-
+        case "DATE":
+            {
+                contentItem.children[6].isVisible = true;
+                break;
+            }
 
         default:
             {

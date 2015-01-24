@@ -223,7 +223,7 @@ UNION ALL
 SELECT Title = 'Status', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
+						+ '?qsFileName=StatusByProgram.xlsx'
 						+ '&qsNamedRange=Status'
 						+ '&qsProgramme=' + OC.BusinessKey
 
@@ -246,7 +246,7 @@ WHERE  P.Active = 1 AND OC.Active = 1
 SELECT Title = 'People Reached', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
+						+ '?qsFileName=StatusByProgram.xlsx'
 						+ '&qsNamedRange=PeopleReached'
 						+ '&qsProgramme=' + OC.BusinessKey
 
@@ -269,7 +269,7 @@ UNION ALL
 SELECT Title = 'Indicators', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
+						+ '?qsFileName=StatusByProgram.xlsx'
 						+ '&qsNamedRange=Indicators'
 						+ '&qsProgramme=' + OC.BusinessKey
 

@@ -38,3 +38,11 @@ INSERT  INTO Core.ReportingPeriod
 
 
 GO
+
+
+update CORE.ReportingPeriod
+set summary = 
+	YearName + '-Q' + CAST([ReportingPeriod] as char(1)) 
+	+ ' (' + Cast(startdateid as char(8)) 
+	+ ' - ' + Cast(enddateid as char(8))
+	+ ')'
