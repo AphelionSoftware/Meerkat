@@ -109,10 +109,11 @@ Write-Host $weburl;
 
 }
 }
-#Import the site 
-Import-SPWeb -Identity "$site" -Path "$filePath"
 
 $weburl = $site + "Reports"
+#Import the site 
+Import-SPWeb -Identity "$weburl" -Path "$filePath"
+
 $libURL = $weburl + "/ValueReports"
 $datasourcename = "rsdsPOA";
 $datasourceurl = "$weburl/DataSources/rsdsPOA.rsds"
