@@ -296,7 +296,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
                     }
                 }
             );
-
+             
 
             //Visibility
             screen.findContentItem("Rollups").isVisible = false;
@@ -522,7 +522,7 @@ myapp.AddEditIndicatorValue.DisaggGroups_postRender = function (element, content
 };
 myapp.AddEditIndicatorValue.Location_postRender = function (element, contentItem) {
     //Do on create means we don't have the items blank first, also lets us combine operations so quicker hopefully
-    /*msls.application.lightswitchTools.getClientCode(function (client) {
+    msls.application.lightswitchTools.getClientCode(function (client) {
         if (client == "Northdoor") {
             myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(1).execute().then(
                 function (item) {
@@ -535,13 +535,13 @@ myapp.AddEditIndicatorValue.Location_postRender = function (element, contentItem
             
         }
     });
-    */
+    
 
 
 };
 myapp.AddEditIndicatorValue.DataVersion_postRender = function (element, contentItem) {
     //Do on create means we don't have the items blank first, also lets us combine operations so quicker hopefully
-   /* msls.application.lightswitchTools.getClientCode(function (client) {
+   msls.application.lightswitchTools.getClientCode(function (client) {
         if (client == "Northdoor") {
             //Northdoor only has publish
             myapp.activeDataWorkspace.MeerkatData.DataVersions_SingleOrDefault(1).execute().then(
@@ -556,10 +556,13 @@ myapp.AddEditIndicatorValue.DataVersion_postRender = function (element, contentI
 
         }
     });
-    */
+    
 
 };
 myapp.AddEditIndicatorValue.Rollups_postRender = function (element, contentItem) {
     // Write code here.
 
+};
+myapp.AddEditIndicatorValue.BusinessKey_postRender = function (element, contentItem) {
+    //setBizKey(element, contentItem);
 };
