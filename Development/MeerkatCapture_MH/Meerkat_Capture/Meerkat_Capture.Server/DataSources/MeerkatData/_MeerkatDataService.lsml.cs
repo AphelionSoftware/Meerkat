@@ -183,7 +183,7 @@ namespace LightSwitchApplication
         {
             //filter = e => e.ActiveType.ID == 1;
             //filter = e => e.                e.ActiveType.ID == 1;
-            filter = e => e.vwDataVersionUserMaps.Where(x => x.UserID == tsPersonID).Count() >= 1 ||  this.BypassSecurity == true ;
+            filter = e => e.vwDataVersionUserMaps.Where(x => this.BypassSecurity == true  || x.UserID == tsPersonID).Any() ;
         }
 
         partial void IndicatorLocations_Filter(ref Expression<Func<IndicatorLocation, bool>> filter)
@@ -196,8 +196,8 @@ namespace LightSwitchApplication
             //string Person = tsPerson;
             int UserID = this.tsPersonID;
             filter = e => (
-                ((e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
-                ).Count() >= 1 ||  this.BypassSecurity == true ) &&
+                (this.BypassSecurity == true || (e.vwIndicatorUserMaps.Where(x => x.UserID == tsPersonID)
+                ).Any()  ) &&
                 e.ActiveType.ID == 1)
                 ;
                 
