@@ -478,3 +478,47 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersionTemplate_postRender = 
         contentItem.isVisible = false;
     }
 };
+myapp.AddEditIndicatorValue.DisaggGroups_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+
+            contentItem.screen.findContentItem("DisaggGroups").isVisible = false;
+        }
+    });
+
+};
+myapp.AddEditIndicatorValue.Location_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+            myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(1).execute().then(
+                function (item) {
+                    if (item.results.length > 0) {
+                        contentItem.screen.LocationsSorted.selectedItem = item.results[0];
+                        contentItem.screen.IndicatorValue.Location = item.results[0];
+                    }
+                }
+            )
+            
+        }
+    });
+
+
+};
+myapp.AddEditIndicatorValue.DataVersion_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+            //Northdoor only has publish
+            myapp.activeDataWorkspace.MeerkatData.DataVersions_SingleOrDefault(1).execute().then(
+                function (item) {
+                    
+                    if (item.results.length > 0) {
+                        contentItem.screen.DataVersionSorted.selectedItem = item.results[0];
+                        contentItem.screen.IndicatorValue.DataVersion = item.results[0];
+                    }
+                }
+                )
+
+        }
+    });
+
+};
