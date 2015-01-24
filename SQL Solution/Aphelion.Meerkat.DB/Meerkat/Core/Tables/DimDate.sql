@@ -28,7 +28,7 @@ CREATE TABLE [Core].[DimDate] (
     [LocalMonthName]   NVARCHAR (9)   NULL,
     [LocalQuarterName] NVARCHAR (255) NULL,
     [LocalYearName]    NVARCHAR (4)   NULL,
-    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC) WITH (FILLFACTOR = 90),
+    CONSTRAINT [PK_DimDate] PRIMARY KEY CLUSTERED ([DateID] ASC) ,
     CONSTRAINT [FK_DimDate_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
 
