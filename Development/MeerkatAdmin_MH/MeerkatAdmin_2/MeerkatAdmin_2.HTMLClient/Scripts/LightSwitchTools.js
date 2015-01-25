@@ -21,6 +21,7 @@
         return pluralled;
     }
  
+    lightswitchTools.vis = {};
 
     lightswitchTools.client = function (screen) {
 
