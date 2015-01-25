@@ -20,7 +20,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  1 ,
-                N'Outcome' ,
+                N'OM' ,
                 N'Outcome' ,
                 1,
 				N'Outcome'
@@ -36,7 +36,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  2 ,
-                N'Output' ,
+                N'OTP' ,
                 N'Output' ,
                 1,
 				N'Output'
@@ -52,7 +52,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  3 ,
-                N'SubOutput' ,
+                N'STP' ,
                 N'SubOutput' ,
                 1,
 				N'SubOutput'
@@ -68,7 +68,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  4 ,
-                N'Activity' ,
+                N'ACT' ,
                 N'Activity' ,
                 1,
 				N'Activity'
@@ -84,7 +84,7 @@ INSERT  [app].[IndicatorType]
 		  [app].[IndicatorType].[BusinessKey]
         )
         SELECT  5 ,
-                N'Milestone' ,
+                N'M' ,
                 N'Milestone' ,
                 1,
 				N'Milestone'
@@ -127,7 +127,7 @@ INSERT  [app].[IndicatorType]
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 7 )
 GO
-
+/*
 INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,
@@ -160,6 +160,7 @@ INSERT  [app].[IndicatorType]
                              FROM   app.IndicatorType
                              WHERE  [app].[IndicatorType].[IndicatorType_ID] = 9 )
 GO
+*/
 INSERT  [app].[IndicatorType]
         ( [app].[IndicatorType].[IndicatorType_ID] ,
           [app].[IndicatorType].[Code] ,

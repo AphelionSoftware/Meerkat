@@ -1,4 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
+/// <reference path="../Scripts/LightSwitchTools.js" />
 
 myapp.AddEditIndicator.Indicator_Delete_execute = function (screen) {
     msls.application.lightswitchTools.deleteEntity(screen);
@@ -10,7 +11,7 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
         if (!contentItem.screen.Client) {
             return;
         }
-        if ( contentItem.screen.Client.Value == "CARE Somalia")
+        if ( contentItem.screen.Client == "CARE Somalia")
         {
             contentItem.screen.findContentItem("SectorGroup").isVisible = true;
             contentItem.screen.findContentItem("SubSectorGroup").isVisible = true;
@@ -36,35 +37,44 @@ myapp.AddEditIndicator.IndicatorType_postRender = function (element, contentItem
         var target = undefined;
         switch (newValue.Code) {
             case "Outcome":
+            case "OM":
                 {
                     target = contentItem.screen.findContentItem("OutcomeGroup");
                     break;
                 }
             case "Output":
+            case "OTP":
                 {
                     target = contentItem.screen.findContentItem("OutputGroup");
                     break;
                 }
             case "SubOutput":
+            case "STP":
+            case "SO":
                 {
                     target = contentItem.screen.findContentItem("SubOutputGroup");
                     break;
                 }
+            case "Programme":
             case "PROG":
                 {
                     target = contentItem.screen.findContentItem("Programme");
                     break;
                 }
+            case "Project":
             case "PRJ":
                 {
                     target = contentItem.screen.findContentItem("Project");
                     break;
                 }
+            case "Sector":
             case "SEC":
+            case "S":
                 {
                     target = contentItem.screen.findContentItem("Sector");
                     break;
                 }
+            case "SubSector":
             case "SS":
                 {
                     target = contentItem.screen.findContentItem("SubSector");
@@ -90,7 +100,7 @@ myapp.AddEditIndicator.Indicator_Delete_canExecute = function (screen) {
 
 myapp.AddEditIndicator.created = function (screen) {
 
-
+    console.log("Setting defaults");
     if (screen.Indicator.Baseline == "") {
         screen.Indicator.setBaseline(0);
     }
@@ -100,14 +110,19 @@ myapp.AddEditIndicator.created = function (screen) {
     }
 
     msls.application.lightswitchTools.configureCaptureForm(screen);
+
+    console.log("Configured capture form defaults");
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
     msls.application.lightswitchTools.setBaselineString(screen);
     msls.application.lightswitchTools.setTargetString(screen);
     screen.Indicator.IsKeyIndicator = false;
 
-    screen.details.dataWorkspace.MeerkatData.GlobalSettings.filter("Code eq 'Client'").execute().then(function (x) {
-        screen.Client = x.results[0];
+
+    
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        screen.Client = client;
+    //screen.details.dataWorkspace.MeerkatData.GlobalSettings.filter("Code eq 'Client'").execute().then(function (x) {
     });
 
     if (!screen.Indicator.Baseline || screen.Indicator.Baseline == "") {
@@ -119,6 +134,7 @@ myapp.AddEditIndicator.created = function (screen) {
     }
 
 
+    console.log("Configured all defaults");
 
 };
 
@@ -150,7 +166,7 @@ myapp.AddEditIndicator.Indicator_Programme_postRender = function (element, conte
     var input = $(element);
     //Setting here as we need access to the control
     contentItem.dataBind("screen.ProjectsSorted.selectedItem", function (newValue) {
-        if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+        if (contentItem.screen.Client && contentItem.screen.Client == "CARE Somalia") {
 
             if (newValue) {
                 //We dont want to actually delete!
@@ -170,7 +186,7 @@ myapp.AddEditIndicator.Indicator_Project_postRender = function (element, content
     //Setting here as we need access to the control through input
         var input = $(element);
         contentItem.dataBind("screen.ProgrammeSorted.selectedItem", function (newValue) {
-            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+            if (contentItem.screen.Client && contentItem.screen.Client == "CARE Somalia") {
 
                 if (newValue) {
                     //We dont want to actually delete!
@@ -191,7 +207,7 @@ myapp.AddEditIndicator.Indicator_Sector_postRender = function (element, contentI
    
         var input = $(element);
         contentItem.dataBind("screen.SubSectorSorted.selectedItem", function (newValue) {
-            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+            if (contentItem.screen.Client && contentItem.screen.Client == "CARE Somalia") {
 
                 if (newValue) {
                     contentItem.screen.Indicator.setSector(null);
@@ -210,7 +226,7 @@ myapp.AddEditIndicator.Indicator_SubSector_postRender = function (element, conte
     
         var input = $(element);
         contentItem.dataBind("screen.SectorSorted.selectedItem", function (newValue) {
-            if (contentItem.screen.Client && contentItem.screen.Client.Value == "CARE Somalia") {
+            if (contentItem.screen.Client && contentItem.screen.Client == "CARE Somalia") {
 
                 if (newValue) {
                     contentItem.screen.Indicator.setSector(null);
@@ -227,5 +243,16 @@ myapp.AddEditIndicator.Indicator_SubSector_postRender = function (element, conte
 };
 myapp.AddEditIndicator.ProgrammeGroup_postRender = function (element, contentItem) {
     // Write code here.
+
+};
+myapp.AddEditIndicator.IndicatorTypeGroup_postRender = function (element, contentItem) {
+    if (contentItem.screen.Client && contentItem.screen.Client == "CARE Somalia") {
+        contentItem.screen.findContentItem("IndicatorTypeGroup").isVisible = false;
+        contentItem.screen.findContentItem("IndicatorSimpleTypeGroup").isVisible = true;
+    }
+    else {
+        contentItem.screen.findContentItem("IndicatorTypeGroup").isVisible = true;
+        contentItem.screen.findContentItem("IndicatorSimpleTypeGroup").isVisible = false;
+    }
 
 };

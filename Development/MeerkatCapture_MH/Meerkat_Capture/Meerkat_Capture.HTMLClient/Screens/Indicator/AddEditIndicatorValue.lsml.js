@@ -274,6 +274,39 @@ myapp.AddEditIndicatorValue.created = function (screen) {
         screen.IndicatorValue.setIndicator(indicator.results[0]);
     });
 
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+            myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(1).execute().then(
+                function (item) {
+                    if (item.results.length > 0) {
+                        //contentItem.screen.LocationsSorted.selectedItem = item.results[0];
+                        screen.IndicatorValue.setLocation(item.results[0]);
+                    }
+                }
+            );
+
+            myapp.activeDataWorkspace.MeerkatData.DataVersions_SingleOrDefault(1).execute().then(
+                function (item) {
+
+                    if (item.results.length > 0) {
+                        //contentItem.screen.DataVersionSorted.selectedItem = item.results[0];
+                        //contentItem.screen.IndicatorValue.DataVersion = item.results[0];
+                        screen.IndicatorValue.setDataVersion(item.results[0]);
+
+                    }
+                }
+            );
+             
+
+            //Visibility
+            screen.findContentItem("Rollups").isVisible = false;
+            screen.findContentItem("PrevVersion").isVisible = false;
+            screen.findContentItem("Locations").isVisible = false;
+            screen.findContentItem("FormValues").isVisible = false;
+            screen.findContentItem("Group13").isVisible = false;
+            
+        }
+    });
 
 };
 
@@ -477,4 +510,59 @@ myapp.AddEditIndicatorValue.IndicatorValuesPreviousVersionTemplate_postRender = 
     if (!(contentItem.data.IndicatorValues_ID)) {
         contentItem.isVisible = false;
     }
+};
+myapp.AddEditIndicatorValue.DisaggGroups_postRender = function (element, contentItem) {
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+
+            contentItem.screen.findContentItem("DisaggGroups").isVisible = false;
+        }
+    });
+
+};
+myapp.AddEditIndicatorValue.Location_postRender = function (element, contentItem) {
+    //Do on create means we don't have the items blank first, also lets us combine operations so quicker hopefully
+    msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+            myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(1).execute().then(
+                function (item) {
+                    if (item.results.length > 0) {
+                        contentItem.screen.LocationsSorted.selectedItem = item.results[0];
+                        contentItem.screen.IndicatorValue.Location = item.results[0];
+                    }
+                }
+            )
+            
+        }
+    });
+    
+
+
+};
+myapp.AddEditIndicatorValue.DataVersion_postRender = function (element, contentItem) {
+    //Do on create means we don't have the items blank first, also lets us combine operations so quicker hopefully
+   msls.application.lightswitchTools.getClientCode(function (client) {
+        if (client == "Northdoor") {
+            //Northdoor only has publish
+            myapp.activeDataWorkspace.MeerkatData.DataVersions_SingleOrDefault(1).execute().then(
+                function (item) {
+                    
+                    if (item.results.length > 0) {
+                        contentItem.screen.DataVersionSorted.selectedItem = item.results[0];
+                        contentItem.screen.IndicatorValue.DataVersion = item.results[0];
+                    }
+                }
+                )
+
+        }
+    });
+    
+
+};
+myapp.AddEditIndicatorValue.Rollups_postRender = function (element, contentItem) {
+    // Write code here.
+
+};
+myapp.AddEditIndicatorValue.BusinessKey_postRender = function (element, contentItem) {
+    //setBizKey(element, contentItem);
 };
