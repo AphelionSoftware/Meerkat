@@ -94,19 +94,28 @@ myapp.AdministrationHome.TreeContentOM_render = function (element, contentItem) 
     var fnodeCall = function (item) {
         if (item.ReportLevel) {
             switch (item.ReportLevel) {
-                case "Program":
-                    myapp.activeDataWorkspace.MeerkatData.Programmes_SingleOrDefault(item.ID).execute().then(
+                case "Outcome":
+                    myapp.activeDataWorkspace.MeerkatData.Outcomes_SingleOrDefault(item.ID).execute().then(
                         function (x) {
-                            myapp.showAddEditProgramme(
+                            myapp.showAddEditOutcome(
                                 x.results[0]
                                 );
                         }
                         );
                     break;
-                case "Project":
-                    myapp.activeDataWorkspace.MeerkatData.Projects_SingleOrDefault(item.ID).execute().then(
+                case "Output":
+                    myapp.activeDataWorkspace.MeerkatData.Outputs_SingleOrDefault(item.ID).execute().then(
                         function (x) {
-                            myapp.showAddEditProject(
+                            myapp.showAddEditOutput(
+                                x.results[0]
+                                );
+                        }
+                        );
+                    break;
+                case "SubOutput":
+                    myapp.activeDataWorkspace.MeerkatData.SubOutputs_SingleOrDefault(item.ID).execute().then(
+                        function (x) {
+                            myapp.showAddEditSubOutput(
                                 x.results[0]
                                 );
                         }
