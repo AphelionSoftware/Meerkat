@@ -57,7 +57,16 @@ msls.application.lightswitchTools.vis.treeviewbyUrl = function (contentItem, url
         });
 
         root = treeData[0];
-        root.children.forEach(collapse);
+        root.children.forEach(
+            function (d) {
+                if (d.children) {
+                    d.children.forEach(
+                collapse
+                )
+                }
+            }
+
+            );
         update(root, fnodeCall);
     });
 
