@@ -1,4 +1,5 @@
-﻿CREATE VIEW d3.vwPPIPC
+﻿
+CREATE VIEW [d3].[vwPPIPC]
 AS
 SELECT 'Root' As ReportLevel, 
 	'Root' AS NodeLevel
@@ -12,7 +13,7 @@ UNION ALL
 select 
 	'Program' as ReportLevel,
 	 'Root' as NodeLevel,
-	P.Longname  As name
+	P.ShortName  As name
 	, 'Programme' AS parent
 	, P.Programme_ID AS ID
 from app.Programme P
@@ -26,8 +27,8 @@ SELECT
 	'Project' as ReportLevel, 
 	 'Node' as NodeLevel,
 	
-	PR.Longname AS name, 
-	P.Longname AS parent 
+	PR.ShortName AS name, 
+	P.ShortName AS parent 
 	, PR.ProjectID AS ID
 from   app.Project PR
 			INNER JOIN app.Programme P
@@ -40,8 +41,8 @@ from   app.Project PR
 SELECT 
 	'Indicator' as ReportLevel, 
 	 'Leaf' as NodeLevel,
-	I.Longname AS name,
-	PR.Longname AS parent
+	I.ShortName AS name,
+	PR.ShortName AS parent
 	, I.IndicatorID AS ID
 from app.Indicator I
 INNER JOIN app.Project PR
@@ -54,8 +55,8 @@ INNER JOIN app.Project PR
 SELECT 
 	'Indicator' as ReportLevel, 
 	 'Leaf' as NodeLevel,
-	I.Longname AS name,
-	P.Longname AS parent
+	I.ShortName AS name,
+	P.ShortName AS parent
 	, I.IndicatorID AS ID
 from app.Indicator I
 INNER JOIN app.Programme P
