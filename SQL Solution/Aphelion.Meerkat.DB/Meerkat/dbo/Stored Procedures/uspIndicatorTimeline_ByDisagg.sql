@@ -7,6 +7,8 @@
 ,@Gender_ID			   int = 0
 ,@Group_ID			   int = 0
 ,@Institution_ID		   int = 0
+,@IndicatorSimpleType_ID		   int = 0
+,@ResultArea_ID		   int = 0
 
 AS
 /*
@@ -180,13 +182,14 @@ on (iv.Location_ID = l.Location_ID )
 
 
 
-  --where 
+  WHERE (I.IndicatorSimpleType_ID =  @IndicatorSimpleType_ID OR  @IndicatorSimpleType_ID = 0)
+	AND (I.ResultArea_ID =  @ResultArea_ID OR  @ResultArea_ID = 0)
+
 /*
 */
 ) FIV
 
 
 where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
-
 
 order by ReportCycleDate_ID ASC

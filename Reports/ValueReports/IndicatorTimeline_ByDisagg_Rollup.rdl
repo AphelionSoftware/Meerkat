@@ -39,6 +39,12 @@
           <QueryParameter Name="@Institution_ID">
             <Value>=Parameters!Institution_ID.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@IndicatorSimpleType_ID">
+            <Value>=Parameters!IndicatorSimpleType_ID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ResultArea_ID">
+            <Value>=Parameters!ResultArea_ID.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>exec [dbo].[uspIndicatorTimeline_ByDisagg]
 
@@ -48,8 +54,9 @@
 ,@CommunityType_ID	   
 ,@Gender_ID			   
 ,@Group_ID			   
-,@Institution_ID		   
-</CommandText>
+,@Institution_ID
+,@IndicatorSimpleType_ID	
+,@ResultArea_ID</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -565,6 +572,50 @@ Select Name, Group_ID			 	FROM 	disagg.[Group]</CommandText>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
 Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pIndicatorSimpleType">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+select 
+Name As Label,
+IndicatorSimpleType_ID AS Value
+ from app.IndicatorSimpleType</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Label">
+          <DataField>Label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Value">
+          <DataField>Value</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="pResultArea">
+      <Query>
+        <DataSourceName>rsdsPOA</DataSourceName>
+        <CommandText>SELECT '_All' As Label, 0 AS Value
+UNION ALL
+select 
+Name As Label,
+ResultArea_ID AS Value
+ from disagg.ResultArea</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -1768,7 +1819,7 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
             <Top>5.42214mm</Top>
             <Left>0mm</Left>
             <Height>13.67292mm</Height>
-            <Width>337.83302mm</Width>
+            <Width>337.83301mm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -2458,7 +2509,7 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>[Project].[Project].%26[5]</Value>
+          <Value>[Project].[Project].%26[15]</Value>
         </Values>
       </DefaultValue>
       <Prompt>MDXKey</Prompt>
@@ -2579,6 +2630,38 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
             <Label>Count</Label>
           </ParameterValue>
         </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="IndicatorSimpleType_ID">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Indicator Type</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pIndicatorSimpleType</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="ResultArea_ID">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Result Area ID</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>pResultArea</DataSetName>
+          <ValueField>Value</ValueField>
+          <LabelField>Label</LabelField>
+        </DataSetReference>
       </ValidValues>
     </ReportParameter>
   </ReportParameters>
