@@ -143,3 +143,7 @@ myapp.AdministrationHome.TreeContentOM_render = function (element, contentItem) 
     //Finish tree view
 
 };
+myapp.AdministrationHome.ProgrammeTree_postRender = function (element, contentItem) {
+    // Write code here.
+
+};
