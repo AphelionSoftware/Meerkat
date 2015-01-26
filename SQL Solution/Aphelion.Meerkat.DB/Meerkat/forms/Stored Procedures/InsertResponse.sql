@@ -10,6 +10,7 @@
  ,@TrueFalse				bit = null
  ,@IntegerResponse			int = null
  ,@DecimalResponse			decimal(20,12) = null
+ ,@DateResponse				date = null
  ,@isConfidential			bit = false
  ,@Location_ID				int = null
  ,@Age_ID					int = null
@@ -62,6 +63,7 @@ INSERT INTO [forms].[Response]
            ,[TrueFalse]
 		   ,IntegerResponse
 		   ,DecimalResponse
+		   ,DateResponse
            )
      SELECT
            
@@ -73,6 +75,7 @@ INSERT INTO [forms].[Response]
 		   ,@TrueFalse		
 		   ,@IntegerResponse
 		   ,@DecimalResponse	
+		   ,@DateResponse
 		   FROM forms.FormResponse tbl
 		    WHERE tbl.FormResponse_FNVID = @FormResponse_FNVID
 

@@ -1,6 +1,6 @@
 ﻿
 /*GeoSpatialData*/
-
+/*
 IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
               FROM      master.dbo.sysdatabases
               WHERE     ( '[' + [master].[dbo].[sysdatabases].[name] + ']' = 'SpatialProvince'
@@ -41,13 +41,8 @@ IF ( EXISTS ( SELECT    [master].[dbo].[sysdatabases].[name]
 /*ALTER TABLE app.SubOutput ADD CONSTRAINT
     DF_SubOutput_Active DEFAULT 1 FOR Active
 GO*/
-
-
+*/
 /* Insert Data */
-
-/*Insert Security Data*/
-:r .\Access1\Access.roleType.PDS.sql
-:r .\Access1\Access.systemRole.PDS.sql
 
 
 
@@ -59,6 +54,13 @@ GO*/
 :r .\Core.ReportingPeriod.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql
+
+
+/*Insert Security Data*/
+:r .\Access1\Access.roleType.PDS.sql
+:r .\Access1\Access.systemRole.PDS.sql
+
+
 :r .\Core.PersonParticipationType.PDS.sql
 
 /*Insert settings*/
@@ -79,7 +81,7 @@ GO*/
 									
 
 /*Insert CARE Data */
-:r .\CareData\PostDeploymentScript.CARE.PDS.sql	
+/*:r .\CareData\PostDeploymentScript.CARE.PDS.sql	*/
 --:r .\InternalTest\PostDeploymentScript.InternalTest.PDS.sql	
 
 

@@ -10,7 +10,7 @@ CREATE TABLE [app].[SubOutputSubOutputLink] (
     CONSTRAINT [PK_SubOutputSubOutputLink] PRIMARY KEY CLUSTERED ([SubOutputSubOutputLink_ID] ASC),
     CONSTRAINT [FK_SubOutputSubOutputLink_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput] FOREIGN KEY ([PrimarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
-    CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput1] FOREIGN KEY ([SecondarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]) NOT FOR REPLICATION
+    CONSTRAINT [FK_SubOutputSubOutputLink_SubOutput1] FOREIGN KEY ([SecondarySubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]) 
 );
 
 

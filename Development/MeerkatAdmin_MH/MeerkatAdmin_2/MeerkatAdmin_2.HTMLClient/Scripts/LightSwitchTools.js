@@ -20,8 +20,16 @@
 
         return pluralled;
     }
+ 
+    lightswitchTools.vis = {};
 
+    lightswitchTools.client = function (screen) {
 
+        myapp.activeDataWorkspace.MeerkatData.GlobalSettings.filter("Code eq 'Client'").execute().then(function (x) {
+            lightswitchTools.sClient = x.results[0].Value;
+            return lightswitchTools.sClient;
+        });
+    }
 
     lightswitchTools.configureCaptureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;
@@ -169,10 +177,31 @@
 
     }
 
+
+    lightswitchTools.getClientCode = function (callback) {
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback(data.ClientCode);
+            });
+        } else {
+
+            callback(window.lsData.ClientCode);
+        }
+    }
+
+
     lightswitchTools.getVersionInfo = function (callback) {
-        $.getJSON("/api/LightswitchHelpers", function (data) {
-            callback("version: " + data.Version + " (built " + data.Deployed + ")");
-        });
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback("version: " + data.Version + " (built " + data.Deployed + ")");
+            });
+        } else
+        {
+            callback("version: " + window.lsData.Version + " (built " + window.lsData.Deployed + ")");
+
+        }
     }
 
     lightswitchTools.browseAndRefresh = function (screen, target) {

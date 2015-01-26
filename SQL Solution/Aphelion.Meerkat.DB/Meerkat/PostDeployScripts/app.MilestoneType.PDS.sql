@@ -26,7 +26,7 @@ INSERT  [app].[MilestoneType]
 				N'Project'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
-                             WHERE  [app].[MilestoneType].[MilestoneTypeID] = 4 )
+                             WHERE  [app].[MilestoneType].[Code] =  N'Project')
 GO
 INSERT  [app].[MilestoneType]
         ( [app].[MilestoneType].[MilestoneTypeID] ,
@@ -42,7 +42,7 @@ INSERT  [app].[MilestoneType]
 				N'Activity'
         WHERE   NOT EXISTS ( SELECT 1
                              FROM   app.MilestoneType
-                             WHERE  [app].[MilestoneType].[MilestoneTypeID] = 5 )
+                             WHERE  [app].[MilestoneType].[Code] =  N'Activity' )
 GO
 SET IDENTITY_INSERT [app].[MilestoneType] OFF
 GO
