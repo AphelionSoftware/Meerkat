@@ -3,7 +3,11 @@
 
 myapp.AddEditForm.created = function (screen) {
     // Set Active Types
-    msls.application.lightswitchTools.configureCaptureForm(screen);
-    screen.Form.isConfidential = false;
-    screen.Form.isComplete = false;
+    var primaryKey = msls.application.lightswitchTools.configureCaptureForm(screen);
+    if (primaryKey === undefined) {
+        screen.Form.isConfidential = false;
+        screen.Form.isComplete = false;
+    }
+        //screen.Form.setIsConfidential(false);
+    
 };

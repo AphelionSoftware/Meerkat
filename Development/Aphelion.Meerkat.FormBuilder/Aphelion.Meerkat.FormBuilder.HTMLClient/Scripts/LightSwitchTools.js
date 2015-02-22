@@ -137,6 +137,7 @@
                 });
             });
         }
+        return primaryKey;
 
     }
 
