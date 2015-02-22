@@ -9,6 +9,7 @@
     [AgeBand_ID]           INT           NULL,
     [DateOfBirth]          DATE          NULL,
     [Gender_ID]            INT           NULL,
+    [EventDate]            DATE          NULL,
     [Active]               INT           CONSTRAINT [DF__EventRegister_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]        VARCHAR (255) CONSTRAINT [DF_EventRegister_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]        DATETIME      CONSTRAINT [DF_EventRegister_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -21,6 +22,8 @@
     CONSTRAINT [FK_EventRegister_Event] FOREIGN KEY ([Event_ID]) REFERENCES [forms].[Event] ([Event_ID]),
     CONSTRAINT [FK_EventRegister_Gender] FOREIGN KEY ([Gender_ID]) REFERENCES [disagg].[Gender] ([Gender_ID])
 );
+
+
 
 
 

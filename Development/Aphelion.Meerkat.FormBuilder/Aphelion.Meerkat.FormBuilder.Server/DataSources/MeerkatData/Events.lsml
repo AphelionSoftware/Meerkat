@@ -15,6 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="Event_ID"
         IsReadOnly="True"
@@ -134,16 +144,6 @@
         FromEnd="c_Event"
         ToEnd="Project" />
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Code"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -208,6 +208,21 @@
         Association="FK_Event_EventType"
         FromEnd="c_Event"
         ToEnd="EventType" />
+      <EntityProperty
+        Name="EventEndDate"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Group"
+        Association="FK_Event_Group"
+        FromEnd="c_Event"
+        ToEnd="Group" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -441,6 +456,11 @@
           Type="date"
           Property="c_Event/Properties[EventDate]" />
         <SsdlProperty
+          Name="EventEndDate"
+          Nullable="True"
+          Type="date"
+          Property="c_Event/Properties[EventEndDate]" />
+        <SsdlProperty
           Name="ScheduledEventStartTime"
           Nullable="True"
           Type="time"
@@ -504,6 +524,11 @@
           Nullable="False"
           Type="int"
           PropertyName="EventType_ID" />
+        <SsdlForeignKeyProperty
+          Name="Group_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Group_ID" />
         <SsdlForeignKeyProperty
           Name="TrainingInstitution_ID"
           Nullable="True"

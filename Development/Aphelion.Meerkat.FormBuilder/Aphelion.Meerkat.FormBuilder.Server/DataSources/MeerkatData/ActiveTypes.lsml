@@ -222,6 +222,11 @@
         Association="FK_IndicatorType_ActiveType"
         FromEnd="ActiveType"
         ToEnd="IndicatorType" />
+      <NavigationProperty
+        Name="Groups"
+        Association="FK_Group_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="Group" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -710,6 +715,16 @@
         Name="IndicatorType"
         EntitySet="IndicatorTypes" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Group_ActiveType"
+      Association="FK_Group_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Event_ActiveType">
@@ -965,6 +980,21 @@
       Name="IndicatorType"
       Multiplicity="Many"
       EntityType="IndicatorType" />
+  </Association>
+  <Association
+    Name="FK_Group_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Group"
+      Multiplicity="Many"
+      EntityType="Group" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -1248,6 +1278,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Gender_ActiveType]/Members[Gender]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Group_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Group_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Group_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Group_ActiveType]/Members[Group]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />

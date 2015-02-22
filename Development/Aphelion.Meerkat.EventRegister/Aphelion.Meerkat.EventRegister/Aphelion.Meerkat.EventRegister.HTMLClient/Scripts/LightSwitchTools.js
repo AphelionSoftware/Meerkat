@@ -7,6 +7,7 @@
         if (name == "c_Event") {
             return "Events";
         }
+        name = name.replace("c_Event", "Event");
 
         if (name == "Person") {
             return "People";
@@ -72,7 +73,7 @@
             if (screen.pageTitle !== undefined) {
                 screen.details.displayName = "Edit " + screen.pageTitle;
             } else {
-                screen.details.displayName = "Edit " + name;
+                screen.details.displayName = "Edit " + pluralName(name);
             }
 
             var newDataWorkspace = new myapp.DataWorkspace();

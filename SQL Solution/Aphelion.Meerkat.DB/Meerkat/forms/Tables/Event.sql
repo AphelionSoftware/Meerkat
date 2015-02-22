@@ -5,6 +5,7 @@
     [Code]                    VARCHAR (50)   NOT NULL,
     [TextDescription]         VARCHAR (4000) NULL,
     [EventDate]               DATE           NOT NULL,
+    [EventEndDate]            DATE           NULL,
     [ScheduledEventStartTime] TIME (7)       NULL,
     [ScheduledEventEndTime]   TIME (7)       NULL,
     [EventStartTime]          TIME (7)       NULL,
@@ -12,6 +13,7 @@
     [Project_ID]              INT            NOT NULL,
     [Location_ID]             INT            NULL,
     [TrainingInstitution_ID]  INT            NULL,
+    [Group_ID]                INT            NULL,
     [Active]                  INT            CONSTRAINT [DF__Event_sys_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]           VARCHAR (255)  CONSTRAINT [DF_Event_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]           DATETIME       CONSTRAINT [DF_Event_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -22,10 +24,15 @@
     CONSTRAINT [PK_Event_3] PRIMARY KEY CLUSTERED ([Event_ID] ASC),
     CONSTRAINT [FK_Event_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Event_EventType] FOREIGN KEY ([EventType_ID]) REFERENCES [forms].[EventType] ([EventType_ID]),
+    CONSTRAINT [FK_Event_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Event_Institution] FOREIGN KEY ([TrainingInstitution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Event_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [FK_Event_Project] FOREIGN KEY ([Project_ID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
+
+
 
 
 
