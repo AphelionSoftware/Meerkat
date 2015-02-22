@@ -77,6 +77,7 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
     contentItem.children[4].isVisible = false;
     contentItem.children[5].isVisible = false;
     contentItem.children[6].isVisible = false;
+    contentItem.children[7].isVisible = false;
     switch (type) {
         case "TR":
             {
