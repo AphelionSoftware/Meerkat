@@ -1,6 +1,5 @@
 ﻿/// <reference path="../GeneratedArtifacts/viewModel.js" />
 /// <reference path="../Scripts/LightswitchTools.js" />
-
 //var CompletedCategories = 1;
 // Fowler/Noll/Vo hashing.
 function fnv_1a(v) {
@@ -57,7 +56,11 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 }
                 var reportingPeriod_ID = screen.ReportingPeriodsSorted.selectedItem == null ? null : screen.ReportingPeriodsSorted.selectedItem.ID;
                 if (!reportingPeriod_ID) {
-                    msls.showMessageBox("Project is required");
+                    reportingPeriod_ID = screen.iReportingPeriodID;
+                    ///TODO: This is a hack
+                }
+                if (!reportingPeriod_ID) {
+                    msls.showMessageBox("Reporting period is required");
                     return;
                 }
                 myapp.showViewCategory(
@@ -118,6 +121,8 @@ myapp.ViewForm.created = function (screen) {
             screen.MaxReportingRangeID = reportingPeriod.results[0].EndDateID;
             screen.ReportingPeriodsSorted.selectedItem = reportingPeriod.results[0];
             screen.Form.setReportingPeriod(reportingPeriod.results[0]);
+            screen.iReportingPeriodID = reportingPeriod.results[0].ID;
+            //TODO: This is a hack
         });
     });
 
