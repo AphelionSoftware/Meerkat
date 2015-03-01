@@ -54,6 +54,14 @@ INSERT INTO forms.FormResponse
 WHERE NOT EXISTS (SELECT 1 FROM forms.FormResponse WHERE FormResponse_FNVID = @FormResponse_FNVID)
 
 
+
+
+IF NOT (SELECT qt.Code from 
+forms.Question q
+	inner join forms.QuestionType qt 
+		on Q.QuestionType_ID = qt.QuestionType_ID
+	WHERE Q.Question_ID = @Question_ID) = 'MCQ'
+BEGIN
 INSERT INTO [forms].[Response]
            ([FormResponse_ID]
 		   , FormResponse_FNVID
@@ -78,4 +86,45 @@ INSERT INTO [forms].[Response]
 		   ,@DateResponse
 		   FROM forms.FormResponse tbl
 		    WHERE tbl.FormResponse_FNVID = @FormResponse_FNVID
+END
+ELSE BEGIN
+
+SET @Response = REPLACE(','+@Response +',', ',,',',')
+
+INSERT INTO [forms].[Response]
+           ([FormResponse_ID]
+		   , FormResponse_FNVID
+           ,[Question_ID]
+           ,[PotentialResponse_ID]
+           ,[Response]
+           ,[TrueFalse]
+		   ,IntegerResponse
+		   ,DecimalResponse
+		   ,DateResponse
+           )
+     SELECT
+           
+		    tbl.FormResponse_ID
+			,@FormResponse_FNVID		
+		   ,@Question_ID			
+		   ,/*PotentialResponse_ID	*/
+		   SUBSTRING(@Response,TallyNumber+1,CHARINDEX(',',@Response,TallyNumber+1)-TallyNumber-1)
+
+		   ,''				
+		   ,@TrueFalse		
+		   ,@IntegerResponse
+		   ,@DecimalResponse	
+		   ,@DateResponse
+		   FROM forms.FormResponse tbl
+		   INNER JOIN (SELECT  DateSK AS TallyNumber FROM Core.DimDate) As TallyTable
+				ON TallyTable.TallyNumber < LEN(@Response)
+		    WHERE tbl.FormResponse_FNVID = @FormResponse_FNVID
+				AND  SUBSTRING(@Response,TallyNumber,1) = ',' --Notice how we find the comma
+			AND NOT EXISTS (SELECT 1 FROM [forms].[Response]
+				WHERE FormResponse_ID = tbl.FormResponse_ID
+					AND Question_ID = @Question_ID
+					AND PotentialResponse_ID =  SUBSTRING(@Response,TallyNumber+1,CHARINDEX(',',@Response,TallyNumber+1)-TallyNumber-1) 
+					 )
+
+END
 
