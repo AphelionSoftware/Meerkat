@@ -73,27 +73,27 @@ var type = contentItem.data.QuestionType.Code;
     
     var x = element;
 
-    contentItem.children[0].children[1].children[2].isVisible = false;
-    contentItem.children[0].children[1].children[3].isVisible = false;
-    contentItem.children[0].children[1].children[4].isVisible = false;
-    contentItem.children[0].children[1].children[5].isVisible = false;
-    contentItem.children[0].children[1].children[6].isVisible = false;
-    contentItem.children[0].children[1].children[7].isVisible = false;
-    contentItem.children[0].children[1].children[8].isVisible = false;
-    contentItem.children[0].children[1].children.isVisible = false;
+    contentItem.children[1].children[2].isVisible = false;
+    contentItem.children[1].children[3].isVisible = false;
+    contentItem.children[1].children[4].isVisible = false;
+    contentItem.children[1].children[5].isVisible = false;
+    contentItem.children[1].children[6].isVisible = false;
+    contentItem.children[1].children[7].isVisible = false;
+    contentItem.children[1].children[8].isVisible = false;
+    contentItem.children[1].children.isVisible = false;
     switch (type) {
         case "TR":
             {
-                contentItem.children[0].children[1].children[2].isVisible = true;
+                contentItem.children[1].children[2].isVisible = true;
                 break;
             }
         case "INT":
             {
-                contentItem.children[0].children[1].children[3].isVisible = true;
+                contentItem.children[1].children[3].isVisible = true;
                 var x = $(contentItem.children[3]);
 
 
-                $(contentItem.children[0].children[1].children[3]).keypress(function () {
+                $(contentItem.children[1].children[3]).keypress(function () {
                     if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
                         this.value = this.value.replace(/[^0-9\.]/g, '');
                     }
@@ -102,38 +102,46 @@ var type = contentItem.data.QuestionType.Code;
             }
         case "DEC":
             {
-                contentItem.children[0].children[1].children[4].isVisible = true;
+                contentItem.children[1].children[4].isVisible = true;
                 break;
             }
         case "TF":
         case "BOOL":
             {
-                contentItem.children[0].children[1].children[5].isVisible = true;
+                contentItem.children[1].children[5].isVisible = true;
                 break;
             }
         case "RB":
             {
-                contentItem.children[0].children[1].children[6].isVisible = true;
+                contentItem.children[1].children[6].isVisible = true;
                 break;
             }
        
         case "DATE":
             {
-                contentItem.children[0].children[1].children[7].isVisible = true;
+                contentItem.children[1].children[7].isVisible = true;
                 break;
             }
         case "MCQ":
             {
                 //contentItem.children[2].isVisible = true;
 
-                contentItem.children[0].children[1].children[8].isVisible = true;
+                contentItem.children[1].children[8].isVisible = true;
                 if (!contentItem.screen.mcqList) contentItem.screen.mcqList = [];
-                contentItem.screen.mcqList.push({ id: 'select2-mcq' + element.uniqueID, tr: contentItem.children[0].children[1].children[2] });
+                contentItem.screen.mcqList.push({ id: 'select2-mcq' + element.uniqueID, tr: contentItem.children[1].children[2] });
 
-                    contentItem.data.getPotentialResponses().then(function (items) {
+                //myapp.activeDataWorkspace.MeerkatData.Questions_SingleOrDefault( 
+                //contentItem.data.Question_ID).execute().then(function (result) {
+                    //var question = result.results[0];
+                myapp.activeDataWorkspace.MeerkatData.PotentialResponses.filter("Question_ID eq " + contentItem.data.Question_ID).execute().then(
+                    function (items) {
+                    //question.getPotentialResponses().then(function (items, idx) {
 
-                        var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
-
+                        //var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+                        var data = [];
+                        $.each(items.results, function (idx, item) {
+                            data.push({ id: item.PotentialResponse_ID, text: item.Name });
+                        });
                         //var data = item.results;
                         //element.innerHTML = "";
                         //Create a template
@@ -142,8 +150,8 @@ var type = contentItem.data.QuestionType.Code;
                         itemTemplate.appendTo($(element));
                         $('#select2-mcq' + element.uniqueID).select2({ data: data, multiple: true });
 
-
-                    });
+                    }
+                    ) ;
                 break;
             }
        
