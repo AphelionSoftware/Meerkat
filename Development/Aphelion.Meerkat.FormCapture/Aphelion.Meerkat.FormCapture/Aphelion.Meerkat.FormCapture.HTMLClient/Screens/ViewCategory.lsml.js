@@ -240,7 +240,7 @@ myapp.ViewCategory.MultipleChoice_render = function (element, contentItem) {
     var sel = '<select class="select2-mcq" id="select2-mcq' + element.uniqueID  +'"  style="width:100%;opacity:0">\
   </select>\
  ';
-    $(element).html(sel);
+   // $(element).html(sel);
 
  //var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
  //
