@@ -145,10 +145,13 @@ var type = contentItem.data.QuestionType.Code;
                         //var data = item.results;
                         //element.innerHTML = "";
                         //Create a template
-                        var itemTemplate = $('<select class="select2-mcq" id="select2-mcq' + element.uniqueID + '"  style="width:300px">\
+                        var itemTemplate = $('<select class="select2-mcq" id="select2-mcq' + element.uniqueID + '"  style="width:100%">\
              </select>');
-                        itemTemplate.appendTo($(element));
-                        $('#select2-mcq' + element.uniqueID).select2({ data: data, multiple: true });
+                         itemTemplate.appendTo($(element));
+                         $('#select2-mcq' + element.uniqueID).select2({ data: data, multiple: true });
+
+                      
+                        //$('#select2-mcq' + "ms__id" + (element.uniqueID.replace("ms__id", "") - 1)).select2({ data: data, multiple: true });
 
                     }
                     ) ;
@@ -234,10 +237,10 @@ myapp.ViewCategory.Questions1_postRender = function (element, contentItem) {
 
 };
 myapp.ViewCategory.MultipleChoice_render = function (element, contentItem) {
-    var sel = '<select class="select2-mcq" id="select2-mcq' + element.uniqueID  +'"  style="width:300px">\
+    var sel = '<select class="select2-mcq" id="select2-mcq' + element.uniqueID  +'"  style="width:100%;opacity:0">\
   </select>\
  ';
-
+    $(element).html(sel);
 
  //var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
  //
