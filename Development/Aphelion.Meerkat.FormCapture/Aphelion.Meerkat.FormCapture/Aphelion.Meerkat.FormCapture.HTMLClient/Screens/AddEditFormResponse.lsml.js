@@ -78,7 +78,7 @@ myapp.AddEditFormResponse.CategoriesByForm_ItemTap_execute = function (screen) {
         myapp.activeDataWorkspace.MeerkatData.saveChanges();
         myapp.applyChanges().then(
             function () {
-                var location_ID = screen.FormResponse.Location.Location_ID;
+                var location_ID = screen.FormResponse.Location ? screen.FormResponse.Location.Location_ID : null;
                 var age_ID = screen.FormResponse.Age == null ? null : screen.FormResponse.Age.Age_ID;
                 var ageBand_ID = screen.FormResponse.AgeBand == null ? null : screen.FormResponse.AgeBand.AgeBand_ID;
                 var communityType_ID = screen.FormResponse.CommunityType == null ? null : screen.FormResponse.CommunityType.CommunityType_ID;
