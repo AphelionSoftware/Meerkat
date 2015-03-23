@@ -157,7 +157,10 @@ var type = contentItem.data.QuestionType.Code;
                     ) ;
                 break;
             }
-       
+        case "CNT":
+            {
+                //Do nothing as we simply count
+            }
         default:
             {
                 alert ("Unknown question type: " + type);

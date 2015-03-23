@@ -56,7 +56,8 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 }
                 var reportingPeriod_ID = screen.ReportingPeriodsSorted.selectedItem == null ? null : screen.ReportingPeriodsSorted.selectedItem.ID;
                 if (!reportingPeriod_ID) {
-                    //reportingPeriod_ID = screen.iReportingPeriodID;
+
+                    reportingPeriod_ID = screen.iReportingPeriodID;
                     ///TODO: This is a hack
                 }
                 if (!reportingPeriod_ID) {
