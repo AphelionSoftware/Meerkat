@@ -1,10 +1,11 @@
-﻿CREATE VIEW forms.vwUnfinishedForms
+﻿
+CREATE VIEW [forms].[vwUnfinishedForms]
 AS
 
 SELECT FR.FormResponse_ID, FR.Form_ID, FR.ProjectID  FROM forms.FormResponse FR
 WHERE (
 
-select count(*) From forms.Response R
+select count(DISTINCT Question_ID)  From forms.Response R
 WHERE r.FormResponse_ID = FR.FormResponse_ID)
 <
 

@@ -6,56 +6,66 @@ myapp.AddEditFormResponse.RowTemplate1_postRender = function (element, contentIt
    
 };
 myapp.AddEditFormResponse.Responses1Template_postRender = function (element, contentItem) {
-    // Write code here.
-    var type = contentItem.data.Question.QuestionType.Code;
+
     var x = element;
 
-    contentItem.children[1].isVisible = false;
-    contentItem.children[2].isVisible = false;
-    contentItem.children[3].isVisible = false;
-    contentItem.children[4].isVisible = false;
-    contentItem.children[5].isVisible = false;
-    contentItem.children[6].isVisible = false;
-    switch (type) {
-        case "TR":
-            {
-                contentItem.children[1].isVisible = true;
-                break;
-            }
-        case "INT":
-            {
-                contentItem.children[2].isVisible = true;
-                break;
-            }
-        case "DEC":
-            {
-                contentItem.children[3].isVisible = true;
-                break;
-            }
+    
+    contentItem.children[2].isVisible = false;//true;
+    contentItem.children[3].isVisible = false;//true;
+    contentItem.children[4].isVisible = false;//true;
+    contentItem.children[5].isVisible = false;//true;
+    contentItem.children[6].isVisible = false;//true;
+    contentItem.children[7].isVisible = false;//true;
 
-        case "TF":
-        case "BOOL":
-            {
-                contentItem.children[4].isVisible = true;
-                break;
-            }
-        case "RB":
-        case "MCQ":
-            {
-                contentItem.children[5].isVisible = true;
-                break;
-            }
-        case "DATE":
-            {
-                contentItem.children[6].isVisible = true;
-                break;
-            }
+    contentItem.data.Question.getQuestionType().then(function(QT) {
+        var type = QT.Code;
+        switch (type) {
+            case "TR":
+                {
+                    contentItem.children[2].isVisible = true;
+                    break;
+                }
+            case "INT":
+                {
+                    contentItem.children[3].isVisible = true;
+                    break;
+                }
+            case "DEC":
+                {
+                    contentItem.children[4].isVisible = true;
+                    break;
+                }
 
-        default:
-            {
-                alert("Unknown question type: " + type);
-            }
-    }
+            case "TF":
+            case "BOOL":
+                {
+                    contentItem.children[5].isVisible = true;
+                    break;
+                }
+            case "RB":
+            case "MCQ":
+                {
+                    contentItem.children[6].isVisible = true;
+                    break;
+                }
+            case "DATE":
+                {
+                    contentItem.children[7].isVisible = true;
+                    break;
+                }
+            case "CNT":
+                {
+                    break;
+                }
+
+            default:
+                {
+                    alert("Unknown question type: " + type);
+                }
+        }
+    })
+    
+    
 };
 myapp.AddEditFormResponse.Response1_postRender = function (element, contentItem) {
     // Write code here.
@@ -145,4 +155,8 @@ myapp.AddEditFormResponse.CategoriesByForm_ItemTap_execute = function (screen) {
         var x = 1;
     }
 
+};
+myapp.AddEditFormResponse.created = function (screen) {
+    // Write code here.
+    
 };

@@ -159,6 +159,7 @@ var type = contentItem.data.QuestionType.Code;
             }
         case "CNT":
             {
+                break;
                 //Do nothing as we simply count
             }
         default:

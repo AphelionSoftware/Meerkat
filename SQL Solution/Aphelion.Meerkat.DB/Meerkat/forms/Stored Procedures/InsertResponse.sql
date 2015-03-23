@@ -126,5 +126,23 @@ INSERT INTO [forms].[Response]
 					AND PotentialResponse_ID =  SUBSTRING(@Response,TallyNumber+1,CHARINDEX(',',@Response,TallyNumber+1)-TallyNumber-1) 
 					 )
 
+UPDATE forms.FormResponse
+
+SET isComplete = 1
+FROM forms.FormResponse FR
+
+WHERE
+isComplete = 0 AND
+ (
+
+select count(DISTINCT Question_ID) From forms.Response R
+WHERE r.FormResponse_ID = FR.FormResponse_ID)
+>=
+
+(select count(*) from forms.Question Q
+INNER join forms.Category C
+on Q.Category_ID = C.Category_ID
+WHERE C.Form_ID = FR.Form_ID)
+
 END
 
