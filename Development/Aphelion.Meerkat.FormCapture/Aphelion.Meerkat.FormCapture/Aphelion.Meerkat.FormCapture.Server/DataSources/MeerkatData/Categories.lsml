@@ -127,6 +127,11 @@
         Association="FK_Category_ActiveType"
         FromEnd="Category"
         ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwIncompleteCategories"
+        Association="vwIncompleteCategory_Category"
+        FromEnd="Category"
+        ToEnd="vwIncompleteCategory" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -245,7 +250,35 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vwIncompleteCategory_Categories"
+      Association="vwIncompleteCategory_Category">
+      <AssociationSetEnd
+        Name="vwIncompleteCategory"
+        EntitySet="vwIncompleteCategories" />
+      <AssociationSetEnd
+        Name="Category"
+        EntitySet="Categories" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vwIncompleteCategory_Category">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwIncompleteCategory"
+      Multiplicity="Many"
+      EntityType="vwIncompleteCategory" />
+    <AssociationEnd
+      Name="Category"
+      Multiplicity="One"
+      EntityType="Category">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -340,6 +373,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Question_Category]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Category_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwIncompleteCategory_Categories">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwIncompleteCategory_Categories" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_Categories]/Members[vwIncompleteCategory]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Category_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_Categories]/Members[Category]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Category_ID" />
