@@ -42,9 +42,9 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
             function () {
                 var location_ID = screen.LocationsSorted.selectedItem == null ? null : screen.LocationsSorted.selectedItem.Location_ID;
                 var age_ID = screen.AgesSorted.selectedItem == null ? null : screen.AgesSorted.selectedItem.Age_ID;
-                var ageBand_ID = screen.AgeBandsSorted.selectedItem == null ? null : screen.AgeBandsSorted.selectedItem.AgeBandID;
+                var ageBand_ID = screen.AgeBandsSorted.selectedItem == null ? null : screen.AgeBandsSorted.selectedItem.AgeBand_ID;
                 var communityType_ID = screen.CommunityTypesSorted.selectedItem == null ? null : screen.CommunityTypesSorted.selectedItem.CommunityType_ID;
-                var gender_ID = screen.Genders.selectedItem == null ? null : screen.Genders.selectedItem.GenderID;
+                var gender_ID = screen.Genders.selectedItem == null ? null : screen.Genders.selectedItem.Gender_ID;
                 var groups_ID = screen.GroupsSorted.selectedItem == null ? null : screen.GroupsSorted.selectedItem.Group_ID;
                 var institution_ID = screen.InstitutionsSorted.selectedItem == null ? null : screen.InstitutionsSorted.selectedItem.Institution_ID;
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
