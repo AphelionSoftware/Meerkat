@@ -216,6 +216,14 @@
                 Name="c_Event_Location"
                 Kind="Details"
                 DataType="Location">
+                <ContentItem.ChoicesSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="AddEditc_Event/Properties[LocationsSorted]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.ChoicesSource>
                 <ContentItem.DataSource>
                   <ScreenExpressionTree>
                     <ChainExpression>
@@ -229,13 +237,53 @@
                 <ContentItem
                   Name="Location"
                   Kind="Details"
-                  DataType="Location">
+                  DataType="Location"
+                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression />
                     </ScreenExpressionTree>
                   </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Name1"
+                    Kind="Value"
+                    DataType=":String?">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Location/Properties[Name]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
                 </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Name="ShowFilterLocationType"
+                Kind="Command">
+                <ContentItem.Attributes>
+                  <DisplayName
+                    Value="Type" />
+                </ContentItem.Attributes>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="AddEditc_Event/Methods[showDialog]">
+                          <ArgumentExpression
+                            Parameter="dialogName">
+                            <ConstantExpression
+                              Value="FilterLocationType"
+                              ResultType=":String" />
+                          </ArgumentExpression>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
               </ContentItem>
               <ContentItem
                 Name="c_Event_Group"
@@ -602,7 +650,35 @@
         <ContentItem
           Name="Popups"
           Kind="Group"
-          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages">
+          <ContentItem
+            Name="FilterLocationType"
+            Kind="Group">
+            <ContentItem
+              Name="LocationType"
+              Kind="Details"
+              DataType="LocationType">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AddEditc_Event/Properties[LocationType]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="LocationType1"
+                Kind="Details"
+                DataType="LocationType">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
         <ContentItem.PropertySources>
           <ControlPropertySource
             Property="Microsoft.LightSwitch.MobileWeb:Screen/Properties[ScreenType]">
@@ -737,6 +813,45 @@
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="LocationsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$Location">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="LocationsSortedQuery"
+            ReturnType="Location*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[LocationsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditc_Event/Properties[LocationsSorted]/Query">
+              <ArgumentExpression
+                Parameter="LocationType">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditc_Event/Properties[LocationType]" />
+                  <MemberExpression
+                    Member="LocationType_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="LocationType"
+        PropertyType="LocationType" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
