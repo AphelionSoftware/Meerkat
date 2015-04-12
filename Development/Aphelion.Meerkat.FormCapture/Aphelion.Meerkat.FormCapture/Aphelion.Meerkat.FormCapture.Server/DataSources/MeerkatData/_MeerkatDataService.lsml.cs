@@ -354,7 +354,7 @@ namespace LightSwitchApplication
             entity.TrueOrFalse = null;
             entity.PotentialResponse = null;
             entity.Response = null;
-            this.Details.DiscardChanges();
+            //this.Details.DiscardChanges();
         }
 
         partial void Categories_Updating(Category entity)

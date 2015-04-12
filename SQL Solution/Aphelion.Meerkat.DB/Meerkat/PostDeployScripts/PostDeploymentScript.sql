@@ -79,7 +79,7 @@ GO*/
 /* Insert Demo data */
 --:r .\DemoData\PostDeploymentScript.Demo.PDS.sql
 									
-
+:r .\deploy.DataCleanup.sql				
 /*Insert CARE Data */
 /*:r .\CareData\PostDeploymentScript.CARE.PDS.sql	*/
 --:r .\InternalTest\PostDeploymentScript.InternalTest.PDS.sql	

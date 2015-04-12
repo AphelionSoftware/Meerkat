@@ -421,9 +421,10 @@
         var thisObject = screen[name];
 
         var ShortNameField = screen.findContentItem("ShortName");
+        var LongNameField = screen.findContentItem("LongName");
         var DescriptionField = screen.findContentItem("Description");
         var TextDescriptionField = screen.findContentItem("TextDescription");
-        if (ShortNameField && ( DescriptionField || TextDescriptionField )){
+        if (ShortNameField && (DescriptionField || TextDescriptionField || LongNameField)) {
         ShortNameField.dataBind("value", function () {
             if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && TextDescriptionField !== undefined) {
                 var currentLength = 0;
@@ -444,6 +445,17 @@
 
                 if (currentLength === 0) {
                     DescriptionField.value = ShortNameField.value;
+                }
+            }
+
+            if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && LongNameField !== undefined) {
+                var currentLength = 0;
+                if (LongNameField.value !== undefined) {
+                    currentLength = LongNameField.value.length;
+                }
+
+                if (currentLength === 0) {
+                    LongNameField.value = ShortNameField.value;
                 }
             }
         });

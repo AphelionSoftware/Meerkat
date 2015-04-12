@@ -26,6 +26,22 @@
             Kind="Group"
             View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
             <ContentItem
+              Name="Extract"
+              IsHidden="True"
+              Kind="Command">
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <CallExpression
+                        Target="ViewCategory/Methods[Extract]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
+            <ContentItem
               Name="Questions1"
               Kind="Collection"
               DataType="CollectionView$Question"
@@ -48,33 +64,9 @@
                   </ScreenExpressionTree>
                 </ContentItem.DataSource>
                 <ContentItem
-                  Name="QuestionType"
-                  IsHidden="True"
-                  Kind="Details"
-                  DataType="QuestionType">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[QuestionType]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                  <ContentItem
-                    Name="QuestionType1"
-                    Kind="Details"
-                    DataType="QuestionType">
-                    <ContentItem.DataSource>
-                      <ScreenExpressionTree>
-                        <ChainExpression />
-                      </ScreenExpressionTree>
-                    </ContentItem.DataSource>
-                  </ContentItem>
-                </ContentItem>
-                <ContentItem
                   Name="Label"
                   Kind="Group"
-                  View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                  View="Microsoft.LightSwitch.MobileWeb:RowsLayout">
                   <ContentItem
                     Name="Code"
                     Kind="Value"
@@ -157,16 +149,6 @@
                       </ScreenExpressionTree>
                     </ControlPropertySource>
                     <ControlPropertySource
-                      Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[WidthSizingMode]">
-                      <ScreenExpressionTree>
-                        <ChainExpression>
-                          <ConstantExpression
-                            Value="FixedSize"
-                            ResultType=":String" />
-                        </ChainExpression>
-                      </ScreenExpressionTree>
-                    </ControlPropertySource>
-                    <ControlPropertySource
                       Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Width]">
                       <ScreenExpressionTree>
                         <ChainExpression>
@@ -179,95 +161,29 @@
                   </ContentItem.PropertySources>
                 </ContentItem>
                 <ContentItem
-                  Name="Response"
-                  Kind="Value"
-                  DataType=":String?"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[Response]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="IntegerResponse"
-                  Kind="Value"
-                  DataType=":Int32?"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[IntegerResponse]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="DecimalResponse"
-                  Kind="Value"
-                  DataType=":Decimal?"
-                  View="Microsoft.LightSwitch.MobileWeb:TextBox">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[DecimalResponse]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="TrueOrFalse"
-                  Kind="Value"
-                  DataType=":Boolean?"
-                  View="Microsoft.LightSwitch.MobileWeb:FlipSwitchControl">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[TrueOrFalse]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
-                </ContentItem>
-                <ContentItem
-                  Name="PotentialResponse"
-                  Kind="Details"
-                  DataType="PotentialResponse"
-                  View="Microsoft.LightSwitch.MobileWeb:DetailsModalPicker">
-                  <ContentItem.ChoicesSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="ViewCategory/Properties[PotentialResponses]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.ChoicesSource>
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[PotentialResponse]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
+                  Name="Group"
+                  Kind="Group">
                   <ContentItem
-                    Name="PotentialResponseTemplate"
+                    Name="Placeholder"
+                    Kind="Group"
+                    View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout" />
+                  <ContentItem
+                    Name="QuestionType"
+                    IsHidden="True"
                     Kind="Details"
-                    DataType="PotentialResponse">
+                    DataType="QuestionType">
                     <ContentItem.DataSource>
                       <ScreenExpressionTree>
-                        <ChainExpression />
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[QuestionType]" />
+                        </ChainExpression>
                       </ScreenExpressionTree>
                     </ContentItem.DataSource>
                     <ContentItem
-                      Name="RowTemplate2"
+                      Name="QuestionType1"
                       Kind="Details"
-                      DataType="PotentialResponse">
+                      DataType="QuestionType">
                       <ContentItem.DataSource>
                         <ScreenExpressionTree>
                           <ChainExpression />
@@ -275,20 +191,127 @@
                       </ContentItem.DataSource>
                     </ContentItem>
                   </ContentItem>
-                </ContentItem>
-                <ContentItem
-                  Name="DateResponse"
-                  Kind="Value"
-                  DataType=":Date?"
-                  View="Microsoft.LightSwitch.MobileWeb:DatePicker">
-                  <ContentItem.DataSource>
-                    <ScreenExpressionTree>
-                      <ChainExpression>
-                        <MemberExpression
-                          Member="Question/Properties[DateResponse]" />
-                      </ChainExpression>
-                    </ScreenExpressionTree>
-                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="Response"
+                    IsHidden="True"
+                    Kind="Value"
+                    DataType=":String?"
+                    View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[Response]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="IntegerResponse"
+                    IsHidden="True"
+                    Kind="Value"
+                    DataType=":Int32?"
+                    View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[IntegerResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="DecimalResponse"
+                    IsHidden="True"
+                    Kind="Value"
+                    DataType=":Decimal?"
+                    View="Microsoft.LightSwitch.MobileWeb:TextBox">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[DecimalResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="TrueOrFalse"
+                    IsHidden="True"
+                    Kind="Value"
+                    DataType=":Boolean?"
+                    View="Microsoft.LightSwitch.MobileWeb:FlipSwitchControl">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[TrueOrFalse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="PotentialResponse"
+                    IsHidden="True"
+                    Kind="Details"
+                    DataType="PotentialResponse"
+                    View="Microsoft.LightSwitch.MobileWeb:DetailsModalPicker">
+                    <ContentItem.ChoicesSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="ViewCategory/Properties[PotentialResponses]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.ChoicesSource>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[PotentialResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      Name="PotentialResponseTemplate"
+                      Kind="Details"
+                      DataType="PotentialResponse">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        Name="RowTemplate2"
+                        Kind="Details"
+                        DataType="PotentialResponse">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression />
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Name="DateResponse"
+                    IsHidden="True"
+                    Kind="Value"
+                    DataType=":Date?"
+                    View="Microsoft.LightSwitch.MobileWeb:DatePicker">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="Question/Properties[DateResponse]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    Name="MultipleChoice"
+                    Kind="ScreenContent" />
                 </ContentItem>
               </ContentItem>
             </ContentItem>
@@ -359,6 +382,8 @@
           Name="dialogName"
           ParameterType=":String" />
       </ScreenMethod>
+      <ScreenMethod
+        Name="Extract" />
     </Screen.Methods>
     <Screen.Properties>
       <ScreenProperty
@@ -533,6 +558,38 @@
           <IsParameter />
         </ScreenProperty.Attributes>
       </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="PotentialResponses1"
+        PageSize="45"
+        PropertyType="CollectionView$PotentialResponse">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PotentialResponses1Query"
+            ReturnType="PotentialResponse*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="ViewCategory/Properties[Questions]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="PotentialResponses" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="ViewCategory/Properties[PotentialResponses1]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
     </Screen.Properties>
   </Screen>
   <Application.Methods>

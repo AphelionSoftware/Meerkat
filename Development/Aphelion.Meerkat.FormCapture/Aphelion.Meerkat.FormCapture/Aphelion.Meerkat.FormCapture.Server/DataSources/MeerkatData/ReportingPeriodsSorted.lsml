@@ -15,16 +15,60 @@
       <QueryOperation.FilterExpression>
         <QueryFilterExpressionTree>
           <BinaryExpression
-            NodeType="GreaterThanOrEqual">
+            NodeType="Or">
             <BinaryExpression.Left>
-              <ChainExpression>
-                <MemberExpression
-                  Member="FirstCycleDate" />
-              </ChainExpression>
+              <BinaryExpression
+                NodeType="GreaterThanOrEqual">
+                <BinaryExpression.Left>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="FirstCycleDate" />
+                  </ChainExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <ConstantExpression
+                    Value="2014-01-01"
+                    ResultType=":DateTime" />
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Left>
             <BinaryExpression.Right>
-              <CallExpression
-                Target=":RelativeDates/GlobalValues[StartOfYear]" />
+              <BinaryExpression
+                NodeType="And">
+                <BinaryExpression.Attributes>
+                  <ExpressionGroup />
+                </BinaryExpression.Attributes>
+                <BinaryExpression.Left>
+                  <BinaryExpression
+                    NodeType="GreaterThanOrEqual">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="FirstCycleDate" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="ProjectStartDate" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
+                </BinaryExpression.Left>
+                <BinaryExpression.Right>
+                  <BinaryExpression
+                    NodeType="LessThanOrEqual">
+                    <BinaryExpression.Left>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="FirstCycleDate" />
+                      </ChainExpression>
+                    </BinaryExpression.Left>
+                    <BinaryExpression.Right>
+                      <ParameterExpression
+                        Parameter="ProjectEndDate" />
+                    </BinaryExpression.Right>
+                  </BinaryExpression>
+                </BinaryExpression.Right>
+              </BinaryExpression>
             </BinaryExpression.Right>
           </BinaryExpression>
         </QueryFilterExpressionTree>
@@ -35,6 +79,14 @@
             Member="ReportingPeriods" />
         </QuerySourceExpressionTree>
       </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="ProjectStartDate"
+        IsOptional="True"
+        ParameterType=":DateTime?" />
+      <QueryOperationParameter
+        Name="ProjectEndDate"
+        IsOptional="True"
+        ParameterType=":DateTime?" />
       <QueryOperation.SortCriteria>
         <SortCriterion>
           <ChainExpression>

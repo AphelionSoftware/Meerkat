@@ -3,16 +3,18 @@
 
 myapp.AddEditQuestion.created = function (screen) {
     // Write code here.
-    msls.application.lightswitchTools.configureCaptureForm(screen);
+    var primaryKey = msls.application.lightswitchTools.configureCaptureForm(screen);
 
     //Default question type to Text response
-    screen.details.dataWorkspace.MeerkatData.QuestionTypes.filter("Code eq 'TR'").execute().then(function (x) {
-        screen.Question.setQuestionType(x.results[0]);
-    }, function (x) {
-        msls.showMessageBox(x, {
-            title: "Default value for ActiveType failed"
+    if (!primaryKey) {
+        screen.details.dataWorkspace.MeerkatData.QuestionTypes.filter("Code eq 'TR'").execute().then(function (x) {
+            screen.Question.setQuestionType(x.results[0]);
+        }, function (x) {
+            msls.showMessageBox(x, {
+                title: "Default value for QuestionType failed"
+            });
         });
-    });
+    }
 
     screen.Question.isConfidential = false;
     //
