@@ -20,6 +20,7 @@ myapp.EditResponse.getTypeCode = function (screen, callback)
     }
 }
 myapp.EditResponse.created = function (screen) {
+    myapp.EditResponse.type = null;
     myapp.EditResponse.getTypeCode(screen);
     
 };

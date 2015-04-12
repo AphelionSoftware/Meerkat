@@ -5,6 +5,7 @@ myapp.AddEditProject.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
+    screen.Project.isSiteCreated = false;
    //screen.Project.isSiteCreated = false;
 };
 

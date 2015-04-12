@@ -43,3 +43,12 @@ AND G.Code = 'N/A'
 
 DELETE FROM disagg.Gender
 WHERE CODE  NOT IN ('M', 'F', 'N/A')
+
+
+
+UPDATE [Core].[ReportingPeriod]
+SET Summary = CAST(StartDateID/10000 as char(4)) 
++ '-Q' + cast(reportingperiod as char(1))
++ ' (' + cast(startdateid as char(8))
++ ' - ' + cast(enddateid as char(8)) 
++ ')'

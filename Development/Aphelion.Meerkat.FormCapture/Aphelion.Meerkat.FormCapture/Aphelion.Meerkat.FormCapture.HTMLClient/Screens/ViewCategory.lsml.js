@@ -147,7 +147,8 @@ var type = contentItem.data.QuestionType.Code;
                         //Create a template
                         var itemTemplate = $('<select class="select2-mcq" id="select2-mcq' + element.uniqueID + '"  style="width:100%">\
              </select>');
-                         itemTemplate.appendTo($(element));
+                        //itemTemplate.appendTo($(element));
+                        itemTemplate.appendTo($(element.children[1]));
                          $('#select2-mcq' + element.uniqueID).select2({ data: data, multiple: true });
 
                       
