@@ -1,4 +1,4 @@
-CREATE TABLE [forms].[FormResponse] (
+﻿CREATE TABLE [forms].[FormResponse] (
     [FormResponse_ID]    INT           IDENTITY (1, 1) NOT NULL,
     [Text]               VARCHAR (MAX) NULL,
     [TrueFalse]          BIT           NULL,
@@ -20,6 +20,7 @@ CREATE TABLE [forms].[FormResponse] (
     [Group_ID]           INT           NULL,
     [Institution_ID]     INT           NULL,
     [ReportingPeriod_ID] INT           CONSTRAINT [DF_FormResponse_ReportingPeriod_ID] DEFAULT ((96)) NOT NULL,
+    [Organization_ID]    INT           NULL,
     CONSTRAINT [PK_FormResponse_3] PRIMARY KEY CLUSTERED ([FormResponse_ID] ASC),
     CONSTRAINT [FK_FormResponse_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
     CONSTRAINT [FK_FormResponse_AgeBand] FOREIGN KEY ([AgeBand_ID]) REFERENCES [disagg].[AgeBand] ([AgeBand_ID]),
@@ -29,9 +30,12 @@ CREATE TABLE [forms].[FormResponse] (
     CONSTRAINT [FK_FormResponse_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_FormResponse_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_FormResponse_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_FormResponse_Organization] FOREIGN KEY ([Organization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_FormResponse_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_FormResponse_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID])
 );
+
+
 
 
 

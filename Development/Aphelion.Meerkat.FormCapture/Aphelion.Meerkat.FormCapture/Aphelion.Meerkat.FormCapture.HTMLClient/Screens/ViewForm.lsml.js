@@ -47,6 +47,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                 var gender_ID = screen.Genders.selectedItem == null ? null : screen.Genders.selectedItem.Gender_ID;
                 var groups_ID = screen.GroupsSorted.selectedItem == null ? null : screen.GroupsSorted.selectedItem.Group_ID;
                 var institution_ID = screen.InstitutionsSorted.selectedItem == null ? null : screen.InstitutionsSorted.selectedItem.Institution_ID;
+                var organization_ID = screen.OrganizationsSorted.selectedItem == null ? null : screen.OrganizationsSorted.selectedItem.Organization_ID;
                 var isConfidential = screen.Form.isConfidential == null ? false : screen.Form.isConfidential;
                 //var isComplete = screen.Form.isComplete == null ? false : screen.Form.Form_isComplete;
                 var project_id = screen.ProjectsSorted.selectedItem == null ? null : screen.ProjectsSorted.selectedItem.ProjectID;
@@ -77,6 +78,7 @@ myapp.ViewForm.Categories1_ItemTap_execute = function (screen) {
                     , institution_ID
                     , project_id
                     , reportingPeriod_ID
+                    , organization_ID
                     //, isComplete
 
                     ,

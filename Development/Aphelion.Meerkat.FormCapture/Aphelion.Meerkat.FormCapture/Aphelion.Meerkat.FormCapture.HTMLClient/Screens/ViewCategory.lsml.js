@@ -68,6 +68,13 @@ myapp.ViewCategory.RowTemplate_postRender = function (element, contentItem) {
             contentItem.data.setReportingPeriod(res);
         }
     );
+
+    myapp.activeDataWorkspace.MeerkatData.Organizations_SingleOrDefault(contentItem.screen.Organization_ID).execute().then(
+            function (x) {
+                var res = x.results[0];
+                contentItem.data.setOrganization(res);
+            }
+        );
     //Question type
 var type = contentItem.data.QuestionType.Code;
     
@@ -319,5 +326,9 @@ myapp.ViewCategory.DecimalResponse_postRender = function (element, contentItem) 
             $(element).val(parseFloat(contentItem.value));
         }
     });
+
+};
+myapp.ViewCategory.created = function (screen) {
+    // Write code here.
 
 };
