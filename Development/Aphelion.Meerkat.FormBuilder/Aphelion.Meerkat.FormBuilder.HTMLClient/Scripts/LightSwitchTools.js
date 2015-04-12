@@ -46,8 +46,7 @@
 
         var thisObject = screen[name];
         var primaryKey = thisObject[primaryKeyColumn];
-        var activeType = thisObject.ActiveType;
-
+        //
         if (primaryKey === undefined) {
             if (screen.pageTitle !== undefined) {
                 screen.details.displayName = "Add " + screen.pageTitle;
@@ -124,6 +123,7 @@
                     title: "Data Refresh failed"
                 });
             });
+            return primaryKeyColumn;
         }
 
     }
