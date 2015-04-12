@@ -128,7 +128,7 @@ var type = contentItem.data.QuestionType.Code;
 
                 contentItem.children[1].children[8].isVisible = true;
                 if (!contentItem.screen.mcqList) contentItem.screen.mcqList = [];
-                contentItem.screen.mcqList.push({ id: 'select2-mcq' + element.uniqueID, tr: contentItem.children[1].children[2] });
+                contentItem.screen.mcqList.push({ id: 'select2-mcq' + contentItem.data.Question_ID, tr: contentItem.children[1].children[2] });
 
                 //myapp.activeDataWorkspace.MeerkatData.Questions_SingleOrDefault( 
                 //contentItem.data.Question_ID).execute().then(function (result) {
@@ -145,11 +145,11 @@ var type = contentItem.data.QuestionType.Code;
                         //var data = item.results;
                         //element.innerHTML = "";
                         //Create a template
-                        var itemTemplate = $('<select class="select2-mcq" id="select2-mcq' + element.uniqueID + '"  style="width:100%">\
+                        var itemTemplate = $('<select class="select2-mcq" id="select2-mcq' + contentItem.data.Question_ID + '"  style="width:100%">\
              </select>');
                         //itemTemplate.appendTo($(element));
                         itemTemplate.appendTo($(element.children[1]));
-                         $('#select2-mcq' + element.uniqueID).select2({ data: data, multiple: true });
+                        $('#select2-mcq' + contentItem.data.Question_ID).select2({ data: data, multiple: true });
 
                       
                         //$('#select2-mcq' + "ms__id" + (element.uniqueID.replace("ms__id", "") - 1)).select2({ data: data, multiple: true });
