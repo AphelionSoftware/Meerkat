@@ -26,7 +26,9 @@
     [ShowGender]         BIT            NULL,
     [ShowGroup]          BIT            NULL,
     [ShowInstitution]    BIT            NULL,
+    [ShowOrganisation]   BIT            NULL,
     [LocalName]          NVARCHAR (255) NULL,
+    [Organization_ID]    INT            NULL,
     CONSTRAINT [PK_Form_3] PRIMARY KEY CLUSTERED ([Form_ID] ASC),
     CONSTRAINT [FK_Form_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Form_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -36,10 +38,15 @@
     CONSTRAINT [FK_Form_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Form_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Form_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_Form_Organization] FOREIGN KEY ([Organization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_Form_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Form_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [UQ__Form__A25C5AA73EDF24B3] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
+
+
 
 
 

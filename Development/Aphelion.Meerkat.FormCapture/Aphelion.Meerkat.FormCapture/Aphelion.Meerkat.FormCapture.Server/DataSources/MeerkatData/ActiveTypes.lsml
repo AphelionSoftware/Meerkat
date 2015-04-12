@@ -207,6 +207,11 @@
         Association="FK_ReportingPeriod_ActiveType"
         FromEnd="ActiveType"
         ToEnd="ReportingPeriod" />
+      <NavigationProperty
+        Name="Organizations"
+        Association="FK_Organization_ActiveType"
+        FromEnd="ActiveType"
+        ToEnd="Organization" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -830,6 +835,16 @@
         Name="ReportingPeriod"
         EntitySet="ReportingPeriods" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Organization_ActiveType"
+      Association="FK_Organization_ActiveType">
+      <AssociationSetEnd
+        Name="ActiveType"
+        EntitySet="ActiveTypes" />
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Programme_ActiveType">
@@ -875,6 +890,21 @@
       Name="ReportingPeriod"
       Multiplicity="Many"
       EntityType="ReportingPeriod" />
+  </Association>
+  <Association
+    Name="FK_Organization_ActiveType">
+    <AssociationEnd
+      Name="ActiveType"
+      Multiplicity="One"
+      EntityType="ActiveType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Organization"
+      Multiplicity="Many"
+      EntityType="Organization" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -1200,6 +1230,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_LocationType_ActiveType]/Members[LocationType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Active" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Organization_ActiveType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Organization_ActiveType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Organization_ActiveType]/Members[ActiveType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Organization_ActiveType]/Members[Organization]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Active" />
