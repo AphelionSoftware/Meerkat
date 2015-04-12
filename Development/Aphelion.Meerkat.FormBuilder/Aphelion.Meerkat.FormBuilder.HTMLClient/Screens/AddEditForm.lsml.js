@@ -8,6 +8,7 @@ myapp.AddEditForm.created = function (screen) {
         screen.Form.isConfidential = false;
         screen.Form.isComplete = false;
     }
-        //screen.Form.setIsConfidential(false);
+    //screen.Form.setIsConfidential(false);
+    msls.application.lightswitchTools.setDescriptionIsName(screen);
     
 };

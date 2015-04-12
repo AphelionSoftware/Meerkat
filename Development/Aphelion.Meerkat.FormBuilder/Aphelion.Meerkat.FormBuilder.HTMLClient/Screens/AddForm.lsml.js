@@ -4,6 +4,7 @@ myapp.AddForm.created = function (screen) {
     msls.application.lightswitchTools.configureCaptureForm(screen);
     screen.Form.isConfidential = false;
     screen.Form.isComplete = false;
+    msls.application.lightswitchTools.setDescriptionIsName(screen);
 };
 myapp.AddForm.Programme_postRender = function (element, contentItem) {
     var input = $(element);

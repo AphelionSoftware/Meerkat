@@ -215,3 +215,8 @@ myapp.ViewForm.Form_ReportingPeriod_postRender = function (element, contentItem)
         });
     });
 };
+myapp.ViewForm.SelectedLocationTap_execute = function (screen) {
+        screen.Form.Location = screen.LocationsSorted.selectedItem;
+        screen.closePopup();
+
+};

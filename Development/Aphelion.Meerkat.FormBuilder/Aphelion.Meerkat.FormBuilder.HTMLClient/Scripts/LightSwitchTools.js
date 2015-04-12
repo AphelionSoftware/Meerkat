@@ -291,6 +291,86 @@
         });
     }*/
 
+    lightswitchTools.setDescriptionIsName = function (screen) {
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
+
+        var NameField = screen.findContentItem("Name");
+        var DescriptionField = screen.findContentItem("Description");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
+        if (NameField && (DescriptionField || TextDescriptionField)) {
+            NameField.dataBind("value", function () {
+                if (NameField.value !== undefined && NameField.value.length > 0 && TextDescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (TextDescriptionField.value !== undefined) {
+                        currentLength = TextDescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        TextDescriptionField.value = NameField.value;
+                    }
+                }
+
+                if (NameField.value !== undefined && NameField.value.length > 0 && DescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (DescriptionField.value !== undefined) {
+                        currentLength = DescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        DescriptionField.value = NameField.value;
+                    }
+                }
+            });
+        }
+    }
+
+    lightswitchTools.setDescriptionIsShortName = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        var ShortNameField = screen.findContentItem("ShortName");
+        var LongNameField = screen.findContentItem("LongName");
+        var DescriptionField = screen.findContentItem("Description");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
+        if (ShortNameField && (DescriptionField || TextDescriptionField || LongNameField)) {
+            ShortNameField.dataBind("value", function () {
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && TextDescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (TextDescriptionField.value !== undefined) {
+                        currentLength = TextDescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        TextDescriptionField.value = ShortNameField.value;
+                    }
+                }
+
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && DescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (DescriptionField.value !== undefined) {
+                        currentLength = DescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        DescriptionField.value = ShortNameField.value;
+                    }
+                }
+
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && LongNameField !== undefined) {
+                    var currentLength = 0;
+                    if (LongNameField.value !== undefined) {
+                        currentLength = LongNameField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        LongNameField.value = ShortNameField.value;
+                    }
+                }
+            });
+        }
+    }
+
     lightswitchTools.setBusinessKeyIsCode = function (screen) {
         var name = screen.details.getModel().properties[0].name;
         var thisObject = screen[name];

@@ -31,6 +31,7 @@
     [DateResponse]             DATE             NULL,
     [DateTimeResponse]         DATETIME         NULL,
     [TimeResponse]             TIME (7)         NULL,
+    [Organization_ID]          INT              NULL,
     CONSTRAINT [PK_Question_3] PRIMARY KEY CLUSTERED ([Question_ID] ASC),
     CONSTRAINT [FK_Question_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Question_Age] FOREIGN KEY ([Age_ID]) REFERENCES [disagg].[Age] ([Age_ID]),
@@ -41,12 +42,15 @@
     CONSTRAINT [FK_Question_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Question_Institution] FOREIGN KEY ([Institution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Question_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_Question_Organization] FOREIGN KEY ([Organization_ID]) REFERENCES [Core].[Organization] ([Organization_ID]),
     CONSTRAINT [FK_Question_PotentialResponse] FOREIGN KEY ([MultipleChoiceResponseID]) REFERENCES [forms].[PotentialResponse] ([PotentialResponse_ID]),
     CONSTRAINT [FK_Question_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [FK_Question_QuestionType] FOREIGN KEY ([QuestionType_ID]) REFERENCES [forms].[QuestionType] ([QuestionType_ID]),
     CONSTRAINT [FK_Question_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
 
 
 

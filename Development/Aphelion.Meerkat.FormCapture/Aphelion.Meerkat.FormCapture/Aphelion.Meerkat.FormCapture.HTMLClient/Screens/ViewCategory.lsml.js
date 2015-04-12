@@ -332,3 +332,7 @@ myapp.ViewCategory.created = function (screen) {
     // Write code here.
 
 };
+myapp.ViewCategory.Name_postRender = function (element, contentItem) {
+    $(element).prop('title', contentItem.stringValue);
+
+};
