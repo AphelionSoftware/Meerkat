@@ -11,7 +11,7 @@
 */
 
 UPDATE App.Indicator 
-SET BusinessKey = BusinessKey + CAST ( indicator_ID as varchar(20))
+SET BusinessKey = BusinessKey + CAST ( indicatorID as varchar(20))
 WHERE BusinessKey IN (
   select businesskey from app.indicator
   group by BusinessKey having count(*) > 1
