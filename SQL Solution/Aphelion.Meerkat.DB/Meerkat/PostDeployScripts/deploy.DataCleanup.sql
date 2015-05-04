@@ -4,59 +4,47 @@ SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE PeopleReachedValues.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+ GO
 UPDATE [RBM].[MilestoneValues]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE MilestoneValues.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+ GO 
 UPDATE [RBM].[IndicatorValues]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE IndicatorValues.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+  GO
 UPDATE [forms].[Form]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE Form.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+  GO
 UPDATE [forms].[FormResponse]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE FormResponse.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+  GO
 UPDATE [forms].[Question]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE Question.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
- 
+  GO
 UPDATE [forms].[EventRegister]
 SET Gender_ID = G.Gender_ID
 FROM  disagg.Gender g
 WHERE EventRegister.Gender_ID NOT IN (0,1)
 AND G.Code = 'N/A'
-
+ GO
 DELETE FROM disagg.Gender
 WHERE CODE  NOT IN ('M', 'F', 'N/A')
 
-
-
-UPDATE [Core].[ReportingPeriod]
-SET Summary = CAST(StartDateID/10000 as char(4)) 
-+ '-Q' + cast(reportingperiod as char(1))
-+ ' (' + cast(startdateid as char(8))
-+ ' - ' + cast(enddateid as char(8)) 
-+ ')'
-
-
-use Maskax
-
-go
+ GO
 
 UPDATE [Core].[ReportingPeriod]
 SET Summary = CAST(StartDateID/10000 as char(4)) 
@@ -65,7 +53,7 @@ SET Summary = CAST(StartDateID/10000 as char(4))
 + ' - ' + cast(enddateid as char(8)) 
 + ')'
 
-
+GO
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 update [forms].[FormResponse]
 set ReportingPeriod_ID = ReportingPeriod_ID + 144 
@@ -102,7 +90,7 @@ GO
 
 DELETE FROM Core.ReportingPeriod WHERE ID < 64 
 
-
+GO
   UPDATE [Core].[ReportingPeriod]
   SET ReportingPeriod = CASE 
   WHEN Summary like '%Q1%' THEN 1
@@ -112,7 +100,7 @@ DELETE FROM Core.ReportingPeriod WHERE ID < 64
   END
 
 
-
+  GO
   UPDATE [Core].[ReportingPeriod]
   SET FirstCycleDate = 
 	CASE WHEN ReportingPeriod = 1 THEN CAST( YearName + '/01/01' as Date)

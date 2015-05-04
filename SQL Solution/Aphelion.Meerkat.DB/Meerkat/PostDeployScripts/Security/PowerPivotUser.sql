@@ -1,0 +1,12 @@
+﻿USE [master]
+GO
+CREATE LOGIN [PowerPivot] WITH PASSWORD=N'P0w3rP1v0t', DEFAULT_DATABASE=[Meerkat], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+GO
+USE [Meerkat]
+GO
+CREATE USER [PowerPivot] FOR LOGIN [PowerPivot]
+GO
+USE [Meerkat]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [PowerPivot]
+GO

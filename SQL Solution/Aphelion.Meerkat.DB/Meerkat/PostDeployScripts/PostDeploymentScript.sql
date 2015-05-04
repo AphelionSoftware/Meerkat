@@ -86,4 +86,4 @@ GO*/
 
 
 /*end Insert data*/
-
+:r .\Security\PowerPivotUser.sql
