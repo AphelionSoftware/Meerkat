@@ -19,4 +19,4 @@ Post-Deployment Script Template
 :r .\Core.Locations.CARE.PDS.sql
 :r .\App.Programme.CARE.PDS.sql
 :r .\settings.GlobalSettings.CARE.PDS.sql
-						
+:r .\Core.DimDate.PDS.sql

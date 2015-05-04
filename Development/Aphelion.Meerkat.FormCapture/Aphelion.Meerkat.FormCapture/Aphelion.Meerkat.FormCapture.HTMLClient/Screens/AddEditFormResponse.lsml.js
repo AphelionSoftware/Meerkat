@@ -239,3 +239,26 @@ myapp.AddEditFormResponse.editCategory_execute = function (screen) {
     }
 
 };
+myapp.AddEditFormResponse.CompleteForm_postRender = function (element, contentItem) {
+    if (contentItem.screen.FormResponse.isComplete == true) {
+        $(element).hide();
+    }
+
+};
+myapp.AddEditFormResponse.vwIncompleteCategoriesEdit_postRender = function (element, contentItem) {
+    if (contentItem.screen.FormResponse.isComplete == true) {
+        $(element).hide();
+    }
+};
+myapp.AddEditFormResponse.UncompleteForm_execute = function (screen) {
+    screen.FormResponse.isComplete = false;
+    myapp.activeDataWorkspace.MeerkatData.saveChanges();
+    myapp.applyChanges();
+
+};
+myapp.AddEditFormResponse.UncompleteForm_postRender = function (element, contentItem) {
+    if (!(contentItem.screen.FormResponse.isComplete == true)) {
+        $(element).hide();
+    }
+
+};

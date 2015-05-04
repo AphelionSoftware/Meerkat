@@ -138,6 +138,11 @@
         Association="FK_Question_Group"
         FromEnd="Group"
         ToEnd="Question" />
+      <NavigationProperty
+        Name="Events"
+        Association="FK_Event_Group"
+        FromEnd="Group"
+        ToEnd="c_Event" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -319,6 +324,16 @@
         Name="Question"
         EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Event_Group"
+      Association="FK_Event_Group">
+      <AssociationSetEnd
+        Name="Group"
+        EntitySet="Groups" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_Group">
@@ -375,6 +390,20 @@
       Name="Question"
       Multiplicity="Many"
       EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_Event_Group">
+    <AssociationEnd
+      Name="Group"
+      EntityType="Group">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="Many"
+      EntityType="c_Event" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -446,6 +475,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Group">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Group" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Group]/Members[Group]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Group]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Group_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Form_Group">
       <AssociationSetMapping.Attributes>

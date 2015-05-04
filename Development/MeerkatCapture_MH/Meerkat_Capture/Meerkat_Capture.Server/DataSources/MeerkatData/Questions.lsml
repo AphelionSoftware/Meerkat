@@ -108,7 +108,8 @@
         Name="Response"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -244,6 +245,41 @@
         Association="FK_Question_ReportingPeriod"
         FromEnd="Question"
         ToEnd="ReportingPeriod" />
+      <EntityProperty
+        Name="DateResponse"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DateTimeResponse"
+        PropertyType=":DateTime?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TimeResponse"
+        PropertyType=":TimeSpan?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Organization"
+        Association="FK_Question_Organization"
+        FromEnd="Question"
+        ToEnd="Organization" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -506,7 +542,7 @@
         <SsdlProperty
           Name="Response"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Question/Properties[Response]" />
         <SsdlProperty
           Name="IntegerResponse"
@@ -541,6 +577,21 @@
           Nullable="True"
           Type="nvarchar"
           Property="Question/Properties[LocalName]" />
+        <SsdlProperty
+          Name="DateResponse"
+          Nullable="True"
+          Type="date"
+          Property="Question/Properties[DateResponse]" />
+        <SsdlProperty
+          Name="DateTimeResponse"
+          Nullable="True"
+          Type="datetime"
+          Property="Question/Properties[DateTimeResponse]" />
+        <SsdlProperty
+          Name="TimeResponse"
+          Nullable="True"
+          Type="time"
+          Property="Question/Properties[TimeResponse]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -586,6 +637,11 @@
           Nullable="True"
           Type="int"
           PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="Organization_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Organization_ID" />
         <SsdlForeignKeyProperty
           Name="MultipleChoiceResponseID"
           Nullable="True"

@@ -193,6 +193,29 @@
             Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <EntityProperty
+        Name="EventType_ID"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="EventEndDate"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Group"
+        Association="FK_Event_Group"
+        FromEnd="c_Event"
+        ToEnd="Group" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -355,6 +378,11 @@
           Type="int"
           Property="c_Event/Properties[Event_ID]" />
         <SsdlProperty
+          Name="EventType_ID"
+          Nullable="False"
+          Type="int"
+          Property="c_Event/Properties[EventType_ID]" />
+        <SsdlProperty
           MaxLength="255"
           Name="Name"
           Nullable="False"
@@ -377,6 +405,11 @@
           Nullable="False"
           Type="date"
           Property="c_Event/Properties[EventDate]" />
+        <SsdlProperty
+          Name="EventEndDate"
+          Nullable="True"
+          Type="date"
+          Property="c_Event/Properties[EventEndDate]" />
         <SsdlProperty
           Name="ScheduledEventStartTime"
           Nullable="True"
@@ -436,6 +469,11 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Group_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Group_ID" />
         <SsdlForeignKeyProperty
           Name="TrainingInstitution_ID"
           Nullable="True"
