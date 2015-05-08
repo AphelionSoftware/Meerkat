@@ -5,7 +5,7 @@
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
     [BusinessKey]         NVARCHAR (400)   NOT NULL,
-    [Notes]               VARCHAR (MAX)    NULL,
+    [Notes]               VARCHAR (8000)   NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
     [ReportPeriodID]      INT              NOT NULL,
@@ -43,6 +43,8 @@
     CONSTRAINT [FK_MilestoneValues_ResultArea] FOREIGN KEY ([ResultArea_ID]) REFERENCES [disagg].[ResultArea] ([ResultArea_ID]),
     CONSTRAINT [FK_MilestoneValues_StrategicElement] FOREIGN KEY ([StrategicElement_ID]) REFERENCES [disagg].[StrategicElement] ([StrategicElement_ID])
 );
+
+
 
 
 

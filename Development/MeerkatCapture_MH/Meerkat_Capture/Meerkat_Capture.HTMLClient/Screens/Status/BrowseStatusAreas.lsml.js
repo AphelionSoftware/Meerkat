@@ -32,3 +32,7 @@ myapp.BrowseStatusAreas.AddProjectStatusValue_execute = function (screen) {
     addStatusValueFromScreen(screen, "Project");
 
 };
+myapp.BrowseStatusAreas.created = function (screen) {
+    // Write code here.
+
+};

@@ -3,7 +3,7 @@
     [FormResponse_ID]      INT              NOT NULL,
     [Question_ID]          INT              NOT NULL,
     [PotentialResponse_ID] INT              NULL,
-    [Response]             VARCHAR (MAX)    NULL,
+    [Response]             VARCHAR (8000)   NULL,
     [IntegerResponse]      INT              NULL,
     [DecimalResponse]      DECIMAL (20, 12) NULL,
     [TrueFalse]            BIT              NULL,
@@ -22,6 +22,8 @@
     CONSTRAINT [FK_Response_PotentialResponse] FOREIGN KEY ([PotentialResponse_ID]) REFERENCES [forms].[PotentialResponse] ([PotentialResponse_ID]),
     CONSTRAINT [FK_Response_Question] FOREIGN KEY ([Question_ID]) REFERENCES [forms].[Question] ([Question_ID])
 );
+
+
 
 
 

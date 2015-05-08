@@ -91,14 +91,22 @@ myapp.Home.StatusValuesSorted_postRender = function (element, contentItem) {
  
 };
 myapp.Home.StatusValuesSortedTemplate_postRender = function (element, contentItem) {
-    if (contentItem.value.StatusType.Code == "-") {
-        $(element).css("background", "#fc8d59");
-    } else if (contentItem.value.StatusType.Code == "=") {
-        $(element).css("background", "#ffffbf");
-    } else if (contentItem.value.StatusType.Code == "+") {
-        $(element).css("background", "#91cf60");
-    }
-    
+    contentItem.value.getStatusType().then(function (res) {
+        if (res.Code == "-") {
+            $(element).css("background", "#fc8d59");
+        } else if (res.Code == "=") {
+            $(element).css("background", "#ffffbf");
+        } else if (res.Code == "+") {
+            $(element).css("background", "#91cf60");
+        }
+    });
+    // if (contentItem.value.StatusType.Code == "-") {
+    //     $(element).css("background", "#fc8d59");
+    // } else if (contentItem.value.StatusType.Code == "=") {
+    //     $(element).css("background", "#ffffbf");
+    // } else if (contentItem.value.StatusType.Code == "+") {
+    //     $(element).css("background", "#91cf60");
+    // }
 
 };
 myapp.Home.VersionLabel_render = function (element, contentItem) {

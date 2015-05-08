@@ -1,10 +1,10 @@
-CREATE TABLE [Core].[Location] (
+﻿CREATE TABLE [Core].[Location] (
     [Location_ID]       INT               IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)      NOT NULL,
     [Name]              VARCHAR (255)     NULL,
     [AreaKM]            DECIMAL (18, 2)   NULL,
     [Population]        DECIMAL (18, 2)   NULL,
-    [Density]           VARCHAR (MAX)     NULL,
+    [Density]           VARCHAR (8000)    NULL,
     [BusinessKey]       NVARCHAR (400)    NOT NULL,
     [LocationType_ID]   INT               NULL,
     [ParentLocation_ID] INT               NULL,
@@ -21,6 +21,8 @@ CREATE TABLE [Core].[Location] (
     CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]),
     CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([ParentLocation_ID] ASC, [Code] ASC)
 );
+
+
 
 
 

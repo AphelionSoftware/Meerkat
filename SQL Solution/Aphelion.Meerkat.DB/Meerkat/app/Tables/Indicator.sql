@@ -1,19 +1,19 @@
-CREATE TABLE [app].[Indicator] (
+﻿CREATE TABLE [app].[Indicator] (
     [IndicatorID]            INT             IDENTITY (1, 1) NOT NULL,
     [LongName]               VARCHAR (500)   NOT NULL,
     [TextDescription]        VARCHAR (4000)  NULL,
     [Baseline]               DECIMAL (20, 5) NULL,
-    [BaselineString]         VARCHAR (MAX)   NULL,
+    [BaselineString]         VARCHAR (8000)  NULL,
     [BaselineDate]           DATETIME        NOT NULL,
     [Target]                 DECIMAL (20, 5) NULL,
-    [TargetString]           VARCHAR (MAX)   NULL,
+    [TargetString]           VARCHAR (8000)  NULL,
     [TargetDate]             DATETIME        NOT NULL,
     [ReleaseDate]            DATE            NULL,
     [ReportingDate]          DATE            NULL,
     [Output_ID]              INT             NULL,
     [Outcome_ID]             INT             NULL,
     [BusinessKey]            NVARCHAR (400)  NOT NULL,
-    [Notes]                  NVARCHAR (MAX)  NULL,
+    [Notes]                  VARCHAR (8000)  NULL,
     [Code]                   VARCHAR (50)    NOT NULL,
     [IndicatorType_ID]       INT             NULL,
     [SubOutput_ID]           INT             NULL,
@@ -47,6 +47,8 @@ CREATE TABLE [app].[Indicator] (
     CONSTRAINT [FK_Indicator_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_Indicator_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

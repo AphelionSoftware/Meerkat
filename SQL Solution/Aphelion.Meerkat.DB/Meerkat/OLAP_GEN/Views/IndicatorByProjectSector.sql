@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE VIEW [OLAP_GEN].[IndicatorByProjectSector]
 AS
 -------------------------------------------
@@ -38,6 +39,10 @@ ON I.Sector_ID = S.Sector_ID
 	INNER JOIN app.Programme P
 	ON COALESCE(I.Programme_ID , PR.Programme_ID, S.Programme_ID) = P.Programme_ID
 		
+WHERE I.Active >= 1 
+ AND S.Active >= 1
+ AND P.Active >= 1
+ AND ISNULL(PR.Active, 2) >= 1
 UNION
 
 
@@ -77,6 +82,13 @@ ON I.Sector_ID = SS.Sector_ID
 	INNER JOIN app.Programme P
 	ON COALESCE(I.Programme_ID , PR.Programme_ID, S.Programme_ID) = P.Programme_ID
 		
+
+
+WHERE I.Active >= 1 
+ AND S.Active >= 1
+ AND SS.Active >= 1
+ AND P.Active >= 1
+ AND ISNULL(PR.Active, 2) >= 1
 ------------------------------------------------------------
 ----Project links.
 ------------------------------------------------------------

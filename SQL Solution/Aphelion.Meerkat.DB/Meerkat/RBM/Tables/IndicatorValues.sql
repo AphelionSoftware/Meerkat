@@ -5,7 +5,7 @@
     [ActualValue]         DECIMAL (20, 5)  NULL,
     [ActualDate]          DATE             NULL,
     [BusinessKey]         NVARCHAR (400)   NOT NULL,
-    [Notes]               VARCHAR (MAX)    NULL,
+    [Notes]               VARCHAR (8000)   NULL,
     [DataVersion_ID]      INT              NOT NULL,
     [Location_ID]         INT              NOT NULL,
     [ReportPeriodID]      INT              NOT NULL,
@@ -40,6 +40,8 @@
     CONSTRAINT [FK_IndicatorValues_ReportingPeriod] FOREIGN KEY ([ReportPeriodID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [FK_IndicatorValues_Structure] FOREIGN KEY ([Structure_ID]) REFERENCES [disagg].[Structure] ([Structure_ID])
 );
+
+
 
 
 

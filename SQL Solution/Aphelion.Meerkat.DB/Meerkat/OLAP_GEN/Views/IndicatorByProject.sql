@@ -1,5 +1,4 @@
 ﻿
-
 CREATE VIEW [OLAP_GEN].[IndicatorByProject]
 as
 
@@ -19,7 +18,9 @@ select
 	P.Code as ProjectCode,
 	P.Code as ProgrammeCode
 
+
 from app.Programme P
+WHERE P.Active >= 1
 UNION ALL
 
 
@@ -42,7 +43,8 @@ select
 from app.Indicator I
 INNER JOIN app.Programme P
 ON I.Programme_ID = P.Programme_ID
-
+WHERE P.Active >= 1
+AND I.Active >= 1
 
 -----------------------------------------------------
 ---Start of project links, from Indicator
@@ -70,7 +72,9 @@ INNER JOIN app.Project PR
 			ON PR.Programme_ID = P.Programme_ID
 				ON I.ProjectID = PR.ProjectID
 
-
+WHERE P.Active >= 1
+AND PR.Active >= 1
+AND I.Active >= 1
 
 
 
@@ -102,6 +106,8 @@ from
 app.Project PR
 			INNER JOIN app.Programme P
 			ON PR.Programme_ID = P.Programme_ID
+WHERE P.Active >= 1
+AND PR.Active >= 1
 
 
 

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 
@@ -223,69 +224,78 @@ UNION ALL
 SELECT Title = 'Status', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
 						+ '&qsNamedRange=Status'
 						+ '&qsProgramme=' + OC.BusinessKey
 
 , 
-Priority = 200 * P.ProjectID, 
+Priority = 200 * OC.Programme_ID,--* P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
    WHERE  G.Title = 'Program Reports >>>'
-          AND G.Programme_ID = P.Programme_ID), 
-P.Programme_ID 
-FROM   [app].[Project] P 
-INNER JOIN [app].[Programme] AS OC 
-        ON P.Programme_ID = oc.Programme_ID 
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM   
+--[app].[Project] P 
+--INNER JOIN 
+[app].[Programme] AS OC 
+       -- ON P.Programme_ID = oc.Programme_ID 
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
-WHERE  P.Active = 1 AND OC.Active = 1
+WHERE  --P.Active = 1 AND 
+OC.Active = 1
 
 
   UNION ALL 
 SELECT Title = 'People Reached', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
 						+ '&qsNamedRange=PeopleReached'
 						+ '&qsProgramme=' + OC.BusinessKey
 
 , 
-Priority = 300 * P.ProjectID, 
+Priority = OC.Programme_ID,--* P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-   WHERE  G.Title = 'Program Reports >>>' 
-          AND G.Programme_ID = P.Programme_ID), 
-P.Programme_ID 
-FROM   [app].[Project] P 
-INNER JOIN [app].[Programme] AS OC 
-        ON P.Programme_ID = oc.Programme_ID 
+   WHERE  G.Title = 'Program Reports >>>'
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM   
+--[app].[Project] P 
+--INNER JOIN 
+[app].[Programme] AS OC 
+       -- ON P.Programme_ID = oc.Programme_ID 
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
-WHERE  P.Active = 1 AND OC.Active = 1
+WHERE  --P.Active = 1 AND 
+OC.Active = 1
 
 
 UNION ALL 
 SELECT Title = 'Indicators', 
 Link = ISNULL(GS.Value, '/') + OC.ProgrammeSitename
 						+ '/' + '/Dashboards/Template%20Pages/ExcelRangeDisplayByProgram.aspx'
-						+ '?qsFileName=StatusByProgram.xlsx'
+						+ '?qsFileName=/Reports/PowerPivotGallery/StatusByProgram.xlsx'
 						+ '&qsNamedRange=Indicators'
 						+ '&qsProgramme=' + OC.BusinessKey
 
 , 
-Priority = 400 * P.ProjectID, 
+Priority = 400 * OC.Programme_ID,--* P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
    WHERE  G.Title = 'Program Reports >>>'
-          AND G.Programme_ID = P.Programme_ID), 
-P.Programme_ID 
-FROM   [app].[Project] P 
-INNER JOIN [app].[Programme] AS OC 
-        ON P.Programme_ID = oc.Programme_ID 
+          AND G.Programme_ID = OC.Programme_ID), 
+OC.Programme_ID 
+FROM   
+--[app].[Project] P 
+--INNER JOIN 
+[app].[Programme] AS OC 
+       -- ON P.Programme_ID = oc.Programme_ID 
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
-WHERE  P.Active = 1 AND OC.Active = 1
+WHERE  --P.Active = 1 AND 
+OC.Active = 1
 
 
               

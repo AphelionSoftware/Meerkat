@@ -10,6 +10,10 @@
 ,@IndicatorSimpleType_ID		   int = 0
 ,@ResultArea_ID			  int = 0
 ,@Framework_ID			  int = 0
+,@Donor_ID			  int = 0
+ 
+,@Structure_ID			  int = 0
+ 
 
 AS
 /*
@@ -153,8 +157,9 @@ ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
 	AND (iv.Gender_ID		=  @Gender_ID			  OR  @Gender_ID		 = 0)
 	AND (iv.Group_ID		=  @Group_ID		  OR 	  @Group_ID			 = 0)
 	AND (iv.Institution_ID	= @Institution_ID		  OR @Institution_ID	 = 0)
-    
-
+    AND (iv.Donor_ID =  @Donor_ID OR  @Donor_ID = 0)
+	AND (iv.Structure_ID			=		@Structure_ID			OR @Structure_ID		 =  0) 
+																							  
   INNER JOIN Core.ReportingPeriod FinalTargetPeriod
   ON i.TargetDate_ID BETWEEN
    FinalTargetPeriod.StartDateID  AND
@@ -185,6 +190,7 @@ on (iv.Location_ID = l.Location_ID )
 
   WHERE (I.IndicatorSimpleType_ID =  @IndicatorSimpleType_ID OR  @IndicatorSimpleType_ID = 0)
 	AND (I.ResultArea_ID =  @ResultArea_ID OR  @ResultArea_ID = 0)
+
 	AND (@Framework_ID = 0 OR 
 		EXISTS (SELECT 1 FROM [disagg].[FrameworkDetail_Indicator] FDI
 					INNER JOIN disagg.FrameworkDetail FD ON FDI.FrameworkDetail_ID = FD.FrameworkDetail_ID

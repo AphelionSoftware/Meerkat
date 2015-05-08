@@ -1,8 +1,6 @@
 ﻿
 
 
-
-
 CREATE VIEW [OLAP_GEN].[IndicatorBySector]
 as
 
@@ -22,13 +20,14 @@ SELECT
 	S.LongName as SectorLongName,
 	I.Code as IndicatorCode,
 	S.Code as SubsectorCode,
-	S.Code as SectorCode 
+	S.Code as SectorCode
 
 
 
 from app.Indicator I
 INNER JOIN app.Sector S
 	ON I.Sector_ID = S.Sector_ID
+WHERE i.Active >= 1
 
 UNION ALL 
 SELECT 
@@ -50,7 +49,9 @@ INNER JOIN app.SubSector SS
 	INNER JOIN app.Sector S
 		ON SS.Sector_ID = S.Sector_ID
 		ON I.SubSector_ID = SS.SubSector_ID
-
+WHERE i.Active >= 1
+AND S.Active >= 1
+AND SS.Active >= 1
 -----------------------------------------------------
 ---Start of Sector links - directly, and sub sector
 -----------------------------------------------------
@@ -78,6 +79,10 @@ from
 app.SubSector SS
 		INNER JOIN app.Sector S
 			ON SS.Sector_ID = S.Sector_ID
+
+WHERE S.Active >= 1
+AND SS.Active >= 1
+
 UNION ALL
 
 --Sector 
@@ -98,6 +103,7 @@ SELECT
 	s.Code as SectorCode
 from 
 app.Sector S
+WHERE S.Active >= 1
 GO
 EXECUTE sp_addextendedproperty @name = N'HierarchyName', @value = N'ShortName', @level0type = N'SCHEMA', @level0name = N'OLAP_GEN', @level1type = N'VIEW', @level1name = N'IndicatorBySector', @level2type = N'COLUMN', @level2name = N'SectorShortName';
 
