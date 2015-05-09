@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [Core].[Person] (
     [Person_ID]                  INT            IDENTITY (1, 1) NOT NULL,
-    [Title]                      VARCHAR (MAX)  NULL,
+    [Title]                      VARCHAR (8000) NULL,
     [Name]                       VARCHAR (255)  NULL,
-    [ContactDetails]             VARCHAR (MAX)  NULL,
-    [Category]                   VARCHAR (MAX)  NULL,
+    [ContactDetails]             VARCHAR (8000) NULL,
+    [Category]                   VARCHAR (8000) NULL,
     [BusinessKey]                NVARCHAR (400) NOT NULL,
     [UserDetails]                VARCHAR (50)   NULL,
     [PersonParticipationType_ID] INT            NULL,
@@ -16,6 +16,8 @@
     CONSTRAINT [FK_Person_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Person_PersonParticipationType] FOREIGN KEY ([PersonParticipationType_ID]) REFERENCES [Core].[PersonParticipationType] ([PersonParticipationType_ID])
 );
+
+
 
 
 

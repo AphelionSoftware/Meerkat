@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [OLAP_TEST]
+    AUTHORIZATION [dbo];
+

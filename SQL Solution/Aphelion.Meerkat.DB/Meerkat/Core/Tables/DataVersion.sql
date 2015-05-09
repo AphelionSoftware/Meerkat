@@ -2,7 +2,7 @@
     [DataVersion_ID] INT            IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NULL,
-    [Description]    VARCHAR (MAX)  NOT NULL,
+    [Description]    VARCHAR (8000) NULL,
     [BusinessKey]    NVARCHAR (400) NOT NULL,
     [Order]          INT            CONSTRAINT [DF_DataVersion_Order] DEFAULT ((10)) NOT NULL,
     [Active]         INT            CONSTRAINT [DF_DataVersion_Active] DEFAULT ((1)) NOT NULL,
@@ -15,6 +15,8 @@
     CONSTRAINT [FK_DataVersion_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_DataVersion_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

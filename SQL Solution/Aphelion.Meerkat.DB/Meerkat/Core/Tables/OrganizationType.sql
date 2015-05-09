@@ -2,7 +2,7 @@
     [OrganizationType_ID] INT            IDENTITY (1, 1) NOT NULL,
     [Code]                VARCHAR (50)   NOT NULL,
     [Name]                VARCHAR (255)  NULL,
-    [Description]         VARCHAR (MAX)  NULL,
+    [Description]         VARCHAR (8000) NULL,
     [BusinessKey]         NVARCHAR (400) NOT NULL,
     [Active]              INT            CONSTRAINT [DF_OrganizationType_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]       VARCHAR (255)  CONSTRAINT [DF_OrganizationType_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -13,6 +13,8 @@
     CONSTRAINT [PK_OrganizationType] PRIMARY KEY CLUSTERED ([OrganizationType_ID] ASC),
     CONSTRAINT [FK_OrganizationType_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 
 
 

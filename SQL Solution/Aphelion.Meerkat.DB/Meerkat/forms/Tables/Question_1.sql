@@ -12,7 +12,7 @@
     [sys_ModifiedBy]           VARCHAR (255)    CONSTRAINT [DF_Question_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]           DATETIME         CONSTRAINT [DF_Question_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [MultipleChoiceResponseID] INT              NULL,
-    [Response]                 VARCHAR (MAX)    NULL,
+    [Response]                 VARCHAR (8000)   NULL,
     [IntegerResponse]          INT              NULL,
     [DecimalResponse]          DECIMAL (20, 12) NULL,
     [TrueOrFalse]              BIT              NULL,
@@ -49,6 +49,8 @@
     CONSTRAINT [FK_Question_ReportingPeriod] FOREIGN KEY ([ReportingPeriod_ID]) REFERENCES [Core].[ReportingPeriod] ([ID]),
     CONSTRAINT [IX_Question] UNIQUE NONCLUSTERED ([Category_ID] ASC, [QuestionOrder] ASC)
 );
+
+
 
 
 

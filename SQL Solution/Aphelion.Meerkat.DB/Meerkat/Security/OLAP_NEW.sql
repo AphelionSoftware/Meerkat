@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [OLAP_NEW]
+    AUTHORIZATION [dbo];
+

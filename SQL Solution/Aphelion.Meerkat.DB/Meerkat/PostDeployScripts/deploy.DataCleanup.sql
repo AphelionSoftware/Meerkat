@@ -127,3 +127,7 @@ GO
 	     WHEN ReportingPeriod = 4 THEN CAST( YearName + '1231' as int)
 	END
 
+
+	GO
+	UPDATE Core.ReportingPeriod
+	SET Summary = LEFT( Summary, 8) + '(' + cast(StartDateID as char(8)) + ' - ' +cast(EndDateID as char(8)) + ')'

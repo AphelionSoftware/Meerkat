@@ -2,7 +2,7 @@
     [LocationType_ID]   INT            IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)   NOT NULL,
     [Name]              VARCHAR (255)  NULL,
-    [Description]       VARCHAR (MAX)  NOT NULL,
+    [Description]       VARCHAR (8000) NULL,
     [BusinessKey]       NVARCHAR (400) NOT NULL,
     [Active]            INT            CONSTRAINT [DF_LocationType_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]     VARCHAR (255)  CONSTRAINT [DF_LocationType_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -16,6 +16,8 @@
     CONSTRAINT [UQ_LocationType_Code] UNIQUE NONCLUSTERED ([Code] ASC),
     CONSTRAINT [UQ_LocationType_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
+
+
 
 
 

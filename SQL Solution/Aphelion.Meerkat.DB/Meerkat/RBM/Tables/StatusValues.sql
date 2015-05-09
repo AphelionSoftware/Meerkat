@@ -14,7 +14,7 @@
     [ReportingPeriodID] INT            NOT NULL,
     [LocationID]        INT            NOT NULL,
     [DataVersionID]     INT            NOT NULL,
-    [Notes]             NVARCHAR (MAX) NULL,
+    [Notes]             VARCHAR (8000) NULL,
     [Active]            INT            CONSTRAINT [DF_StatusValues_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]     VARCHAR (255)  CONSTRAINT [DF_StatusValues_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]     DATETIME       CONSTRAINT [DF_StatusValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -38,6 +38,8 @@
     CONSTRAINT [FK_StatusValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_StatusValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

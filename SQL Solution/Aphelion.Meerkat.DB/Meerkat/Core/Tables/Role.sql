@@ -2,7 +2,7 @@
     [RoleID]         INT            IDENTITY (1, 1) NOT NULL,
     [Code]           VARCHAR (50)   NOT NULL,
     [Name]           VARCHAR (255)  NULL,
-    [Description]    VARCHAR (MAX)  NULL,
+    [Description]    VARCHAR (8000) NULL,
     [BusinessKey]    NVARCHAR (400) NOT NULL,
     [Active]         INT            CONSTRAINT [DF_Role_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]  VARCHAR (255)  CONSTRAINT [DF_Role_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
@@ -14,6 +14,8 @@
     CONSTRAINT [FK_Role_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [UQ_Role_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 

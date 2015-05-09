@@ -1,4 +1,4 @@
-CREATE TABLE [RBM].[PeopleReachedValues] (
+﻿CREATE TABLE [RBM].[PeopleReachedValues] (
     [PeopleReachedValuesID]        INT            IDENTITY (1, 1) NOT NULL,
     [Outcome_ID]                   INT            NULL,
     [Output_ID]                    INT            NULL,
@@ -12,7 +12,7 @@ CREATE TABLE [RBM].[PeopleReachedValues] (
     [ReportingPeriod_ID]           INT            NOT NULL,
     [Location_ID]                  INT            NOT NULL,
     [DataVersion_ID]               INT            NOT NULL,
-    [Notes]                        NVARCHAR (MAX) NULL,
+    [Notes]                        VARCHAR (8000) NULL,
     [Active]                       INT            CONSTRAINT [DF_PeopleReachedValues_Active] DEFAULT ((1)) NOT NULL,
     [sys_CreatedBy]                VARCHAR (255)  CONSTRAINT [DF_PeopleReachedValues_sys_CreatedBy] DEFAULT (user_name()) NOT NULL,
     [sys_CreatedOn]                DATETIME       CONSTRAINT [DF_PeopleReachedValues_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
@@ -57,6 +57,8 @@ CREATE TABLE [RBM].[PeopleReachedValues] (
     CONSTRAINT [FK_PeopleReachedValues_SubOutput] FOREIGN KEY ([SubOutput_ID]) REFERENCES [app].[SubOutput] ([SubOutput_ID]),
     CONSTRAINT [FK_PeopleReachedValues_SubSector] FOREIGN KEY ([SubSector_ID]) REFERENCES [app].[SubSector] ([SubSector_ID])
 );
+
+
 
 
 

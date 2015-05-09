@@ -1,18 +1,18 @@
-CREATE TABLE [app].[Milestone] (
+﻿CREATE TABLE [app].[Milestone] (
     [MilestoneID]     INT             IDENTITY (1, 1) NOT NULL,
     [LongName]        VARCHAR (500)   NOT NULL,
     [TextDescription] VARCHAR (4000)  NULL,
     [Baseline]        DECIMAL (20, 5) NULL,
-    [BaselineString]  VARCHAR (MAX)   NULL,
+    [BaselineString]  VARCHAR (8000)  NULL,
     [BaselineDate]    DATETIME        NOT NULL,
     [Target]          DECIMAL (20, 5) NULL,
-    [TargetString]    VARCHAR (MAX)   NULL,
+    [TargetString]    VARCHAR (8000)  NULL,
     [TargetDate]      DATETIME        NOT NULL,
     [ReleaseDate]     DATE            NULL,
     [ReportingDate]   DATE            NULL,
     [ProjectID]       INT             NULL,
     [BusinessKey]     NVARCHAR (400)  NOT NULL,
-    [Notes]           NVARCHAR (MAX)  NULL,
+    [Notes]           VARCHAR (8000)  NULL,
     [Code]            VARCHAR (50)    NOT NULL,
     [MilestoneTypeID] INT             NOT NULL,
     [Activity_ID]     INT             NULL,
@@ -34,6 +34,8 @@ CREATE TABLE [app].[Milestone] (
     CONSTRAINT [FK_Milestone_Project] FOREIGN KEY ([ProjectID]) REFERENCES [app].[Project] ([ProjectID]),
     CONSTRAINT [UQ_Milestone_Code] UNIQUE NONCLUSTERED ([Code] ASC)
 );
+
+
 
 
 
