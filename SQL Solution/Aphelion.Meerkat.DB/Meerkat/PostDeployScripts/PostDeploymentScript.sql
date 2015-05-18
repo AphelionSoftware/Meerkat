@@ -50,7 +50,7 @@ GO*/
 :r .\Core.ActiveType.PDS.sql
 :r .\Core.StatusType.PDS.sql
 :r .\Core.DataVersions.PDS.sql
-:r .\Core.DimDate.PDS.sql
+--:r .\Core.DimDate.PDS.sql
 :r .\Core.ReportingPeriod.PDS.sql
 :r .\app.MilestoneType.PDS.sql
 :r .\app.IndicatorType.PDS.sql

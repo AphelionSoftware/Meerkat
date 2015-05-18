@@ -56,9 +56,15 @@ SELECT
 , 'SPO' AS Code
 ,RoleType_ID, DV.DataVersion_ID
  FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 2 AND RoleTypeSourceKey = 'CAPTURE'
+	UNION
+SELECT 
+  'Forms Manager' AS Name
+, 'FM' AS Code
+,RoleType_ID, DV.DataVersion_ID
+ FROM [Access].RoleType CROSS JOIN [Core].[DataVersion] DV WHERE DV.[Order] = 2 AND RoleTypeSourceKey = 'FORMS'
 	
 
 ) Q
 WHERE NOT EXISTS (
 	SELECT 1 FROM [Access].[SystemRole]
-		WHERE Code = q.Code)
+		WHERE SystemRoleCode = q.Code)

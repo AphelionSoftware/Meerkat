@@ -8,7 +8,9 @@
     [sys_CreatedOn]    DATETIME       CONSTRAINT [DF_DH_sys_CreatedOn] DEFAULT (getdate()) NOT NULL,
     [sys_ModifiedBy]   VARCHAR (255)  CONSTRAINT [DF_DH_sys_ModifiedBy] DEFAULT (user_name()) NOT NULL,
     [sys_ModifiedOn]   DATETIME       CONSTRAINT [DF_DH_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
-    PRIMARY KEY CLUSTERED ([DeployHistory_ID] ASC),
+    CONSTRAINT [PK__DeployHi__FCD7ABD00590F27A] PRIMARY KEY CLUSTERED ([DeployHistory_ID] DESC),
     CONSTRAINT [FK_DH_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID])
 );
+
+
 

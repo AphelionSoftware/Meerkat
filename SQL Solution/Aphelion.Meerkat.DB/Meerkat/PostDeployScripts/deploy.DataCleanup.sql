@@ -55,40 +55,21 @@ SET Summary = CAST(StartDateID/10000 as char(4))
 
 GO
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-update [forms].[FormResponse]
-set ReportingPeriod_ID = ReportingPeriod_ID + 144 
-where	ReportingPeriod_ID  < 64
-GO
-update [forms].[Question]
-set ReportingPeriod_ID = ReportingPeriod_ID + 144 
-where	ReportingPeriod_ID  < 64
-GO
-update [RBM].[IndicatorValues]
-set ReportPeriodID = ReportPeriodID + 144 
-where	ReportPeriodID  < 64
-GO
-update [RBM].[MilestoneValues]
-set ReportPeriodID = ReportPeriodID + 144 
-where	ReportPeriodID  < 64
-GO
-update [RBM].[StatusValues]
-set ReportingPeriodID = ReportingPeriodID + 144 
-where	ReportingPeriodID  < 64
-GO
-update [Core].[ReportingPeriod]
-set ReportingPeriod = ReportingPeriod + 144 
-where	ReportingPeriod  < 64
-GO
-update [RBM].[PeopleReachedValues]
-set ReportingPeriod_ID = ReportingPeriod_ID + 144 
-where	ReportingPeriod_ID  < 64
-GO
-update [forms].[Form]
-set ReportingPeriod_ID = ReportingPeriod_ID + 144 
-where	ReportingPeriod_ID  < 64
-GO
+update forms.formresponse
+set [ReportingPeriod_ID] = [ReportingPeriod_ID] - (208-64) 
+where [ReportingPeriod_ID] >= 208
 
-DELETE FROM Core.ReportingPeriod WHERE ID < 64 
+update forms.Question
+set [ReportingPeriod_ID] = [ReportingPeriod_ID] - (208-64) 
+where [ReportingPeriod_ID] >= 208
+
+update rbm.IndicatorValues
+set [ReportPeriodID] = [ReportPeriodID] - (208-64) 
+where [ReportPeriodID] >= 208
+
+
+delete from [Meerkat].[Core].[ReportingPeriod]
+where id > 208
 
 GO
   UPDATE [Core].[ReportingPeriod]

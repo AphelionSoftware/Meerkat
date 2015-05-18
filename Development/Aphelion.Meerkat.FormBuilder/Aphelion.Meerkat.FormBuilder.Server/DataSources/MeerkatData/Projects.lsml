@@ -239,6 +239,11 @@
         Association="FK_Question_Project"
         FromEnd="Project"
         ToEnd="Question" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_Project"
+        FromEnd="Project"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -392,6 +397,16 @@
         Name="Question"
         EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_Project"
+      Association="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Indicator_Project">
@@ -478,6 +493,20 @@
       Name="Question"
       Multiplicity="Many"
       EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -738,6 +767,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Question_Project]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[User_SystemRole_ProjectProgramme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />

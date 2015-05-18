@@ -72,27 +72,6 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Sector_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="SubSector_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="BusinessKey"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -225,6 +204,26 @@
         Association="FK_AgeBand_Project"
         FromEnd="Project"
         ToEnd="AgeBand" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Project_Programme"
+        FromEnd="Project"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Sector"
+        Association="FK_Project_Sector"
+        FromEnd="Project"
+        ToEnd="Sector" />
+      <NavigationProperty
+        Name="SubSector"
+        Association="FK_Project_SubSector"
+        FromEnd="Project"
+        ToEnd="SubSector" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_Project"
+        FromEnd="Project"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -353,6 +352,16 @@
         Name="AgeBand"
         EntitySet="AgeBands" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_Project"
+      Association="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_AgeBand_Project">
@@ -367,6 +376,20 @@
       Name="AgeBand"
       Multiplicity="Many"
       EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -414,21 +437,6 @@
           Nullable="True"
           Type="int"
           Property="Project/Properties[Outcome_ID]" />
-        <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Programme_ID]" />
-        <SsdlProperty
-          Name="Sector_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Sector_ID]" />
-        <SsdlProperty
-          Name="SubSector_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[SubSector_ID]" />
         <SsdlProperty
           MaxLength="400"
           Name="BusinessKey"
@@ -506,6 +514,21 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Sector_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -546,6 +569,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Project_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[User_SystemRole_ProjectProgramme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

@@ -36,9 +36,9 @@ function addStatusValue(screen, type) {
         myapp.showAddEditStatusValue(undefined, data, screen.Outcomes.selectedItem.Outcome_ID);
 
     } else if (type == "Programme") {
-        myapp.showAddEditStatusValue(undefined, data, screen.ProgrammeSorted.selectedItem.Outcome_ID);
+        myapp.showAddEditStatusValue(undefined, data, screen.ProgrammeSorted.selectedItem.Programme_ID);
     }  else if (type == "Project") {
-    myapp.showAddEditStatusValue(undefined, data, screen.ProgrammeSorted.selectedItem.Outcome_ID);
+    myapp.showAddEditStatusValue(undefined, data, screen.ProjectsSortedForStatusFilter.selectedItem.ProjectID);
 }
 }
 

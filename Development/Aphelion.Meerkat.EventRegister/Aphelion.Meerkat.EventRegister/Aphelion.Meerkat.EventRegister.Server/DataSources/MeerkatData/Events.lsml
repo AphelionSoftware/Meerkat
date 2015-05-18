@@ -210,6 +210,11 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="vwEventUserMaps"
+        Association="vwEventUserMap_c_Event"
+        FromEnd="c_Event"
+        ToEnd="vwEventUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -328,6 +333,16 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vwEventUserMap_c_Events"
+      Association="vwEventUserMap_c_Event">
+      <AssociationSetEnd
+        Name="vwEventUserMap"
+        EntitySet="vwEventUserMaps" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
   </EntityContainer>
   <DataService
     Name="MeerkatDataDataService">
@@ -481,5 +496,44 @@
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwEventUserMap_c_Events">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwEventUserMap_c_Events" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEventUserMap_c_Events]/Members[vwEventUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEventUserMap_c_Events]/Members[c_Event]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
+  <Association
+    Name="vwEventUserMap_c_Event">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwEventUserMap"
+      Multiplicity="Many"
+      EntityType="vwEventUserMap" />
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="One"
+      EntityType="c_Event">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
 </ServiceApplication>
