@@ -86,7 +86,7 @@ GO*/
 
 
 /*end Insert data*/
-:r .\Security\PowerPivotUser.sql
+--:r .\Security\PowerPivotUser.sql
 
 INSERT INTO settings.DeployHistory (Code, Notes)
 VALUES ('DEPLOY-MAY', 'Deployments in May. Build 2015-05-09')
