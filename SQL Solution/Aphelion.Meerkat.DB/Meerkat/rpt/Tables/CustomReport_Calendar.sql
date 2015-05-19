@@ -10,10 +10,18 @@
     [ReportDeadlineStartDate]  DATE          NOT NULL,
     [ReportWarningStartDate]   DATE          NOT NULL,
     [ReportNoticeStartDate]    DATE          NOT NULL,
+    [Donor_ID]                 INT           NULL,
+    [Programme_ID]             INT           NULL,
+    [Project_ID]               INT           NULL,
     CONSTRAINT [PK_CustomReport_Calendar] PRIMARY KEY CLUSTERED ([CustomReport_Calendar_ID] ASC),
     CONSTRAINT [FK_CustomReport_Calendar_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
-    CONSTRAINT [FK_CustomReport_Calendar_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID])
+    CONSTRAINT [FK_CustomReport_Calendar_CustomReport] FOREIGN KEY ([CustomReport_ID]) REFERENCES [rpt].[CustomReport] ([CustomReport_ID]),
+    CONSTRAINT [FK_CustomReport_Calendar_Donor] FOREIGN KEY ([Donor_ID]) REFERENCES [disagg].[Donor] ([Donor_ID]),
+    CONSTRAINT [FK_CustomReport_Calendar_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
+    CONSTRAINT [FK_CustomReport_Calendar_Project] FOREIGN KEY ([Project_ID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
 
 
 
