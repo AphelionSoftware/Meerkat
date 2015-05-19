@@ -4,8 +4,17 @@ CREATE PROC [dbo].[uspProject_ActivityProgress]
 --declare
 
 @MDXKey varchar(255),
-@DataVersion_ID varchar(255)=0
+@DataVersion_ID varchar(255) = 0
 
+,@AgeBand_ID		   	  int = 0
+,@CommunityType_ID	   	  int = 0
+,@Gender_ID			   	  int = 0
+,@Group_ID			   	  int = 0
+,@Institution_ID		  int = 0
+,@ResultArea_ID			  int = 0
+,@Framework_ID			  int = 0
+,@Donor_ID				  int = 0
+,@StrategicElement_ID	  int = 0
 AS
 
 DECLARE @Activity_ID int = 0
@@ -97,6 +106,20 @@ mv.DataVersion_ID,
   AND (MV.DataVersion_ID =  @DataVersion_ID OR @DataVersion_ID = 0 )
   AND MV.ReportPeriodID = RP.ID
   
+
+  
+  AND ( AgeBand_ID		    = @AgeBand_ID		   	  OR  @AgeBand_ID		   	= 0 ) 
+  AND ( CommunityType_ID	= @CommunityType_ID	   	  OR  @CommunityType_ID	   	= 0 ) 
+  AND ( Gender_ID			= @Gender_ID			  OR  @Gender_ID			= -1) 	
+  AND ( Group_ID			= @Group_ID			   	  OR  @Group_ID			   	= 0 ) 
+  AND ( Institution_ID		= @Institution_ID		  OR  @Institution_ID		= 0 ) 
+  AND ( ResultArea_ID		= @ResultArea_ID		  OR  @ResultArea_ID		= 0 ) 
+  AND ( Framework_ID		= @Framework_ID			  OR  @Framework_ID			= 0 ) 
+  AND ( Donor_ID			= @Donor_ID				  OR  @Donor_ID				= 0 ) 
+  AND ( StrategicElement_ID = @StrategicElement_ID	  OR  @StrategicElement_ID	= 0 ) 
+
+
+
    LEFT JOIN app.Activity a
     on m.Activity_ID = a.Activity_ID
 	JOIN  app.Project P

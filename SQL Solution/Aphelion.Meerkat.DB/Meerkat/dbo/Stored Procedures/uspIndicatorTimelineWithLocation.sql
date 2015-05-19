@@ -4,6 +4,18 @@
 , @indicator_id int --varchar(255)
 , @Location_ID int =0 
 --, @Location_ID int =1 
+
+,@AgeBand_ID		   	  int = 0
+,@CommunityType_ID	   	  int = 0
+,@Gender_ID			   	  int = 0
+,@Group_ID			   	  int = 0
+,@Institution_ID		  int = 0
+,@IndicatorSimpleType_ID  int = 0
+,@ResultArea_ID			  int = 0
+,@Framework_ID			  int = 0
+,@Donor_ID				  int = 0
+,@Structure_ID			  int = 0
+
 AS
 /*
 declare 
@@ -17,6 +29,7 @@ declare
 
 SELECT    
 LocationType_ID, 
+ROW_NUMBER() over (partition by Location_ID, Indicator_ID order by ReportCycleDate_ID DESC) as RowNDateDesc,
 DENSE_RANK() Over (order by fiv.Code) %2 RN,
 UnitOfMeasure,
  Case When 
@@ -211,11 +224,33 @@ SELECT
 		OR @Location_ID = Location.ParentLocation_ID
 	)
 
+	
+
+  AND (I.IndicatorSimpleType_ID =  @IndicatorSimpleType_ID OR  @IndicatorSimpleType_ID = 0)
+	AND (I.ResultArea_ID =  @ResultArea_ID OR  @ResultArea_ID = 0)
+
+	AND (@Framework_ID = 0 OR 
+		EXISTS (SELECT 1 FROM [disagg].[FrameworkDetail_Indicator] FDI
+					INNER JOIN disagg.FrameworkDetail FD ON FDI.FrameworkDetail_ID = FD.FrameworkDetail_ID
+				WHERE FD.Framework_ID = @Framework_ID
+					AND FDI.IndicatorID = I.IndicatorID
+					)
+					)
+
+
 ) TargetFIV 
 
 LEFT JOIN RBM.IndicatorValues IV 
 ON TargetFIV.ReportingPeriod = IV.ReportPeriodID
     and TargetFIV.Location_ID = IV.Location_ID
+
+	AND (iv.AgeBand_ID		=  @AgeBand_ID			  OR  @AgeBand_ID		 = 0)
+	AND (iv.CommunityType_ID=  @CommunityType_ID  OR 	  @CommunityType_ID	 = 0)
+	AND (iv.Gender_ID		=  @Gender_ID			  OR  @Gender_ID		 = -1)
+	AND (iv.Group_ID		=  @Group_ID		  OR 	  @Group_ID			 = 0)
+	AND (iv.Institution_ID	= @Institution_ID		  OR @Institution_ID	 = 0)
+    AND (iv.Donor_ID =  @Donor_ID OR  @Donor_ID = 0)
+	AND (iv.Structure_ID			=		@Structure_ID			OR @Structure_ID		 =  0) 
 
 LEFT JOIN app.SubOutput SO
     ON TargetFIV.SubOutput_ID = SO.SubOutput_ID
@@ -231,6 +266,7 @@ LEFT JOIN app.Outcome OM
 
 ) FIV
 where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
+
 
 
 order by LocationType_ID ASC, ReportCycleDate_ID ASC
