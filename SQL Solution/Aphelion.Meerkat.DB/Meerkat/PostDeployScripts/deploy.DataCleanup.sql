@@ -69,7 +69,7 @@ where [ReportPeriodID] >= 208
 
 
 delete from [Meerkat].[Core].[ReportingPeriod]
-where id > 208
+where id >= 208
 
 GO
   UPDATE [Core].[ReportingPeriod]
