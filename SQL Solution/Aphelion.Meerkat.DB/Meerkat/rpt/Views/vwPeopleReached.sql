@@ -1,4 +1,5 @@
 ﻿
+
 CREATE view [rpt].[vwPeopleReached]
 as
 SELECT 
@@ -43,6 +44,7 @@ SELECT
 	, [Location].[BusinessKey] AS Location_BusinessKey
 	, [ResultArea].[Name] AS ResultArea_Name
 	, [StrategicElement].[Name] AS StrategicElement_Name
+	, PPT.Name ParticipationTypeName
 	, NumberReached
 FROM [RBM].[PeopleReachedValues] [PeopleReachedValues]
 
@@ -118,4 +120,7 @@ JOIN [Core].[Location]
 
 JOIN [Core].[LocationType] 
 	ON [Location].LocationType_ID = [LocationType].[LocationType_ID]
+ 
+LEFT JOIN [Core].[PersonParticipationType] PPT
+	ON [PeopleReachedValues].ParticipationType_ID = PPT.PersonParticipationType_ID
  
