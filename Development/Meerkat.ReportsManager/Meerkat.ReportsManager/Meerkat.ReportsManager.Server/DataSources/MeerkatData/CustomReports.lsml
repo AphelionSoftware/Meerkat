@@ -126,22 +126,21 @@
         Association="FK_CustomReport_ResponsiblePerson_CustomReport"
         FromEnd="CustomReport"
         ToEnd="CustomReport_ResponsiblePerson" />
-      <NavigationProperty
-        Name="vwAllReportsByPeoples"
-        Association="vwAllReportsByPeople_CustomReport"
-        FromEnd="CustomReport"
-        ToEnd="vwAllReportsByPeople" />
-      <NavigationProperty
-        Name="vwEachReports"
-        Association="vwEachReport_CustomReport"
-        FromEnd="CustomReport"
-        ToEnd="vwEachReport" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
     Name="FK_CustomReport_Indicator_CustomReport">
     <AssociationEnd
       Name="CustomReport"
+      Multiplicity="One"
       EntityType="CustomReport">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -297,26 +296,6 @@
         Name="CustomReport_ResponsiblePerson"
         EntitySet="CustomReport_ResponsiblePersons" />
     </AssociationSet>
-    <AssociationSet
-      Name="vwAllReportsByPeople_CustomReports"
-      Association="vwAllReportsByPeople_CustomReport">
-      <AssociationSetEnd
-        Name="vwAllReportsByPeople"
-        EntitySet="vwAllReportsByPeoples" />
-      <AssociationSetEnd
-        Name="CustomReport"
-        EntitySet="CustomReports" />
-    </AssociationSet>
-    <AssociationSet
-      Name="vwEachReport_CustomReports"
-      Association="vwEachReport_CustomReport">
-      <AssociationSetEnd
-        Name="vwEachReport"
-        EntitySet="vwEachReports" />
-      <AssociationSetEnd
-        Name="CustomReport"
-        EntitySet="CustomReports" />
-    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_CustomReport_Calendar_CustomReport">
@@ -345,42 +324,6 @@
       Name="CustomReport_ResponsiblePerson"
       Multiplicity="Many"
       EntityType="CustomReport_ResponsiblePerson" />
-  </Association>
-  <Association
-    Name="vwAllReportsByPeople_CustomReport">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwAllReportsByPeople"
-      Multiplicity="Many"
-      EntityType="vwAllReportsByPeople" />
-    <AssociationEnd
-      Name="CustomReport"
-      Multiplicity="One"
-      EntityType="CustomReport">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
-  <Association
-    Name="vwEachReport_CustomReport">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwEachReport"
-      Multiplicity="Many"
-      EntityType="vwEachReport" />
-    <AssociationEnd
-      Name="CustomReport"
-      Multiplicity="One"
-      EntityType="CustomReport">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -439,6 +382,12 @@
           Nullable="False"
           Type="datetime"
           Property="CustomReport/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="CustomReport/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -528,48 +477,6 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_CustomReport_ResponsiblePerson_CustomReport]/Members[CustomReport_ResponsiblePerson]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="CustomReport_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="vwAllReportsByPeople_CustomReports">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="vwAllReportsByPeople_CustomReports" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwAllReportsByPeople_CustomReports]/Members[vwAllReportsByPeople]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="CustomReport_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwAllReportsByPeople_CustomReports]/Members[CustomReport]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="CustomReport_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="vwEachReport_CustomReports">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="vwEachReport_CustomReports" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachReport_CustomReports]/Members[vwEachReport]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="CustomReport_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachReport_CustomReports]/Members[CustomReport]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="CustomReport_ID" />

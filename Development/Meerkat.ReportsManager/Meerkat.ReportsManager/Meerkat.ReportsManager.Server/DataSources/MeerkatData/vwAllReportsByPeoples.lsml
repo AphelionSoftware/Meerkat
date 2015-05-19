@@ -15,6 +15,15 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="519" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="CustomReportName"
         PropertyType=":String">
@@ -25,6 +34,24 @@
           <AnsiConstraint />
         </KeyProperty.Attributes>
       </KeyProperty>
+      <KeyProperty
+        Name="ReportDueDate"
+        PropertyType=":Date">
+        <KeyProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="isPrimary"
+        PropertyType=":Boolean?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="c_Date"
         PropertyType=":DateTime">
@@ -71,6 +98,13 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <EntityProperty
+        Name="Value"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="CustomReport_ID"
         PropertyType=":Int32">
@@ -92,55 +126,6 @@
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
           <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <NavigationProperty
-        Name="DimDate"
-        Association="vwAllReportsByPeople_DimDate"
-        FromEnd="vwAllReportsByPeople"
-        ToEnd="DimDate" />
-      <NavigationProperty
-        Name="CustomReport"
-        Association="vwAllReportsByPeople_CustomReport"
-        FromEnd="vwAllReportsByPeople"
-        ToEnd="CustomReport" />
-      <NavigationProperty
-        Name="Person"
-        Association="vwAllReportsByPeople_Person"
-        FromEnd="vwAllReportsByPeople"
-        ToEnd="Person" />
-      <KeyProperty
-        Name="ReportDueDate"
-        PropertyType=":Date">
-        <KeyProperty.Attributes>
-          <Required />
-          <DateTimeConstraint
-            Precision="0"
-            PreserveSeconds="True" />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <EntityProperty
-        Name="isPrimary"
-        PropertyType=":Boolean?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Value"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="519" />
-          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
     </EntityType.Properties>
@@ -183,12 +168,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="ReportDueDate" />
+                                      Member="CustomReport_Calendar_ID" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="ReportDueDate" />
+                                    Parameter="CustomReport_Calendar_ID" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Left>
@@ -198,12 +183,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="CustomReport_Calendar_ID" />
+                                      Member="CustomReport_ID" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="CustomReport_Calendar_ID" />
+                                    Parameter="CustomReport_ID" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Right>
@@ -215,12 +200,12 @@
                             <BinaryExpression.Left>
                               <ChainExpression>
                                 <MemberExpression
-                                  Member="CustomReport_ID" />
+                                  Member="DateID" />
                               </ChainExpression>
                             </BinaryExpression.Left>
                             <BinaryExpression.Right>
                               <ParameterExpression
-                                Parameter="CustomReport_ID" />
+                                Parameter="DateID" />
                             </BinaryExpression.Right>
                           </BinaryExpression>
                         </BinaryExpression.Right>
@@ -232,12 +217,12 @@
                         <BinaryExpression.Left>
                           <ChainExpression>
                             <MemberExpression
-                              Member="DateID" />
+                              Member="c_Date" />
                           </ChainExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
                           <ParameterExpression
-                            Parameter="DateID" />
+                            Parameter="c_Date" />
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Right>
@@ -249,12 +234,12 @@
                     <BinaryExpression.Left>
                       <ChainExpression>
                         <MemberExpression
-                          Member="c_Date" />
+                          Member="ReportDueDate" />
                       </ChainExpression>
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <ParameterExpression
-                        Parameter="c_Date" />
+                        Parameter="ReportDueDate" />
                     </BinaryExpression.Right>
                   </BinaryExpression>
                 </BinaryExpression.Right>
@@ -293,6 +278,14 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
+        Name="ReportDueDate"
+        ParameterType="Microsoft.LightSwitch:Date?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ReportDueDate' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
         Name="c_Date"
         ParameterType="Microsoft.LightSwitch:DateTime?">
         <QueryOperationParameter.Attributes>
@@ -322,14 +315,6 @@
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'CustomReport_Calendar_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
-        Name="ReportDueDate"
-        ParameterType="Microsoft.LightSwitch:Date?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'ReportDueDate' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -363,12 +348,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="ReportDueDate" />
+                                      Member="CustomReport_Calendar_ID" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="ReportDueDate" />
+                                    Parameter="CustomReport_Calendar_ID" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Left>
@@ -378,12 +363,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="CustomReport_Calendar_ID" />
+                                      Member="CustomReport_ID" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="CustomReport_Calendar_ID" />
+                                    Parameter="CustomReport_ID" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Right>
@@ -395,12 +380,12 @@
                             <BinaryExpression.Left>
                               <ChainExpression>
                                 <MemberExpression
-                                  Member="CustomReport_ID" />
+                                  Member="DateID" />
                               </ChainExpression>
                             </BinaryExpression.Left>
                             <BinaryExpression.Right>
                               <ParameterExpression
-                                Parameter="CustomReport_ID" />
+                                Parameter="DateID" />
                             </BinaryExpression.Right>
                           </BinaryExpression>
                         </BinaryExpression.Right>
@@ -412,12 +397,12 @@
                         <BinaryExpression.Left>
                           <ChainExpression>
                             <MemberExpression
-                              Member="DateID" />
+                              Member="c_Date" />
                           </ChainExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
                           <ParameterExpression
-                            Parameter="DateID" />
+                            Parameter="c_Date" />
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Right>
@@ -429,12 +414,12 @@
                     <BinaryExpression.Left>
                       <ChainExpression>
                         <MemberExpression
-                          Member="c_Date" />
+                          Member="ReportDueDate" />
                       </ChainExpression>
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <ParameterExpression
-                        Parameter="c_Date" />
+                        Parameter="ReportDueDate" />
                     </BinaryExpression.Right>
                   </BinaryExpression>
                 </BinaryExpression.Right>
@@ -473,6 +458,14 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
+        Name="ReportDueDate"
+        ParameterType="Microsoft.LightSwitch:Date?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ReportDueDate' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
         Name="c_Date"
         ParameterType="Microsoft.LightSwitch:DateTime?">
         <QueryOperationParameter.Attributes>
@@ -502,14 +495,6 @@
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'CustomReport_Calendar_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
-        Name="ReportDueDate"
-        ParameterType="Microsoft.LightSwitch:Date?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'ReportDueDate' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>

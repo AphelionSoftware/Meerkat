@@ -250,21 +250,30 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="vwAllReportsByPeoples"
-        Association="vwAllReportsByPeople_DimDate"
-        FromEnd="DimDate"
-        ToEnd="vwAllReportsByPeople" />
-      <NavigationProperty
-        Name="vwEachReports"
-        Association="vwEachReport_DimDate"
-        FromEnd="DimDate"
-        ToEnd="vwEachReport" />
-      <NavigationProperty
-        Name="vwEachPersonsReports"
-        Association="vwEachPersonsReport_DimDate"
-        FromEnd="DimDate"
-        ToEnd="vwEachPersonsReport" />
+      <EntityProperty
+        Name="LocalMonthName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="9" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalQuarterName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalYearName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="4" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -358,91 +367,7 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
-    <AssociationSet
-      Name="vwAllReportsByPeople_DimDates"
-      Association="vwAllReportsByPeople_DimDate">
-      <AssociationSetEnd
-        Name="vwAllReportsByPeople"
-        EntitySet="vwAllReportsByPeoples" />
-      <AssociationSetEnd
-        Name="DimDate"
-        EntitySet="DimDates" />
-    </AssociationSet>
-    <AssociationSet
-      Name="vwEachReport_DimDates"
-      Association="vwEachReport_DimDate">
-      <AssociationSetEnd
-        Name="vwEachReport"
-        EntitySet="vwEachReports" />
-      <AssociationSetEnd
-        Name="DimDate"
-        EntitySet="DimDates" />
-    </AssociationSet>
-    <AssociationSet
-      Name="vwEachPersonsReport_DimDates"
-      Association="vwEachPersonsReport_DimDate">
-      <AssociationSetEnd
-        Name="vwEachPersonsReport"
-        EntitySet="vwEachPersonsReports" />
-      <AssociationSetEnd
-        Name="DimDate"
-        EntitySet="DimDates" />
-    </AssociationSet>
   </EntityContainer>
-  <Association
-    Name="vwAllReportsByPeople_DimDate">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwAllReportsByPeople"
-      Multiplicity="Many"
-      EntityType="vwAllReportsByPeople" />
-    <AssociationEnd
-      Name="DimDate"
-      Multiplicity="One"
-      EntityType="DimDate">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
-  <Association
-    Name="vwEachReport_DimDate">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwEachReport"
-      Multiplicity="Many"
-      EntityType="vwEachReport" />
-    <AssociationEnd
-      Name="DimDate"
-      Multiplicity="One"
-      EntityType="DimDate">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
-  <Association
-    Name="vwEachPersonsReport_DimDate">
-    <Association.Attributes>
-      <UserDefined />
-    </Association.Attributes>
-    <AssociationEnd
-      Name="vwEachPersonsReport"
-      Multiplicity="Many"
-      EntityType="vwEachPersonsReport" />
-    <AssociationEnd
-      Name="DimDate"
-      Multiplicity="One"
-      EntityType="DimDate">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -590,6 +515,24 @@
           Nullable="False"
           Type="datetime"
           Property="DimDate/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="9"
+          Name="LocalMonthName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="DimDate/Properties[LocalMonthName]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalQuarterName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="DimDate/Properties[LocalQuarterName]" />
+        <SsdlProperty
+          MaxLength="4"
+          Name="LocalYearName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="DimDate/Properties[LocalYearName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -597,68 +540,5 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
-    <AssociationSetMapping
-      AssociationSet="vwAllReportsByPeople_DimDates">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="vwAllReportsByPeople_DimDates" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwAllReportsByPeople_DimDates]/Members[vwAllReportsByPeople]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwAllReportsByPeople_DimDates]/Members[DimDate]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="vwEachReport_DimDates">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="vwEachReport_DimDates" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachReport_DimDates]/Members[vwEachReport]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachReport_DimDates]/Members[DimDate]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="vwEachPersonsReport_DimDates">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="vwEachPersonsReport_DimDates" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachPersonsReport_DimDates]/Members[vwEachPersonsReport]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[vwEachPersonsReport_DimDates]/Members[DimDate]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="DateID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

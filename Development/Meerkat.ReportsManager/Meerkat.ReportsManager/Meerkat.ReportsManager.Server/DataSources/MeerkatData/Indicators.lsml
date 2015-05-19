@@ -39,7 +39,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -57,7 +58,8 @@
         Name="BaselineString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -86,7 +88,8 @@
         Name="TargetString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -148,7 +151,9 @@
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -289,12 +294,43 @@
         Association="FK_Indicator_IndicatorType"
         FromEnd="Indicator"
         ToEnd="IndicatorType" />
+      <EntityProperty
+        Name="IndicatorSimpleType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ResultArea_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
     Name="FK_CustomReport_Indicator_Indicator">
     <AssociationEnd
       Name="Indicator"
+      Multiplicity="One"
       EntityType="Indicator">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -431,9 +467,10 @@
           Type="varchar"
           Property="Indicator/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TextDescription]" />
         <SsdlProperty
           Name="Baseline"
@@ -445,7 +482,7 @@
         <SsdlProperty
           Name="BaselineString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[BaselineString]" />
         <SsdlProperty
           Name="BaselineDate"
@@ -462,7 +499,7 @@
         <SsdlProperty
           Name="TargetString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TargetString]" />
         <SsdlProperty
           Name="TargetDate"
@@ -498,7 +535,7 @@
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[Notes]" />
         <SsdlProperty
           MaxLength="50"
@@ -577,6 +614,28 @@
           Nullable="True"
           Type="int"
           Property="Indicator/Properties[ProjectID]" />
+        <SsdlProperty
+          Name="IndicatorSimpleType_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[IndicatorSimpleType_ID]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalShortName]" />
+        <SsdlProperty
+          Name="ResultArea_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[ResultArea_ID]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -584,7 +643,7 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="IndicatorType_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="IndicatorType_ID" />
       </EntitySetMapping.Attributes>

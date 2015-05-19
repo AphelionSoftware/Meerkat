@@ -74,3 +74,8 @@ myapp.Rpt_PeopleReached.Donor_render = function (element, contentItem) {
     chartWrapper.addRowChart('DonorDiv', 'Donor_Name', 160, 400);
 
 };
+myapp.Rpt_PeopleReached.ParticipantType_render = function (element, contentItem) {
+    div = $("<div class='ParticipantDiv' id='ParticipantDiv' ></div>");
+    $(div).appendTo($(element));
+    chartWrapper.addRowChart('ParticipantDiv', 'ParticipationTypeName', 160, 400);
+};

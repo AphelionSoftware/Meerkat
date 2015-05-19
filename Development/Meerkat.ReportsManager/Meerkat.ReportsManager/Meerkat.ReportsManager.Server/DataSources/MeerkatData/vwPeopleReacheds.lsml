@@ -32,30 +32,6 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <EntityProperty
-        Name="BusinessKey"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="400" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <KeyProperty
-        Name="ReportingPeriod_ID"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <KeyProperty
-        Name="NumberReached"
-        PropertyType=":Int32">
-        <KeyProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </KeyProperty.Attributes>
-      </KeyProperty>
       <KeyProperty
         Name="LocationTypeCode"
         PropertyType=":String">
@@ -64,6 +40,31 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <KeyProperty
+        Name="ReportingPeriod_ID"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Required />
+          <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
       <KeyProperty
@@ -76,24 +77,6 @@
           <AnsiConstraint />
         </KeyProperty.Attributes>
       </KeyProperty>
-      <KeyProperty
-        Name="Location_Name"
-        PropertyType=":String">
-        <KeyProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </KeyProperty.Attributes>
-      </KeyProperty>
-      <EntityProperty
-        Name="ShortName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <EntityProperty
         Name="AgeBand_Name"
         PropertyType=":String?">
@@ -158,6 +141,24 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
+        Name="Location_Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <KeyProperty
+        Name="Location_BusinessKey"
+        PropertyType=":String">
+        <KeyProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
         Name="ResultArea_Name"
         PropertyType=":String?">
         <EntityProperty.Attributes>
@@ -176,14 +177,22 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <KeyProperty
-        Name="Location_BusinessKey"
-        PropertyType=":String">
+        Name="NumberReached"
+        PropertyType=":Int32">
         <KeyProperty.Attributes>
           <Required />
-          <MaxLength
-            Value="400" />
+          <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
+      <EntityProperty
+        Name="ParticipationTypeName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -220,36 +229,16 @@
                             NodeType="And">
                             <BinaryExpression.Left>
                               <BinaryExpression
-                                NodeType="And">
+                                NodeType="Equal">
                                 <BinaryExpression.Left>
-                                  <BinaryExpression
-                                    NodeType="Equal">
-                                    <BinaryExpression.Left>
-                                      <ChainExpression>
-                                        <MemberExpression
-                                          Member="Location_BusinessKey" />
-                                      </ChainExpression>
-                                    </BinaryExpression.Left>
-                                    <BinaryExpression.Right>
-                                      <ParameterExpression
-                                        Parameter="Location_BusinessKey" />
-                                    </BinaryExpression.Right>
-                                  </BinaryExpression>
+                                  <ChainExpression>
+                                    <MemberExpression
+                                      Member="NumberReached" />
+                                  </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
-                                  <BinaryExpression
-                                    NodeType="Equal">
-                                    <BinaryExpression.Left>
-                                      <ChainExpression>
-                                        <MemberExpression
-                                          Member="Location_Name" />
-                                      </ChainExpression>
-                                    </BinaryExpression.Left>
-                                    <BinaryExpression.Right>
-                                      <ParameterExpression
-                                        Parameter="Location_Name" />
-                                    </BinaryExpression.Right>
-                                  </BinaryExpression>
+                                  <ParameterExpression
+                                    Parameter="NumberReached" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Left>
@@ -259,12 +248,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="ReportPeriod" />
+                                      Member="Location_BusinessKey" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="ReportPeriod" />
+                                    Parameter="Location_BusinessKey" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Right>
@@ -276,12 +265,12 @@
                             <BinaryExpression.Left>
                               <ChainExpression>
                                 <MemberExpression
-                                  Member="LocationTypeCode" />
+                                  Member="ReportPeriod" />
                               </ChainExpression>
                             </BinaryExpression.Left>
                             <BinaryExpression.Right>
                               <ParameterExpression
-                                Parameter="LocationTypeCode" />
+                                Parameter="ReportPeriod" />
                             </BinaryExpression.Right>
                           </BinaryExpression>
                         </BinaryExpression.Right>
@@ -293,12 +282,12 @@
                         <BinaryExpression.Left>
                           <ChainExpression>
                             <MemberExpression
-                              Member="NumberReached" />
+                              Member="ReportingPeriod_ID" />
                           </ChainExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
                           <ParameterExpression
-                            Parameter="NumberReached" />
+                            Parameter="ReportingPeriod_ID" />
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Right>
@@ -310,12 +299,12 @@
                     <BinaryExpression.Left>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ReportingPeriod_ID" />
+                          Member="LocationTypeCode" />
                       </ChainExpression>
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <ParameterExpression
-                        Parameter="ReportingPeriod_ID" />
+                        Parameter="LocationTypeCode" />
                     </BinaryExpression.Right>
                   </BinaryExpression>
                 </BinaryExpression.Right>
@@ -354,27 +343,19 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
-        Name="ReportingPeriod_ID"
-        ParameterType="Microsoft.LightSwitch:Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'ReportingPeriod_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
-        Name="NumberReached"
-        ParameterType="Microsoft.LightSwitch:Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'NumberReached' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
         Name="LocationTypeCode"
         ParameterType="Microsoft.LightSwitch:String?">
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'LocationTypeCode' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="ReportingPeriod_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ReportingPeriod_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
@@ -386,19 +367,19 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
-        Name="Location_Name"
-        ParameterType="Microsoft.LightSwitch:String?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'Location_Name' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
         Name="Location_BusinessKey"
         ParameterType="Microsoft.LightSwitch:String?">
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'Location_BusinessKey' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="NumberReached"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'NumberReached' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -428,36 +409,16 @@
                             NodeType="And">
                             <BinaryExpression.Left>
                               <BinaryExpression
-                                NodeType="And">
+                                NodeType="Equal">
                                 <BinaryExpression.Left>
-                                  <BinaryExpression
-                                    NodeType="Equal">
-                                    <BinaryExpression.Left>
-                                      <ChainExpression>
-                                        <MemberExpression
-                                          Member="Location_BusinessKey" />
-                                      </ChainExpression>
-                                    </BinaryExpression.Left>
-                                    <BinaryExpression.Right>
-                                      <ParameterExpression
-                                        Parameter="Location_BusinessKey" />
-                                    </BinaryExpression.Right>
-                                  </BinaryExpression>
+                                  <ChainExpression>
+                                    <MemberExpression
+                                      Member="NumberReached" />
+                                  </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
-                                  <BinaryExpression
-                                    NodeType="Equal">
-                                    <BinaryExpression.Left>
-                                      <ChainExpression>
-                                        <MemberExpression
-                                          Member="Location_Name" />
-                                      </ChainExpression>
-                                    </BinaryExpression.Left>
-                                    <BinaryExpression.Right>
-                                      <ParameterExpression
-                                        Parameter="Location_Name" />
-                                    </BinaryExpression.Right>
-                                  </BinaryExpression>
+                                  <ParameterExpression
+                                    Parameter="NumberReached" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Left>
@@ -467,12 +428,12 @@
                                 <BinaryExpression.Left>
                                   <ChainExpression>
                                     <MemberExpression
-                                      Member="ReportPeriod" />
+                                      Member="Location_BusinessKey" />
                                   </ChainExpression>
                                 </BinaryExpression.Left>
                                 <BinaryExpression.Right>
                                   <ParameterExpression
-                                    Parameter="ReportPeriod" />
+                                    Parameter="Location_BusinessKey" />
                                 </BinaryExpression.Right>
                               </BinaryExpression>
                             </BinaryExpression.Right>
@@ -484,12 +445,12 @@
                             <BinaryExpression.Left>
                               <ChainExpression>
                                 <MemberExpression
-                                  Member="LocationTypeCode" />
+                                  Member="ReportPeriod" />
                               </ChainExpression>
                             </BinaryExpression.Left>
                             <BinaryExpression.Right>
                               <ParameterExpression
-                                Parameter="LocationTypeCode" />
+                                Parameter="ReportPeriod" />
                             </BinaryExpression.Right>
                           </BinaryExpression>
                         </BinaryExpression.Right>
@@ -501,12 +462,12 @@
                         <BinaryExpression.Left>
                           <ChainExpression>
                             <MemberExpression
-                              Member="NumberReached" />
+                              Member="ReportingPeriod_ID" />
                           </ChainExpression>
                         </BinaryExpression.Left>
                         <BinaryExpression.Right>
                           <ParameterExpression
-                            Parameter="NumberReached" />
+                            Parameter="ReportingPeriod_ID" />
                         </BinaryExpression.Right>
                       </BinaryExpression>
                     </BinaryExpression.Right>
@@ -518,12 +479,12 @@
                     <BinaryExpression.Left>
                       <ChainExpression>
                         <MemberExpression
-                          Member="ReportingPeriod_ID" />
+                          Member="LocationTypeCode" />
                       </ChainExpression>
                     </BinaryExpression.Left>
                     <BinaryExpression.Right>
                       <ParameterExpression
-                        Parameter="ReportingPeriod_ID" />
+                        Parameter="LocationTypeCode" />
                     </BinaryExpression.Right>
                   </BinaryExpression>
                 </BinaryExpression.Right>
@@ -562,27 +523,19 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
-        Name="ReportingPeriod_ID"
-        ParameterType="Microsoft.LightSwitch:Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'ReportingPeriod_ID' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
-        Name="NumberReached"
-        ParameterType="Microsoft.LightSwitch:Int32?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'NumberReached' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
         Name="LocationTypeCode"
         ParameterType="Microsoft.LightSwitch:String?">
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'LocationTypeCode' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="ReportingPeriod_ID"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'ReportingPeriod_ID' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
@@ -594,19 +547,19 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
       <QueryOperationParameter
-        Name="Location_Name"
-        ParameterType="Microsoft.LightSwitch:String?">
-        <QueryOperationParameter.Attributes>
-          <Description
-            Value="The value of the 'Location_Name' key property of the entity to retrieve." />
-        </QueryOperationParameter.Attributes>
-      </QueryOperationParameter>
-      <QueryOperationParameter
         Name="Location_BusinessKey"
         ParameterType="Microsoft.LightSwitch:String?">
         <QueryOperationParameter.Attributes>
           <Description
             Value="The value of the 'Location_BusinessKey' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+      <QueryOperationParameter
+        Name="NumberReached"
+        ParameterType="Microsoft.LightSwitch:Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'NumberReached' key property of the entity to retrieve." />
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
@@ -647,10 +600,10 @@
           Type="nvarchar"
           Property="vwPeopleReached/Properties[BusinessKey]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="50"
           Name="ShortName"
           Nullable="True"
-          Type="nvarchar"
+          Type="varchar"
           Property="vwPeopleReached/Properties[ShortName]" />
         <SsdlProperty
           Name="ReportingPeriod_ID"
@@ -708,7 +661,7 @@
         <SsdlProperty
           MaxLength="255"
           Name="Location_Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="vwPeopleReached/Properties[Location_Name]" />
         <SsdlProperty
@@ -729,6 +682,12 @@
           Nullable="True"
           Type="varchar"
           Property="vwPeopleReached/Properties[StrategicElement_Name]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="ParticipationTypeName"
+          Nullable="True"
+          Type="varchar"
+          Property="vwPeopleReached/Properties[ParticipationTypeName]" />
         <SsdlProperty
           Name="NumberReached"
           Nullable="False"
