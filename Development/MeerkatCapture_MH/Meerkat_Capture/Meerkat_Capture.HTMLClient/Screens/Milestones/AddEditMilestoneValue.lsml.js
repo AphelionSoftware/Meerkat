@@ -132,3 +132,7 @@ myapp.AddEditMilestoneValue.MilestoneValuesPreviousVersion1Template_postRender =
 
 
 };
+myapp.AddEditMilestoneValue.DeleteMilestone_execute = function (screen) {
+    msls.application.lightswitchTools.deleteEntity(screen);
+
+};

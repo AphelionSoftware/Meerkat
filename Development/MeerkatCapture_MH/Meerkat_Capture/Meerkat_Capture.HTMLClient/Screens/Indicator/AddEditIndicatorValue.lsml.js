@@ -566,3 +566,7 @@ myapp.AddEditIndicatorValue.Rollups_postRender = function (element, contentItem)
 myapp.AddEditIndicatorValue.BusinessKey_postRender = function (element, contentItem) {
     //setBizKey(element, contentItem);
 };
+myapp.AddEditIndicatorValue.DeleteIndicator_execute = function (screen) {
+    msls.application.lightswitchTools.deleteEntity(screen);
+
+};
