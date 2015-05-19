@@ -273,5 +273,56 @@
 
     }
     
+
+    lightswitchTools.canDelete = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var entity = screen[name];
+        if (entity.details.entityState !== msls.EntityState.unchanged) {
+            return false;
+        };
+
+        return true;
+    };
+
+    lightswitchTools.deleteEntity = function (screen) {
+        var entityLabel = screen.details.getModel().properties[0].name;
+        var entity = screen[entityLabel];
+        if (!lightswitchTools.canDelete(screen)) {
+            return msls.showMessageBox(
+                "Cannot delete the " + entityLabel + " because it was changed.",
+                {
+                    title: "Cannot delete"
+                });
+        };
+
+        msls.showMessageBox("Are you sure you want to delete this record", {
+            title: "Confirm",
+            buttons: msls.MessageBoxButtons.yesNo
+
+        }).then(function (result) {
+            if (result === msls.MessageBoxResult.yes) {
+                screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Deleted'").execute().then(function (x) {
+                    screen[entityLabel].ActiveType = x.results[0];
+
+                    myapp.commitChanges().then(null,
+                    function fail(e) {
+                        // If error occurs, show the error.
+                        msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                            // Discard Changes
+                            screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                        });
+                    });
+                }, function (x) {
+                    msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                        // Discard Changes
+                        screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                    });
+                });
+            }
+        });
+
+    }
+
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 
