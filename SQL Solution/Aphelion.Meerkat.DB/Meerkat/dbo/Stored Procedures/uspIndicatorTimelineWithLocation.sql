@@ -2,7 +2,7 @@
 
     @DataVersion_ID int --varchar(255)
 , @indicator_id int --varchar(255)
---, @Location_ID int =0 
+, @Location_ID int =0 
 --, @Location_ID int =1 
 AS
 /*
@@ -13,8 +13,10 @@ declare
 , @Location_ID int =0 
 */
 
-SELECT    
 
+
+SELECT    
+LocationType_ID, 
 DENSE_RANK() Over (order by fiv.Code) %2 RN,
 UnitOfMeasure,
  Case When 
@@ -129,7 +131,9 @@ FIV.IndicatorValues_ID, FIV.Indicator_ID
  FROM 
 
  (
-SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
+SELECT  
+	--LocationType_ID,
+	ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID] 
       ,[ActualValue]
       ,[ActualLabel]
       ,iv.[BusinessKey]
@@ -146,6 +150,7 @@ SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
 , TargetFIV.* FROM  (
 
     SELECT 
+	Location.LocationType_ID,
     Location.Location_ID,
     Location.Geog,
     rc.ID ReportingPeriod,
@@ -201,6 +206,11 @@ SELECT  ISNULL([IndicatorValues_ID],0) [IndicatorValues_ID]
           AND 	  BaselinePeriod.EndDateID 
 
     CROSS JOIN Core.Location
+
+	WHERE (@Location_ID = 0 OR Location.Location_ID = @Location_ID OR @Location_ID IS NULL 
+		OR @Location_ID = Location.ParentLocation_ID
+	)
+
 ) TargetFIV 
 
 LEFT JOIN RBM.IndicatorValues IV 
@@ -223,7 +233,7 @@ LEFT JOIN app.Outcome OM
 where (Indicator_ID = @indicator_id OR @indicator_id  = 0 ) 
 
 
-order by ReportCycleDate_ID ASC
+order by LocationType_ID ASC, ReportCycleDate_ID ASC
 
 GO
 
