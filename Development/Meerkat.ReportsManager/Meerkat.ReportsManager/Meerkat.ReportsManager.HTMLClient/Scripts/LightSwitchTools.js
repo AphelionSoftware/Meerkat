@@ -77,6 +77,12 @@
         });
     }
 
+    lightswitchTools.getGeoJSON = function (sql, callback) {
+        $.getJSON("../api/GeoJSON/" + sql, function (data) {
+            callback(data);
+        });
+    }
+
     lightswitchTools.configureForm = function (screen) {
         var name = screen.details.getModel().properties[0].name;
 

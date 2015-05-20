@@ -10,7 +10,9 @@ namespace LightSwitchApplication
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            RouteTable.Routes.MapHttpRoute( "DefaultAPI", "api/{controller}");
+           RouteTable.Routes.MapHttpRoute( "DefaultAPI", "api/{controller}");
+            RouteTable.Routes.MapHttpRoute("ParameterApi", "api/{controller}/{id}");
+
         }
 
         protected void Session_Start(object sender, EventArgs e)
