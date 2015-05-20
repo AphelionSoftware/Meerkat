@@ -1,56 +1,58 @@
 ﻿
 
+
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
-
-  SELECT Title = 'Indicator Details', 
-         Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
-                + 
-'/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
-       + '[Sub Sector].[Sub Sector].%26[' 
-       + Cast(dso.SubSector_ID AS VARCHAR(8)) + ']', 
-ID = 100 * dso.SubSector_ID, 
-Parent = (SELECT ID 
-          FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-          WHERE  G.Title = dso.ShortName 
-                 AND G.Programme_ID = do.Programme_ID), 
-do.Programme_ID 
-FROM   [app].[SubSector] dso 
-INNER JOIN app.Sector do 
-        ON dso.Sector_ID = do.Sector_ID 
-INNER JOIN [app].[Programme] AS OC 
-        ON do.Programme_ID = oc.Programme_ID 
-						LEFT OUTER JOIN  settings.GlobalSettings GS
-							ON GS.Code = 'MMBASEURL'
-WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
-UNION ALL 
-SELECT Title = 'Location Indicator Details', 
-Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
-       + 
-'/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
-+ '[Sub Sector].[Sub Sector].%26[' 
-+ Cast(dso.SubSector_ID AS VARCHAR(8)) + ']', 
-Priority = 100 * dso.SubSector_ID, 
-Parent = (SELECT ID 
-   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
-   WHERE  G.Title = dso.ShortName 
-          AND G.Programme_ID = DO.Programme_ID), 
-do.Programme_ID 
-FROM   [app].[SubSector] dso 
-INNER JOIN app.Sector do 
-        ON dso.Sector_ID = do.Sector_ID 
-INNER JOIN [app].[Programme] AS OC 
-        ON do.Programme_ID = oc.Programme_ID 
-						LEFT OUTER JOIN  settings.GlobalSettings GS
-							ON GS.Code = 'MMBASEURL'
-WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
+--Sub sector removed for now
+--  SELECT Title = 'Indicator Details', 
+--         Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
+--                + 
+--'/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode=' 
+--       + '[Sub Sector].[Sub Sector].%26[' 
+--       + Cast(dso.SubSector_ID AS VARCHAR(8)) + ']', 
+--ID = 100 * dso.SubSector_ID, 
+--Parent = (SELECT ID 
+--          FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+--          WHERE  G.Title = dso.ShortName 
+--                 AND G.Programme_ID = do.Programme_ID), 
+--do.Programme_ID 
+--FROM   [app].[SubSector] dso 
+--INNER JOIN app.Sector do 
+--        ON dso.Sector_ID = do.Sector_ID 
+--INNER JOIN [app].[Programme] AS OC 
+--        ON do.Programme_ID = oc.Programme_ID 
+--						LEFT OUTER JOIN  settings.GlobalSettings GS
+--							ON GS.Code = 'MMBASEURL'
+--WHERE  dso.Active = 1  AND do.Active = 1 AND oc.Active = 1
+--UNION ALL 
+--SELECT Title = 'Location Indicator Details', 
+--Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
+--       + 
+--'/Dashboards/Template%20Pages/Provincial%20Indicator%20Details%20Page.aspx?qsIndCode=' 
+--+ '[Sub Sector].[Sub Sector].%26[' 
+--+ Cast(dso.SubSector_ID AS VARCHAR(8)) + ']', 
+--ID = 100 * dso.SubSector_ID, 
+--Parent = (SELECT ID 
+--   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+--   WHERE  G.Title = dso.ShortName 
+--          AND G.Programme_ID = DO.Programme_ID), 
+--do.Programme_ID 
+--FROM   [app].[SubSector] dso 
+--INNER JOIN app.Sector do 
+--        ON dso.Sector_ID = do.Sector_ID 
+--INNER JOIN [app].[Programme] AS OC 
+--        ON do.Programme_ID = oc.Programme_ID 
+--						LEFT OUTER JOIN  settings.GlobalSettings GS
+--							ON GS.Code = 'MMBASEURL'
+--WHERE  dso.Active = 1 AND do.Active = 1 AND OC.Active = 1
 
 
 
 
 ------------------------------------------------------------------------
 
-UNION ALL 
+---UNION ALL 
 SELECT Title = 'Indicators', 
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
        +  '/' + [ProjectSiteName] +
@@ -60,7 +62,7 @@ Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName]
 + '&qsMDXKey=' 
 + '[Project].[Project].%26[' 
 + Cast(P.ProjectID AS VARCHAR(8)) + ']', 
-Priority = 200 * P.ProjectID, 
+ID  = 200 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
    WHERE  G.Title = P.ShortName 
@@ -296,6 +298,39 @@ FROM
 							ON GS.Code = 'MMBASEURL'
 WHERE  --P.Active = 1 AND 
 OC.Active = 1
+
+
+
+
+-------------------------------------------------------------------
+--Sectors
+-------------------------------------------------------------------
+UNION ALL
+  SELECT   
+            'Indicators: ' + do.ShortName + ' ' AS Title ,
+            ISNULL(GS.Value, '/') + [dom].[ProgrammeSiteName]
+            + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
+            + '[Sector].[Sector].%26['
+            + CAST(do.Sector_ID AS VARCHAR(8)) + ']' AS Link ,
+			Priority = 400 * dom.Programme_ID,--* P.ProjectID, 
+            ( SELECT    [mm].[ALL_ProgrammeMenuGroup].[ID]
+              FROM      mm.ALL_ProgrammeMenuGroup
+              WHERE     ( [mm].[ALL_ProgrammeMenuGroup].[Title] = do.ShortName )
+                        AND [mm].[ALL_ProgrammeMenuGroup].[Programme_ID] = do.Programme_ID
+            ) AS Parent ,
+
+            dom.Programme_ID
+  FROM      app.Sector AS do
+            INNER JOIN [app].[Programme] AS dom ON do.Programme_ID = dom.Programme_ID
+			LEFT OUTER JOIN  settings.GlobalSettings GS
+				ON GS.Code = 'MMBASEURL'
+  WHERE     do.Active = 1
+            AND dom.Active = 1
+						AND EXISTS (SELECT 1 FROM app.Indicator I
+												LEFT JOIN app.SubSector SS
+												ON I.SubSector_ID = SS.SubSector_ID
+												WHERE I.Sector_ID = do.Sector_ID
+												OR SS.Sector_ID = do.Sector_ID)
 
 
               
