@@ -18,9 +18,10 @@
     CONSTRAINT [PK_Location] PRIMARY KEY NONCLUSTERED ([Location_ID] ASC),
     CONSTRAINT [FK_Location_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Location_LocationType] FOREIGN KEY ([LocationType_ID]) REFERENCES [Core].[LocationType] ([LocationType_ID]),
-    CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID]),
-    CONSTRAINT [UQ_Location_Code] UNIQUE NONCLUSTERED ([ParentLocation_ID] ASC, [Code] ASC)
+    CONSTRAINT [FK_Location_ParentLocation] FOREIGN KEY ([ParentLocation_ID]) REFERENCES [Core].[Location] ([Location_ID])
 );
+
+
 
 
 
@@ -68,4 +69,9 @@ CREATE NONCLUSTERED INDEX [IX_Location_Parent]
 GO
 CREATE CLUSTERED INDEX [IX_Location]
     ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Location_1]
+    ON [Core].[Location]([ParentLocation_ID] ASC, [Code] ASC, [LocationType_ID] ASC) WHERE ([Active]>(0));
 
