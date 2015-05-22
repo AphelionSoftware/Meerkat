@@ -40,6 +40,22 @@ Add-PSSnapin microsoft.sharepoint.powershell
 
  }
 
+  function Remove-All-WebPartConnections ( $WebPartManager )
+ {
+  $WebPartManager.SPWebPartConnections
+ $webpartcons = @() # – Declare empty array that will contain the GUID of the web parts on the current page; 
+
+ foreach($webpartconn in $WebPartManager.SPWebPartConnections) 
+    {        $webpartconn
+                $webpartcons += , $webpartconn.ID    #   We've found a web part to be deleted, add its ID to the array;                         
+    } 
+    foreach($webpartConnID in $webpartcons)  
+    { 
+        Write-Host webpartConnID
+        $WebPartManager.SPDisconnectWebParts($spWpManager.SPWebPartConnections[$webpartConnID]) 
+    } 
+ }
+
  $spWeb = Get-SPWeb -Identity $site
 
 #region Create Page
@@ -73,8 +89,9 @@ $egrWpsCount=0
 
 #endregion
  
+  #Remove-All-WebPartConnections( $WebPartManager )
   
- Remove-All-WebParts ( $WebPartManager )
+  Remove-All-WebParts ( $WebPartManager )
 
  
  #region Context
@@ -104,6 +121,21 @@ $egrWpsCount=0
     #region Quickfilter
       [System.Web.HttpContext]::Current = $null
 
+ 
+      Remove-All-WebPartConnections( $WebPartManager)
+ #foreach($webpartconn in $WebPartManager.SPWebPartConnections) 
+ #   {        
+ #   $webpartconn
+ #   $WebPartManager.SPDisconnectWebParts($spWpManager.SPWebPartConnections[$webpartconn.ID]) 
+ #                     
+ #   } 
+ #foreach($webpartConnID in $webpartcons)  
+ #   { 
+ #       Write-Host webpartConnID
+ #       
+ #   } 
+
+
       #[Microsoft.SharePoint.SPList]$wpList = $spWeb.Site.GetCatalog([Microsoft.SharePoint.SPListTemplateType]::WebPartCatalog)
       #
       #
@@ -118,13 +150,13 @@ $egrWpsCount=0
        
       $WebPartManager.AddWebPart($filterWebpart, "Row 1", 1);
 
-      $conWP = $WebPartManager.GetConsumerConnectionPoints($webpart)[1]
+      $conIndWP = $WebPartManager.GetConsumerConnectionPoints($webpart)[1]
       #[1] gets us parameter
-      $conWP
+      #$conWP
 
-      $provWP = $WebPartManager.GetProviderConnectionPoints($filterWebpart)[0]
+      $provIndWP = $WebPartManager.GetProviderConnectionPoints($filterWebpart)[0]
       #[0] is the filter value. 1 is the default value
-      $provWP
+      #$provWP
 
        #http://blog.repsaj.nl/index.php/2010/05/sp2010-programmatically-creating-a-web-part-page-with-connected-webparts/
       #TransformableFilterValuesToEntityInstanceTransformer
@@ -135,21 +167,13 @@ $egrWpsCount=0
       #TransformableBIDataProviderTransformer 
       #??? FilterValuesToTransformableFilterValuesTransformer
 
-      #$trans = New-Object Microsoft.SharePoint.WebPartPages.SPRowToParametersTransformer   
-      #$trans.ConsumerFieldNames = @()
-      #$field = "Indicator_ID";
-      #$trans.ConsumerFieldNames += ,$field;   
-      #$trans.ProviderFieldNames    = @()
-      #$field = "Title";
-      #$trans.ProviderFieldNames += ,$field;      
-
-      $trans = New-Object Microsoft.SharePoint.WebPartPages.TransformableFilterValuesToFilterValuesTransformer
-      $trans.MappedConsumerParameterName = "Indicator_ID";
-      $trans
-      $newCon = $WebPartManager.SPConnectWebParts($filterWebpart,$provWP,$webpart,$conWP, $trans)   
-      $WebPartManager.SPWebPartConnections.Add($newCon);   
-       Write-Host $WebPartManager.SPWebPartConnections
-
+    
+      $transInd = New-Object Microsoft.SharePoint.WebPartPages.TransformableFilterValuesToFilterValuesTransformer
+      $transInd.MappedConsumerParameterName = "Indicator_ID";
+      #$trans
+      $indiCon = $null;
+       $indiCon = $WebPartManager.SPConnectWebParts($filterWebpart,$provIndWP,$webpart,$conIndWP, $transInd)   
+       #$WebPartManager.SPWebPartConnections.Add($indiCon);   
 
 
       $filterWebpart = new-object  Microsoft.SharePoint.Portal.WebControls.QueryStringFilterWebPart
@@ -157,11 +181,26 @@ $egrWpsCount=0
       $filterWebpart.Title = "qsDataVersion"
       $filterWebpart.QueryStringParameterName = "qsDataVersionID"
       $filterWebpart.DefaultValue = "1"
-       
-
       $WebPartManager.AddWebPart($filterWebpart, "Row 1", 1);
 
+      $conWP = $WebPartManager.GetConsumerConnectionPoints($webpart)[1]
+      #[1] gets us parameter
+      #$conWP
 
+      $provWP = $WebPartManager.GetProviderConnectionPoints($filterWebpart)[0]
+      #[0] is the filter value. 1 is the default value
+      #$provWP
+      $trans = New-Object Microsoft.SharePoint.WebPartPages.TransformableFilterValuesToFilterValuesTransformer
+      $trans.MappedConsumerParameterName = "DataVersion_ID";
+      #$trans
+       $dvCon = $WebPartManager.SPConnectWebParts($filterWebpart,$provWP,$webpart,$conWP, $trans)   
+       #$WebPartManager.SPWebPartConnections.Add($dvCon);   
+        
+        #$WebPartManager.SPWebPartConnections
+      #$WebPartManager.AddWebPart($filterWebpart, "Row 1", 1);
+       
+  $WebPartManager.SPWebPartConnections
+      
      #
     #endregion
 
