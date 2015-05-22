@@ -2,7 +2,8 @@
   [string]$site,
   [string]$PageName,
   [string]$ReportLocation,
-  [string]$ListName
+  [string]$ListName,
+  [string]$RootSite
 )
 
 #Ensuring we have rights to do everything
@@ -11,7 +12,7 @@
 #Add-SPShellAdmin -UserName "MarkGStacey" | Out-Null
 
 # cd D:\Dropbox\GitHub\Meerkat\Development\SharePoint\PS
-#.\CreatePage.ps1 -site "http://mgs-m6700/sites/Meerkat/Outcome1/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"
+#.\CreatePage.ps1 -site "http://mgs-m6700/sites/Meerkat/Outcome1/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards" -RootSite "http://mgs-m6700/sites/Meerkat"
 Add-PSSnapin microsoft.sharepoint.powershell
  [Reflection.Assembly]::LoadWithPartialName("Microsoft.ReportingServices.SharePoint.UI.WebParts")
 	[Reflection.Assembly]::LoadWithPartialName("System.Web")
@@ -60,9 +61,7 @@ $spWeb.AllowUnsafeUpdates = $true
 
 #region Setup Web Part Manager
     $page = $spWeb.GetFile("$site/$ListName/$PageName.aspx")
- 
-
-    Write-Host "$ListName/$PageName.aspx"
+  
      $WebPartManager = $spweb.GetLimitedWebPartManager("$ListName/$PageName.aspx", [System.Web.UI.WebControls.WebParts.PersonalizationScope]::Shared);
     
   
@@ -92,21 +91,83 @@ $egrWpsCount=0
 #region Add web parts 
     #region ReportViewer
      $webpart=new-object  Microsoft.ReportingServices.SharePoint.UI.WebParts.ReportViewerWebPart
-
      $webpart.Title="$PageName"
      $webpart.ChromeType = "None"
      #$webpart
      $webpart.ReportPath = $ReportLocation
      $webpart.Height = "650px"
-     $webpart
+     #$webpart
      $WebPartManager.AddWebPart($webpart, "Header", 1);
 
+    #endregion
 
+    #region Quickfilter
+      [System.Web.HttpContext]::Current = $null
+
+      #[Microsoft.SharePoint.SPList]$wpList = $spWeb.Site.GetCatalog([Microsoft.SharePoint.SPListTemplateType]::WebPartCatalog)
+      #
+      #
+      #$qsWebPart =   $wpList.Items | ? { $_.Name -eq "QueryStringFilter.webpart"} #     > "Web.txt"
+      #$qsWebPart.Title = "qsIndicatorID"
+      #$qsWebPart
+
+      $filterWebpart = new-object  Microsoft.SharePoint.Portal.WebControls.QueryStringFilterWebPart
+      $filterWebpart.FilterName = "qsIndicator"
+      $filterWebpart.Title = "qsIndicator"
+      $filterWebpart.QueryStringParameterName = "qsIndicatorID"
+       
+      $WebPartManager.AddWebPart($filterWebpart, "Row 1", 1);
+
+      $conWP = $WebPartManager.GetConsumerConnectionPoints($webpart)[1]
+      #[1] gets us parameter
+      $conWP
+
+      $provWP = $WebPartManager.GetProviderConnectionPoints($filterWebpart)[0]
+      #[0] is the filter value. 1 is the default value
+      $provWP
+
+       #http://blog.repsaj.nl/index.php/2010/05/sp2010-programmatically-creating-a-web-part-page-with-connected-webparts/
+      #TransformableFilterValuesToEntityInstanceTransformer
+      #TransformableFilterValuesToFieldTransformer
+      #TransformableFilterValuesToFilterValuesTransformer
+      #TransformableFilterValuesToParametersTransformer
+      #SPRowToParametersTransformer 
+      #TransformableBIDataProviderTransformer 
+      #??? FilterValuesToTransformableFilterValuesTransformer
+
+      #$trans = New-Object Microsoft.SharePoint.WebPartPages.SPRowToParametersTransformer   
+      #$trans.ConsumerFieldNames = @()
+      #$field = "Indicator_ID";
+      #$trans.ConsumerFieldNames += ,$field;   
+      #$trans.ProviderFieldNames    = @()
+      #$field = "Title";
+      #$trans.ProviderFieldNames += ,$field;      
+
+      $trans = New-Object Microsoft.SharePoint.WebPartPages.TransformableFilterValuesToFilterValuesTransformer
+      $trans.MappedConsumerParameterName = "Indicator_ID";
+      $trans
+      $newCon = $WebPartManager.SPConnectWebParts($filterWebpart,$provWP,$webpart,$conWP, $trans)   
+      $WebPartManager.SPWebPartConnections.Add($newCon);   
+       Write-Host $WebPartManager.SPWebPartConnections
+
+
+
+      $filterWebpart = new-object  Microsoft.SharePoint.Portal.WebControls.QueryStringFilterWebPart
+      $filterWebpart.FilterName = "qsDataVersion"
+      $filterWebpart.Title = "qsDataVersion"
+      $filterWebpart.QueryStringParameterName = "qsDataVersionID"
+      $filterWebpart.DefaultValue = "1"
+       
+
+      $WebPartManager.AddWebPart($filterWebpart, "Row 1", 1);
+
+
+     #
     #endregion
 
 #endregion
  
- [System.Web.HttpContext]::Current = $null
+
 
  #Microsoft.ReportingServices.SharePoint.UI.WebParts.ReportViewerWebPart
  
