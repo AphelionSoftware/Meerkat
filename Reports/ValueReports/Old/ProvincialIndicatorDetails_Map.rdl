@@ -242,28 +242,6 @@ OR @Location_ID = 0
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="GeoMaps">
-      <Query>
-        <DataSourceName>rsdsPOA</DataSourceName>
-        <CommandText>select l.Location_ID, ADM1 as name, geom geog from Core.[DimMunicipalityGEOM] g
-	  inner join [Core].[Location] l on g.ADM1=l.Name
-	  and g.LBL='ken'</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="Location_ID">
-          <DataField>Location_ID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="name">
-          <DataField>name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="geog">
-          <DataField>geog</DataField>
-          <rd:TypeName>Microsoft.SqlServer.Types.SqlGeography</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="pLocation">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
@@ -1155,7 +1133,7 @@ ORDER BY 2</CommandText>
             <Height>71.40501mm</Height>
             <Width>320.56757mm</Width>
             <Visibility>
-              <Hidden>=IIF(Parameters!ReportType.Value = "Chart" or Parameters!ReportType.Value = "Combined", False,True)</Hidden>
+              <Hidden>=IIF(Parameters!ReportType.Value = 1 or Parameters!ReportType.Value = -1, False,True)</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -1426,13 +1404,13 @@ ORDER BY 2</CommandText>
                 <Color>White</Color>
               </Style>
             </MapBorderSkin>
-            <Top>16.002mm</Top>
+            <Top>0mm</Top>
             <Left>0mm</Left>
             <Height>125.87111mm</Height>
             <Width>345.15051mm</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
-              <Hidden>=IIF(Parameters!ReportType.Value = "Map" or Parameters!ReportType.Value = "Combined", False,True)</Hidden>
+              <Hidden>=IIF(Parameters!ReportType.Value = 0 or Parameters!ReportType.Value = -1, False,True)</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -1488,22 +1466,22 @@ ORDER BY 2</CommandText>
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>Combined</Value>
+          <Value>-1</Value>
         </Values>
       </DefaultValue>
       <Prompt>Report Type</Prompt>
       <ValidValues>
         <ParameterValues>
           <ParameterValue>
-            <Value>Map</Value>
+            <Value>0</Value>
             <Label>Map</Label>
           </ParameterValue>
           <ParameterValue>
-            <Value>Chart</Value>
+            <Value>1</Value>
             <Label>Chart</Label>
           </ParameterValue>
           <ParameterValue>
-            <Value>Combined</Value>
+            <Value>-1</Value>
             <Label>Combined</Label>
           </ParameterValue>
         </ParameterValues>
@@ -1685,16 +1663,7 @@ ORDER BY 2</CommandText>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="MdxKey">
-      <DataType>String</DataType>
-      <Prompt>MdxKey</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="IndicatorValuesID">
-      <DataType>String</DataType>
-      <Prompt>IndicatorValuesID</Prompt>
-    </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Mm</rd:ReportUnitType>
-  <rd:ReportServerUrl>http://mgs-m6700/sites/Meerkat/Reports</rd:ReportServerUrl>
   <rd:ReportID>a9add221-fed4-45eb-96f3-d9e31346ada3</rd:ReportID>
 </Report>

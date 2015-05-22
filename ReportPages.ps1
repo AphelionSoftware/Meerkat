@@ -1,0 +1,4 @@
+﻿C:\Github\Meerkat\Development\SharePoint\PS\CreatePage.ps1 -site "http://carer03/program1/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"
+C:\Github\Meerkat\Development\SharePoint\PS\CreatePage.ps1 -site "http://carer03/program2/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"
+C:\Github\Meerkat\Development\SharePoint\PS\CreatePage.ps1 -site "http://carer03/program3" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"
+C:\Github\Meerkat\Development\SharePoint\PS\CreatePage.ps1 -site "http://carer03/program4/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"

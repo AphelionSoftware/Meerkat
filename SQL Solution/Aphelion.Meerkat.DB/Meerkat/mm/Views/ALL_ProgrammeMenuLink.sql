@@ -2,6 +2,8 @@
 
 
 
+
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
@@ -104,28 +106,34 @@ WHERE  P.Active = 1 AND OC.Active = 1
 ---------------------------------------------------------------------
 UNION ALL 
 SELECT Title = 'By District', 
-Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/DIST/'
+Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/DIST/'
 , 
 Priority = 300 , 
 Parent = 55
 , Programme_ID
 FROM app.Programme
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'BASESITEURL'
 UNION ALL 
 SELECT Title = 'By Region', 
-Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/REG/'
+Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/REG/'
 , 
 Priority = 310 , 
 Parent = 55
 , Programme_ID
 FROM app.Programme
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'BASESITEURL'
 UNION ALL 
 SELECT Title = 'By Country', 
-Link = 'http://carer03.cloudapp.net:350/HTMLClient/#/Rpt_PeopleReached/CNTRY/'
+Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/CNTRY/'
 , 
 Priority = 320 , 
 Parent = 55
 , Programme_ID
 FROM app.Programme
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'BASESITEURL'
 
 
 /*UNION ALL 
