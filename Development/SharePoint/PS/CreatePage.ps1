@@ -1,110 +1,118 @@
 ﻿Param(
   [string]$site,
   [string]$PageName,
-  [string]$ReportLocation
+  [string]$ReportLocation,
+  [string]$ListName
 )
 
+#Ensuring we have rights to do everything
+#Add-SPShellAdmin -UserName "administrator" | Out-Null #needs to be done once
+#Add-SPShellAdmin -UserName "spinstall" | Out-Null
+#Add-SPShellAdmin -UserName "MarkGStacey" | Out-Null
+
 # cd D:\Dropbox\GitHub\Meerkat\Development\SharePoint\PS
-#.\CreatePage.ps1 -site "http://mgs-m6700/sites/Meerkat/Outcome1/" -PageName "ProjectReachReport" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/ProjectReach.rdl?Web=1"
+#.\CreatePage.ps1 -site "http://mgs-m6700/sites/Meerkat/Outcome1/" -PageName "IndicatorMapPage" -ReportLocation "http://mgs-m6700/sites/Meerkat/Reports/ValueReports/IndicatorMapDetails.rdl" -ListName  "Dashboards"
 Add-PSSnapin microsoft.sharepoint.powershell
- 
- 
- function Ensure-HttpContext([string]$url)
+ [Reflection.Assembly]::LoadWithPartialName("Microsoft.ReportingServices.SharePoint.UI.WebParts")
+	[Reflection.Assembly]::LoadWithPartialName("System.Web")
+	[Reflection.Assembly]::LoadWithPartialName("System.IO")
+	[Reflection.Assembly]::LoadWithPartialName("System.Collections.Generic")
+
+
+ function Remove-All-WebParts ( $WebPartManager )
  {
-     $sw = New-Object System.IO.StringWriter
-     $resp = New-Object System.Web.HttpResponse $sw
-     $req = New-Object System.Web.HttpRequest "", $url, ""
-     $htc = New-Object System.Web.HttpContext $req, $resp
-     [System.Web.HttpContext]::Current = $htc
- }
- function Ensure-SPContext([string]$url)
- {
-     Ensure-HttpContext $url
-  
-     if(![System.Web.HttpContext]::Current.Items["HttpHandlerSPWeb"] -or
-      ![System.Web.HttpContext]::Current.Items["HttpHandlerSPSite"])
-     {
-         [Microsoft.SharePoint.SPWeb]$web = Get-SPWeb $url
-         [System.Web.HttpContext]::Current.Items["HttpHandlerSPWeb"] = $web
-         [System.Web.HttpContext]::Current.Items["HttpHandlerSPSite"] = $web.Site
-     }
+ $webparts = @() # – Declare empty array that will contain the GUID of the web parts on the current page; 
+ foreach($spwebpart in $WebPartManager.Webparts) 
+    { 
+        foreach($wptitle in $wpNames) 
+        { 
+            if($spwebpart.Title -eq $wptitle) 
+            { 
+                $webparts = $webparts + $spwebpart.ID    #   We've found a web part to be deleted, add its ID to the array;                         
+            } 
+        } 
+    } 
+    foreach($webpartId in $webparts) #  Now that we have the GUID of all web parts to delete, loop through them and delete them one at a time; 
+        { 
+            $WebPartManager.DeleteWebPart($spWpManager.Webparts[$webpartId]) 
+        } 
+
  }
 
  $spWeb = Get-SPWeb -Identity $site
 
-#$pubWeb =[Microsoft.SharePoint.Publishing.PublishingWeb]::GetPublishingWeb($spWeb)
-# # Create blank web part page
-# $pl = $pubWeb.GetAvailablePageLayouts() | Where { $_.Name -eq "BlankWebPartPage.aspx" } 
-# $newPage = $pubWeb.AddPublishingPage($PageName, $pl) #filename need end with .aspx extension
-# $newPage.Update()
-# # Check-in and publish page
-# $newPage.CheckIn("")
-# $newPage.ListItem.File.Publish("")
-# $spWeb.Dispose()
+#region Create Page
 
+#$listname = "Dashboards"
+
+$pagesLibrary = $spWeb.Lists | Where { $_.Title -eq "$ListName" }
  
+$pageLayout = 5
 
-$listname = "Site Pages"
-
-$pagesLibrary = $spWeb.Lists | Where { $_.Title -eq "$listname" }
- 
-$pageLayout = 1
-
-$cmd = '<?xml version="1.0" encoding="UTF-8"?><Method ID="0,NewWebPage"><SetList Scope="Request">' + $pagesLibrary.ID + '</SetList><SetVar Name="Cmd">NewWebPage</SetVar><SetVar Name="ID">New</SetVar><SetVar Name="Type">WebPartPage</SetVar><SetVar Name="WebPartPageTemplate">' + $pageLayout + '</SetVar><SetVar Name="Overwrite">true</SetVar><SetVar Name="Title">' + $PageName + '</SetVar></Method>';
+$cmd = '<?xml version="1.0" encoding="UTF-8"?><Method ID="0,NewWebPage"><SetList Scope="Request">' + $pagesLibrary.ID + '</SetList><SetVar Name="Cmd">NewWebPage</SetVar><SetVar Name="ID">New</SetVar><SetVar Name="Type">WebPartPage</SetVar><SetVar Name="WebPartPageTemplate">' + $pageLayout + '</SetVar><SetVar Name="Overwrite">true</SetVar><SetVar Name="Folder">Template Pages</SetVar><SetVar Name="Title">' + $PageName + '</SetVar></Method>';
 
 $spWeb.ProcessBatchData($cmd)
 
-$listname = "SitePages"
-    #$spSite = Get-SPSite $site
-    #$page = $spWeb.GetFile("$site/$listname/$PageName.aspx")
-    #
-    #Write-Host $page
-	#$WebPartManager = $page.GetLimitedWebPartManager([System.Web.UI.WebControls.WebParts.PersonalizationScope]::Shared)
-    Write-Host "$site/$listname/$PageName.aspx"
-    $WebPartManager = $spweb.GetLimitedWebPartManager("$listname/$PageName.aspx", [System.Web.UI.WebControls.WebParts.PersonalizationScope]::Shared);
-    
+$spWeb.AllowUnsafeUpdates = $true
+
+
+#endregion
+
+#region Setup Web Part Manager
+    $page = $spWeb.GetFile("$site/$ListName/$PageName.aspx")
  
 
- 
+    Write-Host "$ListName/$PageName.aspx"
+     $WebPartManager = $spweb.GetLimitedWebPartManager("$ListName/$PageName.aspx", [System.Web.UI.WebControls.WebParts.PersonalizationScope]::Shared);
+    
+  
 if($page.CheckOutStatus -eq "None")
 {
 $page.CheckOut()
 }
 $egrWpsCount=0
 
-
-
-
-#region Set context
- # Ensure HttpContext.Current
+#endregion
+ 
   
-Ensure-SPContext( $site )
+ Remove-All-WebParts ( $WebPartManager )
 
-
+ 
+ #region Context
+ [System.Web.HttpRequest] $request = new-object System.Web.HttpRequest("",$site,"")
+	$response = new-object System.Web.HttpResponse([System.IO.TextWriter]::Null);
+	[System.Web.HttpContext]::Current = new-object System.Web.HttpContext($request,$response)
+	[System.Web.HttpContext]::Current.Request.Browser = new-object System.Web.HttpBrowserCapabilities
+	[System.Web.HttpContext]::Current.Request.Browser.Capabilities = new-object 'System.Collections.Generic.Dictionary[string,string]'
+	[System.Web.HttpContext]::Current.Request.Browser.Capabilities["type"] = "IE7";
+	[System.Web.HttpContext]::Current.Request.Browser.Capabilities["majorversion"] = "7";
+	[System.Web.HttpContext]::Current.Request.Browser.Capabilities["minorversion"] = "0"
+	[System.Web.HttpContext]::Current.Items["HttpHandlerSPWeb"] = [Microsoft.SharePoint.SPWeb]$spWeb;
 #endregion
-
 #region Add web parts 
- $webpart=new-object  Microsoft.ReportingServices.SharePoint.UI.WebParts.ReportViewerWebPart
- #$webpart.ChromeType=[System.UI.Controls.Parts.PartChromeType]::TitleOnly
- $webpart.Title="Project Area Reached"
- 
- $WebPartManager.AddWebPart($webpart, "Full Page", 0);
+    #region ReportViewer
+     $webpart=new-object  Microsoft.ReportingServices.SharePoint.UI.WebParts.ReportViewerWebPart
 
- [System.Web.HttpContext]::Current = null
+     $webpart.Title="$PageName"
+     $webpart.ChromeType = "None"
+     #$webpart
+     $webpart.ReportPath = $ReportLocation
+     $webpart.Height = "650px"
+     $webpart
+     $WebPartManager.AddWebPart($webpart, "Header", 1);
+
+
+    #endregion
+
 #endregion
  
+ [System.Web.HttpContext]::Current = $null
+
  #Microsoft.ReportingServices.SharePoint.UI.WebParts.ReportViewerWebPart
-#foreach($webpart in $WebPartManager.WebParts)
-#{
-##$webpart
-#$webpart.Title
-#$webpart.ID
-#
-#$egrWpsCount++
-#}
+ 
 
 
-$page.CheckIn("$PageName")   
+#$page.CheckIn("$PageName")   
 $spWeb.Close()
 
 
