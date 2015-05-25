@@ -4,3 +4,11 @@ myapp.BrowseRoleMappings1.AddRoleMapping_postRender = function (element, content
     // Write code here.
 
 };
+myapp.BrowseRoleMappings1.VersionLabel_render = function (element, contentItem) {
+    msls.application.lightswitchTools.getVersionInfo(function (version) {
+        var smallElement = document.createElement("small");
+        smallElement.innerText = version;
+        element.appendChild(smallElement);
+    })
+
+};
