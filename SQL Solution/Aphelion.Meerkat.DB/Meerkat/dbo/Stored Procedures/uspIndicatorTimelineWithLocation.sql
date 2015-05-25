@@ -26,7 +26,7 @@ declare
 */
 
 
-
+With CTEData as (
 SELECT    
 LocationType_ID, 
 ROW_NUMBER() over (partition by Location_ID, Indicator_ID order by ReportCycleDate_ID DESC) as RowNDateDesc,
@@ -243,7 +243,7 @@ SELECT
 LEFT JOIN RBM.IndicatorValues IV 
 ON TargetFIV.ReportingPeriod = IV.ReportPeriodID
     and TargetFIV.Location_ID = IV.Location_ID
-
+	and (iv.DataVersion_ID  =  @DataVersion_ID        OR  @DataVersion_ID    = -1)
 	AND (iv.AgeBand_ID		=  @AgeBand_ID			  OR  @AgeBand_ID		 = 0)
 	AND (iv.CommunityType_ID=  @CommunityType_ID  OR 	  @CommunityType_ID	 = 0)
 	AND (iv.Gender_ID		=  @Gender_ID			  OR  @Gender_ID		 = -1)
@@ -269,7 +269,15 @@ where (Indicator_ID = @indicator_id OR @indicator_id  = 0 )
 
 
 
-order by LocationType_ID ASC, ReportCycleDate_ID ASC
+
+)
+
+SELECT * FROM CTEData
+WHERE Exists (SELECT 1 FROM cteData  innerCTE
+		WHERE CTEData.Location_ID = innerCTE.Location_ID
+		and innerCTE.ActualValue <> 0)
+	AND CTEData.Indicator_ID = @Indicator_ID
+order by LocationType_ID ASC, LocationName ASC, ReportCycleDate_ID ASC
 
 GO
 

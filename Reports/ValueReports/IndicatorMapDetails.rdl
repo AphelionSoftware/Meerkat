@@ -245,12 +245,21 @@ OR @Location_ID = 0
     <DataSet Name="pLocation">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT 0 AS Value, '_All Locations' AS Label, 0 as LocationType_ID
 UNION ALL
 
-SELECT Location_ID AS Value, Name as Label, Location.LocationType_ID
-FROM Core.Location
+SELECT Location_ID AS Value, Name as Label, Source.LocationType_ID
+FROM Core.Location Source
 WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.Location_ID = Source.Location_ID
+AND IV.Indicator_ID = @Indicator_ID
+)
 ORDER BY  LocationType_ID</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
@@ -272,9 +281,22 @@ ORDER BY  LocationType_ID</CommandText>
     <DataSet Name="pAgeBand">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
-Select Name, AgeBand_ID		 		FROM 	disagg.AgeBand		</CommandText>
+Select Name, AgeBand_ID		 		FROM 	disagg.AgeBand		SOURCE
+WHERE Source.Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.AgeBand_ID = Source.AgeBand_ID
+AND
+IV.Indicator_ID = @Indicator_ID
+)
+Order by 2</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -290,10 +312,22 @@ Select Name, AgeBand_ID		 		FROM 	disagg.AgeBand		</CommandText>
     <DataSet Name="pCommunityType">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
-
-Select Name, CommunityType_ID	 	FROM 	disagg.CommunityType</CommandText>
+Select Name, CommunityType_ID	 	FROM 	disagg.CommunityType Source
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.CommunityType_ID = Source.CommunityType_ID
+AND
+IV.Indicator_ID = @Indicator_ID
+)
+ORDER BY 1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -327,9 +361,21 @@ UNION ALL
     <DataSet Name="pGroup">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
-Select Name, Group_ID			 	FROM 	disagg.[Group]</CommandText>
+Select Name, Group_ID			 	FROM 	disagg.[Group] Source
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.Group_ID = Source.Group_ID
+AND
+IV.Indicator_ID = @Indicator_ID
+)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -345,9 +391,23 @@ Select Name, Group_ID			 	FROM 	disagg.[Group]</CommandText>
     <DataSet Name="pInstitution">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
-Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
+Select Name, Institution_ID			FROM 	disagg.Institution	Source
+
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.Institution_ID = Source.Institution_ID
+AND
+IV.Indicator_ID = @Indicator_ID
+)
+ORDER BY 1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -363,12 +423,26 @@ Select Name, Institution_ID			FROM 	disagg.Institution		</CommandText>
     <DataSet Name="pResultArea">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
 select 
-Name As Label,
+LEFT(Name, 50) As Label,
 ResultArea_ID AS Value
- from disagg.ResultArea</CommandText>
+ from disagg.ResultArea Source
+
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM App.Indicator  IV
+WHERE IV.ResultArea_ID = Source.ResultArea_ID
+AND
+IV.IndicatorID = @Indicator_ID
+)
+ORDER BY 1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -384,12 +458,26 @@ ResultArea_ID AS Value
     <DataSet Name="pIndicatorSimpleType">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
 select 
 Name As Label,
 IndicatorSimpleType_ID AS Value
- from app.IndicatorSimpleType</CommandText>
+ from app.IndicatorSimpleType  Source
+
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM App.Indicator  IV
+WHERE IV.IndicatorSimpleType_ID = Source.IndicatorSimpleType_ID
+AND
+IV.IndicatorID = @Indicator_ID
+)
+ORDER BY 1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -405,12 +493,25 @@ IndicatorSimpleType_ID AS Value
     <DataSet Name="pFramework">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT '_All' As Label, 0 AS Value
 UNION ALL
 select 
 Name As Label,
 Framework_ID AS Value
- from disagg.Framework</CommandText>
+ from disagg.Framework Source
+WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE IV.Framework_ID = Source.Framework_ID
+AND
+IV.Indicator_ID = @Indicator_ID
+)
+ORDER BY 1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Label">
@@ -426,13 +527,24 @@ Framework_ID AS Value
     <DataSet Name="pStructure">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT 0 AS Value, '_All' As Label
 UNION ALL
 
 SELECT Structure_ID  as Value, Name as Label
-FROM disagg.Structure
+FROM disagg.Structure  Source
 WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE Structure_ID  = Structure_ID  
+AND
+IV.Indicator_ID = @Indicator_ID
+)
 ORDER BY 2</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Value">
@@ -448,12 +560,23 @@ ORDER BY 2</CommandText>
     <DataSet Name="pDonor">
       <Query>
         <DataSourceName>rsdsPOA</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Indicator_ID">
+            <Value>=Parameters!Indicator_ID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT 0 AS Value, '_All' As Label
 UNION ALL
 SELECT Donor_ID  as Value, Name as Label
-FROM disagg.Donor
+FROM disagg.Donor  Source
 WHERE Active = 1
+AND EXISTS ( SELECT 1 FROM RBM.IndicatorValues IV
+WHERE Donor_ID  = Donor_ID  
+AND
+IV.Indicator_ID = @Indicator_ID
+)
 ORDER BY 2</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
         <Field Name="Value">
@@ -1115,7 +1238,6 @@ ORDER BY 2</CommandText>
                           <WritingMode>Rotate270</WritingMode>
                         </Style>
                       </Textbox>
-                      <rd:Selected>true</rd:Selected>
                     </CellContents>
                   </TablixHeader>
                   <TablixMembers>

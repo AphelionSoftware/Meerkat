@@ -4,6 +4,8 @@
 
 
 
+
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
@@ -134,6 +136,20 @@ Parent = 55
 FROM app.Programme
 LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'BASESITEURL'
+
+UNION ALL 
+
+----------------------------------------------------
+--Project Reach
+SELECT Title = 'Project Reach', 
+Link = ISNULL(GS.Value, '') +  Programme.ProgrammeSiteName + '/Dashboards/ProjectReach.aspx'
+, 
+Priority = 330 , 
+Parent = 55
+, Programme_ID
+FROM app.Programme
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
 
 
 /*UNION ALL 
@@ -339,6 +355,41 @@ UNION ALL
 												ON I.SubSector_ID = SS.SubSector_ID
 												WHERE I.Sector_ID = do.Sector_ID
 												OR SS.Sector_ID = do.Sector_ID)
+
+---------------------------------
+--Indicator maps for sectors
+---------------------------------
+UNION ALL
+  SELECT   
+            'Indicator Map: ' + I.ShortName + ' ' AS Title ,
+            ISNULL(GS.Value, '/') + [dom].[ProgrammeSiteName]
+            + '/Dashboards/IndicatorMapPage.aspx?qsIndicatorID='
+            --+ '[Indicator].[Sector].%26['
+			--+ CAST(do.Sector_ID AS VARCHAR(8)) + ']'
+			+ CAST(I.IndicatorID as varchar(255))
+			 AS Link ,
+			Priority = (400 * dom.Programme_ID) + I.IndicatorID,--* P.ProjectID, 
+            ( SELECT    [mm].[ALL_ProgrammeMenuGroup].[ID]
+              FROM      mm.ALL_ProgrammeMenuGroup
+              WHERE     ( [mm].[ALL_ProgrammeMenuGroup].[Title] = do.ShortName )
+                        AND [mm].[ALL_ProgrammeMenuGroup].[Programme_ID] = do.Programme_ID
+            ) AS Parent ,
+
+            dom.Programme_ID
+  FROM      app.Sector AS do
+            INNER JOIN [app].[Programme] AS dom ON do.Programme_ID = dom.Programme_ID
+			LEFT OUTER JOIN  settings.GlobalSettings GS
+				ON GS.Code = 'MMBASEURL'
+			LEFT JOIN app.SubSector SS
+				ON do.Sector_ID = SS.Sector_ID
+			INNER JOIN App.Indicator I
+				ON do.Sector_ID = I.Sector_ID
+				OR SS.SubSector_ID = I.SubSector_ID
+  WHERE     do.Active = 1
+            AND dom.Active = 1
+						AND EXISTS (SELECT 1 FROM RBM.IndicatorValues IV
+									WHERE I.IndicatorID = IV.Indicator_ID
+													)
 
 
               
