@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE view [rpt].[vwPeopleReached]
 as
 SELECT 
@@ -32,7 +33,7 @@ SELECT
 , [SubOutput].[ShortName] 
 , [SubSector].[ShortName] ) AS ShortName
 	,[PeopleReachedValues].[ReportingPeriod_ID] 
-	, RP.Summary ReportPeriod
+	, LEFT(RP.Summary, 7)  ReportPeriod
 	, [AgeBand].[Name] AS AgeBand_Name
 	, [CommunityType].[Name] AS CommunityType_Name
 	, [Donor].[Name] AS Donor_Name

@@ -1,12 +1,4 @@
-﻿
-
-
-
-
-
-
-
-CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
+﻿CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
 --  SELECT Title = 'Indicator Details', 
@@ -59,13 +51,14 @@ AS
 ---UNION ALL 
 SELECT Title = 'Indicators', 
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
-       +  '/' + [ProjectSiteName] +
-'/SitePages/IndicatorValues.aspx?qsIndCode=' 
-+ '[Project].[Project].%26[' 
+       --+  '/' + [ProjectSiteName] +
+--'/SitePages/IndicatorValues.aspx?qsIndCode=' 
+            + '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
+            + '[Project].[Project].%26[' 
 + Cast(P.ProjectID AS VARCHAR(8)) + ']'
 + '&qsMDXKey=' 
 + '[Project].[Project].%26[' 
-+ Cast(P.ProjectID AS VARCHAR(8)) + ']', 
++ Cast(P.ProjectID AS VARCHAR(8)) + ']'  , 
 ID  = 200 * P.ProjectID, 
 Parent = (SELECT ID 
    FROM   [mm].[ALL_ProgrammeMenuGroup] G 
@@ -82,8 +75,8 @@ WHERE  P.Active = 1 AND OC.Active = 1
 UNION ALL 
 SELECT Title = 'Milestones', 
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
-       +  '/' + [ProjectSiteName] +
-'/SitePages/ActivityProgress.aspx?qsIndCode=' 
+       --+  '/' + [ProjectSiteName] +
++ '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
 + '[Project].[Project].%26[' 
 + Cast(P.ProjectID AS VARCHAR(8)) + ']'
 + '&qsMDXKey=' 
@@ -136,12 +129,49 @@ Parent = 55
 FROM app.Programme
 LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'BASESITEURL'
-
+UNION ALL 
+-------------------------------People reached by project
+SELECT Title = P.Code +  ' People reached by District', 
+Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/DIST/?ProjectID=' + cast(p.projectID as varchar(255))
+, 
+Priority = 300 , 
+ (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID)
+, Prog.Programme_ID
+FROM app.Programme Prog
+INNER JOIN app.Project P
+ON Prog.Programme_ID = P.Programme_ID
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'BASESITEURL'
+WHERE Exists (select 1 FROM RBM.PeopleReachedValues PRV 
+					WHERE Prv.ProjectID = P.ProjectID)
+AND P.Active = 1
+UNION ALL 
+SELECT Title = P.Code +  ' People reached by Region', 
+Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/REG/?ProjectID=' + cast(p.projectID as varchar(255))
+, 
+Priority = 310 , 
+ (SELECT ID 
+   FROM   [mm].[ALL_ProgrammeMenuGroup] G 
+   WHERE  G.Title = P.ShortName 
+          AND G.Programme_ID = P.Programme_ID)
+, Prog.Programme_ID
+FROM app.Programme Prog
+INNER JOIN app.Project P
+ON Prog.Programme_ID = P.Programme_ID
+LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'BASESITEURL'
+WHERE Exists (select 1 FROM RBM.PeopleReachedValues PRV 
+					WHERE Prv.ProjectID = P.ProjectID)
+AND P.Active = 1
+							-------------------------------People reached by project end
 UNION ALL 
 
 ----------------------------------------------------
 --Project Reach
-SELECT Title = 'Project Reach', 
+SELECT Title = 'Operational areas', 
 Link = ISNULL(GS.Value, '') +  Programme.ProgrammeSiteName + '/Dashboards/ProjectReach.aspx'
 , 
 Priority = 330 , 
