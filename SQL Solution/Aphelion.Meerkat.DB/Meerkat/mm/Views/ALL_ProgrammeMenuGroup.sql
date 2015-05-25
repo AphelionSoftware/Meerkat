@@ -3,6 +3,7 @@
 
 
 
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
 SELECT TOP ( 10000 )
@@ -156,7 +157,7 @@ SELECT TOP ( 10000 )
               SELECT    '10009' AS OrderBy1 ,
                         0 AS OrderBy2 ,
                         'FAQs' AS Title ,
-                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Programme%20Wiki' AS Link ,
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/Wiki' AS Link ,
                         ( SELECT    [OMC_1].[ID]
                           FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
                           WHERE     ( [OMC_1].[Title] = 'Documents and help' )
@@ -168,6 +169,24 @@ SELECT TOP ( 10000 )
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
               WHERE     [O].[Active] = 1
+			  UNION ALL
+              SELECT    '10009' AS OrderBy1 ,
+                        0 AS OrderBy2 ,
+                        'IT Help Videos' AS Title ,
+                        ISNULL(GS.Value, '/') + [O].[ProgrammeSiteName] + '/ITVideos' AS Link ,
+                        ( SELECT    [OMC_1].[ID]
+                          FROM      mm.ALL_ProgrammeMenuCategory AS OMC_1
+                          WHERE     ( [OMC_1].[Title] = 'Documents and help' )
+                                    AND OMC_1.Programme_ID = O.Programme_ID
+                        ) AS Parent ,
+                        10 AS ID ,
+                        [O].[Programme_ID]
+              FROM      [app].[Programme] O
+						LEFT OUTER JOIN  settings.GlobalSettings GS
+							ON GS.Code = 'MMBASEURL'
+              WHERE     [O].[Active] = 1
+			  AND		O.Programme_ID = 4
+
 UNION ALL
               SELECT    '10010' AS OrderBy1 ,
                         0 AS OrderBy2 ,
