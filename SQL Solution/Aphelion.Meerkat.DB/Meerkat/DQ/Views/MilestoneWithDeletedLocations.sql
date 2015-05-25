@@ -1,7 +1,8 @@
-﻿CREATE VIEW DQ.MilestoneWithDeletedLocations
+﻿
+CREATE VIEW [DQ].[MilestoneWithDeletedLocations]
 as
 SELECT Distinct lt.name LocationType, l.name LocationName, i.shortname Milestonehortname, i.code IndicatorCode
-  FROM [Meerkat].[Core].[LocationType] Lt 
+  FROM [Core].[LocationType] Lt 
   inner join core.location l
   on lt.LocationType_ID = l.LocationType_ID
   inner join rbm.indicatorvalues iv
