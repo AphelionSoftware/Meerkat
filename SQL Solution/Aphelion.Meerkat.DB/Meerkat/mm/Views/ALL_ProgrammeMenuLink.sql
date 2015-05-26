@@ -71,7 +71,10 @@ INNER JOIN [app].[Programme] AS OC
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
 WHERE  P.Active = 1 AND OC.Active = 1
-
+AND Exists (select 1 FROM RBM.IndicatorValues IV
+					INNER JOIN App.Indicator I
+					ON IV.Indicator_ID = I.IndicatorID
+					WHERE I.ProjectID = P.ProjectID)
 UNION ALL 
 SELECT Title = 'Milestones', 
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
@@ -95,7 +98,10 @@ INNER JOIN [app].[Programme] AS OC
 						LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'MMBASEURL'
 WHERE  P.Active = 1 AND OC.Active = 1
-
+AND Exists (select 1 FROM RBM.MilestoneValues MV
+					INNER JOIN App.Milestone M
+					ON MV.Milestone_ID = M.MilestoneID
+					WHERE M.ProjectID = P.ProjectID)
 ---------------------------------------------------------------------
 --
 ---------------------------------------------------------------------
