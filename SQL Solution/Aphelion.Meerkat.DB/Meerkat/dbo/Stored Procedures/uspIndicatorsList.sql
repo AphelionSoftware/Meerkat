@@ -19,26 +19,48 @@ DECLARE @Outcome_ID int =0
 ,@Program_ID int = 0
 
 IF CHARINDEX('Outcome', @MDXKey ) > 0 
+BEGIN
 SET @Outcome_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@Outcome ' + CAST(@Outcome_ID as varchar(255))
+END
 ELSE
 IF CHARINDEX('Sub Output', @MDXKey ) > 0 
+BEGIN
 SET @SubOutput_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@SubOutput_ID ' + CAST(@SubOutput_ID as varchar(255))
+END
 ELSE
 IF CHARINDEX('Output', @MDXKey ) > 0 
+BEGIN
 SET @Output_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@Output_ID ' + CAST(@Output_ID as varchar(255))
+END
 ELSE
 IF CHARINDEX('Indicator', @MDXKey ) > 0 
+BEGIN
 SET @Indicator_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@Indicator_ID ' + CAST(@Indicator_ID as varchar(255))
+END
 IF CHARINDEX('Sub Sector', @MDXKey ) > 0 
+BEGIN
 SET @SubSector_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@SubSector_ID ' + CAST(@SubSector_ID as varchar(255))
+END
 IF CHARINDEX('Program', @MDXKey ) > 0 
+BEGIN
 SET @Program_ID  = dbo.fn_StripMDXKey(@MDXKey)
+PRINT '@Program_ID ' + CAST(@Program_ID as varchar(255))
+END
 IF CHARINDEX('Project', @MDXKey ) > 0 
+BEGIN
 SET @Project_ID  = dbo.fn_StripMDXKey(@MDXKey)
-
+PRINT '@Project_ID ' + CAST(@Project_ID as varchar(255))
+END
 IF NOT CHARINDEX('Sub Sector', @MDXKey ) > 0 and  CHARINDEX('Sector', @MDXKey ) > 0
+BEGIN
 SET @Sector_ID  = dbo.fn_StripMDXKey(@MDXKey)
-
+PRINT '@Sector_ID ' + CAST(@Sector_ID as varchar(255))
+END
 
 
 IF ISNUMERIC(@MDXKey) = 1 SET @Outcome_ID = @MDXKey
@@ -159,8 +181,7 @@ OR so.Output_ID = o.Output_ID
 LEFT OUTER JOIN [app].[Outcome] om
 on i.Outcome_ID = om.Outcome_ID
 OR o.Outcome_ID = om.Outcome_ID
-
-
+ 
 LEFT OUTER JOIN app.Project P
 ON i.ProjectID = P.ProjectID
 LEFT OUTER JOIN app.SubSector SS

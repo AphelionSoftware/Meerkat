@@ -1,7 +1,3 @@
-﻿CREATE SCHEMA [DQ]
+﻿CREATE SCHEMA [Stage]
     AUTHORIZATION [dbo];
-
-
-
-
 

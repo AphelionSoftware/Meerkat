@@ -27,7 +27,11 @@ SELECT
 			THEN 1
 			ELSE 0
 		END,
-	MilestoneProgressPercent = (MSV.ActualValue / MST.Target) * 100.0,
+	MilestoneProgressPercent =  
+	CASE WHEN MST.Target <> 0 THEN 
+	(MSV.ActualValue / MST.Target) * 100.0
+	ELSE 0 END
+	,
 	RolledUpToProgramme_ID = OC.Programme_ID,
 	RolledUpToOutput_ID	= 0,
 	RolledUpToProjectID = PRJ.ProjectID,

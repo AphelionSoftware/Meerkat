@@ -1,4 +1,6 @@
-﻿CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
+﻿
+
+CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
 --  SELECT Title = 'Indicator Details', 
@@ -137,7 +139,7 @@ LEFT OUTER JOIN  settings.GlobalSettings GS
 							ON GS.Code = 'BASESITEURL'
 UNION ALL 
 -------------------------------People reached by project
-SELECT Title = P.Code +  ' People reached by District', 
+SELECT Title = ' People reached by District', 
 Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/DIST/?ProjectID=' + cast(p.projectID as varchar(255))
 , 
 Priority = 300 , 
@@ -155,7 +157,7 @@ WHERE Exists (select 1 FROM RBM.PeopleReachedValues PRV
 					WHERE Prv.ProjectID = P.ProjectID)
 AND P.Active = 1
 UNION ALL 
-SELECT Title = P.Code +  ' People reached by Region', 
+SELECT Title = ' People reached by Region', 
 Link = ISNULL(GS.Value, '') + ':350/HTMLClient/#/Rpt_PeopleReached/REG/?ProjectID=' + cast(p.projectID as varchar(255))
 , 
 Priority = 310 , 
