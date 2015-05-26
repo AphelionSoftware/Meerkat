@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 CREATE VIEW [mm].[ALL_ProgrammeMenuGroup]
 AS
 SELECT TOP ( 10000 )
@@ -223,6 +218,28 @@ UNION ALL
                                       WHERE     [mm].[ALL_ProgrammeMenuCategory].[Title] = 'Projects'
                                                 AND [mm].[ALL_ProgrammeMenuCategory].[Programme_ID] = P.Programme_ID
                                     ) Src
+			---Filtering for projects with values
+			WHERE EXISTS (
+				SELECT 1 FROM RBM.IndicatorValues IV
+				INNER JOIN App.Indicator I
+					ON IV.Indicator_ID = I.IndicatorID
+					WHERE I.ProjectID = P.ProjectID)
+				OR
+				EXISTS (
+				SELECT 1 FROM RBM.MilestoneValues MV
+					INNER JOIN App.Milestone M
+					ON MV.Milestone_ID = M.MilestoneID
+					LEFT JOIN App.Activity A
+						ON M.Activity_ID = A.Activity_ID
+					WHERE M.ProjectID = P.ProjectID
+					OR A.ProjectID = P.ProjectID
+				)
+				OR 
+				EXISTS (
+					SELECT 1 FROM RBM.PeopleReachedValues PRV
+						WHERE PRV.ProjectID = P.ProjectID
+				)
+				
             UNION ALL
               
 			  
