@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
@@ -398,7 +399,8 @@ UNION ALL
 --Indicator maps for sectors
 ---------------------------------
 UNION ALL
-  SELECT   
+/* Distinct needed where subsectors exist for a sector and indicator linked to sector*/
+  SELECT   DISTINCT
             'Indicator Map: ' + I.ShortName + ' ' AS Title ,
             ISNULL(GS.Value, '/') + [dom].[ProgrammeSiteName]
             + '/Dashboards/IndicatorMapPage.aspx?qsIndicatorID='
@@ -427,6 +429,8 @@ UNION ALL
             AND dom.Active = 1
 						AND EXISTS (SELECT 1 FROM RBM.IndicatorValues IV
 									WHERE I.IndicatorID = IV.Indicator_ID
+									AND IV.DataVersion_ID = 1
+									AND ActualValue > 0
 													)
 
 
