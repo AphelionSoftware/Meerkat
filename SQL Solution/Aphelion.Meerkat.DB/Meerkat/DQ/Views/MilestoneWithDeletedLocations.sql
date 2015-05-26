@@ -1,6 +1,8 @@
 ﻿
 
 
+
+
 CREATE VIEW [DQ].[MilestoneWithDeletedLocations]
 as
 SELECT Distinct lt.name LocationType, l.name LocationName, i.shortname Milestonehortname, i.code MilestoneCode, RP.Summary
@@ -12,6 +14,6 @@ SELECT Distinct lt.name LocationType, l.name LocationName, i.shortname Milestone
   inner join app.Indicator i
   on i.IndicatorID = iv.Indicator_ID
       inner join Core.ReportingPeriod RP
-	ON IV.ReportPeriodID  = RP.ReportingPeriod
+	ON IV.ReportPeriodID  = RP.ID
   where lt.Active < 1
   OR L.Active < 1

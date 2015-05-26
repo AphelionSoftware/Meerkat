@@ -1,6 +1,8 @@
 ﻿
 
 
+
+
 CREATE VIEW [DQ].[PeopleReachedWithDeletedLocations]
 as
 SELECT Distinct lt.name LocationType, l.name LocationName, RP.Summary
@@ -10,7 +12,7 @@ SELECT Distinct lt.name LocationType, l.name LocationName, RP.Summary
   inner join rbm.PeopleReachedValues prv
   on l.Location_ID = prv.Location_ID
   inner join Core.ReportingPeriod RP
-	ON PRV.ReportingPeriod_ID  = RP.ReportingPeriod
+	ON PRV.ReportingPeriod_ID  = RP.ID
 
   where lt.Active < 1
   OR L.Active < 1

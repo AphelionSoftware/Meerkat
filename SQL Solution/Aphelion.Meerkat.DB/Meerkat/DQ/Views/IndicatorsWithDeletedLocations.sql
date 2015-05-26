@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE VIEW [DQ].[IndicatorsWithDeletedLocations]
 as
 SELECT Distinct lt.name LocationType, l.name LocationName, i.shortname IndicatorShortname, i.code IndicatorCode, RP.Summary
@@ -12,7 +13,7 @@ SELECT Distinct lt.name LocationType, l.name LocationName, i.shortname Indicator
   inner join app.Indicator i
   on i.IndicatorID = iv.Indicator_ID
     inner join Core.ReportingPeriod RP
-	ON IV.ReportPeriodID  = RP.ReportingPeriod
+	ON IV.ReportPeriodID  = RP.ID
 
   where lt.Active < 1
   OR L.Active < 1
