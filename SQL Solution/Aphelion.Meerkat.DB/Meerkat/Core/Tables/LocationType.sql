@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Core].[LocationType] (
+CREATE TABLE [Core].[LocationType] (
     [LocationType_ID]   INT            IDENTITY (1, 1) NOT NULL,
     [Code]              VARCHAR (50)   NOT NULL,
     [Name]              VARCHAR (255)  NULL,
@@ -39,6 +39,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_LocationType_BusinessKey]
     ON [Core].[LocationType]([BusinessKey] ASC) WHERE ([Active]>=(0));
@@ -53,5 +55,11 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'1', @lev
 
 
 GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_LocationType_all]
+    ON [Core].[LocationType]([LocationTypeOrder] DESC, [Active] ASC, [LocationType_ID] ASC);
 
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_LocationType]
+    ON [Core].[LocationType]([LocationTypeOrder] DESC, [Active] ASC, [LocationType_ID] ASC) WHERE ([Active]>(0));
 

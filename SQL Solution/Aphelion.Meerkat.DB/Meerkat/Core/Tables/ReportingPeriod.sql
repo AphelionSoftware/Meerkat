@@ -18,8 +18,11 @@
     CONSTRAINT [PK_ReportingPeriod] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_ReportingPeriod_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     UNIQUE NONCLUSTERED ([EndDateID] ASC),
-    UNIQUE NONCLUSTERED ([StartDateID] ASC)
+    UNIQUE NONCLUSTERED ([StartDateID] ASC),
+    UNIQUE NONCLUSTERED ([EndDateID] ASC, [ID] ASC, [ReportingPeriod] ASC, [StartDateID] ASC, [Summary] ASC, [YearNumber] ASC)
 );
+
+
 
 
 

@@ -29,8 +29,10 @@ declare
 With CTEData as (
 SELECT    
 LocationType_ID, 
-ROW_NUMBER() over (partition by Location_ID, Indicator_ID order by ReportCycleDate_ID DESC) as RowNDateDesc,
-DENSE_RANK() Over (order by fiv.Code) %2 RN,
+--ROW_NUMBER() over (partition by Location_ID, Indicator_ID order by ReportCycleDate_ID DESC) as RowNDateDesc,
+0 RowNDateDesc,
+--DENSE_RANK() Over (order by fiv.Code) %2 RN,
+0 RN,
 UnitOfMeasure,
  Case When 
         (CASE WHEN ROW_NUMBER() Over (order by ReportCycleDate_ID) = 1 THEN ISNULL(OriginalBaseline,0)
@@ -220,7 +222,10 @@ SELECT
 
     CROSS JOIN Core.Location
 
-	WHERE (@Location_ID = 0 OR Location.Location_ID = @Location_ID OR @Location_ID IS NULL 
+	WHERE 
+	I.IndicatorID = @Indicator_ID 
+	AND
+	(@Location_ID = 0 OR Location.Location_ID = @Location_ID OR @Location_ID IS NULL 
 		OR @Location_ID = Location.ParentLocation_ID
 	)
 

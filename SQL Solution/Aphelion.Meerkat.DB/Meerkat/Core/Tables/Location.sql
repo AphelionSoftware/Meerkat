@@ -48,6 +48,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_Location_BusinessKey]
     ON [Core].[Location]([BusinessKey] ASC) WHERE ([Active]>=(0));
@@ -63,12 +65,16 @@ EXECUTE sp_addextendedproperty @name = N'RelationshipDepth', @value = N'2', @lev
 
 GO
 CREATE NONCLUSTERED INDEX [IX_Location_Parent]
-    ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC);
+    ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC) WHERE ([Active]>(0));
+
+
 
 
 GO
 CREATE CLUSTERED INDEX [IX_Location]
-    ON [Core].[Location]([ParentLocation_ID] ASC, [Location_ID] ASC, [LocationType_ID] ASC, [Active] ASC);
+    ON [Core].[Location]([LocationType_ID] ASC, [ParentLocation_ID] ASC, [Location_ID] ASC, [Active] ASC);
+
+
 
 
 GO
