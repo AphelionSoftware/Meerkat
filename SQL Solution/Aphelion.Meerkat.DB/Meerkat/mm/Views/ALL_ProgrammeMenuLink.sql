@@ -1,6 +1,7 @@
 ﻿
 
 
+
 CREATE VIEW [mm].[ALL_ProgrammeMenuLink] 
 AS 
 --Sub sector removed for now
@@ -82,7 +83,7 @@ UNION ALL
 SELECT Title = 'Milestones', 
 Link = ISNULL(GS.Value, '/') + [ProgrammeSiteName] 
        --+  '/' + [ProjectSiteName] +
-+ '/Dashboards/Template%20Pages/Indicator%20Details%20Page.aspx?qsIndCode='
++ '/Dashboards/Template%20Pages/Milestones%20Page.aspx?qsIndCode='
 + '[Project].[Project].%26[' 
 + Cast(P.ProjectID AS VARCHAR(8)) + ']'
 + '&qsMDXKey=' 

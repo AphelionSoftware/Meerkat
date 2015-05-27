@@ -10,7 +10,7 @@
     [ScheduledEventEndTime]   TIME (7)       NULL,
     [EventStartTime]          TIME (7)       NULL,
     [EventEndTime]            TIME (7)       NULL,
-    [Project_ID]              INT            NOT NULL,
+    [Project_ID]              INT            NULL,
     [Location_ID]             INT            NULL,
     [TrainingInstitution_ID]  INT            NULL,
     [Group_ID]                INT            NULL,
@@ -21,14 +21,18 @@
     [sys_ModifiedOn]          DATETIME       CONSTRAINT [DF_Event_sys_ModifiedOn] DEFAULT (getdate()) NOT NULL,
     [EventDate_ID]            AS             (CONVERT([int],CONVERT([varchar](8),[EventDate],(112)))),
     [LocalName]               NVARCHAR (255) NULL,
+    [Programme_ID]            INT            NULL,
     CONSTRAINT [PK_Event_3] PRIMARY KEY CLUSTERED ([Event_ID] ASC),
     CONSTRAINT [FK_Event_ActiveType] FOREIGN KEY ([Active]) REFERENCES [Core].[ActiveType] ([ID]),
     CONSTRAINT [FK_Event_EventType] FOREIGN KEY ([EventType_ID]) REFERENCES [forms].[EventType] ([EventType_ID]),
     CONSTRAINT [FK_Event_Group] FOREIGN KEY ([Group_ID]) REFERENCES [disagg].[Group] ([Group_ID]),
     CONSTRAINT [FK_Event_Institution] FOREIGN KEY ([TrainingInstitution_ID]) REFERENCES [disagg].[Institution] ([Institution_ID]),
     CONSTRAINT [FK_Event_Location] FOREIGN KEY ([Location_ID]) REFERENCES [Core].[Location] ([Location_ID]),
+    CONSTRAINT [FK_Event_Programme] FOREIGN KEY ([Programme_ID]) REFERENCES [app].[Programme] ([Programme_ID]),
     CONSTRAINT [FK_Event_Project] FOREIGN KEY ([Project_ID]) REFERENCES [app].[Project] ([ProjectID])
 );
+
+
 
 
 

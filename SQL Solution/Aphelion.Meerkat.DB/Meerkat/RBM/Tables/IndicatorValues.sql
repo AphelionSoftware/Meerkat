@@ -80,6 +80,8 @@
 
 
 
+
+
 GO
 EXECUTE sp_addextendedproperty @name = N'AdditionalRelationship', @value = N'IndicatorProgram[IndicatorBusinessKey]', @level0type = N'SCHEMA', @level0name = N'RBM', @level1type = N'TABLE', @level1name = N'IndicatorValues', @level2type = N'COLUMN', @level2name = N'BusinessKey';
 
@@ -170,7 +172,9 @@ CREATE NONCLUSTERED INDEX [IX_IndicatorValues_Wide]
 GO
 CREATE NONCLUSTERED INDEX [IX_IndicatorValues_Narrow_IncludedWide]
     ON [RBM].[IndicatorValues]([DataVersion_ID] ASC, [ReportPeriodID] ASC, [Location_ID] ASC, [Active] ASC, [Indicator_ID] ASC)
-    INCLUDE([ActualLabel], [ActualValue], [CommunityType_ID], [Donor_ID], [Framework_ID], [Gender_ID], [Group_ID], [AgeBand_ID], [Institution_ID]);
+    INCLUDE([ActualLabel], [ActualValue], [CommunityType_ID], [Donor_ID], [Framework_ID], [Gender_ID], [Group_ID], [AgeBand_ID], [Institution_ID], [Notes]);
+
+
 
 
 GO

@@ -1,10 +1,12 @@
 ﻿
 
+
 CREATE VIEW [DQ].[IndicatorsValues10xHigherThanTarget]
 as
 SELECT  IV.ActualLabel, IV.ActualValue, IV.ActualDate, 
 I.TargetString, I.Target, I.TargetDate,
 I.BaselineString, I.Baseline, I.BaselineDate,
+ RP.Summary ReportPeriod,
 DV.Name DataVersionName,
 I.ShortName, I.Code, 
 P.Code ProjectCode, 
@@ -22,4 +24,7 @@ FROM RBM.IndicatorValues IV
 		OR P.Programme_ID = P.Programme_ID
 	INNER JOIN Core.DataVersion DV
 		ON IV.DataVersion_ID = DV.DataVersion_ID
+   inner join Core.ReportingPeriod RP
+	ON IV.ReportPeriodID  = RP.ID
+
 WHERE IV.ActualValue >= (I.Target * 10)

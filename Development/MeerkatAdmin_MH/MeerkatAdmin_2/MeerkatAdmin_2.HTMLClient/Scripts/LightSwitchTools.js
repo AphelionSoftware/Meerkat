@@ -124,6 +124,8 @@
                     title: "Data Refresh failed"
                 });
             });
+
+            return primaryKey;
         }
 
     }

@@ -2,11 +2,15 @@
 /// <reference path="../Scripts/LightSwitchTools.js" />
 
 myapp.AddEditProject.created = function (screen) {
-    msls.application.lightswitchTools.configureCaptureForm(screen);
+    var primaryKey = msls.application.lightswitchTools.configureCaptureForm(screen);
     msls.application.lightswitchTools.setBusinessKeyIsCode(screen);
     msls.application.lightswitchTools.setDescriptionIsShortName(screen);
-    screen.Project.isSiteCreated = false;
-   //screen.Project.isSiteCreated = false;
+
+    if (!primaryKey) {
+        screen.Project.isSiteCreated = false;
+        screen.Project.OperationalAreaIsPolygon = true;
+    }
+        //screen.Project.isSiteCreated = false;
 };
 
 myapp.AddEditProject.Project_Delete_execute = function (screen) {
