@@ -284,10 +284,10 @@
         return true;
     };
 
-    lightswitchTools.deleteEntity = function (screen) {
+    lightswitchTools.deleteEntity = function (screen, bypass) {
         var entityLabel = screen.details.getModel().properties[0].name;
         var entity = screen[entityLabel];
-        if (!lightswitchTools.canDelete(screen)) {
+        if (!lightswitchTools.canDelete(screen) && !(bypass === true)  ) {
             return msls.showMessageBox(
                 "Cannot delete the " + entityLabel + " because it was changed.",
                 {

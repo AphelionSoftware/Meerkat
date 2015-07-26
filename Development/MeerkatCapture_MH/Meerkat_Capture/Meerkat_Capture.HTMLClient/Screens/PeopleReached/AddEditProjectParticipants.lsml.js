@@ -332,3 +332,7 @@ myapp.AddEditProjectParticipants.SubSector_postRender = function (element, conte
         }
     });
 };
+myapp.AddEditProjectParticipants.Delete_execute = function (screen) {
+    msls.application.lightswitchTools.deleteEntity(screen, true);
+
+};
