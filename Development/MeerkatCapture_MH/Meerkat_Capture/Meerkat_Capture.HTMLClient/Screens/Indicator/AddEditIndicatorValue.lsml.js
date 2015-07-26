@@ -184,7 +184,7 @@ myapp.AddEditIndicatorValue.created = function (screen) {
     //done here as the screen name may not match the value expected by the code in LightSwitchTools.js
     var thisObject = screen.IndicatorValue;
 
-
+    var i = screen.Indicator_ID;
     myapp.activeDataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Active'").execute().then(function (x) {
         //thisObject.setActiveType(x.results[x]);
         // MGS 2013/09/32
@@ -270,10 +270,11 @@ myapp.AddEditIndicatorValue.created = function (screen) {
 
     //Set the indicator - it's prefiltered by parameter.
 
-    myapp.activeDataWorkspace.MeerkatData.Indicators_SingleOrDefault(screen.Indicator_ID).execute().then(function (indicator) {
-        screen.IndicatorValue.setIndicator(indicator.results[0]);
-    });
-
+    if (primaryKey === undefined) {
+        myapp.activeDataWorkspace.MeerkatData.Indicators_SingleOrDefault(screen.Indicator_ID).execute().then(function (indicator) {
+            screen.IndicatorValue.setIndicator(indicator.results[0]);
+        });
+    }
     msls.application.lightswitchTools.getClientCode(function (client) {
         if (client == "Northdoor") {
             myapp.activeDataWorkspace.MeerkatData.Locations_SingleOrDefault(1).execute().then(

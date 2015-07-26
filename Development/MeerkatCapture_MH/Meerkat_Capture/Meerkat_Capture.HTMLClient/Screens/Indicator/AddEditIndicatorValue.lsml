@@ -353,6 +353,14 @@
                   Name="AgeBand"
                   Kind="Details"
                   DataType="AgeBand">
+                  <ContentItem.ChoicesSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AddEditIndicatorValue/Properties[AgeBandsSorted]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.ChoicesSource>
                   <ContentItem.DataSource>
                     <ScreenExpressionTree>
                       <ChainExpression>
@@ -588,6 +596,9 @@
                   </ControlPropertySource>
                 </ContentItem.PropertySources>
               </ContentItem>
+              <ContentItem
+                Name="Group16"
+                Kind="Group" />
               <ContentItem
                 Name="Rollups"
                 Kind="Group">
@@ -2611,7 +2622,7 @@
             <ScreenQueryDefinition.Source>
               <QuerySourceExpressionTree>
                 <MemberExpression
-                  Member="MeerkatData/Members[IndicatorValues]" />
+                  Member="MeerkatData/Members[IndicatorValuesSorted]" />
               </QuerySourceExpressionTree>
             </ScreenQueryDefinition.Source>
           </ScreenQueryDefinition>
@@ -2619,7 +2630,44 @@
         <ScreenExpressionTree>
           <ChainExpression>
             <CallExpression
-              Target="AddEditIndicatorValue/Properties[IndicatorValuesSorted]/Query" />
+              Target="AddEditIndicatorValue/Properties[IndicatorValuesSorted]/Query">
+              <ArgumentExpression
+                Parameter="DataVersion_ID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValueDataVersion_ID]" />
+                  <MemberExpression
+                    Member="DataVersion_ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="IndicatorID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValueIndicatorID]" />
+                  <MemberExpression
+                    Member="IndicatorID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ReportingPeriod">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValueReportingPeriod]" />
+                  <MemberExpression
+                    Member="ID" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="Project">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AddEditIndicatorValue/Properties[IndicatorValueProject]" />
+                  <MemberExpression
+                    Member="ProjectID" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
           </ChainExpression>
         </ScreenExpressionTree>
       </ScreenCollectionProperty>
@@ -3132,6 +3180,44 @@
       <ScreenProperty
         Name="ParentLocation"
         PropertyType="Location" />
+      <ScreenCollectionProperty
+        Name="AgeBandsSorted"
+        PageSize="45"
+        PropertyType="CollectionView$AgeBand">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="AgeBandsSortedQuery"
+            ReturnType="AgeBand*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="MeerkatData/Members[AgeBandsSorted]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AddEditIndicatorValue/Properties[AgeBandsSorted]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="IndicatorValueDataVersion_ID"
+        PropertyType="DataVersion" />
+      <ScreenProperty
+        Name="IndicatorValueIndicatorID"
+        PropertyType="Indicator" />
+      <ScreenProperty
+        Name="IndicatorValueReportingPeriod"
+        PropertyType="ReportingPeriod" />
+      <ScreenProperty
+        Name="IndicatorValueProject"
+        PropertyType="Project" />
     </Screen.Properties>
   </Screen>
   <Application.Methods>
