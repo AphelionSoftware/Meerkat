@@ -57,17 +57,19 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -145,17 +147,8 @@
         ToEnd="ReportingPeriod" />
       <EntityProperty
         Name="IndicatorValueGroup"
-        PropertyType=":Guid">
+        PropertyType=":Guid?">
         <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="GroupVersion"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -195,15 +188,10 @@
         FromEnd="IndicatorValues"
         ToEnd="Framework" />
       <NavigationProperty
-        Name="ResultArea"
-        Association="FK_IndicatorValues_ResultArea"
+        Name="c_Structure"
+        Association="FK_IndicatorValues_Structure"
         FromEnd="IndicatorValues"
-        ToEnd="ResultArea" />
-      <NavigationProperty
-        Name="StrategicElement"
-        Association="FK_IndicatorValues_StrategicElement"
-        FromEnd="IndicatorValues"
-        ToEnd="StrategicElement" />
+        ToEnd="c_Structure" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -334,14 +322,15 @@
           Type="date"
           Property="IndicatorValue/Properties[ActualDate]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="IndicatorValue/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="IndicatorValue/Properties[Notes]" />
         <SsdlProperty
           MaxLength="255"
@@ -367,14 +356,9 @@
           Property="IndicatorValue/Properties[sys_ModifiedOn]" />
         <SsdlProperty
           Name="IndicatorValueGroup"
-          Nullable="False"
+          Nullable="True"
           Type="uniqueidentifier"
           Property="IndicatorValue/Properties[IndicatorValueGroup]" />
-        <SsdlProperty
-          Name="GroupVersion"
-          Nullable="False"
-          Type="int"
-          Property="IndicatorValue/Properties[GroupVersion]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -441,15 +425,10 @@
           Type="int"
           PropertyName="ReportPeriodID" />
         <SsdlForeignKeyProperty
-          Name="ResultArea_ID"
+          Name="Structure_ID"
           Nullable="True"
           Type="int"
-          PropertyName="ResultArea_ID" />
-        <SsdlForeignKeyProperty
-          Name="StrategicElement_ID"
-          Nullable="True"
-          Type="int"
-          PropertyName="StrategicElement_ID" />
+          PropertyName="Structure_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
   </DataService>

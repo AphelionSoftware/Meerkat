@@ -26,6 +26,16 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
         Name="Code"
         PropertyType=":String?">
         <EntityProperty.Attributes>
@@ -36,37 +46,31 @@
       </EntityProperty>
       <EntityProperty
         Name="LongName"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="500" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ShortName"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="50" />
-          <AnsiConstraint />
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -76,14 +80,7 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -94,6 +91,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -105,6 +103,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -115,6 +114,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -126,28 +126,93 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="Indicators"
         Association="FK_Indicator_Programme"
         FromEnd="Programme"
-        ToEnd="Indicator" />
-      <NavigationProperty
-        Name="PeopleReachedValues"
-        Association="FK_PeopleReachedValues_Programme"
-        FromEnd="Programme"
-        ToEnd="PeopleReachedValues" />
+        ToEnd="Indicator">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Projects"
         Association="FK_Project_Programme"
         FromEnd="Programme"
-        ToEnd="Project" />
+        ToEnd="Project">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Sectors"
         Association="FK_Sector_Programme"
         FromEnd="Programme"
-        ToEnd="Sector" />
+        ToEnd="Sector">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Programme"
+        FromEnd="Programme"
+        ToEnd="StatusValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="PeopleReachedValues"
+        Association="FK_PeopleReachedValues_Programme"
+        FromEnd="Programme"
+        ToEnd="PeopleReachedValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Programme_ActiveType"
+        FromEnd="Programme"
+        ToEnd="ActiveType" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="vwProgrammeUserMaps"
+        Association="vwProgrammeUserMap_Programme"
+        FromEnd="Programme"
+        ToEnd="vwProgrammeUserMap" />
+      <EntityProperty
+        Name="isSiteCreated"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_Programme"
+        FromEnd="Programme"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -163,20 +228,6 @@
       Name="Indicator"
       Multiplicity="Many"
       EntityType="Indicator" />
-  </Association>
-  <Association
-    Name="FK_PeopleReachedValues_Programme">
-    <AssociationEnd
-      Name="Programme"
-      EntityType="Programme">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="PeopleReachedValues"
-      Multiplicity="Many"
-      EntityType="PeopleReachedValue" />
   </Association>
   <Association
     Name="FK_Project_Programme">
@@ -196,7 +247,6 @@
     Name="FK_Sector_Programme">
     <AssociationEnd
       Name="Programme"
-      Multiplicity="One"
       EntityType="Programme">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -227,16 +277,6 @@
       <AssociationSetEnd
         Name="Indicator"
         EntitySet="Indicators" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_PeopleReachedValues_Programme"
-      Association="FK_PeopleReachedValues_Programme">
-      <AssociationSetEnd
-        Name="Programme"
-        EntitySet="Programmes" />
-      <AssociationSetEnd
-        Name="PeopleReachedValues"
-        EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <AssociationSet
       Name="FK_Project_Programme"
@@ -338,7 +378,107 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_StatusValues_Programme"
+      Association="FK_StatusValues_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Programme"
+      Association="FK_PeopleReachedValues_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwProgrammeUserMap_Programmes"
+      Association="vwProgrammeUserMap_Programme">
+      <AssociationSetEnd
+        Name="vwProgrammeUserMap"
+        EntitySet="vwProgrammeUserMaps" />
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_Programme"
+      Association="FK_User_SystemRole_ProjectProgramme_Programme">
+      <AssociationSetEnd
+        Name="Programme"
+        EntitySet="Programmes" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_StatusValues_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="FK_PeopleReachedValues_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="vwProgrammeUserMap_Programme">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProgrammeUserMap"
+      Multiplicity="Many"
+      EntityType="vwProgrammeUserMap" />
+    <AssociationEnd
+      Name="Programme"
+      Multiplicity="One"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_Programme">
+    <AssociationEnd
+      Name="Programme"
+      EntityType="Programme">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -365,25 +505,26 @@
         <SsdlProperty
           MaxLength="500"
           Name="LongName"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Programme/Properties[LongName]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="Programme/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
           Name="ShortName"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="Programme/Properties[ShortName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Programme/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="50"
@@ -392,10 +533,10 @@
           Type="varchar"
           Property="Programme/Properties[ProgrammeSiteName]" />
         <SsdlProperty
-          Name="Active"
+          Name="isSiteCreated"
           Nullable="False"
-          Type="int"
-          Property="Programme/Properties[Active]" />
+          Type="bit"
+          Property="Programme/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -418,6 +559,23 @@
           Nullable="False"
           Type="datetime"
           Property="Programme/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Programme/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Programme/Properties[LocalShortName]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -497,6 +655,69 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Sector_Programme]/Members[Sector]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Programme]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_Programme">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_Programme" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Programme]/Members[Programme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Programme]/Members[User_SystemRole_ProjectProgramme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProgrammeUserMap_Programmes">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProgrammeUserMap_Programmes" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[vwProgrammeUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Programme_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProgrammeUserMap_Programmes]/Members[Programme]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Programme_ID" />

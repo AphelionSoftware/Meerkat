@@ -29,7 +29,8 @@
         Name="Title"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -37,16 +38,18 @@
         Name="ContactDetails"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -113,19 +116,19 @@
         ToEnd="SubOutputPersonRole" />
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
-          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Category"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -138,6 +141,16 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <NavigationProperty
+        Name="OutcomePersonRoles"
+        Association="FK_OutcomePersonRole_Person"
+        FromEnd="Person"
+        ToEnd="OutcomePersonRole" />
+      <NavigationProperty
+        Name="PersonParticipationType"
+        Association="FK_Person_PersonParticipationType"
+        FromEnd="Person"
+        ToEnd="PersonParticipationType" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -303,7 +316,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_OutcomePersonRole_Person"
+      Association="FK_OutcomePersonRole_Person">
+      <AssociationSetEnd
+        Name="Person"
+        EntitySet="People" />
+      <AssociationSetEnd
+        Name="OutcomePersonRole"
+        EntitySet="OutcomePersonRoles" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_OutcomePersonRole_Person">
+    <AssociationEnd
+      Name="Person"
+      EntityType="Person">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OutcomePersonRole"
+      Multiplicity="Many"
+      EntityType="OutcomePersonRole" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -324,28 +361,29 @@
         <SsdlProperty
           Name="Title"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Person/Properties[Title]" />
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Person/Properties[Name]" />
         <SsdlProperty
           Name="ContactDetails"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Person/Properties[ContactDetails]" />
         <SsdlProperty
           Name="Category"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Person/Properties[Category]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Person/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
@@ -380,6 +418,11 @@
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="PersonParticipationType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="PersonParticipationType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -396,6 +439,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OrganizationPersonRole_Person]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OutcomePersonRole_Person">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutcomePersonRole_Person" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Person]/Members[Person]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Person_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Person]/Members[OutcomePersonRole]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Person_ID" />

@@ -31,7 +31,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -47,19 +47,11 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -109,6 +101,19 @@
         Association="FK_Question_QuestionType"
         FromEnd="QuestionType"
         ToEnd="Question" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_QuestionType_ActiveType"
+        FromEnd="QuestionType"
+        ToEnd="ActiveType" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -246,7 +251,7 @@
           Type="int"
           Property="QuestionType/Properties[QuestionType_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -258,15 +263,11 @@
           Type="varchar"
           Property="QuestionType/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="QuestionType/Properties[TextDescription]" />
-        <SsdlProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          Property="QuestionType/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -289,6 +290,17 @@
           Nullable="False"
           Type="datetime"
           Property="QuestionType/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="QuestionType/Properties[LocalName]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping

@@ -29,7 +29,9 @@
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -74,6 +76,14 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <EntityProperty
+        Name="NumberReached"
+        PropertyType=":Int32">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_PeopleReachedValues_ActiveType"
@@ -104,6 +114,11 @@
         Association="FK_PeopleReachedValues_Donor"
         FromEnd="PeopleReachedValues"
         ToEnd="Donor" />
+      <NavigationProperty
+        Name="Framework"
+        Association="FK_PeopleReachedValues_Framework"
+        FromEnd="PeopleReachedValues"
+        ToEnd="Framework" />
       <NavigationProperty
         Name="Gender"
         Association="FK_PeopleReachedValues_Gender"
@@ -150,35 +165,45 @@
         FromEnd="PeopleReachedValues"
         ToEnd="ReportingPeriod" />
       <NavigationProperty
+        Name="ResultArea"
+        Association="FK_PeopleReachedValues_ResultArea"
+        FromEnd="PeopleReachedValues"
+        ToEnd="ResultArea" />
+      <NavigationProperty
         Name="StatusType"
         Association="FK_PeopleReachedValues_StatusType"
         FromEnd="PeopleReachedValues"
         ToEnd="StatusType" />
+      <NavigationProperty
+        Name="StrategicElement"
+        Association="FK_PeopleReachedValues_StrategicElement"
+        FromEnd="PeopleReachedValues"
+        ToEnd="StrategicElement" />
       <NavigationProperty
         Name="SubOutput"
         Association="FK_PeopleReachedValues_SubOutput"
         FromEnd="PeopleReachedValues"
         ToEnd="SubOutput" />
       <NavigationProperty
-        Name="Framework"
-        Association="FK_PeopleReachedValues_Framework"
+        Name="Sector"
+        Association="FK_PeopleReachedValues_Sector"
         FromEnd="PeopleReachedValues"
-        ToEnd="Framework" />
+        ToEnd="Sector" />
       <NavigationProperty
-        Name="Framework_Indicator"
-        Association="FK_PeopleReachedValues_Framework_Indicator"
+        Name="SubSector"
+        Association="FK_PeopleReachedValues_SubSector"
         FromEnd="PeopleReachedValues"
-        ToEnd="Framework_Indicator" />
+        ToEnd="SubSector" />
       <NavigationProperty
-        Name="ResultArea"
-        Association="FK_PeopleReachedValues_ResultArea"
+        Name="FrameworkDetail_Indicator"
+        Association="FK_PeopleReachedValues_FrameworkDetail_Indicator"
         FromEnd="PeopleReachedValues"
-        ToEnd="ResultArea" />
+        ToEnd="FrameworkDetail_Indicator" />
       <NavigationProperty
-        Name="StrategicElement"
-        Association="FK_PeopleReachedValues_StrategicElement"
+        Name="PersonParticipationType"
+        Association="FK_PeopleReachedValues_PersonParticipationType"
         FromEnd="PeopleReachedValues"
-        ToEnd="StrategicElement" />
+        ToEnd="PersonParticipationType" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -293,7 +318,7 @@
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="PeopleReachedValue/Properties[Notes]" />
         <SsdlProperty
           MaxLength="255"
@@ -317,6 +342,11 @@
           Nullable="False"
           Type="datetime"
           Property="PeopleReachedValue/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="NumberReached"
+          Nullable="False"
+          Type="int"
+          Property="PeopleReachedValue/Properties[NumberReached]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -353,10 +383,10 @@
           Type="int"
           PropertyName="Framework_ID" />
         <SsdlForeignKeyProperty
-          Name="Framework_Indicator_ID"
+          Name="FrameworkDetail_Indicator_ID"
           Nullable="True"
           Type="int"
-          PropertyName="Framework_Indicator_ID" />
+          PropertyName="FrameworkDetail_Indicator_ID" />
         <SsdlForeignKeyProperty
           Name="Gender_ID"
           Nullable="True"
@@ -388,6 +418,11 @@
           Type="int"
           PropertyName="Output_ID" />
         <SsdlForeignKeyProperty
+          Name="ParticipationType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ParticipationType_ID" />
+        <SsdlForeignKeyProperty
           Name="Programme_ID"
           Nullable="True"
           Type="int"
@@ -408,6 +443,11 @@
           Type="int"
           PropertyName="ResultArea_ID" />
         <SsdlForeignKeyProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Sector_ID" />
+        <SsdlForeignKeyProperty
           Name="StatusType_ID"
           Nullable="True"
           Type="int"
@@ -422,6 +462,11 @@
           Nullable="True"
           Type="int"
           PropertyName="SubOutput_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
   </DataService>

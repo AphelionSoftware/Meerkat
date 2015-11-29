@@ -15,6 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="LongName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="500" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="IndicatorID"
         IsReadOnly="True"
@@ -26,21 +36,13 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="LongName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="500" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -57,7 +59,8 @@
         Name="BaselineString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -86,7 +89,8 @@
         Name="TargetString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -123,16 +127,20 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -279,10 +287,73 @@
         FromEnd="Indicator"
         ToEnd="SubSector" />
       <NavigationProperty
-        Name="Framework_Indicators"
-        Association="FK_Framework_Indicator_Indicator"
+        Name="Event_Indicator_Rollups"
+        Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
         FromEnd="Indicator"
-        ToEnd="Framework_Indicator" />
+        ToEnd="Event_Indicator_Rollup" />
+      <NavigationProperty
+        Name="Question_Indicator_Rollups"
+        Association="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup"
+        FromEnd="Indicator"
+        ToEnd="Question_Indicator_Rollup" />
+      <NavigationProperty
+        Name="vw_ResponsesByIndicators"
+        Association="vw_ResponsesByIndicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="vw_ResponsesByIndicator" />
+      <NavigationProperty
+        Name="CustomReport_Indicators"
+        Association="FK_CustomReport_Indicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="CustomReport_Indicator" />
+      <NavigationProperty
+        Name="DonorReport_Indicators"
+        Association="FK_DonorReport_Indicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="DonorReport_Indicator" />
+      <NavigationProperty
+        Name="FrameworkDetail_Indicators"
+        Association="FK_FrameworkDetail_Indicator_Indicator"
+        FromEnd="Indicator"
+        ToEnd="FrameworkDetail_Indicator" />
+      <EntityProperty
+        Name="IndicatorSimpleType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Indicator"
+        FromEnd="Indicator"
+        ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="ResultArea"
+        Association="FK_Indicator_ResultArea"
+        FromEnd="Indicator"
+        ToEnd="ResultArea" />
+      <NavigationProperty
+        Name="vwIndicatorUserMaps"
+        Association="vwIndicatorUserMap_Indicator"
+        FromEnd="Indicator"
+        ToEnd="vwIndicatorUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -426,18 +497,151 @@
       </QueryOperationParameter>
     </QueryOperation>
     <AssociationSet
-      Name="FK_Framework_Indicator_Indicator"
-      Association="FK_Framework_Indicator_Indicator">
+      Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
+      Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
       <AssociationSetEnd
         Name="Indicator"
         EntitySet="Indicators" />
       <AssociationSetEnd
-        Name="Framework_Indicator"
-        EntitySet="Framework_Indicators" />
+        Name="Event_Indicator_Rollup"
+        EntitySet="Event_Indicator_Rollups" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup"
+      Association="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="Question_Indicator_Rollup"
+        EntitySet="Question_Indicator_Rollups" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vw_ResponsesByIndicator_Indicators"
+      Association="vw_ResponsesByIndicator_Indicator">
+      <AssociationSetEnd
+        Name="vw_ResponsesByIndicator"
+        EntitySet="vw_ResponsesByIndicators" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_CustomReport_Indicator_Indicator"
+      Association="FK_CustomReport_Indicator_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="CustomReport_Indicator"
+        EntitySet="CustomReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_DonorReport_Indicator_Indicator"
+      Association="FK_DonorReport_Indicator_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="DonorReport_Indicator"
+        EntitySet="DonorReport_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FrameworkDetail_Indicator_Indicator"
+      Association="FK_FrameworkDetail_Indicator_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="FrameworkDetail_Indicator"
+        EntitySet="FrameworkDetail_Indicators" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_StatusValues_Indicator"
+      Association="FK_StatusValues_Indicator">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwIndicatorUserMap_Indicators"
+      Association="vwIndicatorUserMap_Indicator">
+      <AssociationSetEnd
+        Name="vwIndicatorUserMap"
+        EntitySet="vwIndicatorUserMaps" />
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
     </AssociationSet>
   </EntityContainer>
   <Association
-    Name="FK_Framework_Indicator_Indicator">
+    Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Event_Indicator_Rollup"
+      Multiplicity="Many"
+      EntityType="Event_Indicator_Rollup" />
+  </Association>
+  <Association
+    Name="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup">
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question_Indicator_Rollup"
+      Multiplicity="Many"
+      EntityType="Question_Indicator_Rollup" />
+  </Association>
+  <Association
+    Name="vw_ResponsesByIndicator_Indicator">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vw_ResponsesByIndicator"
+      Multiplicity="Many"
+      EntityType="vw_ResponsesByIndicator" />
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="FK_CustomReport_Indicator_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="CustomReport_Indicator"
+      Multiplicity="Many"
+      EntityType="CustomReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_DonorReport_Indicator_Indicator">
     <AssociationEnd
       Name="Indicator"
       EntityType="Indicator">
@@ -446,9 +650,55 @@
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Framework_Indicator"
+      Name="DonorReport_Indicator"
       Multiplicity="Many"
-      EntityType="Framework_Indicator" />
+      EntityType="DonorReport_Indicator" />
+  </Association>
+  <Association
+    Name="FK_FrameworkDetail_Indicator_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FrameworkDetail_Indicator"
+      Multiplicity="Many"
+      EntityType="FrameworkDetail_Indicator" />
+  </Association>
+  <Association
+    Name="FK_StatusValues_Indicator">
+    <AssociationEnd
+      Name="Indicator"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="vwIndicatorUserMap_Indicator">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwIndicatorUserMap"
+      Multiplicity="Many"
+      EntityType="vwIndicatorUserMap" />
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -474,9 +724,10 @@
           Type="varchar"
           Property="Indicator/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TextDescription]" />
         <SsdlProperty
           Name="Baseline"
@@ -488,7 +739,7 @@
         <SsdlProperty
           Name="BaselineString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[BaselineString]" />
         <SsdlProperty
           Name="BaselineDate"
@@ -505,7 +756,7 @@
         <SsdlProperty
           Name="TargetString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TargetString]" />
         <SsdlProperty
           Name="TargetDate"
@@ -523,14 +774,15 @@
           Type="date"
           Property="Indicator/Properties[ReportingDate]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Indicator/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[Notes]" />
         <SsdlProperty
           MaxLength="50"
@@ -584,6 +836,23 @@
           Nullable="False"
           Type="datetime"
           Property="Indicator/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="IndicatorSimpleType_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[IndicatorSimpleType_ID]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -591,7 +860,7 @@
           PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="IndicatorType_ID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="IndicatorType_ID" />
         <SsdlForeignKeyProperty
@@ -615,6 +884,11 @@
           Type="int"
           PropertyName="ProjectID" />
         <SsdlForeignKeyProperty
+          Name="ResultArea_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ResultArea_ID" />
+        <SsdlForeignKeyProperty
           Name="Sector_ID"
           Nullable="True"
           Type="int"
@@ -632,19 +906,82 @@
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Framework_Indicator_Indicator">
+      AssociationSet="FK_CustomReport_Indicator_Indicator">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Framework_Indicator_Indicator" />
+          Name="FK_CustomReport_Indicator_Indicator" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Framework_Indicator_Indicator]/Members[Indicator]">
+          End="MeerkatData/Members[FK_CustomReport_Indicator_Indicator]/Members[Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="IndicatorID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Framework_Indicator_Indicator]/Members[Framework_Indicator]">
+          End="MeerkatData/Members[FK_CustomReport_Indicator_Indicator]/Members[CustomReport_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_DonorReport_Indicator_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_DonorReport_Indicator_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DonorReport_Indicator_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_DonorReport_Indicator_Indicator]/Members[DonorReport_Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Event_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FrameworkDetail_Indicator_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FrameworkDetail_Indicator_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Indicator_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Indicator_Indicator]/Members[FrameworkDetail_Indicator]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="IndicatorID" />
@@ -690,6 +1027,90 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup]/Members[Question_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Indicator">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Indicator" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Indicator]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Indicator]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vw_ResponsesByIndicator_Indicators">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vw_ResponsesByIndicator_Indicators" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Indicators]/Members[vw_ResponsesByIndicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vw_ResponsesByIndicator_Indicators]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwIndicatorUserMap_Indicators">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwIndicatorUserMap_Indicators" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIndicatorUserMap_Indicators]/Members[vwIndicatorUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIndicatorUserMap_Indicators]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

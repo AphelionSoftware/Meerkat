@@ -28,7 +28,7 @@ myapp.AddEditEventRegister.created = function (screen) {
     DOBField.dataBind("value", function () {
         if (DOBField.value !== undefined ) {
             var currentLength = 0;
-            if (AgeField.value !== undefined) {
+            if (AgeField.stringValue !== undefined) {
                 currentLength = AgeField.stringValue.length;
             }
             if (currentLength === 0) {

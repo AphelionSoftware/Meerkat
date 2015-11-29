@@ -39,7 +39,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -57,7 +58,8 @@
         Name="BaselineString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -86,7 +88,8 @@
         Name="TargetString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -123,16 +126,20 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -253,6 +260,32 @@
         Association="FK_MilestoneValues_Milestone"
         FromEnd="Milestone"
         ToEnd="MilestoneValues" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="StatusValues"
+        Association="FK_StatusValues_Milestone"
+        FromEnd="Milestone"
+        ToEnd="StatusValues" />
+      <NavigationProperty
+        Name="vwMilestoneUserMaps"
+        Association="vwMilestoneUserMap_Milestone"
+        FromEnd="Milestone"
+        ToEnd="vwMilestoneUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -396,7 +429,59 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_StatusValues_Milestone"
+      Association="FK_StatusValues_Milestone">
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
+      <AssociationSetEnd
+        Name="StatusValues"
+        EntitySet="StatusValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwMilestoneUserMap_Milestones"
+      Association="vwMilestoneUserMap_Milestone">
+      <AssociationSetEnd
+        Name="vwMilestoneUserMap"
+        EntitySet="vwMilestoneUserMaps" />
+      <AssociationSetEnd
+        Name="Milestone"
+        EntitySet="Milestones" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_StatusValues_Milestone">
+    <AssociationEnd
+      Name="Milestone"
+      EntityType="Milestone">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="StatusValues"
+      Multiplicity="Many"
+      EntityType="StatusValue" />
+  </Association>
+  <Association
+    Name="vwMilestoneUserMap_Milestone">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwMilestoneUserMap"
+      Multiplicity="Many"
+      EntityType="vwMilestoneUserMap" />
+    <AssociationEnd
+      Name="Milestone"
+      Multiplicity="One"
+      EntityType="Milestone">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -421,9 +506,10 @@
           Type="varchar"
           Property="Milestone/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Milestone/Properties[TextDescription]" />
         <SsdlProperty
           Name="Baseline"
@@ -435,7 +521,7 @@
         <SsdlProperty
           Name="BaselineString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Milestone/Properties[BaselineString]" />
         <SsdlProperty
           Name="BaselineDate"
@@ -452,7 +538,7 @@
         <SsdlProperty
           Name="TargetString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Milestone/Properties[TargetString]" />
         <SsdlProperty
           Name="TargetDate"
@@ -470,14 +556,15 @@
           Type="date"
           Property="Milestone/Properties[ReportingDate]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Milestone/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="Milestone/Properties[Notes]" />
         <SsdlProperty
           MaxLength="50"
@@ -531,6 +618,18 @@
           Nullable="False"
           Type="datetime"
           Property="Milestone/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Milestone/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Milestone/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -591,6 +690,48 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Milestone_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_StatusValues_Milestone">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_StatusValues_Milestone" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Milestone]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_StatusValues_Milestone]/Members[StatusValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Milestone_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwMilestoneUserMap_Milestones">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwMilestoneUserMap_Milestones" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwMilestoneUserMap_Milestones]/Members[vwMilestoneUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwMilestoneUserMap_Milestones]/Members[Milestone]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MilestoneID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

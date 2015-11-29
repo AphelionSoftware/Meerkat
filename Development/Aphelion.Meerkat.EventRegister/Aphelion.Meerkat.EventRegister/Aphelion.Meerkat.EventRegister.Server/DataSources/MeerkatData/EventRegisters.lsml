@@ -124,6 +124,32 @@
         Association="FK_EventRegister_Gender"
         FromEnd="EventRegister"
         ToEnd="Gender" />
+      <EntityProperty
+        Name="Name"
+        IsReadOnly="True"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="511" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="AgeBand"
+        Association="FK_EventRegister_AgeBand"
+        FromEnd="EventRegister"
+        ToEnd="AgeBand" />
+      <EntityProperty
+        Name="EventDate"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -248,6 +274,13 @@
           Type="varchar"
           Property="EventRegister/Properties[Surname]" />
         <SsdlProperty
+          MaxLength="511"
+          Name="Name"
+          Nullable="False"
+          StoreGeneratedPattern="Computed"
+          Type="varchar"
+          Property="EventRegister/Properties[Name]" />
+        <SsdlProperty
           MaxLength="255"
           Name="IdentificationNumber"
           Nullable="True"
@@ -258,6 +291,11 @@
           Nullable="True"
           Type="date"
           Property="EventRegister/Properties[DateOfBirth]" />
+        <SsdlProperty
+          Name="EventDate"
+          Nullable="True"
+          Type="date"
+          Property="EventRegister/Properties[EventDate]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -290,6 +328,11 @@
           Nullable="True"
           Type="int"
           PropertyName="Age_ID" />
+        <SsdlForeignKeyProperty
+          Name="AgeBand_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="AgeBand_ID" />
         <SsdlForeignKeyProperty
           Name="Event_ID"
           Nullable="False"

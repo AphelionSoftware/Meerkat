@@ -19,7 +19,8 @@
         Name="Description"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -107,12 +108,33 @@
       </EntityProperty>
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
           <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="OutcomePersonRoles"
+        Association="FK_OutcomePersonRole_Role"
+        FromEnd="Role"
+        ToEnd="OutcomePersonRole" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
     </EntityType.Properties>
@@ -280,7 +302,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_OutcomePersonRole_Role"
+      Association="FK_OutcomePersonRole_Role">
+      <AssociationSetEnd
+        Name="Role"
+        EntitySet="Roles" />
+      <AssociationSetEnd
+        Name="OutcomePersonRole"
+        EntitySet="OutcomePersonRoles" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_OutcomePersonRole_Role">
+    <AssociationEnd
+      Name="Role"
+      EntityType="Role">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="OutcomePersonRole"
+      Multiplicity="Many"
+      EntityType="OutcomePersonRole" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -307,14 +353,20 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Role/Properties[Name]" />
         <SsdlProperty
           Name="Description"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Role/Properties[Description]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Role/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -337,6 +389,12 @@
           Nullable="False"
           Type="datetime"
           Property="Role/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Role/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -358,6 +416,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OrganizationPersonRole_Role]/Members[OrganizationPersonRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Role_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_OutcomePersonRole_Role">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_OutcomePersonRole_Role" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Role]/Members[Role]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="RoleID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_OutcomePersonRole_Role]/Members[OutcomePersonRole]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Role_ID" />

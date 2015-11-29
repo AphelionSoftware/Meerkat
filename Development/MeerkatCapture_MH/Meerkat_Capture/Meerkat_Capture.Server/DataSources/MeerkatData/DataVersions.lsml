@@ -15,6 +15,15 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="DataVersion_ID"
         IsReadOnly="True"
@@ -36,22 +45,13 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Description"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -63,6 +63,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -73,6 +74,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -84,6 +86,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -94,46 +97,105 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_DataVersion_ActiveType"
         FromEnd="DataVersion"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Outcome"
         Association="FK_DataVersion_Outcome"
         FromEnd="DataVersion"
-        ToEnd="Outcome" />
+        ToEnd="Outcome">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="IndicatorValues"
         Association="FK_IndicatorValues_DataVersion"
         FromEnd="DataVersion"
-        ToEnd="IndicatorValues" />
+        ToEnd="IndicatorValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="MilestoneValues"
         Association="FK_MilestoneValues_DataVersion"
         FromEnd="DataVersion"
-        ToEnd="MilestoneValues" />
+        ToEnd="MilestoneValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <EntityProperty
         Name="Order"
         PropertyType=":Int32">
         <EntityProperty.Attributes>
           <Required />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="StatusValues"
         Association="FK_StatusValues_DataVersion"
         FromEnd="DataVersion"
-        ToEnd="StatusValues" />
+        ToEnd="StatusValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
         Name="PeopleReachedValues"
         Association="FK_PeopleReachedValues_DataVersion"
         FromEnd="DataVersion"
-        ToEnd="PeopleReachedValues" />
+        ToEnd="PeopleReachedValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="Impacts"
+        Association="FK_Impact_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="Impact" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="SystemRoles"
+        Association="FK_SystemRole_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="SystemRole" />
+      <NavigationProperty
+        Name="vwDataVersionUserMaps"
+        Association="vwDataVersionUserMap_DataVersion"
+        FromEnd="DataVersion"
+        ToEnd="vwDataVersionUserMap" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -337,6 +399,36 @@
         Name="PeopleReachedValues"
         EntitySet="PeopleReachedValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Impact_DataVersion"
+      Association="FK_Impact_DataVersion">
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+      <AssociationSetEnd
+        Name="Impact"
+        EntitySet="Impacts" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_SystemRole_DataVersion"
+      Association="FK_SystemRole_DataVersion">
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+      <AssociationSetEnd
+        Name="SystemRole"
+        EntitySet="SystemRoles" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwDataVersionUserMap_DataVersions"
+      Association="vwDataVersionUserMap_DataVersion">
+      <AssociationSetEnd
+        Name="vwDataVersionUserMap"
+        EntitySet="vwDataVersionUserMaps" />
+      <AssociationSetEnd
+        Name="DataVersion"
+        EntitySet="DataVersions" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_PeopleReachedValues_DataVersion">
@@ -352,6 +444,54 @@
       Name="PeopleReachedValues"
       Multiplicity="Many"
       EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_Impact_DataVersion">
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Impact"
+      Multiplicity="Many"
+      EntityType="Impact" />
+  </Association>
+  <Association
+    Name="FK_SystemRole_DataVersion">
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="SystemRole"
+      Multiplicity="Many"
+      EntityType="SystemRole" />
+  </Association>
+  <Association
+    Name="vwDataVersionUserMap_DataVersion">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwDataVersionUserMap"
+      Multiplicity="Many"
+      EntityType="vwDataVersionUserMap" />
+    <AssociationEnd
+      Name="DataVersion"
+      Multiplicity="One"
+      EntityType="DataVersion">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -379,14 +519,20 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="DataVersion/Properties[Name]" />
         <SsdlProperty
           Name="Description"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="DataVersion/Properties[Description]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="DataVersion/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Order"
           Nullable="False"
@@ -414,6 +560,12 @@
           Nullable="False"
           Type="datetime"
           Property="DataVersion/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="DataVersion/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -421,6 +573,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Impact_DataVersion">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Impact_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Impact_DataVersion]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Impact_DataVersion]/Members[Impact]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_DataVersion">
       <AssociationSetMapping.Attributes>
@@ -522,6 +695,48 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="DataVersionID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_SystemRole_DataVersion">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_SystemRole_DataVersion" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SystemRole_DataVersion]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_SystemRole_DataVersion]/Members[SystemRole]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwDataVersionUserMap_DataVersions">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwDataVersionUserMap_DataVersions" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwDataVersionUserMap_DataVersions]/Members[vwDataVersionUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwDataVersionUserMap_DataVersions]/Members[DataVersion]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DataVersion_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

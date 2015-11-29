@@ -15,6 +15,11 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <NavigationProperty
+        Name="StatusType"
+        Association="FK_StatusValues_StatusType"
+        FromEnd="StatusValues"
+        ToEnd="StatusType" />
       <KeyProperty
         Name="StatusValuesID"
         IsReadOnly="True"
@@ -29,7 +34,10 @@
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <Hidden />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -40,6 +48,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -51,6 +60,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -61,6 +71,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -72,65 +83,119 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_StatusValues_ActiveType"
         FromEnd="StatusValues"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Activity"
         Association="FK_StatusValues_Activity"
         FromEnd="StatusValues"
-        ToEnd="Activity" />
+        ToEnd="Activity">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Outcome"
         Association="FK_StatusValues_Outcome"
         FromEnd="StatusValues"
-        ToEnd="Outcome" />
+        ToEnd="Outcome">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Output"
         Association="FK_StatusValues_Output"
         FromEnd="StatusValues"
-        ToEnd="Output" />
+        ToEnd="Output">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="ReportingPeriod"
         Association="FK_StatusValues_ReportingPeriod"
         FromEnd="StatusValues"
-        ToEnd="ReportingPeriod" />
+        ToEnd="ReportingPeriod">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="SubOutput"
         Association="FK_StatusValues_SubOutput"
         FromEnd="StatusValues"
-        ToEnd="SubOutput" />
-      <NavigationProperty
-        Name="StatusType"
-        Association="FK_StatusValues_StatusType"
-        FromEnd="StatusValues"
-        ToEnd="StatusType" />
+        ToEnd="SubOutput">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="DataVersion"
         Association="FK_StatusValues_DataVersion"
         FromEnd="StatusValues"
-        ToEnd="DataVersion" />
+        ToEnd="DataVersion">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Location"
         Association="FK_StatusValues_Location"
         FromEnd="StatusValues"
-        ToEnd="Location" />
-      <EntityProperty
-        Name="Programme_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
+        ToEnd="Location">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Project"
         Association="FK_StatusValues_Project"
         FromEnd="StatusValues"
-        ToEnd="Project" />
+        ToEnd="Project">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_StatusValues_Programme"
+        FromEnd="StatusValues"
+        ToEnd="Programme">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <NavigationProperty
+        Name="Sector"
+        Association="FK_StatusValues_Sector"
+        FromEnd="StatusValues"
+        ToEnd="Sector" />
+      <NavigationProperty
+        Name="SubSector"
+        Association="FK_StatusValues_SubSector"
+        FromEnd="StatusValues"
+        ToEnd="SubSector" />
+      <NavigationProperty
+        Name="Indicator"
+        Association="FK_StatusValues_Indicator"
+        FromEnd="StatusValues"
+        ToEnd="Indicator" />
+      <NavigationProperty
+        Name="Milestone"
+        Association="FK_StatusValues_Milestone"
+        FromEnd="StatusValues"
+        ToEnd="Milestone" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -243,14 +308,9 @@
           Type="int"
           Property="StatusValue/Properties[StatusValuesID]" />
         <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="StatusValue/Properties[Programme_ID]" />
-        <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="StatusValue/Properties[Notes]" />
         <SsdlProperty
           MaxLength="255"
@@ -290,10 +350,20 @@
           Type="int"
           PropertyName="DataVersionID" />
         <SsdlForeignKeyProperty
+          Name="Indicator_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Indicator_ID" />
+        <SsdlForeignKeyProperty
           Name="LocationID"
           Nullable="False"
           Type="int"
           PropertyName="LocationID" />
+        <SsdlForeignKeyProperty
+          Name="Milestone_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Milestone_ID" />
         <SsdlForeignKeyProperty
           Name="Outcome_ID"
           Nullable="True"
@@ -305,6 +375,11 @@
           Type="int"
           PropertyName="Output_ID" />
         <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
+        <SsdlForeignKeyProperty
           Name="ProjectID"
           Nullable="True"
           Type="int"
@@ -315,6 +390,11 @@
           Type="int"
           PropertyName="ReportingPeriodID" />
         <SsdlForeignKeyProperty
+          Name="Sector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Sector_ID" />
+        <SsdlForeignKeyProperty
           Name="StatusTypeID"
           Nullable="True"
           Type="int"
@@ -324,6 +404,11 @@
           Nullable="True"
           Type="int"
           PropertyName="SubOutput_ID" />
+        <SsdlForeignKeyProperty
+          Name="SubSector_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
   </DataService>

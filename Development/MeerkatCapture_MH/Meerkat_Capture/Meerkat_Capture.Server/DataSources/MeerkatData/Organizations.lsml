@@ -36,10 +36,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
-          <AnsiConstraint />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -124,20 +125,62 @@
         Association="FK_MilestoneValues_Organization"
         FromEnd="Organization"
         ToEnd="MilestoneValues" />
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="50" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
       <NavigationProperty
         Name="Frameworks"
         Association="FK_Framework_Organization"
         FromEnd="Organization"
         ToEnd="Framework" />
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LongName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+          <Required />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_Organization"
+        FromEnd="Organization"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_Organization"
+        FromEnd="Organization"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Organization"
+        FromEnd="Organization"
+        ToEnd="Question" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -362,6 +405,36 @@
         Name="Framework"
         EntitySet="Frameworks" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Organization"
+      Association="FK_Form_Organization">
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Organization"
+      Association="FK_FormResponse_Organization">
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Organization"
+      Association="FK_Question_Organization">
+      <AssociationSetEnd
+        Name="Organization"
+        EntitySet="Organizations" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Framework_Organization">
@@ -376,6 +449,48 @@
       Name="Framework"
       Multiplicity="Many"
       EntityType="Framework" />
+  </Association>
+  <Association
+    Name="FK_Form_Organization">
+    <AssociationEnd
+      Name="Organization"
+      EntityType="Organization">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_Organization">
+    <AssociationEnd
+      Name="Organization"
+      EntityType="Organization">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Question_Organization">
+    <AssociationEnd
+      Name="Organization"
+      EntityType="Organization">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -396,10 +511,16 @@
           Property="Organization/Properties[Organization_ID]" />
         <SsdlProperty
           MaxLength="50"
-          Name="Name"
+          Name="ShortName"
           Nullable="False"
-          Type="nvarchar"
-          Property="Organization/Properties[Name]" />
+          Type="varchar"
+          Property="Organization/Properties[ShortName]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LongName"
+          Nullable="False"
+          Type="varchar"
+          Property="Organization/Properties[LongName]" />
         <SsdlProperty
           MaxLength="50"
           Name="Code"
@@ -407,9 +528,10 @@
           Type="varchar"
           Property="Organization/Properties[Code]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Organization/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -433,6 +555,18 @@
           Nullable="False"
           Type="datetime"
           Property="Organization/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Organization/Properties[LocalShortName]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Organization/Properties[LocalLongName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -450,6 +584,48 @@
           PropertyName="OrganizationType_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_Organization">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_Organization" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Organization]/Members[Organization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_Organization]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Organization">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Organization" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Organization]/Members[Organization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Organization]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Framework_Organization">
       <AssociationSetMapping.Attributes>
@@ -569,6 +745,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_OutcomeOrganization_Organization]/Members[OutcomeOrganization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Organization">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Organization" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Organization]/Members[Organization]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Organization_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Organization]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Organization_ID" />

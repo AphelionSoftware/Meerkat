@@ -29,7 +29,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -49,14 +50,6 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -126,11 +119,53 @@
         Association="FK_MilestoneValues_AgeBand"
         FromEnd="AgeBand"
         ToEnd="MilestoneValues" />
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
         Name="PeopleReachedValues"
         Association="FK_PeopleReachedValues_AgeBand"
         FromEnd="AgeBand"
         ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_AgeBand_ActiveType"
+        FromEnd="AgeBand"
+        ToEnd="ActiveType" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="Question" />
+      <NavigationProperty
+        Name="EventRegisters"
+        Association="FK_EventRegister_AgeBand"
+        FromEnd="AgeBand"
+        ToEnd="EventRegister" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -160,20 +195,6 @@
       Name="MilestoneValues"
       Multiplicity="Many"
       EntityType="MilestoneValue" />
-  </Association>
-  <Association
-    Name="FK_PeopleReachedValues_AgeBand">
-    <AssociationEnd
-      Name="AgeBand"
-      EntityType="AgeBand">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="PeopleReachedValues"
-      Multiplicity="Many"
-      EntityType="PeopleReachedValue" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -205,16 +226,6 @@
       <AssociationSetEnd
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_PeopleReachedValues_AgeBand"
-      Association="FK_PeopleReachedValues_AgeBand">
-      <AssociationSetEnd
-        Name="AgeBand"
-        EntitySet="AgeBands" />
-      <AssociationSetEnd
-        Name="PeopleReachedValues"
-        EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <QueryOperation
       Name="AgeBands_Single"
@@ -296,7 +307,127 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_AgeBand"
+      Association="FK_PeopleReachedValues_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_AgeBand"
+      Association="FK_Form_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_AgeBand"
+      Association="FK_FormResponse_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_AgeBand"
+      Association="FK_Question_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_EventRegister_AgeBand"
+      Association="FK_EventRegister_AgeBand">
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+      <AssociationSetEnd
+        Name="EventRegister"
+        EntitySet="EventRegisters" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_Form_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_FormResponse_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Question_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_EventRegister_AgeBand">
+    <AssociationEnd
+      Name="AgeBand"
+      EntityType="AgeBand">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="EventRegister"
+      Multiplicity="Many"
+      EntityType="EventRegister" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -315,9 +446,10 @@
           Type="int"
           Property="AgeBand/Properties[AgeBand_ID]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="AgeBand/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
@@ -332,10 +464,11 @@
           Type="varchar"
           Property="AgeBand/Properties[Code]" />
         <SsdlProperty
-          Name="Active"
+          MaxLength="400"
+          Name="BusinessKey"
           Nullable="False"
-          Type="int"
-          Property="AgeBand/Properties[Active]" />
+          Type="nvarchar"
+          Property="AgeBand/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -358,6 +491,17 @@
           Nullable="False"
           Type="datetime"
           Property="AgeBand/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="AgeBand/Properties[LocalName]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="AgeBandMin_ID"
           Nullable="False"
@@ -370,11 +514,74 @@
           PropertyName="AgeBandMax_ID" />
         <SsdlForeignKeyProperty
           Name="ProjectID"
-          Nullable="False"
+          Nullable="True"
           Type="int"
           PropertyName="ProjectID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_EventRegister_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_EventRegister_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_EventRegister_AgeBand]/Members[EventRegister]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Form_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Form_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Form_AgeBand]/Members[Form]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_AgeBand]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_AgeBand">
       <AssociationSetMapping.Attributes>
@@ -431,6 +638,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_PeopleReachedValues_AgeBand]/Members[PeopleReachedValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_AgeBand">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_AgeBand" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_AgeBand]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBand_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_AgeBand]/Members[Question]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="AgeBand_ID" />

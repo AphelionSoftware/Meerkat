@@ -21,7 +21,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -37,10 +37,10 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -112,6 +112,19 @@
         <EntityProperty.Attributes>
           <Required />
           <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_PotentialResponse"
+        FromEnd="PotentialResponse"
+        ToEnd="Question" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
         </EntityProperty.Attributes>
       </EntityProperty>
     </EntityType.Properties>
@@ -207,7 +220,31 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Question_PotentialResponse"
+      Association="FK_Question_PotentialResponse">
+      <AssociationSetEnd
+        Name="PotentialResponse"
+        EntitySet="PotentialResponses" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Question_PotentialResponse">
+    <AssociationEnd
+      Name="PotentialResponse"
+      EntityType="PotentialResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -226,7 +263,7 @@
           Type="int"
           Property="PotentialResponse/Properties[PotentialResponse_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -238,9 +275,10 @@
           Type="varchar"
           Property="PotentialResponse/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="PotentialResponse/Properties[TextDescription]" />
         <SsdlProperty
           Name="ResponseOrder"
@@ -269,6 +307,12 @@
           Nullable="False"
           Type="datetime"
           Property="PotentialResponse/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="PotentialResponse/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -281,5 +325,26 @@
           PropertyName="Question_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_PotentialResponse">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_PotentialResponse" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[PotentialResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PotentialResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_PotentialResponse]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="MultipleChoiceResponseID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

@@ -21,7 +21,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -37,10 +37,10 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -126,6 +126,157 @@
         PropertyType=":Int32">
         <EntityProperty.Attributes>
           <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Response"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TrueOrFalse"
+        PropertyType=":Boolean?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="PotentialResponse"
+        Association="FK_Question_PotentialResponse"
+        FromEnd="Question"
+        ToEnd="PotentialResponse" />
+      <EntityProperty
+        Name="IntegerResponse"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DecimalResponse"
+        PropertyType=":Decimal?">
+        <EntityProperty.Attributes>
+          <DecimalConstraint
+            Precision="20"
+            Scale="12" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="isConfidential"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+          <Required />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FormResponse_FNVID"
+        PropertyType=":Int64?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Age_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="AgeBand_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="CommunityType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Gender"
+        Association="FK_Question_Gender"
+        FromEnd="Question"
+        ToEnd="Gender" />
+      <NavigationProperty
+        Name="Institution"
+        Association="FK_Question_Institution"
+        FromEnd="Question"
+        ToEnd="Institution" />
+      <NavigationProperty
+        Name="Location"
+        Association="FK_Question_Location"
+        FromEnd="Question"
+        ToEnd="Location" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Question_Project"
+        FromEnd="Question"
+        ToEnd="Project" />
+      <EntityProperty
+        Name="ReportingPeriod_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DateResponse"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DateTimeResponse"
+        PropertyType=":DateTime?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="TimeResponse"
+        PropertyType=":TimeSpan?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="7"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Group"
+        Association="FK_Question_Group"
+        FromEnd="Question"
+        ToEnd="Group" />
+      <EntityProperty
+        Name="Organization_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -291,7 +442,7 @@
           Type="int"
           Property="Question/Properties[Question_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -303,9 +454,10 @@
           Type="varchar"
           Property="Question/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="Question/Properties[TextDescription]" />
         <SsdlProperty
           Name="QuestionOrder"
@@ -334,6 +486,84 @@
           Nullable="False"
           Type="datetime"
           Property="Question/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="Response"
+          Nullable="True"
+          Type="varchar"
+          Property="Question/Properties[Response]" />
+        <SsdlProperty
+          Name="IntegerResponse"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[IntegerResponse]" />
+        <SsdlProperty
+          Name="DecimalResponse"
+          Nullable="True"
+          Precision="20"
+          Scale="12"
+          Type="decimal"
+          Property="Question/Properties[DecimalResponse]" />
+        <SsdlProperty
+          Name="TrueOrFalse"
+          Nullable="True"
+          Type="bit"
+          Property="Question/Properties[TrueOrFalse]" />
+        <SsdlProperty
+          Name="isConfidential"
+          Nullable="False"
+          Type="bit"
+          Property="Question/Properties[isConfidential]" />
+        <SsdlProperty
+          Name="FormResponse_FNVID"
+          Nullable="True"
+          Type="bigint"
+          Property="Question/Properties[FormResponse_FNVID]" />
+        <SsdlProperty
+          Name="Age_ID"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[Age_ID]" />
+        <SsdlProperty
+          Name="AgeBand_ID"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[AgeBand_ID]" />
+        <SsdlProperty
+          Name="CommunityType_ID"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[CommunityType_ID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Question/Properties[LocalName]" />
+        <SsdlProperty
+          Name="ReportingPeriod_ID"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[ReportingPeriod_ID]" />
+        <SsdlProperty
+          Name="DateResponse"
+          Nullable="True"
+          Type="date"
+          Property="Question/Properties[DateResponse]" />
+        <SsdlProperty
+          Name="DateTimeResponse"
+          Nullable="True"
+          Type="datetime"
+          Property="Question/Properties[DateTimeResponse]" />
+        <SsdlProperty
+          Name="TimeResponse"
+          Nullable="True"
+          Type="time"
+          Property="Question/Properties[TimeResponse]" />
+        <SsdlProperty
+          Name="Organization_ID"
+          Nullable="True"
+          Type="int"
+          Property="Question/Properties[Organization_ID]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -344,6 +574,36 @@
           Nullable="False"
           Type="int"
           PropertyName="Category_ID" />
+        <SsdlForeignKeyProperty
+          Name="Gender_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Gender_ID" />
+        <SsdlForeignKeyProperty
+          Name="Group_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Group_ID" />
+        <SsdlForeignKeyProperty
+          Name="Institution_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Institution_ID" />
+        <SsdlForeignKeyProperty
+          Name="Location_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="MultipleChoiceResponseID"
+          Nullable="True"
+          Type="int"
+          PropertyName="MultipleChoiceResponseID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="True"
+          Type="int"
+          PropertyName="ProjectID" />
         <SsdlForeignKeyProperty
           Name="QuestionType_ID"
           Nullable="False"

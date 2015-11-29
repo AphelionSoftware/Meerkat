@@ -16,7 +16,7 @@
     </EntityType.Methods>
     <EntityType.Properties>
       <EntityProperty
-        Name="Code"
+        Name="ShortName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
@@ -26,12 +26,25 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
+        Name="Code"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
         Name="LongName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
             Value="500" />
+          <Hidden />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -39,23 +52,19 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
-          <MaxLength />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ShortName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="50" />
+            Value="400" />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
+          <Hidden />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -66,6 +75,7 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -76,6 +86,7 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -87,6 +98,7 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -98,43 +110,69 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="DataVersions"
         Association="FK_DataVersion_Outcome"
         FromEnd="Outcome"
-        ToEnd="DataVersion" />
+        ToEnd="DataVersion">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Indicators"
         Association="FK_Indicator_Outcome"
         FromEnd="Outcome"
-        ToEnd="Indicator" />
+        ToEnd="Indicator">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="OutcomeOrganizations"
         Association="FK_OutcomeOrganization_Outcome"
         FromEnd="Outcome"
-        ToEnd="OutcomeOrganization" />
+        ToEnd="OutcomeOrganization">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="OutcomePersonRoles"
         Association="FK_OutcomePersonRole_Outcome"
         FromEnd="Outcome"
-        ToEnd="OutcomePersonRole" />
+        ToEnd="OutcomePersonRole">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Outputs"
         Association="FK_Output_Outcome"
         FromEnd="Outcome"
-        ToEnd="Output" />
+        ToEnd="Output">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_Outcome_ActiveType"
         FromEnd="Outcome"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <EntityProperty
         Name="Property1"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Computed />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -142,19 +180,25 @@
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Computed />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="StatusValues"
         Association="FK_StatusValues_Outcome"
         FromEnd="Outcome"
-        ToEnd="StatusValues" />
+        ToEnd="StatusValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <EntityProperty
         Name="OutcomeSiteName"
         PropertyType=":String?">
         <EntityProperty.Attributes>
           <MaxLength
             Value="50" />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <KeyProperty
@@ -171,12 +215,32 @@
         Name="Projects"
         Association="FK_Project_Outcome"
         FromEnd="Outcome"
-        ToEnd="Project" />
+        ToEnd="Project">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
-        Name="Project"
-        Association="FK_Project_Outcome1"
+        Name="Impact"
+        Association="FK_OutCome_Impact"
         FromEnd="Outcome"
-        ToEnd="Project" />
+        ToEnd="Impact" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -401,16 +465,6 @@
         Name="Project"
         EntitySet="Projects" />
     </AssociationSet>
-    <AssociationSet
-      Name="FK_Project_Outcome1"
-      Association="FK_Project_Outcome1">
-      <AssociationSetEnd
-        Name="Outcome"
-        EntitySet="Outcomes" />
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_Project_Outcome">
@@ -424,20 +478,6 @@
     <AssociationEnd
       Name="Project"
       Multiplicity="Many"
-      EntityType="Project" />
-  </Association>
-  <Association
-    Name="FK_Project_Outcome1">
-    <AssociationEnd
-      Name="Outcome"
-      Multiplicity="One"
-      EntityType="Outcome">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Project"
       EntityType="Project" />
   </Association>
   <DataService
@@ -467,23 +507,25 @@
           MaxLength="500"
           Name="LongName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Outcome/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
           Nullable="False"
-          Type="nvarchar(max)"
+          Type="nvarchar"
           Property="Outcome/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
           Name="ShortName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Outcome/Properties[ShortName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="Outcome/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="50"
@@ -513,6 +555,18 @@
           Nullable="False"
           Type="datetime"
           Property="Outcome/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Outcome/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Outcome/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -523,6 +577,11 @@
           Nullable="False"
           Type="int"
           PropertyName="DataVersion" />
+        <SsdlForeignKeyProperty
+          Name="Impact_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Impact_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -626,27 +685,6 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Outcome_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-      </AssociationSetMapping.Attributes>
-    </AssociationSetMapping>
-    <AssociationSetMapping
-      AssociationSet="FK_Project_Outcome1">
-      <AssociationSetMapping.Attributes>
-        <SsdlAssociationSet
-          Name="FK_Project_Outcome1" />
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Outcome1]/Members[Outcome]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="Outcome_ID" />
-          </SsdlAssociationSetEnd.Attributes>
-        </SsdlAssociationSetEnd>
-        <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Outcome1]/Members[Project]">
-          <SsdlAssociationSetEnd.Attributes>
-            <SsdlPropertyRef
-              Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

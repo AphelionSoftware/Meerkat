@@ -3,6 +3,21 @@
 
 (function (lightswitchTools, undefined) {
     "use strict";
+    //Set Plurals
+    function pluralName(name) {
+        if (name == "Person") {
+            return "People";
+        }
+        var pluralled = name + "s";
+
+        if (name.charAt(name.length - 1).toLocaleLowerCase() === 'y') {
+            //activity
+            //activities
+            pluralled = name.substring(0, name.length - 1) + "ies";
+        }
+
+        return pluralled;
+    }
 
     lightswitchTools.setCommonAddScreenValues = function(screen) {
         var name = screen.details.getModel().properties[0].name;
@@ -52,10 +67,110 @@
         $(element).addClass("customCopyIcon");
     }
 
+
+
+    lightswitchTools.getClientCode = function (callback) {
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback(data.ClientCode);
+            });
+        } else {
+
+            callback(window.lsData.ClientCode);
+        }
+    }
+
+    lightswitchTools.setDescriptionIsName = function (screen) {
+        //var name = screen.details.getModel().properties[0].name;
+        //var thisObject = screen[name];
+
+        var NameField = screen.findContentItem("Name");
+        var DescriptionField = screen.findContentItem("Description");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
+        if (NameField && (DescriptionField || TextDescriptionField)) {
+            NameField.dataBind("value", function () {
+                if (NameField.value !== undefined && NameField.value.length > 0 && TextDescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (TextDescriptionField.value !== undefined) {
+                        currentLength = TextDescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        TextDescriptionField.value = NameField.value;
+                    }
+                }
+
+                if (NameField.value !== undefined && NameField.value.length > 0 && DescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (DescriptionField.value !== undefined) {
+                        currentLength = DescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        DescriptionField.value = NameField.value;
+                    }
+                }
+            });
+        }
+    }
+
+    lightswitchTools.setDescriptionIsShortName = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var thisObject = screen[name];
+
+        var ShortNameField = screen.findContentItem("ShortName");
+        var LongNameField = screen.findContentItem("LongName");
+        var DescriptionField = screen.findContentItem("Description");
+        var TextDescriptionField = screen.findContentItem("TextDescription");
+        if (ShortNameField && (DescriptionField || TextDescriptionField || LongNameField)) {
+            ShortNameField.dataBind("value", function () {
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && TextDescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (TextDescriptionField.value !== undefined) {
+                        currentLength = TextDescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        TextDescriptionField.value = ShortNameField.value;
+                    }
+                }
+
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && DescriptionField !== undefined) {
+                    var currentLength = 0;
+                    if (DescriptionField.value !== undefined) {
+                        currentLength = DescriptionField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        DescriptionField.value = ShortNameField.value;
+                    }
+                }
+
+                if (ShortNameField.value !== undefined && ShortNameField.value.length > 0 && LongNameField !== undefined) {
+                    var currentLength = 0;
+                    if (LongNameField.value !== undefined) {
+                        currentLength = LongNameField.value.length;
+                    }
+
+                    if (currentLength === 0) {
+                        LongNameField.value = ShortNameField.value;
+                    }
+                }
+            });
+        }
+    }
+
     lightswitchTools.getVersionInfo = function (callback) {
-        $.getJSON("../api/LightswitchHelpers", function (data) {
-            callback("version: " + data.Version + " (built " + data.Deployed + ")");
-        });
+        if (!window.lsData) {
+            $.getJSON("/api/LightswitchHelpers", function (data) {
+                window.lsData = data;
+                callback("version: " + data.Version + " (built " + data.Deployed + ")");
+            });
+        } else {
+            callback("version: " + window.lsData.Version + " (built " + window.lsData.Deployed + ")");
+
+        }
     }
 
     lightswitchTools.configureCaptureForm = function (screen) {
@@ -86,6 +201,9 @@
             thisObject.sys_CreatedOn = "1999/01/01";
             thisObject.sys_ModifiedBy = "NA";
             thisObject.sys_ModifiedOn = "1999/01/01";
+            thisObject.IndicatorValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
+            thisObject.MilestoneValueGroup = "92348bc8-685e-4cd6-b22d-d6b950ac7b53";
+            thisObject.GroupVersion = 1;
 
             var activeTypeDropDown = screen.findContentItem("ActiveType");
 
@@ -155,5 +273,56 @@
 
     }
     
+
+    lightswitchTools.canDelete = function (screen) {
+        var name = screen.details.getModel().properties[0].name;
+        var entity = screen[name];
+        if (entity.details.entityState !== msls.EntityState.unchanged) {
+            return false;
+        };
+
+        return true;
+    };
+
+    lightswitchTools.deleteEntity = function (screen, bypass) {
+        var entityLabel = screen.details.getModel().properties[0].name;
+        var entity = screen[entityLabel];
+        if (!lightswitchTools.canDelete(screen) && !(bypass === true)  ) {
+            return msls.showMessageBox(
+                "Cannot delete the " + entityLabel + " because it was changed.",
+                {
+                    title: "Cannot delete"
+                });
+        };
+
+        msls.showMessageBox("Are you sure you want to delete this record", {
+            title: "Confirm",
+            buttons: msls.MessageBoxButtons.yesNo
+
+        }).then(function (result) {
+            if (result === msls.MessageBoxResult.yes) {
+                screen.details.dataWorkspace.MeerkatData.ActiveTypes.filter("Code eq 'Deleted'").execute().then(function (x) {
+                    screen[entityLabel].ActiveType = x.results[0];
+
+                    myapp.commitChanges().then(null,
+                    function fail(e) {
+                        // If error occurs, show the error.
+                        msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                            // Discard Changes
+                            screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                        });
+                    });
+                }, function (x) {
+                    msls.showMessageBox(e.message, { title: e.title }).then(function () {
+                        // Discard Changes
+                        screen.details.dataWorkspace.ApplicationData.details.discardChanges();
+                    });
+                });
+            }
+        });
+
+    }
+
+
 }(msls.application.lightswitchTools = msls.application.lightswitchTools || {}));
 

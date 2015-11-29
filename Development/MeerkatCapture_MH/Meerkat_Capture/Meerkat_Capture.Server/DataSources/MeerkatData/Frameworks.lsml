@@ -37,9 +37,8 @@
       </EntityProperty>
       <EntityProperty
         Name="Name"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
             Value="255" />
           <AnsiConstraint />
@@ -47,11 +46,11 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -121,6 +120,19 @@
         Association="FK_PeopleReachedValues_Framework"
         FromEnd="Framework"
         ToEnd="PeopleReachedValues" />
+      <NavigationProperty
+        Name="FrameworkDetails"
+        Association="FK_FrameworkDetail_Framework"
+        FromEnd="Framework"
+        ToEnd="FrameworkDetail" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -150,20 +162,6 @@
       Name="MilestoneValues"
       Multiplicity="Many"
       EntityType="MilestoneValue" />
-  </Association>
-  <Association
-    Name="FK_PeopleReachedValues_Framework">
-    <AssociationEnd
-      Name="Framework"
-      EntityType="Framework">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="PeopleReachedValues"
-      Multiplicity="Many"
-      EntityType="PeopleReachedValue" />
   </Association>
   <EntityContainer
     Name="MeerkatData">
@@ -195,16 +193,6 @@
       <AssociationSetEnd
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
-    </AssociationSet>
-    <AssociationSet
-      Name="FK_PeopleReachedValues_Framework"
-      Association="FK_PeopleReachedValues_Framework">
-      <AssociationSetEnd
-        Name="Framework"
-        EntitySet="Frameworks" />
-      <AssociationSetEnd
-        Name="PeopleReachedValues"
-        EntitySet="PeopleReachedValues" />
     </AssociationSet>
     <QueryOperation
       Name="Frameworks_Single"
@@ -286,7 +274,56 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_PeopleReachedValues_Framework"
+      Association="FK_PeopleReachedValues_Framework">
+      <AssociationSetEnd
+        Name="Framework"
+        EntitySet="Frameworks" />
+      <AssociationSetEnd
+        Name="PeopleReachedValues"
+        EntitySet="PeopleReachedValues" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FrameworkDetail_Framework"
+      Association="FK_FrameworkDetail_Framework">
+      <AssociationSetEnd
+        Name="Framework"
+        EntitySet="Frameworks" />
+      <AssociationSetEnd
+        Name="FrameworkDetail"
+        EntitySet="FrameworkDetails" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_PeopleReachedValues_Framework">
+    <AssociationEnd
+      Name="Framework"
+      EntityType="Framework">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="PeopleReachedValues"
+      Multiplicity="Many"
+      EntityType="PeopleReachedValue" />
+  </Association>
+  <Association
+    Name="FK_FrameworkDetail_Framework">
+    <AssociationEnd
+      Name="Framework"
+      Multiplicity="One"
+      EntityType="Framework">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FrameworkDetail"
+      Multiplicity="Many"
+      EntityType="FrameworkDetail" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -313,14 +350,14 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Framework/Properties[Name]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="Framework/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -344,6 +381,12 @@
           Nullable="False"
           Type="datetime"
           Property="Framework/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Framework/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -356,6 +399,27 @@
           PropertyName="SourceOrganizationID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FrameworkDetail_Framework">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FrameworkDetail_Framework" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Framework]/Members[Framework]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Framework_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FrameworkDetail_Framework]/Members[FrameworkDetail]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Framework_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Framework">
       <AssociationSetMapping.Attributes>

@@ -15,6 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="Output_ID"
         IsReadOnly="True"
@@ -33,6 +43,7 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -42,31 +53,28 @@
           <Required />
           <MaxLength
             Value="500" />
+          <Hidden />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
-        <EntityProperty.Attributes>
-          <MaxLength />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="ShortName"
         PropertyType=":String">
         <EntityProperty.Attributes>
-          <Required />
           <MaxLength
-            Value="50" />
-          <AnsiConstraint />
+            Value="400" />
+          <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -78,6 +86,7 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -88,6 +97,7 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -99,6 +109,7 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -109,48 +120,97 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="Indicators"
         Association="FK_Indicator_Output"
         FromEnd="Output"
-        ToEnd="Indicator" />
+        ToEnd="Indicator">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Outcome"
         Association="FK_Output_Outcome"
         FromEnd="Output"
-        ToEnd="Outcome" />
+        ToEnd="Outcome">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="OutputPersonRoles"
         Association="FK_OutputPersonRole_Output"
         FromEnd="Output"
-        ToEnd="OutputPersonRole" />
+        ToEnd="OutputPersonRole">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="SubOutputs"
         Association="FK_SubOutput_Output"
         FromEnd="Output"
-        ToEnd="SubOutput" />
+        ToEnd="SubOutput">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_Output_ActiveType"
         FromEnd="Output"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="StatusValues"
         Association="FK_StatusValues_Output"
         FromEnd="Output"
-        ToEnd="StatusValues" />
+        ToEnd="StatusValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="OutputOutputLinks"
         Association="FK_OutputOutputLink_Output"
         FromEnd="Output"
-        ToEnd="OutputOutputLink" />
+        ToEnd="OutputOutputLink">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="OutputOutputLinks1"
         Association="FK_OutputOutputLink_Output1"
         FromEnd="Output"
-        ToEnd="OutputOutputLink" />
+        ToEnd="OutputOutputLink">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -419,12 +479,13 @@
           MaxLength="500"
           Name="LongName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Output/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Output/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="50"
@@ -433,9 +494,10 @@
           Type="varchar"
           Property="Output/Properties[ShortName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Output/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
@@ -459,6 +521,18 @@
           Nullable="False"
           Type="datetime"
           Property="Output/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Output/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Output/Properties[LocalShortName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"

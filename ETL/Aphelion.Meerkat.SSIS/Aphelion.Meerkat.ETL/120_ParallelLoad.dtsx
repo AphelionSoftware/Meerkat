@@ -1,0 +1,2398 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/5/2014 3:39:39 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="VM2008R2"
+  DTS:CreatorName="DEV\gsmith"
+  DTS:DTSID="{419F6BD5-7F66-4746-B692-3E5DC1E8C4C8}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.2100.60"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="120_ParallelLoad"
+  DTS:PackageType="5"
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{DCC5797F-210A-4A47-97FC-1E37E741A26F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[External Package DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33D3E878-9ABF-4E7B-BA69-FCE2317178CB}"
+      DTS:ObjectName="External Package DB">
+      <DTS:PropertyExpression
+        DTS:Name="ServerName">@[$Package::strDatabaseServer]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.\sql_tabular;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{0F769A69-12EC-4C83-ADC8-0211B02084B7}"
+      DTS:ObjectName="intMaxParallel">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{87B9B791-8830-4B30-82E0-19F4A2307E7F}"
+      DTS:ObjectName="intQueueID">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{A1EC5369-844B-4F98-A5F3-20569639847A}"
+      DTS:ObjectName="intStepOrder">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{AE851834-ADDE-4D83-8A43-45DEC6D4C626}"
+      DTS:ObjectName="strDatabaseServer">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">.\sql_tabular</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0C6572E7-6F70-45FB-8A19-23AE06552D38}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::intQueueID]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="intQueueID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream0"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7CBD5784-CC09-4C3B-B6E1-2D1CF2DC25CE}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream0">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{4C1F2DE0-8B33-419A-96DC-D0F654360700}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{F9F4FC7C-40D4-4329-8564-41CBA6707B6F}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{87E5BB86-E020-4CBA-A993-0040FE3901C4}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{48C5A721-A19C-4F39-B086-AF297E0AC14E}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{87DA40A8-4B05-46AC-96BF-DF8688201A27}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream0\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{7FEC96D7-8A1E-42B4-90FF-C16D69AEE504}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{27FCFE7C-EB3D-4FC0-8531-CCDF27F7EEDB}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream0\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{9CB58176-6C73-4F2E-BA45-5EC9B3D7D8BA}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{E9BA21EE-42AC-455F-8786-79D921FFF51F}"
+              DTS:ObjectName="{E9BA21EE-42AC-455F-8786-79D921FFF51F}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{58FD15BB-8A98-4133-8578-E898AE84A469}"
+              DTS:ObjectName="{58FD15BB-8A98-4133-8578-E898AE84A469}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{4E89C96B-F9DD-414E-A814-6B0FE63E64FB}"
+              DTS:ObjectName="{4E89C96B-F9DD-414E-A814-6B0FE63E64FB}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream0\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{AD5A133A-5E4F-4413-91C2-75035DBD0896}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream0.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{5777361D-B2F5-4238-8065-0C81C014C889}"
+          DTS:From="Package\SEQ_Stream0\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream0\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream1"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{D6E1E402-D6EF-4533-AB4F-9996D98E294C}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{C91D7100-D55A-4CBD-8523-4159C2BDC99C}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{80BD2392-70C2-46FE-9353-9F62B918C2F8}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">1</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{C596252F-E36E-4411-869F-3C63FD0C7286}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{74336ACF-B4BD-478E-BE50-73371646FFBF}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{2CF8B151-8A2E-476C-9BAE-71E1DB47F686}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream1\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{B06EDBA6-388E-4E61-885A-692716818248}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{F9DFEBD6-1622-419B-A3DA-123084B248C7}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream1\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{28B88A43-67C2-4844-8BA4-C6BDC7B5277C}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{38787938-345B-4C8B-8B1F-B5AEE4A9F43B}"
+              DTS:ObjectName="{38787938-345B-4C8B-8B1F-B5AEE4A9F43B}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{BB5E6F7F-C1FB-488A-B124-4DFA1A2BD492}"
+              DTS:ObjectName="{BB5E6F7F-C1FB-488A-B124-4DFA1A2BD492}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{1348CA48-5E7A-4131-994F-60504A3A1135}"
+              DTS:ObjectName="{1348CA48-5E7A-4131-994F-60504A3A1135}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream1\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{A7EA7D09-9D75-4E62-99AC-94D70BFF401B}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream1.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{128D6ADD-C0FF-402C-8787-0063013A858C}"
+          DTS:From="Package\SEQ_Stream1\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream1\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream2"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{43C98D08-DEB3-4800-8007-5BD7B41436EE}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream2">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{381E5114-79D7-4E46-AFB6-FEFBF105D5B1}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{F5113B3C-D050-4534-A103-E965702AB308}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">2</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{4661DFF8-9DCB-47BB-B5F0-FE1BAFB56B91}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{B109D3C1-76E9-46C5-8B6C-7C935B5E7244}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{C3F0B477-6C50-4096-8C57-6AFFFE240B0C}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream2\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{65010BC1-378B-4067-B9E6-CE4C051A2274}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{A0CD5D81-601B-459B-B09B-8DD144A16622}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream2\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{5AEF5F1D-FC51-4066-B149-1F82D47EDF68}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{E16FE73E-A8CA-47B7-B6AE-7995DC18ED98}"
+              DTS:ObjectName="{E16FE73E-A8CA-47B7-B6AE-7995DC18ED98}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{84C947C7-9208-460A-8C75-65013EAD6CC5}"
+              DTS:ObjectName="{84C947C7-9208-460A-8C75-65013EAD6CC5}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{9F006A7C-5937-4037-93D8-70CFF9D64F4C}"
+              DTS:ObjectName="{9F006A7C-5937-4037-93D8-70CFF9D64F4C}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream2\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FCCAFF36-4474-4AAC-BCC9-9EAFFA8CCE10}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream2.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{6D6E702C-F235-4C8A-BCDC-462C2FC2C87A}"
+          DTS:From="Package\SEQ_Stream2\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream2\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream3"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{0E7A8004-6CD4-48B0-B5E7-BE32C3CFF191}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream3">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{169EC308-68DC-46B8-9EC0-940770D7D526}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{ED659A97-D87B-4006-82D9-F9F936974D61}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">3</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{FE491954-EFBE-4F6D-9148-49FE3D1069E2}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{FA4CD7AA-89EE-452E-BFC6-53BEA15A9BE1}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{9FA17331-9936-457C-B186-CF822CA870FC}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream3\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{D793426C-BFA0-418B-B785-F48F548A3F15}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{2740CC6E-FA90-452F-869F-2DAE0934291C}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream3\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{1DEBF83D-5BBB-4CD0-BAC8-2D3C789F723D}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{F032C490-2AD4-49D6-875A-44C8D027A9E1}"
+              DTS:ObjectName="{F032C490-2AD4-49D6-875A-44C8D027A9E1}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{C8681418-E232-4A31-8549-B8416B7D7B35}"
+              DTS:ObjectName="{C8681418-E232-4A31-8549-B8416B7D7B35}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{63475B01-C198-4325-ACD8-CA98904BA178}"
+              DTS:ObjectName="{63475B01-C198-4325-ACD8-CA98904BA178}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream3\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9C07B591-EE9D-4F35-81FB-96CA5324D7B4}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream3.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{59691FA9-4B38-411B-A290-DF41C63D6F64}"
+          DTS:From="Package\SEQ_Stream3\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream3\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream4"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{0E44BBA0-6442-4571-8323-1A2ABAB40749}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream4">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{2B2EECAC-716F-4FC2-BFD6-9AAD9831F93B}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{13EBC1A9-D39C-4258-A5E2-96E98170591F}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">4</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{20BA0EF4-BB1D-42D6-9FAC-2F51F7FD5771}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{A7365A8A-E13C-4443-8D36-191A42F893D3}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{49641EFD-7C77-4995-801B-7205C47D81FF}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream4\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{6925F315-88D1-4301-B4ED-1BCC8010D9C2}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{3A22E2BE-EED4-441D-9924-C46D64B5ACB4}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream4\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{210792B4-1E2E-4C91-9D41-E8415FED2C64}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{FF093DEB-F7E6-4BE5-BECD-D52F6524DDDF}"
+              DTS:ObjectName="{FF093DEB-F7E6-4BE5-BECD-D52F6524DDDF}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{BD3D11EC-0806-4013-AA8A-88C776B6A27D}"
+              DTS:ObjectName="{BD3D11EC-0806-4013-AA8A-88C776B6A27D}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{73C267E8-58ED-4ABD-B3BF-6B79E67E9CEE}"
+              DTS:ObjectName="{73C267E8-58ED-4ABD-B3BF-6B79E67E9CEE}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream4\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{F072C8F1-B3B1-4FFA-AFC5-67A3E51BDE5E}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream4.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{BD824EAC-0D51-4E94-A3A0-5E63AB4CF9C7}"
+          DTS:From="Package\SEQ_Stream4\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream4\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream5"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{C1B63733-48EB-4917-9168-B7814545265A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream5">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{EEA63BFD-187D-4326-A0F6-B4FF02FDEEC4}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{22BF0564-E66D-497D-B1FC-996DE39A211D}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">5</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{863E1609-C8A2-4685-9D98-CCC043AFCC04}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{05877090-A4E5-466D-A64C-56C2A80E04A0}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{F3895F12-BC7F-4D53-A5C9-C169A04EFDA8}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream5\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{F23B14A1-242F-4606-8D40-67CB2E8C1AA8}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{3E38812B-1B72-4D2C-BE9D-879B8A7D1567}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream5\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{26C51BB6-2DC5-44E5-A81D-B9D354DD1549}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{2883D4AE-CB1D-4B21-A754-C5D10998B6F1}"
+              DTS:ObjectName="{2883D4AE-CB1D-4B21-A754-C5D10998B6F1}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{79B98336-A1B8-4353-9C2A-DEBA4C2F8E5A}"
+              DTS:ObjectName="{79B98336-A1B8-4353-9C2A-DEBA4C2F8E5A}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{E6E9F8F0-6C29-4E62-9214-0E2F2F0495CF}"
+              DTS:ObjectName="{E6E9F8F0-6C29-4E62-9214-0E2F2F0495CF}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream5\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{05C0F6C1-00F7-4A58-9C1E-754CD358BE4C}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="6">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream5.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{DA4BEAEA-0552-4E33-9A68-BD12DDF76235}"
+          DTS:From="Package\SEQ_Stream5\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream5\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream6"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6B6E171F-0A7A-4433-8E52-2A2CD067020C}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream6">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{53A9D58B-E284-4EFB-BE53-B3665DFFF7C2}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{DA5A9F54-BAF1-4B7A-8DB3-FAD8A96B9415}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">6</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{9A6DA998-C0EF-41D7-BBEC-29392EA5460E}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{D3A43D8C-C84F-460E-B208-40F8A56BC287}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{96BE0F84-A8DB-4204-9F31-21373C96937A}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream6\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{24BEB487-B5D4-435E-941F-5BFD06AC515A}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{1ED82918-6D29-4AAD-9CCD-A8866529A253}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream6\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{8BB92A51-A9BF-48D5-94FD-784A29B67B96}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{C2E8AAFD-AE3A-4866-A1A7-5884F9170EB2}"
+              DTS:ObjectName="{C2E8AAFD-AE3A-4866-A1A7-5884F9170EB2}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{3D5DFC33-2122-4030-A8C0-95A4C53269F7}"
+              DTS:ObjectName="{3D5DFC33-2122-4030-A8C0-95A4C53269F7}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{FEBFDB8E-17C5-484D-B273-2DE1781EF5E0}"
+              DTS:ObjectName="{FEBFDB8E-17C5-484D-B273-2DE1781EF5E0}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream6\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5546B9A2-CA1D-4682-91FC-5A034D45D678}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream6.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3A410190-4EF7-48E9-9B70-E818E2F8C85A}"
+          DTS:From="Package\SEQ_Stream6\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream6\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream7"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7CEF57C1-4845-4A00-B0A2-50ADF3B54BC8}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream7">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{C6DBCDFC-48A8-4518-8235-1DAA5979420D}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{02EC3627-2954-4B45-A347-DD76F354E7BD}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">7</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{39D80F51-E29F-4411-908E-D16B4FE1888D}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{EDBDFBDC-4179-4CC7-9F9D-E4B97FE32F45}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{4BC5A0AD-5215-476A-AE8D-B1C960EBCA9D}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream7\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{1E46A813-A62A-48B5-98BB-F804A4128170}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{E16FE7AD-43BD-4CC2-A38C-FA140D75AAB9}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream7\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{91EB53F2-908E-4A12-B4BB-960C459254E2}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{8EC181B4-1617-4359-9DD2-E67479F7A833}"
+              DTS:ObjectName="{8EC181B4-1617-4359-9DD2-E67479F7A833}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{81B28831-41E4-494D-9CF3-01321658D955}"
+              DTS:ObjectName="{81B28831-41E4-494D-9CF3-01321658D955}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{CF6E1BC2-7C61-47DF-809D-14ACA3705A9B}"
+              DTS:ObjectName="{CF6E1BC2-7C61-47DF-809D-14ACA3705A9B}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream7\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{F9112162-CC6E-43EE-8AE2-0388F02522C7}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="7">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream7.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{80046CE5-5345-4E6E-B68F-DF1C70CC1BDB}"
+          DTS:From="Package\SEQ_Stream7\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream7\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream8"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F6C52DE6-C07F-43E6-8F28-430E3DA6BE57}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream8">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{C508AEE8-B41F-4FE9-B961-2FFFB16AB450}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{0D0245A1-A582-4C49-8ED9-5D5AAEA6A474}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">8</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{1911BD4F-C5EA-4332-B9AD-CEF76D611F3C}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{47EE5F0A-A9B3-45F0-9446-2E9DCBF1A9B7}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{94C587E6-F656-4891-9223-4A6E90981308}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream8\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{301BF414-9DFD-4EB9-8BF9-31563D87BA88}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{2760A60D-290D-4474-B6A5-B0B88864D5C1}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream8\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{7918D2E9-FF41-44E6-8B2C-C4C606951107}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{4E7048CD-99CE-4E0C-9F4D-6C3FB40F9FEA}"
+              DTS:ObjectName="{4E7048CD-99CE-4E0C-9F4D-6C3FB40F9FEA}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{0EF8FF80-8097-4B5E-AEAF-F1C93B46A585}"
+              DTS:ObjectName="{0EF8FF80-8097-4B5E-AEAF-F1C93B46A585}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{63757129-E8C5-4B5B-A4BD-17FB091B7A98}"
+              DTS:ObjectName="{63757129-E8C5-4B5B-A4BD-17FB091B7A98}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream8\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{1952A6F5-F65C-4D26-863F-229334967FFD}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="9">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream8.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{2E5FB4A4-2B49-4CCF-9FB6-BF6132A6F95E}"
+          DTS:From="Package\SEQ_Stream8\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream8\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Stream9"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{5C71E76C-EFFE-41F7-A909-FD295BBE26F4}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:MaxErrorCount="2000"
+      DTS:ObjectName="SEQ_Stream9">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{7FCEF698-1693-46DE-BB4D-231562D7B7E3}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="bitContinueOnFailure">
+          <DTS:VariableValue
+            DTS:DataType="11">0</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{1ECA7B41-994F-4D16-A47B-F716921A018C}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="intStream">
+          <DTS:VariableValue
+            DTS:DataType="3">9</DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{929E2F36-587A-4127-AB37-6FA084883D34}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="User"
+          DTS:ObjectName="objPackageLoadStep">
+          <DTS:VariableValue
+            DTS:DataSubType="ManagedSerializable"
+            DTS:DataType="13">
+            <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <SOAP-ENV:Body>
+                <xsd:anyType
+                  id="ref-1"></xsd:anyType>
+              </SOAP-ENV:Body>
+            </SOAP-ENV:Envelope>
+          </DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{9A5F44C8-C122-408B-AFF0-C280BA9D2D9D}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageFullName">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{E5FFD60F-5C71-4001-BFF0-752D64084390}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="strPackageName">
+          <DTS:VariableValue
+            DTS:DataType="8">000_Controller.dtsx</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream9\FELC_Stream"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{478B5D04-307C-421D-8BA8-474581CCB865}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:MaxErrorCount="2000"
+          DTS:ObjectName="FELC_Stream">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.SqlServer.Dts.Runtime.Enumerators.ADO.ForEachADOEnumerator, Microsoft.SqlServer.ForEachADOEnumerator, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+            DTS:DTSID="{FEC35DC9-6771-4139-A1CF-664A06F63D55}"
+            DTS:ObjectName="{87F48506-4B3F-45B4-BB50-61F43358C94C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::objPackageLoadStep" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SEQ_Stream9\FELC_Stream\EPT_ProjectReference"
+              DTS:CreationName="SSIS.ExecutePackageTask.3"
+              DTS:Description="Execute Package Task"
+              DTS:DTSID="{D768D20D-EAE3-4CBD-882A-31FCDF0CEBBB}"
+              DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+              DTS:FailPackageOnFailure="True"
+              DTS:LocaleID="-1"
+              DTS:MaxErrorCount="2000"
+              DTS:ObjectName="EPT_ProjectReference"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="FailPackageOnFailure">!@[User::bitContinueOnFailure]</DTS:PropertyExpression>
+              <DTS:PropertyExpression
+                DTS:Name="PackageName">@[User::strPackageName]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>000_Controller.dtsx</PackageName>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{2D979912-BF9B-478F-ADBC-F1F5315F2C15}"
+              DTS:ObjectName="{2D979912-BF9B-478F-ADBC-F1F5315F2C15}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::strPackageName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{664FDADE-C0F0-4E64-AF43-81DEC41ED16C}"
+              DTS:ObjectName="{664FDADE-C0F0-4E64-AF43-81DEC41ED16C}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::strPackageFullName" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{0618E191-09F5-4B30-ACB1-44EF3E9231E3}"
+              DTS:ObjectName="{0618E191-09F5-4B30-ACB1-44EF3E9231E3}"
+              DTS:ValueIndex="2"
+              DTS:VariableName="User::bitContinueOnFailure" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Stream9\SQL_GetPackageLoadStep_Stream"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3F81DE1B-F8BF-48C0-AED4-3665812F605C}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SQL_GetPackageLoadStep_Stream"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="8">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{792B8BAA-584C-4432-AC8D-29047514196A}"
+              SQLTask:SqlStatementSource="EXEC [dbo].[GetPackageLoadStep] ?, ?, ?"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::objPackageLoadStep" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::intQueueID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::intStepOrder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::intStream"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ_Stream9.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{0FF1D037-A988-4E45-8AD1-004603A00C7D}"
+          DTS:From="Package\SEQ_Stream9\SQL_GetPackageLoadStep_Stream"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\SEQ_Stream9\FELC_Stream" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream0\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,88"
+          Size="278,132"
+          Id="Package\SEQ_Stream0\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream0\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream0.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,236"
+          Size="329,280"
+          Id="Package\SEQ_Stream0"
+          TopLeft="42,96" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream1\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream1\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream1\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream1.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream1"
+          TopLeft="385,97" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream2\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream2\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream2\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream2.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream2"
+          TopLeft="730,96" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream3\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream3\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream3\SQL_GetPackageLoadStep_Stream"
+          TopLeft="41.6603773584909,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream3.PrecedenceConstraints[Constraint]"
+          TopLeft="163.933962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,233"
+          Size="329,277"
+          Id="Package\SEQ_Stream3"
+          TopLeft="1074,97" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream4\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream4\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream4\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream4.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream4"
+          TopLeft="43,394" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream5\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream5\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream5\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream5.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream5"
+          TopLeft="387,395" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream6\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream6\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream6\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream6.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream6"
+          TopLeft="733,398" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream7\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream7\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream7\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream7.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream7"
+          TopLeft="1079,398" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream8\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream8\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream8\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream8.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream8"
+          TopLeft="40.1111111111111,693.777777777778" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ_Stream9\FELC_Stream\EPT_ProjectReference"
+          TopLeft="41.8490566037736,24.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="278,87"
+          Size="278,131"
+          Id="Package\SEQ_Stream9\FELC_Stream"
+          TopLeft="25.2075471698113,87.7169811320755" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\SEQ_Stream9\SQL_GetPackageLoadStep_Stream"
+          TopLeft="40.660377358491,21.7735849056604" />
+        <EdgeLayout
+          Id="Package\SEQ_Stream9.PrecedenceConstraints[Constraint]"
+          TopLeft="163.433962264151,63.7735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.9433962264151"
+              Start="0,0"
+              End="0,16.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="329,234"
+          Size="329,278"
+          Id="Package\SEQ_Stream9"
+          TopLeft="387.777777777778,696.666666666667" />
+        <AnnotationLayout
+          Text="Max 10 parallel streams&#xA;Each stream retrieves packages for that stream and executes them in sequence&#xA;Currently uses project references but can be replaced with dtexec to execute external packages"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="496,88"
+          Id="097ad5c0-7011-4b6e-a36b-a3ca2052d324"
+          TopLeft="29,21" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

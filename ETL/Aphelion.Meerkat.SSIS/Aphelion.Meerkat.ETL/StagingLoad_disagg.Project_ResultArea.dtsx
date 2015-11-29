@@ -1,0 +1,921 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:CreationDate="08/24/2014 19:16:28" DTS:CreationName="SSIS.Package.3" DTS:CreatorComputerName="MGS-M6700" DTS:CreatorName="administrator" DTS:DelayValidation="True" DTS:DTSID="{52EC47AD-8B2D-4B92-8688-BD22F89B92EC}" DTS:ExecutableType="SSIS.Package.3" DTS:LastModifiedProductVersion="" DTS:LocaleID="7177" DTS:MaxErrorCount="2000" DTS:ObjectName="StagingLoad_disagg_Project_ResultArea" DTS:refId="Package" DTS:VersionBuild="0" DTS:VersionGUID="{B24CF087-A227-44BC-A86E-4AA3DB96044A}" DTS:VersionMajor="0" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:CreationName="EXCEL" DTS:DTSID="{324FF25E-1903-4C71-A0AE-E2CB2B3A9276}" DTS:ObjectName="ExcelCountConnection" DTS:refId="Package.ConnectionManagers[ExcelCountConnection]">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Errors.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;">
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+      <DTS:PropertyExpression DTS:Name="ConnectionString">@[User::ErrorFileConnection]</DTS:PropertyExpression>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Executables>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{E90F6F8F-BCAA-4F46-AC85-738B80886A8C}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_Truncate_Errors_Project_ResultArea" DTS:refId="Package\SQL_Truncate_Errors_Project_ResultArea" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatErrorsBIML" SQLTask:SqlStatementSource="TRUNCATE TABLE [Errors].[Project_ResultArea]&#xA;  &#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{25A00C4B-2FC8-49AB-9C19-D1398DA9619D}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:MaxErrorCount="2000" DTS:ObjectName="DFT_Load disagg_Project_ResultArea" DTS:refId="Package\DFT_Load disagg_Project_ResultArea" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Staging_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea" usesDispositions="true" version="7">
+              <connections>
+                <connection connectionManagerID="{840851F7-872D-4B82-B720-33AAA34F3227}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatStagingBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[Project_ResultArea_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ProjectBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[ProjectBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ResultAreaBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[ResultAreaBusinessKey]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[Project_ResultArea_ID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[ProjectBusinessKey]" length="400" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ProjectBusinessKey]" name="ProjectBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ProjectBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].ExternalColumns[ResultAreaBusinessKey]" length="400" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ResultAreaBusinessKey]" name="ResultAreaBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ResultAreaBusinessKey]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[Project_ResultArea_ID]" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[Project_ResultArea_ID]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="400" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ProjectBusinessKey]" name="ProjectBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ProjectBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="wstr" length="400" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ResultAreaBusinessKey]" name="ResultAreaBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ResultAreaBusinessKey]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                SELECT *
+                FROM [Staging].[Project_ResultArea]
+              </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{671046B0-AA63-4C9F-90E4-C06E0B710CE3}" contactInfo="Lookup;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5" name="LKP_ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID" usesDispositions="true" version="6">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="Connection manager used to access lookup data." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input name="OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ProjectBusinessKey" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ProjectBusinessKey]" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID].Columns[ProjectBusinessKey]">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table that a column joins." name="JoinToReferenceColumn">BusinessKey</property>
+                        <property dataType="System.Null" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">
+                        </property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Lookup" errorRowDisposition="IgnoreFailure" exclusionGroup="1" name="Match" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="CopyColumn" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" name="ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">ProjectID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;" exclusionGroup="1" name="NoMatch" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[NoMatch]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the SQL statement that generates the lookup table." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT BusinessKey, ProjectID FROM [app].[Project]</property>
+                <property dataType="System.String" description="Specifies a SQL statement that uses parameters to generate the lookup table." expressionType="Notify" name="SqlCommandParam" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT BusinessKey, ProjectID FROM [app].[Project]) [refTable] where [refTable].[BusinessKey] = ?</property>
+                <property dataType="System.Int32" description="Specifies the type of connection used to access the reference dataset." name="ConnectionType" typeConverter="LookupConnectionType">0</property>
+                <property dataType="System.Int32" description="Specifies the cache type of the lookup table." name="CacheType" typeConverter="CacheType">0</property>
+                <property dataType="System.Int32" description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set." name="NoMatchBehavior" typeConverter="LookupNoMatchBehavior">0</property>
+                <property dataType="System.Int32" description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset." name="NoMatchCachePercentage">0</property>
+                <property dataType="System.Int32" description="Maximum Memory Usage for Reference Cache on a 32 bit platform." name="MaxMemoryUsage">25</property>
+                <property dataType="System.Int64" description="Maximum Memory Usage for Reference Cache on a 64 bit platform." name="MaxMemoryUsage64">25</property>
+                <property dataType="System.String" description="Indicates whether to reference metadata in an XML format." name="ReferenceMetadataXml">&lt;referenceMetadata&gt;
+  &lt;referenceColumns&gt;
+    &lt;referenceColumn name="BusinessKey" dataType="DT_WSTR" length="400" precision="0" scale="0" codePage="0" /&gt;
+    &lt;referenceColumn name="ProjectID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0" /&gt;
+  &lt;/referenceColumns&gt;
+&lt;/referenceMetadata&gt;</property>
+                <property containsID="true" dataType="System.String" description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons." name="ParameterMap">#{Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ProjectBusinessKey]};</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used." name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+            </component>
+            <component componentClassID="{671046B0-AA63-4C9F-90E4-C06E0B710CE3}" contactInfo="Lookup;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5" name="LKP_ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID" usesDispositions="true" version="6">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="Connection manager used to access lookup data." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input name="LKP_ProjectID_Match_LKP_ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ResultAreaBusinessKey" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ResultAreaBusinessKey]" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID].Columns[ResultAreaBusinessKey]">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table that a column joins." name="JoinToReferenceColumn">BusinessKey</property>
+                        <property dataType="System.Null" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">
+                        </property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Lookup" errorRowDisposition="IgnoreFailure" exclusionGroup="1" name="Match" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="CopyColumn" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" name="ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Specifies the column in the reference table from which a column is copied." name="CopyFromReferenceColumn">ResultArea_ID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;" exclusionGroup="1" name="NoMatch" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[NoMatch]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the SQL statement that generates the lookup table." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT BusinessKey, ResultArea_ID FROM [disagg].[ResultArea]</property>
+                <property dataType="System.String" description="Specifies a SQL statement that uses parameters to generate the lookup table." expressionType="Notify" name="SqlCommandParam" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT BusinessKey, ResultArea_ID FROM [disagg].[ResultArea]) [refTable] where [refTable].[BusinessKey] = ?</property>
+                <property dataType="System.Int32" description="Specifies the type of connection used to access the reference dataset." name="ConnectionType" typeConverter="LookupConnectionType">0</property>
+                <property dataType="System.Int32" description="Specifies the cache type of the lookup table." name="CacheType" typeConverter="CacheType">0</property>
+                <property dataType="System.Int32" description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set." name="NoMatchBehavior" typeConverter="LookupNoMatchBehavior">0</property>
+                <property dataType="System.Int32" description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset." name="NoMatchCachePercentage">0</property>
+                <property dataType="System.Int32" description="Maximum Memory Usage for Reference Cache on a 32 bit platform." name="MaxMemoryUsage">25</property>
+                <property dataType="System.Int64" description="Maximum Memory Usage for Reference Cache on a 64 bit platform." name="MaxMemoryUsage64">25</property>
+                <property dataType="System.String" description="Indicates whether to reference metadata in an XML format." name="ReferenceMetadataXml">&lt;referenceMetadata&gt;
+  &lt;referenceColumns&gt;
+    &lt;referenceColumn name="BusinessKey" dataType="DT_WSTR" length="400" precision="0" scale="0" codePage="0" /&gt;
+    &lt;referenceColumn name="ResultArea_ID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0" /&gt;
+  &lt;/referenceColumns&gt;
+&lt;/referenceMetadata&gt;</property>
+                <property containsID="true" dataType="System.String" description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons." name="ParameterMap">#{Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ResultAreaBusinessKey]};</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used." name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+            </component>
+            <component componentClassID="{7F88F654-4E20-4D14-84F4-AF9C925D3087}" contactInfo="Conditional Split;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="CSPL_Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID" usesDispositions="true">
+              <inputs>
+                <input name="LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="Project_ResultArea_ID" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID].Columns[Project_ResultArea_ID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" exclusionGroup="1" name="Insert" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Insert]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]" truncationRowDisposition="FailComponent">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <properties>
+                    <property containsID="true" dataType="System.String" name="Expression">ISNULL(#{Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]})</property>
+                    <property containsID="true" dataType="System.String" expressionType="Notify" name="FriendlyExpression">ISNULL(Project_ResultArea_ID)</property>
+                    <property dataType="System.Int32" name="EvaluationOrder">0</property>
+                  </properties>
+                </output>
+                <output exclusionGroup="1" name="Default" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Default]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <properties>
+                    <property dataType="System.Boolean" name="IsDefaultOut">true</property>
+                  </properties>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{93FFEC66-CBC8-4C7F-9C6A-CB1C17A7567D}" contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2" name="CMD_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea" usesDispositions="true" version="2">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Command Execution" errorRowDisposition="FailComponent" hasSideEffects="true" name="CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Param_0" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_0]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Param_1" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_1]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Param_2" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_2]">
+                      <properties>
+                        <property dataType="System.Int32" description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values." name="DBParamInfoFlags">17</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="ResultAreaID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_0]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].Columns[ResultAreaID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ProjectID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_1]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].Columns[ProjectID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="Project_ResultArea_ID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].ExternalColumns[Param_2]" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea].Columns[Project_ResultArea_ID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Output]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [disagg].[Project_ResultArea]SET [ResultAreaID] = ?,[ProjectID] = ?,[sys_ModifiedBy] = USER_NAME(),[sys_ModifiedOn] = GETDATE() WHERE Project_ResultArea_ID = ?</property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="RedirectRow" hasSideEffects="true" name="CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[Project_ResultArea_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[ProjectID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Active" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[Active]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_CreatedBy" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[sys_CreatedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_CreatedOn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[sys_CreatedOn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_ModifiedBy" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[sys_ModifiedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_ModifiedOn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[sys_ModifiedOn]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="ResultAreaID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].Columns[ResultAreaID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ProjectID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].ExternalColumns[ProjectID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea].Columns[ProjectID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[disagg].[Project_ResultArea]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Singleton_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{6336C00E-7A73-4978-AB7C-3B3D3DD7B79E}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="RedirectRow" hasSideEffects="true" name="OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[Project_ResultArea_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[ProjectID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Active" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[Active]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_CreatedBy" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[sys_CreatedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_CreatedOn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[sys_CreatedOn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="sys_ModifiedBy" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[sys_ModifiedBy]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="dbTimeStamp" name="sys_ModifiedOn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[sys_ModifiedOn]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="ResultAreaID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].Columns[ResultAreaID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ProjectID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].ExternalColumns[ProjectID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea].Columns[ProjectID]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[disagg].[Project_ResultArea]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">1</property>
+              </properties>
+            </component>
+            <component componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}" contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DC_AddErrorDetails" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails" usesDispositions="true">
+              <inputs>
+                <input name="OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">(DT_STR, 255, 1252)@[System::PackageName]</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">(DT_STR, 255, 1252)@[System::PackageName]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">@[User::intQueueID]</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">@[User::intQueueID]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property dataType="System.String" description="Derived Column Expression" name="Expression">(DT_STR, 255, 1252)("Insert")</property>
+                        <property dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" name="FriendlyExpression">(DT_STR, 255, 1252)("Insert")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}" contactInfo="Row Count;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="RC_CountErrors" refId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors">
+              <inputs>
+                <input hasSideEffects="true" name="DC_AddErrorDetails_Output_RC_CountErrors" refId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output name="Output" refId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors.Outputs[Output]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.String" description="Specifies the variable to hold the row count." name="VariableName">User::intErrorCount</property>
+              </properties>
+            </component>
+            <component componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" name="OLE_DST_Error_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea" usesDispositions="true" version="4">
+              <connections>
+                <connection connectionManagerID="{2D4BDCB8-1E75-4A0A-B25C-A66DC2FA9B90}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatErrorsBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="QueueID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="SSISErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[SSISErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="SSISErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[SSISErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="PackageName" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="ErrorType" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[Project_ResultArea_ID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ProjectBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ProjectBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="400" name="ResultAreaBusinessKey" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ResultAreaBusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ProjectID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="PackageName" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[PackageName]" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[PackageName]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="QueueID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[QueueID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[QueueID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="ErrorType" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ErrorType]" lineageId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ResultAreaID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ResultAreaID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match].Columns[ResultAreaID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[ResultAreaID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="ProjectID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ProjectID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match].Columns[ProjectID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[ProjectID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="Project_ResultArea_ID" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[Project_ResultArea_ID]" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[Project_ResultArea_ID]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[Project_ResultArea_ID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ProjectBusinessKey" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ProjectBusinessKey]" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ProjectBusinessKey]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[ProjectBusinessKey]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="400" cachedName="ResultAreaBusinessKey" externalMetadataColumnId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].ExternalColumns[ResultAreaBusinessKey]" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output].Columns[ResultAreaBusinessKey]" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea].Columns[ResultAreaBusinessKey]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Outputs[Error]" synchronousInputId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[Errors].[Project_ResultArea]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">200</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Inputs[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]" name="OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[OLE_SRC_Staging_Project_ResultArea_Output_LKP_ProjectID]" startId="Package\DFT_Load disagg_Project_ResultArea\OLE_SRC_Staging_Project_ResultArea.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Inputs[LKP_ProjectID_Match_LKP_ResultAreaID]" name="LKP_ProjectID_Match_LKP_ResultAreaID" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[LKP_ProjectID_Match_LKP_ResultAreaID]" startId="Package\DFT_Load disagg_Project_ResultArea\LKP_ProjectID.Outputs[Match]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Inputs[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]" name="LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[LKP_ResultAreaID_Match_CSPL_Project_ResultArea_ID]" startId="Package\DFT_Load disagg_Project_ResultArea\LKP_ResultAreaID.Outputs[Match]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea]" name="CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[CSPL_Project_ResultArea_ID_Insert_OLE_DST_disagg_Project_ResultArea]" startId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Insert]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Inputs[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea]" name="OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[OLE_DST_disagg_Project_ResultArea_Error_OLE_DST_Singleton_disagg_Project_ResultArea]" startId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_disagg_Project_ResultArea.Outputs[Error]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Inputs[OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails]" name="OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[OLE_DST_Singleton_disagg_Project_ResultArea_Error_DC_AddErrorDetails]" startId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Singleton_disagg_Project_ResultArea.Outputs[Error]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors.Inputs[DC_AddErrorDetails_Output_RC_CountErrors]" name="DC_AddErrorDetails_Output_RC_CountErrors" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[DC_AddErrorDetails_Output_RC_CountErrors]" startId="Package\DFT_Load disagg_Project_ResultArea\DC_AddErrorDetails.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\OLE_DST_Error_disagg_Project_ResultArea.Inputs[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea]" name="RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[RC_CountErrors_Output_OLE_DST_Error_disagg_Project_ResultArea]" startId="Package\DFT_Load disagg_Project_ResultArea\RC_CountErrors.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_Load disagg_Project_ResultArea\CMD_disagg_Project_ResultArea.Inputs[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea]" name="CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea" refId="Package\DFT_Load disagg_Project_ResultArea.Paths[CSPL_Project_ResultArea_ID_Default_CMD_disagg_Project_ResultArea]" startId="Package\DFT_Load disagg_Project_ResultArea\CSPL_Project_ResultArea_ID.Outputs[Default]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{F399F16E-D774-463C-B619-1C914B6FDBCD}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSMoveErrorFile" DTS:refId="Package\FSMoveErrorFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::FileDestination" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOperationType="MoveFile" TaskOverwriteDestFile="True" TaskSourcePath="User::InProcessSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{C4DE76EB-A68A-49AB-B964-AAD3DAC63E14}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="SQL_UpdateExport_disagg_Project_ResultArea" DTS:refId="Package\SQL_UpdateExport_disagg_Project_ResultArea" DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData SQLTask:Connection="MeerkatBIML" SQLTask:SqlStatementSource="MERGE INTO settings.tablesToExport vw&#xA;USING (SELECT 'disagg' As Table_schema&#xA; , 'Project_ResultArea' As Table_Name&#xA; , 1 As Export)&#xA; Src&#xA; ON vw.Table_schema = src.table_schema&#xA; and vw.table_name = src.table_name&#xA; WHEN MATCHED THEN &#xA; UPDATE Set Export = src.Export&#xA; WHEN NOT MATCHED THEN&#xA; INSERT( Table_schema, Table_name, export)&#xA; VALUES (src.Table_schema, src.Table_name, src.Export);&#xA;&#xA;&#xA;    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{216970D4-798F-4C29-A797-23A63808AB7F}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSCopyErrorFile" DTS:refId="Package\FSCopyErrorFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::ErrorFileDestination" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOverwriteDestFile="True" TaskSourcePath="User::ErrorFileSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:DTSID="{AD7A07BD-44E3-4C81-948E-73C7430EFB5D}" DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.FileSystemTask.FileSystemTask, Microsoft.SqlServer.FileSystemTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:LocaleID="-1" DTS:ObjectName="FSMoveSuccessfulFile" DTS:refId="Package\FSMoveSuccessfulFile" DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <FileSystemData TaskDestinationPath="User::ProcessedFile" TaskIsDestinationVariable="True" TaskIsSourceVariable="True" TaskOperationType="MoveFile" TaskOverwriteDestFile="True" TaskSourcePath="User::InProcessSource">
+        </FileSystemData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:CreationName="SSIS.Pipeline.3" DTS:DTSID="{6DEC77B1-1372-4275-A434-98943C364CBB}" DTS:ExecutableType="SSIS.Pipeline.3" DTS:LocaleID="-1" DTS:MaxErrorCount="2000" DTS:ObjectName="DFT_ErrorCount_disagg_Project_ResultArea" DTS:refId="Package\DFT_ErrorCount_disagg_Project_ResultArea" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:ObjectData>
+        <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" version="1">
+          <components>
+            <component componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}" contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" name="OLE_SRC_Errors_Project_ResultArea" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea" usesDispositions="true" version="7">
+              <connections>
+                <connection connectionManagerID="{2D4BDCB8-1E75-4A0A-B25C-A66DC2FA9B90}:external" connectionManagerRefId="Project.ConnectionManagers[MeerkatErrorsBIML]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <outputs>
+                <output name="Output" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="i4" name="QueueID" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="PackageErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="ErrorType" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn codePage="1252" dataType="str" length="255" name="PackageName" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="i4" name="Count" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[Count]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[QueueID]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageErrorCode]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorCode]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageErrorColumn]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorColumn]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[ErrorType]" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[PackageName]" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                    <outputColumn dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].ExternalColumns[Count]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[Count]" truncationRowDisposition="FailComponent">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[QueueID]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageErrorCode]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageErrorColumn]">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorType]">
+                    </outputColumn>
+                    <outputColumn codePage="1252" dataType="str" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[PackageName]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[Count]">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">
+                </property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+					SELECT [QueueID]
+						 ,[SSISErrorCode] AS PackageErrorCode
+						 ,[SSISErrorColumn] PackageErrorColumn
+						,[ErrorType]
+						,[PackageName]  ,Count(*) As [Count]
+					FROM [Errors].[Project_ResultArea]
+					  GROUP BY [QueueID]
+						  ,[SSISErrorCode]
+						  ,[SSISErrorColumn]
+						  ,[ErrorType]
+						  ,[PackageName] 
+				  </property>
+                <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable">
+                </property>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">2</property>
+                <property dataType="System.String" description="The mappings between the parameters in the SQL command and variables." name="ParameterMapping">
+                </property>
+              </properties>
+            </component>
+            <component componentClassID="{62B1106C-7DB8-4EC8-ADD6-4C664DFFC54A}" contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="DC_ExcelErrors" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors" usesDispositions="true">
+              <inputs>
+                <input name="OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="i4" cachedName="QueueID" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[QueueID]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="PackageErrorCode" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorCode]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[PackageErrorCode]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="PackageErrorColumn" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorColumn]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[PackageErrorColumn]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="ErrorType" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedCodepage="1252" cachedDataType="str" cachedLength="255" cachedName="PackageName" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageName]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="i4" cachedName="Count" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[Count]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors].Columns[Count]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" name="Output" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output]" synchronousInputId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" name="QueueID" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[QueueID]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" name="PackageErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorCode]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageErrorColumn]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" name="ErrorType" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[ErrorType]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" name="PackageName" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[PackageName]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" length="255" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[Count]" name="Count" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[Count]" truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property containsID="true" dataType="System.Int32" description="Specifies the input column used as the source of data for the conversion." name="SourceInputColumnLineageID">#{Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output].Columns[Count]}</property>
+                        <property dataType="System.Boolean" description="Indicates whether the column uses the faster, locale-neutral parsing routines." name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Error]" synchronousInputId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+            </component>
+            <component componentClassID="{1F5D5712-2FBA-4CB9-A95A-86C1F336E1DA}" contactInfo="Excel Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" name="OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary" usesDispositions="true" validateExternalMetadata="False">
+              <connections>
+                <connection connectionManagerID="{324FF25E-1903-4C71-A0AE-E2CB2B3A9276}:external" connectionManagerRefId="Package.ConnectionManagers[ExcelCountConnection]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Connections[OleDbConnection]">
+                </connection>
+              </connections>
+              <inputs>
+                <input errorOrTruncationOperation="Insert" errorRowDisposition="IgnoreFailure" hasSideEffects="true" name="DC_ExcelErrors_Output_OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]">
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn dataType="wstr" length="255" name="QueueID" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[QueueID]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorCode]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorColumn]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="ErrorType" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[ErrorType]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="PackageName" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageName]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="BusinessKey" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[BusinessKey]">
+                    </externalMetadataColumn>
+                    <externalMetadataColumn dataType="wstr" length="255" name="Count" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[Count]">
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                  <inputColumns>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="QueueID" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[QueueID]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[QueueID]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[QueueID]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageErrorCode" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorCode]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorCode]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageErrorCode]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageErrorColumn" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageErrorColumn]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageErrorColumn]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageErrorColumn]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="ErrorType" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[ErrorType]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[ErrorType]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[ErrorType]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="PackageName" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[PackageName]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[PackageName]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[PackageName]">
+                    </inputColumn>
+                    <inputColumn cachedDataType="wstr" cachedLength="255" cachedName="Count" externalMetadataColumnId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].ExternalColumns[Count]" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output].Columns[Count]" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary].Columns[Count]">
+                    </inputColumn>
+                  </inputColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output exclusionGroup="1" isErrorOut="true" name="Error" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Outputs[Error]" synchronousInputId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]">
+                  <externalMetadataColumns>
+                  </externalMetadataColumns>
+                  <outputColumns>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorCode]" name="ErrorCode" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorCode]" specialFlags="1">
+                    </outputColumn>
+                    <outputColumn dataType="i4" lineageId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorColumn]" name="ErrorColumn" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Outputs[Error].Columns[ErrorColumn]" specialFlags="2">
+                    </outputColumn>
+                  </outputColumns>
+                </output>
+              </outputs>
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">Sheet1$</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable">
+                </property>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+                </property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode">0</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">
+                </property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+            </component>
+          </components>
+          <paths>
+            <path endId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Inputs[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors]" name="OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea.Paths[OLE_SRC_Errors_Project_ResultArea_Output_DC_ExcelErrors]" startId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_SRC_Errors_Project_ResultArea.Outputs[Output]">
+            </path>
+            <path endId="Package\DFT_ErrorCount_disagg_Project_ResultArea\OLE_DEST_Excel_Summary.Inputs[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]" name="DC_ExcelErrors_Output_OLE_DEST_Excel_Summary" refId="Package\DFT_ErrorCount_disagg_Project_ResultArea.Paths[DC_ExcelErrors_Output_OLE_DEST_Excel_Summary]" startId="Package\DFT_ErrorCount_disagg_Project_ResultArea\DC_ExcelErrors.Outputs[Output]">
+            </path>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{F51546D8-C0BB-4F38-95C9-E204AFF9B654}" DTS:From="Package\SQL_Truncate_Errors_Project_ResultArea" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_SQL_Truncate_Errors_Project_ResultArea_To_DFT_Load disagg_Project_ResultArea" DTS:refId="Package.PrecedenceConstraints[Constraint_SQL_Truncate_Errors_Project_ResultArea_To_DFT_Load disagg_Project_ResultArea]" DTS:To="Package\DFT_Load disagg_Project_ResultArea">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{A8E76B0D-793F-4C23-BE45-E387C5C09CA2}" DTS:EvalOp="4" DTS:Expression="@[User::intErrorCount] &gt; 0" DTS:From="Package\DFT_Load disagg_Project_ResultArea" DTS:ObjectName="Constraint_DFT_Load disagg_Project_ResultArea_To_FSMoveErrorFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load disagg_Project_ResultArea_To_FSMoveErrorFile]" DTS:To="Package\FSMoveErrorFile" DTS:Value="1">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{182B444F-9CAC-4B1C-BD75-E981DBF1D224}" DTS:From="Package\FSMoveErrorFile" DTS:ObjectName="Constraint_FSMoveErrorFile_To_SQL_UpdateExport_disagg_Project_ResultArea" DTS:refId="Package.PrecedenceConstraints[Constraint_FSMoveErrorFile_To_SQL_UpdateExport_disagg_Project_ResultArea]" DTS:To="Package\SQL_UpdateExport_disagg_Project_ResultArea">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{905CDC29-B397-4D49-8404-B034ECED4DCC}" DTS:EvalOp="4" DTS:Expression="@[User::intErrorCount] &gt; 0" DTS:From="Package\DFT_Load disagg_Project_ResultArea" DTS:ObjectName="Constraint_DFT_Load disagg_Project_ResultArea_To_FSCopyErrorFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load disagg_Project_ResultArea_To_FSCopyErrorFile]" DTS:To="Package\FSCopyErrorFile" DTS:Value="1">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{54D1679F-4B07-4DBB-8B39-A6C787473620}" DTS:EvalOp="3" DTS:Expression="@[User::intErrorCount] == 0" DTS:From="Package\DFT_Load disagg_Project_ResultArea" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_DFT_Load disagg_Project_ResultArea_To_FSMoveSuccessfulFile" DTS:refId="Package.PrecedenceConstraints[Constraint_DFT_Load disagg_Project_ResultArea_To_FSMoveSuccessfulFile]" DTS:To="Package\FSMoveSuccessfulFile">
+    </DTS:PrecedenceConstraint>
+    <DTS:PrecedenceConstraint DTS:CreationName="" DTS:DTSID="{DC014F36-C9F1-4D08-B528-44470FD45CD2}" DTS:From="Package\FSCopyErrorFile" DTS:LogicalAnd="True" DTS:ObjectName="Constraint_FSCopyErrorFile_To_DFT_ErrorCount_disagg_Project_ResultArea" DTS:refId="Package.PrecedenceConstraints[Constraint_FSCopyErrorFile_To_DFT_ErrorCount_disagg_Project_ResultArea]" DTS:To="Package\DFT_ErrorCount_disagg_Project_ResultArea">
+    </DTS:PrecedenceConstraint>
+  </DTS:PrecedenceConstraints>
+  <DTS:Property DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{DC855331-1A9A-451F-9DBE-7CF524D23390}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="intQueueID">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{A3FB4123-A6FE-45CB-9CA5-DE68ACF93CB8}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="intErrorCount">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{A1B32FE4-B6D4-48A9-A533-177E02FDAA83}" DTS:EvaluateAsExpression="True" DTS:Expression="@[System::PackageName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="strPackageName">
+      <DTS:VariableValue DTS:DataType="8">StagingLoad_disagg.Project_ResultArea</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{06CF1A6F-A9E0-431E-9776-3194A19F2F52}" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileName">
+      <DTS:VariableValue DTS:DataType="8">Staging.Project_ResultArea.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{4895F552-6FE3-4DC7-AE30-1B6B1E67AE49}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Templates\\&quot; + @[User::FileName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Staging.Project_ResultArea.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{09007069-7E49-400E-BCFA-DF86CA7DC447}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Templates\\Errors.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Templates\Errors.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{020F94F2-662F-47A4-8441-5C4667BB0344}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="FileDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140824</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{FDFA3C34-FB83-4F15-A6AF-83EC2368F0FF}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;) +&quot;\\Errors.Project_ResultArea.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140824\Errors.Project_ResultArea.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{9CEE9235-315D-4F73-9C6A-E6AB7B5262E0}" DTS:EvaluateAsExpression="True" DTS:Expression="&quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; + @[User::ErrorFileDestination] +&quot;;Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorFileConnection">
+      <DTS:VariableValue DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140824\Errors.Project_ResultArea.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES"</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{7AE859CB-8D0A-4B46-A400-7E8EE06BDDEF}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\FileErrors\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;) +&quot;\\Staging.Project_ResultArea.xlsx&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorIndividualDestination">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140824\Staging.Project_ResultArea.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{22961050-B084-4C7F-9F20-B2BC222A2C94}" DTS:EvaluateAsExpression="True" DTS:Expression="&quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; + @[User::ErrorIndividualDestination] +&quot;;Extended Properties=\&quot;Excel 12.0 Xml;HDR=YES\&quot;&quot;" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ErrorIndividualConnection">
+      <DTS:VariableValue DTS:DataType="8">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\FileErrors\20140824\Staging.Project_ResultArea.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES"</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{0B6E3F51-58C1-4EE5-93A5-5AACD9F6F870}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\Processed\\&quot; + &#xA; (DT_STR, 10, 1252)  (&#xA;(YEAR( @[System::ContainerStartTime]  ) * 10000)&#xA;+ (MONTH(@[System::ContainerStartTime]  ) * 100)&#xA;+  DAY(@[System::ContainerStartTime]  )&#xA;)" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="ProcessedFile">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\Processed\20140824</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{FB783017-0A80-4AFC-AE77-78E167D248B1}" DTS:EvaluateAsExpression="True" DTS:Expression="@[$Project::strStagingTemplatePath] + &quot;\\InProcess\\&quot; + @[User::FileName]" DTS:IncludeInDebugDump="2345" DTS:Namespace="User" DTS:ObjectName="InProcessSource">
+      <DTS:VariableValue DTS:DataType="8">C:\Dropbox\Clients\Meerkat\CARE Somalia\Data\StagingTemplates\InProcess\Staging.Project_ResultArea.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+</DTS:Executable>

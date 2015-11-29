@@ -31,7 +31,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -47,23 +47,15 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="CategoryOrder"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
         PropertyType=":Int32">
         <EntityProperty.Attributes>
           <Required />
@@ -122,6 +114,24 @@
         Association="FK_Question_Category"
         FromEnd="Category"
         ToEnd="Question" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Category_ActiveType"
+        FromEnd="Category"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwIncompleteCategories"
+        Association="vwIncompleteCategory_Category"
+        FromEnd="Category"
+        ToEnd="vwIncompleteCategory" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -240,7 +250,35 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vwIncompleteCategory_Categories"
+      Association="vwIncompleteCategory_Category">
+      <AssociationSetEnd
+        Name="vwIncompleteCategory"
+        EntitySet="vwIncompleteCategories" />
+      <AssociationSetEnd
+        Name="Category"
+        EntitySet="Categories" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vwIncompleteCategory_Category">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwIncompleteCategory"
+      Multiplicity="Many"
+      EntityType="vwIncompleteCategory" />
+    <AssociationEnd
+      Name="Category"
+      Multiplicity="One"
+      EntityType="Category">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -259,7 +297,7 @@
           Type="int"
           Property="Category/Properties[Category_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -271,20 +309,16 @@
           Type="varchar"
           Property="Category/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="Category/Properties[TextDescription]" />
         <SsdlProperty
           Name="CategoryOrder"
           Nullable="False"
           Type="int"
           Property="Category/Properties[CategoryOrder]" />
-        <SsdlProperty
-          Name="Active"
-          Nullable="False"
-          Type="int"
-          Property="Category/Properties[Active]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -307,6 +341,17 @@
           Nullable="False"
           Type="datetime"
           Property="Category/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Category/Properties[LocalName]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
         <SsdlForeignKeyProperty
           Name="Form_ID"
           Nullable="False"
@@ -328,6 +373,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_Question_Category]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Category_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwIncompleteCategory_Categories">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwIncompleteCategory_Categories" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_Categories]/Members[vwIncompleteCategory]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Category_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_Categories]/Members[Category]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Category_ID" />

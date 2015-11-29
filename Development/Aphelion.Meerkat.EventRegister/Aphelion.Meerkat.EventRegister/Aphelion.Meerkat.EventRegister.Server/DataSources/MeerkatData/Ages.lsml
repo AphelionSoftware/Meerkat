@@ -15,6 +15,16 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Age1"
+        IsReadOnly="True"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="3" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="Age_ID"
         IsReadOnly="True"
@@ -84,6 +94,16 @@
         Association="FK_EventRegister_Age1"
         FromEnd="Age"
         ToEnd="EventRegister" />
+      <NavigationProperty
+        Name="AgeBands"
+        Association="FK_AgeBand_Age"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
+      <NavigationProperty
+        Name="AgeBands1"
+        Association="FK_AgeBand_Age1"
+        FromEnd="Age"
+        ToEnd="AgeBand" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -201,7 +221,57 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_AgeBand_Age"
+      Association="FK_AgeBand_Age">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_AgeBand_Age1"
+      Association="FK_AgeBand_Age1">
+      <AssociationSetEnd
+        Name="Age"
+        EntitySet="Ages" />
+      <AssociationSetEnd
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_AgeBand_Age">
+    <AssociationEnd
+      Name="Age"
+      Multiplicity="One"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_AgeBand_Age1">
+    <AssociationEnd
+      Name="Age"
+      Multiplicity="One"
+      EntityType="Age">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="AgeBand"
+      Multiplicity="Many"
+      EntityType="AgeBand" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -241,6 +311,13 @@
           Nullable="False"
           Type="datetime"
           Property="Age/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="3"
+          Name="Age"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="varchar"
+          Property="Age/Properties[Age1]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -248,6 +325,48 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Age">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Age" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBandMin_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Age1">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Age1" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[Age]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Age_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Age1]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AgeBandMax_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_EventRegister_Age1">
       <AssociationSetMapping.Attributes>

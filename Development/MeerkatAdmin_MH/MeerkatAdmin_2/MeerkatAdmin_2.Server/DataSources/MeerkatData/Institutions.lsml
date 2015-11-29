@@ -15,6 +15,15 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="Institution_ID"
         IsReadOnly="True"
@@ -33,25 +42,17 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
-            Value="255" />
-          <AnsiConstraint />
+            Value="400" />
+          <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -62,6 +63,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -73,6 +75,7 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -83,6 +86,7 @@
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -94,23 +98,54 @@
             Precision="3"
             PreserveSeconds="True" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_Institution_ActiveType"
         FromEnd="Institution"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="IndicatorValues"
         Association="FK_IndicatorValues_Institution"
         FromEnd="Institution"
-        ToEnd="IndicatorValues" />
+        ToEnd="IndicatorValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="MilestoneValues"
         Association="FK_MilestoneValues_Institution"
         FromEnd="Institution"
-        ToEnd="MilestoneValues" />
+        ToEnd="MilestoneValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Facilities"
+        Association="FK_Facility_Institution"
+        FromEnd="Institution"
+        ToEnd="Facility" />
+      <NavigationProperty
+        Name="Structures"
+        Association="FK_Structure_Institution"
+        FromEnd="Institution"
+        ToEnd="c_Structure" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -224,6 +259,26 @@
         Name="MilestoneValues"
         EntitySet="MilestoneValues" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Facility_Institution"
+      Association="FK_Facility_Institution">
+      <AssociationSetEnd
+        Name="Institution"
+        EntitySet="Institutions" />
+      <AssociationSetEnd
+        Name="Facility"
+        EntitySet="Facilities" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Structure_Institution"
+      Association="FK_Structure_Institution">
+      <AssociationSetEnd
+        Name="Institution"
+        EntitySet="Institutions" />
+      <AssociationSetEnd
+        Name="c_Structure"
+        EntitySet="Structures" />
+    </AssociationSet>
   </EntityContainer>
   <Association
     Name="FK_IndicatorValues_Institution">
@@ -253,6 +308,34 @@
       Multiplicity="Many"
       EntityType="MilestoneValue" />
   </Association>
+  <Association
+    Name="FK_Facility_Institution">
+    <AssociationEnd
+      Name="Institution"
+      EntityType="Institution">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Facility"
+      Multiplicity="Many"
+      EntityType="Facility" />
+  </Association>
+  <Association
+    Name="FK_Structure_Institution">
+    <AssociationEnd
+      Name="Institution"
+      EntityType="Institution">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Structure"
+      Multiplicity="Many"
+      EntityType="c_Structure" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -279,14 +362,14 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Institution/Properties[Name]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="varchar"
+          Nullable="False"
+          Type="nvarchar"
           Property="Institution/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -310,6 +393,12 @@
           Nullable="False"
           Type="datetime"
           Property="Institution/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Institution/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -317,6 +406,27 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Facility_Institution">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Facility_Institution" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Institution]/Members[Institution]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Institution]/Members[Facility]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorValues_Institution">
       <AssociationSetMapping.Attributes>
@@ -352,6 +462,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_MilestoneValues_Institution]/Members[MilestoneValues]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Structure_Institution">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Structure_Institution" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Institution]/Members[Institution]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Institution_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Institution]/Members[c_Structure]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Institution_ID" />

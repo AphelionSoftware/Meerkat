@@ -39,7 +39,8 @@
         Name="TextDescription"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -57,7 +58,8 @@
         Name="BaselineString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -86,7 +88,8 @@
         Name="TargetString"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -130,16 +133,20 @@
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="400" />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Notes"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
+          <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -150,14 +157,6 @@
           <MaxLength
             Value="50" />
           <AnsiConstraint />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="IndicatorType_ID"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
-          <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -282,6 +281,44 @@
         Association="FK_Indicator_Sector"
         FromEnd="Indicator"
         ToEnd="Sector" />
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ResultArea_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Event_Indicator_Rollups"
+        Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
+        FromEnd="Indicator"
+        ToEnd="Event_Indicator_Rollup" />
+      <NavigationProperty
+        Name="IndicatorSimpleType"
+        Association="FK_Indicator_IndicatorSimpleType"
+        FromEnd="Indicator"
+        ToEnd="IndicatorSimpleType" />
+      <NavigationProperty
+        Name="IndicatorType"
+        Association="FK_Indicator_IndicatorType"
+        FromEnd="Indicator"
+        ToEnd="IndicatorType" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -400,7 +437,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup"
+      Association="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+      <AssociationSetEnd
+        Name="Indicator"
+        EntitySet="Indicators" />
+      <AssociationSetEnd
+        Name="Event_Indicator_Rollup"
+        EntitySet="Event_Indicator_Rollups" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+    <AssociationEnd
+      Name="Indicator"
+      Multiplicity="One"
+      EntityType="Indicator">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Event_Indicator_Rollup"
+      Multiplicity="Many"
+      EntityType="Event_Indicator_Rollup" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -425,9 +487,10 @@
           Type="varchar"
           Property="Indicator/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TextDescription]" />
         <SsdlProperty
           Name="Baseline"
@@ -439,7 +502,7 @@
         <SsdlProperty
           Name="BaselineString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[BaselineString]" />
         <SsdlProperty
           Name="BaselineDate"
@@ -456,7 +519,7 @@
         <SsdlProperty
           Name="TargetString"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[TargetString]" />
         <SsdlProperty
           Name="TargetDate"
@@ -484,14 +547,15 @@
           Type="int"
           Property="Indicator/Properties[Outcome_ID]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Indicator/Properties[BusinessKey]" />
         <SsdlProperty
           Name="Notes"
           Nullable="True"
-          Type="nvarchar(max)"
+          Type="varchar"
           Property="Indicator/Properties[Notes]" />
         <SsdlProperty
           MaxLength="50"
@@ -499,11 +563,6 @@
           Nullable="False"
           Type="varchar"
           Property="Indicator/Properties[Code]" />
-        <SsdlProperty
-          Name="IndicatorType_ID"
-          Nullable="False"
-          Type="int"
-          Property="Indicator/Properties[IndicatorType_ID]" />
         <SsdlProperty
           Name="SubOutput_ID"
           Nullable="True"
@@ -555,11 +614,38 @@
           Nullable="False"
           Type="datetime"
           Property="Indicator/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalLongName]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Indicator/Properties[LocalShortName]" />
+        <SsdlProperty
+          Name="ResultArea_ID"
+          Nullable="True"
+          Type="int"
+          Property="Indicator/Properties[ResultArea_ID]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="IndicatorSimpleType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="IndicatorSimpleType_ID" />
+        <SsdlForeignKeyProperty
+          Name="IndicatorType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="IndicatorType_ID" />
         <SsdlForeignKeyProperty
           Name="Programme_ID"
           Nullable="True"
@@ -582,6 +668,27 @@
           PropertyName="SubSector_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Indicator]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="IndicatorID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Event_Indicator_Rollup_PotentialEvent_Indicator_Rollup]/Members[Event_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Indicator_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Question_Indicator_Rollup_PotentialQuestion_Indicator_Rollup">
       <AssociationSetMapping.Attributes>

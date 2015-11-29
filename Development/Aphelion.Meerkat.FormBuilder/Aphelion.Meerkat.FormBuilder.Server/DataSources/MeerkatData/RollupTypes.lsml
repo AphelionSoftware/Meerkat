@@ -21,7 +21,7 @@
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="50" />
+            Value="255" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -37,10 +37,10 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -101,6 +101,19 @@
           <NotSearchable />
         </KeyProperty.Attributes>
       </KeyProperty>
+      <NavigationProperty
+        Name="Question_Indicator_Rollups"
+        Association="FK_Question_Indicator_Rollup_RollupType"
+        FromEnd="RollupType"
+        ToEnd="Question_Indicator_Rollup" />
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -194,7 +207,32 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Question_Indicator_Rollup_RollupType"
+      Association="FK_Question_Indicator_Rollup_RollupType">
+      <AssociationSetEnd
+        Name="RollupType"
+        EntitySet="RollupTypes" />
+      <AssociationSetEnd
+        Name="Question_Indicator_Rollup"
+        EntitySet="Question_Indicator_Rollups" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Question_Indicator_Rollup_RollupType">
+    <AssociationEnd
+      Name="RollupType"
+      Multiplicity="One"
+      EntityType="RollupType">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question_Indicator_Rollup"
+      Multiplicity="Many"
+      EntityType="Question_Indicator_Rollup" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -213,7 +251,7 @@
           Type="int"
           Property="RollupType/Properties[RollupType_ID]" />
         <SsdlProperty
-          MaxLength="50"
+          MaxLength="255"
           Name="Name"
           Nullable="False"
           Type="varchar"
@@ -225,9 +263,10 @@
           Type="varchar"
           Property="RollupType/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="RollupType/Properties[TextDescription]" />
         <SsdlProperty
           MaxLength="255"
@@ -251,6 +290,12 @@
           Nullable="False"
           Type="datetime"
           Property="RollupType/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="RollupType/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -258,5 +303,26 @@
           PropertyName="Active" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Indicator_Rollup_RollupType">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Indicator_Rollup_RollupType" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Indicator_Rollup_RollupType]/Members[RollupType]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="RollupType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Indicator_Rollup_RollupType]/Members[Question_Indicator_Rollup]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="RollupType_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

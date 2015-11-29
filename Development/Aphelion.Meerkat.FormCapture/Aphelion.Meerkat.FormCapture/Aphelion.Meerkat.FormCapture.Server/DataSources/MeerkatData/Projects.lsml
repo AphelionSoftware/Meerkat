@@ -26,6 +26,16 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
+        Name="ShortName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="50" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
         Name="Code"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -36,42 +46,26 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
-        Name="ShortName"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <Required />
-          <MaxLength
-            Value="255" />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="LongName"
         PropertyType=":String">
         <EntityProperty.Attributes>
           <Required />
           <MaxLength
-            Value="255" />
+            Value="500" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Outcome_ID"
-        PropertyType=":Int32?">
-        <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Programme_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
           <NotSearchable />
@@ -88,14 +82,6 @@
         Name="SubSector_ID"
         PropertyType=":Int32?">
         <EntityProperty.Attributes>
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Active"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -141,11 +127,6 @@
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
-      <NavigationProperty
-        Name="Forms"
-        Association="FK_Form_Project"
-        FromEnd="Project"
-        ToEnd="Form" />
       <EntityProperty
         Name="ProjectSiteName"
         PropertyType=":String">
@@ -156,33 +137,119 @@
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProjectStartDate"
+        PropertyType=":DateTime">
+        <EntityProperty.Attributes>
+          <Required />
+          <DateTimeConstraint
+            Precision="3"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProjectStartDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
-        Name="Projects"
-        Association="FK_Project_Project"
+        Name="AgeBands"
+        Association="FK_AgeBand_Project"
         FromEnd="Project"
-        ToEnd="Project1" />
+        ToEnd="AgeBand" />
+      <EntityProperty
+        Name="isSiteCreated"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="ProjectType_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalShortName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="50" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalLongName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="500" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="StrategicElement_ID"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <NavigationProperty
-        Name="Project1"
-        Association="FK_Project_Project"
-        FromEnd="Project1"
-        ToEnd="Project" />
+        Name="Form_Projects"
+        Association="FK_Form_Project_Project"
+        FromEnd="Project"
+        ToEnd="Form_Project" />
+      <NavigationProperty
+        Name="ActiveType"
+        Association="FK_Project_ActiveType"
+        FromEnd="Project"
+        ToEnd="ActiveType" />
+      <NavigationProperty
+        Name="vwProjectUserMaps"
+        Association="vwProjectUserMap_Project"
+        FromEnd="Project"
+        ToEnd="vwProjectUserMap" />
+      <NavigationProperty
+        Name="FormResponses"
+        Association="FK_FormResponse_Project"
+        FromEnd="Project"
+        ToEnd="FormResponse" />
+      <NavigationProperty
+        Name="Forms"
+        Association="FK_Form_Project"
+        FromEnd="Project"
+        ToEnd="Form" />
+      <NavigationProperty
+        Name="Programme"
+        Association="FK_Project_Programme"
+        FromEnd="Project"
+        ToEnd="Programme" />
+      <NavigationProperty
+        Name="Questions"
+        Association="FK_Question_Project"
+        FromEnd="Project"
+        ToEnd="Question" />
+      <NavigationProperty
+        Name="User_SystemRole_ProjectProgrammes"
+        Association="FK_User_SystemRole_ProjectProgramme_Project"
+        FromEnd="Project"
+        ToEnd="User_SystemRole_ProjectProgramme" />
     </EntityType.Properties>
   </EntityType>
-  <Association
-    Name="FK_Form_Project">
-    <AssociationEnd
-      Name="Project"
-      Multiplicity="One"
-      EntityType="Project">
-      <AssociationEnd.Attributes>
-        <DeleteRule />
-      </AssociationEnd.Attributes>
-    </AssociationEnd>
-    <AssociationEnd
-      Name="Form"
-      Multiplicity="Many"
-      EntityType="Form" />
-  </Association>
   <EntityContainer
     Name="MeerkatData">
     <EntityContainer.Attributes>
@@ -194,16 +261,6 @@
       CanInsert="True"
       CanUpdate="True"
       EntityType="Project" />
-    <AssociationSet
-      Name="FK_Form_Project"
-      Association="FK_Form_Project">
-      <AssociationSetEnd
-        Name="Project"
-        EntitySet="Projects" />
-      <AssociationSetEnd
-        Name="Form"
-        EntitySet="Forms" />
-    </AssociationSet>
     <QueryOperation
       Name="Projects_Single"
       ReturnType="Project">
@@ -285,30 +342,178 @@
       </QueryOperationParameter>
     </QueryOperation>
     <AssociationSet
-      Name="FK_Project_Project"
-      Association="FK_Project_Project">
+      Name="FK_AgeBand_Project"
+      Association="FK_AgeBand_Project">
       <AssociationSetEnd
         Name="Project"
         EntitySet="Projects" />
       <AssociationSetEnd
-        Name="Project1"
+        Name="AgeBand"
+        EntitySet="AgeBands" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Project_Project"
+      Association="FK_Form_Project_Project">
+      <AssociationSetEnd
+        Name="Project"
         EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Form_Project"
+        EntitySet="Form_Projects" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwProjectUserMap_Projects"
+      Association="vwProjectUserMap_Project">
+      <AssociationSetEnd
+        Name="vwProjectUserMap"
+        EntitySet="vwProjectUserMaps" />
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_FormResponse_Project"
+      Association="FK_FormResponse_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Form_Project"
+      Association="FK_Form_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Form"
+        EntitySet="Forms" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Question_Project"
+      Association="FK_Question_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="Question"
+        EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_User_SystemRole_ProjectProgramme_Project"
+      Association="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetEnd
+        Name="Project"
+        EntitySet="Projects" />
+      <AssociationSetEnd
+        Name="User_SystemRole_ProjectProgramme"
+        EntitySet="User_SystemRole_ProjectProgrammes" />
     </AssociationSet>
   </EntityContainer>
   <Association
-    Name="FK_Project_Project">
+    Name="FK_AgeBand_Project">
     <AssociationEnd
       Name="Project"
       EntityType="Project">
       <AssociationEnd.Attributes>
-        <DeleteRule
-          Action="Restrict" />
+        <DeleteRule />
       </AssociationEnd.Attributes>
     </AssociationEnd>
     <AssociationEnd
-      Name="Project1"
+      Name="AgeBand"
       Multiplicity="Many"
-      EntityType="Project" />
+      EntityType="AgeBand" />
+  </Association>
+  <Association
+    Name="FK_Form_Project_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form_Project"
+      Multiplicity="Many"
+      EntityType="Form_Project" />
+  </Association>
+  <Association
+    Name="vwProjectUserMap_Project">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwProjectUserMap"
+      Multiplicity="Many"
+      EntityType="vwProjectUserMap" />
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="FK_FormResponse_Project">
+    <AssociationEnd
+      Name="Project"
+      Multiplicity="One"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="Many"
+      EntityType="FormResponse" />
+  </Association>
+  <Association
+    Name="FK_Form_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Form"
+      Multiplicity="Many"
+      EntityType="Form" />
+  </Association>
+  <Association
+    Name="FK_Question_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Question"
+      Multiplicity="Many"
+      EntityType="Question" />
+  </Association>
+  <Association
+    Name="FK_User_SystemRole_ProjectProgramme_Project">
+    <AssociationEnd
+      Name="Project"
+      EntityType="Project">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="User_SystemRole_ProjectProgramme"
+      Multiplicity="Many"
+      EntityType="User_SystemRole_ProjectProgramme" />
   </Association>
   <DataService
     Name="MeerkatDataDataService">
@@ -334,32 +539,28 @@
           Type="varchar"
           Property="Project/Properties[Code]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="50"
           Name="ShortName"
           Nullable="False"
-          Type="nvarchar"
+          Type="varchar"
           Property="Project/Properties[ShortName]" />
         <SsdlProperty
-          MaxLength="255"
+          MaxLength="500"
           Name="LongName"
           Nullable="False"
           Type="varchar"
           Property="Project/Properties[LongName]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="Project/Properties[TextDescription]" />
         <SsdlProperty
           Name="Outcome_ID"
           Nullable="True"
           Type="int"
           Property="Project/Properties[Outcome_ID]" />
-        <SsdlProperty
-          Name="Programme_ID"
-          Nullable="True"
-          Type="int"
-          Property="Project/Properties[Programme_ID]" />
         <SsdlProperty
           Name="Sector_ID"
           Nullable="True"
@@ -371,16 +572,22 @@
           Type="int"
           Property="Project/Properties[SubSector_ID]" />
         <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="Project/Properties[BusinessKey]" />
+        <SsdlProperty
           MaxLength="255"
           Name="ProjectSiteName"
           Nullable="False"
           Type="varchar"
           Property="Project/Properties[ProjectSiteName]" />
         <SsdlProperty
-          Name="Active"
+          Name="isSiteCreated"
           Nullable="False"
-          Type="int"
-          Property="Project/Properties[Active]" />
+          Type="bit"
+          Property="Project/Properties[isSiteCreated]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -403,13 +610,72 @@
           Nullable="False"
           Type="datetime"
           Property="Project/Properties[sys_ModifiedOn]" />
-        <SsdlForeignKeyProperty
-          Name="ProjectParentID"
+        <SsdlProperty
+          Name="ProjectStartDate"
+          Nullable="False"
+          Type="datetime"
+          Property="Project/Properties[ProjectStartDate]" />
+        <SsdlProperty
+          Name="ProjectStartDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="Project/Properties[ProjectStartDate_ID]" />
+        <SsdlProperty
+          Name="ProjectType_ID"
           Nullable="True"
           Type="int"
-          PropertyName="ProjectParentID" />
+          Property="Project/Properties[ProjectType_ID]" />
+        <SsdlProperty
+          MaxLength="50"
+          Name="LocalShortName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Project/Properties[LocalShortName]" />
+        <SsdlProperty
+          MaxLength="500"
+          Name="LocalLongName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Project/Properties[LocalLongName]" />
+        <SsdlProperty
+          Name="StrategicElement_ID"
+          Nullable="True"
+          Type="int"
+          Property="Project/Properties[StrategicElement_ID]" />
+        <SsdlForeignKeyProperty
+          Name="Active"
+          Nullable="False"
+          Type="int"
+          PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="Programme_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Programme_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_AgeBand_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_AgeBand_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_AgeBand_Project]/Members[AgeBand]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_Form_Project">
       <AssociationSetMapping.Attributes>
@@ -432,22 +698,106 @@
       </AssociationSetMapping.Attributes>
     </AssociationSetMapping>
     <AssociationSetMapping
-      AssociationSet="FK_Project_Project">
+      AssociationSet="FK_Form_Project_Project">
       <AssociationSetMapping.Attributes>
         <SsdlAssociationSet
-          Name="FK_Project_Project" />
+          Name="FK_Form_Project_Project" />
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project]">
+          End="MeerkatData/Members[FK_Form_Project_Project]/Members[Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
-          End="MeerkatData/Members[FK_Project_Project]/Members[Project1]">
+          End="MeerkatData/Members[FK_Form_Project_Project]/Members[Form_Project]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
-              Name="ProjectParentID" />
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_FormResponse_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_FormResponse_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_FormResponse_Project]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Question_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Question_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Question_Project]/Members[Question]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_User_SystemRole_ProjectProgramme_Project">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_User_SystemRole_ProjectProgramme_Project" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_User_SystemRole_ProjectProgramme_Project]/Members[User_SystemRole_ProjectProgramme]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwProjectUserMap_Projects">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwProjectUserMap_Projects" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[vwProjectUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwProjectUserMap_Projects]/Members[Project]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="ProjectID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

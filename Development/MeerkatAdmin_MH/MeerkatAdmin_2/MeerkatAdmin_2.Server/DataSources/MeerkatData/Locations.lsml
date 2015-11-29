@@ -15,6 +15,15 @@
       </EntityMethod>
     </EntityType.Methods>
     <EntityType.Properties>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <AnsiConstraint />
+        </EntityProperty.Attributes>
+      </EntityProperty>
       <KeyProperty
         Name="Location_ID"
         IsReadOnly="True"
@@ -26,16 +35,6 @@
         </KeyProperty.Attributes>
       </KeyProperty>
       <EntityProperty
-        Name="Name"
-        PropertyType=":String">
-        <EntityProperty.Attributes>
-          <MaxLength
-            Value="255" />
-          <AnsiConstraint />
-          <Required />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
         Name="Code"
         PropertyType=":String">
         <EntityProperty.Attributes>
@@ -43,21 +42,27 @@
             Value="50" />
           <AnsiConstraint />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="Density"
         PropertyType=":String?">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="8000" />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
         Name="BusinessKey"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
-          <MaxLength />
+          <MaxLength
+            Value="400" />
+          <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -69,6 +74,7 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -79,6 +85,7 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -90,6 +97,7 @@
             PreserveSeconds="True" />
           <NotSearchable />
           <Required />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -100,38 +108,63 @@
             Value="255" />
           <Required />
           <AnsiConstraint />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="IndicatorLocations"
         Association="FK_IndicatorLocation_Location"
         FromEnd="Location"
-        ToEnd="IndicatorLocation" />
+        ToEnd="IndicatorLocation">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="IndicatorValues"
         Association="FK_IndicatorValues_Location"
         FromEnd="Location"
-        ToEnd="IndicatorValues" />
+        ToEnd="IndicatorValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="MilestoneLocations"
         Association="FK_MilestoneLocation_Location"
         FromEnd="Location"
-        ToEnd="MilestoneLocation" />
+        ToEnd="MilestoneLocation">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="MilestoneValues"
         Association="FK_MilestoneValues_Location"
         FromEnd="Location"
-        ToEnd="MilestoneValues" />
+        ToEnd="MilestoneValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="ActiveType"
         Association="FK_Location_ActiveType"
         FromEnd="Location"
-        ToEnd="ActiveType" />
+        ToEnd="ActiveType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="StatusValues"
         Association="FK_StatusValues_Location"
         FromEnd="Location"
-        ToEnd="StatusValues" />
+        ToEnd="StatusValues">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <EntityProperty
         Name="AreaKM"
         PropertyType=":Decimal?">
@@ -140,6 +173,7 @@
             Precision="18"
             Scale="2" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -150,23 +184,54 @@
             Precision="18"
             Scale="2" />
           <NotSearchable />
+          <Hidden />
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
         Name="Locations"
         Association="FK_Location_Location"
         FromEnd="Location"
-        ToEnd="Location1" />
+        ToEnd="Location1">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="Location1"
         Association="FK_Location_Location"
         FromEnd="Location1"
-        ToEnd="Location" />
+        ToEnd="Location">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
       <NavigationProperty
         Name="LocationType"
         Association="FK_Location_LocationType"
         FromEnd="Location"
-        ToEnd="LocationType" />
+        ToEnd="LocationType">
+        <NavigationProperty.Attributes>
+          <Hidden />
+        </NavigationProperty.Attributes>
+      </NavigationProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Facilities"
+        Association="FK_Facility_Location"
+        FromEnd="Location"
+        ToEnd="Facility" />
+      <NavigationProperty
+        Name="Structures"
+        Association="FK_Structure_Location"
+        FromEnd="Location"
+        ToEnd="c_Structure" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -409,7 +474,57 @@
         Name="Location1"
         EntitySet="Locations" />
     </AssociationSet>
+    <AssociationSet
+      Name="FK_Facility_Location"
+      Association="FK_Facility_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="Facility"
+        EntitySet="Facilities" />
+    </AssociationSet>
+    <AssociationSet
+      Name="FK_Structure_Location"
+      Association="FK_Structure_Location">
+      <AssociationSetEnd
+        Name="Location"
+        EntitySet="Locations" />
+      <AssociationSetEnd
+        Name="c_Structure"
+        EntitySet="Structures" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Facility_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Facility"
+      Multiplicity="Many"
+      EntityType="Facility" />
+  </Association>
+  <Association
+    Name="FK_Structure_Location">
+    <AssociationEnd
+      Name="Location"
+      Multiplicity="One"
+      EntityType="Location">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="c_Structure"
+      Multiplicity="Many"
+      EntityType="c_Structure" />
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -436,7 +551,7 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="False"
+          Nullable="True"
           Type="varchar"
           Property="Location/Properties[Name]" />
         <SsdlProperty
@@ -454,12 +569,13 @@
         <SsdlProperty
           Name="Density"
           Nullable="True"
-          Type="varchar(max)"
+          Type="varchar"
           Property="Location/Properties[Density]" />
         <SsdlProperty
+          MaxLength="400"
           Name="BusinessKey"
-          Nullable="True"
-          Type="nvarchar(max)"
+          Nullable="False"
+          Type="nvarchar"
           Property="Location/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
@@ -483,6 +599,12 @@
           Nullable="False"
           Type="datetime"
           Property="Location/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="Location/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
@@ -500,6 +622,27 @@
           PropertyName="ParentLocation_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Facility_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Facility_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Facility_Location]/Members[Facility]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
     <AssociationSetMapping
       AssociationSet="FK_IndicatorLocation_Location">
       <AssociationSetMapping.Attributes>
@@ -622,6 +765,27 @@
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="LocationID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Structure_Location">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Structure_Location" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Location]/Members[Location]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Structure_Location]/Members[c_Structure]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Location_ID" />
           </SsdlAssociationSetEnd.Attributes>
         </SsdlAssociationSetEnd>
       </AssociationSetMapping.Attributes>

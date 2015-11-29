@@ -37,11 +37,12 @@
       </EntityProperty>
       <EntityProperty
         Name="Name"
-        PropertyType=":String?">
+        PropertyType=":String">
         <EntityProperty.Attributes>
           <MaxLength
             Value="255" />
           <AnsiConstraint />
+          <Required />
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
@@ -96,13 +97,29 @@
         Association="FK_IndicatorType_ActiveType"
         FromEnd="IndicatorType"
         ToEnd="ActiveType" />
+      <EntityProperty
+        Name="BusinessKey"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="400" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
     </EntityType.Properties>
   </EntityType>
   <Association
     Name="FK_Indicator_IndicatorType">
     <AssociationEnd
       Name="IndicatorType"
-      Multiplicity="One"
       EntityType="IndicatorType">
       <AssociationEnd.Attributes>
         <DeleteRule />
@@ -241,9 +258,15 @@
         <SsdlProperty
           MaxLength="255"
           Name="Name"
-          Nullable="True"
+          Nullable="False"
           Type="varchar"
           Property="IndicatorType/Properties[Name]" />
+        <SsdlProperty
+          MaxLength="400"
+          Name="BusinessKey"
+          Nullable="False"
+          Type="nvarchar"
+          Property="IndicatorType/Properties[BusinessKey]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -266,6 +289,12 @@
           Nullable="False"
           Type="datetime"
           Property="IndicatorType/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="IndicatorType/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"

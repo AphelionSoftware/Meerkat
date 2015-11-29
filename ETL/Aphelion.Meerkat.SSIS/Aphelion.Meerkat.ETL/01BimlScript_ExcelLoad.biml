@@ -1,0 +1,153 @@
+<!--
+Update Connection strings and path to excel source files
+Regenerate SSIS packages
+-->
+<# var connection = SchemaManager.CreateConnectionNode("SchemaProvider", "Data Source=.\\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;"); #>
+<# var tables = connection.GenerateTableNodes(); #>
+<# string SourceDir = "C:\\Dropbox\\Clients\\Meerkat\\CARE Somalia\\Data\\StagingTemplates\\"; #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+  <Connections>
+    <Connection Name="MeerkatStagingBIML" ConnectionString="Data Source=.\sql2012;Initial Catalog=MeerkatStaging;Provider=SQLNCLI11.1;Integrated Security=SSPI;" CreateInProject="true"/>
+  </Connections>
+  <PackageProjects>
+    <PackageProject Name="Aphelion.Meerkat.ETL">
+      <Parameters>
+        <Parameter Name="strStagingTemplatePath" DataType="String"><#=SourceDir#></Parameter>
+      </Parameters>
+      <Packages>
+	  <# foreach (var table in tables) { #>
+        <Package PackageName="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" />
+		<# } #>
+      </Packages>
+	   
+    </PackageProject>
+  </PackageProjects>
+
+  <Packages>
+  <# foreach (var table in tables) { #>
+    <Package Name="ExcelLoad_<#=table.SchemaName#>.<#=table.Name#>" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey" DelayValidation="true">
+	<Variables>
+		<Variable Name="strCommand" DataType="String" EvaluateAsExpression="true">REPLACE("                SELECT *
+                FROM OPENROWSET( 'Microsoft.ACE.OLEDB.12.0'
+                               , 'Excel 12.0;Database="
+							   +
+							   @[$Project::strStagingTemplatePath]
+							   +
+							   "\\InProcess\\<#=table.SchemaName#>.<#=table.Name#>.xlsx'
+                               , 'select * from [Sheet1$A2:XFD]'
+                               )
+
+", "////", "//")</Variable>
+
+	</Variables>
+    
+      <Annotations>
+        <Annotation>
+          Excel Driver Setup
+          USE [master]
+          GO
+          sp_configure 'show advanced options', 1
+          GO
+          RECONFIGURE WITH OverRide
+          GO
+          sp_configure 'Ad Hoc Distributed Queries', 1
+          GO
+          RECONFIGURE WITH OVERRIDE
+          GO
+          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'AllowInProcess' ,  1
+          GO
+          EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' ,  N'DynamicParameters' ,  1
+          GO
+        </Annotation>
+      </Annotations>
+      <Tasks>
+        <ExecuteSQL Name="SQL_Truncate <#=table.SchemaName#>.<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
+          <DirectInput>TRUNCATE TABLE [<#=table.SchemaName#>].[<#=table.Name#>]
+		  /*
+
+		  <# foreach (var column in table.Columns) { #>
+						 Name="DRV_<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>"
+							
+						<#} #>
+
+		  */
+		  </DirectInput>
+        </ExecuteSQL>
+		  <Dataflow Name="DFT_Load <#=table.SchemaName#>.<#=table.Name#>">
+          <Transformations>
+            <OleDbSource Name="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx" ConnectionName="MeerkatStagingBIML" ValidateExternalMetadata="0">
+              <VariableInput VariableName="User.strCommand"/>
+            </OleDbSource>
+            <DataConversion Name="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx">
+              <InputPath OutputPathName="OLE_SRC_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
+              <Columns>
+                <# foreach (var column in table.Columns) { 
+				
+				if (column.DataType == 'AnsiString' && column.Length == 4000
+				#>
+                <Column SourceColumn="<#=column.Name#>" TargetColumn="<#=column.Name#>" DataType="<#=column.DataType#>" Length="<#=column.Length#>" Scale="<#=column.Scale#>" Precision="<#=column.Precision#>"/>
+                  <#} #>
+              </Columns>
+            </DataConversion>
+						<DerivedColumns Name="DRV_<#=table.SchemaName#>_<#=table.Name#>_FixStreams">
+			<InputPath OutputPathName="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.Output" />
+              			<Columns>
+						<Column Name="DRV_Placeholder" DataType="AnsiString" Length="1">
+						"1"
+						</Column>
+						 <# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1)) ){ #>
+						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
+							(DT_STR, 4000, 1252) (   [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+						</Column>
+						<#} #>
+						<# foreach (var column in table.Columns.Where(column => column.DataType.ToString() == "String" && (column.Length == 4000 || column.Length == -1)) ){ #>
+						<Column Name="DRV_<#=column.Name#>" DataType="AnsiString" Length="4000">
+							 ( (DT_WSTR, 4000)(DT_NTEXT) [DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx].[<#=column.Name#>])
+						</Column>
+						<#} #>
+              </Columns>
+
+
+			</DerivedColumns>
+            <OleDbDestination Name="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStagingBIML">
+              <InputPath OutputPathName="DRV_<#=table.SchemaName#>_<#=table.Name#>_FixStreams.Output" />
+              <ExternalTableOutput Table="[<#=table.SchemaName#>].[<#=table.Name#>]" />
+			  <ErrorHandling ErrorRowDisposition="RedirectRow" TruncationRowDisposition="RedirectRow" />
+			  <Columns>
+                <# foreach (var column in table.Columns.Where( column => !(column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ) ) { #>
+                <Column SourceColumn="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+
+				<# foreach (var column in table.Columns.Where( column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ){ #>
+                <Column SourceColumn="DRV_<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+              </Columns>
+            </OleDbDestination>
+			  <OleDbDestination Name="OLE_DST_Singleton_<#=table.SchemaName#>_<#=table.Name#>" ConnectionName="MeerkatStagingBIML"  MaximumInsertCommitSize="1">
+              <InputPath OutputPathName="OLE_DST_<#=table.SchemaName#>_<#=table.Name#>.Error" />
+              <ExternalTableOutput Table="[<#=table.SchemaName#>].[<#=table.Name#>]" />
+
+			  <Columns>
+                <# foreach (var column in table.Columns.Where( column => !(column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ) ) { #>
+                <Column SourceColumn="DCNV_<#=table.SchemaName#>_<#=table.Name#>_xlsx.<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+
+				<# foreach (var column in table.Columns.Where( column => column.DataType.ToString() == "AnsiString" && (column.Length == 4000 || column.Length == -1) ) ){ #>
+                <Column SourceColumn="DRV_<#=column.Name#>" TargetColumn="<#=column.Name#>"/>
+
+				    <#} #>
+              </Columns>
+            </OleDbDestination>
+          
+          </Transformations>
+        </Dataflow>
+      </Tasks>
+    </Package>
+  <# } #>
+  </Packages>
+</Biml>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="Varigence.Hadron.CoreLowerer.SchemaManagement" #>

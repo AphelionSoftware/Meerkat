@@ -47,10 +47,10 @@
       </EntityProperty>
       <EntityProperty
         Name="TextDescription"
-        PropertyType=":String">
+        PropertyType=":String?">
         <EntityProperty.Attributes>
-          <Required />
-          <MaxLength />
+          <MaxLength
+            Value="4000" />
           <AnsiConstraint />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -102,14 +102,6 @@
           <DateTimeConstraint
             Precision="7"
             PreserveSeconds="True" />
-          <NotSearchable />
-        </EntityProperty.Attributes>
-      </EntityProperty>
-      <EntityProperty
-        Name="Project_ID"
-        PropertyType=":Int32">
-        <EntityProperty.Attributes>
-          <Required />
           <NotSearchable />
         </EntityProperty.Attributes>
       </EntityProperty>
@@ -175,6 +167,52 @@
         Association="FK_EventRegister_Event"
         FromEnd="c_Event"
         ToEnd="EventRegister" />
+      <EntityProperty
+        Name="EventDate_ID"
+        IsReadOnly="True"
+        PropertyType=":Int32?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LocalName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Project"
+        Association="FK_Event_Project"
+        FromEnd="c_Event"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="EventType"
+        Association="FK_Event_EventType"
+        FromEnd="c_Event"
+        ToEnd="EventType" />
+      <EntityProperty
+        Name="EventEndDate"
+        PropertyType=":Date?">
+        <EntityProperty.Attributes>
+          <DateTimeConstraint
+            Precision="0"
+            PreserveSeconds="True" />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="vwEventUserMaps"
+        Association="vwEventUserMap_c_Event"
+        FromEnd="c_Event"
+        ToEnd="vwEventUserMap" />
+      <NavigationProperty
+        Name="Group"
+        Association="FK_Event_Group"
+        FromEnd="c_Event"
+        ToEnd="Group" />
     </EntityType.Properties>
   </EntityType>
   <Association
@@ -293,7 +331,35 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="vwEventUserMap_c_Events"
+      Association="vwEventUserMap_c_Event">
+      <AssociationSetEnd
+        Name="vwEventUserMap"
+        EntitySet="vwEventUserMaps" />
+      <AssociationSetEnd
+        Name="c_Event"
+        EntitySet="Events" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="vwEventUserMap_c_Event">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwEventUserMap"
+      Multiplicity="Many"
+      EntityType="vwEventUserMap" />
+    <AssociationEnd
+      Name="c_Event"
+      Multiplicity="One"
+      EntityType="c_Event">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -324,15 +390,21 @@
           Type="varchar"
           Property="c_Event/Properties[Code]" />
         <SsdlProperty
+          MaxLength="4000"
           Name="TextDescription"
-          Nullable="False"
-          Type="varchar(max)"
+          Nullable="True"
+          Type="varchar"
           Property="c_Event/Properties[TextDescription]" />
         <SsdlProperty
           Name="EventDate"
           Nullable="False"
           Type="date"
           Property="c_Event/Properties[EventDate]" />
+        <SsdlProperty
+          Name="EventEndDate"
+          Nullable="True"
+          Type="date"
+          Property="c_Event/Properties[EventEndDate]" />
         <SsdlProperty
           Name="ScheduledEventStartTime"
           Nullable="True"
@@ -353,11 +425,6 @@
           Nullable="True"
           Type="time"
           Property="c_Event/Properties[EventEndTime]" />
-        <SsdlProperty
-          Name="Project_ID"
-          Nullable="False"
-          Type="int"
-          Property="c_Event/Properties[Project_ID]" />
         <SsdlProperty
           MaxLength="255"
           Name="sys_CreatedBy"
@@ -380,11 +447,33 @@
           Nullable="False"
           Type="datetime"
           Property="c_Event/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="EventDate_ID"
+          Nullable="True"
+          StoreGeneratedPattern="Computed"
+          Type="int"
+          Property="c_Event/Properties[EventDate_ID]" />
+        <SsdlProperty
+          MaxLength="255"
+          Name="LocalName"
+          Nullable="True"
+          Type="nvarchar"
+          Property="c_Event/Properties[LocalName]" />
         <SsdlForeignKeyProperty
           Name="Active"
           Nullable="False"
           Type="int"
           PropertyName="Active" />
+        <SsdlForeignKeyProperty
+          Name="EventType_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="EventType_ID" />
+        <SsdlForeignKeyProperty
+          Name="Group_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Group_ID" />
         <SsdlForeignKeyProperty
           Name="TrainingInstitution_ID"
           Nullable="True"
@@ -395,6 +484,11 @@
           Nullable="True"
           Type="int"
           PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="Project_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="Project_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
     <AssociationSetMapping
@@ -411,6 +505,27 @@
         </SsdlAssociationSetEnd>
         <SsdlAssociationSetEnd
           End="MeerkatData/Members[FK_EventRegister_Event]/Members[EventRegister]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwEventUserMap_c_Events">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwEventUserMap_c_Events" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEventUserMap_c_Events]/Members[vwEventUserMap]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Event_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwEventUserMap_c_Events]/Members[c_Event]">
           <SsdlAssociationSetEnd.Attributes>
             <SsdlPropertyRef
               Name="Event_ID" />

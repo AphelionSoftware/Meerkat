@@ -91,10 +91,98 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <NavigationProperty
+        Name="Responses"
+        Association="FK_Response_FormResponse"
+        FromEnd="FormResponse"
+        ToEnd="Response" />
+      <EntityProperty
+        Name="isConfidential"
+        PropertyType=":Boolean?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FormResponse_FNVID"
+        PropertyType=":Int64">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Age"
+        Association="FK_FormResponse_Age"
+        FromEnd="FormResponse"
+        ToEnd="Age" />
+      <NavigationProperty
+        Name="AgeBand"
+        Association="FK_FormResponse_AgeBand"
+        FromEnd="FormResponse"
+        ToEnd="AgeBand" />
+      <NavigationProperty
+        Name="CommunityType"
+        Association="FK_FormResponse_CommunityType"
+        FromEnd="FormResponse"
+        ToEnd="CommunityType" />
+      <NavigationProperty
+        Name="Gender"
+        Association="FK_FormResponse_Gender"
+        FromEnd="FormResponse"
+        ToEnd="Gender" />
+      <NavigationProperty
+        Name="Group"
+        Association="FK_FormResponse_Group"
+        FromEnd="FormResponse"
+        ToEnd="Group" />
+      <NavigationProperty
+        Name="Institution"
+        Association="FK_FormResponse_Institution"
+        FromEnd="FormResponse"
+        ToEnd="Institution" />
+      <NavigationProperty
         Name="Form"
         Association="FK_FormResponse_Form"
         FromEnd="FormResponse"
         ToEnd="Form" />
+      <NavigationProperty
+        Name="Project"
+        Association="FK_FormResponse_Project"
+        FromEnd="FormResponse"
+        ToEnd="Project" />
+      <NavigationProperty
+        Name="vwUnfinishedForms"
+        Association="vwUnfinishedForm_FormResponse"
+        FromEnd="FormResponse"
+        ToEnd="vwUnfinishedForm" />
+      <EntityProperty
+        Name="isComplete"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Name="Location"
+        Association="FK_FormResponse_Location"
+        FromEnd="FormResponse"
+        ToEnd="Location" />
+      <NavigationProperty
+        Name="ReportingPeriod"
+        Association="FK_FormResponse_ReportingPeriod"
+        FromEnd="FormResponse"
+        ToEnd="ReportingPeriod" />
+      <NavigationProperty
+        Name="vwIncompleteCategories"
+        Association="vwIncompleteCategory_FormResponse"
+        FromEnd="FormResponse"
+        ToEnd="vwIncompleteCategory" />
+      <NavigationProperty
+        Name="Organization"
+        Association="FK_FormResponse_Organization"
+        FromEnd="FormResponse"
+        ToEnd="Organization" />
     </EntityType.Properties>
   </EntityType>
   <EntityContainer
@@ -188,7 +276,88 @@
         </QueryOperationParameter.Attributes>
       </QueryOperationParameter>
     </QueryOperation>
+    <AssociationSet
+      Name="FK_Response_FormResponse"
+      Association="FK_Response_FormResponse">
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+      <AssociationSetEnd
+        Name="Response"
+        EntitySet="Responses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwUnfinishedForm_FormResponses"
+      Association="vwUnfinishedForm_FormResponse">
+      <AssociationSetEnd
+        Name="vwUnfinishedForm"
+        EntitySet="vwUnfinishedForms" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
+    <AssociationSet
+      Name="vwIncompleteCategory_FormResponses"
+      Association="vwIncompleteCategory_FormResponse">
+      <AssociationSetEnd
+        Name="vwIncompleteCategory"
+        EntitySet="vwIncompleteCategories" />
+      <AssociationSetEnd
+        Name="FormResponse"
+        EntitySet="FormResponses" />
+    </AssociationSet>
   </EntityContainer>
+  <Association
+    Name="FK_Response_FormResponse">
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+    <AssociationEnd
+      Name="Response"
+      Multiplicity="Many"
+      EntityType="Response" />
+  </Association>
+  <Association
+    Name="vwUnfinishedForm_FormResponse">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwUnfinishedForm"
+      Multiplicity="Many"
+      EntityType="vwUnfinishedForm" />
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="vwIncompleteCategory_FormResponse">
+    <Association.Attributes>
+      <UserDefined />
+    </Association.Attributes>
+    <AssociationEnd
+      Name="vwIncompleteCategory"
+      Multiplicity="Many"
+      EntityType="vwIncompleteCategory" />
+    <AssociationEnd
+      Name="FormResponse"
+      Multiplicity="One"
+      EntityType="FormResponse">
+      <AssociationEnd.Attributes>
+        <DeleteRule />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
   <DataService
     Name="MeerkatDataDataService">
     <DataService.Attributes>
@@ -217,6 +386,11 @@
           Type="bit"
           Property="FormResponse/Properties[TrueFalse]" />
         <SsdlProperty
+          Name="isConfidential"
+          Nullable="True"
+          Type="bit"
+          Property="FormResponse/Properties[isConfidential]" />
+        <SsdlProperty
           Name="Active"
           Nullable="False"
           Type="int"
@@ -243,12 +417,135 @@
           Nullable="False"
           Type="datetime"
           Property="FormResponse/Properties[sys_ModifiedOn]" />
+        <SsdlProperty
+          Name="isComplete"
+          Nullable="False"
+          Type="bit"
+          Property="FormResponse/Properties[isComplete]" />
+        <SsdlProperty
+          Name="FormResponse_FNVID"
+          Nullable="False"
+          Type="bigint"
+          Property="FormResponse/Properties[FormResponse_FNVID]" />
+        <SsdlForeignKeyProperty
+          Name="Age_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Age_ID" />
+        <SsdlForeignKeyProperty
+          Name="AgeBand_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="AgeBand_ID" />
+        <SsdlForeignKeyProperty
+          Name="CommunityType_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="CommunityType_ID" />
         <SsdlForeignKeyProperty
           Name="Form_ID"
           Nullable="False"
           Type="int"
           PropertyName="Form_ID" />
+        <SsdlForeignKeyProperty
+          Name="Gender_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Gender_ID" />
+        <SsdlForeignKeyProperty
+          Name="Group_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Group_ID" />
+        <SsdlForeignKeyProperty
+          Name="Institution_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Institution_ID" />
+        <SsdlForeignKeyProperty
+          Name="Location_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Location_ID" />
+        <SsdlForeignKeyProperty
+          Name="Organization_ID"
+          Nullable="True"
+          Type="int"
+          PropertyName="Organization_ID" />
+        <SsdlForeignKeyProperty
+          Name="ProjectID"
+          Nullable="False"
+          Type="int"
+          PropertyName="ProjectID" />
+        <SsdlForeignKeyProperty
+          Name="ReportingPeriod_ID"
+          Nullable="False"
+          Type="int"
+          PropertyName="ReportingPeriod_ID" />
       </EntitySetMapping.Attributes>
     </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="FK_Response_FormResponse">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="FK_Response_FormResponse" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_FormResponse]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[FK_Response_FormResponse]/Members[Response]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwUnfinishedForm_FormResponses">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwUnfinishedForm_FormResponses" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwUnfinishedForm_FormResponses]/Members[vwUnfinishedForm]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwUnfinishedForm_FormResponses]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="vwIncompleteCategory_FormResponses">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="vwIncompleteCategory_FormResponses" />
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_FormResponses]/Members[vwIncompleteCategory]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="MeerkatData/Members[vwIncompleteCategory_FormResponses]/Members[FormResponse]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="FormResponse_ID" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
   </DataService>
 </ServiceApplication>

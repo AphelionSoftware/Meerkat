@@ -1,0 +1,144 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/10/2014 3:53:24 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="SERVER2012"
+  DTS:CreatorName="DEV\gjs"
+  DTS:DTSID="{E5BA4799-549B-483A-A00C-1EA0750FD565}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.3402.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="210_ClearMeerkatData"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{7ACE8F9F-D77C-43BE-A1C2-AC57FD8078E8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DCAE7F5D-5BE3-4EE6-994E-07C5CE43302C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="bitDeleteData">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Check staging data"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{286a13e4-5125-45c2-a7f9-326a3d24aabe}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Check staging data"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{15E93C59-B687-4A64-9A3B-8D372DF396D4}"
+          SQLTask:SqlStatementSource="IF EXISTS ( SELECT sysobjects.Name&#xA;                 , sysindexes.Rows&#xA;            FROM sysobjects&#xA;            JOIN sysindexes&#xA;                ON sysobjects.id = sysindexes.id&#xA;            WHERE type = 'U'&#xA;              AND sysindexes.IndId &lt; 2&#xA;              AND sysindexes.Rows &gt; 0&#xA;          )&#xA;    SELECT CAST(1 AS BIT) AS DeleteData&#xA;ELSE&#xA;    SELECT CAST(0 AS BIT) AS DeleteData"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::bitDeleteData" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Delete data"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{74C986BE-BDE9-469A-A70F-CC291BD1C692}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Delete data"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B8F7D022-C655-45D3-94E2-57C05FE0D111}"
+          SQLTask:SqlStatementSource="DELETE FROM [RBM].[PeopleReachedValues] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [RBM].[IndicatorValues] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [RBM].[MilestoneValues] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[CustomReport_Indicator] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[DonorReport_Indicator] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[IndicatorLocation] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[MilestoneLocation] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[FrameworkDetail_Indicator] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[SubOutputPersonRole] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[SubOutputSubOutputLink] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Indicator] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Milestone] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [RBM].[StatusValues] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Project_ResultArea] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[DonorReport_Project] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[CustomReport_Project] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Activity] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[OutputOutputLink] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[OutputPersonRole] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[SubOutput] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[FrameworkDetail_Project] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[AgeBand] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Project] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;        AND ProjectID NOT IN (SELECT Project_ID FROM forms.[Event])&#xA;DELETE FROM [app].[OutcomeOrganization] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[OutcomePersonRole] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Output] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[FrameworkDetail] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Framework] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Outcome] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[OrganizationPersonRole] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[SubSector] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[Location] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Impact] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[Organization] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[ResultArea] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[StrategicElement] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[CustomReport] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[CustomReportType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [rpt].[DonorReport] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[IndicatorType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[MilestoneType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Sector] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[LocationType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[CommunityType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Donor] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Gender] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Group] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [disagg].[Institution] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;    AND Institution_ID NOT IN (SELECT TrainingInstitution_ID FROM forms.[Event])&#xA;DELETE FROM [Core].[DataSource] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[DataVersion] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[OrganizationType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[Person] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[ReportingPeriod] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[Role] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [Core].[StatusType] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;DELETE FROM [app].[Programme] WHERE sys_CreatedOn &gt; '6 June 2014'&#xA;    AND Programme_ID NOT IN (SELECT Programme_ID FROM app.Project)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C56D1860-7BEE-46AA-80FA-C6B8E4D65FCC}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[User::bitDeleteData]"
+      DTS:From="Package\SQL_Check staging data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SQL_Delete data" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="193,42"
+          Id="Package\SQL_Check staging data"
+          TopLeft="462,75" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\SQL_Delete data"
+          TopLeft="484,173" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="560.75,117">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,16.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Data must be deleted in order of dependency&#xA;Keep default records based on created date &lt; 9 May 2014"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="336,56"
+          Id="79c9ccef-4fea-4035-a09a-cb724a28265e"
+          TopLeft="648,167" />
+        <AnnotationLayout
+          Text="Check that there is data in staging to be loaded"
+          ParentId="Package"
+          FontInfo="{assembly:Null}"
+          Size="280,40"
+          Id="163897b2-f580-4075-9f5e-db23641de0ba"
+          TopLeft="663,69" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
