@@ -79,3 +79,10 @@ myapp.Rpt_PeopleReached.ParticipantType_render = function (element, contentItem)
     $(div).appendTo($(element));
     chartWrapper.addRowChart('ParticipantDiv', 'ParticipationTypeName', 160, 400);
 };
+myapp.Rpt_PeopleReached.Project_render = function (element, contentItem) {
+    //div = $("<div class='ProjectDiv' id='ProjectDiv' ></div>");
+    //$(div).appendTo($(element));
+    //chartWrapper.addRowChart('ProjectDiv', 'ParticipationTypeName', 160, 400);
+
+
+};
