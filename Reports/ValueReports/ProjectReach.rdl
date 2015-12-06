@@ -5,7 +5,7 @@
     <DataSource Name="dsMeerkat">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=.\sql2012;Initial Catalog=Meerkat</ConnectString>
+        <ConnectString>Data Source=.\sql2016;Initial Catalog=Meerkat</ConnectString>
         <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
       <rd:SecurityType>Integrated</rd:SecurityType>
@@ -16,14 +16,9 @@
     <DataSet Name="dsProjectArea">
       <Query>
         <DataSourceName>dsMeerkat</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@Programme_ID">
-            <Value>=Parameters!Programme_ID.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
         <CommandText>SELECT * FROM  [maps].[ProjectReachAreas]
-WHERE (Programme_ID = @Programme_ID 
-OR @Programme_ID = 0 )</CommandText>
+/*WHERE (Programme_ID = @Programme_ID 
+OR @Programme_ID = 0 )*/</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -41,6 +36,10 @@ OR @Programme_ID = 0 )</CommandText>
         </Field>
         <Field Name="Programme_ID">
           <DataField>Programme_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Location_ID">
+          <DataField>Location_ID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
@@ -84,20 +83,17 @@ FROM app.Programme </CommandText>
               <MaximumZoom>4000000</MaximumZoom>
               <SimplificationResolution>0.340886287695391</SimplificationResolution>
               <MapCustomView>
-                <CenterX>45.8359260559082</CenterX>
-                <CenterY>53.3907508850098</CenterY>
-                <Zoom>97.7606048583984</Zoom>
+                <Zoom>100</Zoom>
               </MapCustomView>
               <MapMeridians>
                 <Style>
                   <Border>
-                    <Color>LightGrey</Color>
+                    <Color>#c08080ff</Color>
                     <Style>None</Style>
                   </Border>
-                  <FontFamily>Tahoma</FontFamily>
                   <FontSize>8pt</FontSize>
                   <Format>#°E;#°W;0°</Format>
-                  <Color>DarkGray</Color>
+                  <Color>#c08080ff</Color>
                 </Style>
                 <Hidden>true</Hidden>
                 <Interval>NaN</Interval>
@@ -106,13 +102,12 @@ FROM app.Programme </CommandText>
               <MapParallels>
                 <Style>
                   <Border>
-                    <Color>LightGrey</Color>
+                    <Color>#c08080ff</Color>
                     <Style>None</Style>
                   </Border>
-                  <FontFamily>Tahoma</FontFamily>
                   <FontSize>8pt</FontSize>
                   <Format>#°N;#°S;0°</Format>
-                  <Color>DarkGray</Color>
+                  <Color>#c08080ff</Color>
                 </Style>
                 <Hidden>true</Hidden>
                 <Interval>NaN</Interval>
@@ -121,12 +116,12 @@ FROM app.Programme </CommandText>
               <GridUnderContent>false</GridUnderContent>
               <Style>
                 <Border>
-                  <Color>#7292cc</Color>
+                  <Color>Gray</Color>
                   <Style>Solid</Style>
                 </Border>
-                <BackgroundColor>#e6eefc</BackgroundColor>
-                <BackgroundGradientType>None</BackgroundGradientType>
-                <BackgroundGradientEndColor>#c6daf8</BackgroundGradientEndColor>
+                <BackgroundColor>White</BackgroundColor>
+                <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                <BackgroundGradientEndColor>Gainsboro</BackgroundGradientEndColor>
                 <ShadowOffset>1pt</ShadowOffset>
               </Style>
               <LeftMargin>2pt</LeftMargin>
@@ -135,10 +130,10 @@ FROM app.Programme </CommandText>
               <BottomMargin>2pt</BottomMargin>
             </MapViewport>
             <MapDataRegions>
-              <MapDataRegion Name="Map1_PolygonLayer1_DataRegion">
+              <MapDataRegion Name="Map1_PointLayer1_DataRegion">
                 <DataSetName>dsProjectArea</DataSetName>
                 <MapMember>
-                  <Group Name="Map1_PolygonLayer1_Group" />
+                  <Group Name="Map1_PointLayer1_Group" />
                 </MapMember>
               </MapDataRegion>
             </MapDataRegions>
@@ -147,28 +142,7 @@ FROM app.Programme </CommandText>
                 <TileStyle>Hybrid</TileStyle>
                 <UseSecureConnection>false</UseSecureConnection>
               </MapTileLayer>
-              <MapPolygonLayer Name="PolygonLayer1">
-                <MapPolygonTemplate>
-                  <Style>
-                    <Border>
-                      <Color>Gray</Color>
-                      <Style>Solid</Style>
-                    </Border>
-                    <BackgroundColor>White</BackgroundColor>
-                    <BackgroundGradientType>None</BackgroundGradientType>
-                    <BackgroundGradientEndColor>LightGrey</BackgroundGradientEndColor>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                  <Label>=Fields!ProjectName.Value</Label>
-                </MapPolygonTemplate>
-                <MapPolygonRules>
-                  <MapColorPaletteRule>
-                    <ShowInColorScale>false</ShowInColorScale>
-                    <StartValue />
-                    <EndValue />
-                    <LegendText>#FROMVALUE{N0} - #TOVALUE{N0}</LegendText>
-                  </MapColorPaletteRule>
-                </MapPolygonRules>
+              <MapPointLayer Name="PointLayer1">
                 <MapMarkerTemplate>
                   <MapMarker>
                     <MapMarkerStyle>Circle</MapMarkerStyle>
@@ -184,15 +158,23 @@ FROM app.Programme </CommandText>
                     <BackgroundGradientEndColor>LightGrey</BackgroundGradientEndColor>
                     <FontSize>8pt</FontSize>
                   </Style>
-                  <Hidden>true</Hidden>
+                  <ToolTip>=Fields!ProjectName.Value</ToolTip>
                 </MapMarkerTemplate>
-                <MapCenterPointRules />
-                <MapDataRegionName>Map1_PolygonLayer1_DataRegion</MapDataRegionName>
+                <MapPointRules>
+                  <MapColorPaletteRule>
+                    <ShowInColorScale>true</ShowInColorScale>
+                    <DataValue>=Fields!ProjectName.Value</DataValue>
+                    <StartValue />
+                    <EndValue />
+                    <LegendName />
+                    <LegendText>#FROMVALUE{N0} - #TOVALUE{N0}</LegendText>
+                  </MapColorPaletteRule>
+                </MapPointRules>
+                <MapDataRegionName>Map1_PointLayer1_DataRegion</MapDataRegionName>
                 <MapSpatialDataRegion>
                   <VectorData>=Fields!Geog.Value</VectorData>
                 </MapSpatialDataRegion>
-                <Transparency>40</Transparency>
-              </MapPolygonLayer>
+              </MapPointLayer>
             </MapLayers>
             <MapTitles>
               <MapTitle Name="Title1">
@@ -202,14 +184,12 @@ FROM app.Programme </CommandText>
                 <DockOutsideViewport>true</DockOutsideViewport>
                 <Style>
                   <Border>
-                    <Color>#7292cc</Color>
+                    <Color>Gray</Color>
                     <Style>None</Style>
                   </Border>
                   <BackgroundColor>#00ffffff</BackgroundColor>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <BackgroundGradientEndColor>Gainsboro</BackgroundGradientEndColor>
-                  <FontFamily>Tahoma</FontFamily>
-                  <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextAlign>Center</TextAlign>
                   <ShadowOffset>0pt</ShadowOffset>
@@ -226,13 +206,12 @@ FROM app.Programme </CommandText>
               <DockOutsideViewport>false</DockOutsideViewport>
               <Style>
                 <Border>
-                  <Color>#7292cc</Color>
+                  <Color>Gray</Color>
                   <Style>Solid</Style>
                 </Border>
-                <BackgroundColor>#e6eefc</BackgroundColor>
-                <BackgroundGradientType>TopBottom</BackgroundGradientType>
-                <BackgroundGradientEndColor>#c6daf8</BackgroundGradientEndColor>
-                <FontFamily>Tahoma</FontFamily>
+                <BackgroundColor>White</BackgroundColor>
+                <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                <BackgroundGradientEndColor>Gainsboro</BackgroundGradientEndColor>
                 <FontSize>8pt</FontSize>
                 <ShadowOffset>1pt</ShadowOffset>
               </Style>
@@ -249,7 +228,6 @@ FROM app.Programme </CommandText>
             <MapColorScale>
               <MapColorScaleTitle>
                 <Style>
-                  <FontFamily>Tahoma</FontFamily>
                   <FontSize>8pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -261,15 +239,15 @@ FROM app.Programme </CommandText>
               <NoDataText>No data</NoDataText>
               <Position>LeftBottom</Position>
               <DockOutsideViewport>false</DockOutsideViewport>
+              <Hidden>true</Hidden>
               <Style>
                 <Border>
-                  <Color>#7292cc</Color>
+                  <Color>Gray</Color>
                   <Style>Solid</Style>
                 </Border>
-                <BackgroundColor>#e6eefc</BackgroundColor>
-                <BackgroundGradientType>TopBottom</BackgroundGradientType>
-                <BackgroundGradientEndColor>#c6daf8</BackgroundGradientEndColor>
-                <FontFamily>Tahoma</FontFamily>
+                <BackgroundColor>White</BackgroundColor>
+                <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                <BackgroundGradientEndColor>Gainsboro</BackgroundGradientEndColor>
                 <FontSize>8pt</FontSize>
                 <ShadowOffset>1pt</ShadowOffset>
               </Style>
@@ -286,7 +264,6 @@ FROM app.Programme </CommandText>
                 <BackgroundGradientEndColor>White</BackgroundGradientEndColor>
                 <Color>White</Color>
               </Style>
-              <MapBorderSkinType>Emboss</MapBorderSkinType>
             </MapBorderSkin>
             <Top>0mm</Top>
             <Left>0mm</Left>
@@ -294,13 +271,12 @@ FROM app.Programme </CommandText>
             <Width>254.56331mm</Width>
             <Style>
               <Border>
-                <Color>#7292cc</Color>
-                <Style>Solid</Style>
-                <Width>2pt</Width>
+                <Color>Gray</Color>
+                <Style>None</Style>
               </Border>
-              <BackgroundColor>#c6daf8</BackgroundColor>
-              <BackgroundGradientType>TopBottom</BackgroundGradientType>
-              <BackgroundGradientEndColor>#e6eefc</BackgroundGradientEndColor>
+              <BackgroundColor>White</BackgroundColor>
+              <BackgroundGradientType>None</BackgroundGradientType>
+              <BackgroundGradientEndColor>White</BackgroundGradientEndColor>
             </Style>
           </Map>
         </ReportItems>
